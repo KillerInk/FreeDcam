@@ -99,7 +99,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         return name;
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void DoWork() {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
@@ -108,7 +107,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio, null);
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     private void startStopRecording() {
         mBackgroundHandler.post(() -> {
             if (!isRecording && !isLowStorage) {
@@ -128,7 +126,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         isLowStorage = x;
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void InitModule() {
         Log.d(TAG, "InitModule");
@@ -150,7 +147,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void DestroyModule() {
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
@@ -181,14 +177,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         return "Vid";
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     private void startRecording() {
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_start);
         Log.d(TAG, "startRecording");
         startPreviewVideo();
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     private void stopRecording() {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
@@ -206,7 +200,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void startPreview() {
         Size previewSize;
@@ -268,42 +261,24 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         }
 
-        if(currentVideoProfile.ProfileName.contains("2EIS2"))
-        {
-            CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
-        }
-
-        else if(currentVideoProfile.ProfileName.contains("3EIS3"))
-        {
-            CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
-        }
-        else if (currentVideoProfile.ProfileName.contains("xEISx"))
-        {
-            CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-        }
-        else if (currentVideoProfile.ProfileName.contains("3hdr"))
-        {
-            CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
-        }
-        else if (currentVideoProfile.ProfileName.contains("hs"))
-        {
-            CaptureSessionHandler.setOPMODE(1);
-        }
-        else {
-            CaptureSessionHandler.setOPMODE(0);
-        }
-
-        /*if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
-            CaptureSessionHandler.setOPMODE(0);
+        if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
+            if (currentVideoProfile.ProfileName.contains("2EIS2")) {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
+            } else if (currentVideoProfile.ProfileName.contains("3EIS3")) {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
+            } else if (currentVideoProfile.ProfileName.contains("xEISx")) {
+                CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+            } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
+                CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+            } else if (currentVideoProfile.ProfileName.contains("hs")) {
+                CaptureSessionHandler.setOPMODE(1);
+            } else {
+                CaptureSessionHandler.setOPMODE(0);
+            }
+            cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession();
         }
         else
-
-        {
-            CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-        }*/
-
-        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
-
+            cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
 
         Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
@@ -335,14 +310,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void stopPreview() {
         DestroyModule();
     }
 
 
-    @RequiresApi(api = VERSION_CODES.N)
+
     private void startPreviewVideo()
     {
         String file = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
@@ -381,56 +355,38 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             recorderSurface = videoRecorder.getSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
-            if(currentVideoProfile.ProfileName.contains("2EIS2"))
-            {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
-            }
-
-            else if(currentVideoProfile.ProfileName.contains("3EIS3"))
-            {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
-            }
-            else if (currentVideoProfile.ProfileName.contains("xEISx"))
-            {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-            }
-            else if (currentVideoProfile.ProfileName.contains("3hdr"))
-            {
-                CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
-            }
-            else if (currentVideoProfile.ProfileName.contains("hs"))
-            {
-                CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
-            }
-            else {
-                CaptureSessionHandler.setOPMODE(0);
-            }
-
-
-            /*if(currentVideoProfile.videoFrameWidth > 5120 && currentVideoProfile.videoFrameHeight > 2880){
-                CaptureSessionHandler.setOPMODE(0);
+            if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
+                if (currentVideoProfile.ProfileName.contains("2EIS2")) {
+                    CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
+                } else if (currentVideoProfile.ProfileName.contains("3EIS3")) {
+                    CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
+                } else if (currentVideoProfile.ProfileName.contains("xEISx")) {
+                    CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+                } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
+                    CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+                } else if (currentVideoProfile.ProfileName.contains("hs")) {
+                    CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+                } else {
+                    CaptureSessionHandler.setOPMODE(0);
+                }
+                cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewrdy);
             }
             else
-
             {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-            }*/
-
-            if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-                cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
-            else
-                cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
-
-
-
-
+                if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
+                    cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
+                else
+                    cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
+            }
 
 
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
 
-            if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")) {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+            if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
+                if (currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3") || currentVideoProfile.ProfileName.contains("xEISx")) {
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+                }
             }
 
 
@@ -441,7 +397,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     private void recordnextFile(MediaRecorder mr) {
         stopRecording();
         startRecording();
@@ -455,14 +410,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         {
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
-
-               /* if (cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoStabilization) != null && Build.BRAND.contains("Asus"))
-                {
-                    cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(Zenfone6.OP_EIS);
-
-                }*/
-
-
                 cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
             }
             else

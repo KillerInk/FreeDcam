@@ -121,6 +121,7 @@
     <string name="aps_histogram" translatable="false">histogram</string>
     <string name="aps_clipping" translatable="false">clipping</string>
     <string name="aps_enable_renderscript" translatable="false">enable_renderscript</string>
+    <string name="aps_enable_video_opmode" translatable="false">enable_video_op_mode</string>
     <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
     <string name="aps_colorcorrectionmode" translatable="false">colorcorrectionmode</string>
     <string name="aps_tonecurve" translatable="false">tonecurve</string>

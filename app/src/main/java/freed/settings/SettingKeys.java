@@ -147,11 +147,11 @@ public class SettingKeys{
 
     //Renderscript
     public final static Key<ApiBooleanSettingMode> EnableRenderScript = new Key(ApiBooleanSettingMode.class, R.string.aps_enable_renderscript);
+    public final static Key<ApiBooleanSettingMode> ENABLE_VIDEO_OPMODE = new Key(ApiBooleanSettingMode.class, R.string.aps_enable_video_opmode);
     public final static Key<SettingMode> Focuspeak = new Key(SettingMode.class, R.string.aps_focuspeak);
     public final static Key<SettingMode> HISTOGRAM = new Key(SettingMode.class, R.string.aps_histogram);
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
 
-    public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
     /**
      *
      * @return a list with all statics keys in this class

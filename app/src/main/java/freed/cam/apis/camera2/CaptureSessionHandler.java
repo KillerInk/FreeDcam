@@ -278,7 +278,6 @@ public class CaptureSessionHandler
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void CreateCaptureSession()
     {
         Log.d(TAG, "CreateCaptureSession:");
@@ -288,8 +287,36 @@ public class CaptureSessionHandler
         }*/
         if(cameraHolderApi2.mCameraDevice == null)
             return;
+        try {
+            synchronized (waitLock) {
+                isHighSpeedSession = false;
 
+                cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+                handler.post(() -> {
+                    try {
+                       cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
+                    } catch (Exception  ex) {
+                        Log.WriteEx(ex);
+                    }
+                });
+                waitLock.wait();
+            }
+        } catch (InterruptedException e) {
+            Log.WriteEx(e);
+        }
+        captureSessionOpen = true;
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void CreateCustomCaptureSession()
+    {
+        Log.d(TAG, "CreateCaptureSession:");
+        /*if (mCaptureSession != null) {
+            Log.d(TAG,"CaptureSession is not closed, close it");
+            CloseCaptureSession();
+        }*/
+        if(cameraHolderApi2.mCameraDevice == null)
+            return;
         try {
             synchronized (waitLock) {
                 isHighSpeedSession = false;
@@ -317,7 +344,6 @@ public class CaptureSessionHandler
             Log.WriteEx(e);
         }
         captureSessionOpen = true;
-
     }
 
 
@@ -368,7 +394,6 @@ public class CaptureSessionHandler
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
@@ -378,8 +403,20 @@ public class CaptureSessionHandler
         isHighSpeedSession = false;
 
         try {
-           // cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
+           cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
+        } catch (Exception ex) {
+            Log.WriteEx(ex);
+        }
+        captureSessionOpen = true;
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void CreateCustomCaptureSession(CameraCaptureSession.StateCallback customCallback)
+    {
+        Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
+        isHighSpeedSession = false;
+
+        try {
             List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
             for (Surface surface : surfaces)
             {
