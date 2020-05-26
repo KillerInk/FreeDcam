@@ -343,10 +343,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         shutterButton = view.findViewById(id.shutter_button);
 
-        AuxSwitch = view.findViewById(id.btnAux);
-
-        AuxSwitch.setOnClickListener(v -> cameraSwitch.switchCameraLens());
-
         view.setOnTouchListener(onTouchListener);
 
         aelock = view.findViewById(id.ae_lock);

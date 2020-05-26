@@ -43,13 +43,6 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         super(context, attrs);
     }
 
-    /*@Override
-    protected void init(Context context) {
-        super.init(context);
-
-        //setOnClickListener(v -> switchCamera());
-    }*/
-
     @Override
     public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
         super.SetStuff(fragment_activityInterface, settingvalue);
@@ -86,24 +79,6 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         valueText.setText(getCamera(currentCamera));
     }
 
-    public void switchCameraLens()
-    {
-        int TempID = 0;
-
-        if(currentCamera == 0)
-            TempID = 2;
-        else if(currentCamera == 1)
-            TempID = 3;
-        else if(currentCamera == 2)
-            TempID = 0;
-        else if(currentCamera == 3)
-            TempID =1;
-
-        SettingsManager.getInstance().SetCurrentCamera(TempID);
-        sendLog("Stop Preview and Camera");
-        cameraUiWrapper.restartCameraAsync();
-        //valueText.setText(getCamera(TempID));
-    }
 
     private void switchCamera()
     {
@@ -121,10 +96,6 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     {
         if (SettingsManager.getInstance().getIsFrontCamera())
             return "Front " + i;
-        else if (i == 2)
-            return "BackW";
-        else if (i == 3)
-            return "FrontW";
         else
             return "Back " + i;
     }
