@@ -25,6 +25,8 @@
     <string name="aps_ippmode" translatable="false">ippmode</string>
     <string name="aps_previewsize" translatable="false">previewsize</string>
     <string name="aps_jpegquality" translatable="false">jpegquality</string>
+
+    <string name="aps_mfnr" translatable="false">mfnr</string>
     <string name="aps_aebrackethdr" translatable="false">aebrackethdr</string>
     <string name="aps_previewfps" translatable="false">previewfps</string>
     <string name="aps_previewformat" translatable="false">previewformat</string>

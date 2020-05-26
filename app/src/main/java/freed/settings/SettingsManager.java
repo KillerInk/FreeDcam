@@ -442,6 +442,13 @@ public class SettingsManager implements SettingsManagerInterface {
         return settingsStorage.areFeaturesDetected();
     }
 
+    public static final String AUXR ="wideRear";
+    public void setIsAUXR(boolean isAUXR)
+    {
+        settingsStorage.setApiBoolean(AUXR, isAUXR);
+    }
+
+
     public boolean getCamIsFrontCamera(int id)
     {
         return settingsStorage.isFrontCamera(id);

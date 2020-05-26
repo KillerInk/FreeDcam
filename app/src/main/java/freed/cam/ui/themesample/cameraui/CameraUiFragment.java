@@ -29,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -74,6 +75,8 @@ import freed.utils.Log;
 public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
+
+    private Button AuxSwitch;
     //button to switch between front and back cam
     private UiSettingsChildCameraSwitch cameraSwitch;
     //hold the button wich opened the horizontalValuesFragment
@@ -306,6 +309,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -337,6 +342,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
         shutterButton = view.findViewById(id.shutter_button);
+
+        AuxSwitch = view.findViewById(id.btnAux);
+
+        AuxSwitch.setOnClickListener(v -> cameraSwitch.switchCameraLens());
 
         view.setOnTouchListener(onTouchListener);
 

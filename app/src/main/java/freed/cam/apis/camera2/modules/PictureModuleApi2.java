@@ -40,6 +40,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
@@ -212,6 +213,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
     }
 
+    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void startPreview() {
 
