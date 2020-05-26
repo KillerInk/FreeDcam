@@ -24,8 +24,10 @@ public class StringFloatArray {
         for (int i=0; i< array.length;i++)
         {
             String[] split = array[i].split(SPLITCHAR);
-            keys[i] = split[0];
-            values[i] = Float.parseFloat(split[1]);
+            if (split.length == 2) {
+                keys[i] = split[0];
+                values[i] = Float.parseFloat(split[1]);
+            }
         }
     }
 

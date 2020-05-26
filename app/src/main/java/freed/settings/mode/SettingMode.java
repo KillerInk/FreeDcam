@@ -1,8 +1,9 @@
 package freed.settings.mode;
 
-import com.troop.freedcam.R;
-
-import freed.settings.SettingsManagerInterface;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
+import freed.utils.Log;
+import freed.utils.XmlUtil;
 
 /**
  * Created by KillerInk on 31.12.2017.
@@ -10,71 +11,59 @@ import freed.settings.SettingsManagerInterface;
 
 public class SettingMode extends AbstractSettingMode {
 
-    protected String presetKey;
+    private static final String TAG = SettingMode.class.getSimpleName();
+    protected boolean preseted;
     //String to get if supported
-    private String supported_key;
+    private boolean supported;
     //String to get the values
-    private String values_key;
+    private String[] values;
     //String to get the value
-    private String value_key;
+    private String value;
 
-    public SettingMode(SettingsManagerInterface settingsManagerInterface, String key)
+    public SettingMode(SettingKeys.Key key)
     {
-        super(settingsManagerInterface,key);
-        this.presetKey = key + "preset";
-        this.supported_key= key + settingsManagerInterface.getResString(R.string.aps_supported);
-        this.value_key = key + settingsManagerInterface.getResString(R.string.aps_key);
-        this.values_key = key + settingsManagerInterface.getResString(R.string.aps_values);
+        super(key);
     }
 
     public boolean isPresetted()
     {
-        return settingsManagerInterface.getApiBoolean(presetKey,false);
+        return preseted;
     }
 
     public void setIsPresetted(boolean preset)
     {
-        settingsManagerInterface.setApiBoolean(presetKey, preset);
+        this.preseted = preset;
     }
 
     public boolean isSupported()
     {
-        return settingsManagerInterface.getApiBoolean(supported_key,false);
+        return supported;
     }
 
     public void setIsSupported(boolean supported)
     {
-        settingsManagerInterface.setApiBoolean(supported_key, supported);
-    }
-
-    public String getKEY()
-    {
-        return settingsManagerInterface.getApiString(KEY_value);
-    }
-
-    public void setKEY(String KEY)
-    {
-        settingsManagerInterface.setApiString(KEY_value,KEY);
+        this.supported = supported;
     }
 
     public String get()
     {
-        return settingsManagerInterface.getApiString(value_key);
+        return value;
     }
 
     public void set(String valueToSet)
     {
-        settingsManagerInterface.setApiString(value_key,valueToSet);
+        this.value = valueToSet;
     }
 
     public void setValues(String[] ar)
     {
-        settingsManagerInterface.setStringArray(values_key, ar);
+        Log.d(TAG, "setValues: " + getCamera1ParameterKEY());
+        this.values = ar;
     }
 
     public String[] getValues()
     {
-        return settingsManagerInterface.getStringArray(values_key);
+        return values;
     }
 
     public boolean contains(String value)
@@ -86,5 +75,25 @@ public class SettingMode extends AbstractSettingMode {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public String getXmlString() {
+        StringBuilder sub = new StringBuilder();
+        sub.append("<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ SettingMode.class.getSimpleName() +"\">\r\n");
+        sub.append(XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted))).append(XmlUtil.LINE_END);
+        sub.append(XmlUtil.getTagStringWithValue("supported", String.valueOf(supported))).append(XmlUtil.LINE_END);
+        sub.append(XmlUtil.getTagStringWithValue("value", String.valueOf(value))).append(XmlUtil.LINE_END);
+        if (values != null) {
+            sub.append("<values>\r\n");
+            for (int i = 0; i < values.length; i++)
+                sub.append(XmlUtil.getTagStringWithValue("val", values[i])).append("\r\n");
+            sub.append("</values>\r\n");
+        }
+        else
+            Log.d(TAG, "values are null: " + getCamera1ParameterKEY());
+        sub.append("</setting>\r\n");
+        Log.d(TAG, sub.toString());
+        return sub.toString();
     }
 }

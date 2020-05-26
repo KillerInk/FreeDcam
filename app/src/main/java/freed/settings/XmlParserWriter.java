@@ -3,24 +3,19 @@ package freed.settings;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
-
 import androidx.collection.LongSparseArray;
-
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera1FeatureDetectorTask;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.dng.CustomMatrix;
@@ -28,7 +23,6 @@ import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.utils.Log;
 import freed.utils.StringUtils;
-import freed.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 25.06.2017.
@@ -37,8 +31,6 @@ import freed.utils.VideoMediaProfile;
 public class XmlParserWriter
 {
     private final String TAG = XmlParserWriter.class.getSimpleName();
-
-
 
     public void parseAndFindSupportedDevice(Resources resources, HashMap<String, CustomMatrix> matrixHashMap, File appDataPath)
     {
@@ -63,6 +55,7 @@ public class XmlParserWriter
 
 
                             if (!camera1element.isEmpty()) {
+                                SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
                                 Log.d(TAG, "Found camera1 overrides");
                                 Log.v(TAG, camera1element.dumpChildElementsTagNames());
                                 if (!camera1element.findChild("framework").isEmpty())
@@ -115,7 +108,7 @@ public class XmlParserWriter
                                     int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
                                     int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
                                     int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
-                                    SettingsManager.get(SettingKeys.M_Whitebalance).setKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
+                                    SettingsManager.get(SettingKeys.M_Whitebalance).setCamera1ParameterKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
                                     SettingsManager.get(SettingKeys.M_Whitebalance).setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
                                     SettingsManager.get(SettingKeys.M_Whitebalance).setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step));
                                     SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
@@ -165,7 +158,7 @@ public class XmlParserWriter
                                     }
                                     if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
                                     {
-                                        SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
+                                        SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
                                     }
                                     if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
                                     {
@@ -174,7 +167,7 @@ public class XmlParserWriter
                                     }
                                     else {
                                         SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
-                                        SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("unsupported");
+                                        SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("unsupported");
                                     }
                                     SettingsManager.get(SettingKeys.M_ExposureTime).setIsPresetted(true);
                                 }
@@ -252,6 +245,7 @@ public class XmlParserWriter
 
                             XmlElement camera2element = device_element.findChild("camera2");
                             if (!camera2element.isEmpty()) {
+                                SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
                                     SettingsManager.get(SettingKeys.forceRawToDng).set(camera2element.findChild("forcerawtodng").getBooleanValue());
@@ -295,7 +289,7 @@ public class XmlParserWriter
             SettingsManager.get(SettingKeys.M_Focus).setType(element.findChild("type").getIntValue(-1));
             SettingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
             SettingsManager.get(SettingKeys.M_Focus).setIsPresetted(true);
-            SettingsManager.get(SettingKeys.M_Focus).setKEY(element.findChild("key").getValue());
+            SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(element.findChild("key").getValue());
             SettingsManager.get(SettingKeys.M_Focus).setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0)));
         }
         else
@@ -310,7 +304,7 @@ public class XmlParserWriter
             int step = element.findChild("step").getIntValue(50);
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
-            SettingsManager.get(SettingKeys.M_ManualIso).setKEY(element.findChild("key").getValue());
+            SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
             SettingsManager.get(SettingKeys.M_ManualIso).setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step,SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi));
             SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
             SettingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
@@ -318,8 +312,8 @@ public class XmlParserWriter
         else if (!element.findChild("values").isEmpty())
         {
             String name = element.findChild("values").getValue();
-            SettingsManager.get(SettingKeys.M_ManualIso).setValues(SettingsManager.getInstance().getResources().getStringArray(SettingsManager.getInstance().getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
-            SettingsManager.get(SettingKeys.M_ManualIso).setKEY(element.findChild("key").getValue());
+            SettingsManager.get(SettingKeys.M_ManualIso).setValues(FreedApplication.context.getResources().getStringArray(FreedApplication.context.getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
             SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
@@ -489,47 +483,6 @@ public class XmlParserWriter
         }
     }
 
-    public HashMap<String,VideoMediaProfile> getMediaProfiles(File appData)
-    {
-        HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
-        File configFile = new File(appData.getAbsolutePath()+"videoProfiles.xml");
-        if (configFile.exists())
-        {
-            try {
-                String xmlsource = StringUtils.getString(new FileInputStream(configFile));
-                XmlElement xmlElement = XmlElement.parse(xmlsource);
-                if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_1)){
-                    XmlElement camera1node = xmlElement.findChild("camera1");
-                    if (SettingsManager.getInstance().getIsFrontCamera())
-                    {
-                        XmlElement frontnode = camera1node.findChild("front");
-                        getMediaProfilesFromXmlNode(hashMap,frontnode);
-                    }
-                    else
-                    {
-                        XmlElement backnode = camera1node.findChild("back");
-                        getMediaProfilesFromXmlNode(hashMap,backnode);
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return hashMap;
-    }
-
-    private void getMediaProfilesFromXmlNode(HashMap<String,VideoMediaProfile> map,XmlElement element)
-    {
-        List<XmlElement> xmlprofiles = element.findChildren("mediaprofile");
-        for (XmlElement profile : xmlprofiles)
-        {
-            VideoMediaProfile videoMediaProfile = new VideoMediaProfile(profile);
-            map.put(videoMediaProfile.ProfileName, videoMediaProfile);
-        }
-    }
-
 
     /**
      * Read the tonemap profiles from toneMapProfiles.xml
@@ -542,7 +495,7 @@ public class XmlParserWriter
         hashMap.put("off", null);
 
         try {
-            String xmlsource = StringUtils.getString(SettingsManager.getInstance().getResources().openRawResource(R.raw.tonemapprofiles));
+            String xmlsource = StringUtils.getString(FreedApplication.context.getResources().openRawResource(R.raw.tonemapprofiles));
             XmlElement xmlElement = XmlElement.parse(xmlsource);
             getTonemapProfiles(hashMap, xmlElement);
         } catch (IOException e) {

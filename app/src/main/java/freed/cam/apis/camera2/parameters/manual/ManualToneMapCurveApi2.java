@@ -79,19 +79,14 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
     }
 
 
-    public void onStringValueChanged(String value) {
-        boolean isSupported;
-        boolean canSet;
-        boolean visible;
+    private void onStringValueChanged(String value) {
+        Log.d(TAG, "onStringValueChanged() " + value);
         if (value == null)
             return;
         if (value.equals("CONTRAST_CURVE"))
         {
-            canSet = true;
-            isSupported = true;
-            visible = true;
             setTonemap();
-            if (black != null)
+            /*if (black != null)
                 black.fireStringValueChanged(black.GetStringValue());
             if (shadowsp != null)
                 shadowsp.fireStringValueChanged(shadowsp.GetStringValue());
@@ -100,22 +95,19 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             if (highlightsp != null)
                 highlightsp.fireStringValueChanged(highlightsp.GetStringValue());
             if (whitep !=null)
-                whitep.fireStringValueChanged(whitep.GetStringValue());
+                whitep.fireStringValueChanged(whitep.GetStringValue());*/
             if (toneCurveParameter != null)
             {
                 toneCurveParameter.setViewState(AbstractParameter.ViewState.Visible);
             }
         }
         else {
-            canSet = false;
-            isSupported = false;
-            visible = false;
             if (toneCurveParameter != null)
             {
                 toneCurveParameter.setViewState(AbstractParameter.ViewState.Hidden);
             }
         }
-        if (contrast != null) {
+        /*if (contrast != null) {
             contrast.setViewState(AbstractParameter.ViewState.Visible);
         }
         if (brightness != null) {
@@ -135,16 +127,18 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
         if (whitep != null) {
             whitep.setViewState(AbstractParameter.ViewState.Visible);
-        }
+        }*/
     }
 
     @Subscribe
     public void onToneMapModeChanged(ValueChangedEvent<String> valueChangedEvent)
     {
+
         if (valueChangedEvent.type != String.class)
             return;
         if (valueChangedEvent.key == SettingKeys.TONE_MAP_MODE)
         {
+            Log.d(TAG, "onToneMapModeChanged");
             if (valueChangedEvent.newValue != null)
                 onStringValueChanged(valueChangedEvent.newValue);
         }
@@ -378,6 +372,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
         @Override
         public ViewState getViewState() {
+            Log.d(TAG, "ViewState: "  + super.getViewState().toString());
             return super.getViewState();
         }
     }

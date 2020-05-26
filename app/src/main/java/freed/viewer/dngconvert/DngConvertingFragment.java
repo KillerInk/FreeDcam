@@ -101,7 +101,7 @@ public class DngConvertingFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         if (!SettingsManager.getInstance().isInit())
-            SettingsManager.getInstance().init(getResources(),getContext());
+            SettingsManager.getInstance().init();
 
         return inflater.inflate(R.layout.dngconvertingfragment, container, false);
     }

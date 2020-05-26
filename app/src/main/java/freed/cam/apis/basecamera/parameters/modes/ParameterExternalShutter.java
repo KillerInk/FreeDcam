@@ -47,7 +47,7 @@ public class ParameterExternalShutter extends AbstractParameter
 
     public String GetStringValue()
     {
-        if (SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
+        if (SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get() == null || SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
             return "Hook";
         else
             return SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();

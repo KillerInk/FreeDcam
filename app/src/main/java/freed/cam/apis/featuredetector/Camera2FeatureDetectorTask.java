@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import freed.FreedApplication;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -89,7 +90,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
 
-            SettingsManager.getInstance().setCameraIds(cameraids.toArray(new String[cameraids.size()]));
+            int arr[] = new int[cameraids.size()];
+            for (int i = 0; i<arr.length;i++)
+                arr[i] = Integer.parseInt(cameraids.get(i));
+            SettingsManager.getInstance().setCameraIds(arr);
             SettingsManager.getInstance().SetCurrentCamera(0);
 
 
@@ -102,21 +106,22 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 publishProgress("Check camera features:" + cameraids.get(c));
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraids.get(c));
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
-                SettingsManager.get(SettingKeys.Module).set(SettingsManager.getInstance().getResString(R.string.module_picture));
+
                 //SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
                 SettingsManager.getInstance().SetCurrentCamera(c);
                 SettingsManager.getInstance().setIsFrontCamera(front);
+                SettingsManager.get(SettingKeys.Module).set(SettingsManager.getInstance().getResString(R.string.module_picture));
                 hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
-                SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
+                SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.context.getResources().getStringArray(R.array.selftimervalues));
                 SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
 
                 SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
-                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.context.getResources().getStringArray(R.array.video_audio_source));
                 SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
                 if (RenderScriptManager.isSupported()) {
-                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.focuspeakColors));
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.context.getResources().getStringArray(R.array.focuspeakColors));
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
                 }
@@ -142,7 +147,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
                 publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
 
-                SettingsManager.get(SettingKeys.GuideList).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.guidelist));
+                SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.context.getResources().getStringArray(R.array.guidelist));
                 SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
 
 
@@ -295,7 +300,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         publishProgress("Detect Video Profiles");
-                        int camid = Integer.parseInt(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
+                        int camid = SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()];
                         detectVideoMediaProfiles(camid);
                     } catch (Exception e) {
                         Log.WriteEx(e);
@@ -465,11 +470,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
             }
-
-            if (SettingsManager.getInstance().hasCamera2Features() && !SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted() && hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-                SettingsManager.get(SettingKeys.openCamera1Legacy).set(true);
-            }
-            Log.d(TAG, "Can Open Legacy: " + SettingsManager.get(SettingKeys.openCamera1Legacy).get() + " was presetted: " + SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted());
         }
         catch (Throwable ex) {
             Log.WriteEx(ex);
@@ -697,7 +697,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         else
             colorcor = new int[]{ 0,1,2};
         Log.d(TAG, "colormodes:" + Arrays.toString(colorcor));
-        String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.colorcorrectionmodes);
+        String[] lookupar = FreedApplication.context.getResources().getStringArray(R.array.colorcorrectionmodes);
 
         HashMap<String,Integer> map = new HashMap<>();
         for (int i = 0;i< colorcor.length;i++)
@@ -717,7 +717,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             SettingsManager.get(SettingKeys.FlashMode).setIsSupported(flashavail);
             if (SettingsManager.get(SettingKeys.FlashMode).isSupported()) {
-                String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.flashModes);
+                String[] lookupar = FreedApplication.context.getResources().getStringArray(R.array.flashModes);
                 HashMap<String,Integer> map = new HashMap<>();
                 for (int i = 0; i< lookupar.length; i++)
                 {
@@ -739,7 +739,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             }
             else {
                 int device = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
-                String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.controlModes);
+                String[] lookupar = FreedApplication.context.getResources().getStringArray(R.array.controlModes);
                 int[] full = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES) != null)
                     full = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES);
@@ -973,7 +973,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void detectSceneModes(CameraCharacteristics characteristics){
-        String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(R.array.sceneModes);
+        String[] lookupar = FreedApplication.context.getResources().getStringArray(R.array.sceneModes);
         int[]  scenes = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         if (scenes.length > 1)
             SettingsManager.get(SettingKeys.SceneMode).setIsSupported(true);
@@ -1060,7 +1060,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 settingMode.setIsSupported(false);
                 return;
             }
-            String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
+            String[] lookupar = FreedApplication.context.getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
@@ -1087,7 +1087,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 settingMode.setIsSupported(true);
             else
                 return;
-            String[] lookupar = SettingsManager.getInstance().getResources().getStringArray(ressourceArray);
+            String[] lookupar = FreedApplication.context.getResources().getStringArray(ressourceArray);
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
@@ -1187,7 +1187,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
 
     private ArrayList<String> getShutterStrings(long max, long min,boolean withAutoMode) {
-        String[] allvalues = SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_autocreate);
+        String[] allvalues = FreedApplication.context.getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
         boolean foundmax = false;
 

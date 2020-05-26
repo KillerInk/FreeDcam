@@ -53,7 +53,7 @@ public class BaseManualParameter extends AbstractParameter
         super(cameraUiWrapper,settingMode);
         this.parameters = parameters;
         SettingMode mode = (SettingMode) SettingsManager.get(key);
-        key_value = mode.getKEY();
+        key_value = mode.getCamera1ParameterKEY();
         currentString = mode.get();
         stringvalues = mode.getValues();
         if (mode.isSupported())

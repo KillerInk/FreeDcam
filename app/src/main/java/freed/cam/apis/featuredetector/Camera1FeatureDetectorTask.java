@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.renderscript.RenderScriptManager;
@@ -66,10 +67,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             catch(RuntimeException ex)
             {
                 Log.d(TAG, "Failed to get Parameters from Camera:" + i);
-                Log.WriteEx(ex);
             }
         }
-        SettingsManager.getInstance().setCameraIds(cam_ids.toArray(new String[cam_ids.size()]));
+        int arr[] = new int[cam_ids.size()];
+        for (int i = 0; i<arr.length;i++)
+            arr[i] = Integer.parseInt(cam_ids.get(i));
+        SettingsManager.getInstance().setCameraIds(arr);
 
         Log.d(TAG, "Cameras Found: " + cam_ids.size());
         for (int i = 0; i < cam_ids.size(); i++)
@@ -79,7 +82,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             publishProgress("###################");
             SettingsManager.getInstance().SetCurrentCamera(i);
 
-            detectFrontCamera(i);
+            detectFrontCamera(arr[i]);
             publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 
             Camera.Parameters parameters = null;
@@ -89,28 +92,27 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             catch(RuntimeException ex)
             {
                 Log.d(TAG, "Failed to get Parameters from Camera:" + i);
-                Log.WriteEx(ex);
             }
             if(parameters == null)
                 return;
 
             publishProgress("Detecting Features");
 
-            SettingsManager.get(SettingKeys.selfTimer).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.selftimervalues));
+            SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.context.getResources().getStringArray(R.array.selftimervalues));
             SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
 
-            SettingsManager.get(SettingKeys.GuideList).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.guidelist));
+            SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.context.getResources().getStringArray(R.array.guidelist));
             SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
             if (RenderScriptManager.isSupported()) {
-                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.focuspeakColors));
+                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.context.getResources().getStringArray(R.array.focuspeakColors));
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             }
 
             SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
 
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(SettingsManager.getInstance().getResString(R.string.video_audio_source_default));
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.video_audio_source));
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.context.getResources().getString(R.string.video_audio_source_default));
+            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.context.getResources().getStringArray(R.array.video_audio_source));
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
 
@@ -262,7 +264,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 if (parameters.get(camstring(R.string.video_stabilization_supported)).equals(camstring(R.string.true_)))
                 {
                     SettingsManager.get(SettingKeys.VideoStabilization).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.VideoStabilization).setKEY(SettingsManager.getInstance().getResString(R.string.video_stabilization));
+                    SettingsManager.get(SettingKeys.VideoStabilization).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.video_stabilization));
                     SettingsManager.get(SettingKeys.VideoStabilization).setValues(new String[]{SettingsManager.getInstance().getResString(R.string.true_), SettingsManager.getInstance().getResString(R.string.false_)});
                 }
             } catch (NullPointerException e) {
@@ -283,13 +285,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (parameters.get("hw-dual-primary-supported") != null)
             {
                 SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setValues(parameters.get("hw-dual-primary-supported").split(","));
-                SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setKEY("hw-dual-primary-mode");
+                SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setCamera1ParameterKEY("hw-dual-primary-mode");
                 SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setIsSupported(true);
             }
 
             if (parameters.get("hw-supported-aperture-value") != null)
             {
-                SettingsManager.get(SettingKeys.M_Aperture).setKEY("hw-set-aperture-value");
+                SettingsManager.get(SettingKeys.M_Aperture).setCamera1ParameterKEY("hw-set-aperture-value");
                 SettingsManager.get(SettingKeys.M_Aperture).setValues(parameters.get("hw-supported-aperture-value").split(","));
                 SettingsManager.get(SettingKeys.M_Aperture).setIsSupported(true);
             }
@@ -346,7 +348,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             try {
                 SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(true);
                 SettingsManager.get(SettingKeys.PreviewFpsRange).setValues(parameters.get(camstring(R.string.preview_fps_range_values)).split(","));
-                SettingsManager.get(SettingKeys.PreviewFpsRange).setKEY(camstring(R.string.preview_fps_range));
+                SettingsManager.get(SettingKeys.PreviewFpsRange).setCamera1ParameterKEY(camstring(R.string.preview_fps_range));
                 SettingsManager.get(SettingKeys.PreviewFpsRange).set(parameters.get(camstring(R.string.preview_fps_range)));
             }
             catch (NumberFormatException ex)
@@ -438,6 +440,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private boolean arrayContainsString(String[] ar,String dif)
     {
+        if (ar == null)
+            return false;
         boolean ret = false;
         for (String s: ar)
             if (s.equals(dif))
@@ -452,7 +456,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
             if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
                 SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ManualIso).setKEY("m-sr-g");
+                SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY("m-sr-g");
                 SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(100, 1600, 100,false));
                 SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_MTK);
             }
@@ -466,7 +470,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi) {
                             SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
                         } else {
-                            SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
+                            SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.continuous_iso));
                             SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
                             SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50, false));
                         }
@@ -477,12 +481,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         int max = Integer.parseInt(t[1]);
                         SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50, false));
                         SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_KRILLIN);
-                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.hw_sensor_iso));
                     } else if (parameters.get(SettingsManager.getInstance().getResString(R.string.lg_iso)) != null) {
                         SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
                         SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(0, 2700, 50, false));
                         SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_LG);
-                        SettingsManager.get(SettingKeys.M_ManualIso).setKEY(SettingsManager.getInstance().getResString(R.string.lg_iso));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.lg_iso));
                     }
                 }catch (NumberFormatException ex)
                 {
@@ -524,8 +528,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         {
             Log.d(TAG, "ManualExposureTime MTK");
             SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.mtk_shutter));
-            SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("m-ss");
+            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.context.getResources().getStringArray(R.array.mtk_shutter));
+            SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("m-ss");
             SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MTK);
         }
         else
@@ -534,8 +538,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (parameters.get(SettingsManager.getInstance().getResString(R.string.shutter)) != null) {
                 Log.d(TAG, "ManualExposureTime HTC");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.htc));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(SettingsManager.getInstance().getResString(R.string.shutter));
+                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.context.getResources().getStringArray(R.array.htc));
+                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.shutter));
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_HTC);
             }
             //lg shutter
@@ -545,15 +549,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(SettingsManager.getInstance().getResString(R.string.lg_shutterspeed_values)).replace(",0", "").split(",")));
                 l.remove(0);
                 SettingsManager.get(SettingKeys.M_ExposureTime).setValues(l.toArray(new String[l.size()]));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(SettingsManager.getInstance().getResString(R.string.lg_shutterspeed));
+                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.lg_shutterspeed));
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
             }
             //meizu shutter
             else if (parameters.get("shutter-value") != null) {
                 Log.d(TAG, "ManualExposureTime Meizu");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_meizu));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("shutter-value");
+                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.context.getResources().getStringArray(R.array.shutter_values_meizu));
+                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("shutter-value");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MEIZU);
             }
             //kirin shutter
@@ -575,7 +579,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
                     String values[] = getSupportedShutterValues(min, max, true);
                     SettingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("hw-sensor-exposure-time");
+                    SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("hw-sensor-exposure-time");
                     SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
                 }
                 catch (NumberFormatException ex)
@@ -597,7 +601,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         Long.parseLong(parameters.get("sony-min-shutter-speed")),
                         Long.parseLong(parameters.get("sony-max-shutter-speed")),
                         true));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setKEY("sony-shutter-speed");
+                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("sony-shutter-speed");
                 SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_SONY);
             }
             //qcom shutter
@@ -618,7 +622,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     if (max > 0) {
 
                         SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.M_ExposureTime).setKEY(camstring(R.string.exposure_time));
+                        SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(camstring(R.string.exposure_time));
                         SettingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(min, max, true));
                     }
                 }
@@ -637,7 +641,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     }
 
     private String[] getSupportedShutterValues(long minMillisec, long maxMiliisec, boolean withautomode) {
-        String[] allvalues = SettingsManager.getInstance().getResources().getStringArray(R.array.shutter_values_autocreate);
+        String[] allvalues = FreedApplication.context.getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
         boolean foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
@@ -673,7 +677,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         if(parameters.get("non-zsl-manual-mode")!=null)
         {
             SettingsManager.get(SettingKeys.NonZslManualMode).setIsSupported(true);
-            SettingsManager.get(SettingKeys.NonZslManualMode).setKEY("non-zsl-manual-mode");
+            SettingsManager.get(SettingKeys.NonZslManualMode).setCamera1ParameterKEY("non-zsl-manual-mode");
             SettingsManager.get(SettingKeys.NonZslManualMode).setValues(new String[]{SettingsManager.getInstance().getResString(R.string.on_), SettingsManager.getInstance().getResString(R.string.off_)});
         }
     }
@@ -817,7 +821,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 if (parameters.get(camstring(R.string.mtk_3dnr_mode)) != null) {
                     if (parameters.get(camstring(R.string.mtk_3dnr_mode_values)).equals("on,off")) {
                         SettingsManager.get(SettingKeys.Denoise).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.Denoise).setKEY(camstring(R.string.mtk_3dnr_mode));
+                        SettingsManager.get(SettingKeys.Denoise).setCamera1ParameterKEY(camstring(R.string.mtk_3dnr_mode));
                         SettingsManager.get(SettingKeys.Denoise).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
                     }
                 }
@@ -857,7 +861,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.d(TAG, "Saturation: MTK");
                 if (parameters.get(camstring(R.string.saturation)) != null && parameters.get(camstring(R.string.saturation_values)) != null) {
                     SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get(camstring(R.string.saturation_values)).split(","));
-                    SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
+                    SettingsManager.get(SettingKeys.M_Saturation).setCamera1ParameterKEY(camstring(R.string.saturation));
                     SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
                     SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
                 }
@@ -881,25 +885,25 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     Log.d(TAG, "Saturation: LG");
                     min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.lg_color_adjust_min)));
                     max = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.lg_color_adjust_max)));
-                    SettingsManager.get(SettingKeys.M_Saturation).setKEY(SettingsManager.getInstance().getResString(R.string.lg_color_adjust));
+                    SettingsManager.get(SettingKeys.M_Saturation).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.lg_color_adjust));
                     SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.lg_color_adjust)));
                 } else if (parameters.get(camstring(R.string.saturation_max)) != null) {
                     Log.d(TAG, "Saturation: Default");
                     min = Integer.parseInt(parameters.get(camstring(R.string.saturation_min)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.saturation_max)));
-                    SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
+                    SettingsManager.get(SettingKeys.M_Saturation).setCamera1ParameterKEY(camstring(R.string.saturation));
                     SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
                 } else if (parameters.get(camstring(R.string.max_saturation)) != null && parameters.get(camstring(R.string.min_saturation)) != null) {
                     Log.d(TAG, "Saturation: Default");
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_saturation)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_saturation)));
-                    SettingsManager.get(SettingKeys.M_Saturation).setKEY(camstring(R.string.saturation));
+                    SettingsManager.get(SettingKeys.M_Saturation).setCamera1ParameterKEY(camstring(R.string.saturation));
                     SettingsManager.get(SettingKeys.M_Saturation).set(parameters.get(camstring(R.string.saturation)));
                 }
                 else if (parameters.get("saturation-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Saturation).setValues(parameters.get("saturation-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Saturation).setKEY("saturation");
+                    SettingsManager.get(SettingKeys.M_Saturation).setCamera1ParameterKEY("saturation");
                     SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
                     SettingsManager.get(SettingKeys.M_Saturation).set("2");
                 }
@@ -928,7 +932,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             Log.d(TAG, "Sharpness: MTK");
             if (parameters.get(camstring(R.string.edge))!= null && parameters.get(camstring(R.string.edge_values))!= null) {
                 SettingsManager.get(SettingKeys.M_Sharpness).setValues(parameters.get(camstring(R.string.edge_values)).split(","));
-                SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.edge));
+                SettingsManager.get(SettingKeys.M_Sharpness).setCamera1ParameterKEY(camstring(R.string.edge));
                 SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
                 SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.edge)));
             }
@@ -940,19 +944,19 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     Log.d(TAG, "Sharpness: Default");
                     min = Integer.parseInt(parameters.get(camstring(R.string.sharpness_min)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.sharpness_max)));
-                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setCamera1ParameterKEY(camstring(R.string.sharpness));
                     SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
                 } else if (parameters.get(camstring(R.string.max_sharpness)) != null) {
                     Log.d(TAG, "Sharpness: Default");
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_sharpness)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_sharpness)));
-                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY(camstring(R.string.sharpness));
+                    SettingsManager.get(SettingKeys.M_Sharpness).setCamera1ParameterKEY(camstring(R.string.sharpness));
                     SettingsManager.get(SettingKeys.M_Sharpness).set(parameters.get(camstring(R.string.sharpness)));
                 }
                 else if (parameters.get("sharpness-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Sharpness).setValues(parameters.get("sharpness-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Sharpness).setKEY("sharpness");
+                    SettingsManager.get(SettingKeys.M_Sharpness).setCamera1ParameterKEY("sharpness");
                     SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
                 }
                 Log.d(TAG, "Sharpness Max:" +max);
@@ -980,7 +984,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             Log.d(TAG, "Brightness: MTK");
             if (parameters.get(camstring(R.string.brightness))!= null && parameters.get(camstring(R.string.brightness_values))!= null) {
                 SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get(camstring(R.string.brightness_values)).split(","));
-                SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.brightness));
+                SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.brightness));
                 SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
                 SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(camstring(R.string.brightness)));
             }
@@ -1000,18 +1004,18 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get("brightness-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get("brightness-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Brightness).setKEY("brightness");
+                    SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY("brightness");
                     SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
                     SettingsManager.get(SettingKeys.M_Brightness).set("2");
                 }
                 Log.d(TAG, "Brightness Max:" + max);
                 if (max > 0) {
                     if (parameters.get(camstring(R.string.brightness)) != null)
-                        SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.brightness));
+                        SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.brightness));
                     else if (parameters.get(camstring(R.string.luma_adaptation)) != null)
-                        SettingsManager.get(SettingKeys.M_Brightness).setKEY(camstring(R.string.luma_adaptation));
+                        SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.luma_adaptation));
                     SettingsManager.get(SettingKeys.M_Brightness).setValues(createStringArray(min, max, 1));
-                    SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(SettingsManager.get(SettingKeys.M_Brightness).getKEY()));
+                    SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(SettingsManager.get(SettingKeys.M_Brightness).getCamera1ParameterKEY()));
                     SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
                 }
             }
@@ -1033,7 +1037,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         {
             if (parameters.get(camstring(R.string.contrast))!= null && parameters.get(camstring(R.string.contrast_values))!= null) {
                 SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get(camstring(R.string.contrast_values)).split(","));
-                SettingsManager.get(SettingKeys.M_Contrast).setKEY(camstring(R.string.contrast));
+                SettingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY(camstring(R.string.contrast));
                 SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
                 SettingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
             }
@@ -1052,13 +1056,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 else if (parameters.get("contrast-values") != null)
                 {
                     SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get("contrast-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Contrast).setKEY("contrast"); // constrast is not a typo. on huawei side it is
+                    SettingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY("contrast"); // constrast is not a typo. on huawei side it is
                     SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
                     SettingsManager.get(SettingKeys.M_Contrast).set("2");
                 }
                 Log.d(TAG, "Contrast Max:" +max);
                 if (max > 0) {
-                    SettingsManager.get(SettingKeys.M_Contrast).setKEY(camstring(R.string.contrast));
+                    SettingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY(camstring(R.string.contrast));
                     SettingsManager.get(SettingKeys.M_Contrast).setValues(createStringArray(min, max, 1));
                     SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
                     SettingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
@@ -1103,7 +1107,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             min = 0;
             max = 1023;
             step = 10;
-            SettingsManager.get(SettingKeys.M_Focus).setKEY(SettingsManager.getInstance().getResString(R.string.afeng_pos));
+            SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.afeng_pos));
             Log.d(TAG, "MF MTK");
         }
         else {
@@ -1122,7 +1126,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_index)));
                         max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_index)));
                         step = 10;
-                        SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.manual_focus_position));
+                        SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(camstring(R.string.manual_focus_position));
                         Log.d(TAG, "MF old qcom");
                     }
                 }
@@ -1139,7 +1143,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_ratio)));
                         max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_ratio)));
                         step = 1;
-                        SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.manual_focus_position));
+                        SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(camstring(R.string.manual_focus_position));
                         Log.d(TAG, "MF new qcom");
                     }
                 }
@@ -1152,7 +1156,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_focus)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_focus)));
                     step = 1;
-                    SettingsManager.get(SettingKeys.M_Focus).setKEY(camstring(R.string.focus));
+                    SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(camstring(R.string.focus));
                     Log.d(TAG, "MF HTC");
                 }
 
@@ -1167,7 +1171,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     min = Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.hw_vcm_start_value)));
                     Log.d(TAG,"min/max mf:" + min+"/"+max);
                     step = 10;
-                    SettingsManager.get(SettingKeys.M_Focus).setKEY(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value));
+                    SettingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value));
                 }
 
 
@@ -1308,8 +1312,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         try {
             mode.setValues(parameters.get(camstring(keyvalues)).split(","));
-            mode.setKEY(camstring(key));
-            mode.set(parameters.get(mode.getKEY()));
+            mode.setCamera1ParameterKEY(camstring(key));
+            mode.set(parameters.get(mode.getCamera1ParameterKEY()));
 
             if (mode.getValues().length > 0)
                 mode.setIsSupported(true);
@@ -1450,7 +1454,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         else if (parameters.get(camstring(R.string.hw_exposure_mode_values)) != null)
             detectMode(parameters, R.string.hw_exposure_mode,R.string.hw_exposure_mode_values, SettingsManager.get(SettingKeys.ExposureMode));
-        if (!TextUtils.isEmpty(SettingsManager.get(SettingKeys.ExposureMode).getKEY()))
+        if (!TextUtils.isEmpty(SettingsManager.get(SettingKeys.ExposureMode).getCamera1ParameterKEY()))
             SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(true);
         else
             SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
@@ -1518,7 +1522,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         SettingsManager.get(SettingKeys.JpegQuality).setValues(valuetoreturn);
         SettingsManager.get(SettingKeys.JpegQuality).set(parameters.get(camstring(R.string.jpeg_quality)));
-        SettingsManager.get(SettingKeys.JpegQuality).setKEY(camstring(R.string.jpeg_quality));
+        SettingsManager.get(SettingKeys.JpegQuality).setCamera1ParameterKEY(camstring(R.string.jpeg_quality));
         if (valuetoreturn.length >0)
             SettingsManager.get(SettingKeys.JpegQuality).setIsSupported(true);
     }
@@ -1612,7 +1616,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 if (TextUtils.isEmpty(hfrvals)) {
                     try {
                         SettingsManager.get(SettingKeys.VideoHighFramerate).setValues("off,60,120".split(","));
-                        SettingsManager.get(SettingKeys.VideoHighFramerate).setKEY("video-hfr");
+                        SettingsManager.get(SettingKeys.VideoHighFramerate).setCamera1ParameterKEY("video-hfr");
                         SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
                         SettingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("video-hfr"));
                     }
@@ -1631,7 +1635,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (parameters.get("hsvr-prv-fps-values") != null)
             {
                 SettingsManager.get(SettingKeys.VideoHighFramerate).setValues(parameters.get("hsvr-prv-fps-values").split(","));
-                SettingsManager.get(SettingKeys.VideoHighFramerate).setKEY("hsvr-prv-fps");
+                SettingsManager.get(SettingKeys.VideoHighFramerate).setCamera1ParameterKEY("hsvr-prv-fps");
                 SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
                 SettingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("hsvr-prv-fps"));
             }

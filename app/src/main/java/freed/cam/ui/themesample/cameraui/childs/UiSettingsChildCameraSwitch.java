@@ -108,7 +108,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     @Override
     public String[] GetValues() {
-        String[] camids = SettingsManager.getInstance().getCameraIds();
+        int[] camids = SettingsManager.getInstance().getCameraIds();
         String[] retarr = new String[camids.length];
         for (int i = 0; i < camids.length; i++)
         {

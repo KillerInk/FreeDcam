@@ -1,5 +1,6 @@
 package freed.settings.mode;
 
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManagerInterface;
 
 /**
@@ -9,12 +10,23 @@ import freed.settings.SettingsManagerInterface;
 public abstract class AbstractSettingMode implements SettingInterface
 {
     protected SettingsManagerInterface settingsManagerInterface;
-    //String to get the value from the cameraparameters
-    protected String KEY_value;
+    //key to identify this settings
+    protected String camera1ParameterKEY_value;
+    protected SettingKeys.Key settingKey;
 
-    public AbstractSettingMode(SettingsManagerInterface settingsManagerInterface, String key)
+    public AbstractSettingMode(SettingKeys.Key settingkey)
     {
-        this.settingsManagerInterface = settingsManagerInterface;
-        this.KEY_value = key;
+        this.settingKey = settingkey;
     }
+
+    public String getCamera1ParameterKEY()
+    {
+        return camera1ParameterKEY_value;
+    }
+
+    public void setCamera1ParameterKEY(String KEY)
+    {
+        this.camera1ParameterKEY_value = KEY;
+    }
+
 }

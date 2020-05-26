@@ -56,7 +56,7 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate");
         if (!SettingsManager.getInstance().isInit()) {
-            SettingsManager.getInstance().init(getBaseContext().getResources(),getContext());
+            SettingsManager.getInstance().init();
         }
 
     }

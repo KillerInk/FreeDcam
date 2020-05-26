@@ -26,6 +26,7 @@ import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
@@ -139,7 +140,7 @@ public class WbHandler
 
         public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_Whitebalance);
-            lookupvalues = new StringIntArray(SettingsManager.getInstance().getResources().getStringArray(R.array.wbct_lookup));
+            lookupvalues = new StringIntArray(FreedApplication.context.getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
         }
 
@@ -223,10 +224,15 @@ public class WbHandler
 
         @Override
         public ViewState getViewState() {
-            if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
-                return ViewState.Hidden;
-            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
-                return ViewState.Visible;
+            try {
+                if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
+                    return ViewState.Hidden;
+                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
+                    return ViewState.Visible;
+            }
+            catch (NullPointerException ex) {
+                Log.WriteEx(ex);
+            }
             return ViewState.Hidden;
         }
 

@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
@@ -105,22 +106,15 @@ public class SettingsManager implements SettingsManagerInterface {
 
     private final String TAG = SettingsManager.class.getSimpleName();
 
-    private String mDevice;
     private HashMap<String, CustomMatrix> matrixes;
     private HashMap<String, ToneMapProfile> tonemapProfiles;
     private HashMap<String, VideoToneCurveProfile> videoToneCurveProfiles;
     private LongSparseArray<DngProfile> dngProfileHashMap;
     private OpCode opCode;
-    //private SharedPreferences settings;
-    private Resources resources;
     private static volatile boolean isInit =false;
-    private Frameworks frameworks;
-
     private SettingsStorage settingsStorage;
 
     private static SettingsManager settingsManager = new SettingsManager();
-
-    private static HashMap<SettingKeys.Key, SettingInterface> settingsmap = new HashMap<>();
 
 
 
@@ -143,66 +137,32 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public static <T> T get(SettingKeys.Key<T> key)
     {
-        return key.getType().cast(settingsmap.get(key));
+        return key.getType().cast(getInstance().settingsStorage.get(key));
     }
 
-    public synchronized void init(Resources resources, Context context)
+    public static <T> T getGlobal(SettingKeys.Key<T> key)
+    {
+        return key.getType().cast(getInstance().settingsStorage.getGlobal(key));
+    }
+
+    public void init()
     {
         //check if its not already init while a other task waited for it
         if (isInit)
             return;
         isInit = true;
-        //settings = sharedPreferences;
-        settingsStorage = new SettingsStorage(context.getExternalFilesDir(null));
+        settingsStorage = new SettingsStorage(FreedApplication.context.getExternalFilesDir(null));
+
         Log.d(TAG, "load Settings");
         settingsStorage.load();
-        this.resources = resources;
-        SettingKeys.Key[] keys = SettingKeys.getKeyList();
-
-        for (SettingKeys.Key k: keys)
-            createSetting(k);
-
-        try {
-            String fw = settingsStorage.getString(FRAMEWORK,"Default");
-            frameworks = Frameworks.valueOf(fw);
-        }
-        catch (ClassCastException ex)
-        {
-            Log.d(TAG, "failed to parse Framework, use Default");
-            frameworks = Frameworks.Default;
-        }
-
-
-        loadOpCodes();
-
-        parseXml(settingsStorage, resources);
-
-
-
+        //loadOpCodes();
+        parseXml();
     }
 
-    private void createSetting(SettingKeys.Key key)
+    public void release()
     {
-        Constructor ctr = key.getType().getConstructors()[0];
-        try {
-            SettingInterface settingInterface = (SettingInterface)ctr.newInstance(this,getResString(key.getRessourcesStringID()));
-            settingsmap.put(key,settingInterface);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public synchronized void release()
-    {
-        //settingsStorage.save();
-        settingsmap.clear();
+        //settingsmap.clear();
         isInit = false;
-        resources = null;
-        //settings = null;
         settingsStorage.reset();
     }
 
@@ -216,17 +176,16 @@ public class SettingsManager implements SettingsManagerInterface {
         return  settingsStorage.appdataFolder;
     }
 
-    private void parseXml(SettingsStorage sharedPreferences, Resources resources) {
+    private void parseXml() {
         XmlParserWriter parser = new XmlParserWriter();
         //first time init
-        matrixes = parser.getMatrixes(resources,settingsStorage.appdataFolder);
-        mDevice = sharedPreferences.getString("DEVICE","");
+        matrixes = parser.getMatrixes(FreedApplication.context.getResources(),settingsStorage.appdataFolder);
 
         tonemapProfiles = parser.getToneMapProfiles(settingsStorage.appdataFolder);
-        if (mDevice == null || TextUtils.isEmpty(mDevice))
+        if (settingsStorage.getDevice() == null || TextUtils.isEmpty(settingsStorage.getDevice()))
         {
             Log.d(TAG, "Lookup ConfigFile");
-            parser.parseAndFindSupportedDevice(resources,matrixes,settingsStorage.appdataFolder);
+            parser.parseAndFindSupportedDevice(FreedApplication.context.getResources(),matrixes,settingsStorage.appdataFolder);
         }
         else //load only stuff for dng
         {
@@ -239,22 +198,21 @@ public class SettingsManager implements SettingsManagerInterface {
     private void loadOpCodes()
     {
         new Thread(() -> {
-            File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getInt(CURRENTCAMERA,0)+"opc2.bin");
-            File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getInt(CURRENTCAMERA,0)+"opc3.bin");
+            File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getActiveCamera()+"opc2.bin");
+            File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getActiveCamera()+"opc3.bin");
             if (op2.exists() || op3.exists())
                 opCode = new OpCode(op2,op3);
             else
                 opCode = null;
 
         }).start();
-
     }
 
-    public void RESET()
+    public synchronized void RESET()
     {
         settingsStorage.reset();
         //settings.edit().clear().commit();
-        parseXml(settingsStorage, resources);
+        parseXml();
         settingsStorage.save();
     }
 
@@ -265,11 +223,8 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public String getResString(int id)
     {
-        return resources.getString(id);
+        return FreedApplication.context.getResources().getString(id);
     }
-
-    public Resources getResources()
-    { return resources;}
 
     public LongSparseArray<DngProfile> getDngProfilesMap()
     {
@@ -299,145 +254,124 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public boolean isZteAe()
     {
-        return settingsStorage.getBoolean("zteae", false);
+        return settingsStorage.isZteAE();
     }
 
     public void setZteAe(boolean legacy)
     {
-        settingsStorage.setBoolean("zteae",legacy);
+        settingsStorage.setIsZteAE(legacy);
     }
 
 
     public void setsOverrideDngProfile(boolean legacy)
     {
-        settingsStorage.setBoolean("overrideprofile",legacy);
+        settingsStorage.setOverrideDngProfile(legacy);
+    }
+
+    public boolean getOverrideDngProfile()
+    {
+        return settingsStorage.overrideDngProfile();
     }
 
     public int getAppVersion()
     {
-        return settingsStorage.getInt(APPVERSION, 0);
+        return settingsStorage.getAppVersion();
     }
 
     public void setAppVersion(int version)
     {
-        settingsStorage.setInt(APPVERSION, version);
-    }
-
-    @Override
-    public boolean getApiBoolean(String settings_key, boolean defaultValue)
-    {
-        return settingsStorage.getApiBoolean(settings_key,defaultValue);
-    }
-
-    @Override
-    public boolean getBoolean(String settings_key, boolean defaultValue)
-    {
-        return settingsStorage.getBoolean(settings_key,defaultValue);
-    }
-
-    @Override
-    public void setApiBoolean(String settings_key, boolean valuetoSet) {
-        settingsStorage.setApiBoolean(settings_key,valuetoSet);
-    }
-
-    @Override
-    public void setBoolean(String settings_key, boolean valuetoSet) {
-        settingsStorage.setBoolean(settings_key,valuetoSet);
+        settingsStorage.setAppVersion(version);
     }
 
     public void setCamApi(String api) {
-        settingsStorage.setString(SETTING_API,api);
+        settingsStorage.setApi(api);
     }
 
     public String getCamApi() {
-        return settingsStorage.getString(SETTING_API, API_1);
+        return settingsStorage.getApi();
     }
 
     public long getCamera2MaxExposureTime()
     {
-        return settingsStorage.getLong("camera2maxexposuretime",0);
+        return settingsStorage.getCameraMaxExposureTime();
     }
 
     public void setCamera2MaxExposureTime(long max)
     {
-        settingsStorage.setLong("camera2maxexposuretime",max);
-        Log.d(TAG,"Override max expotime:" +settingsStorage.getLong("camera2maxexposuretime",0));
+        settingsStorage.setCameraMaxExposureTime(max);
     }
 
     public void setCamera2MinExposureTime(long min)
     {
-        settingsStorage.setLong("camera2minexposuretime",min);
-        Log.d(TAG,"Override min expotime:" +settingsStorage.getLong("camera2minexposuretime",0));
+        settingsStorage.setCameraMinExposureTime(min);
     }
     public long getCamera2MinExposureTime()
     {
-        return settingsStorage.getLong("camera2minexposuretime",0);
+        return settingsStorage.getCameraMinExposureTime();
     }
 
     public int getCamera2MaxIso()
     {
-        return settingsStorage.getInt("camera2maxiso",0);
+        return settingsStorage.getCameraMaxIso();
     }
 
     public void setCamera2MaxIso(int max)
     {
-        settingsStorage.setInt("camera2maxiso",max);
-        Log.d(TAG,"Override max iso:" +settingsStorage.getInt("camera2maxiso",0));
+        settingsStorage.setCameraMaxIso(max);
     }
 
     public void setCamera2MinFocusPosition(float pos)
     {
-        settingsStorage.setFloat("camera2minfocuspos",pos);
-        Log.d(TAG,"Override min focus position:" +settingsStorage.getFloat("camera2minfocuspos",0));
+        settingsStorage.setCameraMinFocus(pos);
     }
 
     public float getCamera2MinFocusPosition()
     {
-        return settingsStorage.getFloat("camera2minfocuspos",0);
+        return settingsStorage.getCameraMinFocus();
     }
 
     public void setDevice(String device) {
-        this.mDevice = device;
-        settingsStorage.setString("DEVICE", mDevice);
+        settingsStorage.setDevice(device);
     }
 
     public String getDeviceString() {
-        return mDevice;
+        return settingsStorage.getDevice();
     }
 
     public void setshowHelpOverlay(boolean value) {
-        settingsStorage.setBoolean("showhelpoverlay", value);
+        settingsStorage.setShowHelpOverlayOnStart(value);
     }
 
     public boolean getShowHelpOverlay() {
-        return settingsStorage.getBoolean("showhelpoverlay", true);
+        return settingsStorage.showHelpOverlayOnStart();
     }
 
     public void SetBaseFolder(String uri) {
-        settingsStorage.setString(SETTING_BASE_FOLDER, uri);
+        settingsStorage.setExtSDFolderUri(uri);
     }
 
     public String GetBaseFolder() {
-        return settingsStorage.getString(SETTING_BASE_FOLDER, null);
+        return settingsStorage.getExtSDFolderUri();
     }
 
     public void SetCurrentCamera(int currentcamera) {
-        settingsStorage.setInt(getCamApi()+CURRENTCAMERA, currentcamera);
+        settingsStorage.setActiveCamera(currentcamera);
         loadOpCodes();
     }
 
     public int GetCurrentCamera() {
-        return settingsStorage.getInt(getCamApi()+CURRENTCAMERA, 0);
+        return settingsStorage.getActiveCamera();
     }
 
-    public void setCameraIds(String[] cameras)
+    public void setCameraIds(int[] cameras)
     {
-        settingsStorage.setStringArray(getCamApi()+CAMERA_IDS, cameras);
+        Log.d(TAG, "set camera ids");
+        settingsStorage.setActiveCameraIds(cameras);
     }
 
-    public String[] getCameraIds()
+    public int[] getCameraIds()
     {
-        return settingsStorage.getStringArray(getCamApi()+CAMERA_IDS, null);
+        return settingsStorage.getActiveCameraIds();
     }
 
     public void SetCurrentModule(String modulename) {
@@ -453,61 +387,21 @@ public class SettingsManager implements SettingsManagerInterface {
 
 
     public boolean GetWriteExternal() {
-        return getApiBoolean(SETTING_EXTERNALSD, false);
+        return settingsStorage.writeToExternalSD();
     }
 
     public void SetWriteExternal(boolean write) {
-        setApiBoolean(SETTING_EXTERNALSD, write);
+        settingsStorage.setWriteToExternalSD(write);
     }
 
     public void setHasCamera2Features(boolean value) {
-        settingsStorage.setBoolean(HAS_CAMERA2_FEATURES, value);
+        settingsStorage.setHasCamera2Features(value);
     }
 
     public boolean hasCamera2Features() {
-        return settingsStorage.getBoolean(HAS_CAMERA2_FEATURES,false);
+        return settingsStorage.hasCamera2Features();
     }
 
-    /*public void setCamerasCount(int count)
-    {
-        setApiInt("camerascount",count);
-    }
-
-    public int getCamerasCount()
-    {
-        return getApiInt("camerascount");
-    }*/
-
-    @Override
-    public String getApiString(String valueToGet) {
-        return settingsStorage.getApiString(valueToGet,"");
-    }
-    @Override
-    public int getApiInt(String valueToGet) {
-        return settingsStorage.getApiInt(valueToGet,0);
-    }
-
-    @Override
-    public void setApiInt(String key,int valueToSet) {
-        settingsStorage.setApiInt(key,valueToSet);
-    }
-
-    @Override
-    public void setApiString(String settingsName, String Value) {
-        settingsStorage.setApiString(settingsName, Value);
-    }
-
-    @Override
-    public void setStringArray(String settingsName, String[] Value) {
-        settingsStorage.setApiStringArray(settingsName,Value);
-    }
-
-    @Override
-    public String[] getStringArray(String settingsname)
-    {
-        return settingsStorage.getApiStringArray(settingsname, null);
-    }
-    
     public HashMap<String,VideoMediaProfile> getMediaProfiles()
     {
         return settingsStorage.getApiVideoMediaProfiles();
@@ -520,31 +414,37 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public void setFramework(Frameworks frameWork)
     {
-        frameworks = frameWork;
-        settingsStorage.setString(FRAMEWORK, frameWork.toString());
+        settingsStorage.setFramework(frameWork);
     }
 
     public Frameworks getFrameWork()
     {
-        return frameworks;
+        return settingsStorage.getFramework();
     }
 
-
-    public static final String FRONTCAMERA ="frontcamera";
     public void setIsFrontCamera(boolean isFront)
     {
-        settingsStorage.setApiBoolean(FRONTCAMERA, isFront);
+        settingsStorage.setIsFrontCamera(isFront);
     }
 
     public boolean getIsFrontCamera()
     {
-        return settingsStorage.getApiBoolean(FRONTCAMERA, false);
+        return settingsStorage.isFrontCamera();
+    }
+
+    public void setAreFeaturesDetected(boolean isFront)
+    {
+        settingsStorage.setFeaturesAreDetected(isFront);
+    }
+
+    public boolean getAreFeaturesDetected()
+    {
+        return settingsStorage.areFeaturesDetected();
     }
 
     public boolean getCamIsFrontCamera(int id)
     {
-        String settingsName = settingsStorage.getString(SettingsManager.SETTING_API, SettingsManager.API_1)+FRONTCAMERA+id;
-        return settingsStorage.getBoolean(settingsName, false);
+        return settingsStorage.isFrontCamera(id);
     }
 
     public OpCode getOpCode() {

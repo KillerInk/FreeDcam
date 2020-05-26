@@ -1,23 +1,37 @@
 package freed.settings.mode;
 
-import freed.settings.SettingsManagerInterface;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
+import freed.utils.XmlUtil;
 
 /**
  * Created by KillerInk on 04.01.2018.
  */
 
 public class GlobalBooleanSettingMode extends AbstractSettingMode implements BooleanSettingModeInterface {
-    public GlobalBooleanSettingMode(SettingsManagerInterface settingsManagerInterface, String key) {
-        super(settingsManagerInterface, key);
+
+    private boolean value;
+
+    public GlobalBooleanSettingMode(SettingKeys.Key key) {
+        super(key);
     }
 
+    @Override
     public boolean get()
     {
-        return settingsManagerInterface.getBoolean(KEY_value,false);
+        return value;
     }
 
-    public void set(boolean enable)
-    {
-        settingsManagerInterface.setBoolean(KEY_value,enable);
+    @Override
+    public void set(boolean bool) {
+        this.value = bool;
+    }
+
+    @Override
+    public String getXmlString() {
+        String t = "<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ GlobalBooleanSettingMode.class.getSimpleName() +"\">";
+        t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
+        t += "</setting>\r\n";
+        return t;
     }
 }

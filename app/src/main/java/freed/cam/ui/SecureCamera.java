@@ -33,6 +33,7 @@ public class SecureCamera {
     // increment. This is used when switching between camera, camcorder, and
     // panorama. If the extra is not set, it is in the normal camera mode.
     public static final String SECURE_CAMERA_EXTRA = "secure_camera";
+    private static final String TAG = SecureCamera.class.getSimpleName();
 
     public interface SecureCameraActivity {
         void onResumeTasks();
@@ -84,6 +85,7 @@ public class SecureCamera {
     }
 
     public void onCreate() {
+        Log.d(TAG, "onCreate");
         mMainHandler = new Handler(getActivity().getMainLooper());
         mPaused = true;
         checkSecure();
@@ -102,6 +104,7 @@ public class SecureCamera {
     }
 
     public void onResume() {
+        Log.d(TAG, "onResume");
         try {
             mMainHandler.removeCallbacks(mOnResumeTasks);
             if (fIsSecureCamera && !mCanceledResumeTasks) {
@@ -123,6 +126,7 @@ public class SecureCamera {
     }
 
     public void onPause() {
+        Log.d(TAG, "onPause");
         try {
             mMainHandler.removeCallbacks(mOnResumeTasks);
             if (!mPaused) {

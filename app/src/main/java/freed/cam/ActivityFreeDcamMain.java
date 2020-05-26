@@ -174,11 +174,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestory");
         stopListning();
         cameraFragmentManager.destroy();
         userMessageHandler.stopListning();
         userMessageHandler.setContext(null);
-        super.onDestroy();
+
     }
 
     public UserMessageHandler getUserMessageHandler()
@@ -228,7 +230,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     {
         super.onPause();
         Log.d(TAG, "onPause() " + currentState);
-        SettingsManager.getInstance().save();
         // forward to secure camera to handle resume bug
         if (mSecureCamera != null)
             mSecureCamera.onPause();
@@ -237,7 +238,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         unloadCameraFragment();
-
+        SettingsManager.getInstance().save();
         Log.d(TAG, "onPauseTasks() " + currentState);
         if(orientationManager != null)
             orientationManager.Stop();
@@ -375,6 +376,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = findViewById(id.nightoverlay);
+        Log.d(TAG, "NightOverlay:" + SettingsManager.get(SettingKeys.NightOverlay).get());
         if (SettingsManager.get(SettingKeys.NightOverlay).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else

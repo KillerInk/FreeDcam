@@ -12,6 +12,7 @@ import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
+import freed.utils.XmlUtil;
 
 public class MediaProfilesManager {
 
@@ -90,14 +91,14 @@ public class MediaProfilesManager {
         File configFile = new File( appdata.getAbsolutePath()+"/media_profiles.xml");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
-            writeLine(writer,"<apis>");
+            XmlUtil.writeLine(writer,"<apis>");
             for(String api: allMediaProfiles.keySet())
             {
-                writeNodeWithName(writer,"api",api);
+                XmlUtil.writeNodeWithName(writer,"api",api);
                 writeApiNode(writer,api, allMediaProfiles.get(api));
-                writeTagEnd(writer,"api");
+                XmlUtil.writeTagEnd(writer,"api");
             }
-            writeLine(writer,"</apis>");
+            XmlUtil.writeLine(writer,"</apis>");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,9 +107,9 @@ public class MediaProfilesManager {
 
     private void writeApiNode(BufferedWriter writer, String api, HashMap<Integer, HashMap<String, VideoMediaProfile>> integerHashMapHashMap) throws IOException {
         for (int s : integerHashMapHashMap.keySet()) {
-            writeNodeWithName(writer, "id", String.valueOf(s));
+            XmlUtil.writeNodeWithName(writer, "id", String.valueOf(s));
             writeMediaProfiles(writer, integerHashMapHashMap.get(s));
-            writeTagEnd(writer,"id");
+            XmlUtil.writeTagEnd(writer,"id");
         }
 
     }
@@ -120,16 +121,6 @@ public class MediaProfilesManager {
         }
     }
 
-    private void writeNodeWithName(BufferedWriter writer,String tag, String name) throws IOException {
-        writeLine(writer,"<"+tag+ " name = \""+ name +"\">");
-    }
 
-    private void writeTagEnd(BufferedWriter writer,String tag) throws IOException {
-        writeLine(writer,"</"+tag+">");
-    }
-
-    private void writeLine(BufferedWriter writer, String s) throws IOException {
-        writer.write(s + "\r\n");
-    }
 
 }

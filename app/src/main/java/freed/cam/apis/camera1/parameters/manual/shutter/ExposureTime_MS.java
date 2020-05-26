@@ -39,11 +39,11 @@ public class ExposureTime_MS extends AbstractParameter {
             }
             shutterstring = Double.parseDouble(shutterstring) * 1000 +"";
             Log.d(TAG, "set exposure time to " + shutterstring);
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getKEY(), shutterstring);
+            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
         }
         else
         {
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getKEY(), "0");
+            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), "0");
             Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

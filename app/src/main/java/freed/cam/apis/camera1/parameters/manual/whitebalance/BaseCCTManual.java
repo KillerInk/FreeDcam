@@ -53,7 +53,7 @@ public class BaseCCTManual extends BaseManualParameter
         setViewState(ViewState.Hidden);
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.M_Whitebalance).getKEY()))
+        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY()))
             new Handler().postDelayed(() -> {
                 try {
                     //get fresh parameters from camera
@@ -83,7 +83,7 @@ public class BaseCCTManual extends BaseManualParameter
                 }
             }, 800);
         else
-            key_value = SettingsManager.get(SettingKeys.M_Whitebalance).getKEY();
+            key_value = SettingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY();
     }
     
     @Override

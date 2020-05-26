@@ -60,7 +60,7 @@ public class FileListController {
     }
 
 
-    public static boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    public static boolean needStorageAccessFrameWork = true; //Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
 
     private List<BaseHolder> files =new ArrayList<>();
     private StorageFileManager storageFileManager;

@@ -5,4 +5,5 @@ package freed.settings.mode;
  */
 
 public interface SettingInterface {
+    String getXmlString();
 }

@@ -32,7 +32,7 @@ public class ManualAperture extends AbstractParameter
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-big-aperture-mode", "on");
-            parameters.set(SettingsManager.get(SettingKeys.M_Aperture).getKEY(), stringvalues[currentInt]);
+            parameters.set(SettingsManager.get(SettingKeys.M_Aperture).getCamera1ParameterKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
     }

@@ -74,7 +74,7 @@ public abstract class AbstractParameterHandler
         add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
         add(SettingKeys.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
         if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
-            add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper, SettingsManager.get(SettingKeys.EnableRenderScript)));
+            add(SettingKeys.EnableRenderScript, new EnableRenderScriptMode(cameraUiWrapper));
             add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getFocusPeakProcessor(), SettingKeys.FOCUSPEAK_COLOR));
             add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
             add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
@@ -148,7 +148,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.Denoise,false);
         setAppSettingsToCamera(SettingKeys.DigitalImageStabilization,false);
         setAppSettingsToCamera(SettingKeys.MemoryColorEnhancement,false);
-        setMode(get(SettingKeys.NightMode), SettingsManager.NIGHTMODE);
+        setAppSettingsToCamera(SettingKeys.NightMode,false);
         setAppSettingsToCamera(SettingKeys.NonZslManualMode,false);
 
         setAppSettingsToCamera(SettingKeys.VideoProfiles,false);
@@ -198,26 +198,6 @@ public abstract class AbstractParameterHandler
 
     public void SetParameters()
     {}
-
-    private void setMode(ParameterInterface parameter, String settings_key)
-    {
-        if (parameter != null && settings_key != null && !TextUtils.isEmpty(settings_key))
-        {
-            Log.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
-            if (TextUtils.isEmpty(SettingsManager.getInstance().getApiString(settings_key)) || SettingsManager.getInstance().getApiString(settings_key) == null)
-            {
-                String tmp = parameter.GetStringValue();
-                Log.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
-                SettingsManager.getInstance().setApiString(settings_key, tmp);
-            }
-            else
-            {
-                String tmp = SettingsManager.getInstance().getApiString(settings_key);
-                Log.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
-                parameter.SetValue(tmp, false);
-            }
-        }
-    }
 
     private void setAppSettingsToCamera(SettingKeys.Key parametertolook, boolean setToCamera)
     {

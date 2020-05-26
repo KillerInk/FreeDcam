@@ -1,36 +1,48 @@
 package freed.settings.mode;
 
-import freed.settings.SettingsManagerInterface;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
+import freed.utils.XmlUtil;
 
 /**
  * Created by KillerInk on 04.01.2018.
  */
 
 public class ApiBooleanSettingMode extends GlobalBooleanSettingMode implements BooleanSettingModeInterface {
-    private final String presetKey;
+    private boolean preseted;
+    private boolean value;
 
-    public ApiBooleanSettingMode(SettingsManagerInterface settingsManagerInterface, String key) {
-        super(settingsManagerInterface, key);
-        this.presetKey = key + "preset";
+    public ApiBooleanSettingMode(SettingKeys.Key key) {
+        super(key);
     }
 
+    @Override
     public boolean get()
     {
-        return settingsManagerInterface.getApiBoolean(KEY_value,false);
+        return value;
     }
-
+    @Override
     public void set(boolean enable)
     {
-        settingsManagerInterface.setApiBoolean(KEY_value,enable);
+        this.value = enable;
     }
 
     public boolean isPresetted()
     {
-        return settingsManagerInterface.getApiBoolean(presetKey,false);
+        return preseted;
     }
 
     public void setIsPresetted(boolean preset)
     {
-        settingsManagerInterface.setApiBoolean(presetKey, preset);
+        this.preseted = preset;
+    }
+
+    @Override
+    public String getXmlString() {
+        String t = "<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ ApiBooleanSettingMode.class.getSimpleName() +"\">";
+        t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
+        t+= XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted));
+        t += "</setting>\r\n";
+        return t;
     }
 }
