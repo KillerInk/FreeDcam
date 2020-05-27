@@ -11,6 +11,7 @@ import freed.utils.XmlUtil;
 public class ApiBooleanSettingMode extends GlobalBooleanSettingMode implements BooleanSettingModeInterface {
     private boolean preseted;
     private boolean value;
+    private boolean issupported;
 
     public ApiBooleanSettingMode(SettingKeys.Key key) {
         super(key);
@@ -37,11 +38,22 @@ public class ApiBooleanSettingMode extends GlobalBooleanSettingMode implements B
         this.preseted = preset;
     }
 
+    public boolean isSupported()
+    {
+        return issupported;
+    }
+
+    public void setIsSupported(boolean preset)
+    {
+        this.issupported = preset;
+    }
+
     @Override
     public String getXmlString() {
         String t = "<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ ApiBooleanSettingMode.class.getSimpleName() +"\">";
         t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
         t+= XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted));
+        t+= XmlUtil.getTagStringWithValue("supported", String.valueOf(issupported));
         t += "</setting>\r\n";
         return t;
     }

@@ -6,11 +6,13 @@ import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
 import android.util.Range;
 import android.util.Size;
 
+import com.QTI.SOC;
 import com.huawei.camera2ex.CameraCharacteristicsEx;
 import com.qcom.CameraCharacteristicsQcom;
 import com.qcom.CaptureRequestQcom;
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import Camera2EXT.Keys;
 import freed.FreedApplication;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.Frameworks;
@@ -160,6 +163,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.context.getResources().getStringArray(R.array.guidelist));
                 SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
+
+                if (!SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
+                    SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);
+                if (!SettingsManager.get(SettingKeys.MFNR).isPresetted())
+                    SettingsManager.get(SettingKeys.MFNR).setIsSupported(false);
 
 
                 if (hasCamera2Features) {

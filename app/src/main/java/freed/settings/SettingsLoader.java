@@ -120,6 +120,8 @@ public class SettingsLoader {
         {
             ApiBooleanSettingMode apiBooleanSettingMode = new ApiBooleanSettingMode(foundKey);
             apiBooleanSettingMode.set(profile.findChild("value").getBooleanValue());
+            apiBooleanSettingMode.setIsPresetted(profile.findChild("preseted").getBooleanValue());
+            apiBooleanSettingMode.setIsSupported(profile.findChild("supported").getBooleanValue());
             hashMap.put(foundKey,apiBooleanSettingMode);
         }
         else if (type.equals(GlobalBooleanSettingMode.class.getSimpleName()))

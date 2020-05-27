@@ -44,7 +44,7 @@ public class SettingKeys{
     public final static Key<SettingMode> PictureFormat = new Key(SettingMode.class, R.string.aps_pictureformat);
 
     public final static Key<SettingMode> JpegQuality = new Key(SettingMode.class, R.string.aps_jpegquality);
-    public final static Key<SettingMode> MFNR = new Key(SettingMode.class, R.string.aps_mfnr);
+    public final static Key<ApiBooleanSettingMode> MFNR = new Key(ApiBooleanSettingMode.class, R.string.aps_mfnr);
     public final static Key<SettingMode> GuideList = new Key(SettingMode.class, R.string.aps_guide);
     public final static Key<SettingMode> ImagePostProcessing = new Key(SettingMode.class, R.string.aps_ippmode);
     public final static Key<SettingMode> PreviewSize = new Key(SettingMode.class, R.string.aps_previewsize);

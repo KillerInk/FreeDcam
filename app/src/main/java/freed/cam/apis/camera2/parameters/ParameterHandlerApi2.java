@@ -126,7 +126,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.VideoStabilization, new BaseModeApi2(cameraUiWrapper,SettingKeys.VideoStabilization, CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE));
 
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
-        add(SettingKeys.MFNR, new MFNR(cameraUiWrapper));
+        if (SettingsManager.get(SettingKeys.MFNR).isSupported())
+            add(SettingKeys.MFNR, new MFNR(cameraUiWrapper));
 
         if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
             try {
