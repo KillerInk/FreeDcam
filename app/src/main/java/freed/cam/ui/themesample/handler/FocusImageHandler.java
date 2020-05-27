@@ -125,6 +125,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         waitForFocusEnd = true;
         if (!(wrapper instanceof SonyCameraRemoteFragment))
         {
+            Log.d(TAG,"FocusStarted");
             disWidth = wrapper.getPreviewWidth();
             disHeight = wrapper.getPreviewHeight();
 
@@ -160,8 +161,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
                     Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + SettingsManager.get(SettingKeys.TouchToCapture).get());
-                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video))) {
+                        Log.d(TAG,"start capture");
                         wrapper.getModuleHandler().startWork();
+                    }
 
 
                     focusImageView.setAnimation(null);

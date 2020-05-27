@@ -1,6 +1,5 @@
 package freed.cam.apis.camera2;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Matrix;
@@ -17,13 +16,10 @@ import android.hardware.camera2.params.InputConfiguration;
 import android.hardware.camera2.params.OutputConfiguration;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Range;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import Camera2EXT.OpModes;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.huawei.camera2ex.CaptureRequestEx;
@@ -882,12 +878,12 @@ public class CaptureSessionHandler
         }
         else {
             //SetParameter(key, value);
-            cameraBackroundValuesChangedListner.setFocusIsIdel(false);
+            cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
             mPreviewRequestBuilder.set(key,value);
-            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
-            if (value != null)
-                SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
+            //SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
+
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
         }
         });
     }

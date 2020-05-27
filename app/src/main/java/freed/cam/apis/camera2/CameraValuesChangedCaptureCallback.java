@@ -7,11 +7,8 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
 import android.util.Pair;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.huawei.camera2ex.CaptureRequestEx;
-import com.huawei.camera2ex.CaptureResultEx;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -67,16 +64,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private boolean waitForFirstFrame = false;
     private WaitForFirstFrameCallback waitForFirstFrameCallback;
 
-    private boolean focusIsIdel = true;
+    private boolean waitForFocusLock = false;
 
     public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
     }
 
-    public void setFocusIsIdel(boolean idel)
+    public void setWaitForFocusLock(boolean idel)
     {
-        focusIsIdel = idel;
+        waitForFocusLock = idel;
     }
 
     public void setWaitForFirstFrame()
@@ -234,13 +231,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     state = "FOCUSED_LOCKED";
                     afLocked = true;
 
-                    if (camera2Fragment.getFocusHandler().focusEvent != null)
-                        camera2Fragment.getFocusHandler().focusEvent.FocusFinished(true);
+                    processFocus(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
                     state = "NOT_FOCUSED_LOCKED";
-                    if (camera2Fragment.getFocusHandler().focusEvent != null)
-                        camera2Fragment.getFocusHandler().focusEvent.FocusFinished(false);
+                   processFocus(false);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
                     state ="PASSIVE_UNFOCUSED";
@@ -256,6 +251,13 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 }
 
             }
+        }
+    }
+
+    private void processFocus(boolean focus_is_locked) {
+        if (camera2Fragment.getFocusHandler().focusEvent != null && waitForFocusLock) {
+            camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked);
+            waitForFocusLock = false;
         }
     }
 
