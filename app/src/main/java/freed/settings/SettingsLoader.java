@@ -119,53 +119,25 @@ public class SettingsLoader {
         if (type.equals(ApiBooleanSettingMode.class.getSimpleName()))
         {
             ApiBooleanSettingMode apiBooleanSettingMode = new ApiBooleanSettingMode(foundKey);
-            apiBooleanSettingMode.set(profile.findChild("value").getBooleanValue());
-            apiBooleanSettingMode.setIsPresetted(profile.findChild("preseted").getBooleanValue());
-            apiBooleanSettingMode.setIsSupported(profile.findChild("supported").getBooleanValue());
+            apiBooleanSettingMode.loadXmlNode(profile);
             hashMap.put(foundKey,apiBooleanSettingMode);
         }
         else if (type.equals(GlobalBooleanSettingMode.class.getSimpleName()))
         {
             GlobalBooleanSettingMode apiBooleanSettingMode = new GlobalBooleanSettingMode(foundKey);
-            apiBooleanSettingMode.set(profile.findChild("value").getBooleanValue());
+            apiBooleanSettingMode.loadXmlNode(profile);
             hashMap.put(foundKey,apiBooleanSettingMode);
         }
         else if (type.equals(TypedSettingMode.class.getSimpleName()))
         {
             TypedSettingMode apiBooleanSettingMode = new TypedSettingMode(foundKey);
-            apiBooleanSettingMode.set(profile.findChild("value").getValue());
-            if (apiBooleanSettingMode.get().equals("null"))
-                apiBooleanSettingMode.set(null);
-            XmlElement values = profile.findChild("values");
-            List<XmlElement> strinarr = values.findChildren("val");
-            String[] tosetar = new String[strinarr.size()];
-            for (int i = 0; i < strinarr.size(); i++)
-            {
-                tosetar[i] = strinarr.get(i).getValue();
-            }
-            apiBooleanSettingMode.setValues(tosetar);
-            apiBooleanSettingMode.setIsPresetted(profile.findChild("preseted").getBooleanValue());
-            apiBooleanSettingMode.setIsSupported(profile.findChild("supported").getBooleanValue());
-            apiBooleanSettingMode.setType(profile.findChild("type").getIntValue(0));
-            apiBooleanSettingMode.setMode(profile.findChild("mode").getValue());
+            apiBooleanSettingMode.loadXmlNode(profile);
             hashMap.put(foundKey,apiBooleanSettingMode);
         }
         else if (type.equals(SettingMode.class.getSimpleName()))
         {
             SettingMode apiBooleanSettingMode = new SettingMode(foundKey);
-            apiBooleanSettingMode.set(profile.findChild("value").getValue());
-            if (apiBooleanSettingMode.get().equals("null"))
-                apiBooleanSettingMode.set(null);
-            XmlElement values = profile.findChild("values");
-            List<XmlElement> strinarr = values.findChildren("val");
-            String[] tosetar = new String[strinarr.size()];
-            for (int i = 0; i < strinarr.size(); i++)
-            {
-                tosetar[i] = strinarr.get(i).getValue();
-            }
-            apiBooleanSettingMode.setValues(tosetar);
-            apiBooleanSettingMode.setIsPresetted(profile.findChild("preseted").getBooleanValue());
-            apiBooleanSettingMode.setIsSupported(profile.findChild("supported").getBooleanValue());
+            apiBooleanSettingMode.loadXmlNode(profile);
             hashMap.put(foundKey,apiBooleanSettingMode);
         }
     }
@@ -178,6 +150,4 @@ public class SettingsLoader {
                 return k;
         return null;
     }
-
-
 }

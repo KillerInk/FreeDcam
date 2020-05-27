@@ -66,17 +66,27 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
     public void setValue(String valueToSet,  boolean setToCam)
     {
         super.setValue(valueToSet,setToCam);
-        if (valueToSet == null)
+        if (valueToSet == null || parameters == null)
             return;
-        parameters.set(key_value, valueToSet);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
-        Log.d(TAG, "set " + key_value + " to " + valueToSet);
-        if (setToCam) {
+        try {
+            parameters.set(key_value, valueToSet);
+            SettingMode mode = ((SettingMode)SettingsManager.get(key));
+            if (mode == null)
+                return;
+            mode.set(valueToSet);
+            Log.d(TAG, "set " + key_value + " to " + valueToSet);
+            if (setToCam) {
 
-            Log.d(TAG,"SetValue:" + key_value);
-            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+                Log.d(TAG,"SetValue:" + key_value);
+                ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
+            }
+            fireStringValueChanged(valueToSet);
         }
-        fireStringValueChanged(valueToSet);
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
     }
 
     @Override

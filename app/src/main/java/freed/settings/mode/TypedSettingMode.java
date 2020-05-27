@@ -1,5 +1,8 @@
 package freed.settings.mode;
 
+import java.util.List;
+
+import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -44,6 +47,7 @@ public class TypedSettingMode extends SettingMode {
     public String getXmlString() {
         StringBuilder sub = new StringBuilder();
         sub.append("<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ TypedSettingMode.class.getSimpleName() +"\">\r\n");
+        sub.append(XmlUtil.getTagStringWithValue("cam1key", camera1ParameterKEY_value));
         sub.append(XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted))).append(XmlUtil.LINE_END);
         sub.append(XmlUtil.getTagStringWithValue("supported", String.valueOf(isSupported()))).append(XmlUtil.LINE_END);
         sub.append(XmlUtil.getTagStringWithValue("value", String.valueOf(get()))).append(XmlUtil.LINE_END);
@@ -58,7 +62,27 @@ public class TypedSettingMode extends SettingMode {
         else
             Log.d(TAG, "values are null: " + getCamera1ParameterKEY());
         sub.append("</setting>\r\n");
-        Log.d(TAG, sub.toString());
+        //Log.d(TAG, sub.toString());
         return sub.toString();
+    }
+
+    @Override
+    public void loadXmlNode(XmlElement node) {
+        set(node.findChild("value").getValue());
+        if (get().equals("null"))
+            set(null);
+        XmlElement values = node.findChild("values");
+        List<XmlElement> strinarr = values.findChildren("val");
+        String[] tosetar = new String[strinarr.size()];
+        for (int i = 0; i < strinarr.size(); i++)
+        {
+            tosetar[i] = strinarr.get(i).getValue();
+        }
+        setValues(tosetar);
+        setIsPresetted(node.findChild("preseted").getBooleanValue());
+        setIsSupported(node.findChild("supported").getBooleanValue());
+        setType(node.findChild("type").getIntValue(0));
+        setMode(node.findChild("mode").getValue());
+        setCamera1ParameterKEY(node.findChild("cam1key").getValue());
     }
 }

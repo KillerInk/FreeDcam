@@ -1,5 +1,6 @@
 package freed.settings.mode;
 
+import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.XmlUtil;
@@ -33,5 +34,10 @@ public class GlobalBooleanSettingMode extends AbstractSettingMode implements Boo
         t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
         t += "</setting>\r\n";
         return t;
+    }
+
+    @Override
+    public void loadXmlNode(XmlElement node) {
+        set(node.findChild("value").getBooleanValue());
     }
 }
