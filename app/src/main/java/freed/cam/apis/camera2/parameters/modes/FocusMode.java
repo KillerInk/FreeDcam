@@ -35,7 +35,7 @@ public class FocusMode extends BaseModeApi2 {
                     //captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, null);
                     if (captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER) != CaptureRequest.CONTROL_AF_TRIGGER_IDLE) {
                         captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-                        captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE, true);
+                        captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                     }
                 }
                 break;
