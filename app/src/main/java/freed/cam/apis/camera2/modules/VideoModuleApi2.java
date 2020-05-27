@@ -270,8 +270,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
             } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
                 CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
-            } else if (currentVideoProfile.ProfileName.contains("hs")) {
-                CaptureSessionHandler.setOPMODE(1);
             } else {
                 CaptureSessionHandler.setOPMODE(0);
             }
@@ -364,8 +362,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                     CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
                 } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
                     CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
-                } else if (currentVideoProfile.ProfileName.contains("hs")) {
-                    CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
                 } else {
                     CaptureSessionHandler.setOPMODE(0);
                 }
@@ -444,7 +440,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         for (int i = 0; i < sizes.length; i++)
         {
             if (sizes[i].getWidth() == currentVideoProfile.videoFrameWidth && sizes[i].getHeight() == currentVideoProfile.videoFrameHeight)
-                return index;
+                index = i;
         }
         return index;
     }
