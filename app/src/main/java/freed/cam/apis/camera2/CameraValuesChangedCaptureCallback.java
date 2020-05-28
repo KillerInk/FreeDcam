@@ -227,7 +227,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_FOCUSED:
                     state = "PASSIVE_FOCUSED";
-
+                        processFocus(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_ACTIVE_SCAN:
                     state="ACTIVE_SCAN";

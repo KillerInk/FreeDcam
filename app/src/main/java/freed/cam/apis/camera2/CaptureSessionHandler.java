@@ -878,13 +878,13 @@ public class CaptureSessionHandler
         }
         else {
             //SetParameter(key, value);
-
+            cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
             mPreviewRequestBuilder.set(key,value);
             //SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
 
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-            //SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
-            cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+
         }
         });
     }
