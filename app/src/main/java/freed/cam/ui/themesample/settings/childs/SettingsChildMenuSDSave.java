@@ -31,6 +31,7 @@ import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
 
+import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
@@ -75,7 +76,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
             if (value.equals(SDModeParameter.external))
             {
                 lastval = value;
-                fragment_activityInterface.ChooseSDCard(this);
+                ((ActivityInterface)getContext()).ChooseSDCard(this::onActivityResultCallback);
             } else {
                 SettingsManager.getInstance().SetWriteExternal(false);
                 onStringValueChanged(value);

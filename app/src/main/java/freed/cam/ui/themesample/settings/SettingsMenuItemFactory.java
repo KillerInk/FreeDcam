@@ -186,7 +186,6 @@ public class SettingsMenuItemFactory
 
 
         SettingsChildApi api = new SettingsChildApi(context,R.string.setting_api_header, R.string.setting_api_description);
-        api.SetStuff(activityInterface, "");
         api.SetParameter(new ApiParameter());
         api.SetUiItemClickListner(click);
         globalSettingGroup.addView(api);
@@ -200,19 +199,16 @@ public class SettingsMenuItemFactory
             globalSettingGroup.addView(externalShutter);
 
             SettingsChildMenuOrientationHack orientationHack = new SettingsChildMenuOrientationHack(context,R.string.setting_orientation_header, R.string.setting_orientation_description);
-            orientationHack.SetStuff(cameraUiWrapper.getActivityInterface(), "");
             orientationHack.SetCameraUIWrapper(cameraUiWrapper);
             orientationHack.SetUiItemClickListner(click);
             globalSettingGroup.addView(orientationHack);
 
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
-            sdSave.SetStuff(cameraUiWrapper.getActivityInterface(), SettingsManager.SETTING_EXTERNALSD);
             sdSave.SetCameraUiWrapper(cameraUiWrapper);
             sdSave.SetUiItemClickListner(click);
             globalSettingGroup.addView(sdSave);
 
             SettingsChildMenuGPS menuItemGPS = new SettingsChildMenuGPS(context,R.string.setting_location_header, R.string.setting_location_description );
-            menuItemGPS.SetStuff(cameraUiWrapper.getActivityInterface(), SettingsManager.SETTING_LOCATION);
             menuItemGPS.SetCameraUIWrapper(cameraUiWrapper);
             menuItemGPS.SetUiItemClickListner(click);
             globalSettingGroup.addView(menuItemGPS);

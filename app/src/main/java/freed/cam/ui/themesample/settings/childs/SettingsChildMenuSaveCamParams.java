@@ -86,11 +86,6 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue ) {
-
-    }
-
-    @Override
     public void SetUiItemClickListner(SettingsChildClick menuItemClick) {
 
     }

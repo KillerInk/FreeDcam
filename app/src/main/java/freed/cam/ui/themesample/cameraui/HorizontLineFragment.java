@@ -40,6 +40,7 @@ import com.troop.freedcam.R.string;
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
@@ -127,7 +128,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     @Override
     public void onStringValueChanged(String value) {
-        if(SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.on)))
+        if(SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on)))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -149,7 +150,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     private void startSensorListing()
     {
-        if (SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.on))) {
+        if (SettingsManager.get(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on))) {
             sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
@@ -172,7 +173,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         super.onResume();
         EventBusHelper.register(this);
         try {
-            if (SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(SettingsManager.getInstance().getResString(string.off))
+            if (SettingsManager.get(SettingKeys.HorizontLvl).get() != null && SettingsManager.get(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
                     || TextUtils.isEmpty(SettingsManager.get(SettingKeys.HorizontLvl).get()))
                 view.setVisibility(View.GONE);
             else

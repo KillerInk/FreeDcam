@@ -312,7 +312,7 @@ public class XmlParserWriter
         else if (!element.findChild("values").isEmpty())
         {
             String name = element.findChild("values").getValue();
-            SettingsManager.get(SettingKeys.M_ManualIso).setValues(FreedApplication.context.getResources().getStringArray(FreedApplication.context.getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            SettingsManager.get(SettingKeys.M_ManualIso).setValues(FreedApplication.getContext().getResources().getStringArray(FreedApplication.getContext().getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
             SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
             int type = element.findChild("type").getIntValue(0);
             SettingsManager.get(SettingKeys.M_ManualIso).setType(type);
@@ -495,7 +495,7 @@ public class XmlParserWriter
         hashMap.put("off", null);
 
         try {
-            String xmlsource = StringUtils.getString(FreedApplication.context.getResources().openRawResource(R.raw.tonemapprofiles));
+            String xmlsource = StringUtils.getString(FreedApplication.getContext().getResources().openRawResource(R.raw.tonemapprofiles));
             XmlElement xmlElement = XmlElement.parse(xmlsource);
             getTonemapProfiles(hashMap, xmlElement);
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package freed.settings.mode;
 
+import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -30,7 +31,7 @@ public class GlobalBooleanSettingMode extends AbstractSettingMode implements Boo
 
     @Override
     public String getXmlString() {
-        String t = "<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ GlobalBooleanSettingMode.class.getSimpleName() +"\">";
+        String t = "<setting name = \""+ FreedApplication.getStringFromRessources(settingKey.getRessourcesStringID()) +"\" type = \""+ GlobalBooleanSettingMode.class.getSimpleName() +"\">";
         t+= XmlUtil.getTagStringWithValue("value", String.valueOf(value));
         t += "</setting>\r\n";
         return t;

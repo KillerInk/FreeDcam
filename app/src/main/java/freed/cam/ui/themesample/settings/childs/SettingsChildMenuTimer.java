@@ -46,12 +46,6 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     }
 
     @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
-        super.SetStuff(fragment_activityInterface, settingvalue);
-        //onParameterValueChanged(AppSettingsManager.getInstance().getApiString(AppSettingsManager.SETTING_TIMER));
-    }
-
-    @Override
     public String[] GetValues() {
         //return new String[] {StringUtils.ON, StringUtils.OFF};
         return new String[]{"0 sec","5 sec","10 sec","15 sec","20 sec"};

@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -56,7 +57,7 @@ public class Horizont extends AbstractParameter {
     public String GetStringValue()
     {
         if (value == null || TextUtils.isEmpty(value))
-            return SettingsManager.getInstance().getResString(R.string.off);
+            return FreedApplication.getStringFromRessources(R.string.off);
         else
             return value;
     }
@@ -64,7 +65,7 @@ public class Horizont extends AbstractParameter {
     @Override
     public String[] getStringValues()
     {
-        return new String[]{SettingsManager.getInstance().getResString(R.string.off), SettingsManager.getInstance().getResString(R.string.on)};
+        return new String[]{FreedApplication.getStringFromRessources(R.string.off), FreedApplication.getStringFromRessources(R.string.on)};
     }
 
 }

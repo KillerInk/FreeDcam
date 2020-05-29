@@ -3,6 +3,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -19,14 +20,14 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             SettingsManager.get(SettingKeys.EnableRenderScript).set(true);
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
             SettingsManager.get(SettingKeys.EnableRenderScript).set(false);
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
         cameraUiWrapper.restartCameraAsync();
 
@@ -41,10 +42,10 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     public void set(boolean bool) {
         if (bool)
         {
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         SettingsManager.get(SettingKeys.EnableRenderScript).set(bool);
         cameraUiWrapper.restartCameraAsync();
     }

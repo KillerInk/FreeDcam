@@ -5,5 +5,4 @@ package freed.settings;
  */
 
 public interface SettingsManagerInterface {
-    String getResString(int id);
 }

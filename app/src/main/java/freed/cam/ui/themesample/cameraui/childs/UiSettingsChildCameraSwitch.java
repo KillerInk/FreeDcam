@@ -44,14 +44,6 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     }
 
     @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue) {
-        super.SetStuff(fragment_activityInterface, settingvalue);
-
-        currentCamera = SettingsManager.getInstance().GetCurrentCamera();
-        valueText.setText(getCamera(currentCamera));
-    }
-
-    @Override
     public void onClick(View v) {
         if (onItemClick != null)
             onItemClick.onSettingsChildClick(this, fromleft);
@@ -67,6 +59,8 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         else {
             setVisibility(View.VISIBLE);
         }
+        currentCamera = SettingsManager.getInstance().GetCurrentCamera();
+        valueText.setText(getCamera(currentCamera));
     }
 
     @Override

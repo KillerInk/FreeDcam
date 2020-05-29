@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.modules.WorkFinishEvents;
 import freed.dng.CustomMatrix;
@@ -460,7 +461,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
         buffer.clear();
 
-        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.off_)))
+        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.ValueChangedEvent;
@@ -39,7 +40,7 @@ public class AutoHdrMode extends BaseModeParameter {
         if (autohdr != null && !TextUtils.isEmpty(autohdr) && autohdr.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_))
                 && parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr_enable)) != null) {
 
-            List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(SettingsManager.getInstance().getResString(R.string.scene_mode_values)).split(",")));
+            List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get(FreedApplication.getStringFromRessources(R.string.scene_mode_values)).split(",")));
             if (Scenes.contains(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_hdr))) {
                 setViewState(ViewState.Visible);
             }
@@ -57,18 +58,18 @@ public class AutoHdrMode extends BaseModeParameter {
     public void setValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
         {
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto));
             parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr_enable), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.disable_));
 
         }
         else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)))
         {
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto));
             parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr_enable), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.disable_));
         }
         else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
         {
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_asd));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_asd));
             parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr_enable), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.enable_));
         }
         Log.d(TAG, "set auto hdr");

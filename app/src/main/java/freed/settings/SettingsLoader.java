@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
@@ -146,7 +147,7 @@ public class SettingsLoader {
     {
         SettingKeys.Key[] key = SettingKeys.getKeyList();
         for (SettingKeys.Key k : key)
-            if (SettingsManager.getInstance().getResString(k.getRessourcesStringID()).equals(val))
+            if (FreedApplication.getStringFromRessources(k.getRessourcesStringID()).equals(val))
                 return k;
         return null;
     }

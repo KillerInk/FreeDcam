@@ -24,6 +24,7 @@ import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
@@ -52,14 +53,14 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 
     }
@@ -67,14 +68,14 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public String GetStringValue() {
         if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
-            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_);
+            return FreedApplication.getStringFromRessources(R.string.on_);
         else
-            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
+            return FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] {cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)};
+        return new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
     }
 
 
@@ -84,7 +85,7 @@ public class FocusPeakMode extends AbstractParameter {
     {
         if (valueob.key == SettingKeys.EnableRenderScript) {
             String value = valueob.newValue;
-            if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
+            if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
                 setViewState(ViewState.Hidden);
             else
                 setViewState(ViewState.Visible);

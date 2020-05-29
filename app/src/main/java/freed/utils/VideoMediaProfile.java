@@ -166,6 +166,7 @@ public class VideoMediaProfile
         ProfileName = xmlElement.getAttribute("name", "");
         audioChannels = xmlElement.findChild("audioChannels").getIntValue(0);
         audioCodec = xmlElement.findChild("audioCodec").getIntValue(0);
+        audioBitRate = xmlElement.findChild("audioBitRate").getIntValue(0);
         audioSampleRate = xmlElement.findChild("audioSampleRate").getIntValue(0);
         duration = xmlElement.findChild("duration").getIntValue(0);
         fileFormat = xmlElement.findChild("fileFormat").getIntValue(0);
@@ -185,6 +186,7 @@ public class VideoMediaProfile
         t += "<mediaprofile name= " +String.valueOf("\"") +String.valueOf(ProfileName) +String.valueOf("\"")  +">" + "\r\n";
         t += "<audioChannels>" + audioChannels + "</audioChannels>" + "\r\n";
         t += "<audioCodec>" + audioCodec + "</audioCodec>" + "\r\n";
+        t += "<audioBitRate>" + audioBitRate + "</audioBitRate>" + "\r\n";
         t += "<audioSampleRate>" + audioSampleRate + "</audioSampleRate>" + "\r\n";
         t += "<duration>" + duration + "</duration>" + "\r\n";
         t += "<fileFormat>" + fileFormat + "</fileFormat>" + "\r\n";
@@ -196,6 +198,7 @@ public class VideoMediaProfile
         t += "<videoFrameWidth>" + videoFrameWidth + "</videoFrameWidth>" + "\r\n";
         t += "<isAudioActive>" + isAudioActive + "</isAudioActive>" + "\r\n";
         t += "<Mode>" + Mode.toString() + "</Mode>" + "\r\n";
+        t += "<recordingsize>" + maxRecordingSize + "</recordingsize>" + "\r\n";
         t += "</mediaprofile>"  + "\r\n";
         return t;
     }

@@ -26,6 +26,7 @@ import android.os.Handler;
 import com.lge.media.MediaRecorderExRef;
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -99,10 +100,10 @@ public class VideoModuleG3 extends AbstractVideoModule
         {
             ParameterInterface mce = cameraUiWrapper.getParameterHandler().get(SettingKeys.MemoryColorEnhancement);
             if(mce != null && mce.getViewState() == AbstractParameter.ViewState.Visible)
-                mce.SetValue(SettingsManager.getInstance().getResString(R.string.disable_),false);
+                mce.SetValue(FreedApplication.getStringFromRessources(R.string.disable_),false);
             ParameterInterface dis = cameraUiWrapper.getParameterHandler().get(SettingKeys.DigitalImageStabilization);
             if (dis!= null && dis.getViewState() == AbstractParameter.ViewState.Visible)
-                dis.SetValue(SettingsManager.getInstance().getResString(R.string.disable_), false);
+                dis.SetValue(FreedApplication.getStringFromRessources(R.string.disable_), false);
             ParameterInterface denoise = cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise);
             if (denoise != null && denoise.getViewState() == AbstractParameter.ViewState.Visible)
                 denoise.SetValue("denoise-off", false);

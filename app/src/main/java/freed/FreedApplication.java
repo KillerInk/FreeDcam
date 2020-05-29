@@ -9,7 +9,17 @@ import org.greenrobot.eventbus.EventBus;
 
 public class FreedApplication extends Application {
 
-    public static Context context;
+    private static Context context;
+
+    public static Context getContext()
+    {
+        return context;
+    }
+
+    public static String getStringFromRessources(int id)
+    {
+        return context.getResources().getString(id);
+    }
 
     @Override
     public void onCreate() {

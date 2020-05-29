@@ -76,7 +76,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
 
-    private Button AuxSwitch;
     //button to switch between front and back cam
     private UiSettingsChildCameraSwitch cameraSwitch;
     //hold the button wich opened the horizontalValuesFragment
@@ -97,8 +96,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private boolean manualsettingsIsOpen;
     //Handel the animation/visibility for focus trigger, meteringarea, manualwbarea
     private FocusImageHandler focusImageHandler;
-    //the activity interface that holds this fragment
-    private ActivityInterface fragment_activityInterface;
     //show the time,sdspace, pic/video size
     private SampleInfoOverlayHandler infoOverlayHandler;
     //holds guide
@@ -140,23 +137,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         return child;
     }
 
-    private void setUiItem(LinearLayout layout, ParameterInterface parameter, String settingMode, int backgroundImg)
-    {
-        UiSettingsChild child = new UiSettingsChild(getContext());
-        child.SetParameter(parameter);
-        child.SetStuff(fragment_activityInterface,settingMode);
-        child.setBackgroundResource(backgroundImg);
-        child.SetMenuItemClickListner(this,true);
-        layout.addView(child);
-    }
-
     /**
      * add an exitbutton to the right top itemholder
      */
     private void addexit()
     {
         UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
-        exit.SetStuff(fragment_activityInterface, "");
         exit.onStringValueChanged("");
         exit.setBackgroundResource(R.drawable.quck_set_exit);
         right_ui_items_top.addView(exit);
@@ -222,13 +208,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             if (parameterHandler.get(SettingKeys.AE_PriorityMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.AE_PriorityMode), R.drawable.ae_priority);
             if (parameterHandler.get(SettingKeys.ContShootMode) != null)
-                setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.ContShootMode), "", R.drawable.quck_set_contin);
+                setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.ContShootMode), R.drawable.quck_set_contin);
             if (parameterHandler.get(SettingKeys.HDRMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.HDRMode), R.drawable.quck_set_hdr);
 
             if (cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode) != null) {
                 UiSettingsChild night = new UiSettingsChild(getContext());
-                night.SetStuff(fragment_activityInterface, SettingsManager.NIGHTMODE);
                 night.SetMenuItemClickListner(this, true);
                 night.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode));
                 night.setBackgroundResource(R.drawable.quck_set_night);
@@ -238,7 +223,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             if (cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat) != null) {
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.PictureFormat), R.drawable.quck_set_format2);
             }
-
 
             //right camera top camerui itmes
 
@@ -253,14 +237,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                     UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
                     focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.Focuspeak));
                     focusPeak.SetCameraUiWrapper(cameraUiWrapper);
-                    focusPeak.SetStuff(fragment_activityInterface, SettingsManager.SETTING_FOCUSPEAK);
                     focusPeak.SetUiItemClickListner(this);
                     focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
                     right_ui_items_top.addView(focusPeak);
                 }
-
-
-
 
                 cameraSwitch.setVisibility(View.VISIBLE);
                 cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
@@ -269,8 +249,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 shutterButton.setVisibility(View.VISIBLE);
                 shutterButton.SetCameraUIWrapper(cameraUiWrapper);
-
-                //cameraUiWrapper.getModuleHandler().setWorkListner(this);
 
                 if (manualModesFragment != null)
                     manualModesFragment.setCameraToUi(cameraUiWrapper);
@@ -299,12 +277,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 } else
                     joyPad.setVisibility(View.GONE);
 
-                cameraSwitch.SetStuff(fragment_activityInterface, SettingsManager.CURRENTCAMERA);
                 settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
-                aelock.SetStuff(fragment_activityInterface, "");
-                //register timer to to moduleevent handler that it get shown/hidden when its video or not
-                //and start/stop working when recording starts/stops
-                //cameraUiWrapper.getModuleHandler().addListner(settingsChildSelfTimer);
             }
         }
     }

@@ -140,7 +140,7 @@ public class WbHandler
 
         public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_Whitebalance);
-            lookupvalues = new StringIntArray(FreedApplication.context.getResources().getStringArray(R.array.wbct_lookup));
+            lookupvalues = new StringIntArray(FreedApplication.getContext().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
         }
 

@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.Frameworks;
@@ -70,13 +71,13 @@ public class PictureFormatHandler extends BaseModeParameter
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
-            if (!contains(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues(), SettingsManager.getInstance().getResString(R.string.dng_))
+            if (!contains(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues(), FreedApplication.getStringFromRessources(R.string.dng_))
                     && dngprofilessupported)
             SettingsManager.get(SettingKeys.PictureFormat).setValues(new String[]
                         {
-                                SettingsManager.getInstance().getResString(R.string.jpeg_),
-                                SettingsManager.getInstance().getResString(R.string.dng_),
-                                SettingsManager.getInstance().getResString(R.string.bayer_)
+                                FreedApplication.getStringFromRessources(R.string.jpeg_),
+                                FreedApplication.getStringFromRessources(R.string.dng_),
+                                FreedApplication.getStringFromRessources(R.string.bayer_)
                         });
         }
         Log.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ (getViewState() == ViewState.Visible));

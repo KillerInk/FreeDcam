@@ -6,6 +6,7 @@ import com.troop.freedcam.R;
 
 import java.util.HashMap;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.ToneMapProfile;
 import freed.settings.SettingKeys;
@@ -24,7 +25,7 @@ public class ToneMapChooser extends AbstractParameter {
         setViewState(ViewState.Visible);
         currentString = SettingsManager.get(SettingKeys.TONEMAP_SET).get();
         if (TextUtils.isEmpty(currentString))
-            currentString = SettingsManager.getInstance().getResString(R.string.off_);
+            currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     @Override

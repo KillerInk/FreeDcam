@@ -23,6 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
@@ -46,8 +47,8 @@ public class FocusManualHuawei extends BaseFocusManual
 
         if (valueToSet == 0)
         {
-            parameters.set(SettingsManager.getInstance().getResString(R.string.hw_hwcamera_flag),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
-            parameters.set(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_mode),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_hwcamera_flag),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_mode),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
         }
         else
         {

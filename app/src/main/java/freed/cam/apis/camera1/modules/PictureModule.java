@@ -28,6 +28,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.util.Date;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -94,13 +95,13 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             isWorking = true;
             String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
             Log.d(TAG,"startWork:picformat:" + picformat);
-            if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_)))
+            if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_)))
             {
                 if (SettingsManager.get(SettingKeys.ZSL).isSupported()
-                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
+                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 {
                     Log.d(TAG,"ZSL is on turning it off");
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(SettingsManager.getInstance().getResString(R.string.off_), true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
                     Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetValue());
                 }
 
@@ -115,7 +116,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             }
             else
                 burstcount = 1;
-            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.on_)))
+            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
@@ -308,7 +309,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(SettingsManager.getInstance().getResString(R.string.off_)))
+        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }

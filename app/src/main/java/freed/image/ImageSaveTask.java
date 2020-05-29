@@ -207,7 +207,7 @@ public class ImageSaveTask extends ImageTask
 
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
-        BaseHolder fileholder = activityInterface.getFileListController().getnewFileHolder(filename);
+        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename);
         if (fileholder instanceof FileHolder)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
         else if(fileholder instanceof UriHolder) {
@@ -232,7 +232,7 @@ public class ImageSaveTask extends ImageTask
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
-        BaseHolder fileholder = activityInterface.getFileListController().getnewFileHolder(filename);
+        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename);
         try {
             BufferedOutputStream outStream = new BufferedOutputStream(fileholder.getOutputStream());
             outStream.write(bytesTosave);

@@ -58,7 +58,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        if (value.equals(SettingsManager.getInstance().getResString(R.string.on_)))
+        if (value.equals(getContext().getResources().getString(R.string.on_)))
             SettingsManager.get(SettingKeys.orientationHack).set(true);
         else
             SettingsManager.get(SettingKeys.orientationHack).set(false);

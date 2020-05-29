@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.ValueChangedEvent;
@@ -38,11 +39,11 @@ public class MotoHDR extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam) {
 
         if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_hdr));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.scene_mode_hdr));
         else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)))
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
         else if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
-            parameters.set(SettingsManager.getInstance().getResString(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.scene_mode), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_hdr));
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);

@@ -2,6 +2,7 @@ package freed.settings.mode;
 
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -46,7 +47,7 @@ public class TypedSettingMode extends SettingMode {
     @Override
     public String getXmlString() {
         StringBuilder sub = new StringBuilder();
-        sub.append("<setting name = \""+ SettingsManager.getInstance().getResString(settingKey.getRessourcesStringID()) +"\" type = \""+ TypedSettingMode.class.getSimpleName() +"\">\r\n");
+        sub.append("<setting name = \""+ FreedApplication.getStringFromRessources(settingKey.getRessourcesStringID()) +"\" type = \""+ TypedSettingMode.class.getSimpleName() +"\">\r\n");
         sub.append(XmlUtil.getTagStringWithValue("cam1key", camera1ParameterKEY_value));
         sub.append(XmlUtil.getTagStringWithValue("preseted", String.valueOf(preseted))).append(XmlUtil.LINE_END);
         sub.append(XmlUtil.getTagStringWithValue("supported", String.valueOf(isSupported()))).append(XmlUtil.LINE_END);

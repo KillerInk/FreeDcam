@@ -27,6 +27,7 @@ import com.troop.freedcam.R;
 
 import java.util.Arrays;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
@@ -156,7 +157,7 @@ public class VideoModule extends AbstractVideoModule
 
             if (SettingsManager.get(SettingKeys.VideoHighFramerate).isSupported())
             {
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).SetValue(SettingsManager.getInstance().getResString(R.string.off_), true);
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
             }
         }
 

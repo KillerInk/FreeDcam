@@ -36,6 +36,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingKeys;
@@ -144,7 +145,7 @@ public abstract class AbstractInfoOverlayHandler
 
     private void getFormat()
     {
-        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
             ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
@@ -173,7 +174,7 @@ public abstract class AbstractInfoOverlayHandler
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());
@@ -218,7 +219,7 @@ public abstract class AbstractInfoOverlayHandler
     {
         String[] res = SettingsManager.get(SettingKeys.PictureSize).get().split("x");
 
-        if(SettingsManager.get(SettingKeys.PictureFormat).get().contains(SettingsManager.getInstance().getResString(R.string.bayer_)))
+        if(SettingsManager.get(SettingKeys.PictureFormat).get().contains(FreedApplication.getStringFromRessources(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

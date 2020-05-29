@@ -59,8 +59,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
     {
         if (parameter != null &&  cameraWrapperInterface.getModuleHandler().getCurrentModule() != null)
         {
-            if (key_appsettings != null && !TextUtils.isEmpty(key_appsettings))
-                SettingsManager.get(SettingKeys.VideoHDR).set(value);
+            SettingsManager.get(SettingKeys.VideoHDR).set(value);
             if (cameraWrapperInterface.getModuleHandler().getCurrentModule().ModuleName().equals(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.module_video)))
                 parameter.SetValue(value, true);
             onStringValueChanged(value);

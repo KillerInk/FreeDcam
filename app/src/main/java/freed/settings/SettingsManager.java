@@ -66,8 +66,6 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final int SHUTTER_G2PRO = 8;
     public static final int SHUTTER_ZTE = 9;
 
-    public static final String FRAMEWORK = "framework";
-
     public static final int NIGHTMODE_XIAOMI = 0;
     public static final int NIGHTMODE_ZTE = 1;
 
@@ -84,23 +82,14 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final int ISOMANUAL_Xiaomi =5;
 
     public static final String CURRENTCAMERA = "currentcamera";
-    public static final String CAMERA_IDS = "camera_ids";
     public static final String NIGHTMODE = "nightmode";
     public static final String TIMELAPSEFRAME = "timelapseframe";
-    public static final String SETTING_API = "sonyapi";
     public static final String SETTING_LOCATION = "location";
-    public static final String SETTING_TIMER = "timer";
     public static final String SETTING_FOCUSPEAK = "focuspeak";
     public static final String SETTING_EXTERNALSD = "extSD";
     public static final String API_SONY = "playmemories";
     public static final String API_1 = "camera1";
     public static final String API_2 = "camera2";
-    public static final String APPVERSION = "appversion";
-    public static final String HAS_CAMERA2_FEATURES = "camera2fullsupport";
-    public static final String SETTING_BASE_FOLDER = "base_folder";
-    public static final String SETTING_MEDIAPROFILES = "media_profiles";
-    public static final String SETTING_AFBRACKETMAX = "afbracketmax";
-    public static final String SETTING_AFBRACKETMIN = "afbracketmin";
 
     public List<OpCodeUrl> opcodeUrlList;
 
@@ -157,7 +146,7 @@ public class SettingsManager implements SettingsManagerInterface {
         if (isInit)
             return;
         isInit = true;
-        settingsStorage = new SettingsStorage(FreedApplication.context.getExternalFilesDir(null));
+        settingsStorage = new SettingsStorage(FreedApplication.getContext().getExternalFilesDir(null));
 
         Log.d(TAG, "load Settings");
         settingsStorage.load();
@@ -185,13 +174,13 @@ public class SettingsManager implements SettingsManagerInterface {
     private void parseXml() {
         XmlParserWriter parser = new XmlParserWriter();
         //first time init
-        matrixes = parser.getMatrixes(FreedApplication.context.getResources(),settingsStorage.appdataFolder);
+        matrixes = parser.getMatrixes(FreedApplication.getContext().getResources(),settingsStorage.appdataFolder);
 
         tonemapProfiles = parser.getToneMapProfiles(settingsStorage.appdataFolder);
         if (settingsStorage.getDevice() == null || TextUtils.isEmpty(settingsStorage.getDevice()))
         {
             Log.d(TAG, "Lookup ConfigFile");
-            parser.parseAndFindSupportedDevice(FreedApplication.context.getResources(),matrixes,settingsStorage.appdataFolder);
+            parser.parseAndFindSupportedDevice(FreedApplication.getContext().getResources(),matrixes,settingsStorage.appdataFolder);
         }
         else //load only stuff for dng
         {
@@ -225,11 +214,6 @@ public class SettingsManager implements SettingsManagerInterface {
     public boolean appVersionHasChanged()
     {
         return BuildConfig.VERSION_CODE != getAppVersion();
-    }
-
-    public String getResString(int id)
-    {
-        return FreedApplication.context.getResources().getString(id);
     }
 
     public LongSparseArray<DngProfile> getDngProfilesMap()
@@ -387,7 +371,7 @@ public class SettingsManager implements SettingsManagerInterface {
     public String GetCurrentModule()
     {
         if (TextUtils.isEmpty(get(SettingKeys.Module).get()))
-            return getResString(R.string.module_picture);
+            return FreedApplication.getStringFromRessources(R.string.module_picture);
         return get(SettingKeys.Module).get();
     }
 

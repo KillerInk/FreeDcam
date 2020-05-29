@@ -7,6 +7,7 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -42,10 +43,10 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
             parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.morpho_hht), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_));
             cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode).fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_aebracket), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket), true);
             parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.morpho_hdr), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_));
         } else {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_off), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_off), true);
             parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.morpho_hdr), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_));
         }
         if (setToCam)
@@ -72,7 +73,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
             setViewState(ViewState.Hidden);
             return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
         }
-        if (parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)) == null){
+        if (parameters.get(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr)) == null){
             Log.d(TAG, "Ae bracket is null");
             setViewState(ViewState.Hidden);
             return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
@@ -80,7 +81,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
 
 
         if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.morpho_hdr)).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_))
-                && parameters.get(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr)).equals(SettingsManager.getInstance().getResString(R.string.ae_bracket_hdr_values_aebracket)))
+                && parameters.get(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr)).equals(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket)))
             return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_);
         else
             return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);

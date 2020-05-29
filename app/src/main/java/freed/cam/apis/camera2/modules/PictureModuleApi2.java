@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
+
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
@@ -318,7 +320,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         picFormat = SettingsManager.get(SettingKeys.PictureFormat).get();
         if (TextUtils.isEmpty(picFormat)) {
-            picFormat = SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg);
+            picFormat = FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg);
             SettingsManager.get(SettingKeys.PictureFormat).set(picFormat);
             parameterHandler.get(SettingKeys.PictureFormat).fireStringValueChanged(picFormat);
 
@@ -335,31 +337,31 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
         jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
         Log.d(TAG, "ImageReader JPEG");
-        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpeg))) {
+        if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))) {
             captureType = CaptureType.Jpeg;
         }
 
-        if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16)) || picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_jpg_p_dng))) {
+        if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16)) || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
-            if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng16))) {
+            if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16))) {
                 captureType = CaptureType.Dng16;
             } else {
                 captureType = CaptureType.JpegDng16;
             }
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng10))) {
+        else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng10))) {
             Log.d(TAG, "ImageReader RAW10");
             captureType = CaptureType.Dng10;
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_dng12))) {
+        else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng12))) {
             Log.d(TAG, "ImageReader RAW12");
             captureType= CaptureType.Dng12;
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer))) {
+        else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer))) {
             Log.d(TAG, "ImageReader BAYER16");
             captureType = CaptureType.Bayer16;
         }
-        else if (picFormat.equals(SettingsManager.getInstance().getResString(R.string.pictureformat_bayer10)))
+        else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer10)))
         {
             Log.d(TAG, "ImageReader BAYER10");
             captureType = CaptureType.Bayer10;
@@ -463,7 +465,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         Log.d(TAG, "Capture Type: " + captureType);
         Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
 
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(SettingsManager.getInstance().getResString(R.string.on_)))
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             Location currentLocation = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             Log.d(TAG,"currentLocation null:" +(currentLocation == null));

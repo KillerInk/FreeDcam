@@ -36,6 +36,7 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -247,7 +248,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
-            if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket))
+            if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket))
                     && currentButton instanceof ManualButtonMF
                     && seekbar.getVisibility() == View.VISIBLE)
                 afBracketSettingsView.setVisibility(View.VISIBLE);
@@ -281,7 +282,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
 
-                if (currentButton instanceof ManualButtonMF && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket)))
+                if (currentButton instanceof ManualButtonMF && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket)))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);
@@ -399,9 +400,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onModuleChanged(String module)
     {
-        if (cameraUiWrapper == null || cameraUiWrapper.getActivityInterface() == null)
+        if (cameraUiWrapper == null || FreedApplication.getContext() == null)
             return;
-        if (module.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_afbracket)) && seekbar.getVisibility() == View.VISIBLE)
+        if (module.equals(FreedApplication.getStringFromRessources(R.string.module_afbracket)) && seekbar.getVisibility() == View.VISIBLE)
             afBracketSettingsView.setVisibility(View.VISIBLE);
         else
             afBracketSettingsView.setVisibility(View.GONE);
@@ -438,12 +439,12 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onTouchStart() {
-        cameraUiWrapper.getActivityInterface().DisablePagerTouch(true);
+        ((ActivityInterface)getActivity()).DisablePagerTouch(true);
     }
 
     @Override
     public void onTouchEnd() {
-        cameraUiWrapper.getActivityInterface().DisablePagerTouch(false);
+        ((ActivityInterface)getActivity()).DisablePagerTouch(false);
     }
 
     @Override

@@ -2,6 +2,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
@@ -19,14 +20,14 @@ public class HistogramParameter extends FocusPeakMode {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         state = valueToSet;
-        if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().setHistogramEnable(true);
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().setHistogramEnable(false);
-            fireStringValueChanged(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 
     }

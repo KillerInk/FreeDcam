@@ -27,6 +27,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.util.Date;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -67,7 +68,7 @@ public class BracketModule extends PictureModule {
             files = new BaseHolder[3];
             hdrCount = 0;
             String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
-            if (picformat.equals(SettingsManager.getInstance().getResString(R.string.dng_)) || picformat.equals(SettingsManager.getInstance().getResString(R.string.bayer_))) {
+            if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_))) {
                 ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
                 if (zsl != null && zsl.getViewState() == AbstractParameter.ViewState.Visible
                         && zsl.GetStringValue().equals("on")

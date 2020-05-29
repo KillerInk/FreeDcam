@@ -64,7 +64,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            fileholder = activityInterface.getFileListController().getnewFileHolder(file);
+            fileholder = activityInterface.getFileListController().getNewImgFileHolder(file);
             dngCreator.writeImage(fileholder.getOutputStream(), image);
             dngCreator.close();
             image.close();

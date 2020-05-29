@@ -24,6 +24,7 @@ import android.text.TextUtils;
 
 import java.util.HashMap;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
 import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
@@ -84,7 +85,7 @@ public abstract class AbstractParameterHandler
 
     public void add(SettingKeys.Key parameters, ParameterInterface parameterInterface)
     {
-        Log.d(TAG, "add "+SettingsManager.getInstance().getResString(parameters.getRessourcesStringID()));
+        Log.d(TAG, "add "+ FreedApplication.getStringFromRessources(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);
     }
 
@@ -209,7 +210,7 @@ public abstract class AbstractParameterHandler
                 if (TextUtils.isEmpty(settingMode.get()))
                     return;
                 String toset = settingMode.get();
-                Log.d(TAG,"set " + SettingsManager.getInstance().getResString(parametertolook.getRessourcesStringID())+ " to :" + toset);
+                Log.d(TAG,"set " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID())+ " to :" + toset);
                 if (TextUtils.isEmpty(toset) || toset.equals("none"))
                     settingMode.set(parameter.GetStringValue());
                 else
@@ -228,12 +229,12 @@ public abstract class AbstractParameterHandler
                 Log.d(TAG, parameter.getClass().getSimpleName());
                 if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null) {
                     String tmp = parameter.GetValue() + "";
-                    Log.d(TAG, "settingmode is empty: " + SettingsManager.getInstance().getResString(parametertolook.getRessourcesStringID()) + " get from parameter: " + tmp);
+                    Log.d(TAG, "settingmode is empty: " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " get from parameter: " + tmp);
                     settingMode.set(tmp);
                 } else {
                     try {
                         int tmp = Integer.parseInt(settingMode.get());
-                        Log.d(TAG, "settingmode : " +  SettingsManager.getInstance().getResString(parametertolook.getRessourcesStringID()) + " set from settings: " + tmp);
+                        Log.d(TAG, "settingmode : " +  FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " set from settings: " + tmp);
                         parameter.SetValue(tmp, setToCamera);
                     } catch (NumberFormatException ex) {
                         Log.WriteEx(ex);

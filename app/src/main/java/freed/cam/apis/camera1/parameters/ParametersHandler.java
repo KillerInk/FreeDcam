@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -346,7 +347,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 if (SettingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.focus)))
                      add(SettingKeys.M_Focus, new FocusManualParameterHTC(cameraParameters,cameraUiWrapper,SettingKeys.M_Focus));
                     //huawai mf
-                else if (SettingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(SettingsManager.getInstance().getResString(R.string.hw_manual_focus_step_value)))
+                else if (SettingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_step_value)))
                     add(SettingKeys.M_Focus, new FocusManualHuawei(cameraParameters, cameraUiWrapper, SettingKeys.M_Focus));
                     //qcom
                 else
@@ -544,16 +545,16 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
-            if (parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_shutter_speed)) != null) {
-                if (Float.parseFloat(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_shutter_speed))) == 0) {
+            if (parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_shutter_speed)) != null) {
+                if (Float.parseFloat(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_shutter_speed))) == 0) {
                     return 0;
                 } else
-                    return Float.parseFloat(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_shutter_speed)))/ 1000000;
-            } else if (parameters.get(SettingsManager.getInstance().getResString(R.string.cap_ss)) != null) {
-                if (Float.parseFloat(parameters.get(SettingsManager.getInstance().getResString(R.string.cap_ss))) == 0) {
+                    return Float.parseFloat(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_shutter_speed)))/ 1000000;
+            } else if (parameters.get(FreedApplication.getStringFromRessources(R.string.cap_ss)) != null) {
+                if (Float.parseFloat(parameters.get(FreedApplication.getStringFromRessources(R.string.cap_ss))) == 0) {
                     return 0;
                 } else
-                    return Float.parseFloat(parameters.get(SettingsManager.getInstance().getResString(R.string.cap_ss)))/ 1000000;
+                    return Float.parseFloat(parameters.get(FreedApplication.getStringFromRessources(R.string.cap_ss)))/ 1000000;
             } else
                 return 0;
         }
@@ -570,18 +571,18 @@ public class ParametersHandler extends AbstractParameterHandler
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
         {
-            if(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_sensor_gain))!= null) {
-                if (Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_sensor_gain))) == 0) {
+            if(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_sensor_gain))!= null) {
+                if (Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_sensor_gain))) == 0) {
                     return 0;
                 }
-                return Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.eng_capture_sensor_gain))) / 256 * 100;
+                return Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_sensor_gain))) / 256 * 100;
             }
-            else if(parameters.get(SettingsManager.getInstance().getResString(R.string.cap_isp_g))!= null)
+            else if(parameters.get(FreedApplication.getStringFromRessources(R.string.cap_isp_g))!= null)
             {
-                if (Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.cap_isp_g))) == 0) {
+                if (Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.cap_isp_g))) == 0) {
                     return 0;
                 }
-                return Integer.parseInt(parameters.get(SettingsManager.getInstance().getResString(R.string.cap_isp_g))) / 256 * 100;
+                return Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.cap_isp_g))) / 256 * 100;
             }
             else
                 return 0;

@@ -23,6 +23,8 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
@@ -40,12 +42,14 @@ public class GpsParameter extends AbstractParameter
 
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
+    private ActivityInterface activityInterface;
 
     public GpsParameter(CameraWrapperInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
         this.cameraUiWrapper = cameraUiWrapper;
-        userAcceptedPermission = cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        this.activityInterface = cameraUiWrapper.getActivityInterface();
+        userAcceptedPermission = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
     }
 
     @Override
@@ -57,41 +61,41 @@ public class GpsParameter extends AbstractParameter
     public String GetStringValue()
     {
         if (cameraUiWrapper == null)
-            return cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_);
+            return FreedApplication.getStringFromRessources(R.string.off_);
         if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.LOCATION_MODE).get()))
-            SettingsManager.get(SettingKeys.LOCATION_MODE).set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            SettingsManager.get(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
         return SettingsManager.get(SettingKeys.LOCATION_MODE).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] { cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_) };
+        return new String[] { FreedApplication.getStringFromRessources(R.string.off_), FreedApplication.getStringFromRessources(R.string.on_) };
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
-                valueToSet.equals(SettingsManager.getInstance().getResString(R.string.on_)))
+        if (activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
+                valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             SettingsManager.get(SettingKeys.LOCATION_MODE).set(valueToSet);
-            if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.off_))) {
-                cameraUiWrapper.getActivityInterface().getLocationManager().stopLocationListining();
-                fireStringValueChanged(SettingsManager.getInstance().getResString(R.string.off_));
+            if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.off_))) {
+                activityInterface.getLocationManager().stopLocationListining();
+                fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             }
-            if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.on_))) {
-                cameraUiWrapper.getActivityInterface().getLocationManager().startListing();
-                fireStringValueChanged(SettingsManager.getInstance().getResString(R.string.on_));
+            if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))) {
+                activityInterface.getLocationManager().startListing();
+                fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
             }
         }
         else
         {
             if (!userAcceptedPermission && !askedForPermission)
-            if (valueToSet.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_))
-                    && !cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
-                cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.Location,null);
-            SettingsManager.get(SettingKeys.LOCATION_MODE).set(SettingsManager.getInstance().getResString(R.string.off_));
-            fireStringValueChanged(SettingsManager.getInstance().getResString(R.string.off_));
+            if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))
+                    && !activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
+                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location,null);
+            SettingsManager.get(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             askedForPermission = false;
         }
     }

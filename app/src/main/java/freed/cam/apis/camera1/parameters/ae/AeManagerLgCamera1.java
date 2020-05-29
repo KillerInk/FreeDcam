@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
@@ -42,7 +43,7 @@ public class AeManagerLgCamera1 extends AeManager
         }
         else
         {
-            parameters.set(SettingsManager.getInstance().getResString(R.string.lg_iso), manualIso.getStringValues()[valueToSet]);
+            parameters.set(FreedApplication.getStringFromRessources(R.string.lg_iso), manualIso.getStringValues()[valueToSet]);
             ((ParametersHandler) cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
             setAeMode(AeStates.manual);
         }
@@ -74,8 +75,8 @@ public class AeManagerLgCamera1 extends AeManager
     {
         //back in auto mode
         //set exposure ui item to enable
-        parameters.set(SettingsManager.getInstance().getResString(R.string.lg_manual_mode_reset), "1");
-        parameters.set(SettingsManager.getInstance().getResString(R.string.lg_iso), cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.auto_));
+        parameters.set(FreedApplication.getStringFromRessources(R.string.lg_manual_mode_reset), "1");
+        parameters.set(FreedApplication.getStringFromRessources(R.string.lg_iso), cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.auto_));
         parameters.set(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.lg_shutterspeed), "0");
         ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
 
@@ -99,7 +100,7 @@ public class AeManagerLgCamera1 extends AeManager
         //hide manualexposuretime ui item
         /*exposureCompensation.fireIsSupportedChanged(false);*/
         //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
-        parameters.set(SettingsManager.getInstance().getResString(R.string.lg_manual_mode_reset), "0");
+        parameters.set(FreedApplication.getStringFromRessources(R.string.lg_manual_mode_reset), "0");
         ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
         manualExposureTime.setValue(manualExposureTime.GetValue(),true);
         //enable manualiso item in ui

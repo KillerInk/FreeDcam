@@ -32,14 +32,6 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 public interface SettingsChildInterface extends ModuleChangedEvent, ParameterEvents,View.OnClickListener
 {
     /**
-     * Set stuff that is needed to work
-     * @param fragment_activityInterface
-     * @param key_settingvalue from AppSettingsManager.KEY
-     */
-    void SetStuff(ActivityInterface fragment_activityInterface, String key_settingvalue);
-
-
-    /**
      * Set the parameter to work with
      * @param parameter
      */

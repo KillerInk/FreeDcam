@@ -4,6 +4,7 @@ import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptProcessorInterface;
@@ -30,31 +31,31 @@ public class FocusPeakColorMode extends AbstractParameter {
             return;
         try {
             settingMode.set(valueToSet);
-            if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_red))) {
+            if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_red))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(false);
                 focuspeakProcessor.setBlue(false);
-            } else if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_green))) {
+            } else if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_green))) {
                 focuspeakProcessor.setRed(false);
                 focuspeakProcessor.setGreen(true);
                 focuspeakProcessor.setBlue(false);
-            } else if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_blue))) {
+            } else if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_blue))) {
                 focuspeakProcessor.setRed(false);
                 focuspeakProcessor.setGreen(false);
                 focuspeakProcessor.setBlue(true);
-            } else if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_white))) {
+            } else if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_white))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(true);
                 focuspeakProcessor.setBlue(true);
-            } else if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_yellow))) {
+            } else if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_yellow))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(true);
                 focuspeakProcessor.setBlue(false);
-            } else if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_magenta))) {
+            } else if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_magenta))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(false);
                 focuspeakProcessor.setBlue(true);
-            } else if (valueToSet.equals(SettingsManager.getInstance().getResString(R.string.fcolor_cyan))) {
+            } else if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_cyan))) {
                 focuspeakProcessor.setRed(false);
                 focuspeakProcessor.setGreen(true);
                 focuspeakProcessor.setBlue(true);
@@ -72,7 +73,7 @@ public class FocusPeakColorMode extends AbstractParameter {
     {
         if (valueob.key == SettingKeys.EnableRenderScript) {
             String value = valueob.newValue;
-            if (value.equals(SettingsManager.getInstance().getResString(R.string.off_)))
+            if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
                 setViewState(ViewState.Hidden);
             else
                 setViewState(ViewState.Visible);

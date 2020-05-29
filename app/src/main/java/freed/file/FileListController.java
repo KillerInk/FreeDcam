@@ -276,7 +276,7 @@ public class FileListController {
         }
     }
 
-    public BaseHolder getnewFileHolder(File file)
+    public BaseHolder getNewImgFileHolder(File file)
     {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
             checkFileExists(file);
@@ -291,6 +291,25 @@ public class FileListController {
         }
         else {
             Uri uri = getMediaStoreController().addImg(file);
+            return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
+        }
+    }
+
+    public BaseHolder getNewMovieFileHolder(File file)
+    {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
+            checkFileExists(file);
+            return new FileHolder(file, SettingsManager.getInstance().GetWriteExternal());
+        }
+        else if (getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
+            DocumentFile df = getFreeDcamDocumentFolder();
+            Log.d(TAG,"Filepath: " + df.getUri());
+            DocumentFile wr = df.createFile("*/*", file.getName());
+            Log.d(TAG,"Filepath: " + wr.getUri());
+            return new UriHolder(wr.getUri(), file.getName(), Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+        }
+        else {
+            Uri uri = getMediaStoreController().addMovie(file);
             return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
         }
     }

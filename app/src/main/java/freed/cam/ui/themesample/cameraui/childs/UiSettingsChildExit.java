@@ -21,6 +21,9 @@ package freed.cam.ui.themesample.cameraui.childs;
 
 import android.content.Context;
 
+import freed.ActivityInterface;
+import freed.viewer.ActivityFreeDviewer;
+
 /**
  * Created by troop on 13.06.2015.
  */
@@ -30,8 +33,7 @@ public class UiSettingsChildExit extends UiSettingsChild
     public UiSettingsChildExit(Context context) {
         super(context);
         setOnClickListener(v -> {
-            if (fragment_activityInterface != null)
-                fragment_activityInterface.closeActivity();
+            ((ActivityInterface)getContext()).closeActivity();
         });
     }
 

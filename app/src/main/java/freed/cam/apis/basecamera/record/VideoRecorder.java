@@ -16,14 +16,15 @@ import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.FileListController;
+import freed.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -246,43 +247,11 @@ public class VideoRecorder {
     }
 
     private void setRecorderFilePath() {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork)
-        {
-            mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
-        }
-        else if (cameraWrapperInterface.getActivityInterface().getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal())
-        {
-            Uri uri = Uri.parse(SettingsManager.getInstance().GetBaseFolder());
-            DocumentFile df = cameraWrapperInterface.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
-            DocumentFile wr = df.createFile("*/*", recordingFile.getName());
-            ParcelFileDescriptor fileDescriptor = null;
-            try {
-                fileDescriptor = cameraWrapperInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-                mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
-            } catch (FileNotFoundException e) {
-                Log.WriteEx(e);
-                try {
-                    fileDescriptor.close();
-                } catch (IOException e1) {
-                    Log.WriteEx(e1);
-                }
-            }
-        }
-        else
-        {
-            Uri uri = cameraWrapperInterface.getActivityInterface().getFileListController().getMediaStoreController().addMovie(recordingFile);
-            ParcelFileDescriptor fileDescriptor = null;
-            try {
-                fileDescriptor = cameraWrapperInterface.getContext().getContentResolver().openFileDescriptor(uri, "rw");
-                mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
-            } catch (FileNotFoundException e) {
-                Log.WriteEx(e);
-                try {
-                    fileDescriptor.close();
-                } catch (IOException e1) {
-                    Log.WriteEx(e1);
-                }
-            }
+        BaseHolder baseHolder = cameraWrapperInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile);
+        try {
+            baseHolder.setToMediaRecorder(mediaRecorder,cameraWrapperInterface.getActivityInterface());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -298,15 +267,15 @@ public class VideoRecorder {
     public int getAudioSource()
     {
         String as = SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).get();
-        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_mic)))
+        if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_mic)))
             return MediaRecorder.AudioSource.MIC;
-        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_camcorder)))
+        if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_camcorder)))
             return MediaRecorder.AudioSource.CAMCORDER;
-        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_voice_recognition)))
+        if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_voice_recognition)))
             return MediaRecorder.AudioSource.VOICE_RECOGNITION;
-        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_voice_communication)))
+        if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_voice_communication)))
             return MediaRecorder.AudioSource.VOICE_COMMUNICATION;
-        if (as.equals(SettingsManager.getInstance().getResString(R.string.video_audio_source_unprocessed)))
+        if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_unprocessed)))
             return MediaRecorder.AudioSource.UNPROCESSED;
         return MediaRecorder.AudioSource.DEFAULT;
     }

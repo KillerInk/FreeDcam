@@ -37,6 +37,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -161,7 +162,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
                     Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + SettingsManager.get(SettingKeys.TouchToCapture).get());
-                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(wrapper.getActivityInterface().getStringFromRessources(R.string.module_video))) {
+                    if (success && SettingsManager.get(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                         Log.d(TAG,"start capture");
                         wrapper.getModuleHandler().startWork();
                     }

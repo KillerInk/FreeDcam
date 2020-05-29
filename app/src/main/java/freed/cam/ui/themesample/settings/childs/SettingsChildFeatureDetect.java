@@ -27,10 +27,6 @@ public class SettingsChildFeatureDetect extends SettingsChildMenu
         activityInterface.runFeatureDetector();
     }
 
-    @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue ) {
-
-    }
 
     @Override
     public void SetUiItemClickListner(SettingsChildClick menuItemClick) {

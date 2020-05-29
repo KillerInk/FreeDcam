@@ -48,8 +48,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     }
 
     protected ParameterInterface parameter;
-    protected ActivityInterface fragment_activityInterface;
-    protected String key_appsettings;
     protected TextView valueText;
 
     protected SettingsChildClick onItemClick;
@@ -63,14 +61,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
             return;
         String value = parameter.GetStringValue();
         parameter.fireStringValueChanged(value);
-    }
-
-
-    @Override
-    public void SetStuff(ActivityInterface fragment_activityInterface, String settingvalue)
-    {
-        this.fragment_activityInterface = fragment_activityInterface;
-        key_appsettings = settingvalue;
     }
 
     public SettingsChildAbstract(Context context) {
