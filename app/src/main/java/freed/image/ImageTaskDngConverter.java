@@ -5,23 +5,16 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.location.Location;
 import android.media.Image;
-import android.net.Uri;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
-import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.file.holder.UriHolder;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 
@@ -71,23 +64,8 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            if (!SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
-                dngCreator.writeImage(new FileOutputStream(file), image);
-                fileholder = new FileHolder(file,SettingsManager.getInstance().GetWriteExternal());
-            }
-            else if (activityInterface.getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal())
-            {
-                DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
-                DocumentFile wr = df.createFile("image/*", file.getName());
-                dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
-                fileholder = new UriHolder(wr.getUri(),file.getName(),0, wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
-            }
-            else
-            {
-                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(file);
-                dngCreator.writeImage(activityInterface.getContext().getContentResolver().openOutputStream(uri), image);
-                fileholder = new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
-            }
+            fileholder = activityInterface.getFileListController().getnewFileHolder(file);
+            dngCreator.writeImage(fileholder.getOutputStream(), image);
             dngCreator.close();
             image.close();
             if (fileholder != null)

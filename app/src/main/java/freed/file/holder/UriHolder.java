@@ -10,8 +10,12 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
+import freed.FreedApplication;
 import freed.jni.RawUtils;
 
 public class UriHolder extends BaseHolder {
@@ -78,5 +82,14 @@ public class UriHolder extends BaseHolder {
                 new String[]{String.valueOf(ID) });
 
         return true;
+    }
+
+    @Override
+    public OutputStream getOutputStream() throws FileNotFoundException {
+        return FreedApplication.context.getContentResolver().openOutputStream(mediaStoreUri);
+    }
+
+    public ParcelFileDescriptor getParcelFileDescriptor() throws FileNotFoundException {
+        return FreedApplication.context.getContentResolver().openFileDescriptor(mediaStoreUri, "rw");
     }
 }

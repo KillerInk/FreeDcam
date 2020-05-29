@@ -23,7 +23,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.gridview.GridViewFragment.ViewStates;
@@ -106,4 +109,6 @@ public abstract class BaseHolder
     public abstract Bitmap getVideoThumb(Context context) throws IOException;
     public abstract Bitmap getBitmapFromDng(Context context) throws IOException;
     public abstract boolean delete(Context context);
+
+    public abstract OutputStream getOutputStream() throws FileNotFoundException;
 }

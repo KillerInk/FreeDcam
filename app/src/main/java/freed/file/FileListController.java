@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.UpdateScreenSlide;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.UriHolder;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
@@ -54,13 +56,14 @@ public class FileListController {
         mp4,
     }
 
+
     public interface NotifyFilesChanged
     {
         void onFilesChanged();
     }
 
 
-    public static boolean needStorageAccessFrameWork = true; //Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    public static boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
 
     private List<BaseHolder> files =new ArrayList<>();
     private StorageFileManager storageFileManager;
@@ -271,5 +274,40 @@ public class FileListController {
             if (notifyFilesChanged != null)
                 notifyFilesChanged.onFilesChanged();
         }
+    }
+
+    public BaseHolder getnewFileHolder(File file)
+    {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
+            checkFileExists(file);
+            return new FileHolder(file, SettingsManager.getInstance().GetWriteExternal());
+        }
+        else if (getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
+            DocumentFile df = getFreeDcamDocumentFolder();
+            Log.d(TAG,"Filepath: " + df.getUri());
+            DocumentFile wr = df.createFile("image/*", file.getName());
+            Log.d(TAG,"Filepath: " + wr.getUri());
+            return new UriHolder(wr.getUri(), file.getName(), Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+        }
+        else {
+            Uri uri = getMediaStoreController().addImg(file);
+            return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
+        }
+    }
+
+    private void checkFileExists(File fileName)
+    {
+        if (fileName == null)
+            return;
+        if (fileName.getParentFile() == null)
+            return;
+        if(!fileName.getParentFile().exists())
+            fileName.getParentFile().mkdirs();
+        if (!fileName.exists())
+            try {
+                fileName.createNewFile();
+            } catch (IOException e) {
+                Log.WriteEx(e);
+            }
     }
 }

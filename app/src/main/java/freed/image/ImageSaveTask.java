@@ -1,27 +1,17 @@
 package freed.image;
 
-import android.content.ContentValues;
 import android.location.Location;
-import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.os.SystemClock;
-import android.provider.MediaStore;
 
-
-import androidx.documentfile.provider.DocumentFile;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Set;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
-import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
@@ -217,41 +207,17 @@ public class ImageSaveTask extends ImageTask
 
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
-        BaseHolder fileholder;
-
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !externalSD && !FileListController.needStorageAccessFrameWork)
-        {
-            checkFileExists(filename);
-            fileholder = new FileHolder(filename, SettingsManager.getInstance().GetWriteExternal());
-        }
-        else if (activityInterface.getFileListController().getFreeDcamDocumentFolder() != null && externalSD)
-        {
-            DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
-            Log.d(TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/dng", filename.getName());
-            Log.d(TAG,"Filepath: " + wr.getUri());
-
-            try {
-                pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException e) {
-                Log.WriteEx(e);
-            }
-            fileholder = new UriHolder(wr.getUri(),filename.getName(),Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
-        }
-        else
-        {
-            Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename);
-            try {
-                pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(uri, "rw");
-            } catch (FileNotFoundException e) {
-                Log.WriteEx(e);
-            }
-            fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
-        }
-        if (pfd == null)
+        BaseHolder fileholder = activityInterface.getFileListController().getnewFileHolder(filename);
+        if (fileholder instanceof FileHolder)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
-        else
-            rawToDng.SetBayerDataFD(bytesTosave,pfd,filename.getName());
+        else if(fileholder instanceof UriHolder) {
+            try {
+                pfd = ((UriHolder)fileholder).getParcelFileDescriptor();
+                rawToDng.SetBayerDataFD(bytesTosave, pfd, filename.getName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         rawToDng.WriteDngWithProfile(profile);
         if (pfd != null)
@@ -266,34 +232,12 @@ public class ImageSaveTask extends ImageTask
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
-        BufferedOutputStream outStream = null;
-        BaseHolder fileholder = null;
+        BaseHolder fileholder = activityInterface.getFileListController().getnewFileHolder(filename);
         try {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !externalSD && !FileListController.needStorageAccessFrameWork)
-            {
-                checkFileExists(filename);
-                outStream = new BufferedOutputStream(new FileOutputStream(filename));
-                fileholder = new FileHolder(filename, SettingsManager.getInstance().GetWriteExternal());
-            }
-            else if (activityInterface.getFileListController().getFreeDcamDocumentFolder() != null && externalSD)
-            {
-                DocumentFile df = activityInterface.getFileListController().getFreeDcamDocumentFolder();
-                Log.d(TAG,"Filepath: " + df.getUri());
-                DocumentFile wr = df.createFile("image/*", filename.getName());
-                Log.d(TAG,"Filepath: " + wr.getUri());
-                outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri()));
-                fileholder = new UriHolder(wr.getUri(),filename.getName(),Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(),wr.isDirectory(),SettingsManager.getInstance().GetWriteExternal());
-            }
-            else
-            {
-                Uri uri = activityInterface.getFileListController().getMediaStoreController().addImg(filename);
-                outStream = new BufferedOutputStream(activityInterface.getContext().getContentResolver().openOutputStream(uri));
-                fileholder = new UriHolder(uri,filename.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
-            }
+            BufferedOutputStream outStream = new BufferedOutputStream(fileholder.getOutputStream());
             outStream.write(bytesTosave);
             outStream.flush();
             outStream.close();
-
         } catch (IOException e) {
             Log.WriteEx(e);
         }
@@ -303,19 +247,5 @@ public class ImageSaveTask extends ImageTask
     }
 
 
-    protected void checkFileExists(File fileName)
-    {
-        if (fileName == null)
-            return;
-        if (fileName.getParentFile() == null)
-            return;
-        if(!fileName.getParentFile().exists())
-            fileName.getParentFile().mkdirs();
-        if (!fileName.exists())
-            try {
-                fileName.createNewFile();
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }
-    }
+
 }

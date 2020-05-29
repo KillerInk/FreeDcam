@@ -29,8 +29,12 @@ import android.provider.MediaStore;
 
 import androidx.documentfile.provider.DocumentFile;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import freed.file.FileListController;
 import freed.jni.RawUtils;
@@ -106,6 +110,11 @@ public class FileHolder extends BaseHolder
         if (!del && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             del = delteDocumentFile(file,context);
         return del;
+    }
+
+    @Override
+    public OutputStream getOutputStream() throws FileNotFoundException {
+        return new FileOutputStream(file);
     }
 
     private boolean delteDocumentFile(File file,Context context) throws NullPointerException
