@@ -95,7 +95,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();
         SettingsManager.getInstance().release();
