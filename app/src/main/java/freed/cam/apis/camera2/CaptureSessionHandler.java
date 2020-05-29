@@ -749,10 +749,8 @@ public class CaptureSessionHandler
 
     private final String MATRIXTAG = TAG + ".SetTextureViewSize";
 
-    public void SetTextureViewSize(int w, int h, int rotation, int orientationWithHack,boolean renderscript)
+    public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
     {
-        if (SettingsManager.get(SettingKeys.orientationHack).get())
-            rotation = orientationWithHack;
         Matrix matrix = new Matrix();
         matrix.reset();
         RectF inputRect = new RectF(0, 0, w, h);

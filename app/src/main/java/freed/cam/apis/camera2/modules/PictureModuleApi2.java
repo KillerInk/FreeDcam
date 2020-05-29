@@ -44,7 +44,9 @@ import androidx.annotation.RequiresApi;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
+import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
@@ -213,7 +215,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
     }
 
-    @RequiresApi(api = VERSION_CODES.N)
     @Override
     public void startPreview() {
 
@@ -224,8 +225,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         Log.d(TAG, "sensorOrientation:" + sensorOrientation);
         int orientationToSet = (360 + sensorOrientation)%360;
-        if (SettingsManager.get(SettingKeys.orientationHack).get())
-            orientationToSet = (360 + sensorOrientation+180)%360;
         Log.d(TAG, "orientation to set :" +orientationToSet);
         cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
@@ -258,10 +257,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 case 0: rotation = 270;
                     break;
             }
-
+            if (SettingsManager.get(SettingKeys.orientationHack).get())
+                rotation = (360 + rotation+180)%360;
             final int or = rotation;
+
             Log.d(TAG, "rotation to set : " + or);
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,or+180,true));
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,true));
 
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
 
@@ -286,10 +287,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 case 0: rotation = 180;
                     break;
             }
+            if (SettingsManager.get(SettingKeys.orientationHack).get())
+                rotation =  (360 + rotation+180)%360;
             final int or = rotation;
             Log.d(TAG, "rotation to set : " + or);
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,or+180,false));
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,false));
         }
 
 
