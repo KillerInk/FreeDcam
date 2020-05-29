@@ -94,8 +94,8 @@ public class SettingMode extends AbstractSettingMode {
                 sub.append(XmlUtil.getTagStringWithValue("val", values[i])).append("\r\n");
             sub.append("</values>\r\n");
         }
-        else
-            Log.d(TAG, "values are null: " + getCamera1ParameterKEY());
+        /*else
+            Log.d(TAG, "values are null: " + getCamera1ParameterKEY());*/
         sub.append("</setting>\r\n");
         //Log.d(TAG, sub.toString());
         return sub.toString();

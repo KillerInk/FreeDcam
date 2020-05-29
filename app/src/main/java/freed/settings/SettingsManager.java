@@ -130,9 +130,15 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public void save()
     {
-        Log.d(TAG,"save, storage is null =" + (settingsStorage == null));
-        if (settingsStorage != null)
-            settingsStorage.save();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG,"save, storage is null =" + (settingsStorage == null));
+                if (settingsStorage != null)
+                    settingsStorage.save();
+            }
+        }).start();
+
     }
 
     public static <T> T get(SettingKeys.Key<T> key)
