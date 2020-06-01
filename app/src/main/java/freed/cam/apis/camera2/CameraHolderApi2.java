@@ -86,9 +86,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                  method_setVendorStreamConfigMode = CameraDevice.class.getDeclaredMethod(
                          "setVendorStreamConfigMode", int.class);
              }
-         } catch (Exception exception) {
+         }
+         catch (NoSuchMethodException ex)
+         {
              Log.w(TAG, "setOpModeForVideoStream method is not exist");
-             exception.printStackTrace();
+         }
+         catch (Exception exception) {
+             Log.w(TAG, "setOpModeForVideoStream method is not exist");
          }
      }
 
