@@ -67,16 +67,43 @@ public class SettingsStorage
     public void save()
     {
         synchronized (waitlock) {
-            new SettingsSaver().saveSettings(settings, appdataFolder);
-            mediaProfilesManager.save(appdataFolder);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (waitlock) {
+                        new SettingsSaver().saveSettings(settings, appdataFolder);
+                        mediaProfilesManager.save(appdataFolder);
+                        waitlock.notify();
+                    }
+                }
+            }).start();
+            try {
+                waitlock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void load()
     {
         synchronized (waitlock) {
-            new SettingsLoader().loadSettings(settings, appdataFolder);
-            mediaProfilesManager.load(appdataFolder);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (waitlock) {
+                        new SettingsLoader().loadSettings(settings, appdataFolder);
+                        mediaProfilesManager.load(appdataFolder);
+                        waitlock.notify();
+                    }
+                }
+            }).start();
+            try {
+                waitlock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
