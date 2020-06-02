@@ -9,6 +9,7 @@ import com.troop.freedcam.R;
 import java.util.concurrent.ExecutorService;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
 import freed.file.holder.FileHolder;
@@ -56,7 +57,7 @@ class ImageAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup container) {
         final GridImageView imageView;
         if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = new GridImageView(viewerActivityInterface.getContext(),viewerActivityInterface.getBitmapHelper());
+            imageView = new GridImageView(FreedApplication.getContext(),viewerActivityInterface.getBitmapHelper());
         } else {
             imageView = (GridImageView) convertView;
             //imageView.resetImg();
@@ -70,7 +71,7 @@ class ImageAdapter extends BaseAdapter
             //imageView.resetImg();
             imageView.SetEventListner(viewerActivityInterface.getFileListController().getFiles().get(position));
             imageView.SetViewState(currentViewState);
-            imageView.loadFile(viewerActivityInterface.getFileListController().getFiles().get(position), viewerActivityInterface.getContext().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+            imageView.loadFile(viewerActivityInterface.getFileListController().getFiles().get(position), FreedApplication.getContext().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
         }
         return imageView;
     }

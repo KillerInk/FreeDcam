@@ -32,7 +32,7 @@ public class DngStackActivity extends ActivityAbstract
         stackButton.setOnClickListener(v -> {
             if (filesToStack != null) {
                 DngStack stack = new DngStack(filesToStack);
-                stack.StartStack(getContext());
+                stack.StartStack(getApplicationContext());
                 stackButton.setBackgroundResource(R.drawable.stack_done);
                 stackButton.setClickable(false);
             }

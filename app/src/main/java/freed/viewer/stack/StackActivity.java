@@ -93,7 +93,7 @@ public class StackActivity extends ActivityAbstract
         Spinner stackvaluesButton = findViewById(R.id.freedviewer_stack_stackvalues_button);
         imageView = findViewById(R.id.freedviewer_stack_imageview);
         String[] items =  new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN,EXPOSURE};
-        ArrayAdapter<String> stackadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<String> stackadapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, items);
         stackvaluesButton.setAdapter(stackadapter);
         String files[] = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
         filesToStack = new BaseHolder[files.length];
@@ -112,8 +112,8 @@ public class StackActivity extends ActivityAbstract
         }
 
 
-        renderScriptManager = new RenderScriptManager(getContext());
-        fileListController = new FileListController(getContext());
+        renderScriptManager = new RenderScriptManager(getApplicationContext());
+        fileListController = new FileListController(getApplicationContext());
 
         stackvaluesButton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -146,7 +146,7 @@ public class StackActivity extends ActivityAbstract
         closeButton.setVisibility(View.GONE);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        filesToStack[0].getBitmap(getContext(), options);
+        filesToStack[0].getBitmap(getApplicationContext(), options);
         final int mWidth = options.outWidth;
         final int mHeight = options.outHeight;
         Type.Builder tbIn2 = new Type.Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
@@ -174,10 +174,10 @@ public class StackActivity extends ActivityAbstract
             for (BaseHolder f : filesToStack)
             {
                 updateCounter(count++);
-                f.getBitmap(getContext(),options);
+                f.getBitmap(getApplicationContext(),options);
                 if(mWidth != options.outWidth || mHeight != options.outHeight)
                     return;
-                renderScriptManager.GetIn().copyFrom(f.getBitmap(getContext(),null));
+                renderScriptManager.GetIn().copyFrom(f.getBitmap(getApplicationContext(),null));
                 switch (stackMode)
                 {
                     case 0: //AVARAGE
@@ -264,7 +264,7 @@ public class StackActivity extends ActivityAbstract
                 Log.WriteEx(e);
             }
         }
-        MediaScannerManager.ScanMedia(getContext(), file);
+        MediaScannerManager.ScanMedia(getApplicationContext(), file);
     }
 
 

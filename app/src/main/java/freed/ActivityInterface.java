@@ -46,8 +46,6 @@ public interface ActivityInterface
 
     BitmapHelper getBitmapHelper();
 
-    Context getContext();
-
     FileListController getFileListController();
 
     void DisablePagerTouch(boolean disable);

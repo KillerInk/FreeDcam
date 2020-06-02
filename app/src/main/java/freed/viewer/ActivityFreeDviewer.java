@@ -85,7 +85,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     {
         Log.d(TAG,"init");
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-        fileListController = new FileListController(getContext());
+        fileListController = new FileListController(getApplicationContext());
         fileListController.setNotifyFilesChanged(this);
         FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
 

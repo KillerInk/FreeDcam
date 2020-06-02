@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 
@@ -30,7 +31,7 @@ public class WifiHandler extends WifiUtils {
 
 
     public WifiHandler(ActivityInterface activityInterface) {
-        super(activityInterface.getContext());
+        super(FreedApplication.getContext());
         this.activityInterface = activityInterface;
         mSsdpClient = new SimpleSsdpClient();
         uiHandler = new Handler(Looper.getMainLooper());

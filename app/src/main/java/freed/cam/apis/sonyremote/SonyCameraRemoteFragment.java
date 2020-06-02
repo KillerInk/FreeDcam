@@ -42,6 +42,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
@@ -188,7 +189,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
             ((ParameterHandler)parametersHandler).SetRemoteApi(mRemoteApi);
 
         }
-        mEventObserver = new SimpleCameraEventObserver(getActivityInterface().getContext(), mRemoteApi);
+        mEventObserver = new SimpleCameraEventObserver(FreedApplication.getContext(), mRemoteApi);
 
 
         ((CameraHolderSony)cameraHolder).setRemoteApi(mRemoteApi);

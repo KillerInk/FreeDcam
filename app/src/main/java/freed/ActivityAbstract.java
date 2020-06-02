@@ -176,11 +176,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     }
 
     @Override
-    public Context getContext() {
-        return getApplicationContext();
-    }
-
-    @Override
     public FileListController getFileListController() {
         return this.fileListController;
     }
@@ -203,7 +198,7 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
 
     @Override
     public void ScanFile(File file) {
-        MediaScannerManager.ScanMedia(getContext(),file);
+        MediaScannerManager.ScanMedia(getApplicationContext(),file);
     }
 
     @Override

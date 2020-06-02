@@ -29,6 +29,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -160,7 +161,7 @@ public class CaptureSessionHandler
         this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
-        Display display = ((WindowManager) cameraUiWrapper.getActivityInterface().getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);

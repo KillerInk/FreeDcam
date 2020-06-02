@@ -52,7 +52,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
     {
         this.activityInterface = activityInterface;
         this.lifecycle = lifecycle;
-        locationManager = (android.location.LocationManager) activityInterface.getContext().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (android.location.LocationManager) FreedApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
         lifecycle.addObserver(this);
     }
 

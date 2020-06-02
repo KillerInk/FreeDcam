@@ -159,11 +159,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             return;
         }
         userMessageHandler = new UserMessageHandler();
-        userMessageHandler.setContext(getContext());
+        userMessageHandler.setContext(getApplication());
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
         cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
-        fileListController = new FileListController(getContext());
+        fileListController = new FileListController(getApplicationContext());
         fileListController.setNotifyFilesChanged(this);
         startListning();
         //listen to phone orientation changes

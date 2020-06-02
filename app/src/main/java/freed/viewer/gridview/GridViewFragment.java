@@ -190,7 +190,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
         optionsButton = view.findViewById(id.button_options);
         optionsButton.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(((ActivityInterface) getActivity()).getContext(), v);
+            PopupMenu popup = new PopupMenu(getContext(), v);
 
             popup.getMenu().add(0,0,0, "Delete File");
             if (!isRootDir && RenderScriptManager.isSupported())
@@ -298,7 +298,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     }
 
     private void showFileSelectionPopup(View v) {
-        PopupMenu popup = new PopupMenu(((ActivityInterface) getActivity()).getContext(), v);
+        PopupMenu popup = new PopupMenu(getContext(), v);
         popup.setOnMenuItemClickListener(item -> {
             int i = item.getItemId();
             if (i == id.all)
