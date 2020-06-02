@@ -76,8 +76,8 @@ public class GainMap extends OpCodeItem {
         byteBuffer.putInt(size_of_bytes);
         byteBuffer.putInt(top);
         byteBuffer.putInt(left);
-        byteBuffer.putInt(bottom);
         byteBuffer.putInt(right);
+        byteBuffer.putInt(bottom);
         byteBuffer.putInt(plane);
         byteBuffer.putInt(planes);
         byteBuffer.putInt(rowpitch);
