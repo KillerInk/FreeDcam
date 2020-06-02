@@ -18,19 +18,16 @@
  */
 
 package freed.file.holder;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Build;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

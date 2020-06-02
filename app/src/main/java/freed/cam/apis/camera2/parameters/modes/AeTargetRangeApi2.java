@@ -2,7 +2,6 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-
 import android.util.Range;
 
 import androidx.annotation.RequiresApi;

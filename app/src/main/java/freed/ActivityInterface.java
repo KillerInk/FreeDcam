@@ -19,7 +19,6 @@
 
 package freed;
 
-import android.content.Context;
 import android.net.Uri;
 
 import java.io.File;
@@ -34,7 +33,6 @@ import freed.viewer.helper.BitmapHelper;
  */
 public interface ActivityInterface
 {
-    void SwitchCameraAPI(String Api);
     void closeActivity();
     void ChooseSDCard(I_OnActivityResultCallback callback);
     interface I_OnActivityResultCallback

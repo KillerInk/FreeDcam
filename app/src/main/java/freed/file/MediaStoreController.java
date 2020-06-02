@@ -10,7 +10,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.List;
 

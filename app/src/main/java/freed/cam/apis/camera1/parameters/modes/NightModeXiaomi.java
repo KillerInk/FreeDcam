@@ -28,7 +28,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 10.06.2016.

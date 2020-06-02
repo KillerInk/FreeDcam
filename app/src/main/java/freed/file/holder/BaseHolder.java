@@ -25,13 +25,11 @@ import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
 import android.os.ParcelFileDescriptor;
 
-import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
-import freed.settings.SettingsManager;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.gridview.GridViewFragment.ViewStates;
 

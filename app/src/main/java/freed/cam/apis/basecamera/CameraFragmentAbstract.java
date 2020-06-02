@@ -20,7 +20,6 @@
 package freed.cam.apis.basecamera;
 
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;

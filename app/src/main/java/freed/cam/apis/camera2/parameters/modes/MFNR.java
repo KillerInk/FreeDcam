@@ -2,13 +2,11 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-import android.text.TextUtils;
+
+import androidx.annotation.RequiresApi;
 
 import com.QTI.SOC;
 
-import java.util.HashMap;
-
-import androidx.annotation.RequiresApi;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.settings.SettingKeys;

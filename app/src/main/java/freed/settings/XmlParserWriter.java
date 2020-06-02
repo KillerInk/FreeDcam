@@ -3,9 +3,12 @@ package freed.settings;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
+
 import androidx.collection.LongSparseArray;
+
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;

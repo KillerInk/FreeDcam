@@ -18,7 +18,6 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;

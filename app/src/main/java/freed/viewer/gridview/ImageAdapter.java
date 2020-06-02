@@ -12,7 +12,6 @@ import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
-import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 02.03.2017.

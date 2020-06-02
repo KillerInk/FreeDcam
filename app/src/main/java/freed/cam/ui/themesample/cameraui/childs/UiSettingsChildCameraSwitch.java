@@ -23,7 +23,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.settings.SettingsManager;

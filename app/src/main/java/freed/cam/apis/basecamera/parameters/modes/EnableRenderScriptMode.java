@@ -7,7 +7,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.BooleanSettingModeInterface;
 
 public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSettingModeInterface {

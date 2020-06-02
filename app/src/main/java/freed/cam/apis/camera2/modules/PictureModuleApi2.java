@@ -36,19 +36,14 @@ import android.view.Surface;
 
 import com.troop.freedcam.R;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.RequiresApi;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
-import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;

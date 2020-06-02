@@ -43,7 +43,6 @@ import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
-import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
 /**

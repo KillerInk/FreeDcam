@@ -50,12 +50,10 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 import freed.utils.Log;
-import freed.utils.MediaScannerManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
-import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
 /**

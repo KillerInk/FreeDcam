@@ -19,11 +19,7 @@
 
 package freed.cam.apis.basecamera.modules;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.os.SystemClock;
-
-import java.util.Date;
 
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;

@@ -3,7 +3,6 @@ package freed.cam.apis.featuredetector;
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.troop.freedcam.R;
 
 import freed.image.ImageManager;
 import freed.image.ImageTask;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 

@@ -3,16 +3,11 @@ package freed.cam.apis.basecamera.record;
 import android.hardware.Camera;
 import android.location.Location;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Build;
-import android.os.ParcelFileDescriptor;
-
-
 import android.text.TextUtils;
 import android.view.Surface;
 
 import androidx.annotation.RequiresApi;
-import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.R;
 
@@ -23,7 +18,6 @@ import java.io.IOException;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

@@ -21,7 +21,6 @@ package freed.cam.ui.themesample;
 
 import android.view.View;
 
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;

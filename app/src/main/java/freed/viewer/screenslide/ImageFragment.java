@@ -43,7 +43,6 @@ import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.utils.Log;
-import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 
 /**

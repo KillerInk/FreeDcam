@@ -3,7 +3,6 @@ package freed.image;
 import android.location.Location;
 import android.os.ParcelFileDescriptor;
 
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;

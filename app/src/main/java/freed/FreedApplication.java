@@ -3,10 +3,6 @@ package freed;
 import android.app.Application;
 import android.content.Context;
 
-import com.troop.freedcam.BuildConfig;
-
-import org.greenrobot.eventbus.EventBus;
-
 public class FreedApplication extends Application {
 
     private static Context context;

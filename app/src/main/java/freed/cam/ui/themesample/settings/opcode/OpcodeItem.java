@@ -13,7 +13,6 @@ import java.io.File;
 
 import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
-import freed.utils.StringUtils;
 
 /**
  * Created by KillerInk on 18.12.2017.

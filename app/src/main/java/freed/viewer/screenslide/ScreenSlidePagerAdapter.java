@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
 
 /**
  * Created by KillerInk on 03.12.2017.

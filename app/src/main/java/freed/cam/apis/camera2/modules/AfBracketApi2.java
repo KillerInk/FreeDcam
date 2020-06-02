@@ -26,8 +26,6 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
-import java.util.Set;
-
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;

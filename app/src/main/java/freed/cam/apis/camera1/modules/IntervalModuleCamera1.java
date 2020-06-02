@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

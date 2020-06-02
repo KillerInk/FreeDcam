@@ -17,8 +17,6 @@ import android.os.Build;
 import android.util.Pair;
 import android.util.Rational;
 
-import androidx.annotation.NonNull;
-
 import com.troop.freedcam.R;
 
 import java.io.File;

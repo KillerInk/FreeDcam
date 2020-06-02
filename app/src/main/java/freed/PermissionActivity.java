@@ -2,11 +2,9 @@ package freed;
 
 import android.os.Bundle;
 
-
 import androidx.annotation.Nullable;
 
 import freed.file.FileListController;
-import freed.file.MediaStoreController;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 

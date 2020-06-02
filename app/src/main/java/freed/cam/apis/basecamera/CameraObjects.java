@@ -1,7 +1,5 @@
 package freed.cam.apis.basecamera;
 
-import android.view.SurfaceView;
-
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;

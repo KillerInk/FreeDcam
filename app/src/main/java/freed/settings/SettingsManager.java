@@ -19,8 +19,6 @@
 
 package freed.settings;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.text.TextUtils;
 
 import androidx.collection.LongSparseArray;
@@ -29,8 +27,6 @@ import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +36,7 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.jni.OpCode;
-import freed.settings.mode.SettingInterface;
 import freed.utils.Log;
-import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
 import freed.views.VideoToneCurveProfile;
 

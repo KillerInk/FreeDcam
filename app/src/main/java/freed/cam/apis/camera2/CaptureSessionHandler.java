@@ -32,7 +32,6 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;

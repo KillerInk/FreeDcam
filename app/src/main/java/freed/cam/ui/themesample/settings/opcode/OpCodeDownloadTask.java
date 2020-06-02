@@ -25,7 +25,6 @@ import freed.image.ImageTask;
 import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.utils.StringUtils;
 
 /**
  * Created by KillerInk on 18.12.2017.

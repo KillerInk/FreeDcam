@@ -7,10 +7,10 @@ import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 import android.text.TextUtils;
 
+import androidx.annotation.RequiresApi;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
-import androidx.annotation.RequiresApi;
 
 public class Keys {
   //  public final CaptureRequest EIS_MODE;

@@ -23,10 +23,7 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -39,7 +36,6 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;
@@ -55,6 +51,7 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.file.FileListController.FormatTypes;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.renderscript.RenderScriptManager;
@@ -63,7 +60,6 @@ import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
-import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;

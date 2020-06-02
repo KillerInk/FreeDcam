@@ -1,8 +1,6 @@
 package freed.settings;
 
-import java.util.Currency;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 import freed.settings.mode.SettingInterface;
 

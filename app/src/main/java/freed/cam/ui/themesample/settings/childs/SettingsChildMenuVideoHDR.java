@@ -20,7 +20,6 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.R;

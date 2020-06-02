@@ -38,8 +38,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.documentfile.provider.DocumentFile;
-
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
 
@@ -51,6 +49,7 @@ import java.io.OutputStream;
 import freed.ActivityAbstract;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
@@ -59,7 +58,6 @@ import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
-import freed.file.holder.FileHolder;
 
 
 /**

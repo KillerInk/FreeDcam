@@ -20,7 +20,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.events.EventBusHelper;
-import freed.cam.events.IsoChangedEvent;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

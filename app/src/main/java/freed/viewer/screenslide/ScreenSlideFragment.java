@@ -21,7 +21,6 @@ package freed.viewer.screenslide;
 
 
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -35,8 +34,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-
-import android.os.ParcelFileDescriptor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +52,6 @@ import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -64,14 +60,13 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils.FileEnding;
-import freed.file.holder.FileHolder;
 import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
 
 

@@ -23,13 +23,10 @@ import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.ImageReader;
@@ -40,7 +37,6 @@ import android.os.Handler;
 import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
-import android.widget.Toast;
 
 import com.QTI.SOC;
 import com.troop.freedcam.R;
@@ -51,8 +47,6 @@ import java.util.Collections;
 import java.util.List;
 
 import Camera2EXT.OpModes;
-import androidx.annotation.RequiresApi;
-
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;

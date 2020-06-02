@@ -25,7 +25,6 @@ import android.text.TextUtils;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**

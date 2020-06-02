@@ -7,7 +7,6 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.LensShadingMap;
 import android.os.Build;
 
-
 import androidx.annotation.RequiresApi;
 
 import java.io.IOException;

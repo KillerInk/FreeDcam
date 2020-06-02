@@ -3,11 +3,11 @@ package com.QTI;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
 import com.huawei.camera2ex.ReflectionHelper;
 
 import java.lang.reflect.Type;
-
-import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SOC {

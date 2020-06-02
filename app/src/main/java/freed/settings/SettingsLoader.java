@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;

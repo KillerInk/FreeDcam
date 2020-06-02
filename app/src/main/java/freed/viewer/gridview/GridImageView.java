@@ -38,12 +38,12 @@ import com.troop.freedcam.R.layout;
 
 import java.lang.ref.WeakReference;
 
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.utils.Log;
 import freed.viewer.helper.BitmapHelper;
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
 
 /**
  * Created by troop on 11.12.2015.
