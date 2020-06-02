@@ -66,10 +66,10 @@ public class WbHandler
      */
     private void setWbMode(String wbMode)
     {
-        if (!wbMode.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
+        if (!wbMode.equals(FreedApplication.getStringFromRessources(R.string.off)))
         {
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb
-            colorCorrectionMode.SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.fast),true);
+            colorCorrectionMode.SetValue(FreedApplication.getStringFromRessources(R.string.fast),true);
             //hide manual wbct manualitem in ui
             if (manualWbCt != null)
                 manualWbCt.setViewState(AbstractParameter.ViewState.Hidden);
@@ -77,7 +77,7 @@ public class WbHandler
         else //if OFF
         {
             //set colorcorrection to TRANSFORMATRIX to have full control
-            colorCorrectionMode.SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.colorcorrection_transform_matrix),true);
+            colorCorrectionMode.SetValue(FreedApplication.getStringFromRessources(R.string.colorcorrection_transform_matrix),true);
             //show wbct manual item in ui
             if (manualWbCt != null) {
                 manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
@@ -227,7 +227,7 @@ public class WbHandler
             try {
                 if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
                     return ViewState.Hidden;
-                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off)))
+                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
                     return ViewState.Visible;
             }
             catch (NullPointerException ex) {

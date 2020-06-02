@@ -23,6 +23,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -40,7 +41,7 @@ public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusCha
 
     public VideoModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
+        name = FreedApplication.getStringFromRessources(R.string.module_video);
         cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();
 
     }

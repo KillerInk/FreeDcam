@@ -24,6 +24,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -58,7 +59,7 @@ public class ShutterManualG2pro extends BaseManualParameter
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a*1000000;
         }
-        if(!stringvalues[currentInt].equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
+        if(!stringvalues[currentInt].equals(FreedApplication.getStringFromRessources(R.string.auto_)))
         {
             try {
                 shutterstring = setExposureTimeToParameter(shutterstring);

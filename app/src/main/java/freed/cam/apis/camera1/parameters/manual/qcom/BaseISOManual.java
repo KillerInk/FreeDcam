@@ -25,6 +25,7 @@ import com.troop.freedcam.R;
 
 import java.util.ArrayList;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -36,7 +37,7 @@ import freed.utils.Log;
  */
 public class BaseISOManual extends BaseManualParameter {
     private final String TAG = BaseISOManual.class.getSimpleName();
-    private String cur_iso_mode = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_);
+    private String cur_iso_mode = FreedApplication.getStringFromRessources(R.string.auto_);
 
     public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
@@ -84,8 +85,8 @@ public class BaseISOManual extends BaseManualParameter {
         }
         cur_iso_mode = cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
 
-        if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual), true);
+        if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -112,8 +113,8 @@ public class BaseISOManual extends BaseManualParameter {
             Log.e(TAG, "set_to_auto IsoMode.GetStringValue is null");
             return;
         }
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_), true);
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cur_iso_mode, true);
 
     }
@@ -123,7 +124,7 @@ public class BaseISOManual extends BaseManualParameter {
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
+        t.add(FreedApplication.getStringFromRessources(R.string.auto_));
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");

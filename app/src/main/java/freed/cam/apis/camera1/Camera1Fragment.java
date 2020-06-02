@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -181,7 +182,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         if(moduleHandler != null
                 && moduleHandler.getCurrentModule() != null
                 && moduleHandler.getCurrentModule().ModuleName() != null
-                && moduleHandler.getCurrentModule().ModuleName().equals(getActivityInterface().getStringFromRessources(R.string.module_video))
+                && moduleHandler.getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))
                 && moduleHandler.getCurrentModule().IsWorking())
             moduleHandler.getCurrentModule().DoWork();
         stopCameraAsync();
@@ -199,9 +200,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 Log.d(TAG, "FAILED TO GET SURFACE FROM TEXTUREVIEW ################");
                 return;
             }
-            if(moduleHandler.getCurrentModuleName().equals(getActivityInterface().getStringFromRessources(R.string.module_picture))
-                    || moduleHandler.getCurrentModuleName().equals(getActivityInterface().getStringFromRessources(R.string.module_hdr))
-                    || moduleHandler.getCurrentModuleName().equals(getActivityInterface().getStringFromRessources(R.string.module_interval)))
+            if(moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_picture))
+                    || moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_hdr))
+                    || moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_interval)))
             {
                 Size sizefromCam = new Size(parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
                 List<Size> sizes = new ArrayList<>();
@@ -256,7 +257,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 }
 
             }
-            else if (moduleHandler.getCurrentModuleName().equals(getActivityInterface().getStringFromRessources(R.string.module_video)))
+            else if (moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
             {
                 Size sizefromCam = new Size("1920x1080");
 

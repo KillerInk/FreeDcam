@@ -25,6 +25,7 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
@@ -50,8 +51,8 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_), true);
-            ((SettingMode)SettingsManager.get(key)).set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_));
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
+            ((SettingMode)SettingsManager.get(key)).set(FreedApplication.getStringFromRessources(R.string.auto_));
         }
         else
         {

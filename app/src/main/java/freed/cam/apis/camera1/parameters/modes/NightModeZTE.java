@@ -23,6 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -46,7 +47,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.night_key), valueToSet);
+        parameters.set(FreedApplication.getStringFromRessources(R.string.night_key), valueToSet);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
 
@@ -54,15 +55,15 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
 
     @Override
     public String GetStringValue() {
-            return parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.night_key));
+            return parameters.get(FreedApplication.getStringFromRessources(R.string.night_key));
     }
 
     @Override
     public String[] getStringValues() {
         return new String[] {
-                cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_),
-                cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_),
-                cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.night_mode_tripod)};
+                FreedApplication.getStringFromRessources(R.string.off_),
+                FreedApplication.getStringFromRessources(R.string.on_),
+                FreedApplication.getStringFromRessources(R.string.night_mode_tripod)};
     }
 
     @Override

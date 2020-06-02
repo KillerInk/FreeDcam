@@ -30,6 +30,7 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.io.IOException;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -54,7 +55,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
+        name = FreedApplication.getStringFromRessources(R.string.module_video);
     }
 
     @Override
@@ -115,7 +116,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     private void startRecording()
     {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
-            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }

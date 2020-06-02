@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
@@ -86,10 +87,10 @@ public class AeManagerMtkCamera1 extends AeManager
     private void setToAuto()
     {
         String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
-        if (!t.equals(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.iso100_), true);
+        if (!t.equals(FreedApplication.getStringFromRessources(R.string.iso100_)))
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.auto_), true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
         cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
         //back in auto mode
         //set exposure ui item to enable

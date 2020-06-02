@@ -89,11 +89,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     }
 
     @Override
-    public String getStringFromRessources(int id) {
-        return getResources().getString(id);
-    }
-
-    @Override
     protected void onDestroy() {
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();

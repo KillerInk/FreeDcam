@@ -4,6 +4,7 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -33,7 +34,7 @@ public class ExposureTime_MicroSec extends AbstractParameter {
         super.setValue(valueToset,setToCamera);
         currentInt = valueToset;
         String shutterstring = stringvalues[currentInt];
-        if(!shutterstring.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
+        if(!shutterstring.equals(FreedApplication.getStringFromRessources(R.string.auto_)))
         {
             if (shutterstring.contains("/")) {
                 String[] split = shutterstring.split("/");

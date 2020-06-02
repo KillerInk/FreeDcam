@@ -23,6 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
@@ -66,7 +67,7 @@ public class ExposureLockParameter extends BaseModeParameter
 
     @Override
     public String[] getStringValues() {
-        return new String[]{cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_), cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_)};
+        return new String[]{FreedApplication.getStringFromRessources(R.string.true_), FreedApplication.getStringFromRessources(R.string.false_)};
     }
 
 }

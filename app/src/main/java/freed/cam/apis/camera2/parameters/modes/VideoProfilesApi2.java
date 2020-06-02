@@ -21,6 +21,7 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 
@@ -44,7 +45,7 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
         if (settingMode != null)
             settingMode.set(valueToSet);
         if (cameraUiWrapper !=null && cameraUiWrapper.getModuleHandler().getCurrentModule() != null
-                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
             cameraUiWrapper.getModuleHandler().getCurrentModule().DestroyModule();
             cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();

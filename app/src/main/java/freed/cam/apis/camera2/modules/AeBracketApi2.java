@@ -27,6 +27,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -55,7 +56,7 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr);
+        name = FreedApplication.getStringFromRessources(R.string.module_hdr);
     }
 
     @Override
@@ -89,7 +90,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        aeWasOn = !SettingsManager.get(SettingKeys.ExposureMode).get().equals(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.off));
+        aeWasOn = !SettingsManager.get(SettingKeys.ExposureMode).get().equals(FreedApplication.getContext().getString(R.string.off));
     }
 
     @Override
@@ -122,7 +123,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         Log.d(TAG,"imagecount:" +BurstCounter.getImageCaptured());
         if (BurstCounter.getImageCaptured() == 3) {
             if (aeWasOn && parameterHandler.get(SettingKeys.ExposureMode) != null)
-                parameterHandler.get(SettingKeys.ExposureMode).SetValue(cameraUiWrapper.getActivityInterface().getContext().getString(R.string.on),true);
+                parameterHandler.get(SettingKeys.ExposureMode).SetValue(FreedApplication.getContext().getString(R.string.on),true);
 
         }
     }

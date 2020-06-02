@@ -62,7 +62,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture);
+        name = FreedApplication.getStringFromRessources(R.string.module_picture);
         this.cameraHolder = (CameraHolder)cameraUiWrapper.getCameraHolder();
     }
 
@@ -134,8 +134,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             return;
         cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("yuv420sp",true);
         ParameterInterface videohdr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHDR);
-        if (SettingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_)))
-            videohdr.SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_), true);
+        if (SettingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+            videohdr.SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
         if(SettingsManager.getInstance().isZteAe()) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
         }
@@ -181,8 +181,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         //workaround to keep ae locked
         if (cameraHolder.GetCameraParameters().getAutoExposureLock())
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.false_),true);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.false_),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.true_),true);
         }
         if(SettingsManager.get(SettingKeys.needRestartAfterCapture).get())
         {
@@ -245,7 +245,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     private String getFileEnding(String picFormat)
     {
-        if (picFormat.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)))
+        if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.jpeg_)))
             return ".jpg";
         else if (picFormat.equals("jps"))
             return  ".jps";
@@ -291,7 +291,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         if (wbct != null && wbct.getViewState() == AbstractParameter.ViewState.Visible)
         {
             wb = wbct.GetStringValue();
-            if (wb.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.auto_)))
+            if (wb.equals(FreedApplication.getStringFromRessources(R.string.auto_)))
                 wb = null;
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
             task.setWhiteBalance(wb);

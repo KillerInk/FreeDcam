@@ -23,6 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -60,7 +61,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public void setValue(int valueToSet, boolean setToCamera)
     {
-        parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.morpho_effect_type), String.valueOf(valueToSet));
+        parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_effect_type), String.valueOf(valueToSet));
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
     }

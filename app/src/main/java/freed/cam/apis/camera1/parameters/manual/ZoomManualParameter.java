@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
@@ -36,11 +37,11 @@ public class ZoomManualParameter extends  BaseManualParameter
     public ZoomManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
     {
         super(parameters,cameraUiWrapper,key);
-        key_value = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom);
-        if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom_supported))!= null)
-            if (parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom_supported)).equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.true_))) {
+        key_value = FreedApplication.getStringFromRessources(R.string.zoom);
+        if (parameters.get(FreedApplication.getStringFromRessources(R.string.zoom_supported))!= null)
+            if (parameters.get(FreedApplication.getStringFromRessources(R.string.zoom_supported)).equals(FreedApplication.getStringFromRessources(R.string.true_))) {
                 setViewState(ViewState.Visible);
-                stringvalues = createStringArray(0,Integer.parseInt(parameters.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.zoom_max))),1);
+                stringvalues = createStringArray(0,Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.zoom_max))),1);
                 try {
                     currentInt = Integer.parseInt(parameters.get(key_value));
                 }

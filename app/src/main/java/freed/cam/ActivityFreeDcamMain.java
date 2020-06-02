@@ -394,8 +394,4 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         cameraFragmentManager.switchCameraFragment();
     }
 
-    @Override
-    public String getStringFromRessources(int id) {
-        return getResources().getString(id);
-    }
 }

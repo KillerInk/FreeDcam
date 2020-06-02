@@ -51,7 +51,7 @@ public class BracketModule extends PictureModule {
 
     public BracketModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_hdr);
+        name = FreedApplication.getStringFromRessources(R.string.module_hdr);
     }
 
     //ModuleInterface START
@@ -63,7 +63,7 @@ public class BracketModule extends PictureModule {
     @Override
     public void DoWork() {
         mBackgroundHandler.post(() -> {
-            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             files = new BaseHolder[3];
             hdrCount = 0;

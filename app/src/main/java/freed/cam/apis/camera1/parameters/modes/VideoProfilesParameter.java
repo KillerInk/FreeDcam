@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
@@ -63,7 +64,7 @@ public class VideoProfilesParameter extends AbstractParameter
         super.setValue(valueToSet, setToCamera);
         profile = valueToSet;
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null
-                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+                && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
             cameraUiWrapper.getModuleHandler().getCurrentModule().InitModule();
     }
 

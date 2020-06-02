@@ -23,6 +23,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
 import freed.file.holder.BaseHolder;
@@ -41,7 +42,7 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
 
     public IntervalApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_interval);
+        name = FreedApplication.getStringFromRessources(R.string.module_interval);
         intervalHandler = new IntervalHandler(this);
     }
 

@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
 import freed.cam.apis.camera2.modules.IntervalApi2;
@@ -23,7 +24,7 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
 
     public IntervalModuleCamera1(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_interval);
+        name = FreedApplication.getStringFromRessources(R.string.module_interval);
         intervalHandler = new IntervalHandler(this);
     }
 

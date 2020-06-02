@@ -53,11 +53,6 @@ public class DngConvertingActivity extends ActivityAbstract
     }
 
     @Override
-    public String getStringFromRessources(int id) {
-        return null;
-    }
-
-    @Override
     protected void setContentToView() {
 
     }

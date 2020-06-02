@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingKeys;
@@ -60,7 +61,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         if (parameter != null &&  cameraWrapperInterface.getModuleHandler().getCurrentModule() != null)
         {
             SettingsManager.get(SettingKeys.VideoHDR).set(value);
-            if (cameraWrapperInterface.getModuleHandler().getCurrentModule().ModuleName().equals(cameraWrapperInterface.getActivityInterface().getStringFromRessources(R.string.module_video)))
+            if (cameraWrapperInterface.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
                 parameter.SetValue(value, true);
             onStringValueChanged(value);
         }

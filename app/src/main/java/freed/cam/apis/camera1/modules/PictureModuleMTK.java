@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -56,7 +57,7 @@ public class PictureModuleMTK extends PictureModule
     public void DoWork()
     {
         mBackgroundHandler.post(() -> {
-            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_)))
+            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
 
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
@@ -86,7 +87,7 @@ public class PictureModuleMTK extends PictureModule
         // must always be jpg ending. dng gets created based on that
         holdFile = getFile(".jpg");
         Log.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
-        if (picformat.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.jpeg_)))
+        if (picformat.equals(FreedApplication.getStringFromRessources(R.string.jpeg_)))
         {
 
             saveJpeg(data,holdFile);
@@ -96,7 +97,7 @@ public class PictureModuleMTK extends PictureModule
                 Log.WriteEx(ex);
             }
         }
-        else if (picformat.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.dng_)))
+        else if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)))
         {
             saveJpeg(data,holdFile);
             CreateDNG_DeleteRaw();

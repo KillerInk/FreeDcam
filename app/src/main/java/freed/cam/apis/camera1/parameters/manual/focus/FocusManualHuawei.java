@@ -47,13 +47,13 @@ public class FocusManualHuawei extends BaseFocusManual
 
         if (valueToSet == 0)
         {
-            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_hwcamera_flag),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
-            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_mode),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.off_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_hwcamera_flag),FreedApplication.getStringFromRessources(R.string.on_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_mode),FreedApplication.getStringFromRessources(R.string.off_));
         }
         else
         {
-            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hw_hwcamera_flag),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
-            parameters.set(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.hw_manual_focus_mode),cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_hwcamera_flag),FreedApplication.getStringFromRessources(R.string.on_));
+            parameters.set(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_mode),FreedApplication.getStringFromRessources(R.string.on_));
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

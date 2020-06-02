@@ -63,7 +63,6 @@ public interface ActivityInterface
 
     void runFeatureDetector();
 
-    String getStringFromRessources(int id);
 }
 
 

@@ -21,6 +21,7 @@ package freed.cam.apis.sonyremote;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
@@ -58,9 +59,9 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
     @Override
     public void setModule(String name)
     {
-        if (name.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video)))
+        if (name.equals(FreedApplication.getStringFromRessources(R.string.module_video)))
             cameraHolder.SetShootMode("movie");
-        else if (name.equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture)))
+        else if (name.equals(FreedApplication.getStringFromRessources(R.string.module_picture)))
             cameraHolder.SetShootMode("still");
     }
 
@@ -73,7 +74,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
         }*/
         if (mode.equals("still"))
         {
-            currentModule = moduleList.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_picture));
+            currentModule = moduleList.get(FreedApplication.getStringFromRessources(R.string.module_picture));
 
             ModuleHasChanged(currentModule.ModuleName());
             //currentModule.SetCaptureStateChangedListner(workerListner);
@@ -81,7 +82,7 @@ public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_Camera
         }
         else if (mode.equals("movie"))
         {
-            currentModule = moduleList.get(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video));
+            currentModule = moduleList.get(FreedApplication.getStringFromRessources(R.string.module_video));
             ModuleHasChanged(currentModule.ModuleName());
             //currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();

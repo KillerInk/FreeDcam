@@ -52,6 +52,8 @@ import java.util.List;
 
 import Camera2EXT.OpModes;
 import androidx.annotation.RequiresApi;
+
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -90,7 +92,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     public VideoModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         this.cameraUiWrapper = (Camera2Fragment) cameraUiWrapper;
-        name = cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.module_video);
+        name = FreedApplication.getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
 
@@ -195,7 +197,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         fireOnWorkFinish(recordingFile);
         //TODO fix mediascan
-        //cameraUiWrapper.getActivityInterface().ScanFile(recordingFile);
+        //FreedApplication.ScanFile(recordingFile);
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
     }
@@ -335,7 +337,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
         });
 
-        if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(cameraUiWrapper.getActivityInterface().getStringFromRessources(R.string.on_))){
+        if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             if (location != null)
                 videoRecorder.setLocation(location);
