@@ -55,8 +55,6 @@ public interface ActivityInterface
 
     void SetNightOverlay();
 
-    void ScanFile(File file);
-
     void runFeatureDetector();
 
 }

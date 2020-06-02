@@ -231,7 +231,6 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 Log.WriteEx(e1);
             }
             File file = new File(mediaSavePath);
-            cameraUiWrapper.getActivityInterface().ScanFile(file);
             fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
             sendStopToUi();
         }

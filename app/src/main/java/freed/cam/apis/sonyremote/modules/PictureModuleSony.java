@@ -200,7 +200,6 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             }
         }
 
-        cameraUiWrapper.getActivityInterface().ScanFile(file);
         fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
 
     }

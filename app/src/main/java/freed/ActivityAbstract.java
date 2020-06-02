@@ -116,11 +116,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     }
 
     @Override
-    public void SwitchCameraAPI(String Api) {
-
-    }
-
-    @Override
     public void closeActivity() {
     }
 
@@ -193,11 +188,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     @Override
     public void SetNightOverlay() {
 
-    }
-
-    @Override
-    public void ScanFile(File file) {
-        MediaScannerManager.ScanMedia(getApplicationContext(),file);
     }
 
     @Override

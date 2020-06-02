@@ -332,13 +332,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     @Override
-    public void SwitchCameraAPI(String value)
-    {
-        //if a camera fragment exists stop and destroy it
-
-    }
-
-    @Override
     public void closeActivity()
     {
         moveTaskToBack(true);
