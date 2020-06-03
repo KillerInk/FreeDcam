@@ -105,6 +105,12 @@ public class SettingsMenuItemFactory
                     picGroup.addView(pictureSize);
                 }
 
+                if (params.get(SettingKeys.YuvSize) != null) {
+                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.YuvSize), R.string.setting_yuvsize_header, R.string.setting_yuvsize_description);
+                    pictureSize.SetUiItemClickListner(click);
+                    picGroup.addView(pictureSize);
+                }
+
                 if (params.get(SettingKeys.secondarySensorSize) != null) {
                     SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.secondarySensorSize), R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description);
                     pictureSize.SetUiItemClickListner(click);

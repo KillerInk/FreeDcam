@@ -307,6 +307,7 @@
     <string name="pictureformat_bayer" translatable="false">Bayer16</string>
     <string name="pictureformat_bayer10" translatable="false">Bayer10</string>
     <string name="pictureformat_jpg_p_dng" translatable="false">Jpg+16bitDng</string>
+    <string name="pictureformat_yuv" translatable="false">yuv</string>
 
     <string name="colorcorrection_transform_matrix" translatable="false">Transform Matrix</string>
     <string name="customrowsize" translatable="false">Custom Row Size</string>
@@ -337,6 +338,8 @@
     <string name="video_audio_source_unprocessed" translatable="false">Unprocessed</string>
     <string name="setting_rawsize_header" translatable="false">Raw Size</string>
     <string name="setting_rawsize_description" translatable="false">Size of the Raw</string>
+    <string name="setting_yuvsize_header" translatable="false">Yuv Size</string>
+    <string name="setting_yuvsize_description" translatable="false">Size of the Yuv</string>
 
 
 </resources>

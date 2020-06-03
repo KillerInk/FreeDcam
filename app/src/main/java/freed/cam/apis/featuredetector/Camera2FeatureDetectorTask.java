@@ -86,7 +86,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         if (scm != null)
                         {
                             Size imgsizes[] = scm.getOutputSizes(ImageFormat.JPEG);
-                            if (imgsizes != null && imgsizes.length >0)
+                            Size yuvsizes[] = scm.getOutputSizes(ImageFormat.YUV_420_888);
+                            if (imgsizes != null && imgsizes.length >0 || yuvsizes != null && yuvsizes.length >0)
                                 cameraids.add(String.valueOf(i));
                         }
 
@@ -876,12 +877,40 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         } catch (Exception e) {
             Log.WriteEx(e);
         }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888)) {
+                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv), ImageFormat.YUV_420_888);
+                Size[] size = smap.getOutputSizes(ImageFormat.YUV_420_888);
+                if (size != null)
+                {
+                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.YuvSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                        }
+                        SettingsManager.get(SettingKeys.YuvSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.YuvSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.YuvSize).setIsSupported(false);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
         if (
                 hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg)) &&
                 (
                         hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_dng10))
-                                || hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16))))
-            hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng), ImageFormat.JPEG);
+                        || hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16)))
+                )
+                    hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng), ImageFormat.JPEG);
 
         try {
             if (smap.isOutputSupportedFor(ImageFormat.NV16))
@@ -947,7 +976,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         SettingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
-        SettingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg));
+        if(hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg)))
+            SettingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg));
+        else if (hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+            SettingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv));
         SettingsManager.get(SettingKeys.PictureFormat).setValues(StringUtils.IntHashmapToStringArray(hmap));
     }
 

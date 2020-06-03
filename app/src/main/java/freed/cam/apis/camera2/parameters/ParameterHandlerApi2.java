@@ -59,6 +59,7 @@ import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.apis.camera2.parameters.modes.YuvSizeModeApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -219,6 +220,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.RawSize).isSupported())
             add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
+        if (SettingsManager.get(SettingKeys.YuvSize).isSupported())
+            add(SettingKeys.YuvSize, new YuvSizeModeApi2(cameraUiWrapper));
         if (SettingsManager.get(SettingKeys.LensShade).isSupported())
             add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
 

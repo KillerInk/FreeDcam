@@ -13,6 +13,7 @@
     <string name="aps_app_version" translatable="false">app_version</string>
 
     <string name="aps_picturesize" translatable="false">picturesize</string>
+    <string name="aps_yuvsize" translatable="false">yuvsize</string>
     <string name="aps_pictureformat" translatable="false">pictureformat</string>
     <string name="aps_rawpictureformat" translatable="false">rawpictureformat</string>
     <string name="aps_focusmode" translatable="false">focusmode</string>

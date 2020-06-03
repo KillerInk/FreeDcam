@@ -266,6 +266,14 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                     else
                         img.close();
                     break;
+                case Yuv:
+                    if (img.getFormat() == ImageFormat.YUV_420_888) {
+                        AddImage(img);
+                        Log.d(TAG,"Add Jpeg");
+                    }
+                    else
+                        img.close();
+                    break;
                 default:
                     if (images.contains(img))
                         images.remove(img);
@@ -414,6 +422,10 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                     file = new File(f + ".bayer");
                     task = process_jpeg(image,file);
                 }
+                break;
+            case Yuv:
+                file = new File(f+".yuv");
+                task = process_jpeg(image, file);
                 break;
         }
 

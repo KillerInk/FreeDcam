@@ -329,12 +329,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             output = findOutputHelper.getStockOutput(cameraHolder);
         }
 
-        //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
-        jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
+
         Log.d(TAG, "ImageReader JPEG");
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))) {
             captureType = CaptureType.Jpeg;
         }
+        if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+            captureType = CaptureType.Yuv;
 
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16)) || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
@@ -361,6 +362,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             Log.d(TAG, "ImageReader BAYER10");
             captureType = CaptureType.Bayer10;
         }
+        //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
+        if (captureType == CaptureType.Jpeg)
+            jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
+        if (captureType == CaptureType.Yuv) {
+            String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
+            String[] split = yuvsize.split("x");
+            jpegReader = ImageReader.newInstance(Integer.parseInt(split[0]), Integer.parseInt(split[1]), ImageFormat.YUV_420_888, MAX_IMAGES);
+        }
 
         if (output.raw_format != 0)
         {
@@ -384,7 +393,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     protected void TakePicture()
     {
         isWorking = true;
-            Log.d(TAG, SettingsManager.get(SettingKeys.PictureFormat).get());
+        Log.d(TAG, SettingsManager.get(SettingKeys.PictureFormat).get());
         BurstCounter.resetImagesCaptured();
         BurstCounter.setBurstCount(Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue()));
         if (BurstCounter.getBurstCount() > 1)

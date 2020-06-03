@@ -32,11 +32,11 @@ import freed.settings.SettingsManager;
 /**
  * Created by troop on 13.12.2014.
  */
-public class PictureSizeModeApi2 extends BaseModeApi2
+public class YuvSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public PictureSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.PictureSize);
+    public YuvSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
+        super(cameraUiWrapper,SettingKeys.YuvSize);
         setViewState(ViewState.Visible);
     }
 
@@ -44,12 +44,9 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        SettingsManager.get(SettingKeys.YuvSize).set(valueToSet);
         size = valueToSet;
-        if (setToCamera &&
-                (SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
-                    || SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
-                )
+        if (setToCamera && SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
         {
             cameraUiWrapper.stopPreviewAsync();
             cameraUiWrapper.startPreviewAsync();
@@ -66,6 +63,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.PictureSize).getValues();
+        return SettingsManager.get(SettingKeys.YuvSize).getValues();
     }
 }

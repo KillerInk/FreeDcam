@@ -9,4 +9,5 @@ public enum CaptureType {
     Dng12,
     Bayer10,
     Bayer16,
+    Yuv,
 }
