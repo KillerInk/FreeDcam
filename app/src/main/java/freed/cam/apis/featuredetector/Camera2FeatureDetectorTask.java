@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import freed.FreedApplication;
 import freed.renderscript.RenderScriptManager;
@@ -72,8 +74,23 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             {
                 try {
                     CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
-                    if (characteristics != null)
-                        cameraids.add(String.valueOf(i));
+
+                    if (characteristics != null) {
+                        //checks if its a logical camera and if true skip that id.
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                            Set<String> logical = characteristics.getPhysicalCameraIds();
+                            if (logical != null && logical.size() > 0)
+                                return;
+                        }
+                        StreamConfigurationMap scm = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                        if (scm != null)
+                        {
+                            Size imgsizes[] = scm.getOutputSizes(ImageFormat.JPEG);
+                            if (imgsizes != null && imgsizes.length >0)
+                                cameraids.add(String.valueOf(i));
+                        }
+
+                    }
                 }
                 catch (IllegalArgumentException ex)
                 {
