@@ -87,7 +87,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         {
                             Size imgsizes[] = scm.getOutputSizes(ImageFormat.JPEG);
                             Size yuvsizes[] = scm.getOutputSizes(ImageFormat.YUV_420_888);
-                            if (imgsizes != null && imgsizes.length >0 || yuvsizes != null && yuvsizes.length >0)
+                            if ((imgsizes != null && imgsizes.length >0) || (yuvsizes != null && yuvsizes.length >0))
                                 cameraids.add(String.valueOf(i));
                         }
 
