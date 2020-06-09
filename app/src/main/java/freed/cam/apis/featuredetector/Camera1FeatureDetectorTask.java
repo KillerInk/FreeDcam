@@ -1256,7 +1256,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
             default:
             {
-               if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+               /*if (SettingsManager.get(SettingKeys.openCamera1Legacy) != null && SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
                    Log.d(TAG, "Open Try legacy Camera");
                    try {
                        camera = CameraHolderLegacy.openWrapper(currentcamera);
@@ -1282,7 +1282,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                    }
                }
                else
-               {
+               {*/
                    try {
                        if (camera != null)
                            camera.release();
@@ -1297,7 +1297,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                        return null;
                    }
 
-               }
+               //}
             }
 
         }

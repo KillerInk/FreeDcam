@@ -6,6 +6,7 @@ import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
 import android.util.Range;
@@ -44,14 +45,12 @@ import freed.utils.VideoMediaProfile;
 public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private final String TAG = Camera2FeatureDetectorTask.class.getSimpleName();
-    private Context context;
     boolean hasCamera2Features;
 
     public int hwlvl = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
 
-    public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate, Context context) {
+    public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate) {
         super(progressUpdate);
-        this.context = context;
     }
 
     @Override
@@ -65,8 +64,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
         try {
             publishProgress("Check Camera2");
-            CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-            //String cameras[] = manager.getCameraIdList();
+            CameraManager manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
+            String cameras[] = manager.getCameraIdList();
             //SettingsManager.getInstance().setCamerasCount(cameras.length);
 
             List<String> cameraids =new ArrayList<>();
@@ -78,18 +77,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     if (characteristics != null) {
                         //checks if its a logical camera and if true skip that id.
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                            characteristics.getAvailableCaptureRequestKeys();
+                            List<CaptureRequest.Key<?>> keys = characteristics.getAvailablePhysicalCameraRequestKeys();
                             Set<String> logical = characteristics.getPhysicalCameraIds();
-                            if (logical != null && logical.size() > 0)
-                                return;
+                            if (logical == null || logical.size() == 0)
+                                checkPreviewAndYuvSizes(cameraids, i, characteristics);
                         }
-                        StreamConfigurationMap scm = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                        if (scm != null)
-                        {
-                            Size imgsizes[] = scm.getOutputSizes(ImageFormat.JPEG);
-                            Size yuvsizes[] = scm.getOutputSizes(ImageFormat.YUV_420_888);
-                            if ((imgsizes != null && imgsizes.length >0) || (yuvsizes != null && yuvsizes.length >0))
-                                cameraids.add(String.valueOf(i));
-                        }
+                        else
+                            checkPreviewAndYuvSizes(cameraids, i, characteristics);
 
                     }
                 }
@@ -107,6 +102,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
 
+            Log.d(TAG, "Found camera ids:" + cameraids.size());
             int arr[] = new int[cameraids.size()];
             for (int i = 0; i<arr.length;i++)
                 arr[i] = Integer.parseInt(cameraids.get(i));
@@ -512,6 +508,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.getInstance().setHasCamera2Features(true);
 
             SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
+        }
+    }
+
+    private void checkPreviewAndYuvSizes(List<String> cameraids, int i, CameraCharacteristics characteristics) {
+        StreamConfigurationMap scm = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (scm != null)
+        {
+            Size imgsizes[] = scm.getOutputSizes(ImageFormat.JPEG);
+            Size yuvsizes[] = scm.getOutputSizes(ImageFormat.YUV_420_888);
+            if ((imgsizes != null && imgsizes.length >0) || (yuvsizes != null && yuvsizes.length >0)) {
+                cameraids.add(String.valueOf(i));
+                Log.d(TAG,"support camera:" +i);
+            }
         }
     }
 

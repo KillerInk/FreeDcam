@@ -191,8 +191,14 @@ public class CaptureSessionHandler
             return;
         try {
             mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
-            if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
-                mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_CAMERA_FLAG,(byte)1);
+            try {
+                if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+                    mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_CAMERA_FLAG, (byte) 1);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.WriteEx(ex);
+            }
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }

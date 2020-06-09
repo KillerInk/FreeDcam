@@ -62,7 +62,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        if (featureRunner == null){
+        if (featureRunner == null && !SettingsManager.getInstance().getAreFeaturesDetected() && this.isAdded()){
             featureRunner = new CameraFeatureRunner();
             ImageManager.putImageLoadTask(featureRunner);
         }
@@ -79,8 +79,6 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     public void startFreedcam()
     {
         featureRunner = null;
-        SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
-        SettingsManager.getInstance().setAreFeaturesDetected(true);
         featureDetectorEvents.featuredetectorDone();
         Log.d(TAG,"startFreeDcam");
     }
@@ -109,7 +107,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
             Camera2FeatureDetectorTask task  = null;
             Camera1FeatureDetectorTask task1 = null;
             if (Build.VERSION.SDK_INT >= 21) {
-                task =  new Camera2FeatureDetectorTask(cameraListner,getContext());
+                task =  new Camera2FeatureDetectorTask(cameraListner);
                 task.detect();
             }
             task1 = new Camera1FeatureDetectorTask(cameraListner);
@@ -120,6 +118,8 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
                 else
                     SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             }
+            SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
+            SettingsManager.getInstance().setAreFeaturesDetected(true);
             SettingsManager.getInstance().save();
             handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
             return false;

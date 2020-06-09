@@ -51,12 +51,15 @@ public class VideoProfilesParameter extends AbstractParameter
         isSupported =true;
         supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
         profile = SettingsManager.get(SettingKeys.VideoProfiles).get();
-        if (profile == null)
+        if (profile == null && supportedProfiles.size() > 0)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
             SettingsManager.get(SettingKeys.VideoProfiles).set(profile);
         }
+        else if (supportedProfiles.size() == 0)
+            fireViewStateChanged(ViewState.Hidden);
+
     }
 
     @Override
