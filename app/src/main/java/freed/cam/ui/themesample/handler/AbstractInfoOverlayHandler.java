@@ -123,7 +123,13 @@ public abstract class AbstractInfoOverlayHandler
         {
             timeString = dateFormat.format(new Date());
             if (cameraUiWrapper != null){
-                getFormat();
+                try {
+                    getFormat();
+                }
+                catch (NullPointerException ex)
+                {
+                    Log.WriteEx(ex);
+                }
                 getStorageSpace();
             }
             else
