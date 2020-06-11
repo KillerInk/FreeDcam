@@ -28,4 +28,6 @@ public class OpModes {
 
     public static final int OP_UNK2 = 61442;
     public static final int OP_UNK4 = 32784;
+
+    public static final int SESSION_OPERATION_MODE_QCFA = 32775;
 }

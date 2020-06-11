@@ -17,6 +17,11 @@ public class FreedApplication extends Application {
         return context.getResources().getString(id);
     }
 
+    public static String[] getStringArrayFromRessource(int id)
+    {
+        return context.getResources().getStringArray(id);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

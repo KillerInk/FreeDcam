@@ -15,10 +15,14 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
 {
     public static final CameraCharacteristics.Key<int[]> sharpness_range;
     public static final CameraCharacteristics.Key<int[]> saturation_range;
+    public static final CameraCharacteristics.Key availableStreamConfigurationsQuadra;
+    public static final CameraCharacteristics.Key is_qcfa_sensor;
 
     static {
         sharpness_range = getKeyType("org.codeaurora.qcamera3.sharpness.range", int[].class);
         saturation_range = getKeyType("org.codeaurora.qcamera3.saturation.range", int[].class);
+        availableStreamConfigurationsQuadra = getKeyType("org.codeaurora.qcamera3.quadra_cfa.availableStreamConfigurations", int[].class);
+        is_qcfa_sensor = getKeyType("org.codeaurora.qcamera3.quadra_cfa.is_qcfa_sensor", byte.class);
     }
 
 
