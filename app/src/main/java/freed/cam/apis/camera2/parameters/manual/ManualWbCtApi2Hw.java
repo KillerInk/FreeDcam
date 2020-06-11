@@ -3,7 +3,7 @@ package freed.cam.apis.camera2.parameters.manual;
 import android.annotation.TargetApi;
 import android.os.Build;
 
-import com.huawei.camera2ex.CaptureRequestEx;
+import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -54,7 +54,7 @@ public class ManualWbCtApi2Hw  extends AbstractParameter
             toset = 0;
         else
             toset = Integer.parseInt(stringvalues[currentInt]);
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_WB_VALUE, toset,setToCamera);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_WB_VALUE, toset,setToCamera);
 
     }
 

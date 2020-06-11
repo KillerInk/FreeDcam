@@ -3,7 +3,7 @@ package freed.cam.apis.camera2.parameters.ae;
 import android.annotation.TargetApi;
 import android.os.Build;
 
-import com.huawei.camera2ex.CaptureRequestEx;
+import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -31,17 +31,17 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
 
     @Override
     public void setExposureTime(int valueToSet, boolean setToCamera) {
-        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE, CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
         if (valueToSet > 0) {
             int val = (int) AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet]);
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, val,setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_EXPOSURE_TIME, val,setToCamera);
             manualExposureTime.fireIntValueChanged(valueToSet);
             expotimeIsActive = true;
 
         }
         else
         {
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, 0,setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_EXPOSURE_TIME, 0,setToCamera);
             expotimeIsActive = false;
         }
         applyAeMode();
@@ -63,15 +63,15 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
     public void setIso(int valueToSet, boolean setToCamera) {
         if (cameraUiWrapper.captureSessionHandler.GetActiveCameraCaptureSession() == null)
             return;
-        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE, CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
         if (valueToSet == 0)
         {
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, 0,setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_ISO_VALUE, 0,setToCamera);
             isoIsActive = false;
         }
         else
         {
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_ISO_VALUE, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
             isoIsActive =true;
         }
         applyAeMode();
@@ -80,7 +80,7 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
     @Override
     public void setExposureCompensation(int valueToSet, boolean setToCamera) {
         float t = Float.parseFloat(exposureCompensation.getStringValues()[valueToSet].replace(",","."));
-        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestEx.HUAWEI_EXPOSURE_COMP_VALUE, t,setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_EXPOSURE_COMP_VALUE, t,setToCamera);
     }
 
     @Override

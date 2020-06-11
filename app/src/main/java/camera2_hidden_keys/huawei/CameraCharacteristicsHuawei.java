@@ -1,8 +1,11 @@
-package com.huawei.camera2ex;
+package camera2_hidden_keys.huawei;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
+
+import camera2_hidden_keys.AbstractCameraCharacteristics;
+import camera2_hidden_keys.ReflectionHelper;
 
 import java.lang.reflect.Type;
 
@@ -11,7 +14,7 @@ import java.lang.reflect.Type;
  */
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CameraCharacteristicsEx
+public class CameraCharacteristicsHuawei extends AbstractCameraCharacteristics
 {
     
     public static final CameraCharacteristics.Key<byte[]> ANDROID_HW_SUPPORTED_COLOR_MODES;
@@ -275,19 +278,4 @@ public class CameraCharacteristicsEx
         HUAWEI_AVAILIBLE_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availableCaptureDepthSizes",int[].class);
         HUAWEI_AVAILIBLE_PREVIEW_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availablePreviewDepthSizes",int[].class);
     }
-
-
-    //public android.hardware.camera2.CameraCharacteristics$Key(java.lang.String,android.hardware.camera2.utils.TypeReference)
-    private static CameraCharacteristics.Key getKeyType(String string,  Type type)
-    {
-        return (CameraCharacteristics.Key) ReflectionHelper.getKeyType(string,type,CameraCharacteristics.Key.class);
-    }
-
-    //public android.hardware.camera2.CameraCharacteristics$Key(java.lang.String,java.lang.Class)
-    private static <T> CameraCharacteristics.Key getKeyClass(String string, Class<T> type)
-    {
-
-        return (CameraCharacteristics.Key) ReflectionHelper.getKeyClass(string,type,CameraCharacteristics.Key.class);
-    }
-
 }

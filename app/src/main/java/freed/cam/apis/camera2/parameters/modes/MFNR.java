@@ -5,8 +5,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.QTI.SOC;
-
+import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.settings.SettingKeys;
@@ -37,11 +36,11 @@ public class MFNR extends BaseModeApi2 {
 
         if (SettingsManager.get(SettingKeys.MFNR).get()) {
             ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, CaptureRequest.NOISE_REDUCTION_MODE_HIGH_QUALITY, setToCamera);
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(SOC.MFNR, (byte) 1, setToCamera);
+            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.MFNR, (byte) 1, setToCamera);
         }
         else {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).SetValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).GetStringValue(),true);
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(SOC.MFNR, (byte) 0, setToCamera);
+            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.MFNR, (byte) 0, setToCamera);
         }
 
         fireStringValueChanged(valueToSet);

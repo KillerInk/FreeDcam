@@ -1,16 +1,17 @@
-package com.samsung;
+package camera2_hidden_keys.samsung;
 
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.huawei.camera2ex.ReflectionHelper;
+import camera2_hidden_keys.AbstractCaptureRequest;
+import camera2_hidden_keys.ReflectionHelper;
 
 import java.lang.reflect.Type;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class CaptureRequestSamsung {
+public class CaptureRequestSamsung extends AbstractCaptureRequest {
 
     public static final int CONTROL_TRANSIENT_ACTION_OFF = 0;
     public static final int CONTROL_TRANSIENT_ACTION_ZOOMING = 1;
@@ -21,15 +22,5 @@ public class CaptureRequestSamsung {
 
     static {
         CONTROL_TRANSIENT_ACTION = getKeyType("samsung.android.control.transientAction", Integer.TYPE);
-    }
-
-    private static CaptureRequest.Key getKeyType(String string, Type type)
-    {
-        return (CaptureRequest.Key) ReflectionHelper.getKeyType(string,type, CaptureRequest.Key.class);
-    }
-
-    private static <T> CaptureRequest.Key getKeyClass(String string, Class<T> type)
-    {
-        return (CaptureRequest.Key) ReflectionHelper.getKeyClass(string,type, CaptureRequest.Key.class);
     }
 }

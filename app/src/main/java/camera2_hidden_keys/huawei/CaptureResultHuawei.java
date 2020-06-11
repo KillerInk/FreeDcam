@@ -1,8 +1,11 @@
-package com.huawei.camera2ex;
+package camera2_hidden_keys.huawei;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureResult;
 import android.os.Build;
+
+import camera2_hidden_keys.AbstractCaptureResult;
+import camera2_hidden_keys.ReflectionHelper;
 
 import java.lang.reflect.Type;
 
@@ -11,7 +14,7 @@ import java.lang.reflect.Type;
  */
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CaptureResultEx {
+public class CaptureResultHuawei extends AbstractCaptureResult {
     
     public static final CaptureResult.Key<Integer> HUAWEI_DUAL_SENSOR_ABORMAL;
     
@@ -66,15 +69,5 @@ public class CaptureResultEx {
     }
 
 
-    private static CaptureResult.Key getKeyType(String string, Type type)
-    {
-        return (CaptureResult.Key) ReflectionHelper.getKeyType(string,type,CaptureResult.Key.class);
-    }
 
-    //public android.hardware.camera2.CameraCharacteristics$Key(java.lang.String,java.lang.Class)
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private static <T> CaptureResult.Key getKeyClass(String string, Class<T> type)
-    {
-        return (CaptureResult.Key) ReflectionHelper.getKeyClass(string,type,CaptureResult.Key.class);
-    }
 }

@@ -38,7 +38,6 @@ import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
-import com.QTI.SOC;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -47,6 +46,7 @@ import java.util.Collections;
 import java.util.List;
 
 import Camera2EXT.OpModes;
+import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -276,7 +276,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps);
 
         if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")) {
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1);
         }
 
     }
@@ -375,7 +375,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
             if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
                 if (currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3") || currentVideoProfile.ProfileName.contains("xEISx")) {
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(SOC.EIS_MODE, (byte) 1);
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1);
                 }
             }
 

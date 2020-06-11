@@ -25,7 +25,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
-import com.huawei.camera2ex.CaptureRequestEx;
+import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 
 import java.util.List;
 
@@ -120,7 +120,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         if (SettingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported() && !SettingsManager.getInstance().getIsFrontCamera())
         {
-            add(SettingKeys.dualPrimaryCameraMode, new DualCameraModeHuaweiApi2(cameraUiWrapper, SettingKeys.dualPrimaryCameraMode, CaptureRequestEx.HUAWEI_DUAL_SENSOR_MODE));
+            add(SettingKeys.dualPrimaryCameraMode, new DualCameraModeHuaweiApi2(cameraUiWrapper, SettingKeys.dualPrimaryCameraMode, CaptureRequestHuawei.HUAWEI_DUAL_SENSOR_MODE));
         }
 
         if (SettingsManager.get(SettingKeys.VideoStabilization).isSupported())

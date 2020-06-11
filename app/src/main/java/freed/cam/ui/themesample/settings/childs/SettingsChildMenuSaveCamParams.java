@@ -32,7 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.huawei.camera2ex.ReflectionHelper;
+import camera2_hidden_keys.ReflectionHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -12,15 +12,14 @@ import android.os.Build;
 import android.util.Range;
 import android.util.Size;
 
-import com.huawei.camera2ex.CameraCharacteristicsEx;
-import com.qcom.CameraCharacteristicsQcom;
+import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
+import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -526,16 +525,16 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
         try {
-                detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
+                detectByteMode(characteristics, CameraCharacteristicsHuawei.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
         }
         catch (IllegalArgumentException ex)
         {
             Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
         }
         try {
-            if (Objects.equals(characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_MODE_SUPPORTED), Byte.valueOf((byte) 1)))
+            if (Objects.equals(characteristics.get(CameraCharacteristicsHuawei.HUAWEI_PROFESSIONAL_MODE_SUPPORTED), Byte.valueOf((byte) 1)))
             {
-                int[] shutterminmax = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_EXPOSURETIME_RANGE);
+                int[] shutterminmax = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_EXPOSURETIME_RANGE);
 
                 int min = shutterminmax[0];
                 int max = shutterminmax[1];
@@ -548,7 +547,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
                 SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
 
-                int[] isominmax = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
+                int[] isominmax = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_ISO_RANGE);
                 min = isominmax[0];
                 max = isominmax[1];
                 int maxiso = SettingsManager.getInstance().getCamera2MaxIso();
@@ -567,7 +566,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
-            int[] raw12 = characteristics.get(CameraCharacteristicsEx.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+            int[] raw12 = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
             if (raw12!= null)
                 SettingsManager.get(SettingKeys.support12bitRaw).set(true);
             Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
@@ -578,7 +577,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
-            byte denoiseSupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_DENOISE_SUPPORTED);
+            byte denoiseSupported = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_DENOISE_SUPPORTED);
             Log.e(TAG,"HUAWEI_DENOISE SUPPORTED :" + denoiseSupported);
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -587,7 +586,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
-            byte rawsupported = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_IMAGE_SUPPORTED);
+            byte rawsupported = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_IMAGE_SUPPORTED);
             Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -595,7 +594,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED false");
         }
         try {
-            int[] deepmap = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
+            int[] deepmap = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
             Log.d(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS");
         }
         catch (IllegalArgumentException ex)
@@ -603,7 +602,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS false");
         }
         try {
-            byte fastbinder = characteristics.get(CameraCharacteristicsEx.HUAWEI_FAST_NOTIFY_SUPPORTED);
+            byte fastbinder = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_FAST_NOTIFY_SUPPORTED);
             Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED" +fastbinder);
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -612,7 +611,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
-            byte dualcamerareporcess = characteristics.get(CameraCharacteristicsEx.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
+            byte dualcamerareporcess = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
             Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS"+ dualcamerareporcess);
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -621,7 +620,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
-            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_PRE_CAPTURE_SUPPORTED);
+            byte precapture = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_PRE_CAPTURE_SUPPORTED);
             Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED" +precapture);
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -629,7 +628,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
         }
         try {
-            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_POST_PROCESS_SUPPORTED);
+            byte precapture = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_POST_PROCESS_SUPPORTED);
             Log.d(TAG,"HUAWEI_POST_PROCESS_SUPPORTED" +precapture);
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -637,7 +636,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_POST_PROCESS_SUPPORTED false");
         }
         try {
-            byte precapture = characteristics.get(CameraCharacteristicsEx.HUAWEI_ZSL_SUPPORTED);
+            byte precapture = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_ZSL_SUPPORTED);
             Log.d(TAG,"HUAWEI_ZSL_SUPPORTED" +precapture);
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -645,7 +644,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_ZSL_SUPPORTED false");
         }
         try {
-            byte[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_HDC_CALIBRATE_DATA);
+            byte[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_HDC_CALIBRATE_DATA);
             Log.d(TAG,"HUAWEI_HDC_CALIBRATE_DATA");
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -653,7 +652,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
             if (hdc != null && hdc.length > 0) {
                 Log.d(TAG, Arrays.toString(hdc));
                 List<String> ls = new ArrayList<>();
@@ -681,7 +680,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
 
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SUPPORTED_BINNING_SIZES);
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SUPPORTED_BINNING_SIZES);
             if (hdc != null)
                 Log.d(TAG, Arrays.toString(hdc));
             Log.d(TAG,"HUAWEI_SUPPORTED_BINNING_SIZES");
@@ -691,7 +690,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_WB_RANGE);
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_WB_RANGE);
             if (hdc != null && hdc.length >0) {
                 Log.d(TAG, Arrays.toString(hdc));
                 SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).set(true);
@@ -714,7 +713,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_MULTICAP);
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_MULTICAP);
             Log.d(TAG,"HUAWEI_MULTICAP");
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -722,7 +721,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.e(TAG,"HUAWEI_MULTICAP false");
         }
         try {
-            int[] hdc = characteristics.get(CameraCharacteristicsEx.HUAWEI_AVAILIBLE_DEPTH_SIZES);
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_AVAILIBLE_DEPTH_SIZES);
             Log.d(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES");
         }
         catch (NullPointerException | IllegalArgumentException ex)
@@ -845,8 +844,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             Log.WriteEx(e);
         }
         try {
-            if (characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_FORMAT) != null) {
-                Byte rawFormat = characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_FORMAT);
+            if (characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT) != null) {
+                Byte rawFormat = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT);
                 hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16), rawFormat.intValue());
                 hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer), rawFormat.intValue());
                 Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);

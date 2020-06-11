@@ -8,7 +8,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Size;
 
-import com.huawei.camera2ex.CameraCharacteristicsEx;
+import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import com.troop.freedcam.R;
 
 import java.util.Arrays;
@@ -81,7 +81,7 @@ public class FindOutputHelper
                     || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng))
                     || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer))) {
                 Log.d(TAG, "get raw size");
-                int[] subsize = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
+                int[] subsize = cameraHolder.characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE);
                 Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_PIXEL_ARRAY_SIZE is null" + (subsize == null));
                 if (subsize.length > 2) { // if this is null it crash correct
                     output.raw_width = subsize[2];
@@ -144,8 +144,8 @@ public class FindOutputHelper
      */
     private void findRawFormat(CameraHolderApi2 cameraHolder, Output output) {
         try {
-            if (CameraCharacteristicsEx.HUAWEI_RAW_FORMAT != null && cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_FORMAT) != null)
-                output.raw_format = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_RAW_FORMAT).intValue();
+            if (CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT != null && cameraHolder.characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT) != null)
+                output.raw_format = cameraHolder.characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT).intValue();
             else
                 output.raw_format = ImageFormat.RAW_SENSOR;
         }

@@ -1,16 +1,17 @@
-package com.QTI;
+package camera2_hidden_keys.xiaomi;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.huawei.camera2ex.ReflectionHelper;
+import camera2_hidden_keys.AbstractCaptureRequest;
+import camera2_hidden_keys.ReflectionHelper;
 
 import java.lang.reflect.Type;
 
 @SuppressWarnings("unchecked")
 @TargetApi(Build.VERSION_CODES.N)
-public class Xiaomi {
+public class CaptureRequestXiaomi extends AbstractCaptureRequest {
 
     public static final CaptureRequest.Key<Boolean> SUPER_NIGHT;
 
@@ -85,16 +86,5 @@ public class Xiaomi {
         WATERMARK_APPLIEDTYPE = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", String.class);
         WATERMARK_FACE = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", String.class);
         WATERMARK_TIME = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", String.class);
-
-    }
-
-    private static CaptureRequest.Key getKeyType(String string, Type type)
-    {
-        return (CaptureRequest.Key) ReflectionHelper.getKeyType(string,type, CaptureRequest.Key.class);
-    }
-
-    private static <T> CaptureRequest.Key getKeyClass(String string, Class<T> type)
-    {
-        return (CaptureRequest.Key) ReflectionHelper.getKeyClass(string,type, CaptureRequest.Key.class);
     }
 }

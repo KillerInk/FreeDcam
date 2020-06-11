@@ -6,8 +6,8 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
-import com.huawei.camera2ex.CameraCharacteristicsEx;
-import com.huawei.camera2ex.CaptureRequestEx;
+import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
+import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
@@ -32,7 +32,7 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     protected void onStartTakePicture() {
         isoauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).GetValue();
         shutterauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).GetValue();
-        int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsEx.HUAWEI_SENSOR_ISO_RANGE);
+        int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[isorange.length-1];
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
@@ -67,14 +67,14 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
         }
         else
             exporat = new Rational(1,(int)(0.5D + 1.0E9F / msexpo));*/
-        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestHuawei.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
         //cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
-        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
-        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
-        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
-        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE, CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE_ENABLED);
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequestHuawei.HUAWEI_SENSOR_ISO_VALUE, currentiso);
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE, CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE_ENABLED);
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestHuawei.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
         //cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
-        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
+        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestHuawei.HUAWEI_SENSOR_ISO_VALUE, currentiso);
         //take Max latency frames to make sure full capture has correct values set. only full devices with latency 0 applys changes direct
         int fps = cameraHolder.characteristics.get(CameraCharacteristics.SYNC_MAX_LATENCY);
         for (int i = 0; i < fps;i++)

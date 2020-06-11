@@ -22,7 +22,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
 
-import com.huawei.camera2ex.CaptureRequestEx;
+import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -193,7 +193,7 @@ public class CaptureSessionHandler
             mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             try {
                 if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
-                    mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_CAMERA_FLAG, (byte) 1);
+                    mPreviewRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG, (byte) 1);
             }
             catch (IllegalArgumentException ex)
             {
@@ -211,7 +211,7 @@ public class CaptureSessionHandler
         try {
             mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
-                mImageCaptureRequestBuilder.set(CaptureRequestEx.HUAWEI_CAMERA_FLAG,(byte)1);
+                mImageCaptureRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG,(byte)1);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }

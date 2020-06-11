@@ -1,4 +1,4 @@
-package com.huawei.camera2ex;
+package camera2_hidden_keys;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

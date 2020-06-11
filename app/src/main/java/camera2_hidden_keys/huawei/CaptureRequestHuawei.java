@@ -1,10 +1,14 @@
-package com.huawei.camera2ex;
+package camera2_hidden_keys.huawei;
 
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.util.Rational;
 import android.util.Size;
+
+import camera2_hidden_keys.AbstractCaptureRequest;
+import camera2_hidden_keys.AbstractCaptureResult;
+import camera2_hidden_keys.ReflectionHelper;
 
 import java.lang.reflect.Type;
 
@@ -13,7 +17,7 @@ import java.lang.reflect.Type;
  */
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CaptureRequestEx {
+public class CaptureRequestHuawei extends AbstractCaptureRequest {
 
     public static final CaptureRequest.Key<Byte> ANDROID_HW_COLOR_MODE;
     
@@ -272,16 +276,5 @@ public class CaptureRequestEx {
         CONTROL_SIZE = getKeyType("com.huawei.camera.size", Size.class);
         VIDEO_SNAPSHOT_SIZE = getKeyType("com.huawei.camera.videosnapshotsize", Size.class);
     }
-//0 = {Constructor@5072} "protected android.hardware.camera2.utils.TypeReference()"
-//1 = {Constructor@5073} "private android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type)"
-//            2 = {Constructor@5061} "android.hardware.camera2.utils.TypeReference(java.lang.reflect.Type,android.hardware.camera2.utils.TypeReference)"
-    private static CaptureRequest.Key getKeyType(String string, Type type)
-    {
-        return (CaptureRequest.Key) ReflectionHelper.getKeyType(string,type, CaptureRequest.Key.class);
-    }
 
-    private static <T> CaptureRequest.Key getKeyClass(String string, Class<T> type)
-    {
-        return (CaptureRequest.Key) ReflectionHelper.getKeyClass(string,type, CaptureRequest.Key.class);
-    }
 }
