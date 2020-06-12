@@ -574,14 +574,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private void onSesssionRdy()
     {
         Log.d(TAG, "onSessionRdy() ######################### Rdy to Start Preview, CAPTURE CYCLE DONE #####################");
-        cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
-        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
-                || cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO) {
+
+        if (isContAutoFocus()) {
             cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
                     CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+
         }
         cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
                 CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+        cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
     }
 
 
