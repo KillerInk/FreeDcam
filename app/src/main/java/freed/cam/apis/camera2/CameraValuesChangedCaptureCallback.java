@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.Frameworks;
@@ -276,32 +277,24 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
-                    if (!camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue().equals(camera2Fragment.getContext().getString(R.string.off)) || camera2Fragment.getParameterHandler().get(SettingKeys.ExposureMode)==null)
-                    {
-                        try {
-                            long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
-                            currentExposureTime = expores;
-                            if (expores != 0) {
-                                expotime.fireStringValueChanged(getShutterStringNS(expores));
-                            } else
-                                expotime.fireStringValueChanged("1/60");
+                    long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
+                    currentExposureTime = expores;
+                    if (expores != 0) {
+                        expotime.fireStringValueChanged(getShutterStringNS(expores));
+                    } else
+                        expotime.fireStringValueChanged("1/60");
 
-                            //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
-                        } catch (Exception ex) {
-                            Log.v(TAG, "cant get expo time");
-                        }
-                        try {
-                            int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                            currentIso = isova;
-                            iso.fireStringValueChanged("" + isova);
-                            //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
-                        } catch (NullPointerException ex) {
-                            Log.v(TAG, "cant get iso");
-                        }
-
-                    }
+                    //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
+                } catch (Exception ex) {
+                    Log.v(TAG, "cant get expo time");
+                }
+                try {
+                    int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+                    currentIso = isova;
+                    iso.fireStringValueChanged("" + isova);
+                    //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                 } catch (NullPointerException ex) {
-                    Log.v(TAG, "cant get exposuremode");
+                    Log.v(TAG, "cant get iso");
                 }
             }
         }
