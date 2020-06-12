@@ -339,6 +339,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         publishProgress("Detect ExposureModes");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, SettingsManager.get(SettingKeys.ExposureMode), FreedApplication.getStringArrayFromRessource(R.array.aemodes));
+                        SettingsManager.get(SettingKeys.ExposureMode).set(FreedApplication.getStringFromRessources(R.string.on));
                         sendProgress(SettingsManager.get(SettingKeys.ExposureMode), "ExposureModes:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
@@ -492,6 +493,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     }
 
                     detectHuaweiParameters(characteristics);
+
+                    dumpQCFA(characteristics);
 
                 }
             }
@@ -1413,5 +1416,36 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 return true;
         }
         return false;
+    }
+
+    private void dumpQCFA(CameraCharacteristics cameraCharacteristics)
+    {
+        try {
+            byte isQcfa = cameraCharacteristics.get(CameraCharacteristicsQcom.is_qcfa_sensor);
+            Log.d(TAG, "isQcfa:" + isQcfa);
+            Integer[] qcfa_dimens = cameraCharacteristics.get(CameraCharacteristicsQcom.qcfa_dimension);
+            Log.d(TAG, "qcfa_dimens:" + Arrays.toString(qcfa_dimens));
+            Integer[] qcfa_streamSizes = cameraCharacteristics.get(CameraCharacteristicsQcom.qcfa_availableStreamConfigurations);
+            Log.d(TAG, "qcfa avail stream config" + Arrays.toString(qcfa_streamSizes));
+            Integer[] active_array_size = cameraCharacteristics.get(CameraCharacteristicsQcom.qcfa_activeArraySize);
+            Log.d(TAG, "qcfa acitve array size: " + Arrays.toString(active_array_size));
+        }
+        catch (IllegalArgumentException | NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
+            //Integer customhw = cameraCharacteristics.get(CameraCharacteristicsQcom.customhw);
+            //Log.d(TAG, "customhw: " + customhw);
+        try {
+
+            byte qcfaenabled = cameraCharacteristics.get(CameraCharacteristicsXiaomi.qcfa_enabled);
+            Log.d(TAG, "qcfa enabled:" + qcfaenabled);
+            byte qcfasupported = cameraCharacteristics.get(CameraCharacteristicsXiaomi.qcfa_supported);
+            Log.d(TAG, "qcfa supported:" + qcfasupported);
+        }
+            catch (IllegalArgumentException | NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }
