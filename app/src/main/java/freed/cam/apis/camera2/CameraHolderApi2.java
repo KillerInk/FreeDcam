@@ -42,6 +42,7 @@ import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
@@ -74,7 +75,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
+        manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
         checkSetOpMode();
      }
 
@@ -120,12 +121,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         Log.d(TAG, "Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
-        if (VERSION.SDK_INT >= 23) {
-            if (cameraUiWrapper.getContext().checkSelfPermission(permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                cameraUiWrapper.fireCameraError("Error: Permission for Camera are not granted!");
-                return false;
-            }
-        }
         try
         {
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");

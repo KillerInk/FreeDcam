@@ -25,6 +25,7 @@ import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.R;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
@@ -81,10 +82,10 @@ public class ManualFocus extends AbstractParameter
         else // set to manual
         {
             //if focusmode is in any other mode, turn af off
-            if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(cameraUiWrapper.getContext().getString(R.string.off)))
+            if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
             {
                 //apply turn off direct to the capturesession, else it get stored in settings.
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(cameraUiWrapper.getContext().getString(R.string.off));
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off));
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }

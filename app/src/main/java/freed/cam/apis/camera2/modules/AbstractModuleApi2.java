@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -49,7 +50,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();
-        Display display = ((WindowManager)cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
 
         display.getRealSize(displaySize);

@@ -19,7 +19,6 @@
 
 package freed.cam.apis.basecamera;
 
-import android.content.Context;
 import android.view.SurfaceView;
 
 /**
@@ -69,7 +68,6 @@ public interface CameraWrapperInterface extends CameraObjects
 
     boolean isAeMeteringSupported();
 
-    Context getContext();
     SurfaceView getSurfaceView();
 
 

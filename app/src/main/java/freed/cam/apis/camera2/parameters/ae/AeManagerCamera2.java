@@ -142,7 +142,7 @@ public class AeManagerCamera2 extends AeManager {
         public void setValue(String valueToSet, boolean setToCamera)
         {
             super.setValue(valueToSet,setToCamera);
-            if (valueToSet.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
+            if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.off))) {
                 setAeMode(AeStates.manual);
             }
             else {

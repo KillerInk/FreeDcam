@@ -171,7 +171,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             {
                 DocumentFile df = cameraUiWrapper.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
-                output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
+                output = FreedApplication.getContext().getContentResolver().openOutputStream(wr.getUri());
             }
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];

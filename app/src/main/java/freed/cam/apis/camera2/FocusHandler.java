@@ -31,6 +31,7 @@ import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
@@ -61,12 +62,12 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
     @Subscribe
     public void onFocusModeValueChanged(ValueChangedEvent<String> valueChangedEvent)
     {
-        if (valueChangedEvent.type != String.class || cameraUiWrapper == null || cameraUiWrapper.getContext() == null)
+        if (valueChangedEvent.type != String.class || cameraUiWrapper == null)
             return;
         if (valueChangedEvent.key == SettingKeys.FocusMode) {
             Log.d(TAG, "onFocusModeValueChanged");
             String val = valueChangedEvent.newValue;
-            if (val.contains("Continous") || val.equals(cameraUiWrapper.getContext().getString(R.string.off))) {
+            if (val.contains("Continous") || val.equals(FreedApplication.getStringFromRessources(R.string.off))) {
                 focusenabled = false;
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(false);
