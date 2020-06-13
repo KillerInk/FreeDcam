@@ -93,7 +93,7 @@ public class GpsParameter extends AbstractParameter
             if (!userAcceptedPermission && !askedForPermission)
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))
                     && !activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
-                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location,null);
+                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
             SettingsManager.get(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             askedForPermission = false;

@@ -21,15 +21,10 @@ public class PermissionManager
         Location,
         Wifi,
         RecordAudio,
+        SdCard_Camera,
     }
 
     private final String TAG = PermissionManager.class.getSimpleName();
-    private PermissionCallback callbackToReturn;
-
-    public interface PermissionCallback
-    {
-        void permissionGranted(boolean granted);
-    }
 
     Activity activity;
 
@@ -51,6 +46,8 @@ public class PermissionManager
                 return isPermissionGranted(new String[]{Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE});
             case RecordAudio:
                 return isPermissionGranted(new String[]{Manifest.permission.RECORD_AUDIO});
+            case SdCard_Camera:
+                return isPermissionGranted(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA});
         }
         return false;
     }
@@ -58,94 +55,44 @@ public class PermissionManager
     private boolean isPermissionGranted(String[] permission)
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean granted = true;
             for (String s : permission) {
                 if (activity.checkSelfPermission(s) != PackageManager.PERMISSION_GRANTED) {
-                    granted = false;
-                    break;
+                    return false;
                 }
             }
-            return granted;
+            return true;
         }
         return true;
     }
 
-    public void requestPermission(Permissions permission,PermissionCallback callbackToReturn)
+    public void requestPermission(Permissions permission)
     {
         switch (permission) {
             case SdCard:
-                requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},callbackToReturn);
+                requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE});
                 break;
             case Camera:
-                requestPermission(new String[]{Manifest.permission.CAMERA},callbackToReturn);
+                requestPermission(new String[]{Manifest.permission.CAMERA});
                 break;
             case Location:
-                requestPermission(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},callbackToReturn);
+                requestPermission(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION});
                 break;
             case Wifi:
-                requestPermission(new String[]{Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},callbackToReturn);
+                requestPermission(new String[]{Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE});
                 break;
             case RecordAudio:
-                requestPermission(new String[]{Manifest.permission.RECORD_AUDIO}, callbackToReturn);
+                requestPermission(new String[]{Manifest.permission.RECORD_AUDIO});
                 break;
+            case SdCard_Camera:
+                requestPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA});
         }
     }
 
-    private void requestPermission(String[] permissions,PermissionCallback callbackToReturn)
+    private void requestPermission(String[] permissions)
     {
-        this.callbackToReturn = callbackToReturn;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             activity.requestPermissions(permissions, 1);
         }
     }
 
-
-    public boolean hasCameraAndSdPermission(PermissionCallback callbackToReturn)
-    {
-        return hasPermission(callbackToReturn, new String[]{
-                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-        });
-    }
-
-    private boolean hasPermission(PermissionCallback callbackToReturn, String[] permission)
-    {
-        this.callbackToReturn = callbackToReturn;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            boolean granted = true;
-            for (String s : permission)
-            {
-                if(activity.checkSelfPermission(s)!= PackageManager.PERMISSION_GRANTED) {
-                    granted = false;
-                    break;
-                }
-
-            }
-            if (!granted)
-            {
-                Log.d(TAG, "Request Permission:"+ Arrays.toString(permission));
-                activity.requestPermissions(permission,1);
-                return false;
-            }
-        }
-        if (callbackToReturn != null)
-            callbackToReturn.permissionGranted(true);
-        return true;
-    }
-
-
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults)
-    {
-        if (callbackToReturn == null)
-            return;
-        boolean allGranted = true;
-        for (int i = 0; i < permissions.length;i++) {
-            String perm = permissions[i];
-            allGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
-            if (!allGranted)
-                break;
-        }
-        callbackToReturn.permissionGranted(allGranted);
-        callbackToReturn = null;
-    }
 }

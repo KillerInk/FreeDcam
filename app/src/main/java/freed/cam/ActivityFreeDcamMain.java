@@ -145,17 +145,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,"onCreate: " + currentState);
+        Log.d(TAG,"onCreate: ");
         locationManager = new LocationManager(this,getLifecycle());
-    }
-
-    @Override
-    public void onCreatePermissionGranted() {
-        super.onCreatePermissionGranted();
-        if (currentState == AppState.Paused || currentState == AppState.Destroyed) {
-            Log.d(TAG, "Wrong AppState" + currentState);
-            return;
-        }
         userMessageHandler = new UserMessageHandler();
         userMessageHandler.setContext(getApplication());
         userMessageHandler.startListning();
@@ -167,7 +158,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-
     }
 
     @Override
@@ -188,28 +178,39 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void setContentToView() {
-        if (currentState == AppState.Destroyed || currentState == AppState.Paused)
-            return;
         setContentView(layout.freedcam_main_activity);
 
     }
 
 
     @Override
-    public void onResumePermissionGranted() {
-        super.onResumePermissionGranted();
-        Log.d(TAG, "onResume()" + currentState);
-        // forward to secure camera to handle resume bug
-        if (mSecureCamera !=  null)
-            mSecureCamera.onResume();
+    protected void onResume() {
+        super.onResume();
+        if (!FileListController.needStorageAccessFrameWork){
+            if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard_Camera)) {
+                if (mSecureCamera !=  null)
+                    mSecureCamera.onResume();
+            }
+            else
+                getPermissionManager().requestPermission(PermissionManager.Permissions.SdCard_Camera);
+        }
+        else
+        {
+            if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Camera)) {
+                if (mSecureCamera !=  null)
+                    mSecureCamera.onResume();
+            }
+            else
+                getPermissionManager().requestPermission(PermissionManager.Permissions.Camera);
+        }
     }
 
     @Override
     public void onResumeTasks() {
-        Log.d(TAG, "onResumeTasks() " + currentState);
+        Log.d(TAG, "onResumeTasks() ");
         activityIsResumed = true;
-        if (!SettingsManager.getInstance().isInit() || cameraFragmentManager == null)
-            return;
+        if (!SettingsManager.getInstance().isInit())
+            SettingsManager.getInstance();
 
         cameraFragmentManager.onResume();
         if (SettingsManager.getInstance().appVersionHasChanged()) {
@@ -227,7 +228,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void onPause()
     {
         super.onPause();
-        Log.d(TAG, "onPause() " + currentState);
+        Log.d(TAG, "onPause() ");
         // forward to secure camera to handle resume bug
         if (mSecureCamera != null)
             mSecureCamera.onPause();
@@ -237,7 +238,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onPauseTasks() {
         unloadCameraFragment();
         SettingsManager.getInstance().save();
-        Log.d(TAG, "onPauseTasks() " + currentState);
+        Log.d(TAG, "onPauseTasks() ");
         if(orientationManager != null)
             orientationManager.Stop();
         activityIsResumed = false;

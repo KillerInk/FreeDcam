@@ -41,6 +41,7 @@ import freed.file.holder.BaseHolder;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
+import freed.utils.PermissionManager;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.ScreenSlideFragment;
@@ -66,13 +67,9 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onCreatePermissionGranted() {
-        super.onCreatePermissionGranted();
         init();
     }
+
 
     @Override
     protected void setContentToView() {
@@ -99,6 +96,12 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
         slideholder.setVisibility(View.GONE);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard))
+            FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
+    }
 
     @Override
     public LocationManager getLocationManager() {

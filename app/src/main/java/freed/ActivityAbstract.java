@@ -28,19 +28,23 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Environment;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
+import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
+import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
 
 /**
  * Created by troop on 28.03.2016.
  */
-public abstract class ActivityAbstract extends PermissionActivity implements ActivityInterface {
+public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface {
 
     private final boolean forceLogging = false;
 
@@ -48,30 +52,22 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     protected BitmapHelper bitmapHelper;
     protected FileListController fileListController;
     private I_OnActivityResultCallback resultCallback;
+    private HideNavBarHelper hideNavBarHelper;
+    private PermissionManager permissionManager;
+    public PermissionManager getPermissionManager() {
+        return permissionManager;
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentToView();
         Log.d(TAG,"onCreate");
+        hideNavBarHelper = new HideNavBarHelper();
+        permissionManager =new PermissionManager(this);
         if (!SettingsManager.getInstance().isInit()) {
             SettingsManager.getInstance().init();
-        }
-
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        ImageManager.getInstance(); // init it
-    }
-
-    @Override
-    public void onCreatePermissionGranted()
-    {
-        if (currentState == AppState.Paused || currentState == AppState.Destroyed) {
-            Log.d(TAG, "Wrong AppState" + currentState);
-            return;
         }
         Log.d(TAG,"onCreatePermissionGranted");
         File log = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
@@ -85,6 +81,15 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
             new Log();
         }
         Log.d(TAG, "initOnCreate()");
+
+    }
+
+    protected abstract void setContentToView();
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        ImageManager.getInstance(); // init it
     }
 
     @Override
@@ -100,12 +105,6 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
     @Override
     protected void onResume() {
         super.onResume();
-
-    }
-
-    @Override
-    public void onResumePermissionGranted() {
-
     }
 
     @Override
@@ -117,6 +116,13 @@ public abstract class ActivityAbstract extends PermissionActivity implements Act
 
     @Override
     public void closeActivity() {
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus)
+            hideNavBarHelper.HIDENAVBAR(getWindow());
     }
 
     @Override

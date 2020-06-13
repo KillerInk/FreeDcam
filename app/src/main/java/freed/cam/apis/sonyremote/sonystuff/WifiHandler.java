@@ -42,10 +42,10 @@ public class WifiHandler extends WifiUtils {
         resumed = true;
         if(activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location)) {
             if (!activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Wifi))
-                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Wifi,null);
+                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Wifi);
         }
         else {
-            activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location,null);
+            activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
             sendMessage("Location Permission is needed to find the camera!");
         }
     }

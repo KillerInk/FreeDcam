@@ -44,11 +44,6 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onCreatePermissionGranted() {
-        super.onCreatePermissionGranted();
         Intent callerIntent = getIntent();
         Log.d(TAG, callerIntent.getAction());
         if (callerIntent.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {
@@ -57,6 +52,7 @@ public class ActivityFreeDcamShare extends ActivityFreeDcamMain
             Log.d(TAG, imageUri.getPath());
         }
     }
+
 
     /*@Override
     public void WorkHasFinished(FileHolder fileHolder)

@@ -121,7 +121,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             prepareRecorder();
         }
         else
-            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio,null);
+            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
 
     }
 
