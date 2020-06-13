@@ -36,6 +36,7 @@ public class CameraHolderMotoX extends CameraHolderLegacy {
     @Override
     public boolean OpenCamera(int camera)
     {
+        boolean isRdy;
         Log.d(CameraHolderLG.class.getSimpleName(), "open Motox camera");
         isRdy = super.OpenCamera(camera);
         try {

@@ -189,25 +189,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
     }
 
-    @Override
-    public int CameraCout() {
-        return CameraCountId().length;
-    }
-
-    public String[] CameraCountId()
-    {
-        try {
-            return manager.getCameraIdList();
-        } catch (CameraAccessException ex) {
-            Log.WriteEx(ex);
-        }
-        return null;
-    }
-
-    @Override
-    public boolean IsRdy() {
-        return super.IsRdy();
-    }
 
     @Override
     public boolean SetSurface(Surface texture) {

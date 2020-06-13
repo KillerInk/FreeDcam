@@ -41,8 +41,8 @@ public class CameraHolderLG extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
+        boolean isRdy = false;
         try {
-
             if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
                 lgCamera = new LGCameraRef(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");

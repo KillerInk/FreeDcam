@@ -41,6 +41,7 @@ public class CameraHolderMTK extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
+        boolean isRdy;
         try {
             Log.d(CameraHolderLG.class.getSimpleName(), "open MTK camera");
             setMtkAppMode();

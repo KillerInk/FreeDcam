@@ -35,19 +35,6 @@ public interface CameraHolderInterface
      */
     boolean OpenCamera(int camera);
     void CloseCamera();
-    /**
-     *
-     * @return the count of avail cameras
-     */
-    int CameraCout();
-    boolean IsRdy();
-
-    /**
-     * Set the surface to camera
-     * @param texture to set
-     * @return
-     */
-    boolean SetSurface(SurfaceHolder texture);
     boolean SetSurface(Surface texture);
     void StartPreview();
     void StopPreview();

@@ -28,8 +28,6 @@ import android.view.SurfaceHolder;
  */
 public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
-    protected boolean isRdy;
-
     protected CameraWrapperInterface cameraUiWrapper;
 
     /**
@@ -47,24 +45,6 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     @Override
     public abstract void CloseCamera();
 
-    /**
-     *
-     * @return the count of avail cameras
-     */
-    @Override
-    public int CameraCout() {
-        return 0;
-    }
-
-    @Override
-    public boolean IsRdy() {
-        return isRdy;
-    }
-
-    @Override
-    public boolean SetSurface(SurfaceHolder texture) {
-        return false;
-    }
 
     @Override
     public abstract void StartPreview();

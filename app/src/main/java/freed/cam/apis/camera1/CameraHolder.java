@@ -103,16 +103,15 @@ public class CameraHolder extends CameraHolderAbstract
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
             mCamera.setErrorCallback((error, camera1) -> Log.e(TAG, "Error:" + error));
-            isRdy = true;
             cameraUiWrapper.fireCameraOpen();
+            return true;
 
         } catch (Exception ex) {
-            isRdy = false;
             Log.WriteEx(ex);
             if (mCamera != null)
                 mCamera.release();
         }
-        return isRdy;
+        return false;
     }
 
     @Override
@@ -130,23 +129,9 @@ public class CameraHolder extends CameraHolderAbstract
         }
         finally {
             mCamera = null;
-            isRdy = false;
             Log.d(TAG, "Camera closed");
         }
-        isRdy = false;
         cameraUiWrapper.fireCameraClose();
-    }
-
-
-
-    @Override
-    public int CameraCout() {
-        return Camera.getNumberOfCameras();
-    }
-
-    @Override
-    public boolean IsRdy() {
-        return isRdy;
     }
 
     public void SetCameraParameters(Parameters parameters)
@@ -161,41 +146,12 @@ public class CameraHolder extends CameraHolderAbstract
 
     }
 
-    @Override
-    public boolean SetSurface(SurfaceHolder surfaceHolder)
-    {
-        Log.d(TAG, "setSurface surfaceholder");
-        previewSurfaceHolder = surfaceHolder.getSurface();
-        try
-        {
-            if (isRdy && mCamera != null) {
-                if (setPreviewSurfaceMethod != null)
-                    setPreviewSurfaceMethod.invoke(mCamera,surfaceHolder.getSurface());
-                else
-                    mCamera.setPreviewDisplay(surfaceHolder);
-                return true;
-            }
-        } catch (IOException ex) {
-            Log.WriteEx(ex);
-            return false;
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     @Override
     public boolean SetSurface(Surface texture) {
         Log.d(TAG, "setSurface surface");
         try {
-            if (isRdy && mCamera != null) {
+            if (mCamera != null) {
                 if (setPreviewSurfaceMethod != null) {
                     setPreviewSurfaceMethod.setAccessible(true);
                     setPreviewSurfaceMethod.invoke(mCamera, texture);
@@ -293,26 +249,6 @@ public class CameraHolder extends CameraHolderAbstract
         }
     }
 
-    public void SetPreviewCallback(PreviewCallback previewCallback)
-    {
-        try {
-            if (!isRdy)
-                return;
-            Size s = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue());
-            //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
-            for (int i = 0; i< BUFFERCOUNT; i++)
-            {
-                mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                        ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
-            }
-            mCamera.setPreviewCallbackWithBuffer(previewCallback);
-        }
-        catch (NullPointerException ex)
-        {
-            Log.e(TAG,ex.getMessage());
-        }
-
-    }
 
     public void ResetPreviewCallback()
     {
@@ -333,7 +269,7 @@ public class CameraHolder extends CameraHolderAbstract
 
     public void StartFocus(final FocusEvents autoFocusCallback)
     {
-        if (!isRdy)
+        if (mCamera == null)
             return;
         try {
             mCamera.autoFocus((success, camera) -> {
@@ -352,7 +288,7 @@ public class CameraHolder extends CameraHolderAbstract
 
     public void CancelFocus()
     {
-        if (!isRdy)
+        if (mCamera == null)
             return;
         mCamera.cancelAutoFocus();
     }
@@ -385,9 +321,6 @@ public class CameraHolder extends CameraHolderAbstract
     @Override
     public void SetLocation(Location loc)
     {
-        if(!isRdy)
-            return;
-
         if (mCamera != null && loc != null) {
             Parameters paras = mCamera.getParameters();
             if (loc.hasAltitude())
@@ -409,7 +342,7 @@ public class CameraHolder extends CameraHolderAbstract
 
     public void SetCameraRotation(int rotation)
     {
-        if (!isRdy)
+        if (mCamera == null)
             return;
         mCamera.setDisplayOrientation(rotation);
     }

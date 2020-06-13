@@ -42,6 +42,7 @@ public class CameraHolderLegacy extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
+        boolean isRdy = false;
         Log.d(TAG, "open camera legacy");
         try {
             mCamera = openWrapper(camera);

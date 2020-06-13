@@ -30,6 +30,7 @@ public class CameraHolderSony extends CameraHolder {
     @Override
     public boolean OpenCamera(int camera)
     {
+        boolean isRdy;
         try
         {
             Log.d(TAG, "open camera");
@@ -70,10 +71,8 @@ public class CameraHolderSony extends CameraHolder {
         }
         finally {
             mCamera = null;
-            isRdy = false;
             Log.d(TAG, "Camera closed");
         }
-        isRdy = false;
         cameraUiWrapper.fireCameraClose();
     }
 

@@ -103,16 +103,6 @@ public class CameraHolderSony extends CameraHolderAbstract
     }
 
     @Override
-    public int CameraCout() {
-        return 0;
-    }
-
-    @Override
-    public boolean IsRdy() {
-        return false;
-    }
-
-    @Override
     public boolean SetSurface(Surface texture) {
         return false;
     }
