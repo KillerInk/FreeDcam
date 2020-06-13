@@ -363,7 +363,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             captureType = CaptureType.Bayer10;
         }
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
-        if (captureType == CaptureType.Jpeg)
+        //if (captureType == CaptureType.Jpeg)
             jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
         if (captureType == CaptureType.Yuv) {
             String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
