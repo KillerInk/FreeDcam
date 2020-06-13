@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import java.util.Arrays;
-
 /**
  * Created by troop on 09.03.2017.
  */

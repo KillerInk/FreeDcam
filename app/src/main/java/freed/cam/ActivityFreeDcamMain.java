@@ -227,7 +227,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         else {
             if (uiViewPagerAdapter == null)
                 initScreenSlide();
-            loadCameraFragment();
         }
     }
 
@@ -243,7 +242,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onPauseTasks() {
-        unloadCameraFragment();
+        //unloadCameraFragment();
+        cameraFragmentManager.onPause();
         SettingsManager.getInstance().save();
         Log.d(TAG, "onPauseTasks() ");
         if(orientationManager != null)

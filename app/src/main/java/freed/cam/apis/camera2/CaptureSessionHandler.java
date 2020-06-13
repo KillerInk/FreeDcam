@@ -22,13 +22,12 @@ import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
 
-import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;

@@ -6,9 +6,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.AbstractCaptureRequest;
-import camera2_hidden_keys.ReflectionHelper;
-
-import java.lang.reflect.Type;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CaptureRequestSamsung extends AbstractCaptureRequest {

@@ -42,8 +42,6 @@ import freed.utils.Log;
 public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
-
-
     protected View view;
     protected RenderScriptManager renderScriptManager;
 

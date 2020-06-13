@@ -9,9 +9,6 @@ import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
-import com.troop.freedcam.R;
-
-import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.Frameworks;

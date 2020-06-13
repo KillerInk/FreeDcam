@@ -102,6 +102,16 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
             cameraFragment.setRenderScriptManager(renderScriptManager);
         }
+        else
+            switchCameraFragment();
+    }
+
+    public void  onPause()
+    {
+        if (cameraFragment != null) {
+            cameraFragment.stopCameraAsync();
+            mainToCameraHandler.setCameraInterface(null);
+        }
     }
 
     public void switchCameraFragment()

@@ -37,7 +37,6 @@ import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
-import freed.utils.MediaScannerManager;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
 
@@ -123,6 +122,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
             hideNavBarHelper.HIDENAVBAR(getWindow());
+        else
+            hideNavBarHelper.showNavbar(getWindow());
     }
 
     @Override

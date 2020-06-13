@@ -162,7 +162,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     {
         textureView = view.findViewById(id.autofitview);
         histogram = view.findViewById(id.hisotview);
-        mainToCameraHandler.createCamera();
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.createCamera();
         Log.d(TAG, "Ctor done");
         textureView.setSurfaceTextureListener(this);
     }

@@ -19,16 +19,13 @@
 
 package freed.cam.apis.camera1;
 
-import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Area;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.PreviewCallback;
 import android.location.Location;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import java.io.IOException;
@@ -40,10 +37,8 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.apis.basecamera.Size;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**

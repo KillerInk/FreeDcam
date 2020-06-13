@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.FrameworkDetector;

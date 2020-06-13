@@ -21,8 +21,6 @@ package freed;
 
 import android.net.Uri;
 
-import java.io.File;
-
 import freed.file.FileListController;
 import freed.utils.LocationManager;
 import freed.utils.PermissionManager;

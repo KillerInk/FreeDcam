@@ -7,10 +7,6 @@ import android.util.Rational;
 import android.util.Size;
 
 import camera2_hidden_keys.AbstractCaptureRequest;
-import camera2_hidden_keys.AbstractCaptureResult;
-import camera2_hidden_keys.ReflectionHelper;
-
-import java.lang.reflect.Type;
 
 /**
  * Created by troop on 29.03.2017.

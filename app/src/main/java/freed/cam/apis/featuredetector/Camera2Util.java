@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.FreedApplication;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
-import freed.utils.Log;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

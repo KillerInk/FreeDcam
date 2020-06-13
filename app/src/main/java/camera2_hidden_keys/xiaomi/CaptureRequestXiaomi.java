@@ -5,9 +5,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
 import camera2_hidden_keys.AbstractCaptureRequest;
-import camera2_hidden_keys.ReflectionHelper;
-
-import java.lang.reflect.Type;
 
 @SuppressWarnings("unchecked")
 @TargetApi(Build.VERSION_CODES.N)

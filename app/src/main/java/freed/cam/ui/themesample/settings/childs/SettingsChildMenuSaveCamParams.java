@@ -32,13 +32,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import camera2_hidden_keys.ReflectionHelper;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import camera2_hidden_keys.ReflectionHelper;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;

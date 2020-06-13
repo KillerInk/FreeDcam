@@ -177,7 +177,13 @@ public class FileListController {
 
     private void SortFileHolder(List<BaseHolder> f)
     {
-        Collections.sort(f, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(Long.valueOf(f1.lastModified())));
+        try {
+            Collections.sort(f, (f1, f2) -> Long.valueOf(f2.lastModified()).compareTo(Long.valueOf(f1.lastModified())));
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     private File getStorageDirectory() {
@@ -319,8 +325,10 @@ public class FileListController {
             return;
         if (fileName.getParentFile() == null)
             return;
-        if(!fileName.getParentFile().exists())
+        if(!fileName.getParentFile().exists()) {
             fileName.getParentFile().mkdirs();
+            fileName.getParentFile().mkdir();
+        }
         if (!fileName.exists())
             try {
                 fileName.createNewFile();

@@ -8,12 +8,12 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Size;
 
-import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import com.troop.freedcam.R;
 
 import java.util.Arrays;
 import java.util.Collections;
 
+import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import freed.FreedApplication;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.settings.SettingKeys;
