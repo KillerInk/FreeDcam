@@ -46,6 +46,8 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
+import freed.cam.events.DisableViewPagerTouchEvent;
+import freed.cam.events.EventBusHelper;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.FreeDPool;
@@ -109,12 +111,12 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     @Override
     public void onDown() {
-        activityInterface.DisablePagerTouch(true);
+        EventBusHelper.post(new DisableViewPagerTouchEvent(true));
     }
 
     @Override
     public void onUp() {
-        activityInterface.DisablePagerTouch(false);
+        EventBusHelper.post(new DisableViewPagerTouchEvent(false));
     }
 
     @Override

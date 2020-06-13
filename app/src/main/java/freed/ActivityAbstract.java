@@ -181,12 +181,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public void DisablePagerTouch(boolean disable)
-    {
-
-    }
-
-    @Override
     public int getOrientation() {
         return 0;
     }

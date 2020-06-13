@@ -35,6 +35,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.events.CameraStateEvents;
+import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.SwichCameraFragmentEvent;
@@ -127,6 +128,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     {
         unloadCameraFragment();
         loadCameraFragment();
+    }
+
+    @Subscribe
+    public void onDisableViewPagerTouch(DisableViewPagerTouchEvent event)
+    {
+        uiViewPager.EnableScroll(!event.disableIt);
     }
 
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
@@ -336,13 +343,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void closeActivity()
     {
         moveTaskToBack(true);
-    }
-
-
-
-    @Override
-    public void DisablePagerTouch(boolean disable) {
-        uiViewPager.EnableScroll(!disable);
     }
 
     @Override

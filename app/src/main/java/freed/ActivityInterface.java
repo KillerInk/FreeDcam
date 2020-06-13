@@ -46,9 +46,6 @@ public interface ActivityInterface
 
     FileListController getFileListController();
 
-    void DisablePagerTouch(boolean disable);
-
-
     LocationManager getLocationManager();
 
     int getOrientation();
@@ -56,7 +53,6 @@ public interface ActivityInterface
     void SetNightOverlay();
 
     void runFeatureDetector();
-
 }
 
 

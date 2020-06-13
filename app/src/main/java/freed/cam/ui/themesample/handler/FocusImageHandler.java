@@ -44,6 +44,8 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.events.DisableViewPagerTouchEvent;
+import freed.cam.events.EventBusHelper;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
@@ -247,7 +249,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 expolock.SetValue("false",true);
             }
             //enable/disable viewpager touch
-            fragment.DisablePagerTouch(moving);
+            EventBusHelper.post(new DisableViewPagerTouchEvent(moving));
         }
     };
 
