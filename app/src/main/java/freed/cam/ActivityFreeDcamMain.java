@@ -295,7 +295,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
 
             String es = SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
-
+            if(es == null)
+                super.onKeyDown(keyCode,event);
             if (es.equals("Vol+"))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
             else if (es.equals("Vol-"))
