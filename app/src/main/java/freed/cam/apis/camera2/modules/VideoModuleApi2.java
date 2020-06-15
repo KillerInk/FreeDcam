@@ -79,7 +79,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private BaseHolder recordingFile;
     protected ImageReader PicReader;
 
-    //private MediaRecorder mediaRecorder;
     private VideoRecorder videoRecorder;
     protected Camera2Fragment cameraUiWrapper;
 

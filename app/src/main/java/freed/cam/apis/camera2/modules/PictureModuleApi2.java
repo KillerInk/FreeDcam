@@ -426,7 +426,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             public void on_Ae_Af_Lock(boolean af_locked, boolean ae_locked) {
                 Log.d(TAG, "ae locked: " + ae_locked +" af locked: " + af_locked);
                 if (isContAutoFocus()) {
-                    if (af_locked && ae_locked || hitTimeoutLocked()) {
+                    if ((af_locked && ae_locked) || hitTimeoutLocked()) {
                         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                         setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();

@@ -59,8 +59,6 @@ public class CaptureSessionHandler
 
     private static int OPMODE = 0;
 
-
-    private volatile boolean captureSessionRdy = false;
     private boolean captureSessionOpen = false;
 
 
@@ -74,7 +72,6 @@ public class CaptureSessionHandler
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
-            captureSessionRdy = false;
             Log.d(TAG, "onConfigured()");
             // The camera is already closed
             if (null == cameraHolderApi2.mCameraDevice)
@@ -102,7 +99,6 @@ public class CaptureSessionHandler
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
             Log.d(TAG, "onConfigureFailed()");
-            captureSessionRdy = false;
             synchronized (waitLock)
             {
                 mCaptureSession = null;
@@ -113,7 +109,6 @@ public class CaptureSessionHandler
         @Override
         public void onReady( CameraCaptureSession session) {
             super.onReady(session);
-            captureSessionRdy = true;
             Log.d(TAG, "onReady()");
             synchronized (waitLock) {
                 waitLock.notify();
@@ -123,7 +118,6 @@ public class CaptureSessionHandler
 
         @Override
         public void onClosed( CameraCaptureSession session) {
-            captureSessionRdy = false;
             super.onClosed(session);
             Log.d(TAG, "onClosed()");
             synchronized (waitLock)
@@ -135,7 +129,6 @@ public class CaptureSessionHandler
 
         @Override
         public void onActive( CameraCaptureSession session) {
-            captureSessionRdy = false;
             super.onActive(session);
             Log.d(TAG, "onActive()");
         }
@@ -146,12 +139,6 @@ public class CaptureSessionHandler
             Log.d(TAG,"onSurfacePrepared");
         }
     };
-
-
-    public boolean IsCaptureSessionRDY()
-    {
-        return captureSessionRdy;
-    }
 
     public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
@@ -221,10 +208,6 @@ public class CaptureSessionHandler
         mImageCaptureRequestBuilder.addTarget(surface);
     }
 
-    public CameraCaptureSession GetActiveCameraCaptureSession()
-    {
-        return mCaptureSession;
-    }
 
     public SurfaceTexture getSurfaceTexture()
     {

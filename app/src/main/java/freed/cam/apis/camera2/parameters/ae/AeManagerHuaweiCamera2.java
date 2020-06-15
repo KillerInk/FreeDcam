@@ -60,8 +60,6 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
 
     @Override
     public void setIso(int valueToSet, boolean setToCamera) {
-        if (cameraUiWrapper.captureSessionHandler.GetActiveCameraCaptureSession() == null)
-            return;
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE, CaptureRequestHuawei.HUAWEI_PROFESSIONAL_MODE_ENABLED,setToCamera);
         if (valueToSet == 0)
         {
