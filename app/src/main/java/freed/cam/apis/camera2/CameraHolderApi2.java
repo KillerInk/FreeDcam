@@ -43,6 +43,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.cam.events.CameraStateEvents;
 import freed.utils.Log;
 
 /**
@@ -181,24 +182,15 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         finally
         {
 //            mCameraOpenCloseLock.release();
-            cameraUiWrapper.fireCameraClose();
+            CameraStateEvents.fireCameraCloseEvent();
             Log.d(TAG, "camera closed");
         }
     }
-
-
-    @Override
-    public boolean SetSurface(Surface texture) {
-        return false;
-    }
-
 
     public void SetSurface(TextureView surfaceHolder)
     {
         textureView = (AutoFitTextureView) surfaceHolder;
     }
-
-
 
     @Override
     public void StartPreview()
@@ -230,16 +222,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     }
 
-    @Override
-    public void ResetPreviewCallback() {
-
-    }
-
-    public Parameters GetCameraParameters() {
-        return null;
-    }
-
-
     /**
      * Compares two {@code Size}s based on their areas.
      */
@@ -266,7 +248,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
 
             Log.d(TAG, "Camera open");
-            cameraUiWrapper.fireCameraOpen();
+            CameraStateEvents.fireCameraOpenEvent();
         }
 
         @Override
@@ -278,7 +260,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            cameraUiWrapper.fireCameraClose();
+            CameraStateEvents.fireCameraCloseEvent();
         }
 
         @Override
@@ -292,7 +274,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
             }
             errorRecieved = true;
-            cameraUiWrapper.fireCameraClose();
+            CameraStateEvents.fireCameraCloseEvent();
 
         }
     };

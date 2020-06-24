@@ -68,14 +68,5 @@ public interface CameraWrapperInterface extends CameraObjects
 
     boolean isAeMeteringSupported();
 
-    SurfaceView getSurfaceView();
-
-
-    void fireCameraOpen();
-    void fireCameraOpenFinished();
-    void fireCameraClose();
-    void firePreviewClose();
-    void firePreviewOpen();
-    void fireCameraError(String msg);
 
 }

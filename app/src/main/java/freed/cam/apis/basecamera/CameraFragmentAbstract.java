@@ -39,7 +39,7 @@ import freed.utils.Log;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract extends Fragment implements CameraInterface ,CameraWrapperInterface {
+public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,C extends CameraHolderAbstract> extends Fragment implements CameraInterface ,CameraWrapperInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
@@ -49,11 +49,11 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     /**
      * parameters for avail for the cameraHolder
      */
-    public AbstractParameterHandler parametersHandler;
+    public P parametersHandler;
     /**
      * holds the current camera
      */
-    public CameraHolderAbstract cameraHolder;
+    public C cameraHolder;
     /**
      * handels focus releated stuff for the current camera
      */
@@ -146,41 +146,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
             mainToCameraHandler.stopPreview();
         else
             Log.d(TAG, "MainToCameraHandler is null");
-    }
-
-    @Override
-    public void fireCameraOpen()
-    {
-        CameraStateEvents.fireCameraOpenEvent();
-    }
-
-    @Override
-    public void fireCameraError(final String error) {
-        CameraStateEvents.fireCameraErrorEvent(error);
-    }
-
-
-    @Override
-    public void fireCameraClose()
-    {
-        CameraStateEvents.fireCameraCloseEvent();
-    }
-
-    @Override
-    public void firePreviewOpen()
-    {
-        CameraStateEvents.firePreviewOpenEvent();
-    }
-
-    @Override
-    public void firePreviewClose() {
-        CameraStateEvents.firePreviewCloseEvent();
-    }
-
-    @Override
-    public void fireCameraOpenFinished()
-    {
-        CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
     public abstract int getMargineLeft();

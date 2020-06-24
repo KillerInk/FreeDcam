@@ -70,7 +70,7 @@ import freed.viewer.screenslide.MyHistogram;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract implements ModuleChangedEvent, TextureView.SurfaceTextureListener, EventBusLifeCycle
+public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, CameraHolder> implements ModuleChangedEvent, TextureView.SurfaceTextureListener, EventBusLifeCycle
 {
 
     @Subscribe
@@ -99,7 +99,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
     @Subscribe
     public void onCameraClose(CameraStateEvents.CameraCloseEvent cameraCloseEvent)
     {
-        cameraRdy = false;
         if (Focus != null)
             ((FocusHandler)Focus).stopListning();
         if (parametersHandler != null)
@@ -116,7 +115,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Subscribe
     public void onPreviewClose(CameraStateEvents.PreviewCloseEvent previewCloseEvent) {
-        cameraHolder.ResetPreviewCallback();
+        cameraHolder.resetPreviewCallback();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -131,7 +130,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public RenderScriptProcessor focusPeakProcessorAp1;
-    private boolean cameraRdy;
     private boolean cameraIsOpen = false;
     AutoFitTextureView textureView;
     MyHistogram histogram;
@@ -183,8 +181,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         stopListning();
     }
 
-
-
     private Runnable createPreviewRunner =new Runnable()
     {
         @Override
@@ -214,7 +210,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                         return;
                     cameraHolder.StopPreview();
                     focusPeakProcessorAp1.kill();
-                    cameraHolder.SetSurface((Surface) null);
+                    cameraHolder.setSurface((Surface) null);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                         textureView.getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
                     }
@@ -225,7 +221,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                     cameraToMainHandler.post(() -> focusPeakProcessorAp1.setHistogramEnable(false));
 
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                    cameraHolder.SetSurface(focusPeakProcessorAp1.getInputSurface());
+                    cameraHolder.setSurface(focusPeakProcessorAp1.getInputSurface());
                     CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                     focusPeakProcessorAp1.start();
                     cameraHolder.StartPreview();
@@ -233,13 +229,10 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 else
                 {
                     cameraHolder.StopPreview();
-
-
-
                     if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
-                        cameraHolder.SetSurface((Surface)null);
+                        cameraHolder.setSurface((Surface)null);
                         Surface surface = new Surface(textureView.getSurfaceTexture());
-                        cameraHolder.SetSurface(surface);
+                        cameraHolder.setSurface(surface);
                     }
                     else
                         ((CameraHolder)cameraHolder).setTextureView(textureView);
@@ -270,9 +263,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
                 }
                 
                 if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
-                    cameraHolder.SetSurface((Surface)null);
+                    cameraHolder.setSurface((Surface)null);
                     Surface surface = new Surface(textureView.getSurfaceTexture());
-                    cameraHolder.SetSurface(surface);
+                    cameraHolder.setSurface(surface);
                 }
                 else
                     ((CameraHolder)cameraHolder).setTextureView(textureView);
@@ -354,10 +347,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
 
     @Override
     public void initCamera() {
-        cameraRdy = true;
         ((FocusHandler) Focus).startListning();
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-        fireCameraOpenFinished();
+        CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
     @Override

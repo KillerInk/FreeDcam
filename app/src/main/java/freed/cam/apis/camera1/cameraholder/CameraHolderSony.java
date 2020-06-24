@@ -7,6 +7,7 @@ import com.sonyericsson.cameraextension.CameraExtension;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.events.CameraStateEvents;
 import freed.settings.Frameworks;
 import freed.utils.Log;
 
@@ -51,7 +52,7 @@ public class CameraHolderSony extends CameraHolder {
             isRdy = false;
             Log.WriteEx(ex);
         }
-        cameraUiWrapper.fireCameraOpen();
+        CameraStateEvents.fireCameraOpenEvent();
         return isRdy;
     }
 
@@ -73,7 +74,7 @@ public class CameraHolderSony extends CameraHolder {
             mCamera = null;
             Log.d(TAG, "Camera closed");
         }
-        cameraUiWrapper.fireCameraClose();
+        CameraStateEvents.fireCameraCloseEvent();
     }
 
     @Override

@@ -46,6 +46,7 @@ import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.cam.events.CameraStateEvents;
 import freed.image.ImageManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -103,12 +104,6 @@ public class CameraHolderSony extends CameraHolderAbstract
     }
 
     @Override
-    public boolean SetSurface(Surface texture) {
-        return false;
-    }
-
-
-    @Override
     public void StartPreview()
     {
         try {
@@ -152,7 +147,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     private void closeConnection() {
 
         // getEvent stop
-        cameraUiWrapper.fireCameraClose();
+        CameraStateEvents.fireCameraCloseEvent();
         Log.d(TAG, "closeConnection(): EventObserver.release()");
 
         Log.d(TAG, "closeConnection(): exec.");
@@ -292,11 +287,6 @@ public class CameraHolderSony extends CameraHolderAbstract
                 }
             });
         }
-    }
-
-    @Override
-    public void ResetPreviewCallback() {
-
     }
 
     @Override

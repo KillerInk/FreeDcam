@@ -50,6 +50,7 @@ import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.cam.events.CameraStateEvents;
 import freed.file.holder.BaseHolder;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.Frameworks;
@@ -307,7 +308,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
-        cameraUiWrapper.firePreviewOpen();
+        CameraStateEvents.firePreviewOpenEvent();
 
     }
 

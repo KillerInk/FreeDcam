@@ -37,6 +37,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.utils.Log;
@@ -44,10 +45,8 @@ import freed.utils.Log;
 /**
  * Created by troop on 15.08.2014.
  */
-public class CameraHolder extends CameraHolderAbstract
+public class CameraHolder extends CameraHolderAbstract implements CameraHolderInterfaceApi1
 {
-    //frame count that get attached to the camera when using focuspeak
-    public static final int BUFFERCOUNT = 30;
     //camera object
     protected Camera mCamera;
 
@@ -56,8 +55,6 @@ public class CameraHolder extends CameraHolderAbstract
 
     public Frameworks DeviceFrameWork = Frameworks.Default;
     public int Orientation;
-
-    public int CurrentCamera;
 
     private Method setPreviewSurfaceMethod;
 
@@ -98,7 +95,7 @@ public class CameraHolder extends CameraHolderAbstract
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
             mCamera.setErrorCallback((error, camera1) -> Log.e(TAG, "Error:" + error));
-            cameraUiWrapper.fireCameraOpen();
+            CameraStateEvents.fireCameraOpenEvent();
             return true;
 
         } catch (Exception ex) {
@@ -126,7 +123,7 @@ public class CameraHolder extends CameraHolderAbstract
             mCamera = null;
             Log.d(TAG, "Camera closed");
         }
-        cameraUiWrapper.fireCameraClose();
+        CameraStateEvents.fireCameraCloseEvent();
     }
 
     public void SetCameraParameters(Parameters parameters)
@@ -143,7 +140,7 @@ public class CameraHolder extends CameraHolderAbstract
 
 
     @Override
-    public boolean SetSurface(Surface texture) {
+    public boolean setSurface(Surface texture) {
         Log.d(TAG, "setSurface surface");
         try {
             if (mCamera != null) {
@@ -193,8 +190,7 @@ public class CameraHolder extends CameraHolderAbstract
         {
             mCamera.startPreview();
             Log.d(TAG, "PreviewStarted");
-            cameraUiWrapper.firePreviewOpen();
-
+            CameraStateEvents.firePreviewOpenEvent();
         } catch (Exception ex) {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG("Failed to Start Preview",false);
@@ -211,8 +207,7 @@ public class CameraHolder extends CameraHolderAbstract
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             Log.d(TAG, "Preview Stopped");
-            cameraUiWrapper.firePreviewClose();
-
+            CameraStateEvents.firePreviewCloseEvent();
         } catch (Exception ex)
         {
             Log.d(TAG, "Camera was released");
@@ -245,7 +240,7 @@ public class CameraHolder extends CameraHolderAbstract
     }
 
 
-    public void ResetPreviewCallback()
+    public void resetPreviewCallback()
     {
         try {
             mCamera.setPreviewCallbackWithBuffer(null);

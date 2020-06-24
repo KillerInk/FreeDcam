@@ -375,7 +375,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        fireCameraOpenFinished();
+        CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
     @Override

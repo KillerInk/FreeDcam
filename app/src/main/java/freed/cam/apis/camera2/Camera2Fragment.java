@@ -302,7 +302,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
         Log.d(TAG, "Camera Opened and Preview Started");
         moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
-        Camera2Fragment.this.fireCameraOpenFinished();
+        CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
     @Override
