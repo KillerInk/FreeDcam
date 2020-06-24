@@ -23,7 +23,8 @@ import com.troop.freedcam.R;
 
 import java.util.Set;
 
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.FreedApplication;
+import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.renderscript.RenderScriptManager;
 
 /**
@@ -31,9 +32,9 @@ import freed.renderscript.RenderScriptManager;
  */
 public class ScalePreviewModeSony extends BaseModeParameterSony {
 
-    private final SimpleStreamSurfaceView simpleStreamSurfaceView;
+    private final PreviewStreamDrawer simpleStreamSurfaceView;
 
-    public ScalePreviewModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
+    public ScalePreviewModeSony(PreviewStreamDrawer simpleStreamSurfaceView) {
         super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         if (RenderScriptManager.isSupported())
@@ -42,7 +43,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        if (simpleStreamSurfaceView.getResources().getString(R.string.on_).equals(valueToSet))
+        if (FreedApplication.getStringFromRessources(R.string.on_).equals(valueToSet))
             simpleStreamSurfaceView.ScalePreview(true);
         else
             simpleStreamSurfaceView.ScalePreview(false);
@@ -51,14 +52,14 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     @Override
     public String GetStringValue() {
         if (simpleStreamSurfaceView.isScalePreview())
-            return simpleStreamSurfaceView.getResources().getString(R.string.on_);
+            return FreedApplication.getStringFromRessources(R.string.on_);
         else
-            return simpleStreamSurfaceView.getResources().getString(R.string.off_);
+            return FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[]{simpleStreamSurfaceView.getResources().getString(R.string.on_), simpleStreamSurfaceView.getResources().getString(R.string.off_)};
+        return new String[]{FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
     }
 
     @Override

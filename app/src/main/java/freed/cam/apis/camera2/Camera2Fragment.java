@@ -229,11 +229,6 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         return mProcessor;
     }
 
-    @Override
-    public SurfaceView getSurfaceView() {
-        return null;
-    }
-
     public TextureView getTexturView()
     {
         return textureView;

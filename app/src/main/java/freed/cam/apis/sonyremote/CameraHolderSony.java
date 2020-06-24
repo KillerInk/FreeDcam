@@ -21,7 +21,6 @@ package freed.cam.apis.sonyremote;
 
 import android.content.Context;
 import android.location.Location;
-import android.view.Surface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +44,6 @@ import freed.cam.apis.sonyremote.runner.StopPreviewRunner;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.events.CameraStateEvents;
 import freed.image.ImageManager;
 import freed.utils.FreeDPool;
@@ -78,9 +76,9 @@ public class CameraHolderSony extends CameraHolderAbstract
     public CameraRemoteEvents cameraRemoteEventsListner;
 
     private SimpleRemoteApi mRemoteApi;
-    private SimpleStreamSurfaceView mLiveviewSurface;
+    private PreviewStreamDrawer mLiveviewSurface;
 
-    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, CameraWrapperInterface cameraUiWrapper)
+    public CameraHolderSony(Context context, PreviewStreamDrawer simpleStreamSurfaceView, CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         this.context = context;

@@ -23,7 +23,8 @@ import com.troop.freedcam.R;
 
 import java.util.Set;
 
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.FreedApplication;
+import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.renderscript.RenderScriptManager;
 
 /**
@@ -31,34 +32,34 @@ import freed.renderscript.RenderScriptManager;
  */
 public class FocusPeakSony extends BaseModeParameterSony {
 
-    private final SimpleStreamSurfaceView simpleStreamSurfaceView;
+    private final PreviewStreamDrawer simpleStreamSurfaceView;
 
 
-    public FocusPeakSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
+    public FocusPeakSony(PreviewStreamDrawer simpleStreamSurfaceView) {
         super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
-        String currentval = simpleStreamSurfaceView.getResources().getString(R.string.off_);
+        String currentval = FreedApplication.getStringFromRessources(R.string.off_);
         if (RenderScriptManager.isSupported())
             setViewState(ViewState.Visible);
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        simpleStreamSurfaceView.focuspeak = valueToSet.equals(simpleStreamSurfaceView.getResources().getString(R.string.on_));
+        simpleStreamSurfaceView.focuspeak = valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_));
     }
 
     @Override
     public String GetStringValue()
     {
         if (simpleStreamSurfaceView.focuspeak)
-            return simpleStreamSurfaceView.getResources().getString(R.string.on_);
+            return FreedApplication.getStringFromRessources(R.string.on_);
         else
-            return simpleStreamSurfaceView.getResources().getString(R.string.off_);
+            return FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] { simpleStreamSurfaceView.getResources().getString(R.string.on_),  simpleStreamSurfaceView.getResources().getString(R.string.off_)};
+        return new String[] { FreedApplication.getStringFromRessources(R.string.on_),  FreedApplication.getStringFromRessources(R.string.off_)};
     }
 
 

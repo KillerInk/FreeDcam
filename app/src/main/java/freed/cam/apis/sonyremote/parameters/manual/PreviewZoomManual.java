@@ -25,16 +25,16 @@ import android.os.Build.VERSION_CODES;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 
 /**
  * Created by troop on 09.04.2016.
  */
 public class PreviewZoomManual extends BaseManualParameterSony
 {
-    private final SimpleStreamSurfaceView surfaceView;
+    private final PreviewStreamDrawer surfaceView;
 
-    public PreviewZoomManual(SimpleStreamSurfaceView surfaceView, CameraWrapperInterface cameraUiWrapper) {
+    public PreviewZoomManual(PreviewStreamDrawer surfaceView, CameraWrapperInterface cameraUiWrapper) {
         super("", "", "", cameraUiWrapper);
         this.surfaceView = surfaceView;
         if(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)

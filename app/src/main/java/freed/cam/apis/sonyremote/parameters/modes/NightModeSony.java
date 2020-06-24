@@ -23,7 +23,8 @@ import com.troop.freedcam.R;
 
 import java.util.Set;
 
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import freed.FreedApplication;
+import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.renderscript.RenderScriptManager;
 
 /**
@@ -31,12 +32,12 @@ import freed.renderscript.RenderScriptManager;
  */
 public class NightModeSony extends BaseModeParameterSony
 {
-    private final SimpleStreamSurfaceView simpleStreamSurfaceView;
+    private final PreviewStreamDrawer simpleStreamSurfaceView;
     private final String GRAYSCALE = "GrayScale";
     private final String EXPOSURE = "Exposure";
     final String ZOOMPREVIEW = "ZoomPreview";
 
-    public NightModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
+    public NightModeSony(PreviewStreamDrawer simpleStreamSurfaceView) {
         super(null, null, null, null,null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         if (RenderScriptManager.isSupported())
@@ -45,14 +46,14 @@ public class NightModeSony extends BaseModeParameterSony
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(simpleStreamSurfaceView.getResources().getString(R.string.on_)))
-            simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.on;
+        if (valueToSet.equals(FreedApplication.getStringFromRessources((R.string.on_))))
+            simpleStreamSurfaceView.nightmode = PreviewStreamDrawer.NightPreviewModes.on;
         else if(valueToSet.equals(GRAYSCALE))
-            simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.grayscale;
+            simpleStreamSurfaceView.nightmode = PreviewStreamDrawer.NightPreviewModes.grayscale;
         else if(valueToSet.equals(EXPOSURE))
-            simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.exposure;
+            simpleStreamSurfaceView.nightmode = PreviewStreamDrawer.NightPreviewModes.exposure;
         else
-            simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.off;
+            simpleStreamSurfaceView.nightmode = PreviewStreamDrawer.NightPreviewModes.off;
     }
 
     @Override
@@ -61,9 +62,9 @@ public class NightModeSony extends BaseModeParameterSony
         switch (simpleStreamSurfaceView.nightmode)
         {
             case on:
-                return  simpleStreamSurfaceView.getResources().getString(R.string.on_);
+                return  FreedApplication.getStringFromRessources(R.string.on_);
             case off:
-                return  simpleStreamSurfaceView.getResources().getString(R.string.off_);
+                return  FreedApplication.getStringFromRessources(R.string.off_);
             case grayscale:
                 return GRAYSCALE;
             case exposure:
@@ -71,13 +72,13 @@ public class NightModeSony extends BaseModeParameterSony
            /* case zoompreview:
                 return ZOOMPREVIEW;*/
             default:
-                return  simpleStreamSurfaceView.getResources().getString(R.string.off_);
+                return  FreedApplication.getStringFromRessources(R.string.off_);
         }
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] {simpleStreamSurfaceView.getResources().getString(R.string.on_), simpleStreamSurfaceView.getResources().getString(R.string.off_), GRAYSCALE, EXPOSURE /*, ZOOMPREVIEW*/};
+        return new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_), GRAYSCALE, EXPOSURE /*, ZOOMPREVIEW*/};
     }
 
 

@@ -48,9 +48,7 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
@@ -268,13 +266,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
                     removeHorizontalFragment();
 
-                if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
-                    joyPad.setVisibility(View.GONE);
-                    /*if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom) != null)
-                        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_PreviewZoom).addEventListner(joyPad);*/
-                    joyPad.setNavigationClickListner((SimpleStreamSurfaceView) cameraUiWrapper.getSurfaceView());
-                } else
-                    joyPad.setVisibility(View.GONE);
+
+                joyPad.setVisibility(View.GONE);
 
                 settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
             }

@@ -10,6 +10,7 @@ import android.view.View;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.events.JoypadActionEvent;
 
 /**
  * Created by troop on 12.12.2016.
@@ -22,7 +23,7 @@ public class JoyPad extends View implements ParameterEvents
     private int joypad_posX;
     private int joypad_posY;
 
-    private NavigationClick navigationClickListner;
+    //private NavigationClick navigationClickListner;
 
 
     @Override
@@ -98,11 +99,6 @@ public class JoyPad extends View implements ParameterEvents
         canvas.drawCircle(joypad_posX, joypad_posY, getWidth()/4, joypadDrawer);
     }
 
-    public void setNavigationClickListner(NavigationClick navigationClickListner)
-    {
-        this.navigationClickListner =navigationClickListner;
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -111,8 +107,7 @@ public class JoyPad extends View implements ParameterEvents
             case MotionEvent.ACTION_DOWN:
                 joypad_posX = getWidth()/2;
                 joypad_posY = getHeight()/2;
-                if (navigationClickListner != null)
-                    navigationClickListner.onDown();
+                JoypadActionEvent.fireJoypadTouch(false);
                 break;
             case MotionEvent.ACTION_MOVE:
                 joypad_posX = (int)event.getX();
@@ -133,27 +128,25 @@ public class JoyPad extends View implements ParameterEvents
                 {
                     joypad_posY = getHeight()-(getHeight()/4);
                 }
-                if (navigationClickListner != null)
-                {
-                    int x = 0,y = 0;
-                    if (joypad_posX > getWidth()/2)
-                        x = 1;
-                    else if (joypad_posX < getWidth()/2)
-                        x = -1;
-                    if (joypad_posY > getHeight()/2)
-                        y = 1;
-                    else if (joypad_posX < getHeight()/2)
-                        y = -1;
-                    navigationClickListner.onMove(x,y);
-                }
+                int x = 0,y = 0;
+                if (joypad_posX > getWidth()/2)
+                    x = 1;
+                else if (joypad_posX < getWidth()/2)
+                    x = -1;
+                if (joypad_posY > getHeight()/2)
+                    y = 1;
+                else if (joypad_posX < getHeight()/2)
+                    y = -1;
+                JoypadActionEvent.fireJoypadMove(x,y);
+
+
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 joypad_posX = getWidth()/2;
                 joypad_posY = getHeight()/2;
                 invalidate();
-                if (navigationClickListner != null)
-                    navigationClickListner.onUp();
+                JoypadActionEvent.fireJoypadTouch(true);
                 break;
         }
         return true;

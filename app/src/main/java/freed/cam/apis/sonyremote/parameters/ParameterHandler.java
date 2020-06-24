@@ -19,7 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.text.TextUtils;
 
@@ -36,6 +35,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
+import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
@@ -58,7 +58,6 @@ import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.events.CameraStateEvents;
 import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
@@ -73,7 +72,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
     private final List<I_SonyApi> parametersChangedList;
-    private final SimpleStreamSurfaceView surfaceView;
+    private final PreviewStreamDrawer surfaceView;
     private final CameraWrapperInterface cameraUiWrapper;
     private String cameraStatus = "IDLE";
 
@@ -81,7 +80,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     public CameraHolderSony.I_CameraShotMode cameraShotMode;
 
 
-    public ParameterHandler(CameraWrapperInterface cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
+    public ParameterHandler(CameraWrapperInterface cameraUiWrapper, PreviewStreamDrawer surfaceView)
     {
         super(cameraUiWrapper);
         parametersChangedList = new ArrayList<>();

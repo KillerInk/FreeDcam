@@ -19,10 +19,10 @@
 
 package freed.cam.apis.sonyremote;
 
+import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,10 +41,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.camera2.AutoFitTextureView;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.Auth;
@@ -52,7 +52,6 @@ import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
 import freed.cam.events.CameraStateEvents;
@@ -61,16 +60,15 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements SurfaceHolder.Callback, WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle
+public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle, TextureView.SurfaceTextureListener
 {
     private final String TAG = SonyCameraRemoteFragment.class.getSimpleName();
-    private SimpleStreamSurfaceView surfaceView;
+    private AutoFitTextureView surfaceView;
 
     private ServerDevice serverDevice;
 
@@ -82,6 +80,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     private SimpleRemoteApi mRemoteApi;
     private SimpleCameraEventObserver mEventObserver;
     private final Set<String> mAvailableCameraApiSet = new HashSet<>();
+    private PreviewStreamDrawer previewStreamDrawer;
 
     public static SonyCameraRemoteFragment getInstance()
     {
@@ -94,19 +93,19 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(layout.camerafragment_sonyapi, container, false);
-        surfaceView = view.findViewById(id.view);
-        surfaceView.SetRenderScriptHandlerAndInterface(renderScriptManager, (ActivityInterface) getActivity());
+        view = inflater.inflate(layout.camerafragment, container, false);
+        surfaceView = view.findViewById(id.autofitview);
+        previewStreamDrawer = new PreviewStreamDrawer(surfaceView,renderScriptManager);
 
         textView_wifi = view.findViewById(id.textView_wificonnect);
 
         wifiHandler = new WifiHandler(getActivityInterface());
-        parametersHandler = new ParameterHandler(this, surfaceView, getContext());
+        parametersHandler = new ParameterHandler(this, previewStreamDrawer);
 
         moduleHandler = new ModuleHandlerSony(this);
         Focus = new FocusHandler(this);
         ((ParameterHandler)parametersHandler).addApiChangedListner((I_SonyApi) Focus);
-        cameraHolder = new CameraHolderSony(getContext(), surfaceView, this);
+        cameraHolder = new CameraHolderSony(getContext(), previewStreamDrawer, this);
         moduleHandler.initModules();
 
         //this.onCameraOpenFinish("");
@@ -422,32 +421,10 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     }
 
     @Override
-    public SurfaceView getSurfaceView() {
-        return surfaceView;
-    }
-
-    @Override
     public RenderScriptProcessorInterface getFocusPeakProcessor() {
-        return surfaceView;
+        return previewStreamDrawer;
     }
 
-    //SurfaceHolder.Callback
-    @Override
-    public void surfaceCreated(SurfaceHolder holder)
-    {
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-        cameraHolder.StopPreview();
-        stopCameraAsync();
-    }
 
     //WifiHandler.WifiEvents
     @Override
@@ -481,7 +458,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         serverDevice = null;
         STATE = STATE_IDEL;
         mEventObserver.stop();
-        surfaceView.stop();
+        previewStreamDrawer.stop();
         //setCameraEventListner(SonyCameraRemoteFragment.this);
         mainToCameraHandler.postDelayed(() -> startCameraAsync(),5000);
 
@@ -545,6 +522,28 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     @Override
     public void stopPreview() {
+
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        cameraHolder.StopPreview();
+        stopCameraAsync();
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
 }

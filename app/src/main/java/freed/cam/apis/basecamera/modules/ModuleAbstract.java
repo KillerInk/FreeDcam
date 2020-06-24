@@ -38,8 +38,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected boolean isWorking;
     protected boolean isLowStorage;
     public String name;
-
-    //protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;

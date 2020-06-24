@@ -169,7 +169,13 @@ public class DataExtractor
     }
     public class FrameInfo
     {
-        int Top,Left,Bottom,Right, Category, Status, AditionalStatus;
+        public int Top;
+        public int Left;
+        public int Bottom;
+        public int Right;
+        public int Category;
+        public int Status;
+        int AditionalStatus;
         public FrameInfo(byte[] bytes)
         {
             Left = SimpleLiveviewSlicer.bytesToInt(bytes,0,2);

@@ -497,10 +497,6 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         return focusPeakProcessorAp1;
     }
 
-    @Override
-    public SurfaceView getSurfaceView() {
-        return null;
-    }
 
 
 

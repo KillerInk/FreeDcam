@@ -30,7 +30,6 @@ import androidx.fragment.app.Fragment;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.Log;
@@ -153,7 +152,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     public abstract int getMargineTop();
     public abstract int getPreviewWidth();
     public abstract int getPreviewHeight();
-    public abstract SurfaceView getSurfaceView();
 
     @Override
     public RenderScriptManager getRenderScriptManager() {
@@ -181,12 +179,12 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     }
 
     @Override
-    public CameraHolderInterface getCameraHolder() {
+    public C getCameraHolder() {
         return cameraHolder;
     }
 
     @Override
-    public AbstractParameterHandler getParameterHandler() {
+    public P getParameterHandler() {
         return parametersHandler;
     }
 
