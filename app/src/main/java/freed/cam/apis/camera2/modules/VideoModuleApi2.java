@@ -211,7 +211,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             } else {
                 previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
             }
-
         }
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
@@ -256,15 +255,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
             if (currentVideoProfile.ProfileName.contains("2EIS2")) {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
+                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
             } else if (currentVideoProfile.ProfileName.contains("3EIS3")) {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
+                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
             } else if (currentVideoProfile.ProfileName.contains("xEISx")) {
-                CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
             } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
-                CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.qbcHDR);
             } else {
-                CaptureSessionHandler.setOPMODE(0);
+                cameraUiWrapper.captureSessionHandler.setOPMODE(0);
             }
             cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession();
         }
@@ -348,15 +347,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
             if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
                 if (currentVideoProfile.ProfileName.contains("2EIS2")) {
-                    CaptureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
+                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
                 } else if (currentVideoProfile.ProfileName.contains("3EIS3")) {
-                    CaptureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
+                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
                 } else if (currentVideoProfile.ProfileName.contains("xEISx")) {
-                    CaptureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
+                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
                 } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
-                    CaptureSessionHandler.setOPMODE(OpModes.qbcHDR);
+                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.qbcHDR);
                 } else {
-                    CaptureSessionHandler.setOPMODE(0);
+                    cameraUiWrapper.captureSessionHandler.setOPMODE(0);
                 }
                 cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewrdy);
             }

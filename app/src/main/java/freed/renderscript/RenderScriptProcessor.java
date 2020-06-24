@@ -42,9 +42,6 @@ import freed.viewer.screenslide.MyHistogram;
 public class RenderScriptProcessor implements RenderScriptProcessorInterface
 {
     private final String TAG = RenderScriptProcessor.class.getSimpleName();
-    private int mCount;
-    long mLastTime;
-    private float mFps;
     private final Handler mProcessingHandler;
     private ProcessingTask mProcessingTask;
     private boolean peak;
@@ -373,9 +370,6 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
             histogram.post(()-> histogram.setVisibility(View.GONE));
     }
 
-    public float getmFps() {
-        return mFps;
-    }
     /**
      * Class to process buffer from camera and output to buffer to screen
      */
@@ -419,7 +413,6 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                     return;
                 }
 
-                mCount++;
                 framescount++;
                 //apply focuspeak color
                 renderScriptManager.rgb_focuspeak.set_red(red);

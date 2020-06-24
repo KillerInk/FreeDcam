@@ -199,7 +199,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     {
         Log.d(TAG, "startWork: start new progress");
         if(!isWorking)
-            mBackgroundHandler.post(()->TakePicture());
+            mBackgroundHandler.post(()-> takePicture());
         else if (isWorking)
         {
             mBackgroundHandler.post(()->{
@@ -318,7 +318,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             picFormat = FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg);
             SettingsManager.get(SettingKeys.PictureFormat).set(picFormat);
             parameterHandler.get(SettingKeys.PictureFormat).fireStringValueChanged(picFormat);
-
         }
         FindOutputHelper findOutputHelper = new FindOutputHelper();
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
@@ -390,7 +389,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         DestroyModule();
     }
 
-    protected void TakePicture()
+    protected void takePicture()
     {
         isWorking = true;
         Log.d(TAG, SettingsManager.get(SettingKeys.PictureFormat).get());
@@ -589,48 +588,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void internalFireOnWorkDone(BaseHolder file)
     {
-        Log.d(TAG, "internalFireOnWorkDone isBurst" + isBurstCapture + " burstCount/imagecount:" + BurstCounter.getBurstCount() + "/" +BurstCounter.getImageCaptured());
-        if (workFinishEventsListner != null)
-            workFinishEventsListner.internalFireOnWorkDone(file);
-        else {
-            Log.d(TAG, "internalFireOnWorkDone BurstCount:" + BurstCounter.getBurstCount() + " imageCount:" + BurstCounter.getImageCaptured());
-            if (isBurstCapture && BurstCounter.getBurstCount() >= BurstCounter.getImageCaptured()) {
-                filesSaved.add(file);
-                Log.d(TAG, "internalFireOnWorkDone Burst addFile");
-            }
-            if (isBurstCapture && BurstCounter.getBurstCount() == BurstCounter.getImageCaptured()) {
-                Log.d(TAG, "internalFireOnWorkDone Burst done");
-                fireOnWorkFinish(filesSaved.toArray(new BaseHolder[filesSaved.size()]));
-                filesSaved.clear();
-            } else if (!isBurstCapture)
-                fireOnWorkFinish(file);
+        Log.d(TAG, "internalFireOnWorkDone BurstCount:" + BurstCounter.getBurstCount() + " imageCount:" + BurstCounter.getImageCaptured());
+        if (isBurstCapture && BurstCounter.getBurstCount() >= BurstCounter.getImageCaptured()) {
+            filesSaved.add(file);
+            Log.d(TAG, "internalFireOnWorkDone Burst addFile");
         }
+        if (isBurstCapture && BurstCounter.getBurstCount() == BurstCounter.getImageCaptured()) {
+            Log.d(TAG, "internalFireOnWorkDone Burst done");
+            fireOnWorkFinish(filesSaved.toArray(new BaseHolder[filesSaved.size()]));
+            filesSaved.clear();
+        } else if (!isBurstCapture)
+            fireOnWorkFinish(file);
     }
 
     @Override
     public void fireOnWorkFinish(BaseHolder file) {
-        if (workFinishEventsListner != null)
-        {
-            workFinishEventsListner.fireOnWorkFinish(file);
-        }
-        else
             super.fireOnWorkFinish(file);
     }
 
     @Override
     public void fireOnWorkFinish(BaseHolder[] files) {
-        Log.d(TAG,"fireOnWorkFinish");
-        if (workFinishEventsListner != null)
-            workFinishEventsListner.fireOnWorkFinish(files);
-        else {
-            super.fireOnWorkFinish(files);
-        }
+        Log.d(TAG,"fireOnWorkFinish[]");
+        super.fireOnWorkFinish(files);
     }
 
     @Override
     public void onRdyToSaveImg(ImageCaptureHolder holder) {
-        //holder.getRunner().run();
-
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();
     }

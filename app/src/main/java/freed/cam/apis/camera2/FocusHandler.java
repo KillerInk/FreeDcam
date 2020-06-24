@@ -80,10 +80,6 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
     }
 
     @Override
-    public void StartFocus() {
-    }
-
-    @Override
     public void StartTouchToFocus(int x, int y, int width, int height)
     {
        super.StartTouchToFocus(x,y,width,height);
@@ -175,11 +171,6 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
     @Override
     public boolean isTouchSupported() {
         return focusenabled;
-    }
-
-    @Override
-    public void SetMotionEvent(MotionEvent event) {
-
     }
 
     @Override

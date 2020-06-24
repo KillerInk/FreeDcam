@@ -159,13 +159,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     public Set<String> getAvailableApiSet(){return mAvailableCameraApiSet;}
 
-
-    @Override
-    public String CameraApiName() {
-
-        return SettingsManager.API_SONY;
-    }
-
     @Override
     public void startCameraAsync()
     {

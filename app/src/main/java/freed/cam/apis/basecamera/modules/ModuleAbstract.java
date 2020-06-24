@@ -45,8 +45,6 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected CameraWrapperInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
-    //used to redirect workevents to the module subscribe to it.
-    protected WorkFinishEvents workFinishEventsListner;
 
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -54,11 +52,6 @@ public abstract class ModuleAbstract implements ModuleInterface
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;
         this.mainHandler = new Handler(Looper.getMainLooper());
-    }
-
-    public void setOverrideWorkFinishListner(WorkFinishEvents workFinishEvents)
-    {
-        this.workFinishEventsListner = workFinishEvents;
     }
 
     /**
@@ -114,7 +107,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     public abstract String ShortName();
 
     /**
-     * ts called when a saving task is done and the image/movie is rdy to get attached to the MainActivity/screenslideFragment
+     * its called when a saving task is done and the image/movie is rdy to get attached to the MainActivity/screenslideFragment
      * @param file that is new
      */
     @Override
@@ -126,7 +119,7 @@ public abstract class ModuleAbstract implements ModuleInterface
 
     /**
      * gets called when a capture session with more pics is done
-        and the images are rdy to to the MainActivity/screenslideFragment
+        and the images are rdy to get attached to the MainActivity/screenslideFragment
      * @param files that are new
      */
     @Override

@@ -142,13 +142,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements ModuleCha
         return fragment;
     }
 
-
-    @Override
-    public String CameraApiName() {
-        return SettingsManager.API_1;
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

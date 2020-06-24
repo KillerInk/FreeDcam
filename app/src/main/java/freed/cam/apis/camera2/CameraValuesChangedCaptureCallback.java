@@ -32,11 +32,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             Log.d(TAG,s);
     }
 
-    public interface AeCompensationListner
-    {
-        void onAeCompensationChanged(int aecompensation);
-    }
-
     public interface WaitForFirstFrameCallback
     {
         void onFirstFrame();
@@ -56,7 +51,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     public int currentIso;
     private Pair<Float,Float> focusRanges;
     private float focus_distance;
-    private AeCompensationListner aeCompensationListner;
     private WaitForAe_Af_Lock waitForAe_af_lock;
 
     private boolean waitForFirstFrame = false;
@@ -110,10 +104,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         return ar;
     }
 
-    public void SetAeCompensationListner(AeCompensationListner aeCompensationListner)
-    {
-        this.aeCompensationListner = aeCompensationListner;
-    }
 
     boolean aeLocked = false;
     boolean afLocked = false;
@@ -189,11 +179,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
                     break;
             }
-        }
-        if (result.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION)!= null && aeCompensationListner != null)
-        {
-            aeCompensationListner.onAeCompensationChanged(result.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION));
-            //Log.d(TAG,"ExpoCompensation:" + );
         }
 
         if (camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {

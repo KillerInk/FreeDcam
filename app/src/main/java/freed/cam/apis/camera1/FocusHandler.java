@@ -119,11 +119,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     }
 
     @Override
-    public void SetMotionEvent(MotionEvent event) {
-
-    }
-
-    @Override
     public void onFocusEvent(boolean event)
     {
         if (focusEvent != null)
@@ -133,15 +128,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     @Override
     public void onFocusLock(boolean locked) {
 
-    }
-    @Override
-    public void StartFocus()
-    {
-        if (focusEvent != null)
-        {
-            focusEvent.FocusStarted(0, 0);
-        }
-        ((CameraHolder) cameraUiWrapper.getCameraHolder()).StartFocus(this);
     }
 
     @Override
@@ -169,18 +155,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
                     && targetFocusRect.bottom <= 1000
                     && targetFocusRect.right <= 1000)
             {
-
-                /*if (this.isFocusing)
-                {
-                    this.cameraUiWrapper.getCameraHolder().CancelFocus();
-                    Log.d(this.TAG, "Canceld Focus");
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Log.WriteEx(ex);
-                    }
-                }*/
-
                 logFocusRect(targetFocusRect);
                 //tempDIS
                 cameraUiWrapper.getParameterHandler().SetFocusAREA(targetFocusRect);

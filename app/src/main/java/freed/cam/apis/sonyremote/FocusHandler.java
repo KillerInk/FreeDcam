@@ -48,11 +48,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
     }
 
     @Override
-    public void StartFocus() {
-
-    }
-
-    @Override
     public void StartTouchToFocus(int x, int y, int width, int height)
     {
         int areasize = (width*height) /8;
@@ -93,12 +88,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
     public boolean isTouchSupported() {
         return false;
     }
-
-    @Override
-    public void SetMotionEvent(MotionEvent event) {
-        this.cameraUiWrapper.getSurfaceView().onTouchEvent(event);
-    }
-
 
     @Override
     public void onFocusEvent(boolean success)

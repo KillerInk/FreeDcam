@@ -101,7 +101,6 @@ public class MainToCameraHandler extends Handler {
                         cameraMessageEvent.initCamera();
                         break;
                     case MainToCameraHandler.MSG_CREATE_CAMERA:
-
                         cameraMessageEvent.createCamera();
                         break;
                 }

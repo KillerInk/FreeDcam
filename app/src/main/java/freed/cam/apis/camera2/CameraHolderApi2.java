@@ -87,10 +87,10 @@ public class CameraHolderApi2 extends CameraHolderAbstract
          }
          catch (NoSuchMethodException ex)
          {
-             Log.w(TAG, "setOpModeForVideoStream method is not exist");
+             Log.w(TAG, "setOpModeForVideoStream method is not existing");
          }
          catch (Exception exception) {
-             Log.w(TAG, "setOpModeForVideoStream method is not exist");
+             Log.w(TAG, "setOpModeForVideoStream method is not existing");
          }
      }
 

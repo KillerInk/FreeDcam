@@ -57,15 +57,14 @@ public class CaptureSessionHandler
 
     private final Object waitLock = new Object();
 
-    private static int OPMODE = 0;
+    private int OPMODE = 0;
 
     private boolean captureSessionOpen = false;
 
 
-    public static void setOPMODE(int opmode){
+    public void setOPMODE(int opmode){
         OPMODE = opmode;
-
-}
+    }
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -232,7 +231,6 @@ public class CaptureSessionHandler
         if (surfaces.contains(surface))
             surfaces.remove(surface);
         mPreviewRequestBuilder.removeTarget(surface);
-
     }
 
 

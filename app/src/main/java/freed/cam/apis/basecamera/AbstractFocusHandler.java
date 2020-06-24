@@ -38,7 +38,7 @@ public abstract class AbstractFocusHandler
 
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onFocusCoordinaes(FocusCoordinates focusCoordinates)
+    public void onFocusCoordinates(FocusCoordinates focusCoordinates)
     {
         startTouchFocus(focusCoordinates);
     }
@@ -58,7 +58,6 @@ public abstract class AbstractFocusHandler
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public abstract void StartFocus();
     public void StartTouchToFocus(int x1, int y1,int width1, int height1)
     {
         FocusCoordinates focusCoordinates = new FocusCoordinates();
@@ -74,8 +73,6 @@ public abstract class AbstractFocusHandler
     public FocusHandlerInterface focusEvent;
     public abstract boolean isAeMeteringSupported();
     public abstract boolean isTouchSupported();
-    public abstract void SetMotionEvent(MotionEvent event);
-
 
     protected void logFocusRect(Rect rect)
     {

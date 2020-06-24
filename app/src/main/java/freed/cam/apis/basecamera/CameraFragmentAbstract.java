@@ -62,9 +62,6 @@ public abstract class CameraFragmentAbstract extends Fragment implements CameraI
     protected boolean PreviewSurfaceRdy;
     private ActivityInterface activityInterface;
 
-
-    public abstract String CameraApiName();
-
     /**
      * holds handler to invoke stuff in ui or camera thread
      */
