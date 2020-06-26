@@ -27,7 +27,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Size;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +51,7 @@ import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.MyHistogram;
+import freed.views.AutoFitTextureView;
 
 
 /**
@@ -280,7 +280,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         mProcessor = new RenderScriptProcessor(renderScriptManager,histogram, ImageFormat.YUV_420_888);
         parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
-        Focus = new FocusHandler(Camera2Fragment.this);
+        focusHandler = new FocusHandler(Camera2Fragment.this);
 
         cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
@@ -292,7 +292,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void initCamera() {
         Log.d(TAG,"Init Camera");
         captureSessionHandler.CreatePreviewRequestBuilder();
-        ((FocusHandler) Focus).startListning();
+        ((FocusHandler) focusHandler).startListning();
         ((ParameterHandlerApi2)parametersHandler).Init();
         ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
         Log.d(TAG, "Camera Opened and Preview Started");
@@ -316,7 +316,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
             captureSessionHandler.Clear();
             cameraHolder.CloseCamera();
             cameraIsOpen = false;
-            ((FocusHandler) Focus).stopListning();
+            ((FocusHandler) focusHandler).stopListning();
             parametersHandler.unregisterListners();
         }
         catch (NullPointerException ex)

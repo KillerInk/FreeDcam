@@ -35,8 +35,7 @@ public interface CameraHolderInterface
     boolean OpenCamera(int camera);
     void CloseCamera();
 
-    void StartPreview();
-    void StopPreview();
+
     void SetLocation(Location location);
     void CancelFocus();
 

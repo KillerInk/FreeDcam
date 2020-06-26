@@ -44,16 +44,6 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     @Override
     public abstract void CloseCamera();
 
-
-    @Override
-    public abstract void StartPreview();
-
-
-    @Override
-    public abstract void StopPreview();
-
-
-
     public abstract void StartFocus(FocusEvents autoFocusCallback);
     public abstract void CancelFocus();
 

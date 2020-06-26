@@ -25,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -44,7 +43,7 @@ import java.util.Set;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.camera2.AutoFitTextureView;
+import freed.views.AutoFitTextureView;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.Auth;
@@ -58,6 +57,7 @@ import freed.cam.events.CameraStateEvents;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -65,14 +65,13 @@ import freed.utils.Log;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle, TextureView.SurfaceTextureListener
+public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHandler,CameraHolderSony> implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle, TextureView.SurfaceTextureListener
 {
     private final String TAG = SonyCameraRemoteFragment.class.getSimpleName();
     private AutoFitTextureView surfaceView;
 
     private ServerDevice serverDevice;
 
-    private TextView textView_wifi;
     private final int STATE_IDEL = 0;
     private final int STATE_DEVICE_CONNECTED = 3;
     private int STATE = STATE_IDEL;
@@ -97,14 +96,14 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
         surfaceView = view.findViewById(id.autofitview);
         previewStreamDrawer = new PreviewStreamDrawer(surfaceView,renderScriptManager);
 
-        textView_wifi = view.findViewById(id.textView_wificonnect);
+        //textView_wifi = view.findViewById(id.textView_wificonnect);
 
         wifiHandler = new WifiHandler(getActivityInterface());
         parametersHandler = new ParameterHandler(this, previewStreamDrawer);
 
         moduleHandler = new ModuleHandlerSony(this);
-        Focus = new FocusHandler(this);
-        ((ParameterHandler)parametersHandler).addApiChangedListner((I_SonyApi) Focus);
+        focusHandler = new FocusHandler(this);
+        ((ParameterHandler)parametersHandler).addApiChangedListner((I_SonyApi) focusHandler);
         cameraHolder = new CameraHolderSony(getContext(), previewStreamDrawer, this);
         moduleHandler.initModules();
 
@@ -143,17 +142,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
 
     private void setTextFromWifi(final String txt)
     {
-        textView_wifi.post(() -> textView_wifi.setText(txt));
-    }
-
-    private void hideTextViewWifi(final boolean hide)
-    {
-        textView_wifi.post(() -> {
-            if (hide)
-                textView_wifi.setVisibility(View.GONE);
-            else
-                textView_wifi.setVisibility(View.VISIBLE);
-        });
+        UserMessageHandler.sendMSG(txt,false);
     }
 
     public Set<String> getAvailableApiSet(){return mAvailableCameraApiSet;}
@@ -431,7 +420,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     public void onDeviceFound(ServerDevice serverDevice) {
         this.serverDevice = serverDevice;
         wifiHandler.setEventsListner(null);
-        hideTextViewWifi(true);
         startCameraAsync();
     }
 
@@ -453,7 +441,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract implements 
     public void onCameraError(CameraStateEvents.CameraErrorEvent error)
     {
         Log.d(TAG, "###################### onCamerError:"+ error + " ################################");
-        hideTextViewWifi(false);
         setTextFromWifi(error.msg);
         serverDevice = null;
         STATE = STATE_IDEL;

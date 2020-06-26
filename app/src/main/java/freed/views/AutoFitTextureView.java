@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera2;
+package freed.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -21,7 +21,6 @@ package freed.cam.apis.basecamera;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -56,7 +55,7 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     /**
      * handels focus releated stuff for the current camera
      */
-    public AbstractFocusHandler Focus;
+    public AbstractFocusHandler focusHandler;
 
     protected boolean PreviewSurfaceRdy;
     private ActivityInterface activityInterface;
@@ -165,7 +164,7 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
     @Override
     public boolean isAeMeteringSupported() {
-        return Focus.isAeMeteringSupported();
+        return focusHandler.isAeMeteringSupported();
     }
 
     @Override
@@ -175,7 +174,7 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
     @Override
     public AbstractFocusHandler getFocusHandler() {
-        return Focus;
+        return focusHandler;
     }
 
     @Override

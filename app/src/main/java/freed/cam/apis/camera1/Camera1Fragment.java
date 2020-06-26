@@ -25,7 +25,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Surface;
-import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,7 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera2.AutoFitTextureView;
+import freed.views.AutoFitTextureView;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
@@ -99,8 +98,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Subscribe
     public void onCameraClose(CameraStateEvents.CameraCloseEvent cameraCloseEvent)
     {
-        if (Focus != null)
-            ((FocusHandler)Focus).stopListning();
+        if (focusHandler != null)
+            ((FocusHandler) focusHandler).stopListning();
         if (parametersHandler != null)
             parametersHandler.unregisterListners();
         if(focusPeakProcessorAp1 != null)
@@ -338,7 +337,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         parametersHandler = new ParametersHandler(Camera1Fragment.this);
 
         //moduleHandler.addListner(Camera1Fragment.this);
-        Focus = new FocusHandler(Camera1Fragment.this);
+        focusHandler = new FocusHandler(Camera1Fragment.this);
 
         Log.d(TAG, "initModules");
         moduleHandler.initModules();
@@ -347,7 +346,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
 
     @Override
     public void initCamera() {
-        ((FocusHandler) Focus).startListning();
+        ((FocusHandler) focusHandler).startListning();
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         CameraStateEvents.fireCameraOpenFinishEvent();
     }
@@ -429,11 +428,15 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void startListning() {
         EventBusHelper.register(this);
+        if (focusHandler != null)
+            ((FocusHandler) focusHandler).startListning();
     }
 
     @Override
     public void stopListning() {
         EventBusHelper.unregister(this);
+        if (focusHandler != null)
+            ((FocusHandler) focusHandler).stopListning();
     }
 
     private class SizeCompare implements Comparator<Size>

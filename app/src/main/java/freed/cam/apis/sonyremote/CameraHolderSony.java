@@ -52,7 +52,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraHolderSony extends CameraHolderAbstract
+public class CameraHolderSony extends CameraHolderAbstract implements CameraHolderSonyInterface
 {
 
     public interface CameraRemoteEvents
@@ -374,5 +374,4 @@ public class CameraHolderSony extends CameraHolderAbstract
             }
         });
     }
-
 }
