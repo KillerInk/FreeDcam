@@ -824,7 +824,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
                 hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer), ImageFormat.RAW_SENSOR);
                 Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
-                if (size == null || size.length == 1) {
+                /*if (size == null || size.length == 1) {
                     int[] rawsizes = characteristics.get(CameraCharacteristicsXiaomi.availableRawSizes);
                     if (rawsizes != null && rawsizes.length > 0)
                     {
@@ -835,7 +835,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         }
                         size = s.toArray(new Size[s.size()]);
                     }
-                }
+                }*/
                 if (size != null)
                 {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
