@@ -24,7 +24,7 @@ android {
         versionCode 193
         versionName '4.3'
         applicationId "troop.com.freedcam"
-        renderscriptTargetApi 19
+        renderscriptTargetApi 21
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
         externalNativeBuild {
             ndkBuild {
