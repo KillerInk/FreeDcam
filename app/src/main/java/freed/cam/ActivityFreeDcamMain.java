@@ -293,17 +293,22 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
-
-            String es = SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
-            if(es == null)
-                super.onKeyDown(keyCode,event);
-            if (es.equals("Vol+"))
-                appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-            else if (es.equals("Vol-"))
-                appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            else if (es.equals("Hook")
-                    || es.isEmpty())
-                appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
+            try {
+                String es = SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
+                if(es == null)
+                    super.onKeyDown(keyCode,event);
+                if (es.equals("Vol+"))
+                    appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
+                else if (es.equals("Vol-"))
+                    appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
+                else if (es.equals("Hook")
+                        || es.isEmpty())
+                    appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
 
             if (keyCode == KeyEvent.KEYCODE_3D_MODE
                     || keyCode == KeyEvent.KEYCODE_POWER
