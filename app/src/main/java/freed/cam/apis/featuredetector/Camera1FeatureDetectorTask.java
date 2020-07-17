@@ -43,16 +43,16 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     public void detect()
     {
-        publishProgress("###################");
-        publishProgress("#######Camera1#####");
-        publishProgress("###################");
+        //publishProgress("###################");
+        //publishProgress("#######Camera1#####");
+        //publishProgress("###################");
         SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
 
-        publishProgress("Device:"+ SettingsManager.getInstance().getDeviceString());
+        //publishProgress("Device:"+ SettingsManager.getInstance().getDeviceString());
         //detect frameworks
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.Default)
             SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
-        publishProgress("FrameWork:"+ SettingsManager.getInstance().getFrameWork());
+        //publishProgress("FrameWork:"+ SettingsManager.getInstance().getFrameWork());
 
         List<String> cam_ids = new ArrayList<>();
         for (int i = 0; i < 200; i++)
@@ -76,13 +76,13 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         Log.d(TAG, "Cameras Found: " + cam_ids.size());
         for (int i = 0; i < cam_ids.size(); i++)
         {
-            publishProgress("###################");
-            publishProgress("#####CameraID:"+i+"####");
-            publishProgress("###################");
+            //publishProgress("###################");
+            //publishProgress("#####CameraID:"+i+"####");
+            //publishProgress("###################");
             SettingsManager.getInstance().SetCurrentCamera(i);
 
             detectFrontCamera(arr[i]);
-            publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
+            //publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 
             Camera.Parameters parameters = null;
             try {
@@ -95,7 +95,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if(parameters == null)
                 return;
 
-            publishProgress("Detecting Features");
+            //publishProgress("Detecting Features");
 
             SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
             SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
@@ -116,10 +116,10 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
             detectedPictureFormats(parameters);
-            publishProgress("DngSupported:" + (SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0) + " RawSupport:"+ SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported());
-            publishProgress("PictureFormats:" + getStringFromArray(SettingsManager.get(SettingKeys.PictureFormat).getValues()));
-            publishProgress("RawFormats:" + getStringFromArray(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues()));
-            publishProgress(" RawFormat:" + SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get());
+            //publishProgress("DngSupported:" + (SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0) + " RawSupport:"+ SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported());
+            //publishProgress("PictureFormats:" + getStringFromArray(SettingsManager.get(SettingKeys.PictureFormat).getValues()));
+            //publishProgress("RawFormats:" + getStringFromArray(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues()));
+            //publishProgress(" RawFormat:" + SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get());
 
             SettingsManager.get(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
 
@@ -1717,6 +1717,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         SettingsManager.getInstance().saveMediaProfiles(supportedProfiles);
         SettingsManager.get(SettingKeys.VideoProfiles).set("720p");
 
-        publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
+        //publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 }

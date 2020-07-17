@@ -1,11 +1,13 @@
 package freed.settings.mode;
 
+import java.util.Arrays;
 import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
+import freed.utils.StringUtils;
 import freed.utils.XmlUtil;
 
 /**
@@ -60,7 +62,7 @@ public class SettingMode extends AbstractSettingMode {
 
     public void setValues(String[] ar)
     {
-        Log.d(TAG, "setValues: " + getCamera1ParameterKEY());
+        Log.d(TAG, settingKey.toString() +" " + Arrays.toString(ar));
         this.values = ar;
     }
 

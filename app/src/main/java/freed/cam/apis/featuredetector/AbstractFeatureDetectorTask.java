@@ -2,6 +2,7 @@ package freed.cam.apis.featuredetector;
 
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
+import freed.utils.Log;
 
 /**
  * Created by troop on 23.01.2017.
@@ -29,11 +30,14 @@ abstract class AbstractFeatureDetectorTask {
             if (ts.isSupported()) {
                 String[]ar = ts.getValues();
                 String t = getStringFromArray(ar);
-                publishProgress(name+" Values:" +t);
-                publishProgress(name+":" + ts.get());
+                Log.d(TAG, name+" Values:" +t);
+                Log.d(TAG, name+":" + ts.get());
+                //publishProgress(name+" Values:" +t);
+                //publishProgress(name+":" + ts.get());
             }
             else
-                publishProgress(name+" not supported");
+                Log.d(TAG,name+" not supported");
+                //publishProgress(name+" not supported");
         }
 
     }

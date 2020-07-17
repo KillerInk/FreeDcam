@@ -56,16 +56,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     @Override
     public void detect()
     {
-        publishProgress(Build.MODEL);
-        publishProgress(System.getProperty("os.version"));
-        publishProgress("###################");
-        publishProgress("#######Camera2#####");
-        publishProgress("###################");
+        /*//publishProgress(Build.MODEL);
+        //publishProgress(System.getProperty("os.version"));
+        //publishProgress("###################");
+        //publishProgress("#######Camera2#####");
+        //publishProgress("###################");*/
         SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
-        try {
-            publishProgress("Check Camera2");
+            /*//publishProgress("Check Camera2");*/
             CameraManager manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
-            String cameras[] = manager.getCameraIdList();
             //SettingsManager.getInstance().setCamerasCount(cameras.length);
 
             List<String> cameraids =new ArrayList<>();
@@ -113,11 +111,20 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             for (int c = 0; c < cameraids.size();c++)
             {
 
-                publishProgress("###################");
-                publishProgress("#####CameraID:"+cameraids.get(c)+"####");
-                publishProgress("###################");
-                publishProgress("Check camera features:" + cameraids.get(c));
-                CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraids.get(c));
+                //publishProgress("###################");
+                //publishProgress("#####CameraID:"+cameraids.get(c)+"####");
+                //publishProgress("###################");
+                //publishProgress("Check camera features:" + cameraids.get(c));
+                CameraCharacteristics characteristics = null;
+                try {
+                    characteristics = manager.getCameraCharacteristics(cameraids.get(c));
+                } catch (CameraAccessException e) {
+                    Log.WriteEx(e);
+                }
+                if (characteristics == null) {
+                    Log.e(TAG, "Failed to get Characteristics for camera id:" + c);
+                    return;
+                }
                 boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
 
                 //SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
@@ -152,7 +159,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
 
-                publishProgress("Camera 2 Level:" + hwlvl);
+                ////publishProgress("Camera 2 Level:" + hwlvl);
 
                 dump_SCALER_STREAM_CONFIGURATION_MAP(characteristics);
 
@@ -169,7 +176,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     hasCamera2Features = true;
 
                 SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
-                publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
+                ////publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
 
                 SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
                 SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
@@ -184,44 +191,44 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         if(!SettingsManager.getInstance().getIsFrontCamera()) {
-                            publishProgress("Detect Flash");
+                            ////publishProgress("Detect Flash");
                             detectFlash(characteristics);
                             sendProgress(SettingsManager.get(SettingKeys.FlashMode), "Flash");
                         }
                     } catch (Exception e){
                             Log.WriteEx(e);
-                            publishProgress("Detect Flash failed");
+                            ////publishProgress("Detect Flash failed");
                         }
 
                     try {
-                        publishProgress("Detect Scene");
+                        ////publishProgress("Detect Scene");
                         detectSceneModes(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.SceneMode), "Scene");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Scene failed");
+                        ////publishProgress("Detect Scene failed");
                     }
 
                     try {
-                        publishProgress("Detect Antibanding");
+                        ////publishProgress("Detect Antibanding");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, SettingsManager.get(SettingKeys.AntiBandingMode), FreedApplication.getStringArrayFromRessource(R.array.antibandingmodes));
                         sendProgress(SettingsManager.get(SettingKeys.AntiBandingMode), "Antibanding");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Antibanding failed");
+                        ////publishProgress("Detect Antibanding failed");
                     }
 
                     try {
-                        publishProgress("Detect Color");
+                        ////publishProgress("Detect Color");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, SettingsManager.get(SettingKeys.ColorMode), FreedApplication.getStringArrayFromRessource(R.array.colormodes));
                         sendProgress(SettingsManager.get(SettingKeys.ColorMode), "Color");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Color failed");
+                        ////publishProgress("Detect Color failed");
                     }
 
                     try {
-                        publishProgress("Detect EDGE_MODE");
+                        ////publishProgress("Detect EDGE_MODE");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, SettingsManager.get(SettingKeys.EDGE_MODE), FreedApplication.getStringArrayFromRessource(R.array.edgeModes));
                         String vals[] = SettingsManager.get(SettingKeys.EDGE_MODE).getValues();
                         String newvals[] = new String[vals.length-1];
@@ -236,50 +243,52 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         sendProgress(SettingsManager.get(SettingKeys.EDGE_MODE), "EDGE_MODE");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Edge failed");
+                        ////publishProgress("Detect Edge failed");
                     }
 
 
                     try {
-                        publishProgress("Detect OpticalImageStabilisationMode");
+                        ////publishProgress("Detect OpticalImageStabilisationMode");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, SettingsManager.get(SettingKeys.OIS_MODE), FreedApplication.getStringArrayFromRessource(R.array.digitalImageStabModes));
                         sendProgress(SettingsManager.get(SettingKeys.OIS_MODE), "OpticalImageStabilisationMode");
+                        if (SettingsManager.get(SettingKeys.OIS_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off)))
+                            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(false);
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Ois failed");
+                        ////publishProgress("Detect Ois failed");
                     }
 
                     try {
-                        publishProgress("Detect FocusMode");
+                        ////publishProgress("Detect FocusMode");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, SettingsManager.get(SettingKeys.FocusMode), FreedApplication.getStringArrayFromRessource(R.array.focusModes));
                         SettingsManager.get(SettingKeys.FocusMode).set(FreedApplication.getStringFromRessources(R.string.focus_mode_continousepicture));
                         sendProgress(SettingsManager.get(SettingKeys.FocusMode), "FocusMode");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Focus failed");
+                        ////publishProgress("Detect Focus failed");
                     }
 
 
                     try {
-                        publishProgress("Detect HOT_PIXEL_MODE");
+                        ////publishProgress("Detect HOT_PIXEL_MODE");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), FreedApplication.getStringArrayFromRessource(R.array.hotpixelmodes));
                         sendProgress(SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), "HOT_PIXEL_MODE");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect HotPixel failed");
+                        ////publishProgress("Detect HotPixel failed");
                     }
 
                     try {
-                        publishProgress("Detect CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
+                        ////publishProgress("Detect CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES, SettingsManager.get(SettingKeys.VideoStabilization), FreedApplication.getStringArrayFromRessource(R.array.videostabilisationmodes));
-                        sendProgress(SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), "CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
+                        sendProgress(SettingsManager.get(SettingKeys.VideoStabilization), "CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect videoStabilisation failed");
+                        ////publishProgress("Detect videoStabilisation failed");
                     }
 
                     try {
-                        publishProgress("Detect Denoise");
+                        ////publishProgress("Detect Denoise");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, SettingsManager.get(SettingKeys.Denoise), FreedApplication.getStringArrayFromRessource(R.array.denoiseModes));
                         if (SettingsManager.get(SettingKeys.Denoise).contains(FreedApplication.getStringFromRessources(R.string.denoise_zsl)))
                         {
@@ -297,140 +306,140 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Denoise failed");
+                        ////publishProgress("Detect Denoise failed");
                     }
 
                     try {
-                        publishProgress("Detect PictureFormat");
+                        ////publishProgress("Detect PictureFormat");
                         detectPictureFormats(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.PictureFormat), "PictureFormat");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect PictureFormat failed");
+                        ////publishProgress("Detect PictureFormat failed");
                     }
 
                     try {
-                        publishProgress("Detect Manual Focus");
+                        ////publishProgress("Detect Manual Focus");
                         detectManualFocus(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.M_Focus), "Manual Focus");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect MF failed");
+                        ////publishProgress("Detect MF failed");
                     }
 
                     try {
-                        publishProgress("Detect PictureSizes");
+                        ////publishProgress("Detect PictureSizes");
                         detectPictureSizes(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.PictureSize), "PictureSizes:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect PictureSize failed");
+                        ////publishProgress("Detect PictureSize failed");
                     }
 
                     try {
-                        publishProgress("Detect Video Profiles");
+                        ////publishProgress("Detect Video Profiles");
                         int camid = SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()];
                         detectVideoMediaProfiles(camid);
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Video Profiles failed");
+                        ////publishProgress("Detect Video Profiles failed");
                     }
 
                     try {
-                        publishProgress("Detect ExposureModes");
+                        ////publishProgress("Detect ExposureModes");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, SettingsManager.get(SettingKeys.ExposureMode), FreedApplication.getStringArrayFromRessource(R.array.aemodes));
                         SettingsManager.get(SettingKeys.ExposureMode).set(FreedApplication.getStringFromRessources(R.string.on));
                         sendProgress(SettingsManager.get(SettingKeys.ExposureMode), "ExposureModes:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect ExposureModes failed");
+                        ////publishProgress("Detect ExposureModes failed");
                     }
 
                     try {
-                        publishProgress("Detect ExposureCompensation");
+                        ////publishProgress("Detect ExposureCompensation");
                         detectManualExposure(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.M_ExposureCompensation), "ExposureCompensation:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect ExpoCompensation failed");
+                        ////publishProgress("Detect ExpoCompensation failed");
                     }
 
                     try {
-                        publishProgress("Detect ExposureTime");
+                        ////publishProgress("Detect ExposureTime");
                         detectManualexposureTime(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.M_ExposureTime), "ExposureTime:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect ExpoTime failed");
+                        ////publishProgress("Detect ExpoTime failed");
                     }
 
                     try {
-                        publishProgress("Detect Iso");
+                        ////publishProgress("Detect Iso");
                         detectManualIso(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.M_ManualIso), "Iso:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Iso failed");
+                        ////publishProgress("Detect Iso failed");
                     }
 
                     try {
-                        publishProgress("Detect Aperture");
+                        ////publishProgress("Detect Aperture");
                         detectManualApeture(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.M_Aperture), "Aperture:");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Aperture failed");
+                        ////publishProgress("Detect Aperture failed");
                     }
 
                     try {
-                        publishProgress("Detect ColorCorrection");
+                        ////publishProgress("Detect ColorCorrection");
                         detectColorcorrectionMode(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE), "ColorCorrection");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect ColorCorrection failed");
+                        ////publishProgress("Detect ColorCorrection failed");
                     }
 
                     try {
-                        publishProgress("Detect ToneMap");
+                        ////publishProgress("Detect ToneMap");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, SettingsManager.get(SettingKeys.TONE_MAP_MODE),FreedApplication.getStringArrayFromRessource(R.array.tonemapmodes));
                         sendProgress(SettingsManager.get(SettingKeys.TONE_MAP_MODE), "Tonemap");
                     }
                     catch (Exception ex)
                     {
                         Log.WriteEx(ex);
-                        publishProgress("Detect Tonemap Mode failed");
+                        ////publishProgress("Detect Tonemap Mode failed");
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         try {
-                            publishProgress("Detect Shading Mode");
+                            ////publishProgress("Detect Shading Mode");
                             Camera2Util.detectIntMode(characteristics, CameraCharacteristics.SHADING_AVAILABLE_MODES, SettingsManager.get(SettingKeys.LensShade),FreedApplication.getStringArrayFromRessource(R.array.shadingmodes));
                             sendProgress(SettingsManager.get(SettingKeys.LensShade), "Tonemap");
                         }
                         catch (Exception ex)
                         {
                             Log.WriteEx(ex);
-                            publishProgress("Detect Shading Mode failed");
+                            ////publishProgress("Detect Shading Mode failed");
                         }
                     }
 
                     try {
-                        publishProgress("Detect Whitebalance");
+                        ////publishProgress("Detect Whitebalance");
                         Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, SettingsManager.get(SettingKeys.WhiteBalanceMode), FreedApplication.getStringArrayFromRessource(R.array.whitebalancemodes));
                         sendProgress(SettingsManager.get(SettingKeys.WhiteBalanceMode), "Whitebalance");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect WB Mode failed");
+                        ////publishProgress("Detect WB Mode failed");
                     }
 
                     try {
-                        publishProgress("Detect CONTROL_MODE");
+                        ////publishProgress("Detect CONTROL_MODE");
                         detectControlMode(characteristics);
                         sendProgress(SettingsManager.get(SettingKeys.CONTROL_MODE), "CONTROL_MODE");
                     } catch (Exception e) {
                         Log.WriteEx(e);
-                        publishProgress("Detect Control mode failed");
+                        ////publishProgress("Detect Control mode failed");
                     }
 
                     Range[] aetargetfps = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
@@ -470,7 +479,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     catch (Exception e)
                     {
                         Log.WriteEx(e);
-                        publishProgress("Detect sharpness failed");
+                        ////publishProgress("Detect sharpness failed");
                     }
 
                     try{
@@ -489,7 +498,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     catch (Exception e)
                     {
                         Log.WriteEx(e);
-                        publishProgress("Detect saturation failed");
+                        ////publishProgress("Detect saturation failed");
                     }
 
                     detectHuaweiParameters(characteristics);
@@ -502,16 +511,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
             }
-        }
-        catch (Throwable ex) {
-            Log.WriteEx(ex);
-            if (!hasCamera2Features)
-                SettingsManager.getInstance().setHasCamera2Features(false);
-            else
-                SettingsManager.getInstance().setHasCamera2Features(true);
-
-            SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
-        }
     }
 
     private void checkPreviewAndYuvSizes(List<String> cameraids, int i, CameraCharacteristics characteristics) {
@@ -1405,7 +1404,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         SettingsManager.getInstance().saveMediaProfiles(supportedProfiles);
 
-        publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
+        ////publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 
     private boolean has2160pSize()

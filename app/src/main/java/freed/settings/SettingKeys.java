@@ -7,6 +7,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
 import freed.settings.mode.SettingMode;
@@ -200,6 +201,11 @@ public class SettingKeys{
         public int getRessourcesStringID()
         {
             return ressourcesStringID;
+        }
+
+        @Override
+        public String toString() {
+            return FreedApplication.getStringFromRessources(ressourcesStringID);
         }
     }
 }

@@ -41,7 +41,6 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
         this.featureDetectorEvents = events;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -103,6 +102,8 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
         @Override
         public boolean process() {
             Log.d(TAG, "CameraFeatureRunner process");
+            if (cameraListner != null)
+                cameraListner.onProgessUpdate("Detect camera Features");
             SettingsManager.getInstance().setCamApi(SettingsManager.API_SONY);
             Camera2FeatureDetectorTask task  = null;
             Camera1FeatureDetectorTask task1 = null;
