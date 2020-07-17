@@ -294,7 +294,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             int appSettingsKeyShutter = 0;
 
             try {
-                String es = SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
+                String es = cameraFragmentManager.getCameraFragment().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).GetStringValue();
                 if(es == null)
                     super.onKeyDown(keyCode,event);
                 if (es.equals("Vol+"))

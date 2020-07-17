@@ -33,6 +33,8 @@ public class ParameterExternalShutter extends AbstractParameter
     public ParameterExternalShutter()
     {
         super(SettingKeys.EXTERNAL_SHUTTER);
+        if (SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get() == null)
+            SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).set(values[2]);
     }
 
     @Override
