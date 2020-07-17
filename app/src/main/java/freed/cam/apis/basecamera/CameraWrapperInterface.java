@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera;
 
-import android.view.SurfaceView;
-
 /**
  * Created by troop on 09.12.2014.
  */

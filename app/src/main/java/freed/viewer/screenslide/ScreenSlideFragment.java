@@ -419,7 +419,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public boolean process() {
             ExifInterface exifInterface = null;
             try {
-                Log.d(TAG, "File: " + file.getName() + " DateModded: " + file.lastModified());
+                //Log.d(TAG, "File: " + file.getName() + " DateModded: " + file.lastModified());
                 if (file instanceof FileHolder)
                     exifInterface = new ExifInterface(((FileHolder)file).getFile().getAbsolutePath());
                 else if (file instanceof UriHolder)
