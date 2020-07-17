@@ -129,7 +129,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             List<CameraCharacteristics.Key<?>> keys = characteristics.getKeys();
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
-        } catch (CameraAccessException ex) {
+        } catch (CameraAccessException | IllegalArgumentException ex ) {
             Log.WriteEx(ex);
             if (mCameraDevice != null) {
                 mCameraDevice.close();
