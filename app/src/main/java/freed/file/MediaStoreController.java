@@ -135,6 +135,10 @@ public class MediaStoreController {
 
 
         }
+        catch (SecurityException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     private void getMovieFolders(List<String> folders) {
@@ -164,6 +168,10 @@ public class MediaStoreController {
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);*/
 
             }
+        }
+        catch (SecurityException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
@@ -222,6 +230,10 @@ public class MediaStoreController {
             }
 
         }
+        catch (SecurityException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
     private void getMovies(List<BaseHolder> fileHolders) {
@@ -263,6 +275,10 @@ public class MediaStoreController {
                     fileHolders.add(new UriHolder(contentUri, name,id, datetaken,false,false));
             }
 
+        }
+        catch (SecurityException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
@@ -317,7 +333,10 @@ public class MediaStoreController {
                 if (name != null && folder.equals(bucketdisname))
                     fileHolders.add(new UriHolder(contentUri, name,id, datetaken,false,false));
             }
-
+        }
+        catch (SecurityException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
@@ -365,6 +384,10 @@ public class MediaStoreController {
                     fileHolders.add(new UriHolder(contentUri, name,id, datetaken,false,false));
             }
 
+        }
+        catch (SecurityException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 }
