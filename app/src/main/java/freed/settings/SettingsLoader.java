@@ -59,7 +59,9 @@ public class SettingsLoader {
                 for (XmlElement element: apilist)
                 {
                     String api_name = element.getAttribute("name","camera1");
-                    SettingLayout.CameraId camera  = new SettingLayout.CameraId();
+                    SettingLayout.CameraId camera;
+                    if ((camera = settingLayout.api_hashmap.get(api_name)) == null)
+                        camera = new SettingLayout.CameraId();
                     parseCameraNode(camera, element);
                     settingLayout.api_hashmap.put(api_name, camera);
                 }
@@ -97,7 +99,9 @@ public class SettingsLoader {
         for (int i = 0; i< cameraSettings.size(); i++)
         {
             int id = cameraSettings.get(i).getIntAttribute("name",0);
-            SettingLayout.CameraId.CameraSettings settings = new SettingLayout.CameraId.CameraSettings();
+            SettingLayout.CameraId.CameraSettings settings;
+            if ((settings = camera.cameraid_settings.get(id)) == null)
+                settings = new SettingLayout.CameraId.CameraSettings();
             settings.isFrontCamera = cameraSettings.get(i).findChild(XmlUtil.FRONT_CAMERA).getBooleanValue();
             parseSettings(cameraSettings.get(i), settings);
             camera.cameraid_settings.put(id,settings);
@@ -130,6 +134,7 @@ public class SettingsLoader {
         }
         else if (type.equals(TypedSettingMode.class.getSimpleName()))
         {
+
             TypedSettingMode apiBooleanSettingMode = new TypedSettingMode(foundKey);
             apiBooleanSettingMode.loadXmlNode(profile);
             hashMap.put(foundKey,apiBooleanSettingMode);

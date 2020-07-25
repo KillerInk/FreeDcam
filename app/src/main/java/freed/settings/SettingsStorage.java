@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import freed.settings.mode.SettingInterface;
+import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
 public class SettingsStorage
@@ -66,6 +67,7 @@ public class SettingsStorage
 
     public void save()
     {
+        Log.d(TAG, "save");
         synchronized (waitlock) {
             new Thread(new Runnable() {
                 @Override
@@ -87,6 +89,7 @@ public class SettingsStorage
 
     public void load()
     {
+        Log.d(TAG,"load");
         synchronized (waitlock) {
             new Thread(new Runnable() {
                 @Override
@@ -109,6 +112,7 @@ public class SettingsStorage
 
     public void reset()
     {
+        Log.d(TAG, "reset");
         settings.areFeaturesDetected = false;
        /* if (settingStore != null)
             settingStore.clear();*/
@@ -173,6 +177,10 @@ public class SettingsStorage
     public void setActiveCamera(int id)
     {
         settings.api_hashmap.get(settings.active_api).active_camera = id;
+        if (settings.api_hashmap.get(settings.active_api).cameraid_settings == null)
+            settings.api_hashmap.get(settings.active_api).cameraid_settings = new HashMap<>();
+        if (settings.api_hashmap.get(settings.active_api).cameraid_settings.get(id) == null)
+            settings.api_hashmap.get(settings.active_api).cameraid_settings.put(id,new SettingLayout.CameraId.CameraSettings());
     }
 
     public int[] getActiveCameraIds()
@@ -186,7 +194,8 @@ public class SettingsStorage
         if (settings.api_hashmap.get(settings.active_api).cameraid_settings == null)
             settings.api_hashmap.get(settings.active_api).cameraid_settings = new HashMap<>();
         for (int i = 0; i< ids.length;i++)
-            settings.api_hashmap.get(settings.active_api).cameraid_settings.put(i,new SettingLayout.CameraId.CameraSettings());
+            if (settings.api_hashmap.get(settings.active_api).cameraid_settings.get(i) == null)
+                settings.api_hashmap.get(settings.active_api).cameraid_settings.put(i,new SettingLayout.CameraId.CameraSettings());
     }
 
     public boolean isFrontCamera()

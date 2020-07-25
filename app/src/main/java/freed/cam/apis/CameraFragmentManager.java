@@ -72,7 +72,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     private void loadFeatureDetector() {
         Log.d(TAG, "Start FeatureDetector");
-        SettingsManager.getInstance().RESET();
+        //SettingsManager.getInstance().RESET();
         fd = new CameraFeatureDetectorFragment();
         fd.setFeatureDetectorDoneListner(this);
         replaceCameraFragment(fd, "FeatureDetector");

@@ -283,7 +283,14 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             exposuretime = new Date().getTime() - startcapturetime;
         }
         task.setExposureTime(exposuretime);
-        task.setFlash((int)((ParametersHandler) cameraUiWrapper.getParameterHandler()).getFlash());
+        try {
+            task.setFlash((int)((ParametersHandler) cameraUiWrapper.getParameterHandler()).getFlash());
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+
         task.setIso(cameraUiWrapper.getParameterHandler().getCurrentIso());
         String wb = null;
 

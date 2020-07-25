@@ -11,60 +11,62 @@
         <camera1>//holds camera1 specfic stuff
             <framework>0</framework> // framework used by the device 0 = android, 1 = LG, 2 = MTK, 3 = Moto_ext
 
-            <opencameralegacy>true</opencameralegacy>//when empty/false default camera gets open
+            <cameraid name ="0">
+                <opencameralegacy>true</opencameralegacy>//when empty/false default camera gets open
 
-            <zteae>true</zteae>
+                <zteae>true</zteae>
 
-            <needrestartaftercapture>true</needrestartaftercapture>
+                <needrestartaftercapture>true</needrestartaftercapture>
 
-            <bust>9</burst> //burst count, not added = unsupported
+                <bust>9</burst> //burst count, not added = unsupported
 
-            <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
+                <nightmode></nightmode> 0 = xiaomi, 1 = zte, not added = unsupported
 
-            <hdrmode supported="true">0</hdrmode> // xiaomi must get set with nightmode
+                <hdrmode supported="true">0</hdrmode> // xiaomi must get set with nightmode
 
-            <whitebalance sdkint="21">
-                <min></min>
-                <max></max>
-                <step></step>
-                <key></key>
-                <mode></mode>
-            </whitebalance>
-
-            <manualiso supported="true">
-                <framework type="1">
+                <whitebalance sdkint="21">
                     <min></min>
                     <max></max>
                     <step></step>
                     <key></key>
-                </framework> //used for redmi note3, it has same model but different socs: Snap,MTK
-                <min></min>
-                <max></max>
-                <step></step>
-                <key></key>
-                <type>0</type> 0=qcom 1=sony
-                <values></values>
-            </manualiso>
-            <virtuallensfilter></virtuallensfilter>
-           <denoise>false</denoise>
-           <digitalimagestab>false</digitalimagestab>
+                    <mode></mode>
+                </whitebalance>
 
-           <manualfocus version="21">
-                <min></min>
-                <max></max>
-                <step></step>
-                <type></type>
-                <mode></mode>
-                <key></key>
-            </manualfocus>
+                <manualiso supported="true">
+                    <framework type="1">
+                        <min></min>
+                        <max></max>
+                        <step></step>
+                        <key></key>
+                    </framework> //used for redmi note3, it has same model but different socs: Snap,MTK
+                    <min></min>
+                    <max></max>
+                    <step></step>
+                    <key></key>
+                    <type>0</type> 0=qcom 1=sony
+                    <values></values>
+                </manualiso>
+                <virtuallensfilter></virtuallensfilter>
+               <denoise>false</denoise>
+               <digitalimagestab>false</digitalimagestab>
 
-            <rawformat></rawformat> //to set a default bayer profile wich is known to work on that device.
-            some device have more profiles in the parameters then are supported
+               <manualfocus version="21">
+                    <min></min>
+                    <max></max>
+                    <step></step>
+                    <type></type>
+                    <mode></mode>
+                    <key></key>
+                </manualfocus>
 
-            <opticalimagestab>
-                <key></key>
-                <values></values>
-            </opticalimagestab>
+                <rawformat></rawformat> //to set a default bayer profile wich is known to work on that device.
+                some device have more profiles in the parameters then are supported
+
+                <opticalimagestab>
+                    <key></key>
+                    <values></values>
+                </opticalimagestab>
+            </cameraid>
         </camera1>
 
         <camera2>
@@ -176,18 +178,20 @@
             <item>Aquaris_E5</item>
         </models>
         <camera1>
-            <manualiso>
-                <min>100</min>
-                <max>1600</max>
-                <step>50</step>
-                <key>continous-iso</key>
-                <type>0</type>
-            </manualiso>
-            <exposuretime>
-                <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
-                <key>exposure-time</key>
-                <type>4</type>
+            <cameraid name ="0">
+                <manualiso>
+                    <min>100</min>
+                    <max>1600</max>
+                    <step>50</step>
+                    <key>continous-iso</key>
+                    <type>0</type>
+                </manualiso>
+                <exposuretime>
+                    <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
+                    <key>exposure-time</key>
+                    <type>4</type>
             </exposuretime>
+            </cameraid>
         </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -394,7 +398,12 @@
             <item>m8wl</item>
         </models>
         <camera1>
-            <rawformat>bayer-qcom-10grbg</rawformat>
+            <cameraid name ="0">
+                <rawformat>bayer-qcom-10grbg</rawformat>
+            </cameraid>
+            <cameraid name ="1">
+                <rawformat>bayer-qcom-10grbg</rawformat>
+            </cameraid>
         </camera1>
         <filesize size= "5382641"> <!-- filesize < 6000000 && filesize > 5382641 //qcom -->
             <blacklvl>0</blacklvl>
@@ -516,7 +525,12 @@
             <item>One_A9</item>
         </models>
         <camera1>
-            <rawformat>bayer-mipi-10bggr</rawformat>
+            <cameraid name ="0">
+                <rawformat>bayer-mipi-10bggr</rawformat>
+            </cameraid>
+            <cameraid name ="1">
+                <rawformat>bayer-mipi-10bggr</rawformat>
+            </cameraid>
         </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -978,23 +992,44 @@
             <item>VS980 4G</item>
         </models>
         <camera1>
-            <burst>7</burst>
-            <hdrmode supported="true">2</hdrmode>
-            <manualfocus>
-                <min>0</min>
-                <max>79</max>
-                <step>1</step>
-                <type>-1</type>
-                <mode>normal</mode>
-                <key>manualfocus_step</key>
-            </manualfocus>
+            <cameraid name ="0">
+                <burst>7</burst>
+                <hdrmode supported="true">2</hdrmode>
+                <manualfocus>
+                    <min>0</min>
+                    <max>79</max>
+                    <step>1</step>
+                    <type>-1</type>
+                    <mode>normal</mode>
+                    <key>manualfocus_step</key>
+                </manualfocus>
 
-            <rawformat>bayer-mipi-10bggr</rawformat>
+                <rawformat>bayer-mipi-10bggr</rawformat>
 
-            <opticalimagestab>
-                <key>ois-ctrl</key>
-                <values>preview-capture,capture,video,centering-only,centering-off</values>
-            </opticalimagestab>
+                <opticalimagestab>
+                    <key>ois-ctrl</key>
+                    <values>preview-capture,capture,video,centering-only,centering-off</values>
+                </opticalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+                <burst>7</burst>
+                <hdrmode supported="true">2</hdrmode>
+                <manualfocus>
+                    <min>0</min>
+                    <max>79</max>
+                    <step>1</step>
+                    <type>-1</type>
+                    <mode>normal</mode>
+                    <key>manualfocus_step</key>
+                </manualfocus>
+
+                <rawformat>bayer-mipi-10bggr</rawformat>
+
+                <opticalimagestab>
+                    <key>ois-ctrl</key>
+                    <values>preview-capture,capture,video,centering-only,centering-off</values>
+                </opticalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1023,15 +1058,28 @@
             <item>LG-D838</item>
         </models>
         <camera1>
-            <exposuretime>
-                <values>shutter_lg_g2pro</values> <!-- see shutter_values.xml -->
-                <key>exposure-time</key>
-                <type>8</type>
-            </exposuretime>
-            <opticalimagestab>
-                <key>ois-ctrl</key>
-                <values>preview-capture,capture,video,centering-only,centering-off</values>
-            </opticalimagestab>
+            <cameraid name ="0">
+                <exposuretime>
+                    <values>shutter_lg_g2pro</values> <!-- see shutter_values.xml -->
+                    <key>exposure-time</key>
+                    <type>8</type>
+                </exposuretime>
+                <opticalimagestab>
+                    <key>ois-ctrl</key>
+                    <values>preview-capture,capture,video,centering-only,centering-off</values>
+                </opticalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+                <exposuretime>
+                    <values>shutter_lg_g2pro</values> <!-- see shutter_values.xml -->
+                    <key>exposure-time</key>
+                    <type>8</type>
+                </exposuretime>
+                <opticalimagestab>
+                    <key>ois-ctrl</key>
+                    <values>preview-capture,capture,video,centering-only,centering-off</values>
+                </opticalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "16224256">
             <blacklvl>64</blacklvl>
@@ -1079,16 +1127,30 @@
             <item>VS986</item>
         </models>
         <camera1>
-            <opencameralegacy>true</opencameralegacy>
-            <burst>6</burst>
-            <manualfocus>
-                <min>0</min>
-                <max>60</max>
-                <step>1</step>
-                <type>-1</type>
-                <mode>manual</mode>
-                <key>manualfocus_step</key>
-            </manualfocus>
+            <cameraid name ="0">
+                <opencameralegacy>true</opencameralegacy>
+                <burst>6</burst>
+                <manualfocus>
+                    <min>0</min>
+                    <max>60</max>
+                    <step>1</step>
+                    <type>-1</type>
+                    <mode>manual</mode>
+                    <key>manualfocus_step</key>
+                </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+                <opencameralegacy>true</opencameralegacy>
+                <burst>6</burst>
+                <manualfocus>
+                    <min>0</min>
+                    <max>60</max>
+                    <step>1</step>
+                    <type>-1</type>
+                    <mode>manual</mode>
+                    <key>manualfocus_step</key>
+                </manualfocus>
+            </cameraid>
         </camera1>
 
         <camera2>
@@ -1140,34 +1202,36 @@
             <item>L-02F</item>
         </models>
         <camera1>
-            <burst>6</burst>
-            <manualiso supported="false"></manualiso>
-            <exposuretime></exposuretime>
-            <hdrmode supported="true">2</hdrmode>
+            <cameraid name ="0">
+                <burst>6</burst>
+                <manualiso supported="false"></manualiso>
+                <exposuretime></exposuretime>
+                <hdrmode supported="true">2</hdrmode>
 
-            <manualfocus version="23">
-                <min>0</min>
-                <max>1023</max>
-                <step>10</step>
-                <type>1</type>
-                <mode>manual</mode>
-                <key>manual-focus-position</key>
-            </manualfocus>
-            <manualfocus version="21">
-            </manualfocus>
-            <manualfocus version="19">
-                <min>0</min>
-                <max>79</max>
-                <step>1</step>
-                <type>-1</type>
-                <mode>normal</mode>
-                <key>manualfocus_step</key>
-            </manualfocus>
+                <manualfocus version="23">
+                    <min>0</min>
+                    <max>1023</max>
+                    <step>10</step>
+                    <type>1</type>
+                    <mode>manual</mode>
+                    <key>manual-focus-position</key>
+                </manualfocus>
+                <manualfocus version="21">
+                </manualfocus>
+                <manualfocus version="19">
+                    <min>0</min>
+                    <max>79</max>
+                    <step>1</step>
+                    <type>-1</type>
+                    <mode>normal</mode>
+                    <key>manualfocus_step</key>
+                </manualfocus>
 
-            <opticalimagestab>
-                <key>ois-ctrl</key>
-                <values>preview-capture,capture,video,centering-only,centering-off</values>
-            </opticalimagestab>
+                <opticalimagestab>
+                    <key>ois-ctrl</key>
+                    <values>preview-capture,capture,video,centering-only,centering-off</values>
+                </opticalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "2658304">
             <blacklvl>64</blacklvl>
@@ -1459,20 +1523,38 @@
             <item>MotoG3</item>
         </models>
         <camera1>
-            <needrestartaftercapture>true</needrestartaftercapture>
-            <rawformat>bayer-qcom-10rggb</rawformat>
-            <manualiso supported="true">
-                <min>50</min>
-                <max>3200</max>
-                <step>50</step>
-                <key>continous-iso</key>
-                <type>0</type>
-            </manualiso>
-            <exposuretime>
-                <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
-                <key>exposure-time</key>
-                <type>4</type>
-            </exposuretime>
+            <cameraid name ="0">
+                <needrestartaftercapture>true</needrestartaftercapture>
+                <rawformat>bayer-qcom-10rggb</rawformat>
+                <manualiso supported="true">
+                    <min>50</min>
+                    <max>3200</max>
+                    <step>50</step>
+                    <key>continous-iso</key>
+                    <type>0</type>
+                </manualiso>
+                <exposuretime>
+                    <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
+                    <key>exposure-time</key>
+                    <type>4</type>
+                </exposuretime>
+            </cameraid>
+            <cameraid name ="1">
+                <needrestartaftercapture>true</needrestartaftercapture>
+                <rawformat>bayer-qcom-10rggb</rawformat>
+                <manualiso supported="true">
+                    <min>50</min>
+                    <max>3200</max>
+                    <step>50</step>
+                    <key>continous-iso</key>
+                    <type>0</type>
+                </manualiso>
+                <exposuretime>
+                    <values>aquaris_e5_shuttervalues</values> <!-- see shutter_values.xml -->
+                    <key>exposure-time</key>
+                    <type>4</type>
+                </exposuretime>
+            </cameraid>
         </camera1>
         <filesize size= "17326080">
             <blacklvl>64</blacklvl>
@@ -1491,8 +1573,14 @@
             <item>MotoG3-TE</item>
         </models>
         <camera1>
-            <needrestartaftercapture>true</needrestartaftercapture>
-            <rawformat>bayer-qcom-10rggb</rawformat>
+            <cameraid name ="0">
+                <needrestartaftercapture>true</needrestartaftercapture>
+                <rawformat>bayer-qcom-10rggb</rawformat>
+            </cameraid>
+            <cameraid name ="1">
+                <needrestartaftercapture>true</needrestartaftercapture>
+                <rawformat>bayer-qcom-10rggb</rawformat>
+            </cameraid>
         </camera1>
         <filesize size= "17326080">
             <blacklvl>64</blacklvl>
@@ -1532,8 +1620,14 @@
             <item>SM-J710</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualfocus>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <manualfocus>
+            </manualfocus>
+            </cameraid>
         </camera1>
 
         <camera2>
@@ -1551,8 +1645,14 @@
             <item>XT1095</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualfocus>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <manualfocus>
+            </manualfocus>
+            </cameraid>
         </camera1>
 
         <camera2>
@@ -1930,8 +2030,14 @@
             <item>vivo Xplay3S</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualfocus>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <manualfocus>
+            </manualfocus>
+            </cameraid>
         </camera1>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
@@ -2048,17 +2154,32 @@
             <item>MI 3W</item>
         </models>
         <camera1>
-            <burst>6</burst>
-            <nightmode>0</nightmode>
-            <hdrmode supported="true">0</hdrmode>
-            <manualiso supported="false"></manualiso>
-            <whiteblance>
-                <min>2000</min>
-                <max>8000</max>
-                <step>100</step>
-                <key>wb-manual-cct</key>
-                <mode>manual-cct</mode>
-            </whiteblance>
+            <cameraid name ="0">
+                <burst>6</burst>
+                <nightmode>0</nightmode>
+                <hdrmode supported="true">0</hdrmode>
+                <manualiso supported="false"></manualiso>
+                <whiteblance>
+                    <min>2000</min>
+                    <max>8000</max>
+                    <step>100</step>
+                    <key>wb-manual-cct</key>
+                    <mode>manual-cct</mode>
+                </whiteblance>
+            </cameraid>
+            <cameraid name ="1">
+                <burst>6</burst>
+                <nightmode>0</nightmode>
+                <hdrmode supported="true">0</hdrmode>
+                <manualiso supported="false"></manualiso>
+                <whiteblance>
+                    <min>2000</min>
+                    <max>8000</max>
+                    <step>100</step>
+                    <key>wb-manual-cct</key>
+                    <mode>manual-cct</mode>
+                </whiteblance>
+            </cameraid>
         </camera1>
 
         <opcodes>
@@ -2128,17 +2249,32 @@
             <item>MI 4LTE</item>
         </models>
         <camera1>
-            <burst>7</burst>
-            <nightmode>0</nightmode>
-            <hdrmode supported="true">0</hdrmode>
-            <manualiso supported="false"></manualiso>
-            <whiteblance>
-                <min>2000</min>
-                <max>8000</max>
-                <step>100</step>
-                <key>wb-manual-cct</key>
-                <mode>manual-cct</mode>
-            </whiteblance>
+            <cameraid name ="0">
+                <burst>7</burst>
+                <nightmode>0</nightmode>
+                <hdrmode supported="true">0</hdrmode>
+                <manualiso supported="false"></manualiso>
+                <whiteblance>
+                    <min>2000</min>
+                    <max>8000</max>
+                    <step>100</step>
+                    <key>wb-manual-cct</key>
+                    <mode>manual-cct</mode>
+                </whiteblance>
+            </cameraid>
+            <cameraid name ="1">
+                <burst>7</burst>
+                <nightmode>0</nightmode>
+                <hdrmode supported="true">0</hdrmode>
+                <manualiso supported="false"></manualiso>
+                <whiteblance>
+                    <min>2000</min>
+                    <max>8000</max>
+                    <step>100</step>
+                    <key>wb-manual-cct</key>
+                    <mode>manual-cct</mode>
+                </whiteblance>
+            </cameraid>
         </camera1>
 
         <opcodes>
@@ -2215,16 +2351,30 @@
             <item>MI 4C</item>
         </models>
         <camera1>
-            <nightmode>0</nightmode>
-            <burst>6</burst>
-            <manualiso supported="false"></manualiso>
-            <whiteblance>
-                <min>2000</min>
-                <max>8000</max>
-                <step>100</step>
-                <key>wb-manual-cct</key>
-                <mode>manual-cct</mode>
-            </whiteblance>
+            <cameraid name ="0">
+                <nightmode>0</nightmode>
+                <burst>6</burst>
+                <manualiso supported="false"></manualiso>
+                <whiteblance>
+                    <min>2000</min>
+                    <max>8000</max>
+                    <step>100</step>
+                    <key>wb-manual-cct</key>
+                    <mode>manual-cct</mode>
+                </whiteblance>
+            </cameraid>
+            <cameraid name ="1">
+                <nightmode>0</nightmode>
+                <burst>6</burst>
+                <manualiso supported="false"></manualiso>
+                <whiteblance>
+                    <min>2000</min>
+                    <max>8000</max>
+                    <step>100</step>
+                    <key>wb-manual-cct</key>
+                    <mode>manual-cct</mode>
+                </whiteblance>
+            </cameraid>
         </camera1>
         <filesize size= "17522688">
             <blacklvl>0</blacklvl>
@@ -2293,7 +2443,12 @@
             <item>MI 4S</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -2313,11 +2468,20 @@
             <item>MI_5</item>
         </models>
         <camera1>
-            <digitalimagestab>false</digitalimagestab>
-            <opticalimagestab>
-                <key>ois</key>
-                <values>enable,disable</values>
-            </opticalimagestab>
+            <cameraid name ="0">
+                <digitalimagestab>false</digitalimagestab>
+                <opticalimagestab>
+                    <key>ois</key>
+                    <values>enable,disable</values>
+                </opticalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+                <digitalimagestab>false</digitalimagestab>
+                <opticalimagestab>
+                    <key>ois</key>
+                    <values>enable,disable</values>
+                </opticalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
@@ -2344,7 +2508,12 @@
     <device name ="XiaomiMI5s">
         <models><item>MI 5s</item></models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "15581184">
             <blacklvl>50</blacklvl>
@@ -2371,7 +2540,12 @@
     <device name ="XiaomiMI5s_plus">
         <models><item>MI 5s Plus</item></models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>50</blacklvl>
@@ -2401,7 +2575,12 @@
             <item>Mi A1</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "15728640">
             <blacklvl>64</blacklvl>
@@ -2428,14 +2607,26 @@
     <device name ="XiaomiMI6">
         <models><item>MI 6</item></models>
         <camera1>
-            <digitalimagestab>false</digitalimagestab>
-            <manualiso supported="true">
-                <min>100</min>
-                <max>1600</max>
-                <step>100</step>
-                <key>iso</key>
-                <type>0</type>
-            </manualiso>
+            <cameraid name ="0">
+                <digitalimagestab>false</digitalimagestab>
+                <manualiso supported="true">
+                    <min>100</min>
+                    <max>1600</max>
+                    <step>100</step>
+                    <key>iso</key>
+                    <type>0</type>
+                </manualiso>
+            </cameraid>
+            <cameraid name ="1">
+                <digitalimagestab>false</digitalimagestab>
+                <manualiso supported="true">
+                    <min>100</min>
+                    <max>1600</max>
+                    <step>100</step>
+                    <key>iso</key>
+                    <type>0</type>
+                </manualiso>
+            </cameraid>
         </camera1>
 
         <opcodes>
@@ -2488,10 +2679,18 @@
             <item>MI NOTE Pro</item>
         </models>
         <camera1>
-            <nightmode>0</nightmode>
-            <hdrmode supported="true">0</hdrmode>
-            <nightmode>0</nightmode>
-            <burst>5</burst>
+            <cameraid name ="0">
+                <nightmode>0</nightmode>
+                <hdrmode supported="true">0</hdrmode>
+                <nightmode>0</nightmode>
+                <burst>5</burst>
+            </cameraid>
+            <cameraid name ="1">
+                <nightmode>0</nightmode>
+                <hdrmode supported="true">0</hdrmode>
+                <nightmode>0</nightmode>
+                <burst>5</burst>
+            </cameraid>
         </camera1>
         <filesize size= "17612800">
             <blacklvl>64</blacklvl>
@@ -2550,10 +2749,18 @@
             <item>MI NOTE 2</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
             <burst>5</burst>
+            </cameraid>
+            <cameraid name ="1">
+            <nightmode>0</nightmode>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
+            <burst>5</burst>
+            </cameraid>
         </camera1>
         <filesize size= "10842112">
             <blacklvl>64</blacklvl>
@@ -2570,7 +2777,12 @@
     <device name ="XiaomiMI_Note_3">
         <models><item>MI NOTE 3</item></models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
@@ -2600,7 +2812,12 @@
             <item>MI MAX PRIME</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "20389888">
             <blacklvl>64</blacklvl>
@@ -2639,7 +2856,12 @@
             <item>MI MAX 2</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
@@ -2678,7 +2900,12 @@
             <item>MI MIX</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "20557824">
             <blacklvl>64</blacklvl>
@@ -2705,7 +2932,12 @@
     <device name ="XiaomiMI_Mix_2">
         <models><item>MI MIX 2</item></models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "15482880">
             <blacklvl>64</blacklvl>
@@ -2750,6 +2982,7 @@
             <item>2014819</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
             <whiteblance>
                 <min>2000</min>
@@ -2771,6 +3004,30 @@
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z5s</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>3</type>
+            </exposuretime>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            </cameraid>
         </camera1>
         <filesize size= "9990144">
             <blacklvl>64</blacklvl>
@@ -2799,9 +3056,16 @@
             <item>Redmi 3</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
+            </cameraid>
         </camera1>
         <filesize size= "16424960">
             <blacklvl>64</blacklvl>
@@ -2841,7 +3105,12 @@
             <item>Redmi 3X</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -2872,7 +3141,12 @@
             <item>Redmi 4 Prime</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -2901,7 +3175,12 @@
             <item>Redmi 4A</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "16560128">
             <blacklvl>10</blacklvl>
@@ -2931,7 +3210,12 @@
             <item>Redmi 5 Plus</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "15728640">
             <blacklvl>50</blacklvl>
@@ -2960,7 +3244,12 @@
             <item>Redmi 5A</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -2992,10 +3281,18 @@
             <item>MI NOTE LTE</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <nightmode>0</nightmode>
             <hdrmode supported="true">0</hdrmode>
             <burst>5</burst>
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <nightmode>0</nightmode>
+            <hdrmode supported="true">0</hdrmode>
+            <burst>5</burst>
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "17522688">
             <blacklvl>64</blacklvl>
@@ -3057,6 +3354,7 @@
             <item>Kenzo</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <!--<framework>0</framework>-->
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
@@ -3071,6 +3369,23 @@
                 <framework type="Xiaomi"> <!-- unsupported by the snap -->
                 </framework>
             </manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <!--<framework>0</framework>-->
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
+            <manualiso supported="true">
+                <framework type="MTK"> <!-- mtk support it -->
+                    <min>100</min>
+                    <max>2700</max>
+                    <step>100</step>
+                    <key>m-sr-g</key>
+                    <type>2</type>
+                </framework>
+                <framework type="Xiaomi"> <!-- unsupported by the snap -->
+                </framework>
+            </manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "26023936">
             <blacklvl>64</blacklvl>
@@ -3112,9 +3427,16 @@
             <item>Redmi Note 4X</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="true"></manualiso>
             <hdrmode supported="true">0</hdrmode>
             <nightmode>0</nightmode>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="true"></manualiso>
+            <hdrmode supported="true">0</hdrmode>
+            <nightmode>0</nightmode>
+            </cameraid>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -3176,7 +3498,12 @@
             <item>MI NOTE 5 Prime</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <digitalimagestab>false</digitalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <digitalimagestab>false</digitalimagestab>
+            </cameraid>
         </camera1>
         <filesize size= "16510976">
             <blacklvl>64</blacklvl>
@@ -3213,7 +3540,12 @@
             <item>Redmi Pro</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <manualiso supported="false"></manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <manualiso supported="false"></manualiso>
+            </cameraid>
         </camera1>
         <filesize size= "26257920">
             <blacklvl>64</blacklvl>
@@ -3232,9 +3564,16 @@
             <item>Moto G (5) Plus</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <!--<framework>0</framework>-->
             <opencameralegacy>true</opencameralegacy>
             <hdrmode supported="true">3</hdrmode>
+            </cameraid>
+            <cameraid name ="1">
+            <!--<framework>0</framework>-->
+            <opencameralegacy>true</opencameralegacy>
+            <hdrmode supported="true">3</hdrmode>
+            </cameraid>
         </camera1>
 
         <filesize size= "15482880">
@@ -3322,6 +3661,7 @@
             <item>D5303</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <burst>7</burst>
             <nightmode>1</nightmode>
             <whiteblance>
@@ -3345,6 +3685,32 @@
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <burst>7</burst>
+            <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z5s</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
+            <virtuallensfilter>true</virtuallensfilter>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            </cameraid>
         </camera1>
 
         <opcodes>
@@ -3415,6 +3781,7 @@
             <item>NX601J</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
@@ -3439,6 +3806,33 @@
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <zteae>true</zteae>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z5s</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
+            <virtuallensfilter>true</virtuallensfilter>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            </cameraid>
         </camera1>
 
         <opcodes>
@@ -3507,6 +3901,7 @@
             <item>NX507J</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
@@ -3532,6 +3927,34 @@
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <zteae>true</zteae>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+
+            <exposuretime>
+                <values>shutter_values_zte_z7</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
+
+            <manualfocus>
+                <min>0</min>
+                <max>100</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            </cameraid>
         </camera1>
         <filesize size= "6721536">
             <blacklvl>64</blacklvl>
@@ -3574,6 +3997,7 @@
             <item>NX512J</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <zteae>true</zteae>
             <burst>7</burst>
             <nightmode>1</nightmode>
@@ -3597,6 +4021,32 @@
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <zteae>true</zteae>
+            <burst>7</burst>
+            <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z7</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            </cameraid>
         </camera1>
 
         <opcodes>
@@ -3628,6 +4078,7 @@
             <item>NX5222</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <nightmode>1</nightmode>
             <whiteblance>
                 <min>2000</min>
@@ -3650,6 +4101,31 @@
                 <mode>manual</mode>
                 <key>manual-focus-position</key>
             </manualfocus>
+            </cameraid>
+            <cameraid name ="1">
+            <nightmode>1</nightmode>
+            <whiteblance>
+                <min>2000</min>
+                <max>8000</max>
+                <step>100</step>
+                <key>wb-manual-cct</key>
+                <mode>manual</mode>
+            </whiteblance>
+            <exposuretime>
+                <values>shutter_values_zte_z7</values> <!-- see shutter_values.xml -->
+                <key>exposure-time</key>
+                <type>9</type>
+            </exposuretime>
+            <virtuallensfilter>true</virtuallensfilter>
+            <manualfocus>
+                <min>0</min>
+                <max>79</max>
+                <step>1</step>
+                <type>1</type>
+                <mode>manual</mode>
+                <key>manual-focus-position</key>
+            </manualfocus>
+            </cameraid>
         </camera1>
         <filesize size= "20500480">
             <blacklvl>64</blacklvl>
@@ -3668,8 +4144,14 @@
             <item>NX403A</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <nightmode>1</nightmode>
             <virtuallensfilter>true</virtuallensfilter>
+            </cameraid>
+            <cameraid name ="1">
+            <nightmode>1</nightmode>
+            <virtuallensfilter>true</virtuallensfilter>
+            </cameraid>
         </camera1>
         <filesize size= "17522688"> <!-- filesize could be wrong -->
             <blacklvl>64</blacklvl>
@@ -3697,7 +4179,12 @@
             <item>Z981</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <nightmode>1</nightmode>
+            </cameraid>
+            <cameraid name ="1">
+            <nightmode>1</nightmode>
+            </cameraid>
         </camera1>
         <filesize size= "16510976"> <!-- filesize could be wrong -->
             <blacklvl>64</blacklvl>
@@ -3755,11 +4242,20 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <denoise>false</denoise>
             <opticalimagestab>
                 <key>hw_ois_enalbe</key>
                 <values>on,off</values>
             </opticalimagestab>
+            </cameraid>
+            <cameraid name ="1">
+            <denoise>false</denoise>
+            <opticalimagestab>
+                <key>hw_ois_enalbe</key>
+                <values>on,off</values>
+            </opticalimagestab>
+            </cameraid>
         </camera1>
     </device>
 
@@ -3768,8 +4264,12 @@
             <item>hi6210sft</item>
         </models>
         <camera1>
-
+            <cameraid name ="0">
             <denoise>false</denoise>
+            </cameraid>
+            <cameraid name ="1">
+            <denoise>false</denoise>
+            </cameraid>
         </camera1>
     </device>
 
@@ -3856,9 +4356,9 @@
             <item>SM-G928T</item>
             <item>SM-G928V</item>
         </models>
-        <camera2><camera2>
+        <camera2>
             <maxexposuretime>10000000</maxexposuretime>
-        </camera2></camera2>
+        </camera2>
     </device>
 
     <device name="Samsung_S6_edge">
@@ -3898,6 +4398,7 @@
             <item>D6603</item>
         </models>
         <camera1>
+            <cameraid name ="0">
             <exposuretime>
                 <values>shutter_sony_xperiaZ3</values>
                 <key>sony-shutter-speed</key>
@@ -3908,6 +4409,19 @@
                 <key>sony-iso</key>
                 <type>1</type>
             </manualiso>
+            </cameraid>
+            <cameraid name ="1">
+            <exposuretime>
+                <values>shutter_sony_xperiaZ3</values>
+                <key>sony-shutter-speed</key>
+                <type>7</type>
+            </exposuretime>
+            <manualiso supported="true">
+                <values>iso_sony_xperiaZ3</values>
+                <key>sony-iso</key>
+                <type>1</type>
+            </manualiso>
+            </cameraid>
         </camera1>
     </device>
 

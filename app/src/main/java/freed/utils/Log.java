@@ -117,6 +117,9 @@ public class Log
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
 
         public void writeString(String msg)
@@ -129,6 +132,9 @@ public class Log
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -138,6 +144,8 @@ public class Log
                 outwriter.flush();
                 fileWriter.flush();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
 
@@ -153,6 +161,9 @@ public class Log
                 outwriter = null;
                 fileWriter =null;
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+            catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }

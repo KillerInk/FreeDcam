@@ -166,8 +166,9 @@ public class SettingsManager implements SettingsManagerInterface {
         tonemapProfiles = parser.getToneMapProfiles(settingsStorage.appdataFolder);
         if (settingsStorage.getDevice() == null || TextUtils.isEmpty(settingsStorage.getDevice()))
         {
-            Log.d(TAG, "Lookup ConfigFile");
+            Log.d(TAG, "Lookup PreDefinedConfigFile");
             parser.parseAndFindSupportedDevice(FreedApplication.getContext().getResources(),matrixes,settingsStorage.appdataFolder);
+            Log.d(TAG, "Lookup PreDefinedConfigFile done");
         }
         else //load only stuff for dng
         {

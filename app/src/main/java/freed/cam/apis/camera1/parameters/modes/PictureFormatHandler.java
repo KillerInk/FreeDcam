@@ -62,9 +62,9 @@ public class PictureFormatHandler extends BaseModeParameter
             rawFormat = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get();
             rawFormats = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
-            if (bayerFormats.getStringValues().length > 0)
+            if (bayerFormats.getStringValues() != null && bayerFormats.getStringValues().length > 0)
                 bayerFormats.setViewState(ViewState.Visible);
-            if (TextUtils.isEmpty(rawFormat))
+            if (TextUtils.isEmpty(rawFormat) && rawFormats != null && rawFormats.length >0)
                 rawFormat = rawFormats[0];
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
             if (rawFormats.length  > 0 || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
