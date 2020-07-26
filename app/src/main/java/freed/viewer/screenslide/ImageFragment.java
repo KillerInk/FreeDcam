@@ -208,6 +208,9 @@ public class ImageFragment extends Fragment
         if ((pixels == null) || (pixels.length < (w * h)))
         	pixels = new int [ w * h ];
         bitmap.getPixels(pixels, 0, w, 0, 0, w, h);
+        try {
+
+
         for ( int i = 0 ; i < w ; i+=4) {
             for ( int j = 0 ; j < h ; j+=4) {
                 int index = j * w + i ;
@@ -218,6 +221,11 @@ public class ImageFragment extends Fragment
                 histogramData [ 256 + g ]++;
                 histogramData [ 512 + b ]++;
             }
+        }
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 
