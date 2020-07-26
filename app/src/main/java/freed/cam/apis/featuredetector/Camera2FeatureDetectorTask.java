@@ -249,9 +249,41 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     try {
                         ////publishProgress("Detect OpticalImageStabilisationMode");
-                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION, SettingsManager.get(SettingKeys.OIS_MODE), FreedApplication.getStringArrayFromRessource(R.array.digitalImageStabModes));
-                        sendProgress(SettingsManager.get(SettingKeys.OIS_MODE), "OpticalImageStabilisationMode");
-                        if (SettingsManager.get(SettingKeys.OIS_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off)))
+                        int[] oisvalues = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
+                        boolean ois_supported= false;
+                        if (oisvalues.length > 1)
+                        {
+                            if (oisvalues[0] == 1)
+                                ois_supported =true;
+                            if (oisvalues[1] == 1)
+                                ois_supported = true;
+                        }
+                        else if (oisvalues.length == 1)
+                            if (oisvalues[0] == 1)
+                                ois_supported = true;
+
+                        if (!ois_supported)
+                        {
+                            try{
+                                byte ois = characteristics.get(CameraCharacteristicsXiaomi.teleois_supported);
+                                if (ois == (byte)1)
+                                    ois_supported = true;
+                            }
+                            catch (IllegalArgumentException | NullPointerException ex)
+                            {
+                                Log.d(TAG, "No Xiaomi ois");
+                            }
+                        }
+                        if (ois_supported)
+                        {
+                            String values[] = new String[2];
+                            values[0] = FreedApplication.getStringFromRessources(R.string.off) + ",0";
+                            values[1] = FreedApplication.getStringFromRessources(R.string.on) + ",1";
+                            SettingsManager.get(SettingKeys.OIS_MODE).setValues(values);
+                            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(true);
+                            SettingsManager.get(SettingKeys.OIS_MODE).set(FreedApplication.getStringFromRessources(R.string.on));
+                        }
+                        else
                             SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(false);
                     } catch (Exception e) {
                         Log.WriteEx(e);
@@ -472,7 +504,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                             t[i] = ""+(min+i);
                         if (sharprange.length > 0) {
                             SettingsManager.get(SettingKeys.M_Sharpness).setValues(t);
-                            SettingsManager.get(SettingKeys.M_Sharpness).set(max + "");
+                            SettingsManager.get(SettingKeys.M_Sharpness).set((max/2) + "");
                             SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
                         }
                     }
@@ -491,7 +523,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                             t[i] = ""+(min+i);
                         if (contrastrange.length > 0) {
                             SettingsManager.get(SettingKeys.M_Saturation).setValues(t);
-                            SettingsManager.get(SettingKeys.M_Saturation).set(max + "");
+                            SettingsManager.get(SettingKeys.M_Saturation).set((max/2) + "");
                             SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
                         }
                     }
