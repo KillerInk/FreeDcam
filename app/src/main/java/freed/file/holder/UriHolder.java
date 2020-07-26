@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Size;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class UriHolder extends BaseHolder {
     public Bitmap getVideoThumb(Context context) throws IOException {
         Bitmap response = null;
         if (mediaStoreUri != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-            response = context.getContentResolver().loadThumbnail(mediaStoreUri,null,null);
+            response = context.getContentResolver().loadThumbnail(mediaStoreUri,new Size(512, 384),null);
         else if (mediaStoreUri != null)
             response = MediaStore.Video.Thumbnails.getThumbnail(context.getContentResolver(),ID, MediaStore.Images.Thumbnails.MINI_KIND, null );
         return response;
