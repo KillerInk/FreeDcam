@@ -72,7 +72,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     private void loadFeatureDetector() {
         Log.d(TAG, "Start FeatureDetector");
-        //SettingsManager.getInstance().RESET();
+        SettingsManager.getInstance().setAreFeaturesDetected(false);
         fd = new CameraFeatureDetectorFragment();
         fd.setFeatureDetectorDoneListner(this);
         replaceCameraFragment(fd, "FeatureDetector");
@@ -97,6 +97,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void onResume()
     {
+        Log.d(TAG, "onResume");
         if (cameraFragment != null) {
             mainToCameraHandler.setCameraInterface(cameraFragment);
             cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
@@ -108,6 +109,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void  onPause()
     {
+        Log.d(TAG, "onPause");
         if (cameraFragment != null) {
             cameraFragment.stopCameraAsync();
             mainToCameraHandler.setCameraInterface(null);
@@ -119,6 +121,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null));
         if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
+            Log.d(TAG, "load featuredetector");
             if (cameraFragment != null)
                 unloadCameraFragment();
             loadFeatureDetector();
@@ -129,12 +132,15 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 String api = SettingsManager.getInstance().getCamApi();
                 switch (api) {
                     case SettingsManager.API_SONY:
+                        Log.d(TAG, "load sony remote");
                         cameraFragment = SonyCameraRemoteFragment.getInstance();
                         break;
                     case SettingsManager.API_2:
+                        Log.d(TAG, "load camera2");
                         cameraFragment = Camera2Fragment.getInstance();
                         break;
                     default:
+                        Log.d(TAG, "load camera1");
                         cameraFragment = Camera1Fragment.getInstance();
                         break;
                 }

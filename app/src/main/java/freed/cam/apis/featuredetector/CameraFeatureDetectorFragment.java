@@ -65,6 +65,8 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
             featureRunner = new CameraFeatureRunner();
             ImageManager.putImageLoadTask(featureRunner);
         }
+        else
+            handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
     }
 
     @Override
