@@ -78,7 +78,17 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                             characteristics.getAvailableCaptureRequestKeys();
                             List<CaptureRequest.Key<?>> keys = characteristics.getAvailablePhysicalCameraRequestKeys();
                             Set<String> logical = characteristics.getPhysicalCameraIds();
-                            if (logical == null || logical.size() == 0)
+                            byte qcomlogical = 1;
+                            try {
+                                qcomlogical = characteristics.get(CameraCharacteristicsQcom.is_logical_camera).byteValue();
+                            }
+                            catch (NullPointerException | IllegalArgumentException ex)
+                            {
+                                qcomlogical = 1;
+                            }
+                            if ((logical == null || logical.size() == 0) && qcomlogical == (byte)1)
+                                checkPreviewAndYuvSizes(cameraids, i, characteristics);
+                            if (qcomlogical == (byte)0)
                                 checkPreviewAndYuvSizes(cameraids, i, characteristics);
                         }
                         else
