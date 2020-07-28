@@ -21,6 +21,7 @@ package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
@@ -247,10 +248,19 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
 
         if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")){
-            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 2);
+            PicReader = ImageReader.newInstance(320, 240, ImageFormat.YUV_420_888, 2);
+            PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
+                @Override
+                public void onImageAvailable(ImageReader reader) {
+                    reader.acquireLatestImage().close();
+                }
+            },null);
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
-
-
+        }
+        else if (PicReader != null)
+        {
+            PicReader.close();
+            PicReader = null;
         }
 
         if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
