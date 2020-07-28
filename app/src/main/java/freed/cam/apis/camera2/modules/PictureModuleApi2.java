@@ -142,7 +142,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                     //Restart the module
                     mBackgroundHandler.post(() -> {
                         Log.e(TAG, "RS5 ERROR; RELOAD MODULE");
-                        cameraUiWrapper.getModuleHandler().setModule(cameraUiWrapper.getModuleHandler().getCurrentModule().ModuleName());
+                        try {
+                            cameraUiWrapper.getModuleHandler().setModule(cameraUiWrapper.getModuleHandler().getCurrentModule().ModuleName());
+                        }
+                        catch (NullPointerException ex)
+                        {
+                            Log.WriteEx(ex);
+                        }
                     });
                 }
             }
