@@ -90,7 +90,8 @@ public class AeBracketApi2 extends PictureModuleApi2
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        aeWasOn = !SettingsManager.get(SettingKeys.ExposureMode).get().equals(FreedApplication.getContext().getString(R.string.off));
+        String aemode = cameraUiWrapper.parametersHandler.get(SettingKeys.ExposureMode).GetStringValue();
+        aeWasOn = !aemode.equals(FreedApplication.getContext().getString(R.string.off));
     }
 
     @Override
