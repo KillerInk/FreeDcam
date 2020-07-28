@@ -48,6 +48,11 @@ public class SettingsLoader {
                     Log.d(TAG, "failed to parse Framework, use Default");
                     settingLayout.framework = Frameworks.Default;
                 }
+                catch (IllegalArgumentException ex)
+                {
+                    Log.d(TAG, "failed to parse Framework, use Default");
+                    settingLayout.framework = Frameworks.Default;
+                }
                 XmlElement globalsettings = xmlElement.findChild(XmlUtil.GLOBAL_SETTINGS);
                 List<XmlElement> globalSettings = globalsettings.findChildren(XmlUtil.SETTING);
                 for (XmlElement profile : globalSettings)
