@@ -67,7 +67,7 @@ public class PictureFormatHandler extends BaseModeParameter
             if (TextUtils.isEmpty(rawFormat) && rawFormats != null && rawFormats.length >0)
                 rawFormat = rawFormats[0];
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
-            if (rawFormats.length  > 0 || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
+            if ((rawFormats != null && rawFormats.length  > 0) || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
