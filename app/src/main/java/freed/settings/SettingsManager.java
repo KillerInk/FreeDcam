@@ -133,7 +133,11 @@ public class SettingsManager implements SettingsManagerInterface {
         if (isInit)
             return;
         isInit = true;
-        settingsStorage = new SettingsStorage(FreedApplication.getContext().getExternalFilesDir(null));
+        File ext = FreedApplication.getContext().getExternalFilesDir(null);
+        if (ext != null && ext.exists())
+            settingsStorage = new SettingsStorage(ext);
+        else
+            settingsStorage = new SettingsStorage(FreedApplication.getContext().getFilesDir());
 
         Log.d(TAG, "load Settings");
         settingsStorage.load();
