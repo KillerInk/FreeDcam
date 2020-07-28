@@ -26,6 +26,7 @@ import java.util.Set;
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 04.12.2015.
@@ -38,7 +39,7 @@ public class NightModeSony extends BaseModeParameterSony
     final String ZOOMPREVIEW = "ZoomPreview";
 
     public NightModeSony(PreviewStreamDrawer simpleStreamSurfaceView) {
-        super(null, null, null, null,null);
+        super(null, null, null, null,null, SettingKeys.NightMode);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         if (RenderScriptManager.isSupported())
             setViewState(ViewState.Visible);

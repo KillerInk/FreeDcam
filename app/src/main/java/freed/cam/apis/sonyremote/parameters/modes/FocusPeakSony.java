@@ -26,6 +26,7 @@ import java.util.Set;
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 23.08.2015.
@@ -36,7 +37,7 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
 
     public FocusPeakSony(PreviewStreamDrawer simpleStreamSurfaceView) {
-        super(null, null, null, null,null);
+        super(null, null, null, null,null, SettingKeys.Focuspeak);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         String currentval = FreedApplication.getStringFromRessources(R.string.off_);
         if (RenderScriptManager.isSupported())

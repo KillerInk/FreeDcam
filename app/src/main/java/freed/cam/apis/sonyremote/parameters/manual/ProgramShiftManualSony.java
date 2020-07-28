@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.sonyremote.SonySettingKeys;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.settings.SettingKeys;
@@ -43,30 +44,20 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private final BaseManualParameterSony shutter;
 
     public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
-        super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
+        super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper,SettingKeys.M_ProgramShift);
         shutter = (BaseManualParameterSony) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime);
         BaseManualParameterSony fnumber = (BaseManualParameterSony) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Fnumber);
     }
 
     @Override
-    public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
-    {
-        this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        boolean isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
-        boolean isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
-        if (isSupported && isSetSupported)
-            setViewState(ViewState.Visible);
-        else if (isSupported && !isSetSupported)
-            setViewState(ViewState.Disabled);
-        else
-            setViewState(ViewState.Hidden);
+    public void SonyApiChanged(Set<String> mAvailableCameraApiSet) {
+        super.SonyApiChanged(mAvailableCameraApiSet);
     }
-
 
     @Override
     public String[] getStringValues()
     {
-        if (stringvalues == null)
+        if (stringvalues == null ||stringvalues.length == 0)
             getminmax();
         return stringvalues;
     }
@@ -74,14 +65,14 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     @Override
     public String GetStringValue()
     {
-        if (stringvalues == null)
+        if (stringvalues == null || stringvalues.length < currentInt)
             getminmax();
-        return stringvalues[currentInt];
+        if (stringvalues != null && stringvalues.length > currentInt)
+            return stringvalues[currentInt];
+        return  "0";
     }
 
     private void getminmax() {
-        if (getViewState() == ViewState.Visible)
-        {
             FreeDPool.Execute(() -> {
                 try
                 {
@@ -131,7 +122,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 } catch (InterruptedException ex) {
                     Log.WriteEx(ex);
                 }
-        }
+
     }
 
     @Override

@@ -25,7 +25,9 @@ import java.util.Set;
 
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
+import freed.cam.apis.sonyremote.SonySettingKeys;
 import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 16.08.2016.
@@ -35,7 +37,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     private final PreviewStreamDrawer simpleStreamSurfaceView;
 
     public ScalePreviewModeSony(PreviewStreamDrawer simpleStreamSurfaceView) {
-        super(null, null, null, null,null);
+        super(null, null, null, null,null, SettingKeys.SCALE_PREVIEW);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
         if (RenderScriptManager.isSupported())
             setViewState(ViewState.Visible);

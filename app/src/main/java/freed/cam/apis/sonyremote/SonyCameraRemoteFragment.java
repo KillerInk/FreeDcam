@@ -43,6 +43,7 @@ import java.util.Set;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.settings.SettingsManager;
 import freed.views.AutoFitTextureView;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
@@ -99,6 +100,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         //textView_wifi = view.findViewById(id.textView_wificonnect);
 
         wifiHandler = new WifiHandler(getActivityInterface());
+        SettingsManager.getInstance().SetCurrentCamera(0);
         parametersHandler = new ParameterHandler(this, previewStreamDrawer);
 
         moduleHandler = new ModuleHandlerSony(this);
@@ -176,7 +178,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         ((CameraHolderSony)cameraHolder).setRemoteApi(mRemoteApi);
         ((CameraHolderSony)cameraHolder).cameraRemoteEventsListner =this;
 
-        try {
+       /* try {
             JSONObject replyJson;
             replyJson = mRemoteApi.getAccessMethodTypes();
             replyJson = mRemoteApi.getAccessVersions();
@@ -194,7 +196,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
             e.printStackTrace();
         } catch (InvalidKeyException e) {
             e.printStackTrace();
-        }
+        }*/
 
         try {
             JSONObject replyJson;
@@ -478,7 +480,8 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
     public void stopCamera() {
         if (mEventObserver != null)
             mEventObserver.stop();
-        cameraHolder.CloseCamera();
+        if (cameraHolder !=  null)
+            cameraHolder.CloseCamera();
         STATE = STATE_IDEL;
     }
 

@@ -63,18 +63,17 @@ public class ManualButton extends LinearLayout
     }
 
     private void applyViewState(AbstractParameter.ViewState state) {
+        Log.d(TAG, "applyViewState for " +parameter.getKey().toString() + " " + state.toString() );
         switch (state)
         {
             case Enabled:
-                if (ManualButton.this.getVisibility() == View.GONE)
-                    ManualButton.this.setVisibility(VISIBLE);
+                ManualButton.this.setVisibility(VISIBLE);
                 ManualButton.this.setEnabled(true);
                 if (imageView != null)
                     imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
                 break;
             case Disabled:
-                if (ManualButton.this.getVisibility() == View.GONE)
-                    ManualButton.this.setVisibility(VISIBLE);
+                ManualButton.this.setVisibility(VISIBLE);
                 ManualButton.this.setEnabled(false);
                 if (imageView != null)
                     imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
@@ -82,10 +81,11 @@ public class ManualButton extends LinearLayout
             case Visible:
                 ManualButton.this.setVisibility(View.VISIBLE);
                 ManualButton.this.setEnabled(true);
-                animate().setListener(null).scaleY(1f).setDuration(300);
+                if (imageView != null)
+                    imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
                 break;
             case Hidden:
-                animate().setListener(hideListner).scaleY(0f).setDuration(300);
+                ManualButton.this.setVisibility(View.GONE);
                 break;
         }
     }
@@ -225,7 +225,7 @@ public class ManualButton extends LinearLayout
 
     public String[] getStringValues()
     {
-        if (parameterValues == null)
+        if (parameterValues == null || parameterValues.length ==0)
             createStringParametersStrings(parameter);
         return parameterValues;
     }

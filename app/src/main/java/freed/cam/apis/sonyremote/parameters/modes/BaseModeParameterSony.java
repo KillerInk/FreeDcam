@@ -31,6 +31,8 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
+import freed.settings.SettingKeys;
+import freed.utils.FreeDPool;
 import freed.utils.Log;
 
 /**
@@ -48,9 +50,9 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     JSONObject jsonObject;
     private final String TAG = BaseModeParameterSony.class.getSimpleName();
 
-    public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, CameraWrapperInterface  wrapperInterface)
+    public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, CameraWrapperInterface  wrapperInterface, SettingKeys.Key key)
     {
-        super(wrapperInterface,null);
+        super(wrapperInterface,key);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         this.VALUES_TO_GET = VALUES_TO_GET;
@@ -61,12 +63,19 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     @Override
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
+        boolean isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
+        boolean isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
+        boolean isGetValuesSupported =  JsonUtils.isCameraApiAvailable(VALUES_TO_GET, mAvailableCameraApiSet);
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
-        if (JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
-        {
+
+        if ((isSupported || isGetValuesSupported) && isSetSupported) {
+            getStringValues();
             setViewState(ViewState.Visible);
-            onStringValueChanged(GetStringValue());
         }
+        else if (isSupported && !isSetSupported)
+            setViewState(ViewState.Disabled);
+        else
+            setViewState(ViewState.Hidden);
 
     }
 
@@ -79,19 +88,22 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
     protected void processValuesToSet(String valueToSet)
     {
-        try
-        {
-            try {
-                JSONArray array = new JSONArray().put(0, valueToSet);
-                JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-            } catch (JSONException ex) {
+        FreeDPool.Execute(() -> {
+            try
+            {
+                try {
+                    JSONArray array = new JSONArray().put(0, valueToSet);
+                    JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                } catch (JSONException ex) {
+                    Log.WriteEx(ex);
+                }
+
+
+            } catch (IOException ex) {
                 Log.WriteEx(ex);
             }
+        });
 
-
-        } catch (IOException ex) {
-            Log.WriteEx(ex);
-        }
     }
 
 

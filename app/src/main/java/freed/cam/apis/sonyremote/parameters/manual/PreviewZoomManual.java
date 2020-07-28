@@ -26,6 +26,7 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
+import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 09.04.2016.
@@ -35,7 +36,7 @@ public class PreviewZoomManual extends BaseManualParameterSony
     private final PreviewStreamDrawer surfaceView;
 
     public PreviewZoomManual(PreviewStreamDrawer surfaceView, CameraWrapperInterface cameraUiWrapper) {
-        super("", "", "", cameraUiWrapper);
+        super("", "", "", cameraUiWrapper, SettingKeys.M_PreviewZoom);
         this.surfaceView = surfaceView;
         if(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
             setViewState(ViewState.Visible);

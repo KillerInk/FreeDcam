@@ -36,6 +36,7 @@ import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
+import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -54,9 +55,9 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
 
     private final String TAG = BaseManualParameterSony.class.getSimpleName();
 
-    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, CameraWrapperInterface cameraUiWrapper)
+    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
     {
-        super(cameraUiWrapper,null);
+        super(cameraUiWrapper,key);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
@@ -71,14 +72,18 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     {
         boolean isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
         boolean isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
+        boolean isGetValuesSupported =  JsonUtils.isCameraApiAvailable(VALUES_TO_GET, mAvailableCameraApiSet);
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
 
-        if (isSupported && isSetSupported)
+        if ((isSupported || isGetValuesSupported) && isSetSupported) {
+            getStringValues();
             setViewState(ViewState.Visible);
+        }
         else if (isSupported && !isSetSupported)
             setViewState(ViewState.Disabled);
         else
             setViewState(ViewState.Hidden);
+        Log.d(TAG, "SonyApiCHanged setViewState for " + VALUE_TO_GET +" isDisabled: " + isSupported + " isVisible: " + isSetSupported );
     }
 
     public String[] getStringValues()

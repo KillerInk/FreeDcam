@@ -26,8 +26,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.sonyremote.SonySettingKeys;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
+import freed.settings.SettingKeys;
 import freed.utils.Log;
 
 /**
@@ -37,7 +39,7 @@ public class ObjectTrackingSony extends BaseModeParameterSony
 {
     final String TAG = ObjectTrackingSony.class.getSimpleName();
     public ObjectTrackingSony(SimpleRemoteApi mRemoteApi, CameraWrapperInterface wrapperInterface) {
-        super("getTrackingFocus", "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi,wrapperInterface);
+        super("getTrackingFocus", "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi,wrapperInterface, SettingKeys.ObjectTracking);
     }
 
     protected String[] processValuesToReturn() {

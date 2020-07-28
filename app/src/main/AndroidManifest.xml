@@ -50,7 +50,8 @@
         android:theme="@style/FullscreenTheme"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
-        android:extractNativeLibs="true">
+        android:extractNativeLibs="true"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name="freed.cam.ActivityFreeDcamMain"

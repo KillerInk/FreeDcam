@@ -37,6 +37,7 @@ import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.apis.sonyremote.SonySettingKeys;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
@@ -143,16 +144,16 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         add(SettingKeys.PictureFormat, new PictureFormatSony(mRemoteApi,cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.PictureFormat));
 
-        add(SettingKeys.FlashMode, new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi,cameraUiWrapper));
+        add(SettingKeys.FlashMode, new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi,cameraUiWrapper,SettingKeys.FlashMode));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.FlashMode));
 
-        add(SettingKeys.ExposureMode, new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi,cameraUiWrapper));
+        add(SettingKeys.ExposureMode, new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi,cameraUiWrapper,SettingKeys.ExposureMode));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.ExposureMode));
 
         add(SettingKeys.ContShootMode, new ContShootModeParameterSony(mRemoteApi, cameraUiWrapper.getModuleHandler(),cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.ContShootMode));
 
-        add(SettingKeys.ContShootModeSpeed, new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi,cameraUiWrapper));
+        add(SettingKeys.ContShootModeSpeed, new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi,cameraUiWrapper, SettingKeys.ContShootModeSpeed));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.ContShootModeSpeed));
 
         add(SettingKeys.FocusMode, new FocusModeSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi,cameraUiWrapper));
@@ -167,13 +168,13 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
         /*Zoom = new ZoomManualSony(cameraUiWrapper);
         parametersChangedList.add((ZoomManualSony) Zoom);*/
-        add(SettingKeys.M_ExposureTime, new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", cameraUiWrapper));
+        add(SettingKeys.M_ExposureTime, new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", cameraUiWrapper,SettingKeys.M_ExposureTime));
         parametersChangedList.add((BaseManualParameterSony) get(SettingKeys.M_ExposureTime));
 
-        add(SettingKeys.M_Fnumber, new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber", cameraUiWrapper));
+        add(SettingKeys.M_Fnumber, new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber", cameraUiWrapper,SettingKeys.M_Fnumber));
         parametersChangedList.add((BaseManualParameterSony) get(SettingKeys.M_Fnumber));
 
-        add(SettingKeys.M_ManualIso, new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", cameraUiWrapper));
+        add(SettingKeys.M_ManualIso, new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", cameraUiWrapper,SettingKeys.M_ManualIso));
         parametersChangedList.add((BaseManualParameterSony) get(SettingKeys.M_ManualIso));
 
         add(SettingKeys.M_ExposureCompensation, new ExposureCompManualParameterSony(cameraUiWrapper));
@@ -188,10 +189,10 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         add(SettingKeys.WhiteBalanceMode, new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony) get(SettingKeys.M_Whitebalance),cameraUiWrapper));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.WhiteBalanceMode));
 
-        add(SettingKeys.PostViewSize, new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi,cameraUiWrapper));
+        add(SettingKeys.PostViewSize, new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi,cameraUiWrapper,SettingKeys.PostViewSize));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.PostViewSize));
 
-        add(SettingKeys.VideoSize, new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi,cameraUiWrapper));
+        add(SettingKeys.VideoSize, new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi,cameraUiWrapper,SettingKeys.VideoSize));
         parametersChangedList.add((BaseModeParameterSony) get(SettingKeys.VideoSize));
 
         add(SettingKeys.Focuspeak, new FocusPeakSony(surfaceView));
@@ -453,7 +454,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onExposureModeChanged(String expomode) {
-        if (expomode == null && TextUtils.isEmpty(expomode))
+        if ((expomode == null && TextUtils.isEmpty(expomode)) || get(SettingKeys.ExposureMode).GetStringValue() == null)
             return;
         if (!get(SettingKeys.ExposureMode).GetStringValue().equals(expomode))
             get(SettingKeys.ExposureMode).fireStringValueChanged(expomode);

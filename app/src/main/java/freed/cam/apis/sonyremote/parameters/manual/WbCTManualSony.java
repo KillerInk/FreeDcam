@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -41,12 +42,13 @@ public class WbCTManualSony extends BaseManualParameterSony
 
     private String[] values;
     public WbCTManualSony(CameraWrapperInterface cameraUiWrapper) {
-        super("", "", "", cameraUiWrapper);
+        super("getWhiteBalance", "", "setWhiteBalance", cameraUiWrapper, SettingKeys.M_Whitebalance);
     }
 
     @Override
     public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
+        super.SonyApiChanged(mAvailableCameraApiSet);
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
     }
 
@@ -93,8 +95,11 @@ public class WbCTManualSony extends BaseManualParameterSony
             try
             {
                 Log.d("WBCT", values[set]);
-
-                JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
+                JSONArray array = new JSONArray().put("Color Temperature");
+                if (valueToSet == 0)
+                    array = new JSONArray().put("Auto WB").put(false) ;
+                else
+                    array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
             } catch (IOException ex) {
                 Log.WriteEx(ex);
@@ -118,6 +123,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             int max = ar.getInt(0) / step;
             int min = ar.getInt(1) / step;
             ArrayList<String> r = new ArrayList<>();
+            r.add("Auto");
             for (int t = min; t < max; t++)
                 r.add(t* step +"");
             values =new String[r.size()];
