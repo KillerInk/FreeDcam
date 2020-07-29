@@ -1,5 +1,7 @@
 package freed.cam.apis.featuredetector;
 
+import java.util.Arrays;
+
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
@@ -57,11 +59,8 @@ abstract class AbstractFeatureDetectorTask {
     String getStringFromArray(String[] arr)
     {
         if (arr == null)
-            return null;
-        StringBuilder t = new StringBuilder();
-        for (int i =0; i<arr.length;i++)
-            t.append(arr[i]);
-        return t.toString();
+            return "";
+        return Arrays.toString(arr);
     }
 
 
