@@ -55,8 +55,6 @@ public class CaptureSessionHandler
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
 
-    private final Object waitLock = new Object();
-
     private int OPMODE = 0;
 
     private boolean captureSessionOpen = false;
@@ -78,52 +76,36 @@ public class CaptureSessionHandler
                 return;
             }
 
-            synchronized (waitLock)
-            {
-                // When the session is ready, we start displaying the previewSize.
-                mCaptureSession = cameraCaptureSession;
+            // When the session is ready, we start displaying the previewSize.
+            mCaptureSession = cameraCaptureSession;
 
-                try {
-                    // Finally, we start displaying the camera preview.
-                    mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                            cameraBackroundValuesChangedListner, null);
-                } catch (CameraAccessException | IllegalStateException e) {
-                    Log.WriteEx(e);
-                }
-                waitLock.notify();
+            try {
+                // Finally, we start displaying the camera preview.
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
+                        cameraBackroundValuesChangedListner, null);
+            } catch (CameraAccessException | IllegalStateException e) {
+                Log.WriteEx(e);
             }
+
         }
 
         @Override
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
             Log.d(TAG, "onConfigureFailed()");
-            synchronized (waitLock)
-            {
-                mCaptureSession = null;
-                waitLock.notify();
-            }
+            mCaptureSession = null;
         }
 
         @Override
         public void onReady( CameraCaptureSession session) {
             super.onReady(session);
             Log.d(TAG, "onReady()");
-            synchronized (waitLock) {
-                waitLock.notify();
-            }
-
         }
 
         @Override
         public void onClosed( CameraCaptureSession session) {
             super.onClosed(session);
             Log.d(TAG, "onClosed()");
-            synchronized (waitLock)
-            {
-                //mCaptureSession = null;
-                waitLock.notify();
-            }
         }
 
         @Override
@@ -237,19 +219,6 @@ public class CaptureSessionHandler
     public void Clear()
     {
         Log.d(TAG, "Clear");
-        /*try
-        {
-            if (null != mCaptureSession)
-            {
-                mCaptureSession.stopRepeating();
-                mCaptureSession.abortCaptures();
-
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.WriteEx(ex);
-        }*/
         if (mPreviewRequestBuilder != null)
             for (Surface s: surfaces)
                 mPreviewRequestBuilder.removeTarget(s);
@@ -263,28 +232,15 @@ public class CaptureSessionHandler
     public void CreateCaptureSession()
     {
         Log.d(TAG, "CreateCaptureSession:");
-        /*if (mCaptureSession != null) {
-            Log.d(TAG,"CaptureSession is not closed, close it");
-            CloseCaptureSession();
-        }*/
         if(cameraHolderApi2.mCameraDevice == null)
             return;
-        try {
-            synchronized (waitLock) {
-                isHighSpeedSession = false;
+        isHighSpeedSession = false;
 
-                cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
-                handler.post(() -> {
-                    try {
-                       cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
-                    } catch (Exception  ex) {
-                        Log.WriteEx(ex);
-                    }
-                });
-                waitLock.wait();
-            }
-        } catch (InterruptedException e) {
-            Log.WriteEx(e);
+        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        try {
+            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
+        } catch (Exception  ex) {
+            Log.WriteEx(ex);
         }
         captureSessionOpen = true;
     }
@@ -292,38 +248,23 @@ public class CaptureSessionHandler
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void CreateCustomCaptureSession()
     {
-        Log.d(TAG, "CreateCaptureSession:");
-        /*if (mCaptureSession != null) {
-            Log.d(TAG,"CaptureSession is not closed, close it");
-            CloseCaptureSession();
-        }*/
+        Log.d(TAG, "CreateCustomCaptureSession:");
         if(cameraHolderApi2.mCameraDevice == null)
             return;
+        isHighSpeedSession = false;
+
+        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
-            synchronized (waitLock) {
-                isHighSpeedSession = false;
-
-                cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
-                handler.post(() -> {
-                    try {
-                       //cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
-
-                        List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
-                        for (Surface surface : surfaces)
-                        {
-                            outputConfigurations.add(new OutputConfiguration(surface));
-                        }
-                        createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,previewStateCallBackRestart,handler);
-
-
-                    } catch (Exception  ex) {
-                        Log.WriteEx(ex);
-                    }
-                });
-                waitLock.wait();
+            List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
+            for (Surface surface : surfaces)
+            {
+                outputConfigurations.add(new OutputConfiguration(surface));
             }
-        } catch (InterruptedException e) {
-            Log.WriteEx(e);
+            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,previewStateCallBackRestart,handler);
+
+
+        } catch (Exception  ex) {
+            Log.WriteEx(ex);
         }
         captureSessionOpen = true;
     }
@@ -335,7 +276,7 @@ public class CaptureSessionHandler
         try {
             Method ccreateCustomCaptureSession = CameraDevice.class.getMethod("createCustomCaptureSession",InputConfiguration.class,
                     List.class,Integer.TYPE,CameraCaptureSession.StateCallback.class,Handler.class);
-                    ccreateCustomCaptureSession.invoke(cdv,var1,var2,var3,var4,var5);
+            ccreateCustomCaptureSession.invoke(cdv,var1,var2,var3,var4,var5);
 
         }catch (NoSuchMethodException e)
         {e.printStackTrace();} catch (IllegalAccessException e) {
@@ -344,7 +285,6 @@ public class CaptureSessionHandler
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -357,20 +297,10 @@ public class CaptureSessionHandler
         isHighSpeedSession = true;
         //cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
-        handler.post(() -> {
-            try {
-                cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, handler);
-            } catch (CameraAccessException | SecurityException ex) {
-                Log.WriteEx(ex);
-            }
-        });
-
         try {
-            synchronized (waitLock) {
-                waitLock.wait();
-            }
-        } catch (InterruptedException e) {
-            Log.WriteEx(e);
+            cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, handler);
+        } catch (CameraAccessException | SecurityException ex) {
+            Log.WriteEx(ex);
         }
         captureSessionOpen = true;
     }
@@ -379,13 +309,10 @@ public class CaptureSessionHandler
     public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
-       /* if (mCaptureSession != null) {
-            CloseCaptureSession();
-        }*/
         isHighSpeedSession = false;
 
         try {
-           cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
+            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
@@ -433,30 +360,18 @@ public class CaptureSessionHandler
     {
         Log.d(TAG,"CancelRepeatingCaptureSession");
 
-            handler.post(() -> {
-                if (mCaptureSession != null)
-                    try {
-                        mCaptureSession.abortCaptures();
-                    } catch (CameraAccessException | SecurityException ex) {
-                        Log.WriteEx(ex);
-                        mCaptureSession = null;
-                    }
-                    catch (IllegalStateException ex)
-                    {
-                        Log.WriteEx(ex);
-                        mCaptureSession = null;
-                    }
-            });
-        synchronized (waitLock)
-        {
+        if (mCaptureSession != null)
             try {
-                Log.d(TAG,"CancelRepeatingCaptureSession wait");
-                waitLock.wait();
-                Log.d(TAG,"CancelRepeatingCaptureSession wait done");
-            } catch (InterruptedException e) {
-                Log.WriteEx(e);
+                mCaptureSession.abortCaptures();
+            } catch (CameraAccessException | SecurityException ex) {
+                Log.WriteEx(ex);
+                mCaptureSession = null;
             }
-        }
+            catch (IllegalStateException ex)
+            {
+                Log.WriteEx(ex);
+                mCaptureSession = null;
+            }
     }
 
     public void StartRepeatingCaptureSession()
@@ -590,30 +505,23 @@ public class CaptureSessionHandler
         if (!captureSessionOpen)
             return;
         captureSessionOpen = false;
-        synchronized (waitLock) {
-            Clear();
-            if (mCaptureSession == null)
-            {
-                Log.d(TAG,"CaptureSession is null");
-                return;
-            }
-            handler.post(() -> {
-                try
-                {
-                    if (!captureSessionOpen)
-                        return;
-                    mCaptureSession.close();
-                }
-                catch (NullPointerException ex)
-                {
-                    Log.WriteEx(ex);
-                }
-            });
-
-            mCaptureSession = null;
+        Clear();
+        if (mCaptureSession == null)
+        {
+            Log.d(TAG,"CaptureSession is null");
+            return;
         }
-
-
+        try
+        {
+            if (!captureSessionOpen)
+                return;
+            mCaptureSession.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        mCaptureSession = null;
     }
 
     public <T> void SetParameterRepeating( CaptureRequest.Key<T> key, T value, boolean setToCamera)
@@ -781,14 +689,6 @@ public class CaptureSessionHandler
             ________
          */
 
-        //inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
-        //matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.FILL);
-        /*if (!renderscript)
-            matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
-        else
-            */
-
-
         float scaleX;
         float scaleY;
         if (renderscript)
@@ -833,9 +733,6 @@ public class CaptureSessionHandler
 
     public <T> void SetFocusArea( CaptureRequest.Key<T> key, T value)
     {
-        handler.post(()->{
-        //SetParameter(key,null);
-        /*captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);*/
         if (value != null)
             Log.d(TAG, "Set :" + key.getName() + " to " + value.toString());
         if (isHighSpeedSession && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
@@ -861,16 +758,12 @@ public class CaptureSessionHandler
             }
         }
         else {
-            //SetParameter(key, value);
             cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
             mPreviewRequestBuilder.set(key,value);
-            //SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
-
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
 
         }
-        });
     }
 
 }
