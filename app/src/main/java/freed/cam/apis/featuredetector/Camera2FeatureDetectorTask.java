@@ -944,19 +944,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
         } catch (IllegalArgumentException | NullPointerException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support HUAWEI_RAW_FORMAT");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.RAW12))
                 hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng12), ImageFormat.RAW12);
         } catch (Exception e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support RAW12");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.JPEG))
                 hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg), ImageFormat.JPEG);
         } catch (Exception e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support JPEG");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888)) {
@@ -983,7 +983,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
         } catch (Exception e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support YUV_420_888");
         }
         if (
                 hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg)) &&
@@ -999,61 +999,61 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         catch (IllegalArgumentException ex)
         {
-            Log.WriteEx(ex);
+            Log.d(TAG, "Dont support NV16");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.NV21))
                 Log.d(TAG, "Support NV21");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support NV21");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888))
                     Log.d(TAG, "Support YUV_420_888");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support YUV_420_888");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.YUV_422_888))
                     Log.d(TAG, "Support YUV_422_888");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support YUV_422_888");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.YUV_444_888))
                     Log.d(TAG, "Support YUV_444_888");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support YUV_444_888");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.YV12))
                     Log.d(TAG, "Support YV12");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support yv12");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.DEPTH16))
                     Log.d(TAG, "Support DEPTH16");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support DEPTH16");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.DEPTH_POINT_CLOUD))
                     Log.d(TAG, "Support DEPTH_POINT_CLOUD");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support DEPTH_POINT_CLOUD");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.RAW_PRIVATE))
                     Log.d(TAG, "Support RAW_PRIVATE");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support RAW_PRIVATE");
         }
         try {
             if (smap.isOutputSupportedFor(ImageFormat.PRIVATE))
                     Log.d(TAG, "Support PRIVATE");
         } catch (IllegalArgumentException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, "Dont support PRIVATE");
         }
 
         SettingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
@@ -1489,7 +1489,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
         catch (IllegalArgumentException | NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.d(TAG, "No QCFA sensor");
         }
             //Integer customhw = cameraCharacteristics.get(CameraCharacteristicsQcom.customhw);
             //Log.d(TAG, "customhw: " + customhw);
@@ -1502,7 +1502,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
             catch (IllegalArgumentException | NullPointerException ex)
         {
-            ex.printStackTrace();
+            Log.d(TAG, "No QCFA sensor");
         }
     }
 }

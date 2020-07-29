@@ -7,10 +7,18 @@ import freed.utils.Log;
 
 public class EventBusHelper {
 
+    private final static String TAG = EventBusHelper.class.getSimpleName();
     public static void register(Object ob)
     {
-        if (!EventBus.getDefault().isRegistered(ob))
-            EventBus.getDefault().register(ob);
+        try {
+            if (!EventBus.getDefault().isRegistered(ob))
+                EventBus.getDefault().register(ob);
+        }
+        catch (EventBusException ex)
+        {
+            Log.d(TAG, ex.getMessage());
+        }
+
     }
 
     public static void unregister(Object ob)
