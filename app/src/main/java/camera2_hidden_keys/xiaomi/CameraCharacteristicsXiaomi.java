@@ -16,6 +16,7 @@ public class CameraCharacteristicsXiaomi extends AbstractCameraCharacteristics {
     public final static CameraCharacteristics.Key<Byte> qcfa_supported;
     public final static CameraCharacteristics.Key<Byte> qcfa_enabled;
     public final static CameraCharacteristics.Key<Byte> teleois_supported;
+    public final static CameraCharacteristics.Key<Integer> camera_role_id;
 
     static {
         availableStreamConfigurations = getKeyClass("xiaomi.scaler.availableStreamConfigurations", int[].class);
@@ -25,5 +26,6 @@ public class CameraCharacteristicsXiaomi extends AbstractCameraCharacteristics {
         qcfa_supported = getKeyClass("xiaomi.quadcfa.supported", Byte.class);
         qcfa_enabled = getKeyClass("xiaomi.quadcfa.enabled", Byte.class);
         teleois_supported = getKeyClass("com.xiaomi.camera.supportedfeatures.TeleOisSupported", Byte.class);
+        camera_role_id = getKeyClass("com.xiaomi.cameraid.role.cameraId", Integer.class);
     }
 }

@@ -63,54 +63,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //publishProgress("###################");*/
         SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             /*//publishProgress("Check Camera2");*/
-            CameraManager manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
-            //SettingsManager.getInstance().setCamerasCount(cameras.length);
+        CameraManager manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
 
-            List<String> cameraids =new ArrayList<>();
-            for (int i = 0; i< 200; i++)
-            {
-                try {
-                    CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
+        List<String> cameraids =new ArrayList<>();
+        findCameraIds(manager, cameraids);
 
-                    if (characteristics != null) {
-                        //checks if its a logical camera and if true skip that id.
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                            characteristics.getAvailableCaptureRequestKeys();
-                            List<CaptureRequest.Key<?>> keys = characteristics.getAvailablePhysicalCameraRequestKeys();
-                            Set<String> logical = characteristics.getPhysicalCameraIds();
-                            byte qcomlogical = 1;
-                            try {
-                                qcomlogical = characteristics.get(CameraCharacteristicsQcom.is_logical_camera).byteValue();
-                            }
-                            catch (NullPointerException | IllegalArgumentException ex)
-                            {
-                                qcomlogical = 1;
-                            }
-                            if ((logical == null || logical.size() == 0) && qcomlogical == (byte)1)
-                                checkPreviewAndYuvSizes(cameraids, i, characteristics);
-                            if (qcomlogical == (byte)0)
-                                checkPreviewAndYuvSizes(cameraids, i, characteristics);
-                        }
-                        else
-                            checkPreviewAndYuvSizes(cameraids, i, characteristics);
-
-                    }
-                }
-                catch (IllegalArgumentException ex)
-                {
-                    Log.d(TAG, "unsupported id: " + i);
-                }
-                catch (CameraAccessException ex)
-                {
-                    Log.d(TAG, "unsupported id: " + i);
-                }
-                catch (Exception ex)
-                {
-                    Log.d(TAG, "unsupported id: " + i);
-                }
-            }
-
-            Log.d(TAG, "Found camera ids:" + cameraids.size());
+        Log.d(TAG, "Found camera ids:" + Arrays.toString(cameraids.toArray()));
             int arr[] = new int[cameraids.size()];
             for (int i = 0; i<arr.length;i++)
                 arr[i] = Integer.parseInt(cameraids.get(i));
@@ -553,6 +511,64 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
             }
+    }
+
+    private void findCameraIds(CameraManager manager, List<String> cameraids) {
+        for (int i = 0; i< 200; i++)
+        {
+            try {
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
+
+                if (characteristics != null) {
+                    //checks if its a logical camera and if true skip that id.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+
+                        //check if its a xiaomi logical cam
+                        //its a valid cam if cameraRolidXiaomi and sensorsyncmodeConfig are true.
+                        //on logical cam sensorsyncmodeConfig is not availible
+                        boolean cameraRoleIdXiaomi = false;
+                        boolean sensorsyncmodeConfig =false;
+                        try {
+                            int roleid = characteristics.get(CameraCharacteristicsXiaomi.camera_role_id);
+                            cameraRoleIdXiaomi = true;
+                        }
+                        catch (NullPointerException | IllegalArgumentException ex)
+                        {
+                            cameraRoleIdXiaomi = false;
+                        }
+
+                        try {
+                            Byte syncmode[] = characteristics.get(CameraCharacteristicsQcom.sensor_sync_mode_config);
+                            if (syncmode != null)
+                                sensorsyncmodeConfig = true;
+                        }
+                        catch (NullPointerException | IllegalArgumentException ex)
+                        {
+                            sensorsyncmodeConfig = false;
+                        }
+
+                        Set<String> logical = characteristics.getPhysicalCameraIds();
+                        if (((logical == null || logical.size() == 0) && (cameraRoleIdXiaomi && sensorsyncmodeConfig))
+                        ||((logical == null || logical.size() == 0) && (!cameraRoleIdXiaomi && !sensorsyncmodeConfig)))
+                            checkPreviewAndYuvSizes(cameraids, i, characteristics);
+                    }
+                    else
+                        checkPreviewAndYuvSizes(cameraids, i, characteristics);
+                }
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.d(TAG, "unsupported id: " + i);
+            }
+            catch (CameraAccessException ex)
+            {
+                Log.d(TAG, "unsupported id: " + i);
+            }
+            catch (Exception ex)
+            {
+                Log.d(TAG, "unsupported id: " + i);
+            }
+        }
     }
 
     private void checkPreviewAndYuvSizes(List<String> cameraids, int i, CameraCharacteristics characteristics) {
