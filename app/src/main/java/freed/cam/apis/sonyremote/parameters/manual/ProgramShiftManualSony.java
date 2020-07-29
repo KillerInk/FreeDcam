@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.sonyremote.SonySettingKeys;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.settings.SettingKeys;

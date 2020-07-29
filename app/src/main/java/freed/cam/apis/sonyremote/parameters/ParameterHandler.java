@@ -22,6 +22,8 @@ package freed.cam.apis.sonyremote.parameters;
 import android.graphics.Rect;
 import android.text.TextUtils;
 
+import com.troop.freedcam.R;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
@@ -37,7 +40,6 @@ import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
-import freed.cam.apis.sonyremote.SonySettingKeys;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
@@ -60,7 +62,9 @@ import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.events.CameraStateEvents;
+import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -87,6 +91,11 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
         parametersChangedList = new ArrayList<>();
         this.surfaceView = surfaceView;
         this.cameraUiWrapper =cameraUiWrapper;
+        if (RenderScriptManager.isSupported()) {
+            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
+            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+        }
     }
 
     public void SetCameraApiSet(Set<String> mAvailableCameraApiSet)
