@@ -124,6 +124,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
             SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
             SettingsManager.getInstance().setAreFeaturesDetected(true);
             SettingsManager.getInstance().save();
+            Log.d(TAG, "Feature Detection done! Start FreeDcam Api: " + SettingsManager.getInstance().getCamApi() + " app version:" + SettingsManager.getInstance().getAppVersion());
             handler.obtainMessage(FeatureDetectorHandler.MSG_STARTFREEDCAM).sendToTarget();
             return false;
         }
