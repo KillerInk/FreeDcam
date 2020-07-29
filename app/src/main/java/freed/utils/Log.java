@@ -11,6 +11,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
 
+import freed.FreedApplication;
+
 /**
  * Created by troop on 08.03.2017.
  */
@@ -105,7 +107,8 @@ public class Log
             defaultUncaughtExHandler = Thread.getDefaultUncaughtExceptionHandler();
             Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
             try {
-                File outfile = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/"+/*+ DateFormat.format("yyyy-mm-dd hh.mm.ss", Calendar.getInstance().getTime())*/ "log"+".txt");
+                File outfile = new File(FreedApplication.getContext().getExternalFilesDir(null)+ "/log.txt");
+                outfile.createNewFile();
                 if (!outfile.getParentFile().exists()) {
                     outfile.getParentFile().mkdirs();
                 }
