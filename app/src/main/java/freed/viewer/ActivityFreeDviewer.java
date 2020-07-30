@@ -132,7 +132,8 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
         // view. Also set the container view's offset as the origin for the
         // bounds, since that's the origin for the positioning animation
         // properties (X, Y).
-        griditem.getGlobalVisibleRect(startBounds);
+        if (griditem != null)
+            griditem.getGlobalVisibleRect(startBounds);
         gridholder.getGlobalVisibleRect(finalBounds, globalOffset);
         startBounds.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
