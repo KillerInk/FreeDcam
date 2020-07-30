@@ -230,7 +230,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         Log.d(TAG, "sensorOrientation:" + sensorOrientation);
         int orientationToSet = (360 + sensorOrientation)%360;
         Log.d(TAG, "orientation to set :" +orientationToSet);
-        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, orientationToSet);
 
         // Here, we create a CameraCaptureSession for camera preview
 
@@ -238,23 +237,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         if (!cameraUiWrapper.getPreviewSurface().isValid())
             Log.e(TAG, "Textureview is not availible");
-
-        /*
-        A SurfaceTexture connects a GLProducer with a GLConsumer on Android,
-        it's easy to swap the producer,
-         since you just disconnect the producer on any thread,
-          and it's easy to swap the consumer if you are in control of the thread that originally generated it.
-           So here is the trick to swap out the consumer while preserve the producer connection:
-
-    Save: SurfaceTexture texture = textureView.getSurfaceTexture();
-    This saves the texture, make sure onSurfaceDestroyed() returns false.
-    Detach: textureView.getParent().removeView(textureView);
-    This will call SurfaceTexture.detachFromGLContext() for you on the right thread.
-    Attach: newTextureView.setSurfaceTexture(texture);
-    This will call SurfaceTexture.attachToGLContext() for you on the right thread.
-
-After this, your producer that is connected to the texture (MediaCodec decoder / encoder, a render thread, etc), will be producing buffers to the textures to be displayed on the new TextureView. Of course, this trick also works for SurfaceView.
-         */
 
         SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
