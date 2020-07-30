@@ -101,20 +101,24 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     {
         Log.d(TAG, "onResume");
         if (cameraFragment != null) {
+            Log.d(TAG, "Reuse CamaraFragment");
             mainToCameraHandler.setCameraInterface(cameraFragment);
             cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
             cameraFragment.setRenderScriptManager(renderScriptManager);
         }
-        else
+        else {
+            Log.d(TAG, "create new CameraFragment");
             switchCameraFragment();
+        }
     }
 
     public void  onPause()
     {
         Log.d(TAG, "onPause");
         if (cameraFragment != null) {
-            cameraFragment.stopCameraAsync();
-            mainToCameraHandler.setCameraInterface(null);
+            //unloadCameraFragment();
+            /*cameraFragment.stopCameraAsync();
+            mainToCameraHandler.setCameraInterface(null);*/
         }
     }
 
@@ -151,10 +155,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
                 cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
                 cameraFragment.setRenderScriptManager(renderScriptManager);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
-            } else {
-                mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
-                cameraFragment.startCameraAsync();
             }
         }
     }

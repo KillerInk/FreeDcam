@@ -27,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Size;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     private boolean cameraIsOpen = false;
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
+    private Surface surface;
 
     public static Camera2Fragment getInstance()
     {
@@ -172,10 +174,14 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG, "SurfaceTextureAvailable");
         if (!PreviewSurfaceRdy) {
             PreviewSurfaceRdy = true;
-            if (!cameraIsOpen && isResumed())
+            if (!cameraIsOpen && isResumed()) {
+                Log.d(TAG, "surface already ready start camera");
+                Camera2Fragment.this.surface = new Surface(surface);
                 startCameraAsync();
+            }
             else if (cameraIsOpen)
             {
+                Log.d(TAG, "Surface now ready camera already open");
                 moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
             }
         }
@@ -183,7 +189,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
+        Log.d(TAG, "onSurfaceTextureSizeChanged WxH " + width+"x"+height);
     }
 
     @Override
@@ -191,12 +197,13 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     {
         Log.d(TAG, "Surface destroyed");
         PreviewSurfaceRdy = false;
+        Camera2Fragment.this.surface = null;
         return false;
     }
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
+        //Log.d(TAG, "onSurfaceTextureUpdated");
     }
 
     @Override
@@ -232,6 +239,11 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public TextureView getTexturView()
     {
         return textureView;
+    }
+
+    public Surface getPreviewSurface()
+    {
+        return surface;
     }
 
     @Override
@@ -313,6 +325,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void stopCamera() {
         try {
             Log.d(TAG, "Stop Camera");
+            captureSessionHandler.CloseCaptureSession();
             captureSessionHandler.Clear();
             cameraHolder.CloseCamera();
             cameraIsOpen = false;
@@ -328,10 +341,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void restartCamera() {
         Log.d(TAG, "Restart Camera");
-        cameraHolder.CloseCamera();
-        cameraIsOpen = false;
-        if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
+        stopCamera();
+        startCamera();
     }
 
     @Override
@@ -351,6 +362,4 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
             mi.stopPreview();
         }
     }
-
-
 }

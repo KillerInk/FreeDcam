@@ -5,6 +5,8 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.SwichCameraFragmentEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.BooleanSettingModeInterface;
@@ -21,20 +23,21 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     {
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            SettingsManager.get(SettingKeys.EnableRenderScript).set(true);
+            SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(true);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
-            SettingsManager.get(SettingKeys.EnableRenderScript).set(false);
+            SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
-        cameraUiWrapper.restartCameraAsync();
+        EventBusHelper.post(new SwichCameraFragmentEvent());
+        //cameraUiWrapper.getActivityInterface()..restartCameraAsync();
 
     }
 
     @Override
     public boolean get() {
-        return SettingsManager.get(SettingKeys.EnableRenderScript).get();
+        return SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get();
     }
 
     @Override
@@ -45,7 +48,7 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
         }
         else
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
-        SettingsManager.get(SettingKeys.EnableRenderScript).set(bool);
-        cameraUiWrapper.restartCameraAsync();
+        SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(bool);
+        EventBusHelper.post(new SwichCameraFragmentEvent());
     }
 }

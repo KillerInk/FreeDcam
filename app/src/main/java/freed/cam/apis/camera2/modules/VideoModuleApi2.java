@@ -241,7 +241,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         SurfaceTexture texture = cameraUiWrapper.captureSessionHandler.getSurfaceTexture();
         texture.setDefaultBufferSize(w, h);
-        previewsurface = new Surface(texture);
+        previewsurface = cameraUiWrapper.getPreviewSurface();
 
         cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
 

@@ -126,6 +126,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Subscribe
     public void onSwitchCameraApiEvent(SwichCameraFragmentEvent event)
     {
+        Log.d(TAG, "onSwitchCameraApiEvent");
         unloadCameraFragment();
         loadCameraFragment();
     }
@@ -186,9 +187,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void setContentToView() {
         setContentView(layout.freedcam_main_activity);
-
     }
-
 
     @Override
     protected void onResume() {
@@ -220,14 +219,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             SettingsManager.getInstance();
 
         cameraFragmentManager.onResume();
-        if (SettingsManager.getInstance().appVersionHasChanged()) {
-            Log.d(TAG, "appVersion Has Changed, start featuredetector for Settings");
-            cameraFragmentManager.switchCameraFragment();
-        }
-        else {
-            if (uiViewPagerAdapter == null)
-                initScreenSlide();
-        }
+        if (!SettingsManager.getInstance().appVersionHasChanged() && uiViewPagerAdapter == null)
+            initScreenSlide();
     }
 
     @Override
@@ -242,7 +235,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onPauseTasks() {
-        //unloadCameraFragment();
         cameraFragmentManager.onPause();
         SettingsManager.getInstance().save();
         Log.d(TAG, "onPauseTasks() ");

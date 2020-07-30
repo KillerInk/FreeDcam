@@ -44,7 +44,7 @@ public class FocusPeakMode extends AbstractParameter {
 
     @Override
     public ViewState getViewState() {
-        if (RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded() && SettingsManager.get(SettingKeys.EnableRenderScript).get())
+        if (RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded() && SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
             return ViewState.Visible;
         else
             return ViewState.Hidden;

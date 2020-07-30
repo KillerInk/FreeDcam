@@ -281,7 +281,7 @@ public class SettingsMenuItemFactory
                 SettingsChildMenu fpc = new SettingsChildMenu(context, params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
                 fpc.SetUiItemClickListner(click);
                 settingsgroup.addView(fpc);
-                if (SettingsManager.get(SettingKeys.EnableRenderScript).get())
+                if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
                     fpc.setVisibility(View.VISIBLE);
                 else
                     fpc.setVisibility(View.GONE);

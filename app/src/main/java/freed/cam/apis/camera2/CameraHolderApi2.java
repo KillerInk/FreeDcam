@@ -121,9 +121,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         try
         {
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
-            /*if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
-                throw new RuntimeException("Time out waiting to lock camera opening.");
-            }*/
             manager.openCamera(cam, mStateCallback, null);
 
             List<CameraCharacteristics.Key<?>> keys = characteristics.getKeys();
@@ -165,8 +162,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     {
         try {
             Log.d(TAG,"Close Camera");
-//            mCameraOpenCloseLock.acquire();
-
 
             if (null != mCameraDevice)
             {
@@ -176,7 +171,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
         catch (Exception ex) {
             Log.WriteEx(ex);
-            //throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         }
         finally
         {
@@ -231,8 +225,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened( CameraDevice cameraDevice) {
-            // This method is called when the camera is opened.  We start camera previewSize here.
-//            mCameraOpenCloseLock.release();
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
 
             Log.d(TAG, "Camera open");
@@ -243,7 +235,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         public void onDisconnected( CameraDevice cameraDevice)
         {
             Log.d(TAG,"Camera Disconnected");
-//            mCameraOpenCloseLock.release();
             if (mCameraDevice != null) {
                 mCameraDevice.close();
                 mCameraDevice = null;
@@ -255,7 +246,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         public void onError(CameraDevice cameraDevice, final int error)
         {
             Log.d(TAG, "Camera Error" + error);
-//            mCameraOpenCloseLock.release();
             if (mCameraDevice != null) {
                 mCameraDevice.close();
                 mCameraDevice = null;

@@ -236,16 +236,37 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
 
+        if (!cameraUiWrapper.getPreviewSurface().isValid())
+            Log.e(TAG, "Textureview is not availible");
+
+        /*
+        A SurfaceTexture connects a GLProducer with a GLConsumer on Android,
+        it's easy to swap the producer,
+         since you just disconnect the producer on any thread,
+          and it's easy to swap the consumer if you are in control of the thread that originally generated it.
+           So here is the trick to swap out the consumer while preserve the producer connection:
+
+    Save: SurfaceTexture texture = textureView.getSurfaceTexture();
+    This saves the texture, make sure onSurfaceDestroyed() returns false.
+    Detach: textureView.getParent().removeView(textureView);
+    This will call SurfaceTexture.detachFromGLContext() for you on the right thread.
+    Attach: newTextureView.setSurfaceTexture(texture);
+    This will call SurfaceTexture.attachToGLContext() for you on the right thread.
+
+After this, your producer that is connected to the texture (MediaCodec decoder / encoder, a render thread, etc), will be producing buffers to the textures to be displayed on the new TextureView. Of course, this trick also works for SurfaceView.
+         */
+
         SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-
-        Surface previewsurface = new Surface(texture);
+        if (cameraUiWrapper.getPreviewSurface() != null)
+            cameraUiWrapper.getPreviewSurface().release();
+        Surface previewsurface = new Surface(cameraUiWrapper.getTexturView().getSurfaceTexture());
         final int w = previewSize.getWidth();
         final int h = previewSize.getHeight();
 
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
 
-        if (SettingsManager.get(SettingKeys.EnableRenderScript).get()) {
+        if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get()) {
             Log.d(TAG, "RenderScriptPreview");
             int rotation = 0;
             switch (orientationToSet)
@@ -295,8 +316,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
                 rotation =  (360 + rotation+180)%360;
             final int or = rotation;
             Log.d(TAG, "rotation to set : " + or);
-            cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
+
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,false));
+            cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
 
 

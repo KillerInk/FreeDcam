@@ -35,6 +35,8 @@ import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 
+import freed.FreedApplication;
+import freed.utils.FreeDPool;
 import freed.utils.Log;
 
 
@@ -52,7 +54,7 @@ public class RenderScriptManager
 
     private Allocation mAllocationOut;
     private Allocation mAllocationIn;
-    private final RenderScript mRS;
+    private RenderScript mRS;
 
     public ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
     public ScriptIntrinsicBlur blurRS;
