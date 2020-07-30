@@ -489,7 +489,10 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     //viewerActivityInterface.LoadDCIMDirs();
                     Log.d(TAG, "onGobBackClick dcim folder rootdir:" +isRootDir);
                     isRootDir = true;
+
                     setViewMode(currentViewState);
+                    if (viewerActivityInterface.getFileListController().getFiles().size() == 0)
+                        getActivity().finish();
                 }
             }
             else if (currentViewState == ViewStates.selection)
