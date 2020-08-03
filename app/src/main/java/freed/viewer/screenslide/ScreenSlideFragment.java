@@ -352,6 +352,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
                     activityInterface.getFileListController().DeleteFile(folder_to_show);
+                    NotifyDATAhasChanged(activityInterface.getFileListController().getFiles());
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
