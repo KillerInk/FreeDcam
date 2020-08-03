@@ -33,6 +33,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
 /**
@@ -49,7 +50,14 @@ public class VideoProfilesParameter extends AbstractParameter
     public VideoProfilesParameter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.VideoProfiles);
         isSupported =true;
-        supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
+        try {
+            supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.e(TAG, "Failed to load MediaProfiles");
+        }
+
         profile = SettingsManager.get(SettingKeys.VideoProfiles).get();
         if (profile == null && supportedProfiles.size() > 0)
         {
@@ -57,7 +65,7 @@ public class VideoProfilesParameter extends AbstractParameter
             profile = keys.get(0);
             SettingsManager.get(SettingKeys.VideoProfiles).set(profile);
         }
-        else if (supportedProfiles.size() == 0)
+        else if (supportedProfiles == null || supportedProfiles.size() == 0)
             fireViewStateChanged(ViewState.Hidden);
 
     }

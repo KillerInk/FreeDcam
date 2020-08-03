@@ -208,6 +208,8 @@ public class ImageFragment extends Fragment
         if ((pixels == null) || (pixels.length < (w * h)))
         	pixels = new int [ w * h ];
         bitmap.getPixels(pixels, 0, w, 0, 0, w, h);
+        if (pixels == null)
+            return;
         try {
 
 
