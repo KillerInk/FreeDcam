@@ -142,6 +142,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     private final int READ_REQUEST_CODE = 42;
+    public static final int DELETE_REQUEST_CODE = 433;
 
     @TargetApi(VERSION_CODES.KITKAT)
     @Override
