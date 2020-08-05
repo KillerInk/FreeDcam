@@ -65,49 +65,16 @@ public class SettingsStorage
 
     private Object waitlock = new Object();
 
-    public void save()
+    public synchronized void save()
     {
-        Log.d(TAG, "save");
-        synchronized (waitlock) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    synchronized (waitlock) {
-                        new SettingsSaver().saveSettings(settings, appdataFolder);
-                        mediaProfilesManager.save(appdataFolder);
-                        waitlock.notify();
-                    }
-                }
-            }).start();
-            try {
-                waitlock.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        new SettingsSaver().saveSettings(settings, appdataFolder);
+        mediaProfilesManager.save(appdataFolder);
     }
 
-    public void load()
+    public synchronized void load()
     {
-        Log.d(TAG,"load");
-        synchronized (waitlock) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    synchronized (waitlock) {
-                        new SettingsLoader().loadSettings(settings, appdataFolder);
-                        mediaProfilesManager.load(appdataFolder);
-                        waitlock.notify();
-                    }
-                }
-            }).start();
-            try {
-                waitlock.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
+        new SettingsLoader().loadSettings(settings, appdataFolder);
+        mediaProfilesManager.load(appdataFolder);
     }
 
     public void reset()
