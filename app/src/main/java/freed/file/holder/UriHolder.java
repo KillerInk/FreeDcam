@@ -1,5 +1,6 @@
 package freed.file.holder;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -74,12 +75,13 @@ public class UriHolder extends BaseHolder {
     @Override
     public boolean delete(Context context) {
 
-        context.getContentResolver().delete(
-                mediaStoreUri,
-                MediaStore.Images.Media._ID +"=?",
+        Uri deluri = Uri.parse(mediaStoreUri.toString().replace("/"+String.valueOf(ID),""));
+        int del = context.getContentResolver().delete(
+                deluri,
+                MediaStore.Images.Media._ID +" = ?",
                 new String[]{String.valueOf(ID) });
 
-        return true;
+        return del > 0;
     }
 
     @Override

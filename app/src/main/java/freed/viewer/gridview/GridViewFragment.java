@@ -20,9 +20,12 @@
 package freed.viewer.gridview;
 
 import android.app.AlertDialog.Builder;
+import android.app.RecoverableSecurityException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -47,6 +50,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.file.FileListController.FormatTypes;
@@ -428,6 +432,8 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         filesSelected.setText(getString(string.files_selected) + filesSelectedCount);
     }
 
+    private List<UriHolder> urisToDelte = new ArrayList<>();
+
     private void deleteFiles()
     {
         ImageManager.cancelImageLoadTasks();
@@ -436,16 +442,37 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
             int filesdeletedCount = 0;
             List<BaseHolder> to_del = new ArrayList<>();
+
+            urisToDelte.clear();
             for (int i = 0; i < viewerActivityInterface.getFileListController().getFiles().size(); i++)
             {
-                if (viewerActivityInterface.getFileListController().getFiles().get(i).IsSelected())
-                {
-                    to_del.add(viewerActivityInterface.getFileListController().getFiles().get(i));
+                try {
+                    if (viewerActivityInterface.getFileListController().getFiles().get(i).IsSelected())
+                    {
+                        viewerActivityInterface.getFileListController().DeleteFile(viewerActivityInterface.getFileListController().getFiles().get(i));
+                        GridViewFragment.this.gridView.post(() ->{NotifyDataSetChanged();});
+                    }
+                }
+                catch(SecurityException ex){
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        if (ex instanceof RecoverableSecurityException)
+                        {
+                            RecoverableSecurityException rex = (RecoverableSecurityException)ex;
+                            try {
+                                UriHolder uriHolder = (UriHolder) viewerActivityInterface.getFileListController().getFiles().get(i);
+                                urisToDelte.add(uriHolder);
+                                startIntentSenderForResult(rex.getUserAction().getActionIntent().getIntentSender(), ActivityAbstract.DELETE_REQUEST_CODE,null,0,0,0,null);
+                            } catch (IntentSender.SendIntentException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
             }
-            viewerActivityInterface.getFileListController().DeleteFiles(to_del);
         });
     }
+
+
 
     private final OnClickListener onGobBackClick = new OnClickListener() {
         @Override
@@ -521,6 +548,13 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         //super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == STACK_REQUEST || requestCode == DNGCONVERT_REQUEST)
             viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
+        if (requestCode == ActivityAbstract.DELETE_REQUEST_CODE)
+        {
+            UriHolder uriHolder = urisToDelte.get(0);
+            urisToDelte.remove(0);
+            viewerActivityInterface.getFileListController().DeleteFile(uriHolder);
+            NotifyDataSetChanged();
+        }
 
     }
 
