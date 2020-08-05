@@ -302,14 +302,15 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
 
     @Override
     public void initCamera() {
-        Log.d(TAG,"Init Camera");
+        Log.d(TAG,"initCamera");
         captureSessionHandler.CreatePreviewRequestBuilder();
         ((FocusHandler) focusHandler).startListning();
         ((ParameterHandlerApi2)parametersHandler).Init();
         ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
-        Log.d(TAG, "Camera Opened and Preview Started");
-        moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
+        Log.d(TAG, "initCamera Camera Opened and Preview Started");
+
         CameraStateEvents.fireCameraOpenFinishEvent();
+        moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
     }
 
     @Override
