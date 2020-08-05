@@ -230,8 +230,8 @@ public class FileListController {
         boolean deleted = false;
         synchronized (filesLock) {
             deleted = deleteFile(file);
-
         }
+        Log.d(TAG, "delete file: " + file.getName() + " " + deleted);
         return deleted;
     }
 
@@ -288,11 +288,11 @@ public class FileListController {
             return new FileHolder(file, SettingsManager.getInstance().GetWriteExternal());
         }
         else if (getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
-            DocumentFile df = getFreeDcamDocumentFolder();
+            DocumentFile df = getExternalSdDocumentFile(context); //getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/*", file.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
-            return new UriHolder(wr.getUri(), file.getName(), Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+            return new UriHolder(wr.getUri(), file.getName(), 0, wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
         }
         else {
             Uri uri = getMediaStoreController().addImg(file);
