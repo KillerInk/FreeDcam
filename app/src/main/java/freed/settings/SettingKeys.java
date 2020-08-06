@@ -77,7 +77,7 @@ public class SettingKeys{
 
     public final static Key<SettingMode> NonZslManualMode = new Key(SettingMode.class, R.string.aps_nonzslmanualmode); //used on htc devices to enable q3a on raw capture
     public final static Key<SettingMode> AE_Bracket = new Key(SettingMode.class, R.string.aps_aebrackethdr);
-    public final static Key<SettingMode> ExposureLock = new Key(SettingMode.class, R.string.aps_exposuremode);
+    public final static Key<SettingMode> ExposureLock = new Key(SettingMode.class, R.string.aps_aps_exposurelock);
     public final static Key<SettingMode> CDS_Mode = new Key(SettingMode.class, R.string.aps_cds);
     public final static Key<SettingMode> HTCVideoMode = new Key(SettingMode.class, R.string.aps_htcvideoMode);
     public final static Key<SettingMode> HTCVideoModeHSR = new Key(SettingMode.class, R.string.aps_htcvideoModehsr);

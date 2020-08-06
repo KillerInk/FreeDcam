@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
+import java.util.Arrays;
+
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -134,8 +136,10 @@ public class AeManagerCamera2 extends AeManager {
 
     public class AeModeApi2 extends BaseModeApi2
     {
+        private final String TAG = AeModeApi2.class.getSimpleName();
         public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper, SettingKeys.ExposureMode,CaptureRequest.CONTROL_AE_MODE);
+            Log.d(TAG, "values: " + Arrays.toString(getStringValues()) + " value:" + GetStringValue());
         }
 
         @Override

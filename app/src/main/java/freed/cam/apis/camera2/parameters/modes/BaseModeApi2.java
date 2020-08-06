@@ -66,15 +66,22 @@ public class BaseModeApi2 extends AbstractParameter
                     setViewState(ViewState.Hidden);
                     return;
                 }
-                Log.d(TAG, "array:" + Arrays.toString(values));
+                Log.d(TAG, key.toString() + " array:" + Arrays.toString(values));
                 parameterValues = StringUtils.StringArrayToIntHashmap(values);
                 if (parameterValues == null) {
+                    Log.d(TAG, "Parametervalues are null hide mode");
                     setViewState(ViewState.Hidden);
                     return;
                 }
                 stringvalues = new String[parameterValues.size()];
                 parameterValues.keySet().toArray(stringvalues);
-            } else setViewState(ViewState.Hidden);
+                setViewState(ViewState.Visible);
+            }
+            else {
+                setViewState(ViewState.Hidden);
+                Log.d(TAG, key.toString() + " not supported");
+            }
+
         } catch (ArrayIndexOutOfBoundsException ex) {
             setViewState(ViewState.Hidden);
             Log.WriteEx(ex);

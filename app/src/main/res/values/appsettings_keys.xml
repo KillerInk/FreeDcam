@@ -29,6 +29,7 @@
 
     <string name="aps_mfnr" translatable="false">mfnr</string>
     <string name="aps_aebrackethdr" translatable="false">aebrackethdr</string>
+    <string name="aps_aps_exposurelock" translatable="false">exposurelock</string>
     <string name="aps_previewfps" translatable="false">previewfps</string>
     <string name="aps_previewformat" translatable="false">previewformat</string>
     <string name="aps_scenemode" translatable="false">scenemode</string>
@@ -136,5 +137,7 @@
     <string name="aps_afbracketmax" translatable="false">afbracketmax</string>
     <string name="aps_afbracketmin" translatable="false">afbracketmin</string>
     <string name="aps_timelapseframes" translatable="false">timelapsframes</string>
+
+
 
 </resources>
