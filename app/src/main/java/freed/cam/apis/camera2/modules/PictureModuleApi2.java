@@ -188,9 +188,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     public void DestroyModule()
     {
         super.DestroyModule();
-        Log.d(TAG, "DestroyModule");
-        cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.getFocusPeakProcessor().kill();
+
         if (rawReader != null){
             rawReader.close();
             rawReader = null;
@@ -199,6 +197,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             jpegReader.close();
             jpegReader = null;
         }
+        Log.d(TAG, "DestroyModule");
+        cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
+        cameraUiWrapper.getFocusPeakProcessor().kill();
     }
 
     @Override
@@ -235,13 +236,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
 
-        if (!cameraUiWrapper.getPreviewSurface().isValid())
-            Log.e(TAG, "Textureview is not availible");
-
         SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-        if (cameraUiWrapper.getPreviewSurface() != null)
-            cameraUiWrapper.getPreviewSurface().release();
+       /* if (cameraUiWrapper.getPreviewSurface() != null)
+            cameraUiWrapper.getPreviewSurface().release();*/
         Surface previewsurface = new Surface(cameraUiWrapper.getTexturView().getSurfaceTexture());
         final int w = previewSize.getWidth();
         final int h = previewSize.getHeight();

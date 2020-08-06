@@ -59,7 +59,7 @@ import freed.views.AutoFitTextureView;
  * Created by troop on 06.06.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
+public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2, CameraHolderApi2> implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
 {
     //limits the preview to use maximal that size for preview
     //when set to high it its possbile to get a laggy preview with active focuspeak
@@ -305,8 +305,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         Log.d(TAG,"initCamera");
         captureSessionHandler.CreatePreviewRequestBuilder();
         ((FocusHandler) focusHandler).startListning();
-        ((ParameterHandlerApi2)parametersHandler).Init();
-        ((CameraHolderApi2)cameraHolder).SetSurface(textureView);
+        parametersHandler.Init();
+        cameraHolder.SetSurface(textureView);
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
 
         CameraStateEvents.fireCameraOpenFinishEvent();
@@ -326,12 +326,17 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     public void stopCamera() {
         try {
             Log.d(TAG, "Stop Camera");
-            captureSessionHandler.CloseCaptureSession();
-            captureSessionHandler.Clear();
-            cameraHolder.CloseCamera();
+            if (captureSessionHandler != null) {
+                captureSessionHandler.CloseCaptureSession();
+                captureSessionHandler.Clear();
+            }
+            if (cameraHolder != null)
+                cameraHolder.CloseCamera();
             cameraIsOpen = false;
-            ((FocusHandler) focusHandler).stopListning();
-            parametersHandler.unregisterListners();
+            if (focusHandler != null)
+                ((FocusHandler) focusHandler).stopListning();
+            if (parametersHandler != null)
+                parametersHandler.unregisterListners();
         }
         catch (NullPointerException ex)
         {
@@ -358,6 +363,8 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void stopPreview() {
         Log.d(TAG, "Stop Preview");
+        if (moduleHandler == null)
+            return;
         I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.getCurrentModule());
         if (mi != null) {
             mi.stopPreview();

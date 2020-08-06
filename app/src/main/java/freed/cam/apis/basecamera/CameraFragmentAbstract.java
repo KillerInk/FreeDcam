@@ -108,6 +108,7 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
     @Override
     public void startCameraAsync() {
+        Log.d(TAG, "startCameraAsync");
         if (mainToCameraHandler != null)
             mainToCameraHandler.startCamera();
         else
