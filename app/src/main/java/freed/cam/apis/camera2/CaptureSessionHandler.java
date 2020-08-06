@@ -54,8 +54,8 @@ public class CaptureSessionHandler
     private CameraHolderApi2 cameraHolderApi2;
     private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
-    //private BackgroundHandlerThread backgroundHandlerThread;
-    //private Handler handler;
+    private BackgroundHandlerThread backgroundHandlerThread;
+    private Handler handler;
 
     private int OPMODE = 0;
 
@@ -84,7 +84,7 @@ public class CaptureSessionHandler
             try {
                 // Finally, we start displaying the camera preview.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                        cameraBackroundValuesChangedListner, null);
+                        cameraBackroundValuesChangedListner, handler);
             } catch (CameraAccessException | IllegalStateException e) {
                 Log.WriteEx(e);
             }
@@ -96,6 +96,7 @@ public class CaptureSessionHandler
         {
             Log.d(TAG, "onConfigureFailed()");
             mCaptureSession = null;
+            EventBusHelper.post(new SwichCameraFragmentEvent());
         }
 
         @Override
@@ -126,15 +127,20 @@ public class CaptureSessionHandler
     public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
+        this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
         Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
-        /*backgroundHandlerThread = new BackgroundHandlerThread(TAG);
+        backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
-        handler = new Handler(backgroundHandlerThread.getThread().getLooper());*/
+        handler = new Handler(backgroundHandlerThread.getThread().getLooper());
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        backgroundHandlerThread.destroy();
     }
 
     public Point getDisplaySize()
@@ -200,6 +206,8 @@ public class CaptureSessionHandler
         surfaces.add(surface);
         if (addtoPreviewRequestBuilder)
         {
+            if (mPreviewRequestBuilder == null)
+                CreatePreviewRequestBuilder();
             mPreviewRequestBuilder.addTarget(surface);
         }
     }
@@ -237,7 +245,7 @@ public class CaptureSessionHandler
 
         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
-            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
+            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
         } catch (Exception  ex) {
             Log.WriteEx(ex);
             EventBusHelper.post(new SwichCameraFragmentEvent());
@@ -260,7 +268,7 @@ public class CaptureSessionHandler
             {
                 outputConfigurations.add(new OutputConfiguration(surface));
             }
-            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,previewStateCallBackRestart,null);
+            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,previewStateCallBackRestart,handler);
 
 
         } catch (Exception  ex) {
@@ -298,7 +306,7 @@ public class CaptureSessionHandler
         //cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         Log.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
         try {
-            cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, null);
+            cameraHolderApi2.mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, customCallback, handler);
         } catch (CameraAccessException | SecurityException ex) {
             Log.WriteEx(ex);
         }
@@ -312,7 +320,7 @@ public class CaptureSessionHandler
         isHighSpeedSession = false;
 
         try {
-            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, null);
+            cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, customCallback, handler);
         } catch (Exception ex) {
             Log.WriteEx(ex);
         }
@@ -331,7 +339,7 @@ public class CaptureSessionHandler
             {
                 outputConfigurations.add(new OutputConfiguration(surface));
             }
-            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,customCallback,null);
+            createCustomCaptureSession(cameraHolderApi2.mCameraDevice,null,outputConfigurations, OPMODE,customCallback,handler);
 
         } catch (Exception ex) {
             Log.WriteEx(ex);
@@ -403,7 +411,7 @@ public class CaptureSessionHandler
             return;
         try {
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), listener,
-                    null);
+                    handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }catch (IllegalArgumentException ex)
@@ -426,7 +434,7 @@ public class CaptureSessionHandler
             CameraConstrainedHighSpeedCaptureSession session = (CameraConstrainedHighSpeedCaptureSession)mCaptureSession;
             List<CaptureRequest> capList =  session.createHighSpeedRequestList(mPreviewRequestBuilder.build());
 
-            mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, null);
+            mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
@@ -446,7 +454,7 @@ public class CaptureSessionHandler
         if(isHighSpeedSession)
             return;
         try {
-            mCaptureSession.capture(mPreviewRequestBuilder.build(),cameraBackroundValuesChangedListner,null);
+            mCaptureSession.capture(mPreviewRequestBuilder.build(),cameraBackroundValuesChangedListner,handler);
         } catch (CameraAccessException | NullPointerException e) {
             e.printStackTrace();
         }catch (IllegalArgumentException ex)
@@ -565,7 +573,7 @@ public class CaptureSessionHandler
         mPreviewRequestBuilder.set(key,value);
         try {
             mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                    null);
+                    handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
@@ -608,7 +616,7 @@ public class CaptureSessionHandler
             }
             try {
                 mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                        null);
+                        handler);
             } catch (CameraAccessException ex) {
                 Log.WriteEx(ex);
             }
@@ -748,7 +756,7 @@ public class CaptureSessionHandler
                 session = (CameraConstrainedHighSpeedCaptureSession)mCaptureSession;
                 List<CaptureRequest> capList =  session.createHighSpeedRequestList(mPreviewRequestBuilder.build());
 
-                mCaptureSession.captureBurst(capList, cameraBackroundValuesChangedListner, null);
+                mCaptureSession.captureBurst(capList, cameraBackroundValuesChangedListner, handler);
             } catch (CameraAccessException ex) {
                 Log.WriteEx(ex);
                 UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
