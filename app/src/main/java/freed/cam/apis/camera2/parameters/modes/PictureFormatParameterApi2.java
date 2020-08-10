@@ -49,8 +49,9 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         super.setValue(valueToSet,setToCamera);
         if (setToCamera)
         {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            cameraUiWrapper.restartPreviewAsync();
+            /*cameraUiWrapper.stopPreviewAsync();
+            cameraUiWrapper.startPreviewAsync();*/
         }
     }
 

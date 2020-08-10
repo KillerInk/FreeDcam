@@ -21,6 +21,7 @@ public class MainToCameraHandler extends Handler {
     public static final int MSG_STOP_PREVIEW = 14;
     public static final int MSG_INIT_CAMERA = 15;
     public static final int MSG_CREATE_CAMERA = 16;
+    public static final int MSG_RESTART_PREVIEW = 17;
     public static final int MSG_SET_ASPECTRATIO = 1337;
 
     private WeakReference<CameraInterface> messageHandlerWeakReference;
@@ -58,6 +59,11 @@ public class MainToCameraHandler extends Handler {
     public void stopPreview()
     {
         this.obtainMessage(MSG_STOP_PREVIEW).sendToTarget();
+    }
+
+    public void restartPreview()
+    {
+        this.obtainMessage(MSG_RESTART_PREVIEW).sendToTarget();
     }
 
 
@@ -103,6 +109,10 @@ public class MainToCameraHandler extends Handler {
                     case MainToCameraHandler.MSG_CREATE_CAMERA:
                         cameraMessageEvent.createCamera();
                         break;
+                    case MainToCameraHandler.MSG_RESTART_PREVIEW:
+                        cameraMessageEvent.stopPreview();
+                        cameraMessageEvent.startPreview();
+                    break;
                 }
             }
             catch (NullPointerException ex)

@@ -37,6 +37,7 @@ public interface CameraWrapperInterface extends CameraObjects
 
     void startPreviewAsync();
     void stopPreviewAsync();
+    void restartPreviewAsync();
 
     /**
      * get the left margine between display and preview

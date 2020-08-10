@@ -147,6 +147,14 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
             Log.d(TAG, "MainToCameraHandler is null");
     }
 
+    @Override
+    public void restartPreviewAsync() {
+        if (mainToCameraHandler != null)
+            mainToCameraHandler.restartPreview();
+        else
+            Log.d(TAG, "MainToCameraHandler is null");
+    }
+
     public abstract int getMargineLeft();
     public abstract int getMargineRight();
     public abstract int getMargineTop();
