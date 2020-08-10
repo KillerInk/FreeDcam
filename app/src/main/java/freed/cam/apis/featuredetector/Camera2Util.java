@@ -59,17 +59,16 @@ public class Camera2Util
         if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
 
             byte[] scenes = characteristics.get(requestKey);
-            if (scenes == null)
+            if (scenes == null ||scenes.length == 0) {
+                settingMode.setIsSupported(false);
                 return;
-            if (scenes.length >0)
-                settingMode.setIsSupported(true);
-            else
-                return;
+            }
             HashMap<String,Integer> map = new HashMap<>();
             for (int i = 0; i< scenes.length; i++)
             {
                 map.put(lookupar[i], (int)scenes[i]);
             }
+            settingMode.setIsSupported(true);
             settingMode.set(lookupar[0]);
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);

@@ -45,10 +45,15 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
+import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
+import freed.cam.apis.camera2.modules.capture.CaptureController;
+import freed.cam.apis.camera2.modules.capture.JpegCapture;
+import freed.cam.apis.camera2.modules.capture.RawImageCapture;
+import freed.cam.apis.camera2.modules.capture.StillImageCapture;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
-import freed.cam.apis.camera2.modules.helper.ImageCaptureHolder;
 import freed.cam.apis.camera2.modules.helper.Output;
+import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.events.CameraStateEvents;
 import freed.file.holder.BaseHolder;
@@ -63,13 +68,13 @@ import freed.utils.Log;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptureHolder.RdyToSaveImg
+public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveImg
 {
     private final String TAG = PictureModuleApi2.class.getSimpleName();
     private String picFormat;
     protected Output output;
-    protected ImageReader jpegReader;
-    protected ImageReader rawReader;
+    //protected ImageReader jpegReader;
+    //protected ImageReader rawReader;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
@@ -77,7 +82,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    private ImageCaptureHolder currentCaptureHolder;
+    //private ImageCaptureHolder currentCaptureHolder;
     private final int MAX_IMAGES = 8;
     protected List<BaseHolder> filesSaved;
 
@@ -89,6 +94,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private CaptureType captureType;
     protected Camera2Fragment cameraUiWrapper;
     private boolean renderScriptError5 = false;
+    private CaptureController captureController;
 
     protected static class BurstCounter
     {
@@ -179,7 +185,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         super.InitModule();
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
-
+        captureController = new CaptureController(this::onRdyToSaveImg);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
         startPreview();
     }
@@ -187,16 +193,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     @Override
     public void DestroyModule()
     {
-        super.DestroyModule();
-
-        if (rawReader != null){
-            rawReader.close();
-            rawReader = null;
-        }
-        if (jpegReader != null){
-            jpegReader.close();
-            jpegReader = null;
-        }
+        captureController.clear();
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
@@ -225,7 +222,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
 
         Log.d(TAG, "Start Preview");
-        setOutputSizes();
+        setOutputSizesAndCreateImageReader();
 
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         Log.d(TAG, "sensorOrientation:" + sensorOrientation);
@@ -236,6 +233,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
 
+        preparePreviewTextureView(orientationToSet, previewSize);
+
+        for (StillImageCapture s : captureController.getImageCaptures())
+            cameraUiWrapper.captureSessionHandler.AddSurface(s.getSurface(),false);
+
+        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
+
+        cameraUiWrapper.captureSessionHandler.createImageCaptureRequestBuilder();
+        for (StillImageCapture s : captureController.getImageCaptures())
+            cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(s.getSurface());
+        if (parameterHandler.get(SettingKeys.M_Burst) != null)
+            parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
+        CameraStateEvents.firePreviewOpenEvent();
+
+    }
+
+    private void preparePreviewTextureView(int orientationToSet, Size previewSize) {
         SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
        /* if (cameraUiWrapper.getPreviewSurface() != null)
@@ -300,27 +314,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,false));
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
-
-
-        if (jpegReader != null)
-            cameraUiWrapper.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
-        if (rawReader != null)
-            cameraUiWrapper.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
-
-        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
-
-        cameraUiWrapper.captureSessionHandler.createImageCaptureRequestBuilder();
-        if (jpegReader != null)
-            cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
-        if (rawReader != null)
-            cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
-        if (parameterHandler.get(SettingKeys.M_Burst) != null)
-            parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
-        CameraStateEvents.firePreviewOpenEvent();
-
     }
 
-    private void setOutputSizes() {
+    private void setOutputSizesAndCreateImageReader() {
 
         picFormat = SettingsManager.get(SettingKeys.PictureFormat).get();
         if (TextUtils.isEmpty(picFormat)) {
@@ -342,8 +338,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))) {
             captureType = CaptureType.Jpeg;
         }
-        if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+        if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv))) {
             captureType = CaptureType.Yuv;
+        }
 
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16)) || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
@@ -372,22 +369,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         }
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
         //if (captureType == CaptureType.Jpeg)
-            jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
+        ByteImageCapture byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
             String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
             String[] split = yuvsize.split("x");
-            jpegReader = ImageReader.newInstance(Integer.parseInt(split[0]), Integer.parseInt(split[1]), ImageFormat.YUV_420_888, MAX_IMAGES);
+            Size s = new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv");
+            captureController.add(yuvimgcapture);
         }
 
         if (output.raw_format != 0)
         {
-            rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
-        }
-        else if (rawReader != null)
-        {
-            cameraUiWrapper.captureSessionHandler.RemoveSurface(rawReader.getSurface());
-            rawReader.close();
-            rawReader = null;
+            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".dng");
+            captureController.add(rawImageCapture);
+            //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
         }
     }
 
@@ -433,17 +429,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             @Override
             public void on_Ae_Af_Lock(boolean af_locked, boolean ae_locked) {
                 Log.d(TAG, "ae locked: " + ae_locked +" af locked: " + af_locked);
-                if (isContAutoFocus()) {
-                    if ((af_locked && ae_locked) || hitTimeoutLocked()) {
+                if (mState == STATE_WAIT_FOR_PRECAPTURE) {
+                    if (isContAutoFocus()) {
+                        if ((af_locked && ae_locked) || hitTimeoutLocked()) {
+                            cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
+                            setCaptureState(STATE_PICTURE_TAKEN);
+                            captureStillPicture();
+                        }
+                    } else if (ae_locked || hitTimeoutLocked()) {
                         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                         setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
                     }
-                }
-                else if (ae_locked || hitTimeoutLocked()) {
-                    cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
-                    setCaptureState(STATE_PICTURE_TAKEN);
-                    captureStillPicture();
                 }
             }
         });
@@ -468,34 +465,36 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     protected void captureStillPicture() {
 
         Log.d(TAG,"########### captureStillPicture ###########");
-        currentCaptureHolder = new ImageCaptureHolder(cameraHolder.characteristics, captureType, cameraUiWrapper.getActivityInterface(),this,this, this);
-        currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
-        currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
-        currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
-        currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
-        currentCaptureHolder.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-        Log.d(TAG, "Capture Type: " + captureType);
-        Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
 
+        Location currentLocation = null;
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            Location currentLocation = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            currentLocation = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             Log.d(TAG,"currentLocation null:" +(currentLocation == null));
-            currentCaptureHolder.setLocation(currentLocation);
-            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,currentLocation);
+            if (currentLocation != null)
+                cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_GPS_LOCATION,currentLocation);
         }
-        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
 
-        String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
-        if (cmat != null && !TextUtils.isEmpty(cmat) &&!cmat.equals("off")) {
-            currentCaptureHolder.setCustomMatrix(SettingsManager.getInstance().getMatrixesMap().get(cmat));
-        }
-        if (jpegReader != null)
-            jpegReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
-        if (rawReader != null)
+        for (int i = 0; i< captureController.getImageCaptures().size();i++)
         {
-            rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
+            StillImageCapture currentCaptureHolder = captureController.getImageCaptures().get(i);
+            currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
+            currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
+            currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
+            currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
+            currentCaptureHolder.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            currentCaptureHolder.setCharacteristics(cameraUiWrapper.getCameraHolder().characteristics);
+            currentCaptureHolder.setCaptureType(captureType);
+            if (currentLocation != null)
+                currentCaptureHolder.setLocation(currentLocation);
+            String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+            if (cmat != null && !TextUtils.isEmpty(cmat) &&!cmat.equals("off")) {
+                currentCaptureHolder.setCustomMatrix(SettingsManager.getInstance().getMatrixesMap().get(cmat));
+            }
         }
+
+
+        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
 
         //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
@@ -503,7 +502,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         changeCaptureState(CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        cameraUiWrapper.captureSessionHandler.StartImageCapture(currentCaptureHolder, mBackgroundHandler);
+        cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController, mBackgroundHandler);
     }
 
     protected void prepareCaptureBuilder(int captureNum)
@@ -622,7 +621,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     }
 
     @Override
-    public void onRdyToSaveImg(ImageCaptureHolder holder) {
+    public void onRdyToSaveImg() {
         Log.d(TAG,"onRdyToSaveImg");
         finishCapture();
     }

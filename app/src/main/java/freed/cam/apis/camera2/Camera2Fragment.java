@@ -326,10 +326,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     public void stopCamera() {
         try {
             Log.d(TAG, "Stop Camera");
-            if (captureSessionHandler != null) {
-                captureSessionHandler.CloseCaptureSession();
-                captureSessionHandler.Clear();
-            }
             if (cameraHolder != null)
                 cameraHolder.CloseCamera();
             cameraIsOpen = false;

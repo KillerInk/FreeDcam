@@ -151,7 +151,7 @@ public class FindOutputHelper
         }
         catch (IllegalArgumentException | NullPointerException ex)
         {
-            Log.WriteEx(ex);
+            Log.d(TAG, "Dont support huawei raw format");
             output.raw_format = ImageFormat.RAW_SENSOR;
         }
     }

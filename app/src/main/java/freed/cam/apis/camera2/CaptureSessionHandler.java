@@ -127,7 +127,7 @@ public class CaptureSessionHandler
     public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolderApi2 = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
+        this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
         Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -152,8 +152,6 @@ public class CaptureSessionHandler
     {
         mCaptureSession = cameraCaptureSession;
     }
-
-
 
     public void CreatePreviewRequestBuilder()
     {
@@ -532,7 +530,7 @@ public class CaptureSessionHandler
         mCaptureSession = null;
     }
 
-    public <T> void SetParameterRepeating( CaptureRequest.Key<T> key, T value, boolean setToCamera)
+    public <T> void SetParameterRepeating(CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
         if (key != null && value != null)
             Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");
@@ -550,7 +548,7 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> void SetPreviewParameterRepeating( CaptureRequest.Key<T> key, T value, boolean apply)
+    public <T> void SetPreviewParameterRepeating(CaptureRequest.Key<T> key, T value, boolean apply)
     {
         Log.d(TAG,"SetPreviewParameterRepeating( CaptureRequest.Key<T> key, T value, boolean apply)");
         if (mPreviewRequestBuilder == null )
@@ -565,7 +563,7 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> void SetPreviewParameter( CaptureRequest.Key<T> key, T value)
+    public <T> void SetPreviewParameter(CaptureRequest.Key<T> key, T value)
     {
         if (mPreviewRequestBuilder == null || mCaptureSession == null)
             return;
@@ -588,7 +586,7 @@ public class CaptureSessionHandler
     }
 
 
-    public <T> void SetParameterRepeating( CaptureRequest.Key<T> key, T value, CameraCaptureSession.CaptureCallback captureCallback)
+    public <T> void SetParameterRepeating(CaptureRequest.Key<T> key, T value, CameraCaptureSession.CaptureCallback captureCallback)
     {
         if (mPreviewRequestBuilder == null )
             return;
