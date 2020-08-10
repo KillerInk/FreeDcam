@@ -160,7 +160,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         videoRecorder = null;
         previewsurface = null;
-        super.DestroyModule();
     }
 
     @Override

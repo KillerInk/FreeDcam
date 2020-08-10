@@ -77,8 +77,4 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
         this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
     }
 
-    @Override
-    public void DestroyModule() {
-        super.DestroyModule();
-    }
 }

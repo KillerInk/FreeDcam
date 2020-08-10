@@ -47,7 +47,6 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
     }
     @Override
     public void DestroyModule() {
-        super.DestroyModule();
         Log.d(TAG, "Destroy");
         intervalHandler.Destroy();
     }

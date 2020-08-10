@@ -94,9 +94,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public void DestroyModule()
-    {
-    }
+    public abstract void DestroyModule();
 
     @Override
     public abstract String LongName();
