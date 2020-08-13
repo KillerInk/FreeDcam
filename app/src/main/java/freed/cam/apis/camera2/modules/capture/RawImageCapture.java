@@ -17,7 +17,9 @@ import java.nio.ByteBuffer;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
+import freed.dng.ToneMapProfile;
 import freed.dng.opcode.OpCodeCreator;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
@@ -31,7 +33,7 @@ import freed.utils.Log;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class RawImageCapture extends StillImageCapture {
 
-    private final String TAG = RawImageCapture.class.getSimpleName();
+    private static final String TAG = RawImageCapture.class.getSimpleName();
 
     public RawImageCapture(Size size,int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface,String file_ending) {
         super(size, format, setToPreview, activityInterface, moduleInterface,file_ending);
@@ -45,14 +47,14 @@ public class RawImageCapture extends StillImageCapture {
         //Log.d(TAG, "save dng");
         if(image.getFormat() == ImageFormat.RAW10) {
             Log.d(TAG, "save 10bit dng");
-            task = process_rawWithDngConverter(image, DngProfile.Mipi, file,result,characteristics);
+            task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Mipi, file,result,characteristics, image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
         }
         else if(image.getFormat() == ImageFormat.RAW_SENSOR) {
             if (forceRawToDng) // use freedcam dngconverter
                 if (support12bitRaw)
-                    task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file, result, characteristics);
+                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Pure16bit_To_12bit, file, result, characteristics, image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
                 else
-                    task = process_rawWithDngConverter(image, DngProfile.Plain, file, result, characteristics);
+                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Plain, file, result, characteristics, image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             else { // use android dngCreator
                 task = process_rawSensor(image, file, result);
                 consumerFreeImage = true;
@@ -65,14 +67,34 @@ public class RawImageCapture extends StillImageCapture {
         return consumerFreeImage;
     }
 
-    private ImageTask process_rawWithDngConverter(Image image, int rawFormat,File file, CaptureResult captureResult,CameraCharacteristics characteristics) {
+    private byte[] imageToByteArray(Image img)
+    {
+        return byteBufferToByteArray(img.getPlanes()[0].getBuffer());
+    }
+
+    private byte[] byteBufferToByteArray(ByteBuffer byteBuffer)
+    {
+        byte[] bytes = new byte[byteBuffer.remaining()];
+        byteBuffer.get(bytes);
+        return bytes;
+    }
+
+    protected static ImageTask process_rawWithDngConverter(byte[] bytes,
+                                                           int rawFormat,
+                                                           File file,
+                                                           CaptureResult captureResult,
+                                                           CameraCharacteristics characteristics,
+                                                           int width,
+                                                           int height,
+                                                           ActivityInterface activityInterface,
+                                                           ModuleInterface moduleInterface,
+                                                           CustomMatrix customMatrix,
+                                                           int orientation,
+                                                           boolean externalSD,
+                                                           ToneMapProfile toneMapProfile) {
         ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
-        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-        byte[] bytes = new byte[buffer.remaining()];
-        buffer.get(bytes);
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
-        buffer.clear();
 
         if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
@@ -137,10 +159,8 @@ public class RawImageCapture extends StillImageCapture {
         if (SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
             prof = SettingsManager.getInstance().getDngProfilesMap().get(bytes.length);
         else
-            prof = DngProfileCreator.getDngProfile(rawFormat, image.getWidth(),image.getHeight(),characteristics,customMatrix,captureResult);
-        image.close();
-        image = null;
-        prof.toneMapProfile = this.toneMapProfile;
+            prof = DngProfileCreator.getDngProfile(rawFormat, width,height,characteristics,customMatrix,captureResult);
+        prof.toneMapProfile = toneMapProfile;
         OpCodeCreator opCodeCreator = new OpCodeCreator();
         byte opcode[] = opCodeCreator.createOpCode2(characteristics,captureResult);
         OpCode opCode =new OpCode(opcode,null);
@@ -151,7 +171,7 @@ public class RawImageCapture extends StillImageCapture {
         return saveTask;
     }
 
-    private ImageTask process_rawSensor(Image image, File file,CaptureResult captureResult) {
+    protected ImageTask process_rawSensor(Image image, File file,CaptureResult captureResult) {
         ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location,moduleInterface);
         return taskDngConverter;
     }

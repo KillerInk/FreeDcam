@@ -1,0 +1,116 @@
+apply plugin: "cpp"
+
+def halide_dir = findProperty('halideDir')
+
+gradle.afterProject { project ->
+    if (project.state.failure) {
+        logger.quiet("afterProject of $project FAILED")
+    } else {
+        logger.quiet( "afterProject of $project succeeded")
+    }
+}
+
+gradle.projectsEvaluated { project ->
+    logger.quiet("projectsEvaluated of $project succeeded")
+}
+
+gradle.buildFinished {
+    logger.quiet("buildFinished ")
+}
+
+tasks.build.doLast(){
+    logger.quiet( 'tasks.build.doLast This will be printed after the build task even if something else calls the build task')
+}
+
+
+
+model{
+
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x64"
+        }
+    }
+    components{
+        halide_generator(NativeExecutableSpec) {
+            //targetPlatform "x86"
+            targetPlatform "x64"
+            sources {
+                cpp {
+                    source {
+                        srcDirs "generator/", "${halide_dir}/tools/", "${halide_dir}/include/"
+                        include "hello_generator.cpp", "GenGen.cpp"
+                    }
+                }
+            }
+            binaries{
+                all {
+                    cppCompiler.args "/I${halide_dir}/include/"
+                    // "/bin" assumes Makefile build for Halide; "/build/lib" assumes CMake build
+                    linker.args "${halide_dir}/Release/Halide.lib", "/LIBPATH:${halide_dir}/Release/Halide.dll"
+                    logger.quiet("binaries all")
+                }
+            }
+
+            //hook into clean and delete libs too
+            clean{
+                delete "$project.projectDir/libs"
+            }
+
+            task copyHalideLib(type: Copy) {
+                logger.quiet("copyHalideLib from ${halide_dir}/Release/Halide.dll to ${buildDir}/exe/halide_generator/")
+                from file("${halide_dir}/Release/Halide.dll")
+                into file("${buildDir}/exe/halide_generator")
+            }
+
+            //hook into build
+            build{
+                //on windows its needed, if halide is not in the %PATH, to copy the halide.dll to the exe to run the generator
+                dependsOn copyHalideLib
+                //the compiler runs after doFirst and calls doLast
+                doFirst {
+                    logger.quiet("build.doFirst")
+                }
+
+                //our exe is now ready lets start the generator
+                doLast{
+                    logger.quiet("build.doLast")
+
+                    //define abis
+                    Map<String, String> archs = [
+                            // armeabi and armeabi-v7a are the same as far as Halide is concerned
+                            /*"armeabi"    : "arm-32-android",*/
+                            "armeabi-v7a": "arm-32-android",
+                            "arm64-v8a"  : "arm-64-android",
+                            /*"mips"       : "mips-32-android",
+                            "x86_64"     : "x86-64-android-sse41",
+                            "x86"        : "x86-32-android"*/
+                    ]
+                    //define the generators that should get builded
+                    def gens = ["hello"]
+                    gens.each { gen ->
+                        archs.each { arch ->
+                            mkdir("${projectDir}/libs/${arch.key}")
+                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}"
+                            ProcessBuilder processBuilder = new ProcessBuilder()
+                            processBuilder.command(envVars.split(' '))
+                            logger.quiet("Output of running " + envVars + " is: ")
+                            Process process = processBuilder.start()
+                            process.waitFor()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+

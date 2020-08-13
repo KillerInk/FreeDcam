@@ -88,6 +88,11 @@ public class ImageSaveTask extends ImageTask
         this.profile = profile;
     }
 
+    public DngProfile getDngProfile()
+    {
+        return profile;
+    }
+
     public void setFilePath(File file, boolean externalSD)
     {
         this.filename = file;

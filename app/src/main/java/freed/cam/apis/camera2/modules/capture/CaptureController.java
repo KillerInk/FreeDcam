@@ -18,7 +18,7 @@ import freed.utils.Log;
 public class CaptureController extends CameraCaptureSession.CaptureCallback
 {
     private final String TAG = CaptureController.class.getSimpleName();
-    private List<StillImageCapture> imageCaptures;
+    private List<AbstractImageCapture> imageCaptures;
     private RdyToSaveImg rdyToSaveImg;
 
     public CaptureController(RdyToSaveImg rdyToSaveImg)
@@ -27,18 +27,18 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
         this.rdyToSaveImg = rdyToSaveImg;
     }
 
-    public List<StillImageCapture> getImageCaptures() {
+    public List<AbstractImageCapture> getImageCaptures() {
         return imageCaptures;
     }
 
-    public void add(StillImageCapture stillImageCapture)
+    public void add(AbstractImageCapture stillImageCapture)
     {
         imageCaptures.add(stillImageCapture);
     }
 
     public void clear()
     {
-        for (StillImageCapture s:imageCaptures) {
+        for (AbstractImageCapture s:imageCaptures) {
             s.release();
         }
     }
@@ -55,16 +55,18 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
     public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
         Log.d(TAG, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
 
-        for(StillImageCapture imageCapture : imageCaptures) {
-            boolean done = imageCapture.setCaptureResult(result);
-            if (!done)
-                synchronized (imageCapture) {
+        for(AbstractImageCapture imageCapture : imageCaptures) {
+            synchronized (imageCapture) {
+                boolean done = imageCapture.setCaptureResult(result);
+                if (!done)
+                    Log.d(TAG, "Wait for capture end ");
                     try {
-                        imageCapture.wait(500);
+                        imageCapture.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
+                Log.d(TAG, "wait for capture end done");
+            }
         }
         rdyToSaveImg.onRdyToSaveImg();
     }

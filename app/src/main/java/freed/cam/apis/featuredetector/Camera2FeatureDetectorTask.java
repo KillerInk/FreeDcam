@@ -1103,7 +1103,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         SettingsManager.get(SettingKeys.PictureSize).setValues(ar);
     }
 
-    private class SizeComparer implements Comparator<Size> {
+    public static class SizeComparer implements Comparator<Size> {
 
         @Override
         public int compare(Size o1, Size o2) {

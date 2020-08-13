@@ -39,6 +39,7 @@ public class DngProfile
     public static final int Mipi12 = 4;
     //shift 16bit data into readable 12bit order
     public static final int Pure16bit_To_12bit = 5;
+    public static final int S16bit_To_16bit = 6;
 
     public static final String BGGR = "bggr";
     public static final String RGGB = "rggb";
@@ -112,11 +113,35 @@ public class DngProfile
         setActiveArea(byteBuffer,activeArea);
     }
 
+    public void setWhiteLevel(int whiteLevel)
+    {
+        if (byteBuffer == null)
+            return;
+        setWhitelvl(byteBuffer, whiteLevel);
+    }
+
+    public void setBlackLevel(int blackLevel)
+    {
+        if (byteBuffer == null)
+            return;
+        setBlacklvl(byteBuffer, blackLevel);
+    }
+
+    public void setRawType(int rawType)
+    {
+        if (byteBuffer == null)
+            return;
+        setRawType(byteBuffer, rawType);
+    }
+
     private native ByteBuffer init();
     private native void clear(ByteBuffer byteBuffer);
     private native void setDngInfo(ByteBuffer javaHandler, int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize);
     private native int getWhitelvl(ByteBuffer byteBuffer);
     private native int getBlacklvl(ByteBuffer byteBuffer);
+    private native void setWhitelvl(ByteBuffer byteBuffer, int wlvl);
+    private native void setBlacklvl(ByteBuffer byteBuffer, int blvl);
+    private native void setRawType(ByteBuffer byteBuffer, int rawtype);
     private native int getRawType(ByteBuffer byteBuffer);
     private native int getWidth(ByteBuffer byteBuffer);
     private native int getHeight(ByteBuffer byteBuffer);

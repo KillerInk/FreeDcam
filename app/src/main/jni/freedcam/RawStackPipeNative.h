@@ -1,0 +1,240 @@
+//
+// Created by troop on 21.06.2018.
+//
+
+
+#include "DngProfile.h"
+#include "CustomMatrix.h"
+#include "DngWriter.h"
+#include "OpCode.h"
+#include "../include/HalideBuffer.h"
+#include "../include/stage1_alignmerge.h"
+#include "../include/stage2_RawToRgb.h"
+#include <jni.h>
+#include <stdlib.h>
+#include <android/log.h>
+
+#ifndef FREEDCAM_RAWSTACKPIPENATIVE_H
+#define FREEDCAM_RAWSTACKPIPENATIVE_H
+
+#define  LOG_TAG    "freedcam.RawStackPipeNative"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
+
+
+class RawStackPipeNative
+{
+public:
+    RawStackPipeNative()
+    {}
+    Halide::Runtime::Buffer<uint16_t> input;
+    Halide::Runtime::Buffer<uint16_t> input_to_merge;
+    Halide::Runtime::Buffer<uint16_t> output;
+    uint16_t * inputdata, *mergedata, *outdata;
+    int width;
+    int height;
+    int offset;
+    OpCode * opCode =NULL;
+    int upshift = 0,minoffset = -256, maxoffset = 256,l1mindistance=4,l1maxdistance = 128;
+
+    int bl = 0;
+
+    void readFile(const char* file, int size, unsigned char* output)
+    {
+        FILE *ptr;
+
+        ptr = fopen(file,"rb");
+
+        fread(input,sizeof(input),size,ptr);
+        fclose(ptr);
+    }
+
+    /*void mergeFiles(int width, int height,int buffersize, const char * files[], int filecount, const char * outfile)
+    {
+
+        this->width = width;
+        this->height = height;
+        offset = width*height;
+        LOGD("init input");
+        Halide::Runtime::Buffer<uint16_t> tmp(width, height, buffersize);
+        input = tmp;
+        LOGD("init input_to_merge");
+        Halide::Runtime::Buffer<uint16_t> tmp2(width, height, buffersize);
+        input_to_merge = tmp2;
+        LOGD("init output");
+        Halide::Runtime::Buffer<uint16_t> tmp3(width, height, buffersize);
+        output = tmp3;
+        inputdata = input.data();
+        mergedata = input_to_merge.data();
+        outdata = output.data();
+
+        int size = width * height*4;
+        unsigned char * charinput = new unsigned char[size];
+
+        readFile(files[0],size,charinput);
+
+        uint16 * input16 = (uint16*)input;
+        for (int i = 0; i < offset; ++i) {
+            if(upshift > 0) {
+                inputdata[i] = ((input16[i]) << upshift) + bl;
+                mergedata[i] = ((input16[i]) << upshift) + bl;
+            } else
+            {
+                inputdata[i] = ((charinput[i]) << upshift);
+                mergedata[i] = ((charinput[i]) << upshift);
+            }
+        }
+
+        for (int i = 1; i < filecount; i+=buffersize) {
+            for (int t = 0; t < buffersize; ++t)
+            {
+                readFile(files[i+t],size, charinput);
+                input16 = (uint16*)input;
+                for (int z = 0; z < offset*t; ++i) {
+                    if(upshift > 0) {
+                        inputdata[z*t] = ((input16[z]) << upshift) + bl;
+                        mergedata[z*t] = ((input16[z]) << upshift) + bl;
+                    } else
+                    {
+                        inputdata[z*t] = ((charinput[z]) << upshift);
+                        mergedata[z*t] = ((charinput[z]) << upshift);
+                    }
+                }
+                stage1_alignmerge(input,input_to_merge,output);
+                for (int i = 0; i < offset; ++i) {
+                    mergedata[i] = outdata[i];
+                }
+            }
+
+        }
+    }*/
+
+    void init(int width, int height, uint16_t * firstdata)
+    {
+        LOGD("init upshift %i", upshift);
+        this->width = width;
+        this->height = height;
+        offset = width*height;
+        LOGD("init input");
+        Halide::Runtime::Buffer<uint16_t> tmp(width, height, 2);
+        input = tmp;
+        LOGD("init input_to_merge");
+        Halide::Runtime::Buffer<uint16_t> tmp2(width, height, 2);
+        input_to_merge = tmp2;
+        LOGD("init output");
+        Halide::Runtime::Buffer<uint16_t> tmp3(width, height, 1);
+        output = tmp3;
+        inputdata = input.data();
+        mergedata = input_to_merge.data();
+        outdata = output.data();
+        LOGD("copy data");
+        for (int i = 0; i < offset; ++i) {
+            if(upshift > 0) {
+
+                inputdata[i] = ((firstdata[i]) << upshift) + bl;
+                mergedata[i] = ((firstdata[i]) << upshift) + bl;
+            } else
+            {
+                inputdata[i] = ((firstdata[i]) << upshift);
+                mergedata[i] = ((firstdata[i]) << upshift);
+            }
+        }
+        LOGD("init done");
+        //delete[] firstdata;
+    }
+
+    void stackFrame(uint16_t * nextdata)
+    {
+        LOGD("stackframe");
+        for (int i = 0; i < offset; ++i) {
+            if(upshift > 0) {
+                inputdata[i + offset] = ((nextdata[i]) << upshift) + bl;
+                mergedata[i + offset] = ((nextdata[i]) << upshift) + bl;
+            } else{
+                inputdata[i + offset] = ((nextdata[i]) << upshift);
+                mergedata[i + offset] = ((nextdata[i]) << upshift);
+            }
+        }
+
+        stage1_alignmerge(input,input_to_merge,minoffset, maxoffset,l1mindistance,l1maxdistance,output);
+        for (int i = 0; i < offset; ++i) {
+            mergedata[i] = outdata[i];
+        }
+        LOGD("stackframedone");
+    }
+
+    void clear()
+    {
+        input_to_merge.deallocate();
+        input.deallocate();
+        output.deallocate();
+    }
+
+    void writeJpeg(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
+    {
+        Halide::Runtime::Buffer<uint8_t> jpeg_output(width, height, 4);
+        stage2_RawToRgb(output,
+                        profile->blacklevel[0],
+                        profile->whitelevel,
+                        customMatrix->neutralColorMatrix[0],
+                        customMatrix->neutralColorMatrix[1],
+                        customMatrix->neutralColorMatrix[1],
+                        customMatrix->neutralColorMatrix[2],
+                        1.1,
+                        1.8,
+                        jpeg_output);
+
+        FILE *fp = fopen(outfile, "wb");
+        /* write header to the file */
+        /* write image data bytes to the file */
+        unsigned char * tmp = jpeg_output.data();
+        LOGD("write tmp %i", sizeof(tmp));
+        fwrite(tmp, sizeof(tmp), 1, fp);
+        fclose(fp);
+    }
+
+    void writeDng(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
+    {
+        LOGD("write dng");
+        DngWriter * writer = new DngWriter();
+        writer->customMatrix = customMatrix;
+        writer->exifInfo = exifInfo;
+        profile->rawType = 6;
+        writer->dngProfile = profile;
+        if(upshift > 0)
+        {
+            writer->dngProfile->blacklevel[0] += bl;
+            writer->dngProfile->blacklevel[1] += bl;
+            writer->dngProfile->blacklevel[2] += bl;
+            writer->dngProfile->blacklevel[3] += bl;
+        }
+        writer->bayerBytes = (unsigned char*) output.data();
+        writer->rawSize = width*height*2;
+        writer->_make = "hdr+";
+        writer->_model = "model";
+        writer->fileSavePath = (char*)outfile;
+        if(opCode != NULL)
+            writer->opCode = opCode;
+        writer->WriteDNG();
+
+        delete writer;
+        input_to_merge.deallocate();
+        input.deallocate();
+        output.deallocate();
+        /*
+        input_to_merge.deallocate();
+        delete[] input_to_merge.data();
+        delete input_to_merge;
+        input.deallocate();
+        delete[] input.data();
+        delete input;
+        output.deallocate();
+        delete[] output.data();
+        delete output;
+        delete outfile;
+        delete customMatrix;
+        delete profile;*/
+        LOGD("write dng done");
+    }
+};
+#endif //FREEDCAM_RAWSTACKPIPENATIVE_H

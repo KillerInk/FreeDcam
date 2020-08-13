@@ -69,10 +69,32 @@ extern "C"
         DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
         return  (int)dngProfile->blacklevel[0];
     }
+
+    JNIEXPORT void JNICALL Java_freed_dng_DngProfile_setBlacklvl(JNIEnv *env, jobject thiz,jobject javaHandler, jint blacklevel)
+    {
+        DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
+        dngProfile->blacklevel = new float[4];
+        for (int i = 0; i < 4; ++i) {
+            dngProfile->blacklevel[i] = blacklevel;
+        }
+    }
+
+    JNIEXPORT void JNICALL Java_freed_dng_DngProfile_setWhitelvl(JNIEnv *env, jobject thiz,jobject javaHandler, jint whitelevel)
+    {
+        DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
+        dngProfile->whitelevel = whitelevel;
+    }
+
     JNIEXPORT jint JNICALL Java_freed_dng_DngProfile_getRawType(JNIEnv *env, jobject thiz,jobject javaHandler)
     {
         DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
         return  dngProfile->rawType;
+    }
+
+    JNIEXPORT void JNICALL Java_freed_dng_DngProfile_setRawType(JNIEnv *env, jobject thiz,jobject javaHandler, jint rawtype)
+    {
+        DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
+        dngProfile->rawType = rawtype;
     }
 
     JNIEXPORT jint JNICALL Java_freed_dng_DngProfile_getWidth(JNIEnv *env, jobject thiz,jobject javaHandler)

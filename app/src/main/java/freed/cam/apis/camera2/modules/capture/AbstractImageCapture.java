@@ -17,12 +17,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public abstract class AbstractImageCapture implements ImageCaptureInterface {
 
     private final String TAG = AbstractImageCapture.class.getSimpleName();
-    private final int MAX_IMAGES = 6;
+    private final int MAX_IMAGES = 5;
     private final ImageReader imageReader;
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
@@ -78,10 +79,16 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     public void onImageAvailable(ImageReader reader) {
         //Log.d(TAG, "onImageAvailable imageblockingqueue:" + (imageBlockingQueue.size() - imageBlockingQueue.remainingCapacity()) + "/"+ imageBlockingQueue.size() + " image polled size: " + imagespolled.size());
         while (imageBlockingQueue.remainingCapacity() == imagespolled.size()+1) {
+            Log.d(TAG, "Queue is full, drop oldest");
             Objects.requireNonNull(imageBlockingQueue.poll()).close();
         }
         try {
+            Log.d(TAG, "Add new img to queue");
             imageBlockingQueue.put(imageReader.acquireLatestImage());
+            synchronized (this)
+            {
+                this.notifyAll();
+            }
         } catch (InterruptedException | NullPointerException e) {
             e.printStackTrace();
         }
@@ -99,7 +106,7 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     @Override

@@ -1,0 +1,172 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: "cpp"
+
+def halide_dir = findProperty('halideDir')
+
+model{
+
+    platforms {
+        x86 {
+            architecture "x86"
+        }
+        x64 {
+            architecture "x64"
+        }
+    }
+
+    components{
+
+        halide_aot(NativeExecutableSpec) {
+
+            //targetPlatform "x86"
+            targetPlatform "x64"
+            sources {
+                cpp {
+                    source {
+                        srcDirs "src/","src/hdrplus/", "${halide_dir}/tools/", "${halide_dir}/include/"
+                        include "Main.cpp", "align.cpp","merge.cpp","util.cpp","finish.cpp"
+                    }
+                }
+            }
+            binaries{
+                all {
+                    if (toolChain in VisualCpp) {
+                        cppCompiler.args "/I${halide_dir}/include/"
+                        // "/bin" assumes Makefile build for Halide; "/build/lib" assumes CMake build
+                        linker.args "${halide_dir}/Release/Halide.lib", "/LIBPATH:${halide_dir}/Release/Halide.dll"
+                        logger.quiet("binaries all")
+                    }
+                    else
+                    {
+                        logger.quiet("binaries.all Error the compiler not implemented")
+                    }
+
+                }
+            }
+
+            //hook into clean and delete libs too
+            clean{
+                //delete "$projectDir/../app/libs"
+                delete fileTree("$projectDir").matching {
+                    include "*.a"
+                    include "*.h"
+                }
+                delete fileTree("${projectDir}/../app/src/main/jni/include").matching {
+                    include "*.h"
+                }
+                /*delete "$projectDir/stage1_align_merge.a"
+                delete "$projectDir/stage1_align_merge.h"*/
+            }
+
+            task copyHeader(type: Copy) {
+                from "$projectDir"
+                include "*.h"
+                into "${projectDir}/../app/src/main/jni/include"
+            }
+
+            task copyX86_64(type: Copy){
+                logger.quiet("copyX64")
+                from "$projectDir"
+                include "*.a"
+                into "$projectDir/../app/libs/x86_64"
+                finalizedBy copyHeader
+            }
+            task copyX64(type: Copy){
+
+                logger.quiet("copyX64")
+                from "$projectDir"
+                include "*.a"
+                into "$projectDir/../app/libs/arm64-v8a"
+                finalizedBy copyX86_64
+            }
+
+            task buildX64 {
+
+                doLast {
+                    String envVars
+                    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                        envVars = "${buildDir}/exe/halide_aot/halide_aot.exe -x 64"
+                    }
+                    else
+                    {
+                        logger.quiet("Error BuildX64, your os is not added")
+                    }
+                    ProcessBuilder processBuilder = new ProcessBuilder()
+                    processBuilder.command(envVars.split(' '))
+                    logger.quiet("Output of running " + envVars + " is: ")
+                    Process process = processBuilder.start()
+                    process.waitFor()
+
+                }
+                finalizedBy copyX64
+            }
+
+
+            task copyX86(type: Copy){
+                logger.quiet("copyX86")
+                from "$projectDir"
+                include "*.a"
+                into "$projectDir/../app/libs/x86"
+                finalizedBy buildX64
+            }
+
+            task copyX32(type: Copy){
+                logger.quiet("copyX32")
+                from "$projectDir"
+                include "*.a"
+                into "$projectDir/../app/libs/armeabi-v7a"
+                finalizedBy copyX86
+            }
+
+            task buildX32 {
+                doLast {
+                    String envVars
+                    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+                        envVars = "${buildDir}/exe/halide_aot/halide_aot.exe"
+                    }
+                    else
+                    {
+                        logger.quiet("Error BuildX32, your os is not added")
+                    }
+                    ProcessBuilder processBuilder = new ProcessBuilder()
+                    processBuilder.command(envVars.split(' '))
+                    logger.quiet("Output of running " + envVars + " is: ")
+                    Process process = processBuilder.start()
+                    process.waitFor()
+                }
+                finalizedBy copyX32
+            }
+
+            task copyHalideHeader(type: Copy) {
+                finalizedBy buildX32
+                logger.quiet("copyHalideHeaders from ${halide_dir}/include to ${projectDir}/../app/libs/inlcude/")
+                from "${halide_dir}/include/HalideRuntime.h", "${halide_dir}/include/HalideBuffer.h"
+                into "${projectDir}/../app/src/main/jni/include"
+            }
+
+            task copyHalideLib(type: Copy) {
+                finalizedBy copyHalideHeader
+
+                    logger.quiet("copyHalideLib from ${halide_dir}/Release/Halide.dll to ${buildDir}/exe/halide_generator/")
+                    from "${halide_dir}/Release/Halide.dll"
+                    into "${buildDir}/exe/halide_aot"
+
+            }
+
+            //hook into build
+            build{
+
+                //the compiler runs after doFirst and calls doLast
+                doFirst {
+                    logger.quiet("build.doFirst")
+                }
+
+                doLast{
+                    logger.quiet("build.doLast")
+                }
+                finalizedBy(copyHalideLib)
+            }
+        }
+    }
+}
