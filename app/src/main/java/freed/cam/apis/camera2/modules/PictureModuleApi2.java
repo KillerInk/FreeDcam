@@ -36,6 +36,8 @@ import android.view.Surface;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import freed.FreedApplication;
@@ -43,6 +45,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
 import freed.cam.apis.camera2.modules.capture.CaptureController;
@@ -367,8 +370,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             captureType = CaptureType.Bayer10;
         }
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
-        //if (captureType == CaptureType.Jpeg)
-        ByteImageCapture byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        ByteImageCapture byteImageCapture;
+        if (captureType == CaptureType.Jpeg || captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
+            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        else
+        {
+            Size smallestImageSize = Collections.min(
+                    Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                    new CameraHolderApi2.CompareSizesByArea());
+            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
             String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
