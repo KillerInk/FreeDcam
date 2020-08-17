@@ -33,7 +33,7 @@ import freed.utils.Log;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class RawImageCapture extends StillImageCapture {
 
-    private static final String TAG = RawImageCapture.class.getSimpleName();
+    private final static String TAG = RawImageCapture.class.getSimpleName();
 
     public RawImageCapture(Size size,int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface,String file_ending) {
         super(size, format, setToPreview, activityInterface, moduleInterface,file_ending);
@@ -47,15 +47,27 @@ public class RawImageCapture extends StillImageCapture {
         //Log.d(TAG, "save dng");
         if(image.getFormat() == ImageFormat.RAW10) {
             Log.d(TAG, "save 10bit dng");
-            task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Mipi, file,result,characteristics, image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             image.close();
         }
         else if(image.getFormat() == ImageFormat.RAW_SENSOR) {
             if (forceRawToDng) { // use freedcam dngconverter
                 if (support12bitRaw)
-                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Pure16bit_To_12bit, file, result, characteristics, image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
                 else
-                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Plain, file, result, characteristics, image.getWidth(),image.getHeight(),activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+                    task = process_rawWithDngConverter(imageToByteArray(image),
+                            DngProfile.Plain,
+                            file,
+                            result,
+                            characteristics,
+                            image.getWidth(),
+                            image.getHeight(),
+                            activityInterface,
+                            moduleInterface,
+                            customMatrix,
+                            orientation,
+                            externalSD,
+                            toneMapProfile);
                 image.close();
             }
             else { // use android dngCreator
@@ -63,18 +75,6 @@ public class RawImageCapture extends StillImageCapture {
             }
         }
         image = null;
-    }
-
-    private ImageTask process_rawWithDngConverter(Image image, int rawFormat, File file, CaptureResult captureResult, CameraCharacteristics characteristics) {
-    {
-        return byteBufferToByteArray(img.getPlanes()[0].getBuffer());
-    }
-
-    private byte[] byteBufferToByteArray(ByteBuffer byteBuffer)
-    {
-        byte[] bytes = new byte[byteBuffer.remaining()];
-        byteBuffer.get(bytes);
-        return bytes;
     }
 
     protected static ImageTask process_rawWithDngConverter(byte[] bytes,
@@ -139,9 +139,8 @@ public class RawImageCapture extends StillImageCapture {
                 saveTask.setBaselineExposure(0);
             }
         }*/
-        saveTask.setBaselineExposure(0);
 
-       /* try {
+        try {
             float greensplit = captureResult.get(CaptureResult.SENSOR_GREEN_SPLIT);
             int fgreen = (int)(greensplit * 5000) -5000;
             Log.d(TAG,"GreenSplit:" + fgreen);
@@ -150,8 +149,7 @@ public class RawImageCapture extends StillImageCapture {
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-        }*/
-        saveTask.setBayerGreenSplit(0);
+        }
 
 
 
@@ -174,5 +172,17 @@ public class RawImageCapture extends StillImageCapture {
     protected ImageTask process_rawSensor(Image image, File file,CaptureResult captureResult) {
         ImageTaskDngConverter taskDngConverter = new ImageTaskDngConverter(captureResult,image,characteristics,file,activityInterface,orientation,location,moduleInterface);
         return taskDngConverter;
+    }
+
+    protected byte[] imageToByteArray(Image img)
+    {
+        return byteBufferToByteArray(img.getPlanes()[0].getBuffer());
+    }
+
+    private byte[] byteBufferToByteArray(ByteBuffer byteBuffer)
+    {
+        byte[] bytes = new byte[byteBuffer.remaining()];
+        byteBuffer.get(bytes);
+        return bytes;
     }
 }

@@ -54,7 +54,7 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
             if (task == null) {
                 Log.d(TAG, "Task is null wait");
                 try {
-                    wait();
+                    this.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -78,10 +78,6 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
             createTask();
             this.notifyAll();
             Log.d(TAG, "Add new img to queue");
-            synchronized (this)
-            {
-                this.notifyAll();
-            }
         }
     }
 
@@ -95,7 +91,7 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
             Log.d(TAG,"setCaptureResult");
             result = captureResult;
             createTask();
-            notifyAll();
+            this.notifyAll();
         }
     }
 

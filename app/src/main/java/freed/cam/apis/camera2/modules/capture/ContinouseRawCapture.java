@@ -10,17 +10,21 @@ import android.os.Build;
 import android.util.Size;
 import androidx.annotation.RequiresApi;
 
+import org.json.JSONArray;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Objects;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.UserMessageEvent;
 import freed.dng.DngProfile;
+import freed.image.EmptyTask;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
@@ -36,36 +40,43 @@ public class ContinouseRawCapture extends RawImageCapture {
 
     private StackRunner stackRunner;
     private final String TAG = ContinouseRawCapture.class.getSimpleName();
+    private LinkedBlockingQueue<Image> imageBlockingQueue;
     public ContinouseRawCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending) {
         super(size, format, setToPreview,activityInterface,moduleInterface,file_ending);
-    }
-
-    @Override
-    public boolean onCaptureCompleted(Image image, CaptureResult result) {
-        return false;
+        imageBlockingQueue = new LinkedBlockingQueue<>(5);
     }
 
     @Override
     public void onImageAvailable(ImageReader reader) {
-        /*while (imageBlockingQueue.remainingCapacity() == 1) {
-            synchronized (imageBlockingQueue)
-            {
+
+        synchronized (imageBlockingQueue)
+        {
+            if(imageBlockingQueue.remainingCapacity() == 1) {
                 try {
+                    Log.d(TAG, "wait for queue free");
                     imageBlockingQueue.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            //Objects.requireNonNull(imageBlockingQueue.poll()).close();
-        }*/
+        }
         try {
             Log.d(TAG, "add new img to queue");
             imageBlockingQueue.put(reader.acquireLatestImage());
         } catch (InterruptedException | NullPointerException e) {
             e.printStackTrace();
         }
+       synchronized (this)
+        {
+            createTask();
+            this.notifyAll();
+        }
     }
 
+    @Override
+    protected void createTask() {
+        task = new EmptyTask();
+    }
 
     public void startStack(int burstcount, int upshift)
     {
@@ -76,27 +87,6 @@ public class ContinouseRawCapture extends RawImageCapture {
         stackRunner = new StackRunner(burstcount,upshift);
         new Thread(stackRunner).start();
     }
-
-    @Override
-    public boolean setCaptureResult(CaptureResult captureResult) {
-
-        android.util.Log.d(TAG,"setCaptureResult");
-        /*while (captureResultBlockingQueue.remainingCapacity() == 1) {
-            try {
-                captureResultBlockingQueue.take();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
-
-        try {
-            captureResultBlockingQueue.put(captureResult);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return imageBlockingQueue.remainingCapacity() > 1;
-    }
-
 
     public void stopStack()
     {
@@ -125,46 +115,41 @@ public class ContinouseRawCapture extends RawImageCapture {
         public void run() {
             Log.d(TAG, "start stack");
             rawStack = new RawStack();
-            CaptureResult result = null;
             Image image = null;
             int stackCoutn = 0;
-            try {
-                result = captureResultBlockingQueue.take();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                image = imageBlockingQueue.take();
-            } catch (InterruptedException e) {
-                Log.WriteEx(e);
-            }
-            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-            w = image.getWidth();
-            h = image.getHeight();
-            rawStack.setFirstFrame(buffer, w, h);
-            image.close();
-            synchronized (ContinouseRawCapture.this) {
-                ContinouseRawCapture.this.notifyAll();
-            }
-            stackCoutn++;
-            while (run && stackCoutn < burst) {
+
                 try {
-                        image = imageBlockingQueue.take();
-                        Log.d(TAG, "take result");
-                        result = captureResultBlockingQueue.take();
+                    image = imageBlockingQueue.take();
                 } catch (InterruptedException e) {
                     Log.WriteEx(e);
                 }
-                buffer = image.getPlanes()[0].getBuffer();
-                Log.d(TAG, "stackframes");
-                rawStack.stackNextFrame(buffer);
-
+                ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                w = image.getWidth();
+                h = image.getHeight();
+                rawStack.setFirstFrame(buffer, w, h);
                 image.close();
-                buffer.clear();
-                stackCoutn++;
-                synchronized (ContinouseRawCapture.this) {
-                    ContinouseRawCapture.this.notifyAll();
+            synchronized (imageBlockingQueue) {
+                imageBlockingQueue.notifyAll();
+            }
+            stackCoutn++;
+            while (run && stackCoutn < burst) {
+
+                try {
+                        image = imageBlockingQueue.take();
+                        Log.d(TAG, "take result");
+                } catch (InterruptedException e) {
+                    Log.WriteEx(e);
                 }
+
+                    buffer = image.getPlanes()[0].getBuffer();
+                    Log.d(TAG, "stackframes");
+                    rawStack.stackNextFrame(buffer);
+                    image.close();
+                    buffer.clear();
+                synchronized (imageBlockingQueue) {
+                    imageBlockingQueue.notifyAll();
+                }
+                stackCoutn++;
                 EventBusHelper.post(new UserMessageEvent("Stacked:" +stackCoutn,false));
                 Log.d(TAG, "stackframes done " + stackCoutn);
             }
@@ -183,9 +168,6 @@ public class ContinouseRawCapture extends RawImageCapture {
             if (task != null) {
                 ImageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
-            }
-            synchronized (ContinouseRawCapture.this) {
-                ContinouseRawCapture.this.notifyAll();
             }
             rawStack.clear();
             rawStack = null;

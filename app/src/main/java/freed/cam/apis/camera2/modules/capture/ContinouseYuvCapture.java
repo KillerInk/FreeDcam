@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.image.EmptyTask;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ContinouseYuvCapture extends StillImageCapture {
@@ -17,8 +18,11 @@ public class ContinouseYuvCapture extends StillImageCapture {
         super(size, format, setToPreview, activityInterface, moduleInterface, file_ending);
     }
 
+
     @Override
-    public boolean onCaptureCompleted(Image image, CaptureResult result) {
-        return false;
+    protected void createTask() {
+        task = new EmptyTask();
+        if (image !=  null)
+            image.close();
     }
 }
