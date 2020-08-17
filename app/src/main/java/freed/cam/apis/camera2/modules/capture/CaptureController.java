@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
+import freed.image.EmptyTask;
+import freed.image.ImageManager;
+import freed.image.ImageSaveTask;
+import freed.image.ImageTask;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -41,6 +45,7 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
         for (StillImageCapture s:imageCaptures) {
             s.release();
         }
+        imageCaptures.clear();
     }
 
     public Surface[] getSurfaces()
@@ -56,15 +61,13 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
         Log.d(TAG, "onCaptureCompleted FrameNum:" +result.getFrameNumber());
 
         for(StillImageCapture imageCapture : imageCaptures) {
-            boolean done = imageCapture.setCaptureResult(result);
-            if (!done)
-                synchronized (imageCapture) {
-                    try {
-                        imageCapture.wait(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+            imageCapture.setCaptureResult(result);
+            ImageTask task = imageCapture.getSaveTask();
+            imageCapture.resetTask();
+            if (task != null && !(task instanceof EmptyTask)) {
+                ImageManager.putImageSaveTask(task);
+                Log.d(TAG, "Put task to Queue");
+            }
         }
         rdyToSaveImg.onRdyToSaveImg();
     }

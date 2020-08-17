@@ -563,26 +563,27 @@ public class CaptureSessionHandler
         }
     }
 
-    public <T> void SetPreviewParameter(CaptureRequest.Key<T> key, T value)
+    public <T> void SetPreviewParameter(CaptureRequest.Key<T> key, T value ,boolean setToCamera)
     {
         if (mPreviewRequestBuilder == null || mCaptureSession == null)
             return;
         Log.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
-        try {
-            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                    handler);
-        } catch (CameraAccessException ex) {
-            Log.WriteEx(ex);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            Log.WriteEx(ex);
-        }
-        catch (IllegalStateException ex)
-        {
-            Log.WriteEx(ex);
-        }
+        if (setToCamera)
+            try {
+                mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
+                        handler);
+            } catch (CameraAccessException ex) {
+                Log.WriteEx(ex);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.WriteEx(ex);
+            }
+            catch (IllegalStateException ex)
+            {
+                Log.WriteEx(ex);
+            }
     }
 
 
@@ -736,9 +737,9 @@ public class CaptureSessionHandler
         cameraHolderApi2.textureView.setTransform(matrix);
     }
 
-    public void StartAePrecapture(CameraCaptureSession.CaptureCallback listener)
+    public void StartAePrecapture()
     {
-        SetPreviewParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        SetPreviewParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START,false);
     }
 
     public <T> void SetFocusArea( CaptureRequest.Key<T> key, T value)
@@ -770,8 +771,8 @@ public class CaptureSessionHandler
         else {
             cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
             mPreviewRequestBuilder.set(key,value);
-            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
-            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START,true);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
 
         }
     }

@@ -38,34 +38,32 @@ public class RawImageCapture extends StillImageCapture {
     }
 
     @Override
-    public boolean onCaptureCompleted(Image image, CaptureResult result) {
-        ImageTask task = null;
-        boolean consumerFreeImage = false;
+    protected void createTask() {
+        if (image == null || result == null)
+            return;
         File file = new File(getFilepath() + file_ending);
         //Log.d(TAG, "save dng");
         if(image.getFormat() == ImageFormat.RAW10) {
             Log.d(TAG, "save 10bit dng");
             task = process_rawWithDngConverter(image, DngProfile.Mipi, file,result,characteristics);
+            image.close();
         }
         else if(image.getFormat() == ImageFormat.RAW_SENSOR) {
-            if (forceRawToDng) // use freedcam dngconverter
+            if (forceRawToDng) { // use freedcam dngconverter
                 if (support12bitRaw)
                     task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file, result, characteristics);
                 else
                     task = process_rawWithDngConverter(image, DngProfile.Plain, file, result, characteristics);
+                image.close();
+            }
             else { // use android dngCreator
                 task = process_rawSensor(image, file, result);
-                consumerFreeImage = true;
             }
         }
-        if (task != null) {
-            ImageManager.putImageSaveTask(task);
-            Log.d(TAG, "Put task to Queue");
-        }
-        return consumerFreeImage;
+        image = null;
     }
 
-    private ImageTask process_rawWithDngConverter(Image image, int rawFormat,File file, CaptureResult captureResult,CameraCharacteristics characteristics) {
+    private ImageTask process_rawWithDngConverter(Image image, int rawFormat, File file, CaptureResult captureResult, CameraCharacteristics characteristics) {
         ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();

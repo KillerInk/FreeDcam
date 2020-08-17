@@ -437,16 +437,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(new CameraValuesChangedCaptureCallback.WaitForAe_Af_Lock() {
             @Override
-            public void on_Ae_Af_Lock(boolean af_locked, boolean ae_locked) {
-                Log.d(TAG, "ae locked: " + ae_locked +" af locked: " + af_locked);
+            public void on_Ae_Af_Lock(CameraValuesChangedCaptureCallback.AeAfLocker aeAfLocker) {
+                Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock());
                 if (mState == STATE_WAIT_FOR_PRECAPTURE) {
                     if (isContAutoFocus()) {
-                        if ((af_locked && ae_locked) || hitTimeoutLocked()) {
+                        if ((aeAfLocker.getAfLock() && aeAfLocker.getAeLock()) || hitTimeoutLocked()) {
                             cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                             setCaptureState(STATE_PICTURE_TAKEN);
                             captureStillPicture();
                         }
-                    } else if (ae_locked || hitTimeoutLocked()) {
+                    } else if (aeAfLocker.getAeLock() || hitTimeoutLocked()) {
                         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                         setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
@@ -458,9 +458,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         startTimerLocked();
 
         if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) != CaptureRequest.CONTROL_AF_MODE_OFF)
-            cameraUiWrapper.captureSessionHandler.StartAePrecapture(cameraUiWrapper.cameraBackroundValuesChangedListner);
+            cameraUiWrapper.captureSessionHandler.StartAePrecapture();
         if (isContAutoFocus())
-            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START,false);
+        cameraUiWrapper.captureSessionHandler.capture();
     }
 
     protected void onStartTakePicture()
@@ -571,10 +572,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             if (BurstCounter.getBurstCount()  > BurstCounter.getImageCaptured()) {
                 captureStillPicture();
             }
-            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
+            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != null &&
+                    cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
                     cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME) {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
                 Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
                 cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
                 onSesssionRdy();

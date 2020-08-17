@@ -39,8 +39,38 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     public interface WaitForAe_Af_Lock
     {
-        void on_Ae_Af_Lock(boolean af_locked, boolean ae_locked);
+        void on_Ae_Af_Lock(AeAfLocker aeAfLocker);
     }
+
+    public class AeAfLocker
+    {
+        private boolean aeLocked;
+        private boolean afLocked;
+
+        public synchronized void setAeLocked(boolean locked)
+        {
+            //Log.d(TAG, "setAeLocked:" + locked);
+            this.aeLocked = locked;
+        }
+
+        public synchronized void setAfLocked(boolean locked)
+        {
+            //Log.d(TAG, "setAfLocked:" + locked);
+            this.afLocked = locked;
+        }
+
+        public synchronized boolean getAfLock()
+        {
+            return this.afLocked;
+        }
+
+        public synchronized boolean getAeLock()
+        {
+            return this.aeLocked;
+        }
+    }
+
+
 
     private final String TAG = CameraValuesChangedCaptureCallback.class.getSimpleName();
     private Camera2Fragment camera2Fragment;
@@ -62,10 +92,12 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private final int FOCUSED= 1;
     private final int WAITFORSCAN= 1;
     private int focusState;
+    private AeAfLocker aeAfLocker;
 
     public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
+        this.aeAfLocker = new AeAfLocker();
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -86,10 +118,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     public void setWaitForAe_af_lock(WaitForAe_Af_Lock callback)
     {
-        aeLocked = false;
-        afLocked = false;
+        if (callback != null) {
+            Log.d(TAG,"rest ae af lock");
+            aeAfLocker.setAeLocked(false);
+            aeAfLocker.setAfLocked(false);
+            focusState = WAITFORSCAN;
+        }
+        else
+            Log.d(TAG, "clear wait for ae af lock");
         this.waitForAe_af_lock = callback;
-        focusState = WAITFORSCAN;
+
     }
 
     public float[] GetFocusRange()
@@ -105,10 +143,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
 
-    boolean aeLocked = false;
-    boolean afLocked = false;
+
     @Override
-    public void onCaptureCompleted( CameraCaptureSession session,  CaptureRequest request,  TotalCaptureResult result) {
+    public void onCaptureCompleted(CameraCaptureSession session,  CaptureRequest request,  TotalCaptureResult result) {
         if (result == null)
             return;
         if (waitForFirstFrame)
@@ -155,7 +192,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureResult.CONTROL_AE_STATE_CONVERGED:
                     //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
                     log("AESTATE: Converged");
-                    aeLocked = true;
+                    aeAfLocker.setAeLocked(true);
                     break;
                 case CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED:
                     flashRequired = true;
@@ -168,7 +205,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     break;
                 case CaptureResult.CONTROL_AE_STATE_LOCKED:
                     log("AESTATE: LOCKED");
-                    aeLocked = true;
+                    aeAfLocker.setAeLocked(true);
                     break;
                 case CaptureResult.CONTROL_AE_STATE_PRECAPTURE:
                     log("AESTATE: PRECAPTURE");
@@ -188,12 +225,12 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
 
         if (waitForAe_af_lock != null) {
-            Log.d(TAG, "ae locked: " + aeLocked +" af locked: " + afLocked);
-            waitForAe_af_lock.on_Ae_Af_Lock(aeLocked, afLocked);
+            Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
+            waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
     }
 
-    private void processDefaultFocus( TotalCaptureResult result) {
+    private void processDefaultFocus(TotalCaptureResult result) {
         if (result.get(CaptureResult.CONTROL_AF_STATE) != null /*&& afState != result.get(CaptureResult.CONTROL_AF_STATE)*/)
         {
             afState =  result.get(CaptureResult.CONTROL_AF_STATE);
@@ -207,25 +244,31 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_SCAN:
                     state = "PASSIVE_SCAN";
                     focusState = SCAN;
+                    aeAfLocker.setAfLocked(false);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_FOCUSED:
                     state = "PASSIVE_FOCUSED";
-                        processFocus(true);
+                    aeAfLocker.setAfLocked(true);
+                    processFocus(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_ACTIVE_SCAN:
                     state="ACTIVE_SCAN";
+                    aeAfLocker.setAfLocked(false);
                     focusState = SCAN;
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
                     state = "FOCUSED_LOCKED";
+                    aeAfLocker.setAfLocked(true);
                     processFocus(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
                     state = "NOT_FOCUSED_LOCKED";
-                   processFocus(false);
+                    aeAfLocker.setAfLocked(true);
+                    processFocus(false);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
                     state ="PASSIVE_UNFOCUSED";
+                    aeAfLocker.setAfLocked(false);
                     break;
             }
             log("new AF_STATE :" + state);
@@ -248,7 +291,6 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
                 camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked);
             }
-            afLocked = true;
             waitForFocusLock = false;
         }
 

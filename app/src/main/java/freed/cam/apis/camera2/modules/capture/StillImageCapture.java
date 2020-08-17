@@ -51,42 +51,6 @@ public abstract class StillImageCapture extends AbstractImageCapture {
         this.file_ending = file_ending;
     }
 
-
-    @Override
-    public void onImageAvailable(ImageReader reader) {
-        super.onImageAvailable(reader);
-        checkIfCaptureCompleted();
-    }
-
-    @Override
-    public boolean setCaptureResult(CaptureResult captureResult) {
-        super.setCaptureResult(captureResult);
-        return checkIfCaptureCompleted();
-    }
-
-    private synchronized boolean checkIfCaptureCompleted()
-    {
-        Log.d(TAG, "checkIfCaptureCompleted :");
-        Image img;
-        CaptureResult captureResult;
-        if ((img = imageBlockingQueue.peek()) != null && (captureResult = captureResultBlockingQueue.peek()) != null) {
-            imageBlockingQueue.poll();
-            captureResultBlockingQueue.poll();
-            boolean releaseimage = onCaptureCompleted(img, captureResult);
-            if (!releaseimage)
-                releaseImage(img);
-            synchronized (this)
-            {
-                this.notifyAll();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public abstract boolean onCaptureCompleted(Image image, CaptureResult result);
-
     public void setCustomMatrix(CustomMatrix custmMat)
     {
         this.customMatrix = custmMat;

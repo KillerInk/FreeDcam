@@ -94,6 +94,9 @@ public class UriHolder extends BaseHolder {
         } catch (IOException e) {
            return false;
         }
+        catch (SecurityException ex) {
+            return false;
+        }
     }
 
     @Override
