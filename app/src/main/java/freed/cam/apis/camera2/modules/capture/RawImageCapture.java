@@ -119,8 +119,9 @@ public class RawImageCapture extends StillImageCapture {
                 saveTask.setBaselineExposure(0);
             }
         }*/
+        saveTask.setBaselineExposure(0);
 
-        try {
+       /* try {
             float greensplit = captureResult.get(CaptureResult.SENSOR_GREEN_SPLIT);
             int fgreen = (int)(greensplit * 5000) -5000;
             Log.d(TAG,"GreenSplit:" + fgreen);
@@ -129,7 +130,8 @@ public class RawImageCapture extends StillImageCapture {
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-        }
+        }*/
+        saveTask.setBayerGreenSplit(0);
 
 
 

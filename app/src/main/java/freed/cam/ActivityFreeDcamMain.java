@@ -152,7 +152,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         Log.d(TAG,"onCreate: ");
         locationManager = new LocationManager(this,getLifecycle());
         userMessageHandler = new UserMessageHandler();

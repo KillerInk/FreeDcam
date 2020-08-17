@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import freed.ActivityInterface;
@@ -89,7 +90,12 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         Log.d(TAG, "onCreateView");
 
-        return super.onCreateView(layoutInflater, viewGroup, bundle);
+        return super.onCreateView(layoutInflater, viewGroup, null);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(null);
     }
 
     @Override

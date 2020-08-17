@@ -33,7 +33,6 @@ public class FileListController {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFile(BaseHolder fileHolder)
     {
-
         MediaScannerManager.ScanMedia(context,fileHolder);
         AddFile(fileHolder);
     }

@@ -35,19 +35,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.settings.SettingsManager;
-import freed.views.AutoFitTextureView;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
-import freed.cam.apis.sonyremote.sonystuff.Auth;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
@@ -61,7 +56,9 @@ import freed.cam.events.EventBusLifeCycle;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 06.06.2015.

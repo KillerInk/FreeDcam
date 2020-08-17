@@ -111,6 +111,7 @@ public abstract class BaseHolder
     public abstract Bitmap getVideoThumb(Context context) throws IOException;
     public abstract Bitmap getBitmapFromDng(Context context) throws IOException;
     public abstract boolean delete(Context context);
+    public abstract boolean exists();
 
     public abstract OutputStream getOutputStream() throws FileNotFoundException;
 

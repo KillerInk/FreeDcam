@@ -7,7 +7,6 @@ import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
-import freed.utils.StringUtils;
 import freed.utils.XmlUtil;
 
 /**

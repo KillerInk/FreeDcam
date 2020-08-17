@@ -51,7 +51,6 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.views.AutoFitTextureView;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
@@ -65,6 +64,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.MyHistogram;
+import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 06.06.2015.
