@@ -25,7 +25,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
-import android.view.MotionEvent;
 
 import com.troop.freedcam.R;
 

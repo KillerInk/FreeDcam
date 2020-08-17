@@ -25,7 +25,6 @@ import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.location.Location;
-import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -37,6 +36,8 @@ import android.view.Surface;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import freed.FreedApplication;
@@ -44,6 +45,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.capture.AbstractImageCapture;
 import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
@@ -394,6 +396,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             Log.d(TAG, "ImageReader BAYER10");
             captureType = CaptureType.Bayer10;
         }
+        ByteImageCapture byteImageCapture;
+        if (captureType == CaptureType.Jpeg || captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
+            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        else
+        {
+            Size smallestImageSize = Collections.min(
+                    Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                    new CameraHolderApi2.CompareSizesByArea());
+            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        }
     }
 
 
@@ -436,16 +448,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(new CameraValuesChangedCaptureCallback.WaitForAe_Af_Lock() {
             @Override
-            public void on_Ae_Af_Lock(boolean af_locked, boolean ae_locked) {
-                Log.d(TAG, "ae locked: " + ae_locked +" af locked: " + af_locked);
+            public void on_Ae_Af_Lock(CameraValuesChangedCaptureCallback.AeAfLocker aeAfLocker) {
+                Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock());
                 if (mState == STATE_WAIT_FOR_PRECAPTURE) {
                     if (isContAutoFocus()) {
-                        if ((af_locked && ae_locked) || hitTimeoutLocked()) {
+                        if ((aeAfLocker.getAfLock() && aeAfLocker.getAeLock()) || hitTimeoutLocked()) {
                             cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                             setCaptureState(STATE_PICTURE_TAKEN);
                             captureStillPicture();
                         }
-                    } else if (ae_locked || hitTimeoutLocked()) {
+                    } else if (aeAfLocker.getAeLock() || hitTimeoutLocked()) {
                         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                         setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
@@ -457,9 +469,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         startTimerLocked();
 
         if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) != CaptureRequest.CONTROL_AF_MODE_OFF)
-            cameraUiWrapper.captureSessionHandler.StartAePrecapture(cameraUiWrapper.cameraBackroundValuesChangedListner);
+            cameraUiWrapper.captureSessionHandler.StartAePrecapture();
         if (isContAutoFocus())
-            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START,false);
+        cameraUiWrapper.captureSessionHandler.capture();
     }
 
     protected void onStartTakePicture()
@@ -573,10 +586,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             if (BurstCounter.getBurstCount()  > BurstCounter.getImageCaptured()) {
                 captureStillPicture();
             }
-            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
+            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != null &&
+                    cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
                     cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME) {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
                 Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
                 cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
                 onSesssionRdy();

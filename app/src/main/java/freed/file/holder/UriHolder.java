@@ -1,6 +1,5 @@
 package freed.file.holder;
 
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +11,7 @@ import android.util.Size;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.FreedApplication;
@@ -82,6 +82,21 @@ public class UriHolder extends BaseHolder {
                 new String[]{String.valueOf(ID) });
 
         return del > 0;
+    }
+
+    @Override
+    public boolean exists() {
+        //TODO
+        try(InputStream stream = FreedApplication.getContext().getContentResolver().openInputStream(getMediaStoreUri())) {
+            return true;
+        } catch (FileNotFoundException e) {
+            return false;
+        } catch (IOException e) {
+           return false;
+        }
+        catch (SecurityException ex) {
+            return false;
+        }
     }
 
     @Override

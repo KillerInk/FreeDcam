@@ -24,7 +24,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory.Options;
 import android.media.ThumbnailUtils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -71,11 +70,18 @@ public class BitmapHelper
 
     public Bitmap getCacheBitmap(final BaseHolder file, boolean thumb)
     {
+
         Bitmap response = null;
+
         try {
             if (CACHE == null)
                 return null;
-            response = null;
+            if (!file.exists()) {
+                response = CACHE.getBitmapFromDiskCache(file.getName() + "_thumb");
+                if (response != null)
+                    DeleteCache(file.getName());
+                return null;
+            }
             if (thumb)
             {
                 if (response == null)
@@ -90,23 +96,26 @@ public class BitmapHelper
                 }
             }
 
+
         } catch (NullPointerException e) {
             Log.WriteEx(e);
         }
         return  response;
     }
 
-    public  void DeleteCache(File file)
+    public  void DeleteCache(String name)
     {
         if (CACHE == null)
             return;
-        CACHE.deleteFileFromDiskCache(file.getName());
-        CACHE.deleteFileFromDiskCache(file.getName()+"_thumb");
+        CACHE.deleteFileFromDiskCache(name);
+        CACHE.deleteFileFromDiskCache(name+"_thumb");
     }
 
     private Bitmap createCacheImage(BaseHolder file, boolean thumb)
     {
         Bitmap response = null;
+        if (!file.exists())
+            return response;
         if (response == null && file.getName() !=null)
         {
             if (file.getName().toLowerCase().endsWith(FileEnding.JPG) ||
@@ -128,6 +137,7 @@ public class BitmapHelper
             else if (file.getName().toLowerCase().endsWith(FileEnding.DNG)
                     || file.getName().toLowerCase().endsWith(FileEnding.RAW) || file.getName().toLowerCase().endsWith(FileEnding.BAYER))
             {
+
                 try {
                     response = file.getBitmapFromDng(context);
                 }

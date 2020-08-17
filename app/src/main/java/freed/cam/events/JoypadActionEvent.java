@@ -1,7 +1,5 @@
 package freed.cam.events;
 
-import org.greenrobot.eventbus.EventBus;
-
 public class JoypadActionEvent {
 
     public static class Move

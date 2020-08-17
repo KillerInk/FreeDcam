@@ -1,6 +1,5 @@
 package freed.utils;
 
-import android.os.Environment;
 import android.text.format.DateFormat;
 
 import java.io.BufferedWriter;

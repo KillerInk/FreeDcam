@@ -26,16 +26,19 @@ public class ByteImageCapture extends StillImageCapture {
     }
 
     @Override
-    public boolean onCaptureCompleted(Image image, CaptureResult result) {
-        File file = new File(getFilepath()+file_ending);
-        ImageTask task = process_jpeg(image, file);
-        if (task != null) {
-            ImageManager.putImageSaveTask(task);
-            Log.d(TAG, "Put task to Queue");
-        }
-        return false;
+    public ImageTask getSaveTask() {
+        return super.getSaveTask();
     }
 
+    @Override
+    protected void createTask() {
+        if (result == null || image == null)
+            return;
+        File file = new File(getFilepath()+file_ending);
+        task = process_jpeg(image, file);
+        image.close();
+        image = null;
+    }
 
     private ImageTask process_jpeg(Image image, File file) {
 

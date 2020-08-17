@@ -19,6 +19,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import freed.image.ImageTask;
+
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public abstract class AbstractImageCapture implements ImageCaptureInterface {
 
@@ -28,9 +30,9 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
     private boolean setToPreview = false;
-    protected final BlockingQueue<Image> imageBlockingQueue = new ArrayBlockingQueue<>(MAX_IMAGES-1);
-    protected final BlockingQueue<CaptureResult> captureResultBlockingQueue = new ArrayBlockingQueue<>(MAX_IMAGES-1);
-    private final List<Image> imagespolled = new ArrayList<>();
+    protected Image image;
+    protected CaptureResult result;
+    protected ImageTask task;
 
 
     public AbstractImageCapture(Size size, int format, boolean setToPreview)
@@ -41,32 +43,24 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
         imageReader.setOnImageAvailableListener(this,mBackgroundHandler);
     }
 
-    @Override
-    public CaptureResult pollCaptureResult() {
-        return captureResultBlockingQueue.poll();
+    public void resetTask()
+    {
+        task = null;
     }
 
     @Override
-    public CaptureResult peekCaptureResult() {
-        return captureResultBlockingQueue.peek();
-    }
-
-    @Override
-    public Image pollImage() {
-        Image img = imageBlockingQueue.poll();
-        imagespolled.add(img);
-        return img;
-    }
-
-    @Override
-    public void releaseImage(Image img) {
-        img.close();
-        imagespolled.remove(img);
-    }
-
-    @Override
-    public Image peekImage() {
-        return imageBlockingQueue.peek();
+    public ImageTask getSaveTask() {
+        synchronized (this) {
+            if (task == null) {
+                Log.d(TAG, "Task is null wait");
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return task;
     }
 
     @Override
@@ -77,36 +71,32 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
 
     @Override
     public void onImageAvailable(ImageReader reader) {
-        //Log.d(TAG, "onImageAvailable imageblockingqueue:" + (imageBlockingQueue.size() - imageBlockingQueue.remainingCapacity()) + "/"+ imageBlockingQueue.size() + " image polled size: " + imagespolled.size());
-        while (imageBlockingQueue.remainingCapacity() == imagespolled.size()+1) {
-            Log.d(TAG, "Queue is full, drop oldest");
-            Objects.requireNonNull(imageBlockingQueue.poll()).close();
-        }
-        try {
+        Log.d(TAG,"onImageAvailable");
+        synchronized (this)
+        {
+            image = reader.acquireLatestImage();
+            createTask();
+            this.notifyAll();
             Log.d(TAG, "Add new img to queue");
-            imageBlockingQueue.put(imageReader.acquireLatestImage());
             synchronized (this)
             {
                 this.notifyAll();
             }
-        } catch (InterruptedException | NullPointerException e) {
-            e.printStackTrace();
         }
     }
 
+    protected  abstract void createTask();
+
     @Override
-    public boolean setCaptureResult(CaptureResult  captureResult)
+    public void setCaptureResult(CaptureResult  captureResult)
     {
-        Log.d(TAG,"setCaptureResult");
-        if (captureResultBlockingQueue.remainingCapacity() == 1) {
-            captureResultBlockingQueue.poll();
+        synchronized (this)
+        {
+            Log.d(TAG,"setCaptureResult");
+            result = captureResult;
+            createTask();
+            notifyAll();
         }
-        try {
-            captureResultBlockingQueue.put(captureResult);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return true;
     }
 
     @Override
@@ -117,18 +107,17 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     @Override
     public void release()
     {
+        synchronized (this)
+        {
+            this.notifyAll();
+        }
         Log.d(TAG,"release");
         if (imageReader != null)
             imageReader.close();
-        Image img;
-        while ((img = imageBlockingQueue.poll()) != null)
-            img.close();
-        captureResultBlockingQueue.clear();
-        for (Image i : imagespolled)
-            if (i != null)
-                i.close();
-        imagespolled.clear();
+        if (image != null)
+            image.close();
         stopBackgroundThread();
+
     }
 
     private void startBackgroundThread() {

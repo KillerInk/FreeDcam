@@ -124,7 +124,8 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void switchCameraFragment()
     {
-        Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null));
+        Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null) +
+                " features detected: " + SettingsManager.getInstance().getAreFeaturesDetected() + " app version changed: " + SettingsManager.getInstance().appVersionHasChanged());
         if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
         {
             Log.d(TAG, "load featuredetector");
