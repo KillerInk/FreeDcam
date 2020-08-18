@@ -365,7 +365,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         Log.d(TAG, "Stop Camera");
         if (focusPeakProcessorAp1 != null)
             focusPeakProcessorAp1.kill();
-        cameraHolder.CloseCamera();
+        if (cameraHolder != null)
+            cameraHolder.CloseCamera();
         cameraIsOpen = false;
     }
 
@@ -391,7 +392,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     public void stopPreview() {
         try {
             Log.d(TAG, "Stop Preview");
-            cameraHolder.StopPreview();
+            if (cameraHolder != null)
+                cameraHolder.StopPreview();
         }
         catch (NullPointerException ex)
         {
