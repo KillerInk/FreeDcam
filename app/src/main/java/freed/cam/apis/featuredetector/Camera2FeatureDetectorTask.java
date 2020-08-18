@@ -16,6 +16,7 @@ import com.troop.freedcam.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -1066,40 +1067,34 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectPictureSizes(CameraCharacteristics characteristics)
     {
+        List<Size> outputSizes = new ArrayList<>();
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        Size[] size = smap.getOutputSizes(ImageFormat.JPEG);
-
+        outputSizes.addAll(Arrays.asList(smap.getOutputSizes(ImageFormat.JPEG)));
 
 
         Size[] highsize = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             highsize = smap.getHighResolutionOutputSizes(ImageFormat.JPEG);
             if (highsize != null)
-                java.util.Arrays.sort(highsize,new SizeComparer());
+                outputSizes.addAll(Arrays.asList(highsize));
         }
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
         {
             int[] highres = characteristics.get(CameraCharacteristicsXiaomi.availableSuperResolutionStreamConfigurations);
             if(highres != null)
-                highsize = Camera2Util.getOutputSizeForImageFormat(highres,ImageFormat.YUV_420_888);
+                outputSizes.addAll(Arrays.asList(Camera2Util.getOutputSizeForImageFormat(highres,ImageFormat.YUV_420_888)));
         }
-        String[] ar;
-        if (highsize != null)
-            ar = new String[size.length + highsize.length];
-        else
-            ar = new String[size.length];
+        String[] ar = new String[outputSizes.size()];
+        Size[] sizes = new Size[outputSizes.size()];
+        outputSizes.toArray(sizes);
+
+
         int i = 0;
-        for (Size s : size)
+        for (Size s : sizes)
         {
             ar[i++] = s.getWidth()+"x"+s.getHeight();
         }
-        if (highsize != null)
-        {
-            for (Size s : highsize)
-            {
-                ar[i++] = s.getWidth()+"x"+s.getHeight();
-            }
-        }
+
 
 
         SettingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
