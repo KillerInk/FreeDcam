@@ -268,7 +268,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
                     //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
                 } catch (Exception ex) {
-                    Log.v(TAG, "cant get expo time");
+                    //Log.v(TAG, "cant get expo time");
                 }
                 try {
                     int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
@@ -276,7 +276,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                     iso.fireStringValueChanged("" + isova);
                     //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
                 } catch (NullPointerException ex) {
-                    Log.v(TAG, "cant get iso");
+                    //Log.v(TAG, "cant get iso");
                 }
             }
         }
