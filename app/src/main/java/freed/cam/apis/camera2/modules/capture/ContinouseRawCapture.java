@@ -115,6 +115,7 @@ public class ContinouseRawCapture extends RawImageCapture {
         public void run() {
             Log.d(TAG, "start stack");
             rawStack = new RawStack();
+            rawStack.setShift(upshift);
             Image image = null;
             int stackCoutn = 0;
 
