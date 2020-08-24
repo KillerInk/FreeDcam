@@ -34,7 +34,7 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
     private final static String TAG = RawStackPipe.class.getSimpleName();
 
     ContinouseRawCapture continouseRawCapture;
-    private final int max_images = 56;
+    private final int max_images = 30;
 
 
     @Override
@@ -95,7 +95,14 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
     @Override
     protected void finishCapture() {
         if(BurstCounter.getBurstCount()-1 == BurstCounter.getImageCaptured()) {
-            continouseRawCapture.startStackALL(BurstCounter.getBurstCount());
+            if (SettingsManager.get(SettingKeys.forceRawToDng).get()) {
+                if (SettingsManager.get(SettingKeys.support12bitRaw).get())
+                    continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 2);
+                else
+                    continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 4);
+            }
+            else
+                continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 0);
         }
         super.finishCapture();
     }

@@ -90,9 +90,9 @@ public class ContinouseRawCapture extends RawImageCapture {
         new Thread(stackRunner).start();
     }
 
-    public void startStackALL(int bust)
+    public void startStackALL(int bust, int upshift)
     {
-        StackAllRunner stackAllRunner = new StackAllRunner(bust);
+        StackAllRunner stackAllRunner = new StackAllRunner(bust,upshift);
         new Thread(stackAllRunner).start();
     }
 
@@ -190,9 +190,11 @@ public class ContinouseRawCapture extends RawImageCapture {
     {
 
         private int burst;
+        private int upshift;
 
-        public StackAllRunner(int burst)
+        public StackAllRunner(int burst, int upshift)
         {
+            this.upshift = upshift;
             this.burst = burst;
         }
 
@@ -201,15 +203,21 @@ public class ContinouseRawCapture extends RawImageCapture {
             //List<ByteBuffer> bufferList = new ArrayList<>();
             //List<Image> images = new ArrayList<>();
             RawStack rawStack = new RawStack();
-            rawStack.setShift(0);
-            int count = 0;
-            int w = imageBlockingQueue.peek().getWidth();
-            int h = imageBlockingQueue.peek().getHeight();
+            rawStack.setShift(upshift);
+            Log.d(TAG,"queue size :" +imageBlockingQueue.size() + "/" + (imageBlockingQueue.size()-imageBlockingQueue.remainingCapacity()));
             Image img = null;
+            int count = 0;
+            int w = 0;
+            int h = 0;
+
+            ByteBuffer buffer;
             if (imageBlockingQueue.peek() != null) {
                 try {
                     img = imageBlockingQueue.take();
-                    rawStack.setFirstFrame(img.getPlanes()[0].getBuffer(),img.getWidth(),img.getHeight(),burst);
+                    w = img.getWidth();
+                    h = img.getHeight();
+                    buffer = img.getPlanes()[0].getBuffer();
+                    rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),burst);
                     img.close();
                     count++;
                 } catch (InterruptedException e) {
@@ -223,7 +231,8 @@ public class ContinouseRawCapture extends RawImageCapture {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                rawStack.setNextFrame(img.getPlanes()[0].getBuffer());
+                buffer = img.getPlanes()[0].getBuffer();
+                rawStack.setNextFrame(buffer);
                 img.close();
                 count++;
                 //images.add(img);
@@ -236,6 +245,16 @@ public class ContinouseRawCapture extends RawImageCapture {
             String f = getFilepath() + "_hdr_frames" + burst + file_ending;
             ImageTask task;
             task = process_rawWithDngConverter(bytes, 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+
+            ImageSaveTask itask = (ImageSaveTask)task;
+            if (upshift > 0) {
+                int bl = itask.getDngProfile().getBlacklvl();
+                itask.getDngProfile().setBlackLevel(bl << upshift);
+                int wl = itask.getDngProfile().getWhitelvl();
+                itask.getDngProfile().setWhiteLevel(wl << upshift);
+            }
+            itask.getDngProfile().setRawType(DngProfile.S16bit_To_16bit);
+
             if (task != null) {
                 ImageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");

@@ -36,7 +36,7 @@ public:
     int height;
     int offset;
     OpCode * opCode =NULL;
-    int upshift = 0,minoffset = -256, maxoffset = 256,l1mindistance=4,l1maxdistance = 128, imagecount;
+    int upshift = 0,minoffset = -256, maxoffset = 256,l1mindistance=4,l1maxdistance = 128, imagecount = 0;
 
     int bl = 0;
 
@@ -149,7 +149,9 @@ public:
         LOGD("merge align");
         Halide::Runtime::Buffer<uint16_t> out(width, height, 1);
         stage1_align_merge(input,minoffset, maxoffset,l1mindistance,l1maxdistance,out);
-        return (uint16*) out.data();
+        imagecount = 0;
+        outdata = out.data();
+        return (uint16_t*) outdata;
     }
 
     void init(int width, int height, uint16_t * firstdata)
