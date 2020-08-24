@@ -336,7 +336,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
         });
 
-        if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
+        if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             if (location != null)
                 videoRecorder.setLocation(location);

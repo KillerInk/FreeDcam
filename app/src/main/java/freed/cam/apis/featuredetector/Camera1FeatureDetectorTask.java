@@ -100,15 +100,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
             SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
 
-            SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
-            SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
+            SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
+            SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
             if (RenderScriptManager.isSupported()) {
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
                 SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
             }
 
-            SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
+            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
 
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.getStringFromRessources(R.string.video_audio_source_default));
             SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));

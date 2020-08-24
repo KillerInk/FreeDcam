@@ -233,7 +233,7 @@ public class SettingsMenuItemFactory
             nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightOverlay));
             globalSettingGroup.addView(nightoverlay);
 
-            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,SettingsManager.get(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
+            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,SettingsManager.getGlobal(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
             globalSettingGroup.addView(booleanSetting);
 
 

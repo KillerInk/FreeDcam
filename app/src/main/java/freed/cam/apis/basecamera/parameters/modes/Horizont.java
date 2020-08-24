@@ -49,7 +49,7 @@ public class Horizont extends AbstractParameter {
     public void SetValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
-        SettingsManager.get(SettingKeys.HorizontLvl).set(valueToSet);
+        SettingsManager.getGlobal(SettingKeys.HorizontLvl).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 

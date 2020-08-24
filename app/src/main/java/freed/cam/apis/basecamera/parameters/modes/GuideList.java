@@ -42,19 +42,19 @@ public class GuideList extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        SettingsManager.get(SettingKeys.GuideList).set(valueToSet);
+        SettingsManager.getGlobal(SettingKeys.GuideList).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
     public String GetStringValue()
     {
-        return SettingsManager.get(SettingKeys.GuideList).get();
+        return SettingsManager.getGlobal(SettingKeys.GuideList).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(SettingKeys.GuideList).getValues();
+        return SettingsManager.getGlobal(SettingKeys.GuideList).getValues();
     }
 
 
