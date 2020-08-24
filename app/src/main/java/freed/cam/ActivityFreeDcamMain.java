@@ -368,7 +368,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (nightoverlay == null)
             nightoverlay = findViewById(id.nightoverlay);
         Log.d(TAG, "NightOverlay:" + SettingsManager.get(SettingKeys.NightOverlay).get());
-        if (SettingsManager.get(SettingKeys.NightOverlay).get())
+        if (SettingsManager.getGlobal(SettingKeys.NightOverlay).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);

@@ -78,7 +78,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(SettingsManager.get(SettingKeys.GuideList).get());
+            SetViewG(SettingsManager.getGlobal(SettingKeys.GuideList).get());
     }
 
     private void SetViewG(final String str)
@@ -241,7 +241,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         @Override
         public void onStringValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
-            String img = SettingsManager.get(SettingKeys.GuideList).get();
+            String img = SettingsManager.getGlobal(SettingKeys.GuideList).get();
             if (val != null
                     && !TextUtils.isEmpty(val)
                     && img != null

@@ -108,7 +108,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }*/
 
                 SettingsManager.getInstance().setIsFrontCamera(front);
-                SettingsManager.get(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+                SettingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
                 hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
                 SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
@@ -124,7 +124,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
                 }
 
-                SettingsManager.get(SettingKeys.LOCATION_MODE).setIsSupported(true);
+                SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
 
                 ////publishProgress("Camera 2 Level:" + hwlvl);
 
@@ -145,8 +145,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
                 ////publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
 
-                SettingsManager.get(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
-                SettingsManager.get(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
+                SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
+                SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
 
                 if (!SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
                     SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);

@@ -33,8 +33,8 @@ public class ParameterExternalShutter extends AbstractParameter
     public ParameterExternalShutter()
     {
         super(SettingKeys.EXTERNAL_SHUTTER);
-        if (SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get() == null)
-            SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).set(values[2]);
+        if (SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null)
+            SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(values[2]);
     }
 
     @Override
@@ -44,15 +44,15 @@ public class ParameterExternalShutter extends AbstractParameter
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).set(valueToSet);
+        SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(valueToSet);
     }
 
     public String GetStringValue()
     {
-        if (SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get() == null || SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
+        if (SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null || SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
             return "Hook";
         else
-            return SettingsManager.get(SettingKeys.EXTERNAL_SHUTTER).get();
+            return SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get();
     }
 
     public String[] getStringValues() {

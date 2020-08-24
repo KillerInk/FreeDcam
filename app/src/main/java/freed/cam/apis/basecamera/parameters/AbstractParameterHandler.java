@@ -126,7 +126,7 @@ public abstract class AbstractParameterHandler
 
     protected void SetAppSettingsToParameters()
     {
-        setAppSettingsToCamera(SettingKeys.LOCATION_MODE,false);
+        setGlobalAppSettingsToCamera(SettingKeys.LOCATION_MODE,false);
         setAppSettingsToCamera(SettingKeys.ColorMode,false);
         setAppSettingsToCamera(SettingKeys.FlashMode,false);
         setAppSettingsToCamera(SettingKeys.IsoMode,false);
@@ -138,7 +138,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.BAYERFORMAT,false);
         setAppSettingsToCamera(SettingKeys.OIS_MODE,false);
         setAppSettingsToCamera(SettingKeys.JpegQuality,false);
-        setAppSettingsToCamera(SettingKeys.GuideList,false);
+        setGlobalAppSettingsToCamera(SettingKeys.GuideList,false);
         setAppSettingsToCamera(SettingKeys.ImagePostProcessing,false);
         setAppSettingsToCamera(SettingKeys.SceneMode,false);
         setAppSettingsToCamera(SettingKeys.FocusMode,false);
@@ -165,7 +165,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.CONTROL_MODE,false);
         setAppSettingsToCamera(SettingKeys.INTERVAL_DURATION,false);
         setAppSettingsToCamera(SettingKeys.INTERVAL_SHUTTER_SLEEP,false);
-        setAppSettingsToCamera(SettingKeys.HorizontLvl,false);
+        setGlobalAppSettingsToCamera(SettingKeys.HorizontLvl,false);
 
         setAppSettingsToCamera(SettingKeys.HDRMode,false);
 
@@ -205,6 +205,46 @@ public abstract class AbstractParameterHandler
         if (SettingsManager.get(parametertolook) instanceof SettingMode){
             ParameterInterface parameter = get(parametertolook);
             SettingMode settingMode = (SettingMode) SettingsManager.get(parametertolook);
+            if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
+            {
+                if (TextUtils.isEmpty(settingMode.get()))
+                    return;
+                String toset = settingMode.get();
+                Log.d(TAG,"set " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID())+ " to :" + toset);
+                if (TextUtils.isEmpty(toset) || toset.equals("none"))
+                    settingMode.set(parameter.GetStringValue());
+                else
+                    parameter.SetValue(toset,setToCamera);
+                parameter.fireStringValueChanged(toset);
+            }
+        }
+    }
+
+    private void setGlobalAppSettingsToCamera(SettingKeys.Key parametertolook, boolean setToCamera)
+    {
+        if (SettingsManager.getGlobal(parametertolook) instanceof SettingMode){
+            ParameterInterface parameter = get(parametertolook);
+            SettingMode settingMode = (SettingMode) SettingsManager.getGlobal(parametertolook);
+            if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
+            {
+                if (TextUtils.isEmpty(settingMode.get()))
+                    return;
+                String toset = settingMode.get();
+                Log.d(TAG,"set " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID())+ " to :" + toset);
+                if (TextUtils.isEmpty(toset) || toset.equals("none"))
+                    settingMode.set(parameter.GetStringValue());
+                else
+                    parameter.SetValue(toset,setToCamera);
+                parameter.fireStringValueChanged(toset);
+            }
+        }
+    }
+
+    private void setApiAppSettingsToCamera(SettingKeys.Key parametertolook, boolean setToCamera)
+    {
+        if (SettingsManager.getApi(parametertolook) instanceof SettingMode){
+            ParameterInterface parameter = get(parametertolook);
+            SettingMode settingMode = (SettingMode) SettingsManager.getApi(parametertolook);
             if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
             {
                 if (TextUtils.isEmpty(settingMode.get()))

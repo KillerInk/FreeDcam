@@ -84,7 +84,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
 
     public void startListing()
     {
-        boolean isON = SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
+        boolean isON = SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
         boolean permissiongranted = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
         if (isON && permissiongranted)
             startLocationListing();

@@ -116,7 +116,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             }
             else
                 burstcount = 1;
-            if (SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
@@ -317,7 +317,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }

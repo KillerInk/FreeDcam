@@ -94,7 +94,7 @@ public class RawImageCapture extends StillImageCapture {
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
 
-        if (!SettingsManager.get(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {

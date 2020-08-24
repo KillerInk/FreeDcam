@@ -24,6 +24,7 @@ public class SettingLayout {
         public int active_camera;
         public int[] camera_ids;
         public HashMap<Integer, CameraSettings> cameraid_settings = new HashMap<>();
+        public HashMap<SettingKeys.Key, SettingInterface> api_settings = new HashMap<>();
         public boolean overrideDngProfile;
         public long maxCameraExposureTime;
         public long minCameraExposureTime;
