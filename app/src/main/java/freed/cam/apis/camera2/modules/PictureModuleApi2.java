@@ -153,7 +153,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                     mBackgroundHandler.post(() -> {
                         Log.e(TAG, "RS5 ERROR; RELOAD MODULE");
                         try {
-                            cameraUiWrapper.getModuleHandler().setModule(cameraUiWrapper.getModuleHandler().getCurrentModule().ModuleName());
+                            cameraUiWrapper.getModuleHandler().setModule(SettingsManager.getInstance().GetCurrentModule());
                         }
                         catch (NullPointerException ex)
                         {

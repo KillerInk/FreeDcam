@@ -182,7 +182,8 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
             else if (cameraIsOpen)
             {
                 Log.d(TAG, "Surface now ready camera already open");
-                moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
+                startPreviewAsync();
+                //moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
             }
         }
     }

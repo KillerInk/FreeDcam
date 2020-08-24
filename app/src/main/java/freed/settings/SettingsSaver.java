@@ -56,6 +56,9 @@ public class SettingsSaver {
         XmlUtil.writeTagWithValue(writer,XmlUtil.MIN_CAMERA_EXPOSURETIME, String.valueOf(camera.minCameraExposureTime));
         XmlUtil.writeTagWithValue(writer,XmlUtil.MAX_CAMERA_ISO, String.valueOf(camera.maxCameraIso));
         XmlUtil.writeTagWithValue(writer,XmlUtil.MIN_CAMERA_FOCUS, String.valueOf(camera.minCameraFocus));
+        XmlUtil.writeTagStart(writer,XmlUtil.API_SETTINGS);
+        writeCameraIdSettings(writer, camera.api_settings);
+        XmlUtil.writeTagEnd(writer,XmlUtil.API_SETTINGS);
         if (camera.camera_ids != null)
             writeCameraIds(writer,camera.camera_ids);
         if (camera.cameraid_settings != null) {

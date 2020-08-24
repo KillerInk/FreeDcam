@@ -367,7 +367,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
     public String GetCurrentModule()
     {
-        if (TextUtils.isEmpty(get(SettingKeys.Module).get()))
+        if (TextUtils.isEmpty(getApi(SettingKeys.Module).get()))
             return FreedApplication.getStringFromRessources(R.string.module_picture);
         return getApi(SettingKeys.Module).get();
     }
