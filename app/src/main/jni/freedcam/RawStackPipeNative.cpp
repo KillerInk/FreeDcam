@@ -5,6 +5,8 @@
 #include "CustomMatrix.h"
 #include "DngProfile.h"
 
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
 extern "C"
 {
     JNIEXPORT jobject JNICALL Java_freed_jni_RawStack_init(JNIEnv *env, jobject thiz) {
@@ -18,6 +20,29 @@ extern "C"
         jbyte * out = (jbyte *)rawStackPipeNative->outdata;
         jbyteArray  jbyteArray1 = env->NewByteArray(rawStackPipeNative->height*rawStackPipeNative->width*2);
         env->SetByteArrayRegion(jbyteArray1,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
+        return jbyteArray1;
+    }
+
+    JNIEXPORT void JNICALL
+    Java_freed_jni_RawStack_setFirstFrame(JNIEnv *env, jobject thiz, jobject buffer, jobject img,
+                                          jint width, jint height, jint imagecount) {
+        RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(buffer);
+        rawStackPipeNative->setBaseFrame(width,height,(uint16_t*)env->GetDirectBufferAddress(img),imagecount);
+    }
+
+    JNIEXPORT void JNICALL
+    Java_freed_jni_RawStack_setNextFrame(JNIEnv *env, jobject thiz, jobject buffer, jobject img) {
+        RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(buffer);
+        rawStackPipeNative->setNextFrame((uint16_t*)env->GetDirectBufferAddress(img));
+    }
+
+    JNIEXPORT jbyteArray JNICALL Java_freed_jni_RawStack_stackImages(JNIEnv *env, jobject thiz, jobject input) {
+        RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(input);
+
+        uint16_t * out = rawStackPipeNative->merge_align();
+        jbyteArray  jbyteArray1 = env->NewByteArray(rawStackPipeNative->height*rawStackPipeNative->width*2);
+        env->SetByteArrayRegion(jbyteArray1,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
+        rawStackPipeNative->clear();
         return jbyteArray1;
     }
 

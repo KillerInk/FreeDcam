@@ -28,10 +28,33 @@ public class RawStack {
     private native byte[] getOutput(ByteBuffer byteBuffer);
     private native void setUpShift(ByteBuffer byteBuffer, int upshift);
     private native void clear(ByteBuffer byteBuffer);
+    private native byte[] stackImages(ByteBuffer imagebuffers);
+    private native void setFirstFrame(ByteBuffer buffer, ByteBuffer img, int width, int height, int imagecount);
+    private native void setNextFrame(ByteBuffer buffer, ByteBuffer img);
 
     public RawStack()
     {
         byteBuffer = init();
+    }
+
+
+    public void setFirstFrame(ByteBuffer img, int width, int height, int imagecount)
+    {
+        if (byteBuffer != null)
+            setFirstFrame(byteBuffer,img,width,height,imagecount);
+    }
+
+    public void setNextFrame(ByteBuffer img)
+    {
+        if (byteBuffer != null)
+            setNextFrame(byteBuffer,img);
+    }
+
+    public byte[] stackAll()
+    {
+        if (byteBuffer != null)
+            return stackImages(byteBuffer);
+        return null;
     }
 
     public synchronized void setShift(int shift)

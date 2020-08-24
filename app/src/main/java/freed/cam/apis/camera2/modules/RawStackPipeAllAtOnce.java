@@ -1,61 +1,52 @@
 package freed.cam.apis.camera2.modules;
 
 import android.graphics.ImageFormat;
-import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.cam.apis.camera2.modules.capture.AbstractImageCapture;
-import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
 import freed.cam.apis.camera2.modules.capture.ContinouseRawCapture;
 import freed.cam.apis.camera2.modules.capture.ContinouseYuvCapture;
-import freed.cam.apis.camera2.modules.capture.JpegCapture;
-import freed.cam.apis.camera2.modules.capture.StillImageCapture;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.featuredetector.Camera2FeatureDetectorTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class RawStackPipe extends PictureModuleApi2 {
+public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
+    public RawStackPipeAllAtOnce(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+        super(cameraUiWrapper, mBackgroundHandler, mainHandler);
+        name = "HDR2";
+    }
 
     private final static String TAG = RawStackPipe.class.getSimpleName();
 
     ContinouseRawCapture continouseRawCapture;
     private final int max_images = 56;
 
-    public RawStackPipe(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
-        super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        name = FreedApplication.getStringFromRessources(R.string.module_stacking);
-    }
 
     @Override
     public String LongName() {
-        return "HDR+";
+        return "HDR+2";
     }
 
     @Override
     public String ShortName() {
-        return "HDR+";
+        return "HDR+2";
     }
+
 
     @Override
     protected void createImageCaptureListners() {
@@ -72,14 +63,6 @@ public class RawStackPipe extends PictureModuleApi2 {
     @Override
     protected void takePicture() {
         super.takePicture();
-        if (SettingsManager.get(SettingKeys.forceRawToDng).get()) {
-            if (SettingsManager.get(SettingKeys.support12bitRaw).get())
-                continouseRawCapture.startStack(BurstCounter.getBurstCount(), 2);
-            else
-                continouseRawCapture.startStack(BurstCounter.getBurstCount(), 4);
-        }
-        else
-            continouseRawCapture.startStack(BurstCounter.getBurstCount(), 0);
     }
 
     @Override
@@ -109,4 +92,11 @@ public class RawStackPipe extends PictureModuleApi2 {
         finishCapture();
     }
 
+    @Override
+    protected void finishCapture() {
+        if(BurstCounter.getBurstCount()-1 == BurstCounter.getImageCaptured()) {
+            continouseRawCapture.startStackALL(BurstCounter.getBurstCount());
+        }
+        super.finishCapture();
+    }
 }

@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -41,9 +43,9 @@ public class ContinouseRawCapture extends RawImageCapture {
     private StackRunner stackRunner;
     private final String TAG = ContinouseRawCapture.class.getSimpleName();
     private LinkedBlockingQueue<Image> imageBlockingQueue;
-    public ContinouseRawCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending) {
-        super(size, format, setToPreview,activityInterface,moduleInterface,file_ending);
-        imageBlockingQueue = new LinkedBlockingQueue<>(5);
+    public ContinouseRawCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending,int max_images) {
+        super(size, format, setToPreview,activityInterface,moduleInterface,file_ending,max_images);
+        imageBlockingQueue = new LinkedBlockingQueue<>(max_images);
     }
 
     @Override
@@ -86,6 +88,12 @@ public class ContinouseRawCapture extends RawImageCapture {
         stackRunner = null;
         stackRunner = new StackRunner(burstcount,upshift);
         new Thread(stackRunner).start();
+    }
+
+    public void startStackALL(int bust)
+    {
+        StackAllRunner stackAllRunner = new StackAllRunner(bust);
+        new Thread(stackAllRunner).start();
     }
 
     public void stopStack()
@@ -173,6 +181,66 @@ public class ContinouseRawCapture extends RawImageCapture {
             rawStack.clear();
             rawStack = null;
             ContinouseRawCapture.this.stackRunner = null;
+        }
+    }
+
+
+
+    private class StackAllRunner implements Runnable
+    {
+
+        private int burst;
+
+        public StackAllRunner(int burst)
+        {
+            this.burst = burst;
+        }
+
+        @Override
+        public void run() {
+            //List<ByteBuffer> bufferList = new ArrayList<>();
+            //List<Image> images = new ArrayList<>();
+            RawStack rawStack = new RawStack();
+            rawStack.setShift(0);
+            int count = 0;
+            int w = imageBlockingQueue.peek().getWidth();
+            int h = imageBlockingQueue.peek().getHeight();
+            Image img = null;
+            if (imageBlockingQueue.peek() != null) {
+                try {
+                    img = imageBlockingQueue.take();
+                    rawStack.setFirstFrame(img.getPlanes()[0].getBuffer(),img.getWidth(),img.getHeight(),burst);
+                    img.close();
+                    count++;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            while (imageBlockingQueue.peek() != null)
+            {
+                try {
+                    img = imageBlockingQueue.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                rawStack.setNextFrame(img.getPlanes()[0].getBuffer());
+                img.close();
+                count++;
+                //images.add(img);
+                //bufferList.add(img.getPlanes()[0].getBuffer());
+            }
+
+            byte[] bytes = rawStack.stackAll();
+            Log.d(TAG, "Stacked " + count +"/"+burst);
+
+            String f = getFilepath() + "_hdr_frames" + burst + file_ending;
+            ImageTask task;
+            task = process_rawWithDngConverter(bytes, 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            if (task != null) {
+                ImageManager.putImageSaveTask(task);
+                Log.d(TAG, "Put task to Queue");
+            }
+            rawStack.clear();
         }
     }
 }

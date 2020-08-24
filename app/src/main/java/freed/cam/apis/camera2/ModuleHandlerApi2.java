@@ -31,6 +31,7 @@ import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.RawStackPipe;
+import freed.cam.apis.camera2.modules.RawStackPipeAllAtOnce;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -71,6 +72,8 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         }
         RawStackPipe rawStackPipe = new RawStackPipe(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(rawStackPipe.ModuleName(), rawStackPipe);
+        RawStackPipeAllAtOnce rawStackPipeAllAtOnce = new RawStackPipeAllAtOnce(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        moduleList.put(rawStackPipeAllAtOnce.ModuleName(), rawStackPipeAllAtOnce);
 
     }
 

@@ -9,6 +9,7 @@
 #include "OpCode.h"
 #include "../include/HalideBuffer.h"
 #include "../include/stage1_alignmerge.h"
+#include "../include/stage1_align_merge.h"
 #include "../include/stage2_RawToRgb.h"
 #include <jni.h>
 #include <stdlib.h>
@@ -35,7 +36,7 @@ public:
     int height;
     int offset;
     OpCode * opCode =NULL;
-    int upshift = 0,minoffset = -256, maxoffset = 256,l1mindistance=4,l1maxdistance = 128;
+    int upshift = 0,minoffset = -256, maxoffset = 256,l1mindistance=4,l1maxdistance = 128, imagecount;
 
     int bl = 0;
 
@@ -108,6 +109,48 @@ public:
 
         }
     }*/
+
+    void setBaseFrame(int width, int height, uint16_t * images, int imagecount)
+    {
+        this->width = width;
+        this->height = height;
+        Halide::Runtime::Buffer<uint16_t> tmp(width, height, imagecount);
+        input = tmp;
+        inputdata = input.data();
+        offset = width*height;
+        LOGD("setBaseFrame %i", imagecount);
+        for (int i = 0; i < offset; ++i) {
+            if(upshift > 0) {
+                inputdata[i] = ((images[i]) << upshift) + bl;
+            } else
+            {
+                inputdata[i] = ((images[i]) << upshift);
+            }
+        }
+    }
+
+    void setNextFrame(uint16_t * image)
+    {
+        imagecount++;
+        LOGD("setNextFrame %i", imagecount);
+        long tmpoffset = offset*imagecount;
+        for (int i = 0; i < offset; ++i) {
+            if(upshift > 0) {
+                inputdata[i+tmpoffset] = ((image[i]) << upshift) + bl;
+            } else
+            {
+                inputdata[i+tmpoffset] = ((image[i]) << upshift);
+            }
+        }
+    }
+
+    uint16_t * merge_align()
+    {
+        LOGD("merge align");
+        Halide::Runtime::Buffer<uint16_t> out(width, height, 1);
+        stage1_align_merge(input,minoffset, maxoffset,l1mindistance,l1maxdistance,out);
+        return (uint16*) out.data();
+    }
 
     void init(int width, int height, uint16_t * firstdata)
     {
