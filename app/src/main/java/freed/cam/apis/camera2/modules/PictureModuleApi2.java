@@ -91,6 +91,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     private boolean isBurstCapture = false;
 
+    private final int max_images = 5;
 
     /*private boolean captureDng = false;
     private boolean captureJpeg = false;*/
@@ -182,13 +183,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         return "Pic";
     }
 
+    public CaptureController getCaptureController()
+    {
+        return new CaptureController(this::onRdyToSaveImg);
+    }
+
     @Override
     public void InitModule()
     {
         super.InitModule();
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
-        captureController = new CaptureController(this::onRdyToSaveImg);
+        captureController = getCaptureController();
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
         startPreview();
     }
@@ -345,19 +351,28 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     }
 
     protected void createImageCaptureListners() {
-        ByteImageCapture byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg");
+        ByteImageCapture byteImageCapture;
+        if (captureType == CaptureType.Jpeg || captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
+            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg",max_images);
+        else
+        {
+            Size smallestImageSize = Collections.min(
+                    Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                    new CameraHolderApi2.CompareSizesByArea());
+            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getActivityInterface(),this,".jpg",max_images);
+        }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
             String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
             String[] split = yuvsize.split("x");
             Size s = new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv");
+            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv",max_images);
             captureController.add(yuvimgcapture);
         }
 
         if (output.raw_format != 0)
         {
-            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".dng");
+            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".dng",max_images);
             captureController.add(rawImageCapture);
             //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
         }
@@ -396,16 +411,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             Log.d(TAG, "ImageReader BAYER10");
             captureType = CaptureType.Bayer10;
         }
-        ByteImageCapture byteImageCapture;
-        if (captureType == CaptureType.Jpeg || captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
-            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg");
-        else
-        {
-            Size smallestImageSize = Collections.min(
-                    Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
-                    new CameraHolderApi2.CompareSizesByArea());
-            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getActivityInterface(),this,".jpg");
-        }
+
     }
 
 
@@ -611,7 +617,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         if (isContAutoFocus()) {
             cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
                     CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-
         }
         cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
                 CaptureRequest.CONTROL_AF_TRIGGER_IDLE);

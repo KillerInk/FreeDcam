@@ -44,8 +44,8 @@ public abstract class StillImageCapture extends AbstractImageCapture {
     protected final String file_ending;
 
 
-    public StillImageCapture(Size size, int format, boolean setToPreview,ActivityInterface activityInterface,ModuleInterface moduleInterface, String file_ending) {
-        super(size, format, setToPreview);
+    public StillImageCapture(Size size, int format, boolean setToPreview,ActivityInterface activityInterface,ModuleInterface moduleInterface, String file_ending, int max_images) {
+        super(size, format, setToPreview,max_images);
         this.activityInterface = activityInterface;
         this.moduleInterface = moduleInterface;
         this.file_ending = file_ending;
