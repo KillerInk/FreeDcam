@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import freed.image.ImageTask;
 
@@ -24,7 +25,7 @@ import freed.image.ImageTask;
 public abstract class AbstractImageCapture implements ImageCaptureInterface {
 
     private final String TAG = AbstractImageCapture.class.getSimpleName();
-    private final int MAX_IMAGES = 6;
+    protected final int max_images;
     private final ImageReader imageReader;
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
@@ -34,11 +35,12 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     protected ImageTask task;
 
 
-    public AbstractImageCapture(Size size, int format, boolean setToPreview)
+    public AbstractImageCapture(Size size, int format, boolean setToPreview, int max_images)
     {
         startBackgroundThread();
         this.setToPreview = setToPreview;
-        imageReader = ImageReader.newInstance(size.getWidth(),size.getHeight(),format,MAX_IMAGES);
+        this.max_images = max_images;
+        imageReader = ImageReader.newInstance(size.getWidth(),size.getHeight(),format,max_images);
         imageReader.setOnImageAvailableListener(this,mBackgroundHandler);
     }
 
@@ -76,6 +78,7 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
             image = reader.acquireLatestImage();
             createTask();
             this.notifyAll();
+            Log.d(TAG, "Add new img to queue");
         }
     }
 

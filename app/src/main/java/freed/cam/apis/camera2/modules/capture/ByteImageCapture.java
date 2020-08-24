@@ -21,8 +21,8 @@ import freed.utils.Log;
 public class ByteImageCapture extends StillImageCapture {
 
     private final String TAG = ByteImageCapture.class.getSimpleName();
-    public ByteImageCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending) {
-        super(size, format, setToPreview,activityInterface,moduleInterface,file_ending);
+    public ByteImageCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending,int max_images) {
+        super(size, format, setToPreview,activityInterface,moduleInterface,file_ending,max_images);
     }
 
     @Override
