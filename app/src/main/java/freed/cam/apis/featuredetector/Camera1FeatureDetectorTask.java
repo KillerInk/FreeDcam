@@ -121,7 +121,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             //publishProgress("RawFormats:" + getStringFromArray(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues()));
             //publishProgress(" RawFormat:" + SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get());
 
-            SettingsManager.get(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+            SettingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
 
             detectPictureSizes(parameters);
             sendProgress(SettingsManager.get(SettingKeys.PictureSize),"PictureSize");

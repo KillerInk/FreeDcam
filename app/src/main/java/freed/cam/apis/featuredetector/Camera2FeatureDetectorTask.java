@@ -108,7 +108,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }*/
 
                 SettingsManager.getInstance().setIsFrontCamera(front);
-                SettingsManager.get(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+                SettingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
                 hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
 
                 SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));

@@ -45,6 +45,15 @@ public class SettingsStorage
         return settingInterface;
     }
 
+    public SettingInterface getApiSetting(SettingKeys.Key key) {
+        SettingInterface settingInterface = getApiSettings().get(key);
+        if (settingInterface == null) {
+            settingInterface = getNewSetting(key);
+            getApiSettings().put(key, settingInterface);
+        }
+        return settingInterface;
+    }
+
 
 
     private <T extends SettingInterface> T getNewSetting(SettingKeys.Key key)
@@ -206,6 +215,11 @@ public class SettingsStorage
     public HashMap<SettingKeys.Key, SettingInterface> getActiveSettings()
     {
         return settings.api_hashmap.get(settings.active_api).cameraid_settings.get(getActiveCamera()).cameraid_settings;
+    }
+
+    public HashMap<SettingKeys.Key, SettingInterface> getApiSettings()
+    {
+        return settings.api_hashmap.get(settings.active_api).api_settings;
     }
 
     public long getCameraMaxExposureTime()

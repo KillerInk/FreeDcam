@@ -127,6 +127,11 @@ public class SettingsManager implements SettingsManagerInterface {
         return key.getType().cast(getInstance().settingsStorage.getGlobal(key));
     }
 
+    public static <T> T getApi(SettingKeys.Key<T> key)
+    {
+        return key.getType().cast(getInstance().settingsStorage.getApiSetting(key));
+    }
+
     public void init()
     {
         //check if its not already init while a other task waited for it
@@ -357,14 +362,14 @@ public class SettingsManager implements SettingsManagerInterface {
     }
 
     public void SetCurrentModule(String modulename) {
-        get(SettingKeys.Module).set(modulename);
+        getApi(SettingKeys.Module).set(modulename);
     }
 
     public String GetCurrentModule()
     {
         if (TextUtils.isEmpty(get(SettingKeys.Module).get()))
             return FreedApplication.getStringFromRessources(R.string.module_picture);
-        return get(SettingKeys.Module).get();
+        return getApi(SettingKeys.Module).get();
     }
 
 
