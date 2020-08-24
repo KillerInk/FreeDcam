@@ -90,6 +90,14 @@ public class SettingsLoader {
         camera.minCameraExposureTime = element.findChild(XmlUtil.MIN_CAMERA_EXPOSURETIME).getLongValue();
         camera.maxCameraIso = element.findChild(XmlUtil.MAX_CAMERA_ISO).getIntValue(0);
         camera.minCameraFocus = element.findChild(XmlUtil.MIN_CAMERA_FOCUS).getFloatValue();
+
+        XmlElement apisettings = element.findChild(XmlUtil.API_SETTINGS);
+        List<XmlElement> apiSettings = apisettings.findChildren(XmlUtil.SETTING);
+        for (XmlElement profile : apiSettings)
+        {
+            addSettingElement(camera.api_settings, profile);
+        }
+
         XmlElement cameraids = element.findChild(XmlUtil.CAMERA_IDS);
         List<XmlElement> ids = cameraids.findChildren(XmlUtil.IDS);
         int camids[] = new int[ids.size()];
@@ -100,6 +108,7 @@ public class SettingsLoader {
 
     private void parseCameraSettings(SettingLayout.CameraId camera, XmlElement element) {
         XmlElement camsettings = element.findChild(XmlUtil.CAMERA_SETTINGS);
+
         List<XmlElement> cameraSettings = camsettings.findChildren(XmlUtil.ID);
         for (int i = 0; i< cameraSettings.size(); i++)
         {

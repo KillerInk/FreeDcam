@@ -146,7 +146,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 ////publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
 
                 SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
-                SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.get(SettingKeys.GuideList).getValues()[0]);
+                SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
 
                 if (!SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
                     SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);

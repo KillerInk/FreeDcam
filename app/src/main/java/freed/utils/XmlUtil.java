@@ -31,6 +31,7 @@ public class XmlUtil {
     public static final String IS_ZTE_AE = "is_zte_ae";
     public static final String ARE_FEATURES_DETECTED = "are_features_detected";
     public static final String GLOBAL_SETTINGS = "global_settings";
+    public static final String API_SETTINGS = "api_settings";
 
     public static void writeNodeWithName(BufferedWriter writer, String tag, String name) throws IOException {
         writeLine(writer,"<"+tag+ " name = \""+ name +"\">");
