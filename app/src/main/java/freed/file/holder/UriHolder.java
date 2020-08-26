@@ -107,4 +107,9 @@ public class UriHolder extends BaseHolder {
     public ParcelFileDescriptor getParcelFileDescriptor() throws FileNotFoundException {
         return FreedApplication.getContext().getContentResolver().openFileDescriptor(mediaStoreUri, "rw");
     }
+
+    @Override
+    public InputStream getInputStream() throws FileNotFoundException {
+        return FreedApplication.getContext().getContentResolver().openInputStream(mediaStoreUri);
+    }
 }

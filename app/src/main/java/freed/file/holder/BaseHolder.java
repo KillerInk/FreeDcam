@@ -27,6 +27,7 @@ import android.os.ParcelFileDescriptor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
@@ -114,6 +115,7 @@ public abstract class BaseHolder
     public abstract boolean exists();
 
     public abstract OutputStream getOutputStream() throws FileNotFoundException;
+    public abstract InputStream getInputStream() throws FileNotFoundException;
 
     public void setToMediaRecorder(MediaRecorder recorder, ActivityInterface activityInterface) throws FileNotFoundException {
         if (this instanceof FileHolder)
