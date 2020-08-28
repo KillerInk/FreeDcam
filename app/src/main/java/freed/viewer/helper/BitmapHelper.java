@@ -24,7 +24,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory.Options;
 import android.media.ThumbnailUtils;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 

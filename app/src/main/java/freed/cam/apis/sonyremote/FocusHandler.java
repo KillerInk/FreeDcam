@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote;
 
-import android.view.MotionEvent;
-
 import java.util.Set;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;

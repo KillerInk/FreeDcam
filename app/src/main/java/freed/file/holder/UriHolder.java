@@ -1,7 +1,5 @@
 package freed.file.holder;
 
-import android.app.Application;
-import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

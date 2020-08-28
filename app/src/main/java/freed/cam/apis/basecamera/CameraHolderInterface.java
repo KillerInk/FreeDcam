@@ -20,7 +20,6 @@
 package freed.cam.apis.basecamera;
 
 import android.location.Location;
-import android.view.Surface;
 
 /**
  * Created by troop on 15.08.2014.
