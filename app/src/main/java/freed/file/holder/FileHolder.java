@@ -111,6 +111,11 @@ public class FileHolder extends BaseHolder
     }
 
     @Override
+    public boolean exists() {
+        return file.exists();
+    }
+
+    @Override
     public OutputStream getOutputStream() throws FileNotFoundException {
         return new FileOutputStream(file);
     }
