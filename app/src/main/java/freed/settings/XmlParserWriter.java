@@ -357,14 +357,16 @@ public class XmlParserWriter
             File configFile = new File(appDataFolder.getAbsolutePath()+"/dngprofiles.xml");
             Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
 
-            String xmlsource = StringUtils.getString(new FileInputStream(configFile));
-            Log.d(TAG, xmlsource);
-            XmlElement rootElement = XmlElement.parse(xmlsource);
-            if (rootElement.getTagName().equals("devices"))
-            {
-                List<XmlElement> devicesList = rootElement.findChildren("device");
-                XmlElement device = devicesList.get(0);
-                getDngStuff(map, device,matrixHashMap);
+            if (configFile.exists()){
+                String xmlsource = StringUtils.getString(new FileInputStream(configFile));
+                Log.d(TAG, xmlsource);
+                XmlElement rootElement = XmlElement.parse(xmlsource);
+                if (rootElement.getTagName().equals("devices"))
+                {
+                    List<XmlElement> devicesList = rootElement.findChildren("device");
+                    XmlElement device = devicesList.get(0);
+                    getDngStuff(map, device,matrixHashMap);
+                }
             }
         } catch (IOException e) {
             Log.WriteEx(e);
