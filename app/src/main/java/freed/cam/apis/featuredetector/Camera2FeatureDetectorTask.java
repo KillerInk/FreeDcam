@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
+import android.util.Pair;
 import android.util.Range;
 import android.util.Size;
 
@@ -513,13 +514,27 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void findCameraIds(CameraManager manager, List<String> cameraids) {
+        List<String> focap = new ArrayList<>();
         for (int i = 0; i< 200; i++)
         {
             try {
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
 
                 if (characteristics != null) {
-                    //checks if its a logical camera and if true skip that id.
+                    String pair = "";
+                    float focal[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
+                    float aperture[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
+                    if (focal != null && focal.length>0)
+                        pair += String.valueOf(focal[0]);
+                    if (aperture != null && aperture.length > 0)
+                        pair += String.valueOf(aperture[0]);
+
+                    if (!focap.contains(pair))
+                    {
+                        focap.add(pair);
+                        cameraids.add(String.valueOf(i));
+                    }
+                   /* //checks if its a logical camera and if true skip that id.
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 
                         //check if its a xiaomi logical cam
@@ -552,7 +567,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                             checkPreviewAndYuvSizes(cameraids, i, characteristics);
                     }
                     else
-                        checkPreviewAndYuvSizes(cameraids, i, characteristics);
+                        checkPreviewAndYuvSizes(cameraids, i, characteristics);*/
                 }
             }
             catch (IllegalArgumentException ex)
