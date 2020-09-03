@@ -29,9 +29,11 @@ import android.provider.MediaStore;
 import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.file.FileListController;
@@ -120,7 +122,12 @@ public class FileHolder extends BaseHolder
         return new FileOutputStream(file);
     }
 
-    private boolean delteDocumentFile(File file,Context context) throws NullPointerException
+    @Override
+    public InputStream getInputStream() throws FileNotFoundException {
+        return new FileInputStream(file);
+    }
+
+    private boolean delteDocumentFile(File file, Context context) throws NullPointerException
     {
         if (file.isDirectory())
         {

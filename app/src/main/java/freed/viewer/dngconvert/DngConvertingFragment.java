@@ -56,11 +56,18 @@ import com.troop.freedcam.R.string;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
 import freed.file.FileListController;
+import freed.file.holder.BaseHolder;
+import freed.file.holder.FileHolder;
+import freed.file.holder.UriHolder;
+import freed.image.ImageSaveTask;
 import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
@@ -94,6 +101,9 @@ public class DngConvertingFragment extends Fragment
 
     private int rawType;
     private String bayerPattern;
+    private long filesize;
+
+    private BaseHolder out;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -165,14 +175,17 @@ public class DngConvertingFragment extends Fragment
     private void setDngProfileToUiItems() {
         filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
+
+            getFilesize(filesToConvert[0]);
             if (SettingsManager.getInstance().getDngProfilesMap() == null)
             {
                 dngprofile = new DngProfile(0,0,0,0,0,"bggr",0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
-            else
-                dngprofile = SettingsManager.getInstance().getDngProfilesMap().get( new File(filesToConvert[0]).length());
+            else {
+                dngprofile = SettingsManager.getInstance().getDngProfilesMap().get(filesize);
+            }
             if (dngprofile == null) {
                 dngprofile = new DngProfile(0,0,0,0,0,"bggr",0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
@@ -296,6 +309,33 @@ public class DngConvertingFragment extends Fragment
         }
     };
 
+    private void getFilesize(String path)
+    {
+        ActivityInterface activityInterface = (ActivityInterface)getActivity();
+        long size = 0;
+        if (path.startsWith("uri") ||path.startsWith("content"))
+        {
+            activityInterface.getFileListController().LoadFreeDcamDCIMDirsFiles();
+            List<BaseHolder> files = activityInterface.getFileListController().getFiles();
+            for (BaseHolder b : files)
+            {
+                if (((UriHolder) b).getMediaStoreUri().toString().equals(path)) {
+                    try {
+                        InputStream stream = b.getInputStream();
+                        filesize = stream.available();
+                        stream.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        else
+            filesize = new File(path).length();
+    }
+
     private final OnClickListener saveDngProfileClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -308,7 +348,6 @@ public class DngConvertingFragment extends Fragment
                     Integer.parseInt(editTextCusotmRowSize.getText().toString()),
                     matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString()),
                     spinnerMatrixProfile.getSelectedItem().toString());
-            long filesize = new File(filesToConvert[0]).length();
             SettingsManager.getInstance().getDngProfilesMap().append(filesize,dngprofile);
             new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString(), SettingsManager.getInstance().getAppDataFolder());
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
@@ -327,15 +366,37 @@ public class DngConvertingFragment extends Fragment
         @Override
         protected Bitmap doInBackground(String[]... params) {
             String[] files = params[0];
-            if (files.length == 1) {
-                return convertRawToDng(new File(files[0]));
+            ActivityInterface activityInterface = (ActivityInterface)getActivity();
+            List<BaseHolder> convertFiles = new ArrayList<>();
+            if (files[0].startsWith("content") || files[0].startsWith("uri"))
+            {
+                activityInterface.getFileListController().LoadFreeDcamDCIMDirsFiles();
+                List<BaseHolder> baseHolders = activityInterface.getFileListController().getFiles();
+                for (String s : files)
+                {
+                    for (BaseHolder b : baseHolders)
+                    {
+                        if (((UriHolder) b).getMediaStoreUri().toString().equals(s))
+                            convertFiles.add(b);
+                    }
+                }
+            }
+            else
+            {
+                for (String s : files)
+                {
+                    BaseHolder b = activityInterface.getFileListController().findFile(s);
+                    convertFiles.add(b);
+                }
+            }
+            if (convertFiles.size() == 1) {
+                return convertRawToDng(convertFiles.get(0));
             }
             else
             {
                 int t = 0;
-                for (String s : files) {
-                    File f = new File(s);
-                    convertRawToDng(f);
+                for (BaseHolder s : convertFiles) {
+                    convertRawToDng(s);
                     t++;
                     publishProgress(t);
                 }
@@ -364,37 +425,53 @@ public class DngConvertingFragment extends Fragment
         }
     }
 
-    private Bitmap convertRawToDng(File file)
+    private Bitmap convertRawToDng(BaseHolder baseHolder)
     {
         byte[] data = null;
+        ActivityInterface activityInterface = (ActivityInterface)getActivity();
         try {
-            data = RawToDng.readFile(file);
-            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+            InputStream in = baseHolder.getInputStream();
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+            //data = RawToDng.readFile(file);
+            Log.d("Main", "Filesize: " + data.length + " File:" + baseHolder.getName());
 
         } catch (IOException ex) {
             Log.WriteEx(ex);
             return null;
         }
-        String out =null;
-        if (file.getName().endsWith(FileEnding.RAW))
-            out = file.getAbsolutePath().replace(FileEnding.RAW, FileEnding.DNG);
-        if (file.getName().endsWith(FileEnding.BAYER))
-            out = file.getAbsolutePath().replace(FileEnding.BAYER, FileEnding.DNG);
+        File file;
+        if (baseHolder instanceof FileHolder)
+            file = new File(((FileHolder) baseHolder).getFile().getAbsolutePath().replace(FileEnding.BAYER, FileEnding.DNG));
+        else file = new File(baseHolder.getName().replace(FileEnding.BAYER, FileEnding.DNG));
+
         RawToDng dng = RawToDng.GetInstance();
         /*dng.setOpcode3(AppSettingsManager.getInstance().getOpcode3());
         dng.setOpcode2(AppSettingsManager.getInstance().getOpcode2());*/
         String intsd = StringUtils.GetInternalSDCARD();
+        if (out == null) {
+            for (BaseHolder holder: activityInterface.getFileListController().getFiles())
+            {
+                if (holder.getName().equals(file.getName()))
+                    out = holder;
+            }
+            if(out == null)
+                out = activityInterface.getFileListController().getNewImgFileHolder(file);
+        }
+        dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
         if ((VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
-                || file.getAbsolutePath().contains(intsd)) && !FileListController.needStorageAccessFrameWork) {
-            File s = new File(out);
-            dng.setBayerData(data, out);
+                || !SettingsManager.getInstance().GetWriteExternal()) && !FileListController.needStorageAccessFrameWork) {
+
+            dng.setBayerData(data, file.getAbsolutePath());
+            dng.WriteDngWithProfile(dngprofile);
         }
         else
         {
             ParcelFileDescriptor pfd = null;
             if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
                 DocumentFile df = ((ActivityInterface) getActivity()).getFileListController().getFreeDcamDocumentFolder();
-                DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
+                DocumentFile wr = df.createFile("image/dng", out.getName());
                 try {
 
                     pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
@@ -404,10 +481,8 @@ public class DngConvertingFragment extends Fragment
                 }
             }
             else {
-                File f = new File(file.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
-                Uri uri = ((ActivityInterface)getActivity()).getFileListController().getMediaStoreController().addImg(f);
                 try {
-                    pfd = getContext().getContentResolver().openFileDescriptor(uri, "rw");
+                    pfd = getContext().getContentResolver().openFileDescriptor(((UriHolder)out).getMediaStoreUri(), "rw");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -416,6 +491,7 @@ public class DngConvertingFragment extends Fragment
 
             if (pfd != null) {
                 dng.SetBayerDataFD(data, pfd, file.getName());
+                dng.WriteDngWithProfile(dngprofile);
                 try {
                     pfd.close();
                 } catch (IOException e) {
@@ -426,7 +502,7 @@ public class DngConvertingFragment extends Fragment
             }
         }
 
-        dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
+
         /*long gpsTime = 1477324747000l;
         String provider = "gps";
         double longitude = 11.65918818;
@@ -434,7 +510,7 @@ public class DngConvertingFragment extends Fragment
         double altitude = 561.0;
         if (fakeGPS.isChecked())
             dng.SetGpsData(altitude, latitude, longitude, provider, gpsTime);*/
-        dng.WriteDngWithProfile(dngprofile);
+
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
@@ -442,7 +518,11 @@ public class DngConvertingFragment extends Fragment
         if (filesToConvert.length == 1)
         {
 
-            return new RawUtils().UnPackRAW(out);
+            try {
+                return out.getBitmapFromDng(getContext());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
         return null;

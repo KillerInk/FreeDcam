@@ -370,12 +370,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             captureController.add(yuvimgcapture);
         }
 
-        if (output.raw_format != 0)
+        if (output.raw_format != 0 && isDngCapture())
         {
             RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".dng",max_images);
             captureController.add(rawImageCapture);
             //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
         }
+        else if (output.raw_format != 0 &&  isBayerCapture())
+        {
+            ByteImageCapture byteImageCapture1 = new ByteImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".bayer",max_images);
+            captureController.add(byteImageCapture1);
+        }
+    }
+
+    private boolean isDngCapture()
+    {
+        return captureType == CaptureType.JpegDng10  || captureType == CaptureType.JpegDng16 || captureType == CaptureType.Dng16 || captureType == CaptureType.Dng10;
+    }
+
+    private boolean isBayerCapture()
+    {
+        return captureType == CaptureType.Bayer10 || captureType == CaptureType.Bayer16;
     }
 
     private void getCaptureType() {

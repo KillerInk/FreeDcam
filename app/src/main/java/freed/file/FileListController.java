@@ -243,6 +243,17 @@ public class FileListController {
         }
     }
 
+    public BaseHolder findFile(String name)
+    {
+        if (files != null)
+        {
+            for (BaseHolder f : files)
+                if (f.getName().equals(name))
+                    return f;
+        }
+        return null;
+    }
+
     private boolean deleteFile(BaseHolder file)
     {
         boolean del = false;
@@ -282,7 +293,7 @@ public class FileListController {
 
     public BaseHolder getNewImgFileHolder(File file)
     {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork)) {
             checkFileExists(file);
             return new FileHolder(file, SettingsManager.getInstance().GetWriteExternal());
         }

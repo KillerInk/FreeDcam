@@ -319,7 +319,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     @Override
     public void onFilesChanged() {
         runOnUiThread(()->{
-            gridViewFragment.NotifyDataSetChanged();
+            gridViewFragment.NotifyDataSetChanged(fileListController.getFiles());
             screenSlideFragment.NotifyDATAhasChanged(fileListController.getFiles());
         });
 
