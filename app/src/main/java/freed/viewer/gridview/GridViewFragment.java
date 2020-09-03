@@ -81,7 +81,8 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     protected boolean pos0ret;
     protected ViewStates currentViewState = ViewStates.normal;
     private boolean firststart = false;
-
+    private List<BaseHolder> filesSelectedList = new ArrayList<>();
+    private List<UriHolder> urisToDelte = new ArrayList<>();
 
 
     public enum ViewStates
@@ -150,14 +151,13 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         this.onGridItemClick = onGridItemClick;
     }
 
-    public void NotifyDataSetChanged()
+    public void NotifyDataSetChanged(List<BaseHolder> files)
     {
-        mPagerAdapter.notifyDataSetChanged();
+        mPagerAdapter.setFiles(files);
         if (!firststart) {
-            if (viewerActivityInterface.getFileListController() != null
-                    && viewerActivityInterface.getFileListController().getFiles() != null
-                    && viewerActivityInterface.getFileListController().getFiles().size() > 0
-                    && viewerActivityInterface.getFileListController().getFiles().get(0) instanceof UriHolder
+            if (files != null
+                    && files.size() > 0
+                    && files.get(0) instanceof UriHolder
                     ) {
 
                 isRootDir = false;
@@ -269,7 +269,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         {
             case normal:
                 //handel normal griditem click to open screenslide when its not a folder
-                if (!viewerActivityInterface.getFileListController().getFiles().get(position).IsFolder())
+                if (!mPagerAdapter.getBaseHolder(position).IsFolder())
                 {
                     this.onGridItemClick.onButtonClick(position, view);
                 }
@@ -277,19 +277,19 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                 {
                     //hold the current folder to show if a format is empty
                     folderToShow = viewerActivityInterface.getFileListController().getFiles().get(position);
-                    viewerActivityInterface.getFileListController().LoadFolder(viewerActivityInterface.getFileListController().getFiles().get(position),formatsToShow);
+                    viewerActivityInterface.getFileListController().LoadFolder(mPagerAdapter.getBaseHolder(position),formatsToShow);
                     isRootDir = false;
                     setViewMode(currentViewState);
 
                 }
                 break;
             case selection:
-                if (viewerActivityInterface.getFileListController().getFiles().get(position).IsSelected()) {
-                    viewerActivityInterface.getFileListController().getFiles().get(position).SetSelected(false);
-                    filesSelectedCount--;
+                if (mPagerAdapter.getBaseHolder(position).IsSelected()) {
+                    mPagerAdapter.getBaseHolder(position).SetSelected(false);
+                    filesSelectedList.remove(mPagerAdapter.getBaseHolder(position));
                 } else {
-                    viewerActivityInterface.getFileListController().getFiles().get(position).SetSelected(true);
-                    filesSelectedCount++;
+                    mPagerAdapter.getBaseHolder(position).SetSelected(true);
+                    filesSelectedList.add(mPagerAdapter.getBaseHolder(position));
                 }
                 updateFilesSelected();
                 ((GridImageView)view).SetViewState(currentViewState);
@@ -347,6 +347,16 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         popup.show();
     }
 
+    private void resetFilesSelected()
+    {
+        for (int i = 0; i< filesSelectedList.size(); i++)
+        {
+            BaseHolder f = filesSelectedList.get(i);
+            f.SetSelected(false);
+        }
+        filesSelectedList.clear();
+    }
+
     private void setViewMode(ViewStates viewState)
     {
         Log.d(TAG,"setViewMode:  isRootDir" + isRootDir);
@@ -366,6 +376,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                         formatsToShow = lastFormat;
                         viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
                     }
+                    //resetFilesSelected();
                     requestMode = RequestModes.none;
                     filetypeButton.setVisibility(View.VISIBLE);
                     filesSelected.setVisibility(View.GONE);
@@ -373,7 +384,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     doActionButton.setVisibility(View.GONE);
                     break;
                 case selection:
-                    filesSelectedCount = 0;
+                    resetFilesSelected();
                     filesSelected.setVisibility(View.VISIBLE);
                     updateFilesSelected();
                     switch (requestMode) {
@@ -429,29 +440,20 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     private void updateFilesSelected()
     {
-        filesSelected.setText(getString(string.files_selected) + filesSelectedCount);
+        filesSelected.setText(getString(string.files_selected) + filesSelectedList.size());
     }
 
-    private List<UriHolder> urisToDelte = new ArrayList<>();
+
 
     private void deleteFiles()
     {
         ImageManager.cancelImageLoadTasks();
         FreeDPool.Execute(() -> {
-            int fileselected = filesSelectedCount;
-
-            int filesdeletedCount = 0;
-            List<BaseHolder> to_del = new ArrayList<>();
-
             urisToDelte.clear();
-            for (int i = 0; i < viewerActivityInterface.getFileListController().getFiles().size(); i++)
+            for (int i = 0; i < filesSelectedList.size(); i++)
             {
                 try {
-                    if (viewerActivityInterface.getFileListController().getFiles().get(i).IsSelected())
-                    {
-                        viewerActivityInterface.getFileListController().DeleteFile(viewerActivityInterface.getFileListController().getFiles().get(i));
-                        GridViewFragment.this.gridView.post(() ->{NotifyDataSetChanged();});
-                    }
+                    viewerActivityInterface.getFileListController().DeleteFile(filesSelectedList.get(i));
                 }
                 catch(SecurityException ex){
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -469,6 +471,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     }
                 }
             }
+            GridViewFragment.this.gridView.post(() ->{NotifyDataSetChanged(viewerActivityInterface.getFileListController().getFiles());});
         });
     }
 
@@ -553,7 +556,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             UriHolder uriHolder = urisToDelte.get(0);
             urisToDelte.remove(0);
             viewerActivityInterface.getFileListController().DeleteFile(uriHolder);
-            NotifyDataSetChanged();
+            NotifyDataSetChanged(viewerActivityInterface.getFileListController().getFiles());
         }
 
     }
@@ -690,11 +693,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
                 case DialogInterface.BUTTON_NEGATIVE:
                     setViewMode(ViewStates.normal);
-                    for (int i = 0; i< viewerActivityInterface.getFileListController().getFiles().size(); i++)
-                    {
-                        BaseHolder f = viewerActivityInterface.getFileListController().getFiles().get(i);
-                        f.SetSelected(false);
-                    }
+
                     break;
             }
         }

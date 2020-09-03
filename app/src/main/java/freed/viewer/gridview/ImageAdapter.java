@@ -6,10 +6,12 @@ import android.widget.BaseAdapter;
 
 import com.troop.freedcam.R;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
+import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
 
@@ -21,8 +23,8 @@ class ImageAdapter extends BaseAdapter
 {
     private final String TAG = ImageAdapter.class.getSimpleName();
 
-    private ExecutorService executor;
     private ActivityInterface viewerActivityInterface;
+    private List<BaseHolder> files;
 
     /**
      * the current state of the gridview if items are in selection mode or normal rdy to click
@@ -33,17 +35,28 @@ class ImageAdapter extends BaseAdapter
         this.viewerActivityInterface = viewerActivityInterface;
     }
 
+    public void setFiles(List<BaseHolder> files)
+    {
+        this.files =files;
+        notifyDataSetChanged();
+    }
+
+    public BaseHolder getBaseHolder(int pos)
+    {
+        return files.get(pos);
+    }
+
     @Override
     public int getCount()
     {
-        if (viewerActivityInterface.getFileListController() != null && viewerActivityInterface.getFileListController().getFiles() != null)
-            return viewerActivityInterface.getFileListController().getFiles().size();
-        else return 0;
+        if (files != null)
+            return files.size();
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return viewerActivityInterface.getFileListController().getFiles().get(position);
+        return files.get(position);
     }
 
     @Override
@@ -62,15 +75,15 @@ class ImageAdapter extends BaseAdapter
             //imageView.resetImg();
             imageView.SetBitmapHelper(viewerActivityInterface.getBitmapHelper());
         }
-        Log.d(TAG, "filessize:" + viewerActivityInterface.getFileListController().getFiles().size() + " position:"+position);
+        Log.d(TAG, "filessize:" + files.size() + " position:"+position);
         if (viewerActivityInterface.getFileListController().getFiles().size() <= position)
             position = viewerActivityInterface.getFileListController().getFiles().size() -1;
-        if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(viewerActivityInterface.getFileListController().getFiles().get(position)) /*||imageView.viewstate != currentViewState*/)
+        if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/)
         {
             //imageView.resetImg();
-            imageView.SetEventListner(viewerActivityInterface.getFileListController().getFiles().get(position));
+            imageView.SetEventListner(files.get(position));
             imageView.SetViewState(currentViewState);
-            imageView.loadFile(viewerActivityInterface.getFileListController().getFiles().get(position), FreedApplication.getContext().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+            imageView.loadFile(files.get(position), FreedApplication.getContext().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
         }
         return imageView;
     }
@@ -80,11 +93,11 @@ class ImageAdapter extends BaseAdapter
     public void SetViewState(GridViewFragment.ViewStates states)
     {
         currentViewState = states;
-        if (viewerActivityInterface.getFileListController() == null || viewerActivityInterface.getFileListController().getFiles() == null)
+        if (files == null )
             return;
-        for (int i = 0; i< viewerActivityInterface.getFileListController().getFiles().size(); i++)
+        for (int i = 0; i< files.size(); i++)
         {
-            BaseHolder f = viewerActivityInterface.getFileListController().getFiles().get(i);
+            BaseHolder f = files.get(i);
             f.SetViewState(states);
         }
 
