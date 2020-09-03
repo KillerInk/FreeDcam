@@ -421,7 +421,7 @@ public class XmlParserWriter
             matrixHashMap.put("off", null);
             String xmlsource = StringUtils.getString(resources.openRawResource(R.raw.matrixes));
             parseMatrixeXml(matrixHashMap, xmlsource);
-            File configFile = new File(appDataFolder.getAbsolutePath()+"matrixes.xml");
+            File configFile = new File(appDataFolder.getAbsolutePath()+"/matrixes.xml");
             if (configFile.exists())
             {
                 xmlsource = StringUtils.getString(new FileInputStream(configFile));
