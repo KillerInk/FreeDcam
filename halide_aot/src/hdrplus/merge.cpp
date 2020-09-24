@@ -53,7 +53,7 @@ Func merge_temporal(ImageParam imgs, Func alignment, Expr minoffset, Expr maxoff
 
     // constants for determining strength and robustness of temporal merge
 
-	//float factor = 8.f;                         // factor by which inverse function is elongated
+	float factor = 8.f;                         // factor by which inverse function is elongated
 	//int min_dist =  4;                          // pixel L1 distance below which weight is maximal
 	//int max_dist = 128;                         // pixel L1 distance above which weight is zero
 
@@ -61,11 +61,11 @@ Func merge_temporal(ImageParam imgs, Func alignment, Expr minoffset, Expr maxoff
 
     Expr dist = sum(abs(i32(ref_val) - i32(alt_val))) / 256;
 
-    Expr norm_dist = max(1, i32(dist) - l1mindist);
+    Expr norm_dist = max(1, i32(dist) /factor - l1mindist /factor);
 
     // weight for each tile in temporal merge; inversely proportional to reference and alternate tile L1 distance
 
-    weight(tx, ty, n) = select(norm_dist > (l1maxdist - l1mindist), 0.f, 1.f / norm_dist);
+    weight(tx, ty, n) = select(norm_dist > (l1maxdist/factor - l1mindist/factor), 0.f, 1.f / norm_dist);
 
     // total weight for each tile in a temporal stack of images
 

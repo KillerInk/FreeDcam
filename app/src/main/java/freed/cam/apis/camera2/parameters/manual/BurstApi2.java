@@ -54,6 +54,12 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
         return stringvalues;
     }
 
+    public void overwriteValues(int min, int max)
+    {
+        stringvalues = createStringArray(min,max,1);
+        fireStringValuesChanged(stringvalues);
+    }
+
     @Override
     public void SetValue(int valueToSet, boolean setToCamera)
     {

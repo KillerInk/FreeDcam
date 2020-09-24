@@ -20,6 +20,7 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.capture.ContinouseRawCapture;
 import freed.cam.apis.camera2.modules.capture.ContinouseYuvCapture;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
+import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.featuredetector.Camera2FeatureDetectorTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -70,10 +71,14 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
         super.InitModule();
         cameraUiWrapper.parametersHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
         cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst).SetValue(14,true);
+        BurstApi2 burstApi2 = (BurstApi2) cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst);
+        burstApi2.overwriteValues(2,30);
     }
 
     @Override
     public void DestroyModule() {
+        BurstApi2 burstApi2 = (BurstApi2) cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst);
+        burstApi2.overwriteValues(1,60);
         cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst).SetValue(0,true);
         cameraUiWrapper.parametersHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
         super.DestroyModule();
