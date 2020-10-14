@@ -1,2 +1,5 @@
-
+include ':logger'
+include ':file'
+include ':image'
+include ':gallery'
 include ':app'

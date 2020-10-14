@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <data>
+                <variable
+                    name="galleryItemModel"
+                    type="com.troop.freedcam.gallery.model.GalleryItemModel" />
+
+        </data>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    loadBitmap="@{galleryItemModel.baseHolder}"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{galleryItemModel.name}"
+                    android:textSize="4sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
