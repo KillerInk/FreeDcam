@@ -28,7 +28,7 @@ import android.widget.TextView;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 16.06.2016.

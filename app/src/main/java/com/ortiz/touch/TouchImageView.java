@@ -40,7 +40,7 @@ import android.widget.Scroller;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class TouchImageView extends AppCompatImageView {
 

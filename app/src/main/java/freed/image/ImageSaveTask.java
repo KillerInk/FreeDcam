@@ -19,7 +19,7 @@ import freed.jni.GpsInfo;
 import freed.jni.OpCode;
 import freed.jni.RawToDng;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by KillerInk on 13.11.2017.

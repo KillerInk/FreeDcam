@@ -18,7 +18,7 @@ import freed.FreedApplication;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class FindOutputHelper

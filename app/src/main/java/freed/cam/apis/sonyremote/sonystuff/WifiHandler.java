@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.PermissionManager;
 
 /**

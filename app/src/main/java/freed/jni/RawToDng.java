@@ -12,7 +12,7 @@ import java.nio.channels.FileChannel;
 import java.util.Date;
 
 import freed.dng.DngProfile;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StorageFileManager;
 
 /**

@@ -42,7 +42,7 @@ import freed.ActivityInterface;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 
 /**

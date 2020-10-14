@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
 import freed.utils.XmlUtil;

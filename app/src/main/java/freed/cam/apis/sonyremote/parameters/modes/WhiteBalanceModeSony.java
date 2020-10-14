@@ -30,7 +30,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.settings.SettingKeys;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {

@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by KillerInk on 04.12.2017.

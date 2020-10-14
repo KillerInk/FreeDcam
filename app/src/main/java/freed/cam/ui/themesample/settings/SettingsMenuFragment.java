@@ -38,7 +38,7 @@ import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.opcode.OpCodeFragment;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 14.06.2015.

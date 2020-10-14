@@ -1,5 +1,7 @@
 package camera2_hidden_keys;
 
+import com.troop.freedcam.logger.Log;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -9,7 +11,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
-import freed.utils.Log;
 
 /**
  * Created by KillerInk on 08.12.2017.

@@ -25,7 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import freed.cam.events.EventBusHelper;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 09.12.2014.

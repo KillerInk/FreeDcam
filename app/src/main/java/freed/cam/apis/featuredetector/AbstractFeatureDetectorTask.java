@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 23.01.2017.

@@ -4,7 +4,7 @@ import android.os.Build;
 
 import java.lang.reflect.Method;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by KillerInk on 10.01.2018.

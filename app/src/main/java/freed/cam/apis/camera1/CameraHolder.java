@@ -40,7 +40,7 @@ import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 15.08.2014.

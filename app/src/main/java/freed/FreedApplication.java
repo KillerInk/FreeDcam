@@ -3,35 +3,19 @@ package freed;
 import android.app.Application;
 import android.content.Context;
 
-public class FreedApplication extends Application {
+import com.troop.freedcam.logger.ContextApplication;
 
-    private static Context context;
+public class FreedApplication extends ContextApplication {
 
-    public static Context getContext()
-    {
-        return context;
-    }
 
     public static String getStringFromRessources(int id)
     {
-        return context.getResources().getString(id);
+        return getContext().getResources().getString(id);
     }
 
     public static String[] getStringArrayFromRessource(int id)
     {
-        return context.getResources().getStringArray(id);
+        return getContext().getResources().getStringArray(id);
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        //EventBus.builder().throwSubscriberException(BuildConfig.DEBUG).installDefaultEventBus();
-        context = getApplicationContext();
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        context = null;
-    }
 }

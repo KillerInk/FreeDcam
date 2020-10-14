@@ -13,7 +13,7 @@ import freed.settings.mode.GlobalBooleanSettingMode;
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
 import freed.settings.mode.TypedSettingMode;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils;
 import freed.utils.XmlUtil;
 

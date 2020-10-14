@@ -6,7 +6,7 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.SettingKeys;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.XmlUtil;
 
 /**

@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * A parser class for Liveview data Packet defined by Camera Remote API

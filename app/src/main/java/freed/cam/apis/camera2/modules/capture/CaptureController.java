@@ -16,7 +16,7 @@ import freed.image.EmptyTask;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CaptureController extends CameraCaptureSession.CaptureCallback

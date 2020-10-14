@@ -32,7 +32,7 @@ import freed.cam.events.EventBusHelper;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.FreeDPool;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcessorInterface {
     private final String TAG = PreviewStreamDrawer.class.getSimpleName();

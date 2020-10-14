@@ -44,7 +44,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;
 

@@ -23,7 +23,7 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.view.MotionEvent;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 02.09.2014.

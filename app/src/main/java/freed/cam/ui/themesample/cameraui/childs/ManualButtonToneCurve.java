@@ -6,7 +6,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.cameraui.ManualButton;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 03.08.2017.

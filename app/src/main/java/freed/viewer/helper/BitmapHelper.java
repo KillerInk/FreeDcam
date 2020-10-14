@@ -28,7 +28,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.file.holder.BaseHolder;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils.FileEnding;
 
 /**

@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class OpCode
 {

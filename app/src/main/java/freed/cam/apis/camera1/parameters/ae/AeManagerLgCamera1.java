@@ -12,7 +12,7 @@ import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by KillerInk on 29.12.2017.

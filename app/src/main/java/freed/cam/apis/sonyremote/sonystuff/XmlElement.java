@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * A simple XML parser and Data structure class for sample application.

@@ -60,7 +60,7 @@ import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;

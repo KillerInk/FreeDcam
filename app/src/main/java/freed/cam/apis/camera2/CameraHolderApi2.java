@@ -42,7 +42,7 @@ import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.events.CameraStateEvents;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.views.AutoFitTextureView;
 
 /**

@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class OpCodeCreator {

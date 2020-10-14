@@ -3,7 +3,7 @@ package freed.cam.events;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.EventBusException;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class EventBusHelper {
 

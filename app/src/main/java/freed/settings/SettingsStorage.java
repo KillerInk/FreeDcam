@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import freed.settings.mode.SettingInterface;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.VideoMediaProfile;
 
 public class SettingsStorage

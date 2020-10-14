@@ -24,7 +24,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.image.ImageTask;
 import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by KillerInk on 18.12.2017.

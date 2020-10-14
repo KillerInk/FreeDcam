@@ -3,6 +3,7 @@ package freed.utils;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
+import com.troop.freedcam.logger.Log;
 
 public class BackgroundHandlerThread
 {

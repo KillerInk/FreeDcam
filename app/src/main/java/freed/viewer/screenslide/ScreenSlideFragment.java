@@ -65,7 +65,7 @@ import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.screenslide.ImageFragment.I_WaitForWorkFinish;
 

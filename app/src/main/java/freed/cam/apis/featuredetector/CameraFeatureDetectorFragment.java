@@ -17,7 +17,7 @@ import com.troop.freedcam.R;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 16.07.2017.

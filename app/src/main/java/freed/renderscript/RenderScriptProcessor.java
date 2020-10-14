@@ -32,7 +32,7 @@ import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.View;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.viewer.screenslide.MyHistogram;
 
 /**

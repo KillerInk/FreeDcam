@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
+import com.troop.freedcam.logger.Log;
 import freed.file.FileApiStorageDetector;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;

@@ -38,7 +38,7 @@ import java.io.OutputStream;
 
 import freed.file.FileListController;
 import freed.jni.RawUtils;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 12.12.2015.

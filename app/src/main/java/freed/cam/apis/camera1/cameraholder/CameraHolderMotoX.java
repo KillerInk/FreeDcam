@@ -24,7 +24,7 @@ import android.hardware.Camera;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.CameraStateEvents;
 import freed.settings.Frameworks;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 17.06.2016.

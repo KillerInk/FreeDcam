@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-
+import com.troop.freedcam.logger.Log;
 import java.io.File;
 
 import freed.file.holder.BaseHolder;

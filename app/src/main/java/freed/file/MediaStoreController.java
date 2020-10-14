@@ -15,7 +15,7 @@ import java.util.List;
 
 import freed.file.holder.BaseHolder;
 import freed.file.holder.UriHolder;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class MediaStoreController {
 

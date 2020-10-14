@@ -13,7 +13,7 @@ import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 02.03.2017.

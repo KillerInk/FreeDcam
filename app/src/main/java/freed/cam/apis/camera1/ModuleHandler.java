@@ -30,7 +30,7 @@ import freed.cam.apis.camera1.modules.VideoModule;
 import freed.cam.apis.camera1.modules.VideoModuleG3;
 import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 16.08.2014.

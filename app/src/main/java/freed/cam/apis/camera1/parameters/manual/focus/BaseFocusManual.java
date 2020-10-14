@@ -31,7 +31,7 @@ import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.TypedSettingMode;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 05.03.2016.

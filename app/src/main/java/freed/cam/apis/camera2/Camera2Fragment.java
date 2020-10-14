@@ -50,7 +50,7 @@ import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.viewer.screenslide.MyHistogram;
 import freed.views.AutoFitTextureView;
 

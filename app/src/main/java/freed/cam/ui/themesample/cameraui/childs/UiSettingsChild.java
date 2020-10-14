@@ -44,7 +44,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 11.06.2015.

@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Simple HTTP Client for sample application.

@@ -35,7 +35,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 16.03.2017.

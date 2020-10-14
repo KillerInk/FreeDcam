@@ -9,7 +9,7 @@ import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.events.CameraStateEvents;
 import freed.settings.Frameworks;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 20.03.2017.

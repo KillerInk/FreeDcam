@@ -47,7 +47,7 @@ import freed.settings.OpCodeUrl;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 
 /**

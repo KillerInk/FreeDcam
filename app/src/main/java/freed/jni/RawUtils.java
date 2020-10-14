@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class RawUtils {
 

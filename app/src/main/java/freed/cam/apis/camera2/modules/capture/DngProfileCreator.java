@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi;
 
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class DngProfileCreator {

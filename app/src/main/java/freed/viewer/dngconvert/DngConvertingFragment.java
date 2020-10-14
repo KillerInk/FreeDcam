@@ -73,7 +73,7 @@ import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.settings.SettingsManager;
 import freed.settings.XmlParserWriter;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 

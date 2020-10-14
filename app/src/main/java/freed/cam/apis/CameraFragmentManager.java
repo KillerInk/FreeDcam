@@ -20,7 +20,7 @@ import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
     private final String TAG = CameraFragmentManager.class.getSimpleName();

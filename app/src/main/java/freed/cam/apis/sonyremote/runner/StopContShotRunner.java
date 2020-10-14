@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.image.ImageTask;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by KillerInk on 27.12.2017.

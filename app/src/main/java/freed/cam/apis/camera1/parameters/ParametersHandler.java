@@ -78,7 +78,7 @@ import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 

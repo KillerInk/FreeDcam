@@ -57,7 +57,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.views.AutoFitTextureView;
 
 /**

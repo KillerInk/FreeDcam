@@ -64,7 +64,7 @@ import freed.renderscript.RenderScriptProcessor;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 
 /**

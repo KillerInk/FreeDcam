@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by Ingo on 04.10.2014.

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import java.io.File;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils;
 
 public class FileApiStorageDetector

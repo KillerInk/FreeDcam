@@ -22,7 +22,7 @@ import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StorageFileManager;
 

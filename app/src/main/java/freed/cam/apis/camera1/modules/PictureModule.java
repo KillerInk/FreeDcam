@@ -42,7 +42,7 @@ import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils.FileEnding;
 
 /**

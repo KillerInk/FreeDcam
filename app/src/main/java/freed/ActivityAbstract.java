@@ -36,7 +36,7 @@ import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
 

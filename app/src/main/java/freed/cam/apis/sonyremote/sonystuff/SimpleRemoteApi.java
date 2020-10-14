@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice.ApiService;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Simple Camera Remote API cameraUiWrapper class. (JSON based API <--> Java API)

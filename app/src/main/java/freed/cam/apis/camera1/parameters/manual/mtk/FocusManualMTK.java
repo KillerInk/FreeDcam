@@ -32,7 +32,7 @@ import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 /**
  * Created by troop on 28.03.2016.

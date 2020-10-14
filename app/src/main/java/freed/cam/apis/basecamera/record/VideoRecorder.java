@@ -21,7 +21,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.VideoMediaProfile;
 
 /**

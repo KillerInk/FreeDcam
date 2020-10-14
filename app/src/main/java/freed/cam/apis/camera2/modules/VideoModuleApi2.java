@@ -60,7 +60,7 @@ import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.PermissionManager;
 import freed.utils.VideoMediaProfile;
 

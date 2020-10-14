@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 public class ImageManager {
 

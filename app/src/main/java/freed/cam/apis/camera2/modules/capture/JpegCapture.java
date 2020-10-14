@@ -14,7 +14,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.image.EmptyTask;
 import freed.image.ImageTask;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class JpegCapture extends ByteImageCapture {

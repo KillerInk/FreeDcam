@@ -36,7 +36,7 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.jni.OpCode;
-import freed.utils.Log;
+import com.troop.freedcam.logger.Log;
 import freed.utils.VideoMediaProfile;
 import freed.views.VideoToneCurveProfile;
 
