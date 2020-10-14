@@ -16,11 +16,11 @@ android {
         }
     }
 
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 201
         versionName '4.3.8'
         applicationId "troop.com.freedcam"
@@ -58,9 +58,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
 		sourceCompatibility JavaVersion.VERSION_1_8
     }
-
-
-
 }
 
 
