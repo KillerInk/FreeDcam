@@ -4,7 +4,7 @@ import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 
 /**
  * Created by troop on 27.03.2017.

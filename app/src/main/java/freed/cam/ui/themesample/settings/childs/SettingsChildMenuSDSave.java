@@ -34,10 +34,10 @@ import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 21.07.2015.

@@ -31,7 +31,7 @@ import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 
 /**

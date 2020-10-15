@@ -25,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -45,13 +46,13 @@ import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.FileListController;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 
 import com.troop.freedcam.gallery.helper.BitmapHelper;
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.image.ImageTask;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
@@ -219,7 +220,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             SettingsManager.getInstance();
 
         cameraFragmentManager.onResume();
-        if (!SettingsManager.getInstance().appVersionHasChanged() && uiViewPagerAdapter == null)
+        if (!SettingsManager.getInstance().appVersionHasChanged(BuildConfig.VERSION_CODE) && uiViewPagerAdapter == null)
             initScreenSlide();
     }
 

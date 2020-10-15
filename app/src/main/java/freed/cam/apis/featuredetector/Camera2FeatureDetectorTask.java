@@ -25,14 +25,14 @@ import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
 import freed.FreedApplication;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.SettingMode;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.utils.Log;
 import freed.utils.StringFloatArray;
-import freed.utils.StringUtils;
-import freed.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 
 /**

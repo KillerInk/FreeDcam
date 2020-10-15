@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import freed.ActivityInterface;
@@ -18,8 +19,9 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
+
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
@@ -125,8 +127,8 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     public void switchCameraFragment()
     {
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null) +
-                " features detected: " + SettingsManager.getInstance().getAreFeaturesDetected() + " app version changed: " + SettingsManager.getInstance().appVersionHasChanged());
-        if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
+                " features detected: " + SettingsManager.getInstance().getAreFeaturesDetected() + " app version changed: " + SettingsManager.getInstance().appVersionHasChanged(BuildConfig.VERSION_CODE));
+        if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged(BuildConfig.VERSION_CODE)) && fd == null)
         {
             Log.d(TAG, "load featuredetector");
             if (cameraFragment != null)

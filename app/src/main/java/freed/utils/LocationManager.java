@@ -23,6 +23,9 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -33,8 +36,6 @@ import com.troop.freedcam.R;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 02.08.2016.

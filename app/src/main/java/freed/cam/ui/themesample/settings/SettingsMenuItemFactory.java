@@ -30,9 +30,9 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.BooleanSettingModeInterface;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
 import com.troop.freedcam.utils.Log;
 
 public class SettingsMenuItemFactory

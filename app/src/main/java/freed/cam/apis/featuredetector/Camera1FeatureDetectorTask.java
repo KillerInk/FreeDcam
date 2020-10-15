@@ -14,13 +14,15 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.FrameworkDetector;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.SettingMode;
+
+import com.troop.freedcam.settings.FrameworkDetector;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.utils.Log;
-import freed.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 
 /**
@@ -404,7 +406,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                     SettingsManager.get(SettingKeys.M_Whitebalance).setMode(wbModeval);
                     int min = Integer.parseInt(parameters.get(wbmin));
                     int max = Integer.parseInt(parameters.get(wbmax));
-                    SettingsManager.get(SettingKeys.M_Whitebalance).setValues(createWBStringArray(min,max,100));
+                    SettingsManager.get(SettingKeys.M_Whitebalance).setValues(StringUtils.createWBStringArray(min,max,100));
                 }
                 else {
                     Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
@@ -425,17 +427,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    public static String[] createWBStringArray(int min, int max, float step)
-    {
-        Log.d(TAG,"Create Wbvalues");
-        ArrayList<String> t = new ArrayList<>();
-        t.add(FreedApplication.getStringFromRessources(R.string.auto_));
-        for (int i = min; i<=max;i+=step)
-        {
-            t.add(i+"");
-        }
-        return  t.toArray(new String[t.size()]);
-    }
+
 
     private boolean arrayContainsString(String[] ar,String dif)
     {
@@ -456,7 +448,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
                 SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
                 SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY("m-sr-g");
-                SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(100, 1600, 100,false));
+                SettingsManager.get(SettingKeys.M_ManualIso).setValues(StringUtils.createIsoValues(100, 1600, 100,false));
                 SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_MTK);
             }
             else {
@@ -471,19 +463,19 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                         } else {
                             SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.continuous_iso));
                             SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_QCOM);
-                            SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50, false));
+                            SettingsManager.get(SettingKeys.M_ManualIso).setValues(StringUtils.createIsoValues(min, max, 50, false));
                         }
                     } else if (parameters.get(FreedApplication.getStringFromRessources(R.string.hw_sensor_iso_range)) != null) {
                         SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
                         String t[] = parameters.get(FreedApplication.getStringFromRessources(R.string.hw_sensor_iso_range)).split(",");
                         int min = Integer.parseInt(t[0]);
                         int max = Integer.parseInt(t[1]);
-                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(min, max, 50, false));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(StringUtils.createIsoValues(min, max, 50, false));
                         SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_KRILLIN);
                         SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.hw_sensor_iso));
                     } else if (parameters.get(FreedApplication.getStringFromRessources(R.string.lg_iso)) != null) {
                         SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(createIsoValues(0, 2700, 50, false));
+                        SettingsManager.get(SettingKeys.M_ManualIso).setValues(StringUtils.createIsoValues(0, 2700, 50, false));
                         SettingsManager.get(SettingKeys.M_ManualIso).setType(SettingsManager.ISOMANUAL_LG);
                         SettingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.lg_iso));
                     }
@@ -501,21 +493,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
     }
 
-    public static String[] createIsoValues(int miniso, int maxiso, int step, boolean xiaomi)
-    {
-        Log.d(TAG,"Create Isovalues");
-        ArrayList<String> s = new ArrayList<>();
-        s.add(FreedApplication.getStringFromRessources(R.string.auto_));
-        for (int i =miniso; i <= maxiso; i +=step)
-        {
-            if (xiaomi)
-                s.add("ISO"+i);
-            else
-                s.add(i + "");
-        }
-        String[] stringvalues = new String[s.size()];
-        return s.toArray(stringvalues);
-    }
+
 
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
@@ -1188,21 +1166,11 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         //create mf values
         if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
-            SettingsManager.get(SettingKeys.M_Focus).setValues(createManualFocusValues(min, max,step));
+            SettingsManager.get(SettingKeys.M_Focus).setValues(StringUtils.createManualFocusValues(min, max,step));
 
     }
 
-    public static String[] createManualFocusValues(int min, int max, int step)
-    {
-        ArrayList<String> ar = new ArrayList<>();
-        ar.add(FreedApplication.getStringFromRessources(R.string.auto_));
 
-        for (int i = min; i < max; i+= step)
-        {
-            ar.add(i+"");
-        }
-        return ar.toArray(new String[ar.size()]);
-    }
 
     private void detectFrontCamera(int i) {
         Camera.CameraInfo info = new Camera.CameraInfo();

@@ -63,8 +63,8 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
 

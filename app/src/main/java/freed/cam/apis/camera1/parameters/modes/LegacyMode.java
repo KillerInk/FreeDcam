@@ -4,8 +4,8 @@ import android.os.Build;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.mode.ApiBooleanSettingMode;
-import freed.settings.mode.BooleanSettingModeInterface;
+import com.troop.freedcam.settings.mode.ApiBooleanSettingMode;
+import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by KillerInk on 22.02.2018.

@@ -23,9 +23,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.troop.freedcam.settings.SettingsManager;
+
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
-import freed.settings.SettingsManager;
+
 
 /**
  * Created by troop on 13.06.2015.

@@ -37,7 +37,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.ui.themesample.cameraui.CameraUiFragment.i_HelpFragment;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingsManager;
 
 /**
  * Created by troop on 29.02.2016.

@@ -1,6 +1,7 @@
 package freed.cam.events;
 
-import freed.settings.SettingKeys;
+
+import com.troop.freedcam.settings.SettingKeys;
 
 public class ValueChangedEvent<T> {
     public final T newValue;

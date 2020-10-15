@@ -59,9 +59,9 @@ import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.apis.camera2.parameters.modes.YuvSizeModeApi2;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 /**

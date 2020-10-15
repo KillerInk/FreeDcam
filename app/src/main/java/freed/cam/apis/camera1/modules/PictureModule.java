@@ -40,12 +40,12 @@ import freed.dng.DngProfile;
 import com.troop.freedcam.file.holder.BaseHolder;
 
 import freed.image.ImageSaveTask;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils.FileEnding;
+import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 15.08.2014.

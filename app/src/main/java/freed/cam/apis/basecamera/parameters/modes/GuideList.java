@@ -22,8 +22,8 @@ package freed.cam.apis.basecamera.parameters.modes;
 //defcomg was here
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 
 /**
  * Created by George on 1/19/2015.

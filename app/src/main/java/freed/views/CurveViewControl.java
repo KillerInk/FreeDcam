@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.settings.VideoToneCurveProfile;
 
 /**
  * Created by troop on 05.08.2017.

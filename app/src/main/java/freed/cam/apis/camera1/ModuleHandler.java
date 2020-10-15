@@ -28,8 +28,8 @@ import freed.cam.apis.camera1.modules.PictureModule;
 import freed.cam.apis.camera1.modules.PictureModuleMTK;
 import freed.cam.apis.camera1.modules.VideoModule;
 import freed.cam.apis.camera1.modules.VideoModuleG3;
-import freed.settings.Frameworks;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 /**

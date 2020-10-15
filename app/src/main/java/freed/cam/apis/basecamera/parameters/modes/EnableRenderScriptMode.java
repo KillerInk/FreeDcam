@@ -7,9 +7,9 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.BooleanSettingModeInterface;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
 
 public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSettingModeInterface {
 

@@ -32,9 +32,9 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 12.12.2014.

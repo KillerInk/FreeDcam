@@ -16,8 +16,8 @@ import java.util.Collections;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import freed.FreedApplication;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)

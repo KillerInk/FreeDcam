@@ -26,7 +26,7 @@ import java.util.Set;
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 
 /**
  * Created by troop on 16.08.2016.

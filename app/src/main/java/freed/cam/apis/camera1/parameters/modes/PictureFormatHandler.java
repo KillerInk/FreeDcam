@@ -27,9 +27,9 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 /**
@@ -67,7 +67,7 @@ public class PictureFormatHandler extends BaseModeParameter
             if (TextUtils.isEmpty(rawFormat) && rawFormats != null && rawFormats.length >0)
                 rawFormat = rawFormats[0];
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
-            if ((rawFormats != null && rawFormats.length  > 0) || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
+            if ((rawFormats != null && rawFormats.length  > 0) || SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
                 SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);

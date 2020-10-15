@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 
 /**
  * Created by troop on 21.07.2015.

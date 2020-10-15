@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import freed.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 /**
  * Created by KillerInk on 08.12.2017.

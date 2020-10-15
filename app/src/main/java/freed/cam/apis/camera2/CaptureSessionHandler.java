@@ -32,8 +32,8 @@ import freed.FreedApplication;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.Frameworks;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import com.troop.freedcam.utils.Log;
 

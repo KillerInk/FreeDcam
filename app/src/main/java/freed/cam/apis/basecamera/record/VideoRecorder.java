@@ -20,13 +20,13 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.holder.BaseHolder;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.file.holder.UriHolder;
 import com.troop.freedcam.utils.Log;
-import freed.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 /**
  * Created by KillerInk on 22.02.2018.

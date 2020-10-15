@@ -26,7 +26,7 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 
 /**
  * Created by Ar4eR on 10.12.15.

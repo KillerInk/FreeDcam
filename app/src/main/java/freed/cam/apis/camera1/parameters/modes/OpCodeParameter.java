@@ -43,9 +43,10 @@ import javax.net.ssl.X509TrustManager;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.OpCodeUrl;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
 

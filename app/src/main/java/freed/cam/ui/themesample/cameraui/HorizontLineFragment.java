@@ -47,8 +47,9 @@ import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 /**

@@ -75,29 +75,12 @@ import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.cam.apis.camera1.parameters.modes.VideoStabilizationParameter;
 import freed.cam.apis.camera1.parameters.modes.VirtualLensFilter;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
-import freed.utils.StringUtils.FileEnding;
-
-import static freed.settings.SettingsManager.ISOMANUAL_KRILLIN;
-import static freed.settings.SettingsManager.ISOMANUAL_MTK;
-import static freed.settings.SettingsManager.ISOMANUAL_QCOM;
-import static freed.settings.SettingsManager.ISOMANUAL_SONY;
-import static freed.settings.SettingsManager.ISOMANUAL_Xiaomi;
-import static freed.settings.SettingsManager.SHUTTER_G2PRO;
-import static freed.settings.SettingsManager.SHUTTER_HTC;
-import static freed.settings.SettingsManager.SHUTTER_KRILLIN;
-import static freed.settings.SettingsManager.SHUTTER_LG;
-import static freed.settings.SettingsManager.SHUTTER_MEIZU;
-import static freed.settings.SettingsManager.SHUTTER_MTK;
-import static freed.settings.SettingsManager.SHUTTER_QCOM_MICORSEC;
-import static freed.settings.SettingsManager.SHUTTER_QCOM_MILLISEC;
-import static freed.settings.SettingsManager.SHUTTER_SONY;
-import static freed.settings.SettingsManager.SHUTTER_ZTE;
-
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils.FileEnding;
 /**
  * Created by troop on 17.08.2014.
  * this class handels all camera1 releated parameters.
@@ -387,39 +370,39 @@ public class ParametersHandler extends AbstractParameterHandler
             int type = SettingsManager.get(SettingKeys.M_ExposureTime).getType();
             switch (type)
             {
-                case SHUTTER_HTC:
+                case SettingsManager.SHUTTER_HTC:
                     //HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
                     add(SettingKeys.M_ExposureTime, new ShutterManualParameterHTC(cameraParameters,cameraUiWrapper, SettingKeys.M_ExposureTime));
                     break;
-                case SHUTTER_QCOM_MILLISEC:
+                case SettingsManager.SHUTTER_QCOM_MILLISEC:
                     add(SettingKeys.M_ExposureTime, new ExposureTime_MS(cameraUiWrapper,cameraParameters,SettingKeys.M_ExposureTime));
                     break;
-                case SHUTTER_QCOM_MICORSEC:
+                case SettingsManager.SHUTTER_QCOM_MICORSEC:
                     add(SettingKeys.M_ExposureTime, new ExposureTime_MicroSec(cameraUiWrapper,cameraParameters));
                     break;
-                case SHUTTER_MTK:
+                case SettingsManager.SHUTTER_MTK:
                     AeManagerMtkCamera1 aeManagerMtkCamera1 = new AeManagerMtkCamera1(cameraUiWrapper,cameraParameters);
                     add(SettingKeys.M_ExposureTime, aeManagerMtkCamera1.getExposureTime());
                     add(SettingKeys.M_ManualIso, aeManagerMtkCamera1.getIso());
                     break;
-                case SHUTTER_LG:
+                case SettingsManager.SHUTTER_LG:
                     AeManagerLgCamera1 aeManagerLgCamera1 = new AeManagerLgCamera1(cameraUiWrapper,cameraParameters);
                     add(SettingKeys.M_ExposureTime, aeManagerLgCamera1.getExposureTime());
                     add(SettingKeys.M_ManualIso, aeManagerLgCamera1.getIso());
                     break;
-                case SHUTTER_MEIZU:
+                case SettingsManager.SHUTTER_MEIZU:
                     add(SettingKeys.M_ExposureTime, new ShutterManualMeizu(cameraParameters,cameraUiWrapper));
                     break;
-                case SHUTTER_KRILLIN:
+                case SettingsManager.SHUTTER_KRILLIN:
                     add(SettingKeys.M_ExposureTime, new ShutterManualKirin(cameraParameters,cameraUiWrapper));
                     break;
-                case SHUTTER_SONY:
+                case SettingsManager.SHUTTER_SONY:
                     add(SettingKeys.M_ExposureTime, new ShutterManualSony(cameraParameters,cameraUiWrapper));
                     break;
-                case SHUTTER_G2PRO:
+                case SettingsManager.SHUTTER_G2PRO:
                     add(SettingKeys.M_ExposureTime, new ShutterManualG2pro(cameraParameters,cameraUiWrapper,SettingKeys.M_ExposureTime));
                     break;
-                case SHUTTER_ZTE:
+                case SettingsManager.SHUTTER_ZTE:
                     add(SettingKeys.M_ExposureTime, new ShutterManualZTE(cameraParameters,cameraUiWrapper));
             }
 
@@ -434,19 +417,19 @@ public class ParametersHandler extends AbstractParameterHandler
         {
             switch (SettingsManager.get(SettingKeys.M_ManualIso).getType())
             {
-                case ISOMANUAL_QCOM:
+                case SettingsManager.ISOMANUAL_QCOM:
                     add(SettingKeys.M_ManualIso, new BaseISOManual(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
                     break;
-                case ISOMANUAL_SONY:
+                case SettingsManager.ISOMANUAL_SONY:
                     add(SettingKeys.M_ManualIso, new ManualIsoSony(cameraUiWrapper,cameraParameters,SettingKeys.M_ManualIso));
                     break;
-                case ISOMANUAL_KRILLIN:
+                case SettingsManager.ISOMANUAL_KRILLIN:
                     add(SettingKeys.M_ManualIso,  new ManualIsoKirin(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
                     break;
-                case ISOMANUAL_Xiaomi :
+                case SettingsManager.ISOMANUAL_Xiaomi :
                     //not supported
                     break;
-                case ISOMANUAL_MTK: //get set due aehandler
+                case SettingsManager.ISOMANUAL_MTK: //get set due aehandler
                     break;
 
             }

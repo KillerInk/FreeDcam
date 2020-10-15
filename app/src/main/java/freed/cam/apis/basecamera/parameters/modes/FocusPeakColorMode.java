@@ -8,7 +8,8 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptProcessorInterface;
-import freed.settings.SettingKeys;
+
+import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 
 /**

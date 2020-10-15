@@ -27,7 +27,7 @@ import java.io.IOException;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
 

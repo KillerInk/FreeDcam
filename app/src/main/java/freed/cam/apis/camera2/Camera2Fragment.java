@@ -49,7 +49,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 import freed.viewer.screenslide.MyHistogram;
 import freed.views.AutoFitTextureView;

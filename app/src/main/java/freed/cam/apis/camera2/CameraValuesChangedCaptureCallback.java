@@ -11,11 +11,11 @@ import androidx.annotation.RequiresApi;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by KillerInk on 23.12.2017.

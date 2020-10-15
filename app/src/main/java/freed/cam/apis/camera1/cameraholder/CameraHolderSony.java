@@ -8,7 +8,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.events.CameraStateEvents;
-import freed.settings.Frameworks;
+import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;
 
 /**

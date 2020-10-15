@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.settings.SettingsManager;
-import freed.settings.mode.SettingMode;
-import freed.utils.StringUtils;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.SettingMode;
+import com.troop.freedcam.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Util

@@ -61,9 +61,9 @@ import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.events.CameraStateEvents;
 import com.troop.freedcam.file.holder.BaseHolder;
 import freed.renderscript.RenderScriptProcessor;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
 

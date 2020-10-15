@@ -8,8 +8,8 @@ import androidx.annotation.RequiresApi;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 
 public class MFNR extends BaseModeApi2 {
     public MFNR(CameraWrapperInterface cameraUiWrapper) {

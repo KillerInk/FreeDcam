@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
 

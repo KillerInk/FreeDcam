@@ -58,11 +58,11 @@ import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.FileHolder;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 import freed.utils.PermissionManager;
-import freed.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 26.11.2015.

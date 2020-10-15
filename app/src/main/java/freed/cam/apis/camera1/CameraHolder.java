@@ -39,7 +39,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.Frameworks;
+
+import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;
 
 /**

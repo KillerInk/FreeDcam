@@ -24,8 +24,8 @@ import freed.dng.opcode.OpCodeCreator;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTaskDngConverter;
 import freed.jni.OpCode;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.utils.Log;

@@ -9,7 +9,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.events.ValueChangedEvent;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingsManager;
 
 public class SettingsChildApi extends  SettingsChildMenu {
     public SettingsChildApi(Context context) {

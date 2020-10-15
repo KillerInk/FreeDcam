@@ -2,8 +2,8 @@ package freed.cam.apis.featuredetector;
 
 import java.util.Arrays;
 
-import freed.settings.mode.SettingInterface;
-import freed.settings.mode.SettingMode;
+import com.troop.freedcam.settings.mode.SettingInterface;
+import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.utils.Log;
 
 /**

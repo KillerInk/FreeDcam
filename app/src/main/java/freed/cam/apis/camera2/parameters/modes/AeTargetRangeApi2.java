@@ -7,7 +7,7 @@ import android.util.Range;
 import androidx.annotation.RequiresApi;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 
 /**
  * Created by troop on 22.06.2017.

@@ -11,8 +11,8 @@ import com.troop.freedcam.R;
 
 import java.io.File;
 
-import freed.settings.OpCodeUrl;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingsManager;
 
 /**
  * Created by KillerInk on 18.12.2017.

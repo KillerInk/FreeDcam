@@ -35,11 +35,11 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.jni.RawToDng;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
-import freed.utils.StringUtils.FileEnding;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 24.11.2014.

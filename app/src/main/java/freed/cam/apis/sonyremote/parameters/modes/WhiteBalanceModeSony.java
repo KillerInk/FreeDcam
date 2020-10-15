@@ -29,7 +29,7 @@ import java.util.Set;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 
 public class WhiteBalanceModeSony extends BaseModeParameterSony

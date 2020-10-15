@@ -21,8 +21,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.OpCodeUrl;
-import freed.settings.SettingsManager;
+
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.utils.Log;

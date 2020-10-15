@@ -5,7 +5,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.IsoChangedEvent;
 import freed.cam.events.ShutterSpeedChangedEvent;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 
 /**

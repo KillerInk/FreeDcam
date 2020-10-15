@@ -17,9 +17,8 @@ import com.troop.freedcam.image.ImageManager;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import freed.settings.OpCodeUrl;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingsManager;
 
 /**
  * Created by KillerInk on 18.12.2017.

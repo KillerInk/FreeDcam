@@ -34,13 +34,13 @@ import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.file.holder.BaseHolder;
-import freed.settings.Frameworks;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
-import freed.utils.VideoMediaProfile;
-import freed.utils.VideoMediaProfile.VideoMode;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.VideoMediaProfile.VideoMode;
 
 
 /**

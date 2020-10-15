@@ -7,9 +7,9 @@ import android.os.Build;
 import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.utils.StringUtils;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 29.03.2017.

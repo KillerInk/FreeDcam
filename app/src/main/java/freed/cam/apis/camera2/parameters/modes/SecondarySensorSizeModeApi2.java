@@ -4,8 +4,8 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 
 public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
 

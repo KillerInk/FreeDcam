@@ -36,7 +36,7 @@ import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
 

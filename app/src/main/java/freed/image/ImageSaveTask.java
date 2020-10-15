@@ -18,7 +18,7 @@ import freed.jni.ExifInfo;
 import freed.jni.GpsInfo;
 import freed.jni.OpCode;
 import freed.jni.RawToDng;
-import freed.settings.SettingsManager;
+import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.utils.Log;

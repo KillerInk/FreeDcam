@@ -19,8 +19,9 @@
 
 package freed.cam.apis.basecamera.parameters;
 
+import com.troop.freedcam.settings.SettingKeys;
+
 import freed.cam.events.EventBusLifeCycle;
-import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 01.09.2014.

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 
-import freed.settings.mode.BooleanSettingModeInterface;
+import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by KillerInk on 05.01.2018.

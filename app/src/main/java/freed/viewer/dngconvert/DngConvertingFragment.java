@@ -71,13 +71,13 @@ import com.troop.freedcam.file.holder.UriHolder;
 
 import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
-import freed.settings.SettingsManager;
-import freed.settings.XmlParserWriter;
+import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageLoader;
+import com.troop.freedcam.settings.XmlParserWriter;
 import com.troop.freedcam.utils.Log;
-import freed.utils.StringUtils;
-import freed.utils.StringUtils.FileEnding;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 22.12.2015.
@@ -350,7 +350,7 @@ public class DngConvertingFragment extends Fragment
                     Integer.parseInt(editTextCusotmRowSize.getText().toString()),
                     matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString()),
                     spinnerMatrixProfile.getSelectedItem().toString());
-            SettingsManager.getInstance().getDngProfilesMap().append(filesize,dngprofile);
+            SettingsManager.getInstance().getDngProfilesMap().put(filesize,dngprofile);
             new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString(), SettingsManager.getInstance().getAppDataFolder());
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }

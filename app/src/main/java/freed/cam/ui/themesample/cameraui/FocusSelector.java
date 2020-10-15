@@ -11,7 +11,7 @@ import android.util.TypedValue;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-import freed.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 public class FocusSelector extends AppCompatImageView
 {
