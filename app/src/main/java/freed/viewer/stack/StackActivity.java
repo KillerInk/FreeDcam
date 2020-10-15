@@ -56,8 +56,8 @@ import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 
 import com.troop.freedcam.gallery.helper.BitmapHelper;
-import com.troop.freedcam.logger.Log;
-import freed.utils.MediaScannerManager;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.file.MediaScannerManager;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
 

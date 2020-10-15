@@ -27,7 +27,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.CustomMatrix;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 02.05.2016.

@@ -8,7 +8,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by Ingo on 24.09.2016.

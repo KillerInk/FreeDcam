@@ -21,7 +21,7 @@ import freed.jni.RawToDng;
 import freed.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 13.11.2017.

@@ -1,6 +1,6 @@
 package camera2_hidden_keys;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

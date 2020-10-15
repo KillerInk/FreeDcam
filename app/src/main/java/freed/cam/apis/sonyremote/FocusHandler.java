@@ -25,7 +25,7 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 31.01.2015.

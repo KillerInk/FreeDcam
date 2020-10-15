@@ -12,7 +12,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 public class IntervalModuleCamera1 extends PictureModule implements IntervalHandler.SuperDoWork {
 

@@ -27,7 +27,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
 import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 26.02.2016.

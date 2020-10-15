@@ -9,7 +9,7 @@ import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.text.TextUtils;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

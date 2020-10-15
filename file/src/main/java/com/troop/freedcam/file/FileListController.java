@@ -4,13 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.utils.Log;
 
 import java.io.File;
 import java.io.IOException;

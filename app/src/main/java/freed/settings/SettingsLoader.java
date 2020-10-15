@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
 import freed.settings.mode.TypedSettingMode;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.XmlUtil;
 

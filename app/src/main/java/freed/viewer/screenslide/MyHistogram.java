@@ -30,7 +30,7 @@ import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 public class MyHistogram extends View {
 

@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
 import freed.settings.SettingKeys;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.XmlUtil;
 
 /**

@@ -1,9 +1,6 @@
 package freed;
 
-import android.app.Application;
-import android.content.Context;
-
-import com.troop.freedcam.logger.ContextApplication;
+import com.troop.freedcam.utils.ContextApplication;
 
 public class FreedApplication extends ContextApplication {
 

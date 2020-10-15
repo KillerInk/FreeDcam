@@ -9,7 +9,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 17.01.2018.

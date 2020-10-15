@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.XmlElement;
 
 /**
  * A server device description class.

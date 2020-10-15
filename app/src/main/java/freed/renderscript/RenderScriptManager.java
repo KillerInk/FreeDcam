@@ -35,7 +35,7 @@ import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 
 /**

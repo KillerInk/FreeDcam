@@ -8,7 +8,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
-import android.util.Pair;
 import android.util.Range;
 import android.util.Size;
 
@@ -20,7 +19,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
@@ -31,7 +29,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;

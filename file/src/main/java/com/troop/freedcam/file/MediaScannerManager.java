@@ -1,10 +1,10 @@
-package freed.utils;
+package com.troop.freedcam.file;
 
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import java.io.File;
 
 import com.troop.freedcam.file.holder.BaseHolder;

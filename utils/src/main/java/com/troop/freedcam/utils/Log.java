@@ -1,4 +1,4 @@
-package com.troop.freedcam.logger;
+package com.troop.freedcam.utils;
 
 import android.text.format.DateFormat;
 

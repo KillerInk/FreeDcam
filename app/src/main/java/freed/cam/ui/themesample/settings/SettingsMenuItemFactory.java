@@ -33,7 +33,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.BooleanSettingModeInterface;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 public class SettingsMenuItemFactory
 {

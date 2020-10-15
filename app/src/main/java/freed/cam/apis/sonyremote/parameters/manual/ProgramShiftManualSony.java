@@ -32,7 +32,7 @@ import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by Ingo on 19.04.2015.

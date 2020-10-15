@@ -12,7 +12,7 @@ import java.net.URL;
 import freed.cam.apis.sonyremote.modules.I_PictureCallback;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 27.12.2017.

@@ -37,7 +37,7 @@ import com.troop.freedcam.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;

@@ -49,7 +49,7 @@ import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by Ar4eR on 15.01.16.

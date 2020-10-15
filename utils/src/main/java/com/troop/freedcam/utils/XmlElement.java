@@ -2,7 +2,7 @@
  * Copyright 2014 Sony Corporation
  */
 
-package freed.cam.apis.sonyremote.sonystuff;
+package com.troop.freedcam.utils;
 
 import android.util.Xml;
 
@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import com.troop.freedcam.logger.Log;
 
 /**
  * A simple XML parser and Data structure class for sample application.

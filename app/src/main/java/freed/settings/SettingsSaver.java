@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import freed.settings.mode.SettingInterface;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.XmlUtil;
 
 public class SettingsSaver {

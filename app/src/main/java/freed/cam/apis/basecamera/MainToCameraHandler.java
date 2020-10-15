@@ -6,7 +6,7 @@ import android.os.Message;
 
 import java.lang.ref.WeakReference;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 22.12.2017.

@@ -20,10 +20,10 @@
 package com.troop.freedcam.file;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.utils.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

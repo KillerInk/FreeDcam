@@ -20,12 +20,12 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera1FeatureDetectorTask;
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.settings.mode.TypedSettingMode;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringUtils;
 
 /**

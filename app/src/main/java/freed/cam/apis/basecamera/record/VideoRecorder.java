@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -26,7 +25,7 @@ import freed.settings.SettingsManager;
 
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.file.holder.UriHolder;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.VideoMediaProfile;
 
 /**

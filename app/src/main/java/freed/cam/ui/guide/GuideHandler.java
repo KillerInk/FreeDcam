@@ -23,7 +23,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by George on 1/19/2015.

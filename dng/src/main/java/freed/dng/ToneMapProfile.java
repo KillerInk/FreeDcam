@@ -2,7 +2,8 @@ package freed.dng;
 
 import android.text.TextUtils;
 
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
+
 
 /**
  * Created by troop on 10.07.2017.

@@ -3,7 +3,8 @@ package com.troop.freedcam.file;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.troop.freedcam.utils.Log;
 
 import java.io.File;
 

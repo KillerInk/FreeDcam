@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * A SSDP client class for this sample application. This implementation keeps

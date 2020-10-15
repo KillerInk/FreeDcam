@@ -2,7 +2,7 @@ package com.lge.hardware;
 
 import android.hardware.Camera;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

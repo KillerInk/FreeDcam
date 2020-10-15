@@ -44,7 +44,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 
 /**

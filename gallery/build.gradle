@@ -53,5 +53,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation project(path: ':file')
     implementation project(path: ':image')
-    implementation project(path: ':logger')
+    implementation project(path: ':utils')
 }

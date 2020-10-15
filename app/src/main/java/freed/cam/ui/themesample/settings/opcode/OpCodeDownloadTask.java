@@ -25,7 +25,7 @@ import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 18.12.2017.

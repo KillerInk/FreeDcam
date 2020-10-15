@@ -1,4 +1,4 @@
-package com.troop.freedcam.logger;
+package com.troop.freedcam.utils;
 
 import android.app.Application;
 import android.content.Context;

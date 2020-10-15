@@ -18,7 +18,7 @@ import freed.settings.SettingsManager;
 
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 
 public class ImageTaskDngConverter extends ImageTask {

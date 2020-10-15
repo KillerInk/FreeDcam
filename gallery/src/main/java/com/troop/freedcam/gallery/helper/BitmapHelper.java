@@ -28,7 +28,7 @@ import com.troop.freedcam.file.FileEnding;
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.file.holder.UriHolder;
 import com.troop.freedcam.image.ImageLoader;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 import com.troop.freedcam.file.holder.BaseHolder;
 

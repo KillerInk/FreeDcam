@@ -7,6 +7,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.LensShadingMap;
 import android.os.Build;
 
+
 import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class OpCodeCreator {

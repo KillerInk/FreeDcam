@@ -1,6 +1,5 @@
 package freed.cam.apis.camera2.modules.capture;
 
-import android.hardware.camera2.CaptureResult;
 import android.media.Image;
 import android.os.Build;
 import android.util.Size;
@@ -15,7 +14,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.image.ImageSaveTask;
 
 import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ByteImageCapture extends StillImageCapture {

@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * A simple observer class for some status values in Camera. This class supports

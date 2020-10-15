@@ -48,7 +48,7 @@ import freed.cam.events.CameraStateEvents;
 import freed.utils.FreeDPool;
 
 import com.troop.freedcam.image.ImageManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 11.12.2014.

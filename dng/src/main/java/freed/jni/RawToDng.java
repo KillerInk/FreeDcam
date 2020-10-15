@@ -9,11 +9,11 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import freed.dng.DngProfile;
-import com.troop.freedcam.logger.Log;
-import com.troop.freedcam.file.StorageFileManager;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 15.02.2015.
@@ -167,8 +167,13 @@ public class RawToDng
     public void setExifData(ExifInfo exifData)
     {
         SetExifData(exifData.getByteBuffer(),byteBuffer);
-        SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()),byteBuffer);
+        SetDateTime(getStringExifPattern().format(new Date()),byteBuffer);
         //SetBaselineExposureOffset(exifData,byteBuffer);
+    }
+
+    private SimpleDateFormat getStringExifPattern()
+    {
+        return new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
     }
 
     public void setThumbData(byte[] mThumb, int widht, int height)

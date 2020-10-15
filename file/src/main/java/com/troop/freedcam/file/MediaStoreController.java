@@ -8,10 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.utils.Log;
 
 import java.io.File;
 import java.util.ArrayList;

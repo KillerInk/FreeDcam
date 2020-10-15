@@ -68,15 +68,14 @@ import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.file.holder.UriHolder;
-import freed.image.ImageSaveTask;
+
 import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
-import freed.jni.RawUtils;
 import freed.settings.SettingsManager;
 import freed.settings.XmlParserWriter;
 
 import com.troop.freedcam.image.ImageLoader;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 

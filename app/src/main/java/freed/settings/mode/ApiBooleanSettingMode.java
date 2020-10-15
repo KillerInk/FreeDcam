@@ -1,7 +1,7 @@
 package freed.settings.mode;
 
 import freed.FreedApplication;
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
 import freed.settings.SettingKeys;
 import freed.utils.XmlUtil;
 

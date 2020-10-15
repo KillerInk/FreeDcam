@@ -28,7 +28,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class RawImageCapture extends StillImageCapture {

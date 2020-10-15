@@ -8,7 +8,7 @@ import android.provider.MediaStore;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Workaround helper class for secure-lockscreen double-onResume() bug:

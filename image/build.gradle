@@ -47,5 +47,5 @@ android {
 
 dependencies {
 
-    implementation project(path: ':logger')
+    implementation project(path: ':utils')
 }

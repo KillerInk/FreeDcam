@@ -32,7 +32,7 @@ import com.troop.freedcam.R.layout;
 
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 29.08.2015.

@@ -33,7 +33,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.FocusPositionChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.StringFloatArray;
 
 /**

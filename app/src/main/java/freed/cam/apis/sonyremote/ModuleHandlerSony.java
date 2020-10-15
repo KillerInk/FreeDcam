@@ -28,7 +28,7 @@ import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.modules.VideoModuleSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 13.12.2014.

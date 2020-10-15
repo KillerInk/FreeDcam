@@ -1,10 +1,9 @@
 package freed.jni;
-
 import android.content.Context;
 
-import java.io.File;
+import com.troop.freedcam.file.MediaScannerManager;
 
-import freed.utils.MediaScannerManager;
+import java.io.File;
 
 /**
  * Created by troop on 25.10.2016.

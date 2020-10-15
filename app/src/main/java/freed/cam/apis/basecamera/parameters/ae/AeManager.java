@@ -6,7 +6,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.IsoChangedEvent;
 import freed.cam.events.ShutterSpeedChangedEvent;
 import freed.settings.SettingKeys;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 29.12.2017.

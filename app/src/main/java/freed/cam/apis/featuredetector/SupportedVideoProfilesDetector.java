@@ -7,7 +7,7 @@ import com.lge.media.CamcorderProfileExRef;
 
 import java.util.HashMap;
 
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 import freed.utils.VideoMediaProfile;
 
 public class SupportedVideoProfilesDetector {

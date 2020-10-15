@@ -38,7 +38,7 @@ import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
 public class BurstManualParam extends BaseManualParameter
 {

@@ -20,9 +20,9 @@
 package freed.utils;
 
 import android.media.CamcorderProfile;
-import com.troop.freedcam.logger.Log;
+import com.troop.freedcam.utils.Log;
 
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
 
 /**
  * Created by troop on 04.02.2016.
