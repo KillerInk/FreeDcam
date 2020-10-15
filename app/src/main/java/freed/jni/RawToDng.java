@@ -13,7 +13,7 @@ import java.util.Date;
 
 import freed.dng.DngProfile;
 import com.troop.freedcam.logger.Log;
-import freed.utils.StorageFileManager;
+import com.troop.freedcam.file.StorageFileManager;
 
 /**
  * Created by troop on 15.02.2015.

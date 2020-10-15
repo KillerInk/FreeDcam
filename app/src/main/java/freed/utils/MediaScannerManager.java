@@ -7,9 +7,9 @@ import android.net.Uri;
 import com.troop.freedcam.logger.Log;
 import java.io.File;
 
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.file.holder.UriHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
 
 /**
  * Created by troop on 25.08.13.

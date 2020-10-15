@@ -11,8 +11,8 @@ import java.util.concurrent.ExecutorService;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.logger.Log;
 
 /**

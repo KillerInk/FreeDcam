@@ -21,7 +21,9 @@ package freed;
 
 import android.net.Uri;
 
-import freed.file.FileListController;
+import com.troop.freedcam.file.FileListController;
+
+import com.troop.freedcam.file.FileListController;
 import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;

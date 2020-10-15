@@ -1,6 +1,6 @@
 package freed.cam.apis.basecamera.modules;
 
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
 
 /**
  * Created by troop on 12.06.2017.

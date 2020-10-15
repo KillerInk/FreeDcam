@@ -58,12 +58,13 @@ import java.util.List;
 
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.file.holder.UriHolder;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils.FileEnding;

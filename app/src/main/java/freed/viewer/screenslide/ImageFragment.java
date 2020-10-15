@@ -39,7 +39,7 @@ import com.troop.freedcam.R.layout;
 import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import com.troop.freedcam.logger.Log;

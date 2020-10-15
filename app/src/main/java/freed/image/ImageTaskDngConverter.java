@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.logger.Log;
 
 

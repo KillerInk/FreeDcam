@@ -12,7 +12,7 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter

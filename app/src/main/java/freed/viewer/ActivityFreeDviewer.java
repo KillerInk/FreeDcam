@@ -36,8 +36,8 @@ import com.troop.freedcam.R;
 import java.util.List;
 
 import freed.ActivityAbstract;
-import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import com.troop.freedcam.logger.Log;

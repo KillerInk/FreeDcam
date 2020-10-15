@@ -47,10 +47,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityAbstract;
-import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.file.holder.UriHolder;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
@@ -100,12 +100,12 @@ public class StackActivity extends ActivityAbstract
         {
             if (s.toLowerCase().startsWith("content")) {
                 Uri uri = Uri.parse(s);
-                filesToStack[i++] = new UriHolder(uri, uri.getLastPathSegment(),0,0,false,false);
+                filesToStack[i++] = new UriHolder(getApplicationContext(),uri, uri.getLastPathSegment(),0,0,false,false);
             }
             else
             {
                 File file =new File(s);
-                filesToStack[i++] = new FileHolder(file,false);
+                filesToStack[i++] = new FileHolder(getApplicationContext(),file,false);
             }
         }
 

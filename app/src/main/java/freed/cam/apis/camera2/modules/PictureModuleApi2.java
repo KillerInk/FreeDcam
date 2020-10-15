@@ -59,7 +59,7 @@ import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.events.CameraStateEvents;
-import freed.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;

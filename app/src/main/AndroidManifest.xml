@@ -43,7 +43,7 @@
 
 
     <application
-        tools:replace="android:name"
+        tools:replace="android:name,android:theme,android:icon,android:label,android:supportsRtl"
         android:name="freed.FreedApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_freedcam"

@@ -22,6 +22,7 @@ package freed.viewer.dngconvert;
 import android.R.layout;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -63,16 +64,18 @@ import java.util.List;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
-import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.file.holder.UriHolder;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
 import freed.image.ImageSaveTask;
 import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
 import freed.jni.RawUtils;
 import freed.settings.SettingsManager;
 import freed.settings.XmlParserWriter;
+
+import com.troop.freedcam.image.ImageLoader;
 import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
@@ -457,7 +460,7 @@ public class DngConvertingFragment extends Fragment
                     out = holder;
             }
             if(out == null)
-                out = activityInterface.getFileListController().getNewImgFileHolder(file);
+                out = activityInterface.getFileListController().getNewImgFileHolder(file,SettingsManager.getInstance().GetWriteExternal(), SettingsManager.getInstance().GetBaseFolder());
         }
         dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
         if ((VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
@@ -469,8 +472,8 @@ public class DngConvertingFragment extends Fragment
         else
         {
             ParcelFileDescriptor pfd = null;
-            if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
-                DocumentFile df = ((ActivityInterface) getActivity()).getFileListController().getFreeDcamDocumentFolder();
+            if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder(SettingsManager.getInstance().GetBaseFolder()) != null && SettingsManager.getInstance().GetWriteExternal()) {
+                DocumentFile df = ((ActivityInterface) getActivity()).getFileListController().getFreeDcamDocumentFolder(SettingsManager.getInstance().GetBaseFolder());
                 DocumentFile wr = df.createFile("image/dng", out.getName());
                 try {
 
@@ -517,16 +520,28 @@ public class DngConvertingFragment extends Fragment
         getActivity().sendBroadcast(intent);
         if (filesToConvert.length == 1)
         {
-
-            try {
-                return out.getBitmapFromDng(getContext());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            return getBitmapFromDng(getContext(),out);
         }
         return null;
     }
 
-
+    private Bitmap getBitmapFromDng(Context context, BaseHolder holder)
+    {
+        if (holder instanceof FileHolder) {
+            try {
+                return ImageLoader.getBitmapFromDng(context, ((FileHolder) holder).getFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (holder instanceof UriHolder)
+        {
+            try {
+                return ImageLoader.getBitmapFromDng(context, ((UriHolder)holder).getMediaStoreUri());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 }

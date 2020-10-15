@@ -44,7 +44,7 @@ import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.file.FileListController;
+import com.troop.freedcam.file.FileListController;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
 import freed.settings.SettingKeys;

@@ -42,8 +42,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import com.troop.freedcam.logger.Log;
@@ -171,7 +171,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = cameraUiWrapper.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
+                DocumentFile df = cameraUiWrapper.getActivityInterface().getFileListController().getFreeDcamDocumentFolder(SettingsManager.getInstance().GetBaseFolder());
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = FreedApplication.getContext().getContentResolver().openOutputStream(wr.getUri());
             }
