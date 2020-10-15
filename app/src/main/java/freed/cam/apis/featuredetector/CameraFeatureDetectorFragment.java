@@ -14,9 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
-import freed.image.ImageManager;
-import freed.image.ImageTask;
 import freed.settings.SettingsManager;
+
+import com.troop.freedcam.image.ImageManager;
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 /**

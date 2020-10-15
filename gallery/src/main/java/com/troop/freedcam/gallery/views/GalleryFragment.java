@@ -40,24 +40,13 @@ public class GalleryFragment extends Fragment {
         mViewModel.create(getActivity().getApplication());
         RecyclerView recyclerView = galleryFragmentBinding.galleryRecylerview;
         new BitmapHelper(getContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-        //recyclerView.setItemViewCacheSize(10);
-        //recyclerView.setDrawingCacheEnabled(true);
-        //recyclerView.setHasFixedSize(true);
-        //recyclerView.setItemViewCacheSize(100);
-        //recyclerView.setDrawingCacheEnabled(true);
-        //recyclerView.setItemAnimator(null);
+
         GridLayoutManager gridLayoutManager =new GridLayoutManager(recyclerView.getContext(),4);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-
-
-        
         adapter = new GalleryRecyclerAdapter();
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
-
-
-
         return galleryFragmentBinding.getRoot();
     }
 

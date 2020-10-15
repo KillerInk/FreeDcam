@@ -45,17 +45,17 @@ import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.FileListController;
-import freed.image.ImageManager;
-import freed.image.ImageTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
+
+import com.troop.freedcam.gallery.helper.BitmapHelper;
+import com.troop.freedcam.image.ImageManager;
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
-import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
@@ -244,7 +244,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     private void initScreenSlide() {
-        uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager(),onThumbBackClick);
+        uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager());
         if (uiViewPager == null)
             uiViewPager = findViewById(id.viewPager_fragmentHolder);
         uiViewPager.setOffscreenPageLimit(2);
@@ -350,7 +350,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
 
-    //get called when the back button from screenslidefragment gets clicked
+   /* //get called when the back button from screenslidefragment gets clicked
     private final ScreenSlideFragment.ButtonClick onThumbBackClick = new ScreenSlideFragment.ButtonClick() {
         @Override
         public void onButtonClick(int position, View view)
@@ -360,7 +360,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 uiViewPager.setCurrentItem(1);
         }
 
-    };
+    };*/
 
 
     @Override

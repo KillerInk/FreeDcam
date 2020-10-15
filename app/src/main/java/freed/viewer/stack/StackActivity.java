@@ -54,6 +54,8 @@ import com.troop.freedcam.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
+
+import com.troop.freedcam.gallery.helper.BitmapHelper;
 import com.troop.freedcam.logger.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;
@@ -144,7 +146,7 @@ public class StackActivity extends ActivityAbstract
         closeButton.setVisibility(View.GONE);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        filesToStack[0].getBitmap(getApplicationContext(), options);
+        BitmapHelper.getBitmap(getApplicationContext(),filesToStack[0],options);
         final int mWidth = options.outWidth;
         final int mHeight = options.outHeight;
         Type.Builder tbIn2 = new Type.Builder(renderScriptManager.GetRS(), Element.RGBA_8888(renderScriptManager.GetRS()));
@@ -172,10 +174,10 @@ public class StackActivity extends ActivityAbstract
             for (BaseHolder f : filesToStack)
             {
                 updateCounter(count++);
-                f.getBitmap(getApplicationContext(),options);
+                BitmapHelper.getBitmap(getApplicationContext(),f,options);
                 if(mWidth != options.outWidth || mHeight != options.outHeight)
                     return;
-                renderScriptManager.GetIn().copyFrom(f.getBitmap(getApplicationContext(),null));
+                renderScriptManager.GetIn().copyFrom(BitmapHelper.getBitmap(getApplicationContext(),f,null));
                 switch (stackMode)
                 {
                     case 0: //AVARAGE

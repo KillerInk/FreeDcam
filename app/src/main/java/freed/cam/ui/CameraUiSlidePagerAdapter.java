@@ -13,20 +13,20 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import com.troop.freedcam.file.holder.BaseHolder;
-import freed.viewer.screenslide.ScreenSlideFragment;
+import com.troop.freedcam.gallery.views.GalleryFragment;
+
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private SettingsMenuFragment settingsMenuFragment = new SettingsMenuFragment();
-    private ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
+    private GalleryFragment screenSlideFragment = new GalleryFragment();
     private CameraUiFragment cameraUiFragment = new CameraUiFragment();
 
     private CameraFragmentAbstract cameraFragment;
-    ScreenSlideFragment.ButtonClick click;
+    //ScreenSlideFragment.ButtonClick click;
 
-    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click) {
+    public CameraUiSlidePagerAdapter(FragmentManager fm) {
         super(fm);
-        this.click = click;
     }
 
     public void setCameraFragment(CameraFragmentAbstract cameraFragment)
@@ -41,7 +41,8 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public void updateScreenSlideFile(List<BaseHolder> files)
     {
-        screenSlideFragment.NotifyDATAhasChanged(files);
+        //TODO
+        //screenSlideFragment.NotifyDATAhasChanged(files);
     }
 
     @Override
@@ -53,10 +54,10 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
             return settingsMenuFragment;
         }
         else if (position == 2) {
-            if (screenSlideFragment != null) {
+           /* if (screenSlideFragment != null) {
 
                 screenSlideFragment.setOnBackClickListner(click);
-            }
+            }*/
             return screenSlideFragment;
         }
         else {

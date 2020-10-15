@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.image.ImageTask;
+
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 /**

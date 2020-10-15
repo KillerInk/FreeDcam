@@ -19,6 +19,8 @@ import freed.jni.GpsInfo;
 import freed.jni.OpCode;
 import freed.jni.RawToDng;
 import freed.settings.SettingsManager;
+
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 /**
@@ -206,7 +208,7 @@ public class ImageSaveTask extends ImageTask
 
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
-        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename);
+        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename,SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         if (fileholder instanceof FileHolder)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
         else if(fileholder instanceof UriHolder) {
@@ -231,7 +233,7 @@ public class ImageSaveTask extends ImageTask
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
-        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename);
+        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename,SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         try {
             BufferedOutputStream outStream = new BufferedOutputStream(fileholder.getOutputStream());
             outStream.write(bytesTosave);

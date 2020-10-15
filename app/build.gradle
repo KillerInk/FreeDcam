@@ -54,6 +54,10 @@ android {
     productFlavors {
     }
 
+    buildFeatures {
+        dataBinding true
+    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
 		sourceCompatibility JavaVersion.VERSION_1_8
@@ -70,6 +74,7 @@ dependencies {
     implementation project(path: ':logger')
     implementation project(path: ':file')
     implementation project(path: ':image')
+    implementation project(path: ':gallery')
 }
 
 android.applicationVariants.all { variant ->

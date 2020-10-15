@@ -45,8 +45,9 @@ import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.events.CameraStateEvents;
-import freed.image.ImageManager;
 import freed.utils.FreeDPool;
+
+import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.logger.Log;
 
 /**

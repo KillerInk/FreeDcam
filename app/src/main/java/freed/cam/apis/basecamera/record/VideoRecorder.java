@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.location.Location;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 import android.view.Surface;
 
@@ -15,12 +16,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
 import com.troop.freedcam.logger.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -241,11 +246,23 @@ public class VideoRecorder {
     }
 
     private void setRecorderFilePath() {
-        BaseHolder baseHolder = cameraWrapperInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile);
+        BaseHolder baseHolder = cameraWrapperInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         try {
-            baseHolder.setToMediaRecorder(mediaRecorder,cameraWrapperInterface.getActivityInterface());
+            setToMediaRecorder(mediaRecorder,baseHolder);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setToMediaRecorder(MediaRecorder recorder, BaseHolder baseHolder) throws FileNotFoundException {
+        if (baseHolder instanceof FileHolder)
+        {
+            recorder.setOutputFile(((FileHolder)baseHolder).getFile().getAbsolutePath());
+        }
+        else if (baseHolder instanceof UriHolder)
+        {
+            ParcelFileDescriptor fileDescriptor = ((UriHolder)baseHolder).getParcelFileDescriptor();
+            recorder.setOutputFile(fileDescriptor.getFileDescriptor());
         }
     }
 

@@ -103,9 +103,10 @@
         </activity>
 
         <activity
-            android:name="freed.viewer.ActivityFreeDviewer"
+            tools:replace="android:label"
+            android:name=".gallery.views.GalleryActivity"
             android:label="FreeDCam Viewer"
-            android:taskAffinity="com.freedviewer.GridViewActivity"
+            android:taskAffinity=".gallery.views.GalleryActivity"
             android:icon="@drawable/launcher_imageviewer"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection">
             <intent-filter>

@@ -32,11 +32,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
-import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
 
 import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.gallery.helper.BitmapHelper;
+import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.logger.Log;
 import freed.utils.PermissionManager;
 

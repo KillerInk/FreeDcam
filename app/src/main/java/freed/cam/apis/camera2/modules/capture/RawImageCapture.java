@@ -21,13 +21,13 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.dng.opcode.OpCodeCreator;
-import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
-import freed.image.ImageTask;
 import freed.image.ImageTaskDngConverter;
 import freed.jni.OpCode;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -12,9 +12,9 @@ import java.nio.ByteBuffer;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
-import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
-import freed.image.ImageTask;
+
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

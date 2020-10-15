@@ -317,7 +317,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private void startPreviewVideo()
     {
         String file = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
-        recordingFile = new FileHolder(new File(file),SettingsManager.getInstance().GetWriteExternal());
+        recordingFile = new FileHolder(FreedApplication.getContext(),new File(file),SettingsManager.getInstance().GetWriteExternal());
         //TODO handel uri based holder
         videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {

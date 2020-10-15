@@ -202,7 +202,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             }
         }
 
-        fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
+        fireOnWorkFinish(new FileHolder(FreedApplication.getContext(),file,SettingsManager.getInstance().GetWriteExternal()));
 
     }
 

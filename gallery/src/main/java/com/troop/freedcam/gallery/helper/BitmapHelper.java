@@ -192,7 +192,7 @@ public class BitmapHelper
         return response;
     }
 
-    private Bitmap getBitmap(Context context, BaseHolder baseHolder,Options options)
+    public static Bitmap getBitmap(Context context, BaseHolder baseHolder,Options options)
     {
         if (baseHolder instanceof FileHolder)
         {
@@ -207,7 +207,7 @@ public class BitmapHelper
         return null;
     }
 
-    private Bitmap getVideoThumb(Context context, BaseHolder baseHolder) throws IOException {
+    public static Bitmap getVideoThumb(Context context, BaseHolder baseHolder) throws IOException {
         if (baseHolder instanceof FileHolder)
         {
             FileHolder fh = (FileHolder) baseHolder;
@@ -221,7 +221,7 @@ public class BitmapHelper
         return null;
     }
 
-    private Bitmap getBitmapFromDng(Context context, BaseHolder baseHolder) throws IOException {
+    public static Bitmap getBitmapFromDng(Context context, BaseHolder baseHolder) throws IOException {
         if (baseHolder instanceof FileHolder)
         {
             FileHolder fh = (FileHolder) baseHolder;

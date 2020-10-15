@@ -38,10 +38,12 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
 import com.troop.freedcam.file.holder.BaseHolder;
-import freed.image.ImageManager;
+
 import freed.image.ImageSaveTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+
+import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.logger.Log;
 import freed.utils.StringUtils.FileEnding;
 

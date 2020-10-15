@@ -14,7 +14,10 @@ import java.io.IOException;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.settings.SettingsManager;
+
 import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 
@@ -64,7 +67,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            fileholder = activityInterface.getFileListController().getNewImgFileHolder(file);
+            fileholder = activityInterface.getFileListController().getNewImgFileHolder(file, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
             dngCreator.writeImage(fileholder.getOutputStream(), image);
             dngCreator.close();
             image.close();

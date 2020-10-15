@@ -12,11 +12,12 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.image.ImageManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.image.ImageManager;
+
 import freed.settings.OpCodeUrl;
 import freed.settings.SettingsManager;
 

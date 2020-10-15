@@ -13,9 +13,9 @@ import java.util.List;
 
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.image.EmptyTask;
-import freed.image.ImageManager;
-import freed.image.ImageSaveTask;
-import freed.image.ImageTask;
+
+import com.troop.freedcam.image.ImageManager;
+import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.logger.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
