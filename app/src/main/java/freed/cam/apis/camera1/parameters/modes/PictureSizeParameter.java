@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -33,7 +33,7 @@ import com.troop.freedcam.utils.Log;
 public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
-    public PictureSizeParameter(Parameters  parameters, CameraWrapperInterface parameterChanged) {
+    public PictureSizeParameter(Parameters  parameters, CameraControllerInterface parameterChanged) {
         super(parameters, parameterChanged, SettingKeys.PictureSize);
         this.cameraUiWrapper = parameterChanged;
         setViewState(ViewState.Visible);

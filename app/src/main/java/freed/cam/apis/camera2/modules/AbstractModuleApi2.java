@@ -28,7 +28,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
@@ -46,7 +46,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
     private Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    AbstractModuleApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();

@@ -3,7 +3,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 
 /**
  * Created by KillerInk on 15.01.2018.
@@ -13,7 +13,7 @@ public class HistogramParameter extends FocusPeakMode {
 
     private String state = "off";
 
-    public HistogramParameter(CameraWrapperInterface cameraUiWrapper) {
+    public HistogramParameter(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
     @Override

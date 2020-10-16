@@ -23,7 +23,7 @@ import android.content.Context;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.Camera2Fragment;
@@ -35,13 +35,13 @@ import com.troop.freedcam.settings.SettingsManager;
  */
 public class SettingsChildMenuOrientationHack extends SettingsChildMenu
 {
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
 
     public SettingsChildMenuOrientationHack(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
     }
 
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void SetCameraUIWrapper(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (SettingsManager.get(SettingKeys.orientationHack).get())

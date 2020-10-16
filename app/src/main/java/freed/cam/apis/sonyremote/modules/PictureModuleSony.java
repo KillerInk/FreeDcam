@@ -36,7 +36,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -56,7 +56,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     private final String TAG = PictureModuleSony.class.getSimpleName();
     private final CameraHolderSony cameraHolder;
 
-    public PictureModuleSony(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public PictureModuleSony(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         cameraHolder = (CameraHolderSony)cameraUiWrapper.getCameraHolder();

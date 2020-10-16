@@ -2,7 +2,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.os.Build;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.mode.ApiBooleanSettingMode;
 import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
@@ -15,7 +15,7 @@ public class LegacyMode extends AbstractParameter implements BooleanSettingModeI
 
     ApiBooleanSettingMode settingMode;
 
-    public LegacyMode(CameraWrapperInterface cameraUiWrapper,  ApiBooleanSettingMode settingMode) {
+    public LegacyMode(CameraControllerInterface cameraUiWrapper, ApiBooleanSettingMode settingMode) {
         super(cameraUiWrapper,null);
         this.settingMode = settingMode;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

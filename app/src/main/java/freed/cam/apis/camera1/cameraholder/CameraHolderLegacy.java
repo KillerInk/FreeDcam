@@ -24,7 +24,7 @@ import android.hardware.Camera;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.events.CameraStateEvents;
 
@@ -37,7 +37,7 @@ import com.troop.freedcam.utils.Log;
 public class CameraHolderLegacy extends CameraHolder
 {
     private static final String TAG = CameraHolderLegacy.class.getSimpleName();
-    public CameraHolderLegacy(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderLegacy(CameraControllerInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

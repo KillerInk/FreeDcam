@@ -2,7 +2,7 @@ package freed.cam.apis.basecamera.parameters;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
 
@@ -28,7 +28,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     /**
      * the parameterhandler
      */
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CameraControllerInterface cameraUiWrapper;
     /**
      * contains the values that are supported by the parameters
      */
@@ -84,7 +84,7 @@ public abstract class AbstractParameter implements ParameterInterface {
         fireViewStateChanged(viewState);
     }
 
-    public AbstractParameter(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode)
+    public AbstractParameter(CameraControllerInterface cameraUiWrapper, SettingKeys.Key  settingMode)
     {
         this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;

@@ -23,7 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
@@ -33,7 +33,7 @@ import com.troop.freedcam.settings.SettingsManager;
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
 
-    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
+    public PictureFormatParameterApi2(CameraControllerInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,key,parameterKey);
         if (SettingsManager.get(SettingKeys.PictureFormat).isSupported()) {

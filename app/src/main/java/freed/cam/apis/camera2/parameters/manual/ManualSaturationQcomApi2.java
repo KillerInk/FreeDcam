@@ -5,14 +5,14 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import com.troop.freedcam.settings.SettingKeys;
 
 public class ManualSaturationQcomApi2 extends AbstractParameter {
 
-    public ManualSaturationQcomApi2(CameraWrapperInterface cameraUiWrapper) {
+    public ManualSaturationQcomApi2(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.M_Saturation);
 
     }

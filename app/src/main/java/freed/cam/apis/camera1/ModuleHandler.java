@@ -20,7 +20,7 @@
 package freed.cam.apis.camera1;
 
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.modules.BracketModule;
 import freed.cam.apis.camera1.modules.IntervalModuleCamera1;
@@ -39,7 +39,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
 {
 
 
-    public  ModuleHandler (CameraWrapperInterface cameraUiWrapper)
+    public  ModuleHandler (CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

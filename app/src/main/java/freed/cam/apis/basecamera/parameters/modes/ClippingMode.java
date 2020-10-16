@@ -3,7 +3,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 
 /**
  * Created by KillerInk on 23.01.2018.
@@ -13,7 +13,7 @@ public class ClippingMode extends HistogramParameter {
 
     private String state = "off";
 
-    public ClippingMode(CameraWrapperInterface cameraUiWrapper) {
+    public ClippingMode(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 

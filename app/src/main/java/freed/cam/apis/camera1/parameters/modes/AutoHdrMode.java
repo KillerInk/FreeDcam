@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.ValueChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
@@ -31,7 +31,7 @@ public class AutoHdrMode extends BaseModeParameter {
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public AutoHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode) {
+    public AutoHdrMode(Camera.Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key  settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
 
         if (parameters.get(FreedApplication.getStringFromRessources(R.string.auto_hdr_supported))!=null)

@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -38,7 +38,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     private final boolean visible = true;
     private final String state = "";
     private final String curmodule = "";
-    public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public NightModeZTE(Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper,SettingKeys.NightMode);
         setViewState(ViewState.Visible);
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).addEventListner(this);

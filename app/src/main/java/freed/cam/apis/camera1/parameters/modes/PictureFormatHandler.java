@@ -25,7 +25,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
@@ -48,7 +48,7 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraUiWrapper Hold the camera object
      */
-    public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
+    public PictureFormatHandler(Parameters parameters, CameraControllerInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper,SettingKeys.PictureFormat);
         SettingsManager.get(SettingKeys.PictureFormat).isSupported();
@@ -156,7 +156,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Parameters parameters, CameraWrapperInterface cameraHolder, String values) {
+        public BayerFormat(Parameters parameters, CameraControllerInterface cameraHolder, String values) {
             super(parameters, cameraHolder,SettingKeys.BAYERFORMAT);
         }
 

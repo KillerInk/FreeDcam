@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import camera2_hidden_keys.ReflectionHelper;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
@@ -51,9 +51,9 @@ import com.troop.freedcam.file.MediaScannerManager;
  */
 public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 {
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
 
-    public SettingsChildMenuSaveCamParams(Context context, int headerid, int descriptionid, CameraWrapperInterface cameraUiWrapper) {
+    public SettingsChildMenuSaveCamParams(Context context, int headerid, int descriptionid, CameraControllerInterface cameraUiWrapper) {
         super(context, headerid, descriptionid);
         this.cameraUiWrapper = cameraUiWrapper;
         this.valueText.setText("");
@@ -109,7 +109,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
 
-    public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void setCameraUiWrapper(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof Camera1Fragment)

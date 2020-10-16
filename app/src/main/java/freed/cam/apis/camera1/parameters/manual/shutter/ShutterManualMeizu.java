@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -43,7 +43,7 @@ public class ShutterManualMeizu extends AbstractParameter
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualMeizu(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualMeizu(Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters = parameters;
         setViewState(ViewState.Visible);

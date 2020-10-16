@@ -23,7 +23,7 @@ package freed.cam.apis.basecamera.modules;
 import android.os.Handler;
 import android.os.Looper;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
@@ -40,12 +40,12 @@ public abstract class ModuleAbstract implements ModuleInterface
     public String name;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CameraControllerInterface cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
 
-    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public ModuleAbstract(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;

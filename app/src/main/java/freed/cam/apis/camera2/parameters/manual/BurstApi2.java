@@ -19,7 +19,7 @@
 
 package freed.cam.apis.camera2.parameters.manual;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import com.troop.freedcam.settings.SettingKeys;
@@ -32,7 +32,7 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
     int current = 1;
 
 
-    public BurstApi2(CameraWrapperInterface cameraUiWrapper) {
+    public BurstApi2(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.M_Burst);
         setViewState(ViewState.Visible);
         stringvalues = createStringArray(1,60,1);// new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"};

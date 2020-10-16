@@ -18,7 +18,7 @@
  */
 
 package freed.cam.ui.themesample;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 
 /**
  * Created by troop on 24.03.2015.
@@ -29,5 +29,5 @@ interface I_Fragment
      * Set the CameraWrapper to the UI, implementations must check if the wrapper is not null
      * @param wrapper
      */
-    void setCameraToUi(CameraWrapperInterface wrapper);
+    void setCameraToUi(CameraControllerInterface wrapper);
 }

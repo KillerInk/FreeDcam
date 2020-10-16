@@ -4,7 +4,7 @@ import com.troop.freedcam.R;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -18,10 +18,10 @@ public class NightOverlayParameter extends AbstractParameter {
     private final String TAG = NightOverlayParameter.class.getSimpleName();
     private ActivityInterface activityInterface;
 
-    public NightOverlayParameter(CameraWrapperInterface cameraWrapperInterface)
+    public NightOverlayParameter(CameraControllerInterface cameraControllerInterface)
     {
         super(SettingKeys.NightOverlay);
-        this.activityInterface = cameraWrapperInterface.getActivityInterface();
+        this.activityInterface = cameraControllerInterface.getActivityInterface();
         setViewState(ViewState.Visible);
     }
 

@@ -5,7 +5,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import com.troop.freedcam.settings.SettingKeys;
@@ -13,7 +13,7 @@ import com.troop.freedcam.settings.SettingKeys;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ManualSharpnessQcomApi2 extends AbstractParameter {
 
-    public ManualSharpnessQcomApi2(CameraWrapperInterface cameraUiWrapper) {
+    public ManualSharpnessQcomApi2(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_Sharpness);
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

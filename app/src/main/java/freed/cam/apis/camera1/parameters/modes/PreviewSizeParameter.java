@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -34,7 +34,7 @@ public class PreviewSizeParameter extends BaseModeParameter
 {
     final String TAG = PreviewSizeParameter.class.getSimpleName();
 
-    public PreviewSizeParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+    public PreviewSizeParameter(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 

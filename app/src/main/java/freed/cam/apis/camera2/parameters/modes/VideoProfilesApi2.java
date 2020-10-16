@@ -22,7 +22,7 @@ package freed.cam.apis.camera2.parameters.modes;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 
 /**
@@ -32,7 +32,7 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
 {
     final String TAG = VideoProfilesApi2.class.getSimpleName();
 
-    public VideoProfilesApi2(CameraWrapperInterface cameraUiWrapper)
+    public VideoProfilesApi2(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

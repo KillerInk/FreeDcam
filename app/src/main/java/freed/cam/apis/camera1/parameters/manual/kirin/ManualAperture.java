@@ -2,7 +2,7 @@ package freed.cam.apis.camera1.parameters.manual.kirin;
 
 import android.hardware.Camera;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -14,7 +14,7 @@ import com.troop.freedcam.settings.SettingsManager;
 public class ManualAperture extends AbstractParameter
 {
     private Camera.Parameters parameters;
-    public ManualAperture(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters)
+    public ManualAperture(CameraControllerInterface cameraUiWrapper, Camera.Parameters parameters)
     {
         super(cameraUiWrapper,SettingKeys.M_Aperture);
         this.parameters = parameters;

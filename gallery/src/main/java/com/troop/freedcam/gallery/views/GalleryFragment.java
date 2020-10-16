@@ -43,9 +43,9 @@ public class GalleryFragment extends Fragment {
 
         GridLayoutManager gridLayoutManager =new GridLayoutManager(recyclerView.getContext(),4);
         recyclerView.setLayoutManager(gridLayoutManager);
-
+        recyclerView.setHasFixedSize(true);
         adapter = new GalleryRecyclerAdapter();
-        adapter.setHasStableIds(true);
+        //adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
         return galleryFragmentBinding.getRoot();
     }

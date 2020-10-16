@@ -25,7 +25,7 @@ import android.util.AttributeSet;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -35,7 +35,7 @@ import com.troop.freedcam.settings.SettingsManager;
  */
 public class SettingsChildMenuVideoHDR extends SettingsChildMenu
 {
-    private CameraWrapperInterface cameraWrapperInterface;
+    private CameraControllerInterface cameraControllerInterface;
 
     public SettingsChildMenuVideoHDR(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
@@ -49,18 +49,18 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         super(context, attrs);
     }
 
-    public void SetCameraInterface(CameraWrapperInterface cameraWrapperInterface)
+    public void SetCameraInterface(CameraControllerInterface cameraControllerInterface)
     {
-        this.cameraWrapperInterface = cameraWrapperInterface;
+        this.cameraControllerInterface = cameraControllerInterface;
     }
 
     @Override
     public void SetValue(String value)
     {
-        if (parameter != null &&  cameraWrapperInterface.getModuleHandler().getCurrentModule() != null)
+        if (parameter != null &&  cameraControllerInterface.getModuleHandler().getCurrentModule() != null)
         {
             SettingsManager.get(SettingKeys.VideoHDR).set(value);
-            if (cameraWrapperInterface.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
+            if (cameraControllerInterface.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
                 parameter.SetValue(value, true);
             onStringValueChanged(value);
         }

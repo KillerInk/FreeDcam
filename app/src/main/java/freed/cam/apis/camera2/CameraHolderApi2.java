@@ -39,7 +39,7 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.events.CameraStateEvents;
 import com.troop.freedcam.utils.Log;
@@ -69,7 +69,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     private Method method_setVendorStreamConfigMode = null;
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
+    public CameraHolderApi2(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
@@ -253,7 +253,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
             errorRecieved = true;
             CameraStateEvents.fireCameraCloseEvent();
-
         }
     };
 

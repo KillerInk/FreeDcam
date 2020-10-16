@@ -23,7 +23,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.modules.AeBracketApi2;
 import freed.cam.apis.camera2.modules.AfBracketApi2;
@@ -41,7 +41,7 @@ import com.troop.freedcam.settings.SettingsManager;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ModuleHandlerApi2 extends ModuleHandlerAbstract
 {
-    public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper)
+    public  ModuleHandlerApi2 (CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         initModules();

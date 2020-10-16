@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
@@ -41,7 +41,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     private int step;
 
     private String[] values;
-    public WbCTManualSony(CameraWrapperInterface cameraUiWrapper) {
+    public WbCTManualSony(CameraControllerInterface cameraUiWrapper) {
         super("getWhiteBalance", "", "setWhiteBalance", cameraUiWrapper, SettingKeys.M_Whitebalance);
     }
 

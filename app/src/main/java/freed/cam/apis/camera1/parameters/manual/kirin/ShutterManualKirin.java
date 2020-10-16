@@ -22,7 +22,7 @@ package freed.cam.apis.camera1.parameters.manual.kirin;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -35,7 +35,7 @@ public class ShutterManualKirin extends AbstractParameter {
     private final String TAG = ShutterManualKirin.class.getSimpleName();
     private final Parameters parameters;
 
-    public ShutterManualKirin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualKirin(Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters =  parameters;
         setViewState(ViewState.Visible);

@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
 import freed.renderscript.RenderScriptManager;
@@ -36,7 +36,7 @@ import com.troop.freedcam.settings.SettingsManager;
  * Created by troop on 10.09.2015.
  */
 public class FocusPeakMode extends AbstractParameter {
-    public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
+    public FocusPeakMode(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.Focuspeak);
     }

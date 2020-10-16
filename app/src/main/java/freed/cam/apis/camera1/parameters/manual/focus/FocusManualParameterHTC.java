@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.manual.focus;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
@@ -33,7 +33,7 @@ public class FocusManualParameterHTC extends BaseManualParameter
 {
     private final String TAG =FocusManualParameterHTC.class.getSimpleName();
 
-    public FocusManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+    public FocusManualParameterHTC(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
     }
 

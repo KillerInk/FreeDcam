@@ -30,7 +30,7 @@
         android:background="#71000001"
         android:orientation="vertical">
 
-        <freed.viewer.screenslide.MyHistogram
+        <freed.views.MyHistogram
             android:id="@+id/screenslide_histogram"
             android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
             android:layout_height="@dimen/freedviewer_screenslide_histogram_height"

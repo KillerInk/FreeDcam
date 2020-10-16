@@ -30,7 +30,7 @@ import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.ui.themesample.AbstractFragment;
@@ -81,7 +81,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     }
 
     @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper)
+    public void setCameraToUi(CameraControllerInterface wrapper)
     {
         super.setCameraToUi(wrapper);
         Log.d(TAG, "SetCameraUiWrapper");

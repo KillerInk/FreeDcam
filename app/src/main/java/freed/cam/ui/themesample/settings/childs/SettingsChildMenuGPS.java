@@ -22,7 +22,7 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 
 /**
@@ -42,7 +42,7 @@ public class SettingsChildMenuGPS extends SettingsChildMenu
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void SetCameraUIWrapper(CameraControllerInterface cameraUiWrapper)
     {
         SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE));
 

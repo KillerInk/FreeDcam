@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
@@ -40,7 +40,7 @@ public class SettingsMenuItemFactory
 
     private static final String TAG = SettingsMenuItemFactory.class.getSimpleName();
 
-    public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder, ActivityInterface activityInterface)
+    public void fillLeftSettingsMenu(CameraControllerInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder, ActivityInterface activityInterface)
     {
         if (cameraUiWrapper != null) {
 
@@ -258,7 +258,7 @@ public class SettingsMenuItemFactory
     }
 
 
-    public GroupChild fillRightSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click)
+    public GroupChild fillRightSettingsMenu(CameraControllerInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click)
     {
         if (cameraUiWrapper != null) {
             SettingsManager apS = SettingsManager.getInstance();

@@ -33,7 +33,7 @@ import android.view.Surface;
 import android.view.View;
 
 import com.troop.freedcam.utils.Log;
-import freed.viewer.screenslide.MyHistogram;
+import freed.views.MyHistogram;
 
 /**
  * Renderscript-based Focus peaking viewfinder

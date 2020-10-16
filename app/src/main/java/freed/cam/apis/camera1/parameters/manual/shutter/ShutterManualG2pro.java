@@ -25,7 +25,7 @@ import android.os.Handler;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
@@ -43,7 +43,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+    public ShutterManualG2pro(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
         stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
         setViewState(ViewState.Visible);

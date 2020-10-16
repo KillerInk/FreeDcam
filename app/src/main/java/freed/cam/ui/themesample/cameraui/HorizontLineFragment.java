@@ -41,7 +41,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.events.EventBusHelper;
@@ -142,7 +142,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         }
     }
 
-    public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void setCameraUiWrapper(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).addEventListner(this);

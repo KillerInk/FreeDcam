@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 import com.troop.freedcam.settings.SettingKeys;
@@ -50,7 +50,7 @@ import com.troop.freedcam.utils.Log;
 public abstract class AbstractInfoOverlayHandler
 {
     private final Handler handler;
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
     private boolean started;
     private boolean isStopped;
     private final Context context;
@@ -78,7 +78,7 @@ public abstract class AbstractInfoOverlayHandler
         decimalFormat = new DecimalFormat("#,##0.#");
     }
 
-    public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
+    public void setCameraUIWrapper(CameraControllerInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
 

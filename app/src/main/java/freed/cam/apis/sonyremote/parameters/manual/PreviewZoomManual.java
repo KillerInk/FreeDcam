@@ -24,7 +24,7 @@ import android.os.Build.VERSION_CODES;
 
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import com.troop.freedcam.settings.SettingKeys;
 
@@ -35,7 +35,7 @@ public class PreviewZoomManual extends BaseManualParameterSony
 {
     private final PreviewStreamDrawer surfaceView;
 
-    public PreviewZoomManual(PreviewStreamDrawer surfaceView, CameraWrapperInterface cameraUiWrapper) {
+    public PreviewZoomManual(PreviewStreamDrawer surfaceView, CameraControllerInterface cameraUiWrapper) {
         super("", "", "", cameraUiWrapper, SettingKeys.M_PreviewZoom);
         this.surfaceView = surfaceView;
         if(VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)

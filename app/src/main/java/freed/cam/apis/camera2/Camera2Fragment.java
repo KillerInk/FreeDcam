@@ -51,7 +51,7 @@ import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.viewer.screenslide.MyHistogram;
+import freed.views.MyHistogram;
 import freed.views.AutoFitTextureView;
 
 

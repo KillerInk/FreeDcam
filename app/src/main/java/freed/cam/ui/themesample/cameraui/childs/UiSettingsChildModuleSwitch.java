@@ -22,14 +22,14 @@ package freed.cam.ui.themesample.cameraui.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 
 /**
  * Created by troop on 13.06.2015.
  */
 public class UiSettingsChildModuleSwitch extends UiSettingsChild {
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
 
     public UiSettingsChildModuleSwitch(Context context) {
         super(context);
@@ -39,7 +39,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         super(context, attrs);
     }
 
-    public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void SetCameraUiWrapper(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.Module));

@@ -25,7 +25,7 @@ import android.text.TextUtils;
 import java.util.HashMap;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
 import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakColorMode;
@@ -62,10 +62,10 @@ public abstract class AbstractParameterHandler
 
     private final HashMap<SettingKeys.Key, ParameterInterface> parameterHashMap = new HashMap<>();
 
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CameraControllerInterface cameraUiWrapper;
 
 
-    protected AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
+    protected AbstractParameterHandler(CameraControllerInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         add(SettingKeys.GuideList, new GuideList());
         add(SettingKeys.LOCATION_MODE, new GpsParameter(cameraUiWrapper));

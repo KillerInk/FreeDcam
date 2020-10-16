@@ -24,7 +24,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -40,7 +40,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
     private String format = "";
     private String curmodule = "";
 
-    public NightModeXiaomi(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public NightModeXiaomi(Camera.Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper,SettingKeys.NightMode);
         if(parameters.get(FreedApplication.getStringFromRessources(R.string.morpho_hht)) != null
                 && parameters.get(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr)) != null) {

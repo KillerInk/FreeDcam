@@ -26,7 +26,7 @@ import com.troop.freedcam.R;
 import java.text.DecimalFormat;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
@@ -40,7 +40,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     private final String TAG = ShutterManualParameterHTC.class.getSimpleName();
     private final DecimalFormat trimfloat = new DecimalFormat("#.######");
 
-    public ShutterManualParameterHTC(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+    public ShutterManualParameterHTC(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
         setViewState(ViewState.Visible);
     }

@@ -22,7 +22,7 @@ package freed.cam.apis.sonyremote;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import com.troop.freedcam.utils.Log;
@@ -40,7 +40,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
 
     }
 
-    public FocusHandler(CameraWrapperInterface cameraUiWrapper)
+    public FocusHandler(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

@@ -6,7 +6,7 @@ import android.util.Range;
 
 import androidx.annotation.RequiresApi;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 
 /**
@@ -18,7 +18,7 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
 
     private CaptureRequest.Key<Range<Integer>> key;
 
-    public AeTargetRangeApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
+    public AeTargetRangeApi2(CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
         super(cameraUiWrapper, settingMode);
         this.key = parameterKey;
     }

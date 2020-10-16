@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingsManager;
@@ -33,8 +33,8 @@ import com.troop.freedcam.settings.SettingsManager;
  */
 public class ModuleParameters extends AbstractParameter {
 
-    private final CameraWrapperInterface cameraUiWrapper;
-    public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
+    private final CameraControllerInterface cameraUiWrapper;
+    public ModuleParameters(CameraControllerInterface cameraUiWrapper) {
         super(null);
         this.cameraUiWrapper = cameraUiWrapper;
         setViewState(ViewState.Visible);

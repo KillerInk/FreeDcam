@@ -28,7 +28,7 @@ import android.os.Build.VERSION_CODES;
 import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -77,7 +77,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     private Camera2Fragment camera2Fragment;
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
-    public ParameterHandlerApi2(CameraWrapperInterface wrapper)
+    public ParameterHandlerApi2(CameraControllerInterface wrapper)
     {
         super(wrapper);
         this.camera2Fragment = (Camera2Fragment) wrapper;

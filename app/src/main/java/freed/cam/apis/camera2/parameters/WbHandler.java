@@ -27,7 +27,7 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
@@ -42,12 +42,12 @@ import com.troop.freedcam.utils.StringUtils;
  */
 public class WbHandler
 {
-    private final CameraWrapperInterface cameraUiWrapper;
+    private final CameraControllerInterface cameraUiWrapper;
     public WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
     public ManualWbCtApi2 manualWbCt;
 
-    public WbHandler(CameraWrapperInterface cameraUiWrapper)
+    public WbHandler(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper= cameraUiWrapper;
 
@@ -138,7 +138,7 @@ public class WbHandler
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
-        public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
+        public ManualWbCtApi2(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_Whitebalance);
             lookupvalues = new StringIntArray(FreedApplication.getContext().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;

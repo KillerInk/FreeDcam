@@ -24,7 +24,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -36,9 +36,9 @@ public class IntervalDurationParameter extends AbstractParameter
 {
 
     private String current = "1 min";
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
 
-    public IntervalDurationParameter(CameraWrapperInterface cameraUiWrapper)
+    public IntervalDurationParameter(CameraControllerInterface cameraUiWrapper)
     {
         super( SettingKeys.INTERVAL_DURATION);
         this.cameraUiWrapper = cameraUiWrapper;

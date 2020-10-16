@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -78,14 +78,14 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     public Set<String> mAvailableCameraApiSet;
     private final List<I_SonyApi> parametersChangedList;
     private final PreviewStreamDrawer surfaceView;
-    private final CameraWrapperInterface cameraUiWrapper;
+    private final CameraControllerInterface cameraUiWrapper;
     private String cameraStatus = "IDLE";
 
     public I_CameraStatusChanged CameraStatusListner;
     public CameraHolderSony.I_CameraShotMode cameraShotMode;
 
 
-    public ParameterHandler(CameraWrapperInterface cameraUiWrapper, PreviewStreamDrawer surfaceView)
+    public ParameterHandler(CameraControllerInterface cameraUiWrapper, PreviewStreamDrawer surfaceView)
     {
         super(cameraUiWrapper);
         parametersChangedList = new ArrayList<>();

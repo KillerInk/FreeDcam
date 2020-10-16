@@ -25,7 +25,7 @@ import android.os.Handler;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -42,7 +42,7 @@ public class ShutterManualZTE extends AbstractParameter
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualZTE(Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters = parameters;
         setViewState(ViewState.Visible);

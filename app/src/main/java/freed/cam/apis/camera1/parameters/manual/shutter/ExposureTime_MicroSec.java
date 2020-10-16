@@ -5,7 +5,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -21,7 +21,7 @@ public class ExposureTime_MicroSec extends AbstractParameter {
     private final String TAG = ExposureTime_MicroSec.class.getSimpleName();
     private Camera.Parameters parameters;
 
-    public ExposureTime_MicroSec(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
+    public ExposureTime_MicroSec(CameraControllerInterface cameraUiWrapper, Camera.Parameters parameters) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
        setViewState(ViewState.Visible);

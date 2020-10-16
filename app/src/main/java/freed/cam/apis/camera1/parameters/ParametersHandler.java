@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -93,7 +93,7 @@ public class ParametersHandler extends AbstractParameterHandler
     private Parameters cameraParameters;
     public Parameters getParameters(){return cameraParameters;}
 
-    public ParametersHandler(CameraWrapperInterface cameraUiWrapper)
+    public ParametersHandler(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

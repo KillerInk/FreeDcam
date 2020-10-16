@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
@@ -40,7 +40,7 @@ public class AfBracketSettingsView extends LinearLayout
 {
     private TextView textView_max;
     private TextView textView_min;
-    private CameraWrapperInterface cameraWrapperInterface;
+    private CameraControllerInterface cameraControllerInterface;
 
     public AfBracketSettingsView(Context context) {
         super(context);
@@ -70,26 +70,26 @@ public class AfBracketSettingsView extends LinearLayout
         textView_min = findViewById(R.id.textView_afBracketFragment_minvalue);
     }
 
-    public void SetCameraWrapper(CameraWrapperInterface cameraWrapperInterface)
+    public void SetCameraWrapper(CameraControllerInterface cameraControllerInterface)
     {
-        this.cameraWrapperInterface = cameraWrapperInterface;
+        this.cameraControllerInterface = cameraControllerInterface;
     }
 
     View.OnClickListener onSetMaxClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int max = cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_Focus).GetValue();
+            int max = cameraControllerInterface.getParameterHandler().get(SettingKeys.M_Focus).GetValue();
             SettingsManager.get(SettingKeys.AF_BRACKET_MAX).set(String.valueOf(max));
-            textView_max.setText(cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_Focus).GetStringValue());
+            textView_max.setText(cameraControllerInterface.getParameterHandler().get(SettingKeys.M_Focus).GetStringValue());
         }
     };
 
     View.OnClickListener onSetMinClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int min = cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_Focus).GetValue();
+            int min = cameraControllerInterface.getParameterHandler().get(SettingKeys.M_Focus).GetValue();
             SettingsManager.get(SettingKeys.AF_BRACKET_MIN).set(String.valueOf(min));
-            textView_min.setText(cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_Focus).GetStringValue());
+            textView_min.setText(cameraControllerInterface.getParameterHandler().get(SettingKeys.M_Focus).GetStringValue());
         }
     };
 }

@@ -4,7 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import com.troop.freedcam.settings.SettingKeys;
@@ -17,7 +17,7 @@ public class ManualWbCtApi2Hw  extends AbstractParameter
 
     private final String TAG = ManualWbCtApi2Hw.class.getSimpleName();
 
-    public ManualWbCtApi2Hw(CameraWrapperInterface cameraUiWrapper) {
+    public ManualWbCtApi2Hw(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.M_Whitebalance);
         stringvalues = SettingsManager.get(SettingKeys.M_Whitebalance).getValues();
         currentInt = 0;

@@ -38,7 +38,7 @@ import com.troop.freedcam.utils.Log;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,C extends CameraHolderAbstract> extends Fragment implements CameraInterface ,CameraWrapperInterface {
+public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,C extends CameraHolderAbstract> extends Fragment implements CameraInterface , CameraControllerInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;

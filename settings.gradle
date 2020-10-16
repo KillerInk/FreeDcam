@@ -1,3 +1,4 @@
+include ':Camera'
 include ':settings'
 include ':dng'
 include ':utils'

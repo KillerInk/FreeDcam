@@ -16,7 +16,7 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.events.EventBusHelper;
@@ -31,7 +31,7 @@ import com.troop.freedcam.utils.Log;
  */
 public class GuideHandler extends Fragment implements ParameterEvents {
     private ImageView img;
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
     private float quckRationMath;
     private final String TAG = GuideHandler.class.getSimpleName();
 
@@ -73,7 +73,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
 
     }
 
-    public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void setCameraUiWrapper(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);

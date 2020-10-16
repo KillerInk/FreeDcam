@@ -45,7 +45,7 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
@@ -147,7 +147,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     }
 
     @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper) {
+    public void setCameraToUi(CameraControllerInterface wrapper) {
         super.setCameraToUi(wrapper);
         if (left_ui_items_holder != null) {
             left_ui_items_holder.removeAllViews();

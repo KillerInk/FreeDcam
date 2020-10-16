@@ -27,13 +27,13 @@ import android.location.Location;
  */
 public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CameraControllerInterface cameraUiWrapper;
 
     /**
      *
      * @param cameraUiWrapper to listen on camera state changes
      */
-    protected CameraHolderAbstract(CameraWrapperInterface cameraUiWrapper)
+    protected CameraHolderAbstract(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }

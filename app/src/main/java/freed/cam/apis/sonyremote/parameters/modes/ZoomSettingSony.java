@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.settings.SettingKeys;
@@ -35,7 +35,7 @@ import com.troop.freedcam.utils.Log;
  * Created by troop on 09.04.2016.
  */
 public class ZoomSettingSony extends BaseModeParameterSony {
-    public ZoomSettingSony(SimpleRemoteApi mRemoteApi, CameraWrapperInterface wrapperInterface) {
+    public ZoomSettingSony(SimpleRemoteApi mRemoteApi, CameraControllerInterface wrapperInterface) {
         super("getZoomSetting", "setZoomSetting", "getAvailableZoomSetting", mRemoteApi,wrapperInterface, SettingKeys.ZoomSetting);
     }
 

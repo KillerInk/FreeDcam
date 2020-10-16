@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraHolderAbstract;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -60,7 +60,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     private Method setPreviewSurfaceMethod;
 
 
-    public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)
+    public CameraHolder(CameraControllerInterface cameraUiWrapper, Frameworks frameworks)
     {
         super(cameraUiWrapper);
         DeviceFrameWork = frameworks;

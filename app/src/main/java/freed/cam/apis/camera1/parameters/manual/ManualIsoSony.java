@@ -2,7 +2,7 @@ package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -16,7 +16,7 @@ public class ManualIsoSony extends AbstractParameter
 {
     private final Camera.Parameters parameters;
 
-    public ManualIsoSony(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters, SettingKeys.Key key) {
+    public ManualIsoSony(CameraControllerInterface cameraUiWrapper, Camera.Parameters parameters, SettingKeys.Key key) {
         super(cameraUiWrapper,key);
         this.parameters = parameters;
         setViewState(ViewState.Visible);

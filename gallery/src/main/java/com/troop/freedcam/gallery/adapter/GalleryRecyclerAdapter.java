@@ -35,11 +35,12 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //holder.setIsRecyclable(false);
-        holder.bind(galleryItemModelList.get(position));
+        if (position < galleryItemModelList.size())
+            holder.bind(galleryItemModelList.get(position));
         Log.d(TAG, "update pos: "+ position + " adapterpos:" + holder.getAdapterPosition());
     }
 
-    /*@Override
+    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -47,7 +48,7 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
     @Override
     public int getItemViewType(int position) {
         return position;
-    }*/
+    }
 
     @Override
     public int getItemCount() {
@@ -65,8 +66,9 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
             GalleryItemModel itemModel = new GalleryItemModel();
             itemModel.setBaseHolder(b);
             galleryItemModelList.add(itemModel);
-            notifyItemInserted(i++);
+            i++;
         }
+        notifyItemInserted(i);
     }
 
     // Provide a reference to the views for each data item
@@ -83,7 +85,7 @@ public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecycler
         public void bind(GalleryItemModel model)
         {
             binding.setGalleryItemModel(model);
-            binding.executePendingBindings();
+            //binding.executePendingBindings();
             /*if (binding.getGalleryItemModel() == null || !model.getBaseHolder().getName().equals(binding.getGalleryItemModel().getBaseHolder().getName())) {
                 binding.setVariable(BR.galleryItemModel,model);
                 //binding.executePendingBindings();

@@ -25,7 +25,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -47,7 +47,7 @@ public class ZoomApi2 extends AbstractParameter
 
     private final int ZOOM_LIMITER = 100;
 
-    public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
+    public ZoomApi2(CameraControllerInterface cameraUiWrapper)  {
         super(cameraUiWrapper, SettingKeys.M_Zoom);
         maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
         sensorSize = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);

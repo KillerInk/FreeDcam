@@ -25,7 +25,7 @@ import com.troop.freedcam.R;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -38,13 +38,13 @@ import freed.utils.PermissionManager;
  */
 public class GpsParameter extends AbstractParameter
 {
-    private final CameraWrapperInterface cameraUiWrapper;
+    private final CameraControllerInterface cameraUiWrapper;
 
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
     private ActivityInterface activityInterface;
 
-    public GpsParameter(CameraWrapperInterface cameraUiWrapper)
+    public GpsParameter(CameraControllerInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
         this.cameraUiWrapper = cameraUiWrapper;

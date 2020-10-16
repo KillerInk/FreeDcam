@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
@@ -38,7 +38,7 @@ import com.troop.freedcam.utils.Log;
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     private final String TAG = ExposureCompManualParameterSony.class.getSimpleName();
-    public ExposureCompManualParameterSony(CameraWrapperInterface cameraUiWrapper) {
+    public ExposureCompManualParameterSony(CameraControllerInterface cameraUiWrapper) {
         super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", cameraUiWrapper, SettingKeys.M_ExposureCompensation);
         currentInt = -200;
     }

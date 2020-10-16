@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -47,7 +47,7 @@ public class VideoProfilesParameter extends AbstractParameter
     protected boolean isSupported;
 
 
-    public VideoProfilesParameter(CameraWrapperInterface cameraUiWrapper) {
+    public VideoProfilesParameter(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.VideoProfiles);
         isSupported =true;
         try {

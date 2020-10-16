@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
@@ -37,7 +37,7 @@ import com.troop.freedcam.utils.Log;
 public class PictureSizeSony extends BaseModeParameterSony
 {
     final String TAG = PictureSizeSony.class.getSimpleName();
-    public PictureSizeSony(SimpleRemoteApi api, CameraWrapperInterface wrapperInterface)
+    public PictureSizeSony(SimpleRemoteApi api, CameraControllerInterface wrapperInterface)
     {
         super("getStillSize", "setStillSize", "getAvailableStillSize", api,wrapperInterface, SettingKeys.PictureSize);
     }

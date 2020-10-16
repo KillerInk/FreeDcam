@@ -25,7 +25,7 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
 
@@ -34,7 +34,7 @@ import com.troop.freedcam.settings.SettingKeys;
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
+    public ZoomManualParameter(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key key)
     {
         super(parameters,cameraUiWrapper,key);
         key_value = FreedApplication.getStringFromRessources(R.string.zoom);

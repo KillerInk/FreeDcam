@@ -22,7 +22,7 @@ package freed.cam.apis.basecamera;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface extends CameraObjects
+public interface CameraControllerInterface extends CameraObjects
 {
     /**
      * Start the Camera

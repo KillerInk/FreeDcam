@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
@@ -50,7 +50,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     JSONObject jsonObject;
     private final String TAG = BaseModeParameterSony.class.getSimpleName();
 
-    public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, CameraWrapperInterface  wrapperInterface, SettingKeys.Key key)
+    public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, CameraControllerInterface wrapperInterface, SettingKeys.Key key)
     {
         super(wrapperInterface,key);
         this.VALUE_TO_GET = VALUE_TO_GET;

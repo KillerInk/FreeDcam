@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.cameraholder;
 
 import android.hardware.Camera;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.events.CameraStateEvents;
 
 import com.troop.freedcam.settings.Frameworks;
@@ -31,7 +31,7 @@ import com.troop.freedcam.utils.Log;
  * Created by troop on 17.06.2016.
  */
 public class CameraHolderMotoX extends CameraHolderLegacy {
-    public CameraHolderMotoX(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderMotoX(CameraControllerInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper, frameworks);
     }
 

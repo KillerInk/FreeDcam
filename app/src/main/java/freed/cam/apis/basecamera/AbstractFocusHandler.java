@@ -33,7 +33,7 @@ import com.troop.freedcam.utils.Log;
 public abstract class AbstractFocusHandler
 {
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CameraControllerInterface cameraUiWrapper;
 
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -52,7 +52,7 @@ public abstract class AbstractFocusHandler
 
     protected abstract void startTouchFocus(FocusCoordinates obj);
 
-    protected AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
+    protected AbstractFocusHandler(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }

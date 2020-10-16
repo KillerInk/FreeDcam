@@ -37,7 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
@@ -110,7 +110,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     }
 
     @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper)
+    public void setCameraToUi(CameraControllerInterface wrapper)
     {
         super.setCameraToUi(wrapper);
         if (manualItemsHolder == null)

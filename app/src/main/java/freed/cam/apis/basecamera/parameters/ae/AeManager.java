@@ -1,6 +1,6 @@
 package freed.cam.apis.basecamera.parameters.ae;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.IsoChangedEvent;
@@ -14,18 +14,18 @@ import com.troop.freedcam.utils.Log;
 
 public abstract class AeManager implements AeManagerInterface
 {
-    protected CameraWrapperInterface cameraWrapperInterface;
+    protected CameraControllerInterface cameraControllerInterface;
     protected ManualIso manualIso;
     protected ManualExposureTime manualExposureTime;
     protected ExposureCompensation exposureCompensation;
     protected AeStates activeAeState = AeStates.auto;
 
-    public AeManager(CameraWrapperInterface cameraWrapperInterface)
+    public AeManager(CameraControllerInterface cameraControllerInterface)
     {
-        this.cameraWrapperInterface =cameraWrapperInterface;
-        manualIso = new ManualIso(cameraWrapperInterface);
-        manualExposureTime = new ManualExposureTime(cameraWrapperInterface);
-        exposureCompensation =new ExposureCompensation(cameraWrapperInterface);
+        this.cameraControllerInterface = cameraControllerInterface;
+        manualIso = new ManualIso(cameraControllerInterface);
+        manualExposureTime = new ManualExposureTime(cameraControllerInterface);
+        exposureCompensation =new ExposureCompensation(cameraControllerInterface);
     }
 
     public AbstractParameter getIso()
@@ -73,7 +73,7 @@ public abstract class AeManager implements AeManagerInterface
     public class ManualExposureTime extends AbstractParameter
     {
         public final String TAG = ManualExposureTime.class.getSimpleName();
-        public ManualExposureTime(CameraWrapperInterface cameraUiWrapper) {
+        public ManualExposureTime(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         }
 
@@ -123,7 +123,7 @@ public abstract class AeManager implements AeManagerInterface
     public class ManualIso extends AbstractParameter
     {
         final String TAG = ManualIso.class.getSimpleName();
-        public ManualIso(CameraWrapperInterface cameraUiWrapper) {
+        public ManualIso(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_ManualIso);
             currentInt = 0;
         }
@@ -158,7 +158,7 @@ public abstract class AeManager implements AeManagerInterface
     {
         final String TAG = ExposureCompensation.class.getSimpleName();
 
-        public ExposureCompensation(CameraWrapperInterface cameraUiWrapper) {
+        public ExposureCompensation(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_ExposureCompensation);
             //currentInt = stringvalues.length / 2;
         }

@@ -5,7 +5,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import com.troop.freedcam.settings.SettingKeys;
@@ -18,7 +18,7 @@ public class ManualApertureApi2 extends AbstractParameter {
         super(key);
     }
 
-    public ManualApertureApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+    public ManualApertureApi2(CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(cameraUiWrapper, settingMode);
         String[] arr = SettingsManager.get(SettingKeys.M_Aperture).getValues();
         if (arr != null && arr.length > 1)

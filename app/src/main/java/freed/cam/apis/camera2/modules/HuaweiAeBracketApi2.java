@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 
@@ -23,7 +23,7 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     private int isoauto = 0;
     private int shutterauto = 0;
 
-    public HuaweiAeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public HuaweiAeBracketApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
     }
 

@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import com.troop.freedcam.settings.SettingKeys;
@@ -42,7 +42,7 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     private boolean fromUser;
 
-    public ZoomManualSony(CameraWrapperInterface cameraUiWrapper) {
+    public ZoomManualSony(CameraControllerInterface cameraUiWrapper) {
         super("actZoom", "", "actZoom", cameraUiWrapper, SettingKeys.M_Zoom);
     }
 

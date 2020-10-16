@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.settings.SettingKeys;
@@ -47,13 +47,13 @@ public class VideoRecorder {
 
     private Camera camera;
 
-    CameraWrapperInterface cameraWrapperInterface;
+    CameraControllerInterface cameraControllerInterface;
     private Surface previewSurface;
 
-    public VideoRecorder(CameraWrapperInterface cameraWrapperInterface,MediaRecorder recorder)
+    public VideoRecorder(CameraControllerInterface cameraControllerInterface, MediaRecorder recorder)
     {
         mediaRecorder = recorder;
-        this.cameraWrapperInterface = cameraWrapperInterface;
+        this.cameraControllerInterface = cameraControllerInterface;
     }
 
     public void setErrorListener(MediaRecorder.OnErrorListener errorListener) {
@@ -245,7 +245,7 @@ public class VideoRecorder {
     }
 
     private void setRecorderFilePath() {
-        BaseHolder baseHolder = cameraWrapperInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
+        BaseHolder baseHolder = cameraControllerInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         try {
             setToMediaRecorder(mediaRecorder,baseHolder);
         } catch (FileNotFoundException e) {

@@ -38,7 +38,7 @@ import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -60,7 +60,7 @@ import com.troop.freedcam.utils.Log;
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private static final String TAG =  FocusImageHandler.class.getSimpleName();
-    private CameraWrapperInterface wrapper;
+    private CameraControllerInterface wrapper;
     private final FocusSelector focusImageView;
     private int disHeight;
     private int disWidth;
@@ -93,7 +93,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
     }
 
-    public void SetCamerUIWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void SetCamerUIWrapper(CameraControllerInterface cameraUiWrapper)
     {
         wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof Camera1Fragment || cameraUiWrapper instanceof Camera2Fragment) {

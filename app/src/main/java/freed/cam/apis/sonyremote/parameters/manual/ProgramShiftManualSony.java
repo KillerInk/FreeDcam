@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import com.troop.freedcam.settings.SettingKeys;
@@ -42,7 +42,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private final BaseManualParameterSony shutter;
 
-    public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
+    public ProgramShiftManualSony(CameraControllerInterface cameraUiWrapper) {
         super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper,SettingKeys.M_ProgramShift);
         shutter = (BaseManualParameterSony) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime);
         BaseManualParameterSony fnumber = (BaseManualParameterSony) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Fnumber);

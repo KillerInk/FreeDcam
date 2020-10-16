@@ -4,7 +4,7 @@ import android.hardware.Camera;
 
 import com.sonyericsson.cameraextension.CameraExtension;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.events.CameraStateEvents;
@@ -19,7 +19,7 @@ public class CameraHolderSony extends CameraHolder {
     private final String TAG = CameraHolderSony.class.getSimpleName();
     private CameraExtension sonyCameraExtension;
 
-    public CameraHolderSony(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderSony(CameraControllerInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper, frameworks);
     }
 

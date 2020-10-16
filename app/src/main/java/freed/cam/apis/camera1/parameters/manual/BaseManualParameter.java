@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
@@ -48,7 +48,7 @@ public class BaseManualParameter extends AbstractParameter
 
 
 
-    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode)
+    public BaseManualParameter(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode)
     {
         super(cameraUiWrapper,settingMode);
         this.parameters = parameters;

@@ -27,7 +27,7 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.utils.BackgroundHandlerThread;
@@ -57,14 +57,14 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CameraControllerInterface cameraUiWrapper;
 
     private BackgroundHandlerThread backgroundHandlerThread;
 
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
-    public ModuleHandlerAbstract(CameraWrapperInterface cameraUiWrapper)
+    public ModuleHandlerAbstract(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();

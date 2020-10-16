@@ -2,7 +2,7 @@ package freed.cam.apis.camera1.parameters.manual.kirin;
 
 import android.hardware.Camera;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
 
@@ -13,7 +13,7 @@ import com.troop.freedcam.settings.SettingKeys;
 public class ManualIsoKirin extends BaseManualParameter {
 
 
-    public ManualIsoKirin(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key) {
+    public ManualIsoKirin(Camera.Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key key) {
         super(parameters,cameraUiWrapper,key);
         setViewState(ViewState.Visible);
     }

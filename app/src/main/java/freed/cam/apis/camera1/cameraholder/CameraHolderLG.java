@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.cameraholder;
 
 import com.lge.hardware.LGCameraRef;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.events.CameraStateEvents;
 
@@ -36,7 +36,7 @@ import com.troop.freedcam.utils.Log;
 public class CameraHolderLG extends CameraHolder
 {
     private LGCameraRef lgCamera;
-    public CameraHolderLG(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderLG(CameraControllerInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

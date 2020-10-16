@@ -48,7 +48,7 @@ import java.util.List;
 import Camera2EXT.OpModes;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
@@ -81,7 +81,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private VideoRecorder videoRecorder;
     protected Camera2Fragment cameraUiWrapper;
 
-    public VideoModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public VideoModuleApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         this.cameraUiWrapper = (Camera2Fragment) cameraUiWrapper;
         name = FreedApplication.getStringFromRessources(R.string.module_video);

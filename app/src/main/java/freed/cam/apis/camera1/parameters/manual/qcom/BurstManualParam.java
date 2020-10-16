@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.events.ModuleHasChangedEvent;
@@ -45,7 +45,7 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+    public BurstManualParam(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
         currentInt = Integer.parseInt(SettingsManager.get(SettingKeys.M_Burst).get());
         setViewState(ViewState.Visible);

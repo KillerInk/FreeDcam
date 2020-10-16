@@ -10,7 +10,7 @@ import com.troop.freedcam.R;
 import java.util.Arrays;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
@@ -32,10 +32,10 @@ public class AeManagerCamera2 extends AeManager {
 
     protected Camera2Fragment cameraUiWrapper;
     private AeModeApi2 aeModeApi2;
-    public AeManagerCamera2(CameraWrapperInterface cameraWrapperInterface) {
-        super(cameraWrapperInterface);
-        this.cameraUiWrapper = (Camera2Fragment)cameraWrapperInterface;
-        aeModeApi2 = new AeModeApi2(cameraWrapperInterface);
+    public AeManagerCamera2(CameraControllerInterface cameraControllerInterface) {
+        super(cameraControllerInterface);
+        this.cameraUiWrapper = (Camera2Fragment) cameraControllerInterface;
+        aeModeApi2 = new AeModeApi2(cameraControllerInterface);
     }
 
     public ParameterInterface getAeMode()
@@ -103,9 +103,9 @@ public class AeManagerCamera2 extends AeManager {
         //back in auto mode
         //set flash back to its old state
         if (SettingsManager.get(SettingKeys.FlashMode).isSupported()) {
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(), true);
+            cameraControllerInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraControllerInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(), true);
             //show flashmode ui item
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);
+            cameraControllerInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);
         }
         //show ev ui item
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
@@ -137,7 +137,7 @@ public class AeManagerCamera2 extends AeManager {
     public class AeModeApi2 extends BaseModeApi2
     {
         private final String TAG = AeModeApi2.class.getSimpleName();
-        public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
+        public AeModeApi2(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper, SettingKeys.ExposureMode,CaptureRequest.CONTROL_AE_MODE);
             Log.d(TAG, "values: " + Arrays.toString(getStringValues()) + " value:" + GetStringValue());
         }

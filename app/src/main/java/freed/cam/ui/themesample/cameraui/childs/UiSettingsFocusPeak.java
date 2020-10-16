@@ -25,7 +25,7 @@ import android.view.View;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import com.troop.freedcam.settings.SettingKeys;
@@ -49,7 +49,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
         SetMenuItemClickListner(this,false);
     }
 
-    public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void SetCameraUiWrapper(CameraControllerInterface cameraUiWrapper)
     {
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
         if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())

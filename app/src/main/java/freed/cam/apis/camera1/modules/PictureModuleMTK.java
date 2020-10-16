@@ -29,7 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -48,7 +48,7 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile;
-    public PictureModuleMTK(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public PictureModuleMTK(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
     }

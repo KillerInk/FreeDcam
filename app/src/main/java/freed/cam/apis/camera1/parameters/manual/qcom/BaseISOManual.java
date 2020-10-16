@@ -26,7 +26,7 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
@@ -39,7 +39,7 @@ public class BaseISOManual extends BaseManualParameter {
     private final String TAG = BaseISOManual.class.getSimpleName();
     private String cur_iso_mode = FreedApplication.getStringFromRessources(R.string.auto_);
 
-    public BaseISOManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+    public BaseISOManual(Parameters parameters, CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters, cameraUiWrapper, settingMode);
     }
 

@@ -25,7 +25,7 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
@@ -35,7 +35,7 @@ import com.troop.freedcam.settings.SettingsManager;
 public class YuvSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public YuvSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public YuvSizeModeApi2(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.YuvSize);
         setViewState(ViewState.Visible);
     }

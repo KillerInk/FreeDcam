@@ -22,7 +22,7 @@ package freed.cam.apis.camera1.cameraholder;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.CameraStateEvents;
@@ -36,7 +36,7 @@ import com.troop.freedcam.utils.Log;
 public class CameraHolderMTK extends CameraHolder
 {
     private final static String TAG = CameraHolderMTK.class.getSimpleName();
-    public CameraHolderMTK(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderMTK(CameraControllerInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

@@ -33,7 +33,7 @@ import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
@@ -61,7 +61,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         onModuleChanged(event.NewModuleName);
     }
 
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
 
     private final String TAG = ShutterButton.class.getSimpleName();
     protected HandlerThread mBackgroundThread;
@@ -157,7 +157,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     };
 
 
-    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper) {
+    public void SetCameraUIWrapper(CameraControllerInterface cameraUiWrapper) {
         if (cameraUiWrapper.getModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;

@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
@@ -52,7 +52,7 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
 
 
 
-    public FocusHandler(CameraWrapperInterface cameraUiWrapper)
+    public FocusHandler(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

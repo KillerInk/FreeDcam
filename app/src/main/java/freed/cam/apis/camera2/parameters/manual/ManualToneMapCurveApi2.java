@@ -26,7 +26,7 @@ import android.os.Build.VERSION_CODES;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.events.EventBusHelper;
@@ -58,15 +58,15 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
     public  ColorParameter whitep;
 
     public ToneCurveParameter toneCurveParameter;
-    private CameraWrapperInterface cameraWrapperInterface;
+    private CameraControllerInterface cameraControllerInterface;
 
     private float[] toneCurve;
 
 
 
-    public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
+    public ManualToneMapCurveApi2(CameraControllerInterface cameraUiWrapper)
     {
-        this.cameraWrapperInterface = cameraUiWrapper;
+        this.cameraControllerInterface = cameraUiWrapper;
         /*contrast = new Contrast(cameraUiWrapper);
         brightness = new Brightness(cameraUiWrapper);*/
        /* black = new ColorParameter(cameraUiWrapper,blackpoint,0);
@@ -157,7 +157,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
     public class Contrast extends AbstractParameter
     {
         boolean firststart = true;
-        public Contrast(CameraWrapperInterface cameraUiWrapper) {
+        public Contrast(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper, SettingKeys.M_Contrast);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
@@ -229,7 +229,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
     public class Brightness extends AbstractParameter
     {
 
-        public Brightness(CameraWrapperInterface cameraUiWrapper) {
+        public Brightness(CameraControllerInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_Brightness);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
@@ -282,7 +282,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         float[] color;
         float currentfloat;
         float defaultvalue;
-        public ColorParameter(CameraWrapperInterface cameraUiWrapper, float color[], float defaultvalue) {
+        public ColorParameter(CameraControllerInterface cameraUiWrapper, float color[], float defaultvalue) {
             super(cameraUiWrapper, null);
             this.color = color;
             stringvalues = createStringArray(0,100,1);
@@ -340,7 +340,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
         TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
         Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-        ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+        ((Camera2Fragment) cameraControllerInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
     }
 
     public class ToneCurveParameter extends AbstractParameter
@@ -355,14 +355,14 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             toneCurve = curve;
             TonemapCurve tonemapCurve = new TonemapCurve(curve,curve,curve);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-            ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            ((Camera2Fragment) cameraControllerInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
         }
 
         public void setCurveToCamera(float[] r, float[] g,float[] b)
         {
             TonemapCurve tonemapCurve = new TonemapCurve(r,g,b);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-            ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            ((Camera2Fragment) cameraControllerInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
         }
 
         public float[] getToneCurve()

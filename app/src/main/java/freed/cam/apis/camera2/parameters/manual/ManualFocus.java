@@ -26,7 +26,7 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.events.EventBusHelper;
@@ -45,7 +45,7 @@ public class ManualFocus extends AbstractParameter
     private final String TAG = ManualFocus.class.getSimpleName();
     protected StringFloatArray focusvalues;
 
-    public ManualFocus(CameraWrapperInterface cameraUiWrapper)
+    public ManualFocus(CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.M_Focus);
         if (stringvalues != null && stringvalues.length > 0) {

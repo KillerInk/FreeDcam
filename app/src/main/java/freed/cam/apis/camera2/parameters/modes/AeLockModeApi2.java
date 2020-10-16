@@ -7,7 +7,7 @@ import android.os.Build;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera2.Camera2Fragment;
 
 /**
@@ -15,7 +15,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class AeLockModeApi2 extends BaseModeApi2 {
-    public AeLockModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public AeLockModeApi2(CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper, null);
         setViewState(ViewState.Visible);
     }

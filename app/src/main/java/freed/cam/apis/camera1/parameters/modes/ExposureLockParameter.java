@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
 
@@ -34,7 +34,7 @@ import com.troop.freedcam.settings.SettingKeys;
 public class ExposureLockParameter extends BaseModeParameter
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
-    public ExposureLockParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ExposureLockParameter(Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper, SettingKeys.ExposureLock);
         try {
             if (parameters.isAutoExposureLockSupported())

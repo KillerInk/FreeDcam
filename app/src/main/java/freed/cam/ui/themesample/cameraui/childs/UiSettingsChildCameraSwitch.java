@@ -25,7 +25,7 @@ import android.view.View;
 
 import com.troop.freedcam.settings.SettingsManager;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 
 
@@ -34,7 +34,7 @@ import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
  */
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
-    private CameraWrapperInterface cameraUiWrapper;
+    private CameraControllerInterface cameraUiWrapper;
     private int currentCamera;
     public UiSettingsChildCameraSwitch(Context context) {
         super(context);
@@ -50,7 +50,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
             onItemClick.onSettingsChildClick(this, fromleft);
     }
 
-    public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
+    public void SetCameraUiWrapper(CameraControllerInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof SonyCameraRemoteFragment)

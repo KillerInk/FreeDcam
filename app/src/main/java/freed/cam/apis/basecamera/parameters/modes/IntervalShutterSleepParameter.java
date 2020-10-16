@@ -24,7 +24,7 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -35,8 +35,8 @@ import com.troop.freedcam.settings.SettingsManager;
 public class IntervalShutterSleepParameter extends AbstractParameter
 {
     private String current = "1 sec";
-    private CameraWrapperInterface cameraUiWrapper;
-    public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
+    private CameraControllerInterface cameraUiWrapper;
+    public IntervalShutterSleepParameter(CameraControllerInterface cameraUiWrapper)
     {
         super(SettingKeys.INTERVAL_SHUTTER_SLEEP);
         this.cameraUiWrapper = cameraUiWrapper;

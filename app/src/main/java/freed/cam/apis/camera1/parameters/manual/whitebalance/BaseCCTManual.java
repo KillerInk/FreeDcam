@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -48,7 +48,7 @@ public class BaseCCTManual extends BaseManualParameter
     private final String manual_WbMode;
 
 
-    public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
+    public BaseCCTManual(final Parameters parameters, final CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper, settingMode);
         manual_WbMode = SettingsManager.get(SettingKeys.M_Whitebalance).getMode();
         setViewState(ViewState.Hidden);

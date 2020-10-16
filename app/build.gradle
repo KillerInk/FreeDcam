@@ -72,6 +72,7 @@ dependencies {
     implementation project(path: ':gallery')
     implementation project(path: ':dng')
     implementation project(path: ':settings')
+    implementation project(path: ':Camera')
 }
 
 android.applicationVariants.all { variant ->

@@ -5,7 +5,7 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
@@ -20,8 +20,8 @@ public class AeManagerMtkCamera1 extends AeManager
 {
     private Camera.Parameters parameters;
 
-    public AeManagerMtkCamera1(CameraWrapperInterface cameraWrapperInterface, Camera.Parameters parameters) {
-        super(cameraWrapperInterface);
+    public AeManagerMtkCamera1(CameraControllerInterface cameraControllerInterface, Camera.Parameters parameters) {
+        super(cameraControllerInterface);
         this.parameters =parameters;
     }
 
@@ -41,7 +41,7 @@ public class AeManagerMtkCamera1 extends AeManager
             }
             parameters.set("m-ss", FLOATtoThirty(shutterstring));
         }
-        ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraControllerInterface.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
     private String FLOATtoThirty(String a)
@@ -64,7 +64,7 @@ public class AeManagerMtkCamera1 extends AeManager
             parameters.set("m-sr-g", String.valueOf(Integer.valueOf(manualIso.getStringValues()[valueToSet])/100 *256));
             setAeMode(AeStates.manual);
         }
-        ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraControllerInterface.getParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override
@@ -86,12 +86,12 @@ public class AeManagerMtkCamera1 extends AeManager
 
     private void setToAuto()
     {
-        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
+        String t = cameraControllerInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
         if (!t.equals(FreedApplication.getStringFromRessources(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
+            cameraControllerInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
+            cameraControllerInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
+        cameraControllerInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
         //back in auto mode
         //set exposure ui item to enable
         /*exposureCompensation.fireIsSupportedChanged(true);

@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraHolderAbstract;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.sonyremote.modules.I_PictureCallback;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
@@ -79,7 +79,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
     private SimpleRemoteApi mRemoteApi;
     private PreviewStreamDrawer mLiveviewSurface;
 
-    public CameraHolderSony(Context context, PreviewStreamDrawer simpleStreamSurfaceView, CameraWrapperInterface cameraUiWrapper)
+    public CameraHolderSony(Context context, PreviewStreamDrawer simpleStreamSurfaceView, CameraControllerInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         this.context = context;

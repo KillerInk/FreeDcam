@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraControllerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -39,7 +39,7 @@ public class ShutterManualSony extends AbstractParameter
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualSony(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualSony(Parameters parameters, CameraControllerInterface cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
         this.parameters = parameters;
         setViewState(ViewState.Visible);
