@@ -34,7 +34,7 @@ import com.troop.freedcam.R.styleable;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 

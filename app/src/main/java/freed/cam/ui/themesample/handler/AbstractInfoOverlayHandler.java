@@ -36,9 +36,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -152,7 +152,7 @@ public abstract class AbstractInfoOverlayHandler
 
     private void getFormat()
     {
-        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
+        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_video)))
         {
             ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
@@ -181,7 +181,7 @@ public abstract class AbstractInfoOverlayHandler
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
+            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());
@@ -226,7 +226,7 @@ public abstract class AbstractInfoOverlayHandler
     {
         String[] res = SettingsManager.get(SettingKeys.PictureSize).get().split("x");
 
-        if(SettingsManager.get(SettingKeys.PictureFormat).get().contains(FreedApplication.getStringFromRessources(R.string.bayer_)))
+        if(SettingsManager.get(SettingKeys.PictureFormat).get().contains(ContextApplication.getStringFromRessources(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

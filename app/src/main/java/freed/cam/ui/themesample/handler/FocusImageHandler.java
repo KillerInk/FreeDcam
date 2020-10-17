@@ -37,13 +37,13 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
-import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.camera1.Camera1Fragment;
-import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera1.Camera1Fragment;
+import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
@@ -165,7 +165,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
                     Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + SettingsManager.get(SettingKeys.TouchToCapture).get());
-                    if (success && SettingsManager.getGlobal(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
+                    if (success && SettingsManager.getGlobal(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_video))) {
                         Log.d(TAG,"start capture");
                         wrapper.getModuleHandler().startWork();
                     }

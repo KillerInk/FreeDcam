@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 
 import com.troop.freedcam.settings.SettingsManager;
 

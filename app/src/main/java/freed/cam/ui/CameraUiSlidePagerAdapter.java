@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import com.troop.freedcam.file.holder.BaseHolder;

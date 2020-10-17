@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
+import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.FileHolder;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 
 /**
  * Created by troop on 20.07.2017.

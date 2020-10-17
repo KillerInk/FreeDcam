@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them

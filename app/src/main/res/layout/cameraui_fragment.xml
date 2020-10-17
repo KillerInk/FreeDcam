@@ -305,7 +305,7 @@
     <view
         android:layout_width="@dimen/image_thumbnail_size"
         android:layout_height="@dimen/image_thumbnail_size"
-        class="freed.cam.apis.sonyremote.parameters.JoyPad"
+        class="com.troop.freedcam.camera.sonyremote.parameters.JoyPad"
         android:id="@+id/joypad"
         android:focusable="true"
         android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"

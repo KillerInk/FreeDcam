@@ -16,9 +16,9 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
 

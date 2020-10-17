@@ -8,18 +8,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.BuildConfig;
-import com.troop.freedcam.R;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraToMainHandler;
-import freed.cam.apis.basecamera.MainToCameraHandler;
-import freed.cam.apis.camera1.Camera1Fragment;
-import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
-import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+
+import com.troop.freedcam.R;
+import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
+import com.troop.freedcam.camera.basecamera.CameraToMainHandler;
+import com.troop.freedcam.camera.basecamera.MainToCameraHandler;
+import com.troop.freedcam.camera.camera1.Camera1Fragment;
+import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.featuredetector.CameraFeatureDetectorFragment;
+import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
 import freed.renderscript.RenderScriptManager;
-import freed.utils.BackgroundHandlerThread;
+import com.troop.freedcam.utils.BackgroundHandlerThread;
 
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
@@ -171,7 +172,7 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             cameraFragment.stopCamera();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.setCustomAnimations(com.troop.freedcam.camera.R.anim.right_to_left_enter, com.troop.freedcam.camera.R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;

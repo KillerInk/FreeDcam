@@ -62,7 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
 import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.file.holder.BaseHolder;

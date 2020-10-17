@@ -1,6 +1,6 @@
 package freed.cam.events;
 
-import freed.cam.apis.basecamera.Size;
+import com.troop.freedcam.camera.basecamera.Size;
 
 public class CameraStateEvents {
 

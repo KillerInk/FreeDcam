@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.events.ValueChangedEvent;
 import com.troop.freedcam.settings.SettingsManager;

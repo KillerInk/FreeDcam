@@ -30,9 +30,9 @@ import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;

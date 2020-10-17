@@ -1,0 +1,1506 @@
+package com.troop.freedcam.camera.featuredetector;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.graphics.ImageFormat;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.params.StreamConfigurationMap;
+import android.os.Build;
+import android.util.Range;
+import android.util.Size;
+
+import com.troop.freedcam.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
+import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
+import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
+import com.troop.freedcam.utils.ContextApplication;
+import freed.renderscript.RenderScriptManager;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.SettingMode;
+import com.troop.freedcam.utils.Log;
+import freed.utils.StringFloatArray;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.VideoMediaProfile;
+
+
+/**
+ * Created by troop on 23.01.2017.
+ */
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
+
+    private final String TAG = Camera2FeatureDetectorTask.class.getSimpleName();
+    boolean hasCamera2Features;
+
+    public int hwlvl = CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+
+    public Camera2FeatureDetectorTask(ProgressUpdate progressUpdate) {
+        super(progressUpdate);
+    }
+
+    @Override
+    public void detect()
+    {
+        /*//publishProgress(Build.MODEL);
+        //publishProgress(System.getProperty("os.version"));
+        //publishProgress("###################");
+        //publishProgress("#######Camera2#####");
+        //publishProgress("###################");*/
+        SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
+            /*//publishProgress("Check Camera2");*/
+        CameraManager manager = (CameraManager) ContextApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
+
+        List<String> cameraids =new ArrayList<>();
+        findCameraIds(manager, cameraids);
+
+        Log.d(TAG, "Found camera ids:" + Arrays.toString(cameraids.toArray()));
+            int arr[] = new int[cameraids.size()];
+            for (int i = 0; i<arr.length;i++)
+                arr[i] = Integer.parseInt(cameraids.get(i));
+            SettingsManager.getInstance().setCameraIds(arr);
+            SettingsManager.getInstance().SetCurrentCamera(0);
+
+
+            for (int c = 0; c < cameraids.size();c++)
+            {
+
+                //publishProgress("###################");
+                //publishProgress("#####CameraID:"+cameraids.get(c)+"####");
+                //publishProgress("###################");
+                //publishProgress("Check camera features:" + cameraids.get(c));
+                CameraCharacteristics characteristics = null;
+                try {
+                    characteristics = manager.getCameraCharacteristics(cameraids.get(c));
+                } catch (CameraAccessException e) {
+                    Log.WriteEx(e);
+                }
+                if (characteristics == null) {
+                    Log.e(TAG, "Failed to get Characteristics for camera id:" + c);
+                    return;
+                }
+                boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
+
+                //SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
+                SettingsManager.getInstance().SetCurrentCamera(c);
+                //AUX Camera WIDE
+               /* switch (characteristics.get(CameraCharacteristics.LENS_FACING))
+                {
+                    case CameraCharacteristics.LENS_FACING_BACK:
+                        SettingsManager.getInstance().setIsFrontCamera(true);
+                        break;
+
+                    case CameraCharacteristics.LENS_FACING_EXTERNAL:
+                        SettingsManager.getInstance().setIsAUXR(true);
+                }*/
+
+                SettingsManager.getInstance().setIsFrontCamera(front);
+                SettingsManager.getApi(SettingKeys.Module).set(ContextApplication.getStringFromRessources(R.string.module_picture));
+                hwlvl = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+
+                SettingsManager.get(SettingKeys.selfTimer).setValues(ContextApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
+                SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
+
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(ContextApplication.getStringFromRessources(R.string.video_audio_source_default));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(ContextApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
+                SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
+                if (RenderScriptManager.isSupported()) {
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(ContextApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+                    SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+                }
+
+                SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
+
+                ////publishProgress("Camera 2 Level:" + hwlvl);
+
+                dump_SCALER_STREAM_CONFIGURATION_MAP(characteristics);
+
+                //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.
+                //in that case set it to true
+                //else it would override the already detected featureset from last cam and disable api2
+                if (SettingsManager.getInstance().hasCamera2Features() && front) {
+                    hasCamera2Features = true;
+                    Log.d(TAG,"Front cam has no camera2 featureset, try to find supported things anyway");
+                }
+               /* else if (hwlvl != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                    hasCamera2Features = true;*/
+                else
+                    hasCamera2Features = true;
+
+                SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
+                ////publishProgress("IsCamera2 Full Device:" + SettingsManager.getInstance().hasCamera2Features() + " isFront:" + SettingsManager.getInstance().getIsFrontCamera());
+
+                SettingsManager.getGlobal(SettingKeys.GuideList).setValues(ContextApplication.getContext().getResources().getStringArray(R.array.guidelist));
+                SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
+
+                if (!SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
+                    SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);
+                if (!SettingsManager.get(SettingKeys.MFNR).isPresetted())
+                    SettingsManager.get(SettingKeys.MFNR).setIsSupported(false);
+
+
+                if (hasCamera2Features) {
+
+                    try {
+                        if(!SettingsManager.getInstance().getIsFrontCamera()) {
+                            ////publishProgress("Detect Flash");
+                            detectFlash(characteristics);
+                            sendProgress(SettingsManager.get(SettingKeys.FlashMode), "Flash");
+                        }
+                    } catch (Exception e){
+                            Log.WriteEx(e);
+                            ////publishProgress("Detect Flash failed");
+                        }
+
+                    try {
+                        ////publishProgress("Detect Scene");
+                        detectSceneModes(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.SceneMode), "Scene");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Scene failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Antibanding");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, SettingsManager.get(SettingKeys.AntiBandingMode), ContextApplication.getStringArrayFromRessource(R.array.antibandingmodes));
+                        sendProgress(SettingsManager.get(SettingKeys.AntiBandingMode), "Antibanding");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Antibanding failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Color");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, SettingsManager.get(SettingKeys.ColorMode), ContextApplication.getStringArrayFromRessource(R.array.colormodes));
+                        sendProgress(SettingsManager.get(SettingKeys.ColorMode), "Color");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Color failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect EDGE_MODE");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, SettingsManager.get(SettingKeys.EDGE_MODE), ContextApplication.getStringArrayFromRessource(R.array.edgeModes));
+                        String vals[] = SettingsManager.get(SettingKeys.EDGE_MODE).getValues();
+                        String newvals[] = new String[vals.length-1];
+                        String zsldnoise= ContextApplication.getStringFromRessources(R.string.zeroshutterlag);
+                        int t = 0;
+                        for (int i = 0; i< vals.length; i++)
+                        {
+                            if (!vals[i].contains(zsldnoise))
+                                newvals[t++] = vals[i];
+                        }
+                        SettingsManager.get(SettingKeys.EDGE_MODE).setValues(newvals);
+                        sendProgress(SettingsManager.get(SettingKeys.EDGE_MODE), "EDGE_MODE");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Edge failed");
+                    }
+
+
+                    try {
+                        ////publishProgress("Detect OpticalImageStabilisationMode");
+                        int[] oisvalues = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
+                        boolean ois_supported= false;
+                        if (oisvalues.length > 1)
+                        {
+                            if (oisvalues[0] == 1)
+                                ois_supported =true;
+                            if (oisvalues[1] == 1)
+                                ois_supported = true;
+                        }
+                        else if (oisvalues.length == 1)
+                            if (oisvalues[0] == 1)
+                                ois_supported = true;
+
+                        if (!ois_supported)
+                        {
+                            try{
+                                byte ois = characteristics.get(CameraCharacteristicsXiaomi.teleois_supported);
+                                if (ois == (byte)1)
+                                    ois_supported = true;
+                            }
+                            catch (IllegalArgumentException | NullPointerException ex)
+                            {
+                                Log.d(TAG, "No Xiaomi ois");
+                            }
+                        }
+                        if (ois_supported)
+                        {
+                            String values[] = new String[2];
+                            values[0] = ContextApplication.getStringFromRessources(R.string.off) + ",0";
+                            values[1] = ContextApplication.getStringFromRessources(R.string.on) + ",1";
+                            SettingsManager.get(SettingKeys.OIS_MODE).setValues(values);
+                            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(true);
+                            SettingsManager.get(SettingKeys.OIS_MODE).set(ContextApplication.getStringFromRessources(R.string.on));
+                        }
+                        else
+                            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(false);
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Ois failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect FocusMode");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, SettingsManager.get(SettingKeys.FocusMode), ContextApplication.getStringArrayFromRessource(R.array.focusModes));
+                        SettingsManager.get(SettingKeys.FocusMode).set(ContextApplication.getStringFromRessources(R.string.focus_mode_continousepicture));
+                        sendProgress(SettingsManager.get(SettingKeys.FocusMode), "FocusMode");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Focus failed");
+                    }
+
+
+                    try {
+                        ////publishProgress("Detect HOT_PIXEL_MODE");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), ContextApplication.getStringArrayFromRessource(R.array.hotpixelmodes));
+                        sendProgress(SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), "HOT_PIXEL_MODE");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect HotPixel failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES, SettingsManager.get(SettingKeys.VideoStabilization), ContextApplication.getStringArrayFromRessource(R.array.videostabilisationmodes));
+                        sendProgress(SettingsManager.get(SettingKeys.VideoStabilization), "CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect videoStabilisation failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Denoise");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, SettingsManager.get(SettingKeys.Denoise), ContextApplication.getStringArrayFromRessource(R.array.denoiseModes));
+                        if (SettingsManager.get(SettingKeys.Denoise).contains(ContextApplication.getStringFromRessources(R.string.denoise_zsl)))
+                        {
+                            String vals[] = SettingsManager.get(SettingKeys.Denoise).getValues();
+                            String newvals[] = new String[vals.length-1];
+                            String zsldnoise= ContextApplication.getStringFromRessources(R.string.denoise_zsl);
+                            int t = 0;
+                            for (int i = 0; i< vals.length; i++)
+                            {
+                                if (!vals[i].contains(zsldnoise))
+                                    newvals[t++] = vals[i];
+                            }
+                            SettingsManager.get(SettingKeys.Denoise).setValues(newvals);
+                        }
+                        sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Denoise failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect PictureFormat");
+                        detectPictureFormats(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.PictureFormat), "PictureFormat");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect PictureFormat failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Manual Focus");
+                        detectManualFocus(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_Focus), "Manual Focus");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect MF failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect PictureSizes");
+                        detectPictureSizes(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.PictureSize), "PictureSizes:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect PictureSize failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Video Profiles");
+                        int camid = SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()];
+                        detectVideoMediaProfiles(camid);
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Video Profiles failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect ExposureModes");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, SettingsManager.get(SettingKeys.ExposureMode), ContextApplication.getStringArrayFromRessource(R.array.aemodes));
+                        SettingsManager.get(SettingKeys.ExposureMode).set(ContextApplication.getStringFromRessources(R.string.on));
+                        sendProgress(SettingsManager.get(SettingKeys.ExposureMode), "ExposureModes:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect ExposureModes failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect ExposureCompensation");
+                        detectManualExposure(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_ExposureCompensation), "ExposureCompensation:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect ExpoCompensation failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect ExposureTime");
+                        detectManualexposureTime(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_ExposureTime), "ExposureTime:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect ExpoTime failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Iso");
+                        detectManualIso(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_ManualIso), "Iso:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Iso failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect Aperture");
+                        detectManualApeture(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.M_Aperture), "Aperture:");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Aperture failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect ColorCorrection");
+                        detectColorcorrectionMode(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE), "ColorCorrection");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect ColorCorrection failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect ToneMap");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, SettingsManager.get(SettingKeys.TONE_MAP_MODE),ContextApplication.getStringArrayFromRessource(R.array.tonemapmodes));
+                        sendProgress(SettingsManager.get(SettingKeys.TONE_MAP_MODE), "Tonemap");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.WriteEx(ex);
+                        ////publishProgress("Detect Tonemap Mode failed");
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        try {
+                            ////publishProgress("Detect Shading Mode");
+                            Camera2Util.detectIntMode(characteristics, CameraCharacteristics.SHADING_AVAILABLE_MODES, SettingsManager.get(SettingKeys.LensShade),ContextApplication.getStringArrayFromRessource(R.array.shadingmodes));
+                            sendProgress(SettingsManager.get(SettingKeys.LensShade), "Tonemap");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.WriteEx(ex);
+                            ////publishProgress("Detect Shading Mode failed");
+                        }
+                    }
+
+                    try {
+                        ////publishProgress("Detect Whitebalance");
+                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, SettingsManager.get(SettingKeys.WhiteBalanceMode), ContextApplication.getStringArrayFromRessource(R.array.whitebalancemodes));
+                        sendProgress(SettingsManager.get(SettingKeys.WhiteBalanceMode), "Whitebalance");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect WB Mode failed");
+                    }
+
+                    try {
+                        ////publishProgress("Detect CONTROL_MODE");
+                        detectControlMode(characteristics);
+                        sendProgress(SettingsManager.get(SettingKeys.CONTROL_MODE), "CONTROL_MODE");
+                    } catch (Exception e) {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect Control mode failed");
+                    }
+
+                    Range[] aetargetfps = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+                    if (aetargetfps != null && aetargetfps.length>1)
+                    {
+                        String[] t = new String[aetargetfps.length];
+                        int min = 30,max = 0;
+                        for (int i = 0;i < aetargetfps.length; i++)
+                        {
+
+                            if ((int)aetargetfps[i].getLower() <= min && (int)aetargetfps[i].getUpper() > max)
+                            {
+                                min = (int)aetargetfps[i].getLower();
+                                max = (int)aetargetfps[i].getUpper();
+                            }
+
+                            t[i] = aetargetfps[i].getLower()+","+aetargetfps[i].getUpper();
+                        }
+                        SettingsManager.get(SettingKeys.Ae_TargetFPS).setValues(t);
+                        SettingsManager.get(SettingKeys.Ae_TargetFPS).setIsSupported(true);
+                        SettingsManager.get(SettingKeys.Ae_TargetFPS).set(min+","+max);
+                    }
+
+                    try{
+                        int sharprange[] = characteristics.get(CameraCharacteristicsQcom.sharpness_range);
+                        int min = sharprange[0];
+                        int max = sharprange[1];
+                        String[] t = new String[max - min + 1];
+                        for (int i= 0; i < t.length; i++)
+                            t[i] = ""+(min+i);
+                        if (sharprange.length > 0) {
+                            SettingsManager.get(SettingKeys.M_Sharpness).setValues(t);
+                            SettingsManager.get(SettingKeys.M_Sharpness).set((max/2) + "");
+                            SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect sharpness failed");
+                    }
+
+                    try{
+                        int contrastrange[] = characteristics.get(CameraCharacteristicsQcom.saturation_range);
+                        int min = contrastrange[0];
+                        int max = contrastrange[1];
+                        String[] t = new String[max - min + 1];
+                        for (int i= 0; i < t.length; i++)
+                            t[i] = ""+(min+i);
+                        if (contrastrange.length > 0) {
+                            SettingsManager.get(SettingKeys.M_Saturation).setValues(t);
+                            SettingsManager.get(SettingKeys.M_Saturation).set((max/2) + "");
+                            SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WriteEx(e);
+                        ////publishProgress("Detect saturation failed");
+                    }
+
+                    detectHuaweiParameters(characteristics);
+
+                    dumpQCFA(characteristics);
+
+                }
+            }
+            SettingsManager.getInstance().SetCurrentCamera(0);
+            if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
+                SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
+            }
+    }
+
+    private void findCameraIds(CameraManager manager, List<String> cameraids) {
+        List<String> focap = new ArrayList<>();
+        for (int i = 0; i< 200; i++)
+        {
+            try {
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
+
+                if (characteristics != null) {
+                    String pair = "";
+                    float focal[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
+                    float aperture[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
+                    if (focal != null && focal.length>0)
+                        pair += String.valueOf(focal[0]);
+                    if (aperture != null && aperture.length > 0)
+                        pair += String.valueOf(aperture[0]);
+
+                    if (!focap.contains(pair))
+                    {
+                        focap.add(pair);
+                        cameraids.add(String.valueOf(i));
+                    }
+                   /* //checks if its a logical camera and if true skip that id.
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+
+                        //check if its a xiaomi logical cam
+                        //its a valid cam if cameraRolidXiaomi and sensorsyncmodeConfig are true.
+                        //on logical cam sensorsyncmodeConfig is not availible
+                        boolean cameraRoleIdXiaomi = false;
+                        boolean sensorsyncmodeConfig =false;
+                        try {
+                            int roleid = characteristics.get(CameraCharacteristicsXiaomi.camera_role_id);
+                            cameraRoleIdXiaomi = true;
+                        }
+                        catch (NullPointerException | IllegalArgumentException ex)
+                        {
+                            cameraRoleIdXiaomi = false;
+                        }
+
+                        try {
+                            Byte syncmode[] = characteristics.get(CameraCharacteristicsQcom.sensor_sync_mode_config);
+                            if (syncmode != null)
+                                sensorsyncmodeConfig = true;
+                        }
+                        catch (NullPointerException | IllegalArgumentException ex)
+                        {
+                            sensorsyncmodeConfig = false;
+                        }
+
+                        Set<String> logical = characteristics.getPhysicalCameraIds();
+                        if (((logical == null || logical.size() == 0) && (cameraRoleIdXiaomi && sensorsyncmodeConfig))
+                        ||((logical == null || logical.size() == 0) && (!cameraRoleIdXiaomi && !sensorsyncmodeConfig)))
+                            checkPreviewAndYuvSizes(cameraids, i, characteristics);
+                    }
+                    else
+                        checkPreviewAndYuvSizes(cameraids, i, characteristics);*/
+                }
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.d(TAG, "unsupported id: " + i);
+            }
+            catch (CameraAccessException ex)
+            {
+                Log.d(TAG, "unsupported id: " + i);
+            }
+            catch (Exception ex)
+            {
+                Log.d(TAG, "unsupported id: " + i);
+            }
+        }
+    }
+
+    private void checkPreviewAndYuvSizes(List<String> cameraids, int i, CameraCharacteristics characteristics) {
+        StreamConfigurationMap scm = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (scm != null)
+        {
+            Size imgsizes[] = scm.getOutputSizes(ImageFormat.JPEG);
+            Size yuvsizes[] = scm.getOutputSizes(ImageFormat.YUV_420_888);
+            if ((imgsizes != null && imgsizes.length >0) || (yuvsizes != null && yuvsizes.length >0)) {
+                cameraids.add(String.valueOf(i));
+                Log.d(TAG,"support camera:" +i);
+            }
+        }
+    }
+
+    private void detectHuaweiParameters(CameraCharacteristics characteristics) {
+        try {
+                Camera2Util.detectByteMode(characteristics, CameraCharacteristicsHuawei.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), ContextApplication.getStringArrayFromRessource(R.array.dual_camera_mode));
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.e(TAG, "Unsupported HUAWEI_AVAILABLE_DUAL_PRIMARY  false");
+        }
+        try {
+            if (Objects.equals(characteristics.get(CameraCharacteristicsHuawei.HUAWEI_PROFESSIONAL_MODE_SUPPORTED), Byte.valueOf((byte) 1)))
+            {
+                int[] shutterminmax = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_EXPOSURETIME_RANGE);
+
+                int min = shutterminmax[0];
+                int max = shutterminmax[1];
+                long maxs = SettingsManager.getInstance().getCamera2MaxExposureTime();
+                if (SettingsManager.getInstance().getCamera2MaxExposureTime() > 0)
+                    max = (int) SettingsManager.getInstance().getCamera2MaxExposureTime();
+                if (SettingsManager.getInstance().getCamera2MinExposureTime() >0)
+                    min = (int) SettingsManager.getInstance().getCamera2MinExposureTime();
+                ArrayList<String> tmp = getShutterStrings(max,min,true);
+                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
+                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
+
+                int[] isominmax = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_ISO_RANGE);
+                min = isominmax[0];
+                max = isominmax[1];
+                int maxiso = SettingsManager.getInstance().getCamera2MaxIso();
+                if (maxiso > 0)
+                    max = SettingsManager.getInstance().getCamera2MaxIso();
+                ArrayList<String> ar = getIsoStrings(max, min);
+                SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
+                SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
+
+                SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
+                SettingsManager.getInstance().setFramework(Frameworks.HuaweiCamera2Ex);
+            }
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "No Huawei Pro mode");
+        }
+
+        try {
+            int[] raw12 = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
+            if (raw12!= null)
+                SettingsManager.get(SettingKeys.support12bitRaw).set(true);
+            Log.d(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_PROFESSIONAL_RAW12_SUPPORTED false");
+        }
+
+        try {
+            byte denoiseSupported = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_DENOISE_SUPPORTED);
+            Log.e(TAG,"HUAWEI_DENOISE SUPPORTED :" + denoiseSupported);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_DENOISE SUPPORTED false");
+        }
+
+        try {
+            byte rawsupported = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_IMAGE_SUPPORTED);
+            Log.d(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_RAW_IMAGE_SUPPORTED false");
+        }
+        try {
+            int[] deepmap = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS);
+            Log.d(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_AVAILABLE_DEPTH_STREAM_CONFIGURATIONS false");
+        }
+        try {
+            byte fastbinder = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_FAST_NOTIFY_SUPPORTED);
+            Log.d(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED" +fastbinder);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_FAST_NOTIFY_SUPPORTED false");
+        }
+
+        try {
+            byte dualcamerareporcess = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS);
+            Log.d(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS"+ dualcamerareporcess);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_DUAL_PRIMARY_SINGLE_REPROCESS false");
+        }
+
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_PRE_CAPTURE_SUPPORTED);
+            Log.d(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_PRE_CAPTURE_SUPPORTED false");
+        }
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_POST_PROCESS_SUPPORTED);
+            Log.d(TAG,"HUAWEI_POST_PROCESS_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_POST_PROCESS_SUPPORTED false");
+        }
+        try {
+            byte precapture = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_ZSL_SUPPORTED);
+            Log.d(TAG,"HUAWEI_ZSL_SUPPORTED" +precapture);
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_ZSL_SUPPORTED false");
+        }
+        try {
+            byte[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_HDC_CALIBRATE_DATA);
+            Log.d(TAG,"HUAWEI_HDC_CALIBRATE_DATA");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_HDC_CALIBRATE_DATA false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE);
+            if (hdc != null && hdc.length > 0) {
+                Log.d(TAG, Arrays.toString(hdc));
+                List<String> ls = new ArrayList<>();
+                for (int i = 0; i< hdc.length; i+=2)
+                {
+                    String t = hdc[i] + "x" + hdc[i+1];
+                    ls.add(t);
+                }
+                if (ls.size() > 0)
+                {
+                    SettingsManager.get(SettingKeys.secondarySensorSize).setValues(ls.toArray(new String[ls.size()]));
+                    SettingsManager.get(SettingKeys.secondarySensorSize).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.secondarySensorSize).set(ls.get(0));
+                    Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE " + ls.toString());
+                }
+                else
+                    Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported ");
+            }
+            else
+                Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported");
+        }
+
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SUPPORTED_BINNING_SIZES);
+            if (hdc != null)
+                Log.d(TAG, Arrays.toString(hdc));
+            Log.d(TAG,"HUAWEI_SUPPORTED_BINNING_SIZES");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_WB_RANGE);
+            if (hdc != null && hdc.length >0) {
+                Log.d(TAG, Arrays.toString(hdc));
+                SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).set(true);
+                int min= hdc[0];
+                int max = hdc[1];
+                List<String> wblist = new ArrayList<>();
+                wblist.add(ContextApplication.getStringFromRessources(R.string.auto_));
+                for (int i = min; i <= max; i+=50)
+                {
+                    wblist.add(i+"");
+                }
+                SettingsManager.get(SettingKeys.M_Whitebalance).setValues(wblist.toArray(new String[wblist.size()]));
+                SettingsManager.get(SettingKeys.M_Whitebalance).set(0+"");
+                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
+            }
+            Log.d(TAG,"HUAWEI_SENSOR_WB_RANGE");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_MULTICAP);
+            Log.d(TAG,"HUAWEI_MULTICAP");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_MULTICAP false");
+        }
+        try {
+            int[] hdc = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_AVAILIBLE_DEPTH_SIZES);
+            Log.d(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
+        }
+    }
+
+    private void detectColorcorrectionMode(CameraCharacteristics cameraCharacteristics)
+    {
+        int[] colorcor = null;
+        if (cameraCharacteristics.get(CameraCharacteristics.COLOR_CORRECTION_AVAILABLE_ABERRATION_MODES) != null)
+            colorcor = cameraCharacteristics.get(CameraCharacteristics.COLOR_CORRECTION_AVAILABLE_ABERRATION_MODES);
+        else
+            colorcor = new int[]{ 0,1,2};
+        Log.d(TAG, "colormodes:" + Arrays.toString(colorcor));
+        String[] lookupar = ContextApplication.getContext().getResources().getStringArray(R.array.colorcorrectionmodes);
+
+        HashMap<String,Integer> map = new HashMap<>();
+        for (int i = 0;i< colorcor.length;i++)
+        {
+            if(i < lookupar.length && i < colorcor.length)
+                map.put(lookupar[i],colorcor[i]);
+        }
+        lookupar = StringUtils.IntHashmapToStringArray(map);
+        SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).setValues(lookupar);
+        SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).setIsSupported(true);
+        SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).set(ContextApplication.getStringFromRessources(R.string.fast));
+    }
+
+    private void detectFlash(CameraCharacteristics characteristics) {
+        if (SettingsManager.getInstance().hasCamera2Features()) {
+            //flash mode
+            boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+            SettingsManager.get(SettingKeys.FlashMode).setIsSupported(flashavail);
+            if (SettingsManager.get(SettingKeys.FlashMode).isSupported()) {
+                String[] lookupar = ContextApplication.getContext().getResources().getStringArray(R.array.flashModes);
+                HashMap<String,Integer> map = new HashMap<>();
+                for (int i = 0; i< lookupar.length; i++)
+                {
+                    map.put(lookupar[i], i);
+                }
+                lookupar = StringUtils.IntHashmapToStringArray(map);
+                SettingsManager.get(SettingKeys.FlashMode).setValues(lookupar);
+            }
+        }
+    }
+
+    private void detectControlMode(CameraCharacteristics characteristics) {
+        if (SettingsManager.getInstance().hasCamera2Features()) {
+            //flash mode
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                Camera2Util.detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES, SettingsManager.get(SettingKeys.CONTROL_MODE),ContextApplication.getStringArrayFromRessource(R.array.controlModes));
+                return;
+            }
+            else {
+                int device = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+                String[] lookupar = ContextApplication.getContext().getResources().getStringArray(R.array.controlModes);
+                int[] full = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES) != null)
+                    full = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_MODES);
+                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL || device==CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_3 || device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED) {
+                    full = new int[] {0,1,2,};
+                }
+                else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
+                    full = new int[] {1,2,};
+                SettingsManager.get(SettingKeys.CONTROL_MODE).setIsSupported(true);
+                if (SettingsManager.get(SettingKeys.CONTROL_MODE).isSupported()) {
+                    HashMap<String, Integer> map = new HashMap<>();
+                    for (int i = 0; i < full.length; i++) {
+                        map.put(lookupar[i], full[i]);
+                    }
+                    lookupar = StringUtils.IntHashmapToStringArray(map);
+                    SettingsManager.get(SettingKeys.CONTROL_MODE).setValues(lookupar);
+                    SettingsManager.get(SettingKeys.CONTROL_MODE).set(ContextApplication.getStringFromRessources(R.string.auto));
+                }
+            }
+        }
+    }
+
+    private void detectPictureFormats(CameraCharacteristics characteristics)
+    {
+        StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        HashMap<String, Integer> hmap = new HashMap<>();
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW10)) {
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_dng10), ImageFormat.RAW10);
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_bayer10), ImageFormat.RAW10);
+            }
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR)) {
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_bayer), ImageFormat.RAW_SENSOR);
+                Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
+                /*if (size == null || size.length == 1) {
+                    int[] rawsizes = characteristics.get(CameraCharacteristicsXiaomi.availableRawSizes);
+                    if (rawsizes != null && rawsizes.length > 0)
+                    {
+                        List<Size> s = new ArrayList<>();
+                        for (int i= 0; i < rawsizes.length; i+=2)
+                        {
+                            s.add(new Size(rawsizes[i], rawsizes[i+1]));
+                        }
+                        size = s.toArray(new Size[s.size()]);
+                    }
+                }*/
+                if (size != null)
+                {
+                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                        }
+                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.WriteEx(e);
+        }
+        try {
+            if (characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT) != null) {
+                Byte rawFormat = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT);
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_dng16), rawFormat.intValue());
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_bayer), rawFormat.intValue());
+                Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
+                if (size != null)
+                {
+                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                            Log.d(TAG, "Add new RawSize:" + rawsizes[i]);
+                        }
+                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                    }
+                }
+            }
+        } catch (IllegalArgumentException | NullPointerException e) {
+            Log.d(TAG, "Dont support HUAWEI_RAW_FORMAT");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW12))
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_dng12), ImageFormat.RAW12);
+        } catch (Exception e) {
+            Log.d(TAG, "Dont support RAW12");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.JPEG))
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_jpeg), ImageFormat.JPEG);
+        } catch (Exception e) {
+            Log.d(TAG, "Dont support JPEG");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888)) {
+                hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_yuv), ImageFormat.YUV_420_888);
+                Size[] size = smap.getOutputSizes(ImageFormat.YUV_420_888);
+                if (size != null)
+                {
+                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
+                    if (size.length > 1)
+                    {
+                        SettingsManager.get(SettingKeys.YuvSize).setIsSupported(true);
+                        String[] rawsizes = new String[size.length];
+                        for (int i = 0; i<size.length;i++)
+                        {
+                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
+                        }
+                        SettingsManager.get(SettingKeys.YuvSize).setValues(rawsizes);
+                        SettingsManager.get(SettingKeys.YuvSize).set(rawsizes[0]);
+                    }
+                    else
+                    {
+                        SettingsManager.get(SettingKeys.YuvSize).setIsSupported(false);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Dont support YUV_420_888");
+        }
+        if (
+                hmap.containsKey(ContextApplication.getStringFromRessources(R.string.pictureformat_jpeg)) &&
+                (
+                        hmap.containsKey(ContextApplication.getStringFromRessources(R.string.pictureformat_dng10))
+                        || hmap.containsKey(ContextApplication.getStringFromRessources(R.string.pictureformat_dng16)))
+                )
+                    hmap.put(ContextApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng), ImageFormat.JPEG);
+
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.NV16))
+                Log.d(TAG, "Support NV16");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            Log.d(TAG, "Dont support NV16");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.NV21))
+                Log.d(TAG, "Support NV21");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support NV21");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888))
+                    Log.d(TAG, "Support YUV_420_888");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support YUV_420_888");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_422_888))
+                    Log.d(TAG, "Support YUV_422_888");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support YUV_422_888");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YUV_444_888))
+                    Log.d(TAG, "Support YUV_444_888");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support YUV_444_888");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.YV12))
+                    Log.d(TAG, "Support YV12");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support yv12");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.DEPTH16))
+                    Log.d(TAG, "Support DEPTH16");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support DEPTH16");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.DEPTH_POINT_CLOUD))
+                    Log.d(TAG, "Support DEPTH_POINT_CLOUD");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support DEPTH_POINT_CLOUD");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.RAW_PRIVATE))
+                    Log.d(TAG, "Support RAW_PRIVATE");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support RAW_PRIVATE");
+        }
+        try {
+            if (smap.isOutputSupportedFor(ImageFormat.PRIVATE))
+                    Log.d(TAG, "Support PRIVATE");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Dont support PRIVATE");
+        }
+
+        SettingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
+        if(hmap.containsKey(ContextApplication.getStringFromRessources(R.string.pictureformat_jpeg)))
+            SettingsManager.get(SettingKeys.PictureFormat).set(ContextApplication.getStringFromRessources(R.string.pictureformat_jpeg));
+        else if (hmap.containsKey(ContextApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+            SettingsManager.get(SettingKeys.PictureFormat).set(ContextApplication.getStringFromRessources(R.string.pictureformat_yuv));
+        SettingsManager.get(SettingKeys.PictureFormat).setValues(StringUtils.IntHashmapToStringArray(hmap));
+    }
+
+    private void detectPictureSizes(CameraCharacteristics characteristics)
+    {
+        List<Size> outputSizes = new ArrayList<>();
+        StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        outputSizes.addAll(Arrays.asList(smap.getOutputSizes(ImageFormat.JPEG)));
+
+
+        Size[] highsize = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            highsize = smap.getHighResolutionOutputSizes(ImageFormat.JPEG);
+            if (highsize != null)
+                outputSizes.addAll(Arrays.asList(highsize));
+        }
+        if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
+        {
+            int[] highres = characteristics.get(CameraCharacteristicsXiaomi.availableSuperResolutionStreamConfigurations);
+            if(highres != null)
+                outputSizes.addAll(Arrays.asList(Camera2Util.getOutputSizeForImageFormat(highres,ImageFormat.YUV_420_888)));
+        }
+        String[] ar = new String[outputSizes.size()];
+        Size[] sizes = new Size[outputSizes.size()];
+        outputSizes.toArray(sizes);
+
+        java.util.Arrays.sort(sizes,new SizeComparer());
+
+        int i = 0;
+        for (Size s : sizes)
+        {
+            ar[i++] = s.getWidth()+"x"+s.getHeight();
+        }
+
+
+
+        SettingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
+        SettingsManager.get(SettingKeys.PictureSize).set(ar[0]);
+        SettingsManager.get(SettingKeys.PictureSize).setValues(ar);
+    }
+
+    private class SizeComparer implements Comparator<Size> {
+
+        @Override
+        public int compare(Size o1, Size o2) {
+            return (o2.getHeight() * o2.getWidth()) - (o1.getHeight()* o1.getWidth());
+        }
+    }
+
+    private void detectSceneModes(CameraCharacteristics characteristics){
+        String[] lookupar = ContextApplication.getContext().getResources().getStringArray(R.array.sceneModes);
+        int[]  scenes = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
+        if (scenes.length > 1)
+            SettingsManager.get(SettingKeys.SceneMode).setIsSupported(true);
+        else
+            SettingsManager.get(SettingKeys.SceneMode).setIsSupported(false);
+
+        HashMap<String,Integer> map = new HashMap<>();
+        for (int i = 0; i< scenes.length; i++)
+        {
+            switch (scenes[i])
+            {
+                case CameraCharacteristics.CONTROL_SCENE_MODE_DISABLED:
+                    map.put(lookupar[0], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_FACE_PRIORITY:
+                    map.put(lookupar[1], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_ACTION:
+                    map.put(lookupar[2], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_PORTRAIT:
+                    map.put(lookupar[3], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_LANDSCAPE:
+                    map.put(lookupar[4], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_NIGHT:
+                    map.put(lookupar[5], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_NIGHT_PORTRAIT:
+                    map.put(lookupar[6], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_THEATRE:
+                    map.put(lookupar[7], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_BEACH:
+                    map.put(lookupar[8], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_SNOW:
+                    map.put(lookupar[9], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_SUNSET:
+                    map.put(lookupar[10], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_STEADYPHOTO:
+                    map.put(lookupar[11], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_FIREWORKS:
+                    map.put(lookupar[12], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_SPORTS:
+                    map.put(lookupar[13], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_PARTY:
+                    map.put(lookupar[14], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_CANDLELIGHT:
+                    map.put(lookupar[15], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_BARCODE:
+                    map.put(lookupar[16], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_HIGH_SPEED_VIDEO:
+                    map.put(lookupar[17], scenes[i]);
+                    break;
+                case CameraCharacteristics.CONTROL_SCENE_MODE_HDR:
+                    map.put(lookupar[18], scenes[i]);
+                    break;
+            }
+        }
+        lookupar = StringUtils.IntHashmapToStringArray(map);
+        SettingsManager.get(SettingKeys.SceneMode).setValues(lookupar);
+    }
+
+    private void detectManualFocus(CameraCharacteristics cameraCharacteristics)
+    {
+        SettingMode mf = SettingsManager.get(SettingKeys.M_Focus);
+        float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+        if (SettingsManager.getInstance().getCamera2MinFocusPosition() > 0)
+            maxfocusrange = SettingsManager.getInstance().getCamera2MinFocusPosition();
+        if (maxfocusrange == 0)
+        {
+            mf.setIsSupported(false);
+            return;
+        }
+        float step = 0.001f;
+        List<Float> floats = new ArrayList<>();
+        for (float i = step; i < maxfocusrange; i += step)
+        {
+            floats.add(i);
+            if (i > 0.01f)
+                step = 0.02f;
+            if (i > 0.1f)
+                step = 0.1f;
+            if (i > 1)
+                step = 0.2f;
+            if (i + step > maxfocusrange)
+                floats.add(maxfocusrange);
+        }
+
+        StringFloatArray focusranges = new StringFloatArray(floats.size() + 2);
+        focusranges.add(0, ContextApplication.getStringFromRessources(R.string.auto),0f);
+        focusranges.add(1,"∞", 0.0001f); //10000m
+        int t = 2;
+        for (int i = 0; i < floats.size(); i++)
+        {
+            focusranges.add(t++,StringUtils.getMeterString(1/floats.get(i)),floats.get(i));
+        }
+
+        if (focusranges.getSize() > 0) {
+            mf.setIsSupported(true);
+            mf.setValues(focusranges.getStringArray());
+        }
+        else
+            mf.setIsSupported(false);
+
+
+    }
+
+    private void detectManualExposure(CameraCharacteristics characteristics)
+    {
+        SettingMode exposure = SettingsManager.get(SettingKeys.M_ExposureCompensation);
+        int max = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
+        int min = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
+        float step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
+
+        List<String> strings = new ArrayList<>();
+        int t = 0;
+        for (int i = min; i <= max; i++) {
+            strings.add(String.format("%.1f", i * step));
+        }
+        if (strings.size() > 0) {
+            exposure.setIsSupported(true);
+            exposure.setValues(strings.toArray(new String[strings.size()]));
+            exposure.set(strings.size()/2+"");
+        }
+        else
+            exposure.setIsSupported(false);
+
+    }
+
+    private void detectManualexposureTime(CameraCharacteristics characteristics)
+    {
+        long max = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
+        long min = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower() / 1000;
+
+        if (SettingsManager.getInstance().getCamera2MaxExposureTime() >0)
+            max = SettingsManager.getInstance().getCamera2MaxExposureTime();
+        if (SettingsManager.getInstance().getCamera2MinExposureTime() >0)
+            min = SettingsManager.getInstance().getCamera2MinExposureTime();
+
+        ArrayList<String> tmp = getShutterStrings(max, min,false);
+        SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
+        if (tmp.size() > 0)
+            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
+
+    }
+
+
+    private ArrayList<String> getShutterStrings(long max, long min,boolean withAutoMode) {
+        String[] allvalues = ContextApplication.getContext().getResources().getStringArray(R.array.shutter_values_autocreate);
+        boolean foundmin = false;
+        boolean foundmax = false;
+
+        ArrayList<String> tmp = new ArrayList<>();
+        if (withAutoMode)
+            tmp.add(ContextApplication.getStringFromRessources(R.string.auto_));
+        for (int i = 1; i< allvalues.length; i++ )
+        {
+            String s = allvalues[i];
+
+            float a;
+            if (s.contains("/")) {
+                String[] split = s.split("/");
+                a = Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f;
+            }
+            else
+                a = Float.parseFloat(s)*1000000f;
+
+            if (a>= min && a <= max)
+                tmp.add(s);
+            if (a >= min && !foundmin)
+            {
+                foundmin = true;
+            }
+            if (a > max && !foundmax)
+            {
+                foundmax = true;
+            }
+            if (foundmax && foundmin)
+                break;
+        }
+        return tmp;
+    }
+
+    private void detectManualApeture(CameraCharacteristics characteristics) {
+        float[] apetures = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
+        if (apetures.length > 1)
+        {
+            String[] ar = new String[apetures.length];
+            for (int i = 0; i < apetures.length;i++)
+            {
+                ar[i] = String.valueOf(apetures[i]);
+            }
+            SettingsManager.get(SettingKeys.M_Aperture).setValues(ar);
+            SettingsManager.get(SettingKeys.M_Aperture).setIsSupported(true);
+            SettingsManager.get(SettingKeys.M_Aperture).set(String.valueOf(0));
+
+        }
+    }
+
+    private void detectManualIso(CameraCharacteristics characteristics)
+    {
+        int max  = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
+        if (SettingsManager.getInstance().getCamera2MaxIso() >0)
+            max = SettingsManager.getInstance().getCamera2MaxIso();
+
+        int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
+        ArrayList<String> ar = getIsoStrings(max, min);
+        SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
+        if (ar.size() > 0)
+            SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
+    }
+
+    private ArrayList<String> getIsoStrings(int max, int min) {
+        ArrayList<String> ar = new ArrayList<>();
+        ar.add(ContextApplication.getStringFromRessources(R.string.auto_));
+        for (int i = min; i <= max; i += 50) {
+            //double isostep when its bigger then 3200
+            if(i > 3200)
+            {
+                int next = (i-50) *2;
+                if (next > max)
+                    next = max;
+                i =next;
+            }
+            ar.add(i + "");
+        }
+        return ar;
+    }
+
+    private void dump_SCALER_STREAM_CONFIGURATION_MAP(CameraCharacteristics characteristics)
+    {
+        StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        int outputformats[] =  smap.getOutputFormats();
+        String out;
+        for(int outformat : outputformats)
+        {
+            switch (outformat)
+            {
+                case ImageFormat.DEPTH16:
+                    Log.d(TAG,"ImageFormat.DEPTH16 : " + logResForFormat(smap,ImageFormat.DEPTH16));
+                    break;
+                case ImageFormat.DEPTH_JPEG:
+                    Log.d(TAG,"ImageFormat.DEPTH_JPEG : " + logResForFormat(smap,ImageFormat.DEPTH_JPEG));
+                    break;
+                case ImageFormat.DEPTH_POINT_CLOUD:
+                    Log.d(TAG,"ImageFormat.DEPTH_POINT_CLOUD : " + logResForFormat(smap,ImageFormat.DEPTH_POINT_CLOUD));
+                    break;
+                case ImageFormat.FLEX_RGB_888:
+                    Log.d(TAG,"ImageFormat.FLEX_RGB_888 : " + logResForFormat(smap,ImageFormat.FLEX_RGB_888));
+                    break;
+                case ImageFormat.FLEX_RGBA_8888:
+                    Log.d(TAG,"ImageFormat.FLEX_RGBA_8888 : " + logResForFormat(smap,ImageFormat.FLEX_RGBA_8888));
+                    break;
+                case ImageFormat.HEIC:
+                    Log.d(TAG,"ImageFormat.HEIC : " + logResForFormat(smap,ImageFormat.HEIC));
+                    break;
+                case ImageFormat.JPEG:
+                    Log.d(TAG,"ImageFormat.JPEG : " + logResForFormat(smap,ImageFormat.JPEG));
+                    break;
+                case ImageFormat.NV16:
+                    Log.d(TAG,"ImageFormat.NV16 : " + logResForFormat(smap,ImageFormat.NV16));
+                    break;
+                case ImageFormat.NV21:
+                    Log.d(TAG,"ImageFormat.NV21 : " + logResForFormat(smap,ImageFormat.NV21));
+                    break;
+                case ImageFormat.PRIVATE:
+                    Log.d(TAG,"ImageFormat.NV21 : " + logResForFormat(smap,ImageFormat.PRIVATE));
+                    break;
+                case ImageFormat.RAW10:
+                    Log.d(TAG,"ImageFormat.RAW10 : " + logResForFormat(smap,ImageFormat.RAW10));
+                    break;
+                case ImageFormat.RAW12:
+                    Log.d(TAG,"ImageFormat.RAW12 : " + logResForFormat(smap,ImageFormat.RAW12));
+                    break;
+                case ImageFormat.RAW_PRIVATE:
+                    Log.d(TAG,"ImageFormat.RAW_PRIVATE : " + logResForFormat(smap,ImageFormat.RAW_PRIVATE));
+                    break;
+                case ImageFormat.RAW_SENSOR:
+                    Log.d(TAG,"ImageFormat.RAW_SENSOR : " + logResForFormat(smap,ImageFormat.RAW_SENSOR));
+                    break;
+                case ImageFormat.RGB_565:
+                    Log.d(TAG,"ImageFormat.RGB_565 : " + logResForFormat(smap,ImageFormat.RGB_565));
+                    break;
+                case ImageFormat.UNKNOWN:
+                    Log.d(TAG,"ImageFormat.UNKNOWN : " + logResForFormat(smap,ImageFormat.UNKNOWN));
+                    break;
+                case ImageFormat.Y8:
+                    Log.d(TAG,"ImageFormat.Y8 : " + logResForFormat(smap,ImageFormat.Y8));
+                    break;
+                case ImageFormat.YUV_420_888:
+                    Log.d(TAG,"ImageFormat.YUV_420_888 : " + logResForFormat(smap,ImageFormat.YUV_420_888));
+                    break;
+                case ImageFormat.YUV_422_888:
+                    Log.d(TAG,"ImageFormat.YUV_422_888 : " + logResForFormat(smap,ImageFormat.YUV_422_888));
+                    break;
+                case ImageFormat.YUV_444_888:
+                    Log.d(TAG,"ImageFormat.YUV_444_888 : " + logResForFormat(smap,ImageFormat.YUV_444_888));
+                    break;
+                case ImageFormat.YUY2:
+                    Log.d(TAG,"ImageFormat.YUY2 : " + logResForFormat(smap,ImageFormat.YUY2));
+                    break;
+                case ImageFormat.YV12:
+                    Log.d(TAG,"ImageFormat.YV12 : " + logResForFormat(smap,ImageFormat.YV12));
+                    break;
+            }
+        }
+    }
+
+    private String logResForFormat(StreamConfigurationMap smap, int imageFormat)
+    {
+        Size[] sizes =  smap.getOutputSizes(imageFormat);
+        return Arrays.toString(sizes);
+    }
+
+    private void detectVideoMediaProfiles(int cameraid)
+    {
+        HashMap<String,VideoMediaProfile> supportedProfiles = new SupportedVideoProfilesDetector().getDefaultVideoMediaProfiles(cameraid);
+
+        if (supportedProfiles.get("2160p") == null && has2160pSize()) {
+            supportedProfiles.put("2160p", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true"));
+            supportedProfiles.put("2160p_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p_TimeLapse Timelapse true"));
+        }
+        SettingsManager.getInstance().saveMediaProfiles(supportedProfiles);
+
+        ////publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
+    }
+
+    private boolean has2160pSize()
+    {
+        String[] size = SettingsManager.get(SettingKeys.PictureSize).getValues();
+        for (String s: size) {
+            if (s.matches("3840x2160"))
+                return true;
+        }
+        return false;
+    }
+
+    private void dumpQCFA(CameraCharacteristics cameraCharacteristics)
+    {
+        try {
+            byte isQcfa = cameraCharacteristics.get(CameraCharacteristicsQcom.is_qcfa_sensor);
+            Log.d(TAG, "isQcfa:" + isQcfa);
+            Integer[] qcfa_dimens = cameraCharacteristics.get(CameraCharacteristicsQcom.qcfa_dimension);
+            Log.d(TAG, "qcfa_dimens:" + Arrays.toString(qcfa_dimens));
+            Integer[] qcfa_streamSizes = cameraCharacteristics.get(CameraCharacteristicsQcom.qcfa_availableStreamConfigurations);
+            Log.d(TAG, "qcfa avail stream config" + Arrays.toString(qcfa_streamSizes));
+            Integer[] active_array_size = cameraCharacteristics.get(CameraCharacteristicsQcom.qcfa_activeArraySize);
+            Log.d(TAG, "qcfa acitve array size: " + Arrays.toString(active_array_size));
+        }
+        catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "No QCFA sensor");
+        }
+            //Integer customhw = cameraCharacteristics.get(CameraCharacteristicsQcom.customhw);
+            //Log.d(TAG, "customhw: " + customhw);
+        try {
+
+            byte qcfaenabled = cameraCharacteristics.get(CameraCharacteristicsXiaomi.qcfa_enabled);
+            Log.d(TAG, "qcfa enabled:" + qcfaenabled);
+            byte qcfasupported = cameraCharacteristics.get(CameraCharacteristicsXiaomi.qcfa_supported);
+            Log.d(TAG, "qcfa supported:" + qcfasupported);
+        }
+            catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "No QCFA sensor");
+        }
+    }
+}

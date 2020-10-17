@@ -25,8 +25,8 @@ import android.view.View;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -62,11 +62,11 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     {
         if (parameter == null)
             return;
-        if (parameter.GetStringValue().equals(getResources().getString(R.string.on_))) {
-            parameter.SetValue(getResources().getString(R.string.off_), false);
+        if (parameter.GetStringValue().equals(getResources().getString(com.troop.freedcam.camera.R.string.on_))) {
+            parameter.SetValue(getResources().getString(com.troop.freedcam.camera.R.string.off_), false);
         }
         else{
-            parameter.SetValue(getResources().getString(R.string.on_),false);}
+            parameter.SetValue(getResources().getString(com.troop.freedcam.camera.R.string.on_),false);}
 
     }
 

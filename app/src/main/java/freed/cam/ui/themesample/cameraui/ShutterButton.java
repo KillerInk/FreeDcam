@@ -33,9 +33,9 @@ import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.modules.ModuleChangedEvent;
+import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;

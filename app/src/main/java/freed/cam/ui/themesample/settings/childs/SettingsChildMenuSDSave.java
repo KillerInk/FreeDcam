@@ -32,8 +32,8 @@ import java.io.File;
 
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.modes.SDModeParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;

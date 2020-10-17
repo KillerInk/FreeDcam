@@ -25,8 +25,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import com.troop.freedcam.utils.Log;
 

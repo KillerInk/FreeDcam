@@ -23,10 +23,10 @@ import android.content.Context;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.camera1.Camera1Fragment;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.camera1.Camera1Fragment;
+import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
+import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
@@ -45,20 +45,20 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (SettingsManager.get(SettingKeys.orientationHack).get())
-            onStringValueChanged(getResources().getString(R.string.on_));
+            onStringValueChanged(getResources().getString(com.troop.freedcam.camera.R.string.on_));
         else
-            onStringValueChanged(getResources().getString(R.string.off_));
+            onStringValueChanged(getResources().getString(com.troop.freedcam.camera.R.string.off_));
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {getResources().getString(R.string.on_), getResources().getString(R.string.off_)};
+        return new String[] {getResources().getString(com.troop.freedcam.camera.R.string.on_), getResources().getString(com.troop.freedcam.camera.R.string.off_)};
     }
 
     @Override
     public void SetValue(String value)
     {
-        if (value.equals(getContext().getResources().getString(R.string.on_)))
+        if (value.equals(getContext().getResources().getString(com.troop.freedcam.camera.R.string.on_)))
             SettingsManager.get(SettingKeys.orientationHack).set(true);
         else
             SettingsManager.get(SettingKeys.orientationHack).set(false);

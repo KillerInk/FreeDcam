@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 

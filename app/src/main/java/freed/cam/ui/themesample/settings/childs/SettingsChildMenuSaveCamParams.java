@@ -38,10 +38,10 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import camera2_hidden_keys.ReflectionHelper;
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.camera1.Camera1Fragment;
-import freed.cam.apis.camera1.CameraHolder;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera1.Camera1Fragment;
+import com.troop.freedcam.camera.camera1.CameraHolder;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 import com.troop.freedcam.file.MediaScannerManager;

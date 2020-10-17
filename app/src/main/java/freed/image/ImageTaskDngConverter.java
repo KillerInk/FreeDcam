@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
+import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import com.troop.freedcam.settings.SettingsManager;
 
 import com.troop.freedcam.file.holder.BaseHolder;

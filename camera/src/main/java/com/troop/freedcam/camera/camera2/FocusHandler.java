@@ -1,0 +1,184 @@
+/*
+ *
+ *     Copyright (C) 2015 Ingo Fuchs
+ *     This program is free software; you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation; either version 2 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License along
+ *     with this program; if not, write to the Free Software Foundation, Inc.,
+ *     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * /
+ */
+
+package com.troop.freedcam.camera.camera2;
+
+import android.annotation.TargetApi;
+import android.graphics.Rect;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.MeteringRectangle;
+import android.os.Build.VERSION_CODES;
+
+import com.troop.freedcam.R;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.EventBusLifeCycle;
+import freed.cam.events.ValueChangedEvent;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.Log;
+
+/**
+ * Created by troop on 12.12.2014.
+ */
+@TargetApi(VERSION_CODES.LOLLIPOP)
+public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCycle
+{
+    private int mState;
+    private boolean focusenabled;
+
+    private final String TAG = FocusHandler.class.getSimpleName();
+
+
+
+    public FocusHandler(CameraControllerInterface cameraUiWrapper)
+    {
+        super(cameraUiWrapper);
+    }
+
+
+    @Subscribe
+    public void onFocusModeValueChanged(ValueChangedEvent<String> valueChangedEvent)
+    {
+        if (valueChangedEvent.type != String.class || cameraUiWrapper == null)
+            return;
+        if (valueChangedEvent.key == SettingKeys.FocusMode) {
+            Log.d(TAG, "onFocusModeValueChanged");
+            String val = valueChangedEvent.newValue;
+            if (val.contains("Continous") || val.equals(ContextApplication.getStringFromRessources(R.string.off))) {
+                focusenabled = false;
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(false);
+            } else {
+                focusenabled = true;
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(true);
+            }
+        }
+    }
+
+    @Override
+    public void StartTouchToFocus(int x, int y, int width, int height)
+    {
+       super.StartTouchToFocus(x,y,width,height);
+        if (focusEvent != null)
+            focusEvent.FocusStarted(x,y);
+    }
+
+    @Override
+    protected void startTouchFocus(AbstractFocusHandler.FocusCoordinates viewCoordinates) {
+        //logFocusRect(rect);
+        Log.d(TAG, "Width:" + viewCoordinates.width + "Height" + viewCoordinates.height + " X: " + viewCoordinates.x + "Y : "+viewCoordinates.y);
+        if (!focusenabled)
+            return;
+
+        Rect sensorSize =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        logRect(sensorSize);
+        int areasize = (sensorSize.width() /10);
+        float xf = (float)viewCoordinates.x * sensorSize.width() / viewCoordinates.width;
+        float yf = (float)viewCoordinates.y * sensorSize.height() /  viewCoordinates.height;
+        int x_c = (int)xf; //(int)((float)x/width * m.right);
+        int y_C = (int) yf; //(int)((float)y/height * m.bottom);
+        int left = x_c - areasize;
+        int right =x_c +areasize;
+        int top = y_C -areasize;
+        int bottom = y_C +areasize;
+        Rect targetFocusRect = new Rect(left, top,right,bottom);
+
+        logFocusRect(targetFocusRect);
+        if (targetFocusRect.left < 0) {
+            targetFocusRect.left = 0;
+            targetFocusRect.right = areasize*2;
+        }
+        if (targetFocusRect.right > sensorSize.right) {
+            targetFocusRect.right = sensorSize.width();
+            targetFocusRect.left = sensorSize.width() -areasize*2;
+        }
+        if (targetFocusRect.top < sensorSize.top) {
+            targetFocusRect.top = 0;
+            targetFocusRect.bottom = areasize*2;
+
+        }
+        if (targetFocusRect.bottom > sensorSize.bottom)
+        {
+            targetFocusRect.bottom = sensorSize.height();
+            targetFocusRect.top = sensorSize.height() - areasize*2;
+        }
+
+        logFocusRect(targetFocusRect);
+        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
+        MeteringRectangle[] mre = { rectangle};
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+    }
+
+
+    @Override
+    public void SetMeteringAreas(int x, int y, int width, int height)
+    {
+        int areasize = (width/8)/2;
+        Rect sensor_size = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+
+        int left = (x - areasize) * sensor_size.right /width;
+
+        Rect targetFocusRect = new Rect(
+                left,
+                (x + areasize) * sensor_size.right /width, //right
+                (y - areasize) * sensor_size.bottom /height, //top
+                (y + areasize) * sensor_size.bottom / height); //bottom
+        if (targetFocusRect.left < 0)
+            targetFocusRect.left = sensor_size.left;
+        if (targetFocusRect.right > sensor_size.right)
+            targetFocusRect.right = sensor_size.right;
+        if (targetFocusRect.top < 0)
+            targetFocusRect.top = sensor_size.top;
+        if (targetFocusRect.bottom > sensor_size.bottom)
+            targetFocusRect.bottom = sensor_size.bottom;
+
+
+        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
+        MeteringRectangle[] mre = { rectangle};
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+    }
+
+    @Override
+    public boolean isAeMeteringSupported() {
+        return false;
+    }
+
+    @Override
+    public boolean isTouchSupported() {
+        return focusenabled;
+    }
+
+    @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
+    }
+}

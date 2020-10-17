@@ -5,7 +5,7 @@ import android.content.Context;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.events.FocusPositionChangedEvent;
 import freed.cam.ui.themesample.cameraui.ManualButton;
 

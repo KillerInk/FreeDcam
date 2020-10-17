@@ -25,8 +25,8 @@ import android.view.View;
 
 import com.troop.freedcam.settings.SettingsManager;
 
-import freed.cam.apis.basecamera.CameraControllerInterface;
-import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
 
 
 /**

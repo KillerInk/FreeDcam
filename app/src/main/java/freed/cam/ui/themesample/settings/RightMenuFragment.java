@@ -29,7 +29,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
