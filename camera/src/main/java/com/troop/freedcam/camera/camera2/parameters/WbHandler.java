@@ -24,7 +24,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build.VERSION_CODES;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;

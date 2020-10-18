@@ -11,6 +11,11 @@ public class ContextApplication extends Application {
         return context.getResources().getString(ressourcesStringID);
     }
 
+    public static String[] getStringArrayFromRessource(int id)
+    {
+        return getContext().getResources().getStringArray(id);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

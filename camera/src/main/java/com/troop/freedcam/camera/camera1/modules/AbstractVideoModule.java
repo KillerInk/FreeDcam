@@ -25,23 +25,21 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.File;
 import java.io.IOException;
 
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
 import com.troop.freedcam.camera.camera1.CameraHolder;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 06.01.2016.

@@ -19,6 +19,8 @@
 
 package com.troop.freedcam.camera.basecamera.modules;
 
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+
 /**
  * Created by troop on 15.08.2014.
  */
@@ -71,8 +73,8 @@ public interface ModuleInterface extends WorkFinishEvents
     void DestroyModule();
 
 
-    void changeCaptureState(final ModuleHandlerAbstract.CaptureStates captureStates);
+    void changeCaptureState(final CaptureStates captureStates);
 
-    ModuleHandlerAbstract.CaptureStates getCurrentCaptureState();
+    CaptureStates getCurrentCaptureState();
 
 }

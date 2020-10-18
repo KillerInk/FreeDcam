@@ -19,7 +19,7 @@
 
 package com.troop.freedcam.camera.camera2.parameters.modes;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;

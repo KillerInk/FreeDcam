@@ -3,7 +3,7 @@ package com.troop.freedcam.camera.camera1.parameters.modes;
 import android.hardware.Camera;
 import android.text.TextUtils;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
-import freed.cam.events.ValueChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.SettingMode;

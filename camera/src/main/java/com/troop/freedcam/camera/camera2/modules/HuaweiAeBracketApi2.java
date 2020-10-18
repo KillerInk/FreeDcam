@@ -6,8 +6,8 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
-import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
-import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;

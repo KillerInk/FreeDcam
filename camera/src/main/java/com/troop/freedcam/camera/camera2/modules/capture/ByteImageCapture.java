@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 
 import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
-import freed.image.ImageSaveTask;
+import com.troop.freedcam.camera.image.ImageSaveTask;
 
 import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.utils.Log;

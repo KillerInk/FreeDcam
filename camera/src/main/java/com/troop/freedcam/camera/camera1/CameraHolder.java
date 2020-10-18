@@ -37,9 +37,8 @@ import java.util.List;
 import com.troop.freedcam.camera.basecamera.CameraHolderAbstract;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.FocusEvents;
-import freed.cam.events.CameraStateEvents;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
 
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;
 

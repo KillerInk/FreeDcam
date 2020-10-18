@@ -10,7 +10,7 @@ import android.view.Surface;
 
 import androidx.annotation.RequiresApi;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

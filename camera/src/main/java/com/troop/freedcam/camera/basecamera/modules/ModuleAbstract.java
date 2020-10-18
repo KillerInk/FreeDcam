@@ -24,7 +24,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.utils.Log;
 

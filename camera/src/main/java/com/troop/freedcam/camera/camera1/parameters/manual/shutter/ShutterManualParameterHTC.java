@@ -21,7 +21,7 @@ package com.troop.freedcam.camera.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.text.DecimalFormat;
 

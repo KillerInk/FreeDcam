@@ -2,7 +2,7 @@ package com.troop.freedcam.camera.camera1.modules;
 
 import android.os.Handler;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 import java.util.List;

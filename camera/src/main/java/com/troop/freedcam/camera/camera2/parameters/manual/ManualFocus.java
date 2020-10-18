@@ -23,14 +23,14 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
+import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.FocusPositionChangedEvent;
+
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;

@@ -3,7 +3,7 @@ package com.troop.freedcam.camera.camera2.parameters.ae;
 import android.annotation.TargetApi;
 import android.os.Build;
 
-import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ae.AeStates;

@@ -3,17 +3,18 @@ package com.troop.freedcam.camera.featuredetector;
 import android.hardware.Camera;
 import android.text.TextUtils;
 
-import com.lge.hardware.LGCameraRef;
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.camera1.lge.hardware.LGCameraRef;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderMTK;
-import freed.renderscript.RenderScriptManager;
+
 
 import com.troop.freedcam.settings.FrameworkDetector;
 import com.troop.freedcam.settings.Frameworks;

@@ -10,7 +10,8 @@ import android.view.View;
 
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
-import freed.cam.events.JoypadActionEvent;
+import com.troop.freedcam.eventbus.events.JoypadActionEvent;
+
 
 /**
  * Created by troop on 12.12.2016.

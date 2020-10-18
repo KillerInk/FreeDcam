@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.troop.freedcam.camera.camera2.modules.helper.RdyToSaveImg;
-import freed.image.EmptyTask;
+import com.troop.freedcam.camera.image.EmptyTask;
 
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.image.ImageTask;

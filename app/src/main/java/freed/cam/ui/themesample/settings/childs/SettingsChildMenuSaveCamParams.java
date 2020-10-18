@@ -37,7 +37,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import camera2_hidden_keys.ReflectionHelper;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.ReflectionHelper;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera1.Camera1Fragment;

@@ -24,7 +24,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 import java.util.List;

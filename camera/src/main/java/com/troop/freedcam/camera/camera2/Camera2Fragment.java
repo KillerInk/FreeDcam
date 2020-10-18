@@ -32,7 +32,10 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.troop.freedcam.R.id;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.id;
 import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -44,11 +47,9 @@ import java.util.List;
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
 import com.troop.freedcam.camera.camera2.modules.I_PreviewWrapper;
 import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
-import freed.cam.events.CameraStateEvents;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.renderscript.RenderScriptProcessor;
-import freed.renderscript.RenderScriptProcessorInterface;
+
+import com.troop.freedcam.processor.RenderScriptProcessor;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 import freed.views.MyHistogram;
@@ -59,7 +60,8 @@ import freed.views.AutoFitTextureView;
  * Created by troop on 06.06.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2, CameraHolderApi2> implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
+public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2, CameraHolderApi2>
+        implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
 {
     //limits the preview to use maximal that size for preview
     //when set to high it its possbile to get a laggy preview with active focuspeak

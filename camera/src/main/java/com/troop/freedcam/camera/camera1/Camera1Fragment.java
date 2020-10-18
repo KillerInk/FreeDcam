@@ -23,15 +23,16 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.R.id;
-import com.troop.freedcam.R.layout;
+import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.R.id;
+import com.troop.freedcam.camera.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -41,9 +42,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
+import com.troop.freedcam.eventbus.events.ValueChangedEvent;
+import com.troop.freedcam.processor.RenderScriptManager;
+import com.troop.freedcam.processor.RenderScriptProcessor;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
-import com.troop.freedcam.camera.basecamera.Size;
 import com.troop.freedcam.camera.basecamera.modules.ModuleChangedEvent;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderLG;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderLegacy;
@@ -51,21 +59,12 @@ import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderMTK;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderMotoX;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderSony;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
-import freed.cam.events.CameraStateEvents;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.ModuleHasChangedEvent;
-import freed.cam.events.ValueChangedEvent;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessor;
-import freed.renderscript.RenderScriptProcessorInterface;
+
 
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import freed.views.MyHistogram;
-import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 06.06.2015.
@@ -123,9 +122,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     {
         Size size = event.size;
         if (textureView != null)
-            textureView.setAspectRatio(size.width, size.height);
+            textureView.setAspectRatio(size.getWidth(), size.getHeight());
         if (focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
+            focusPeakProcessorAp1.SetAspectRatio(size.getWidth(), size.getHeight());
     }
 
     private final String TAG = Camera1Fragment.class.getSimpleName();

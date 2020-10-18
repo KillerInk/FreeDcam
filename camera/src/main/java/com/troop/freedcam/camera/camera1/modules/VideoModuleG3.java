@@ -23,8 +23,8 @@ import android.location.Location;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
 
-import com.lge.media.MediaRecorderExRef;
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.camera1.lge.media.MediaRecorderExRef;
+import com.troop.freedcam.camera.R;
 
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;

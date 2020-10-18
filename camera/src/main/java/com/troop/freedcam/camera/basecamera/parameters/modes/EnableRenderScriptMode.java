@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 
+import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
@@ -19,14 +20,14 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_)))
+        if (valueToSet.equals(ContextApplication.getStringFromRessources(R.string.on_)))
         {
             SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(true);
-            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_));
+            fireStringValueChanged(ContextApplication.getStringFromRessources(R.string.on_));
         }
         else {
             SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(false);
-            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_));
+            fireStringValueChanged(ContextApplication.getStringFromRessources(R.string.off_));
         }
         EventBusHelper.post(new SwichCameraFragmentEvent());
         //cameraUiWrapper.getActivityInterface()..restartCameraAsync();
@@ -42,10 +43,10 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
     public void set(boolean bool) {
         if (bool)
         {
-            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_));
+            fireStringValueChanged(ContextApplication.getStringFromRessources(R.string.on_));
         }
         else
-            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_));
+            fireStringValueChanged(ContextApplication.getStringFromRessources(R.string.off_));
         SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(bool);
         EventBusHelper.post(new SwichCameraFragmentEvent());
     }

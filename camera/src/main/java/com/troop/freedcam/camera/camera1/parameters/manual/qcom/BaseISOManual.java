@@ -21,7 +21,7 @@ package com.troop.freedcam.camera.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 

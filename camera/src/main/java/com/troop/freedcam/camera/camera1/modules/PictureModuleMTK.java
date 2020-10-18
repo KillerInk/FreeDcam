@@ -22,15 +22,15 @@ package com.troop.freedcam.camera.camera1.modules;
 import android.hardware.Camera;
 import android.os.Handler;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;

@@ -73,7 +73,7 @@ public class FocusPeakColorMode extends AbstractParameter {
     {
         if (valueob.key == SettingKeys.EnableRenderScript) {
             String value = valueob.newValue;
-            if (value.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_)))
+            if (value.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_)))
                 setViewState(ViewState.Hidden);
             else
                 setViewState(ViewState.Visible);

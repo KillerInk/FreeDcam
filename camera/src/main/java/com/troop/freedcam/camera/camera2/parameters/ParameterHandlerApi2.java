@@ -27,7 +27,7 @@ import android.os.Build.VERSION_CODES;
 
 import java.util.List;
 
-import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParameter;

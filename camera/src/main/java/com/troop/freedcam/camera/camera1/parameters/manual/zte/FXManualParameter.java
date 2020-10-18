@@ -21,7 +21,7 @@ package com.troop.freedcam.camera.camera1.parameters.manual.zte;
 
 import android.hardware.Camera.Parameters;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;

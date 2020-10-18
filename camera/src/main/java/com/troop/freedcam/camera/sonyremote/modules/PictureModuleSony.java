@@ -25,7 +25,7 @@ import android.os.Handler;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -35,10 +35,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.sonyremote.CameraHolderSony;
 import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;

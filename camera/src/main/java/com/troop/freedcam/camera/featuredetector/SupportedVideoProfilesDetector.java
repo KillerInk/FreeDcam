@@ -3,7 +3,7 @@ package com.troop.freedcam.camera.featuredetector;
 import android.media.CamcorderProfile;
 import android.os.Build;
 
-import com.lge.media.CamcorderProfileExRef;
+import com.troop.freedcam.camera.camera1.lge.media.CamcorderProfileExRef;
 
 import java.util.HashMap;
 

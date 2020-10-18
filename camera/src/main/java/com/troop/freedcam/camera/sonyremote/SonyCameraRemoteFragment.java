@@ -38,6 +38,12 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
@@ -49,12 +55,7 @@ import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SonyUtils;
 import com.troop.freedcam.camera.sonyremote.sonystuff.WifiHandler;
-import freed.cam.events.CameraStateEvents;
-import freed.cam.events.CaptureStateChangedEvent;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.renderscript.RenderScriptProcessorInterface;
+
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
@@ -63,7 +64,8 @@ import freed.views.AutoFitTextureView;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHandler,CameraHolderSony> implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle, TextureView.SurfaceTextureListener
+public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHandler,CameraHolderSony>
+        implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle, TextureView.SurfaceTextureListener
 {
     private final String TAG = SonyCameraRemoteFragment.class.getSimpleName();
     private AutoFitTextureView surfaceView;
@@ -208,13 +210,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
 
 
             if (JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working));
+                EventBusHelper.post(new CaptureStateChangedEvent(CaptureStates.cont_capture_stop_while_working));
             else if (JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.continouse_capture_start));
+                EventBusHelper.post(new CaptureStateChangedEvent(CaptureStates.continouse_capture_start));
             else if (JsonUtils.isApiSupported("actTakePicture",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_stop));
+                EventBusHelper.post(new CaptureStateChangedEvent(CaptureStates.image_capture_stop));
             else if (JsonUtils.isApiSupported("awaitTakePicture",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_start));
+                EventBusHelper.post(new CaptureStateChangedEvent(CaptureStates.image_capture_start));
 
             if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet) &&
                     !(JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet) && JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))) {

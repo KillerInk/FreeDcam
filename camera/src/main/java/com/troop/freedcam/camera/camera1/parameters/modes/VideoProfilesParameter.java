@@ -21,7 +21,7 @@ package com.troop.freedcam.camera.camera1.parameters.modes;
 
 import android.text.TextUtils;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -11,7 +11,7 @@ import android.os.Build;
 import android.util.Range;
 import android.util.Size;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,11 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
-import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
-import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
+import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.utils.ContextApplication;
-import freed.renderscript.RenderScriptManager;
+
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;

@@ -37,5 +37,7 @@ dependencies {
     implementation project(path: ':language')
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation project(path: ':file')
+    implementation project(path: ':dng')
+    implementation project(path: ':image')
 }
 

@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi;
 import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import com.troop.freedcam.camera.camera2.modules.helper.CaptureType;
-import freed.image.EmptyTask;
+import com.troop.freedcam.camera.image.EmptyTask;
 import com.troop.freedcam.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

@@ -25,8 +25,9 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
@@ -73,7 +74,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.InitModule();
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(2, true);
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+        changeCaptureState(CaptureStates.image_capture_stop);
     }
 
     @Override

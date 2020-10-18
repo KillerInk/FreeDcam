@@ -1,11 +1,12 @@
 package com.troop.freedcam.eventbus.events;
 
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
+
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 
 public class CaptureStateChangedEvent {
-    public final ModuleHandlerAbstract.CaptureStates captureState;
+    public final CaptureStates captureState;
 
-    public CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates captureState)
+    public CaptureStateChangedEvent(CaptureStates captureState)
     {
         this.captureState = captureState;
     }

@@ -23,8 +23,8 @@ import android.os.Build.VERSION;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
 import com.troop.freedcam.settings.SettingsManager;
 
 /**

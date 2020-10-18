@@ -26,16 +26,17 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
+import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.ValueChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 
@@ -87,7 +88,7 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
     }
 
     @Override
-    protected void startTouchFocus(AbstractFocusHandler.FocusCoordinates viewCoordinates) {
+    protected void startTouchFocus(FocusCoordinatesEvent viewCoordinates) {
         //logFocusRect(rect);
         Log.d(TAG, "Width:" + viewCoordinates.width + "Height" + viewCoordinates.height + " X: " + viewCoordinates.x + "Y : "+viewCoordinates.y);
         if (!focusenabled)

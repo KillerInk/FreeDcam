@@ -9,7 +9,7 @@ import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -21,8 +21,8 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.dng.opcode.OpCodeCreator;
-import freed.image.ImageSaveTask;
-import freed.image.ImageTaskDngConverter;
+import com.troop.freedcam.camera.image.ImageSaveTask;
+import com.troop.freedcam.camera.image.ImageTaskDngConverter;
 import freed.jni.OpCode;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;

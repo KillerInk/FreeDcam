@@ -27,9 +27,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.FocusEvents;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.ValueChangedEvent;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
+import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -139,7 +140,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     }
 
     @Override
-    protected void startTouchFocus(FocusCoordinates obj) {
+    protected void startTouchFocus(FocusCoordinatesEvent obj) {
         if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode) == null)
             return;
 

@@ -48,14 +48,14 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_)))
+        if (valueToSet.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
         {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
-            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_));
+            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_));
         }
         else {
             cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
-            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_));
+            fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_));
         }
 
     }
@@ -63,14 +63,14 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public String GetStringValue() {
         if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
-            return ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_);
+            return ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_);
         else
-            return ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_);
+            return ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_);
     }
 
     @Override
     public String[] getStringValues() {
-        return new String[] {ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.on_), ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_)};
+        return new String[] {ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_), ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_)};
     }
 
 
@@ -80,7 +80,7 @@ public class FocusPeakMode extends AbstractParameter {
     {
         if (valueob.key == SettingKeys.EnableRenderScript) {
             String value = valueob.newValue;
-            if (value.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.com.troop.freedcam.camera.R.string.off_)))
+            if (value.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_)))
                 setViewState(ViewState.Hidden);
             else
                 setViewState(ViewState.Visible);

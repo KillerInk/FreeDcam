@@ -44,9 +44,9 @@ import com.troop.freedcam.camera.sonyremote.runner.StopPreviewRunner;
 import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
 import com.troop.freedcam.camera.sonyremote.sonystuff.ServerDevice;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.events.CameraStateEvents;
 import freed.utils.FreeDPool;
 
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.utils.Log;
 

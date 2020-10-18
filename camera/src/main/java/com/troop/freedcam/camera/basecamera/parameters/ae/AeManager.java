@@ -2,9 +2,10 @@ package com.troop.freedcam.camera.basecamera.parameters.ae;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.IsoChangedEvent;
-import freed.cam.events.ShutterSpeedChangedEvent;
+
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.IsoChangedEvent;
+import com.troop.freedcam.eventbus.events.ShutterSpeedChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 

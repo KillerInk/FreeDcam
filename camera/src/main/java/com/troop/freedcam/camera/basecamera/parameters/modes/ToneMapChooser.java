@@ -2,8 +2,6 @@ package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 import android.text.TextUtils;
 
-import com.troop.freedcam.R;
-
 import java.util.HashMap;
 
 import com.troop.freedcam.utils.ContextApplication;

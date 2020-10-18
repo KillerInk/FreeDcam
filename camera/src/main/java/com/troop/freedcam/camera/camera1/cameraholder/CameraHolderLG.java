@@ -19,12 +19,13 @@
 
 package com.troop.freedcam.camera.camera1.cameraholder;
 
-import com.lge.hardware.LGCameraRef;
+import com.troop.freedcam.camera.camera1.lge.hardware.LGCameraRef;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.CameraHolder;
-import freed.cam.events.CameraStateEvents;
 
+
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;

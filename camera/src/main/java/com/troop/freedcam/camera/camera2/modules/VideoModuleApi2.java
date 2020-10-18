@@ -38,15 +38,15 @@ import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Camera2EXT.OpModes;
-import camera2_hidden_keys.qcom.CaptureRequestQcom;
+import com.troop.freedcam.camera.camera2.Camera2EXT.OpModes;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.qcom.CaptureRequestQcom;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;

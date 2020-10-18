@@ -23,7 +23,7 @@ package com.troop.freedcam.camera.camera1.parameters.manual.mtk;
 import android.hardware.Camera.Parameters;
 import android.text.TextUtils;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;

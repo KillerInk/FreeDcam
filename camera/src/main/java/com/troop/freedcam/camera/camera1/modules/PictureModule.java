@@ -23,15 +23,15 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.io.File;
 import java.util.Date;
 
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera1.CameraHolder;
@@ -39,11 +39,9 @@ import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
 import com.troop.freedcam.file.holder.BaseHolder;
 
-import freed.image.ImageSaveTask;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
-import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.utils.Log;
 import com.troop.freedcam.utils.StringUtils.FileEnding;
 

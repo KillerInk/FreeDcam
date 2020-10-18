@@ -27,14 +27,15 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
+import com.troop.freedcam.utils.BackgroundHandlerThread;
 import com.troop.freedcam.utils.ContextApplication;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
+
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingsManager;
-import freed.utils.BackgroundHandlerThread;
 import com.troop.freedcam.utils.Log;
 
 /**

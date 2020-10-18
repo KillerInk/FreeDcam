@@ -23,7 +23,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.Arrays;
 

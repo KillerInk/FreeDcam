@@ -37,11 +37,11 @@ import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraHolderAbstract;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.FocusEvents;
-import freed.cam.events.CameraStateEvents;
 import com.troop.freedcam.utils.Log;
 import freed.views.AutoFitTextureView;
 

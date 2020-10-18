@@ -20,14 +20,14 @@
 package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 import android.text.TextUtils;
-
-import java.util.HashMap;
-
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import freed.dng.CustomMatrix;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
+
+import java.util.HashMap;
+
+import freed.dng.CustomMatrix;
 
 /**
  * Created by troop on 02.05.2016.

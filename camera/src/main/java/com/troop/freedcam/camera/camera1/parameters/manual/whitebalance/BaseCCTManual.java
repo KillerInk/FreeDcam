@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.camera.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

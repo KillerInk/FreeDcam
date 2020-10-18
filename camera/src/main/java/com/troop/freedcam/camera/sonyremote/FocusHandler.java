@@ -25,6 +25,7 @@ import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.FocusEvents;
 import com.troop.freedcam.camera.sonyremote.parameters.modes.I_SonyApi;
+import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
 import com.troop.freedcam.utils.Log;
 
 /**
@@ -36,7 +37,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
     private boolean isFocusing;
 
     @Override
-    protected void startTouchFocus(FocusCoordinates obj) {
+    protected void startTouchFocus(FocusCoordinatesEvent obj) {
 
     }
 

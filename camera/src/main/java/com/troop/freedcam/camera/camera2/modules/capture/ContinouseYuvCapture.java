@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi;
 
 import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
-import freed.image.EmptyTask;
+import com.troop.freedcam.camera.image.EmptyTask;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ContinouseYuvCapture extends StillImageCapture {
