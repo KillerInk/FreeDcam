@@ -22,16 +22,9 @@ package com.troop.freedcam.camera.sonyremote;
 import android.content.Context;
 import android.location.Location;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Set;
-
-import com.troop.freedcam.camera.basecamera.CameraHolderAbstract;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.FocusEvents;
+import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
+import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
 import com.troop.freedcam.camera.sonyremote.modules.I_PictureCallback;
 import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
 import com.troop.freedcam.camera.sonyremote.runner.ActTakePictureRunner;
@@ -44,11 +37,18 @@ import com.troop.freedcam.camera.sonyremote.runner.StopPreviewRunner;
 import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
 import com.troop.freedcam.camera.sonyremote.sonystuff.ServerDevice;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.utils.FreeDPool;
-
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.utils.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Set;
+
+import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 11.12.2014.

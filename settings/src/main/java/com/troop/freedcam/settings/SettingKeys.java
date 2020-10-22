@@ -1,16 +1,16 @@
 package com.troop.freedcam.settings;
 
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.troop.freedcam.settings.mode.ApiBooleanSettingMode;
 import com.troop.freedcam.settings.mode.GlobalBooleanSettingMode;
 import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.settings.mode.TypedSettingMode;
 import com.troop.freedcam.utils.ContextApplication;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
     This class is used to design the settings.

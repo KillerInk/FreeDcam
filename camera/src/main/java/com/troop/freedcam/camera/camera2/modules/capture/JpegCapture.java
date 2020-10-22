@@ -7,18 +7,19 @@ import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
-import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import com.troop.freedcam.camera.camera2.modules.helper.CaptureType;
 import com.troop.freedcam.camera.image.EmptyTask;
+import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.utils.Log;
+
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class JpegCapture extends ByteImageCapture {
 
     private final String TAG = JpegCapture.class.getSimpleName();
 
-    public JpegCapture(Size size, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending, int max_images) {
+    public JpegCapture(Size size, boolean setToPreview, FileListController activityInterface, ModuleInterface moduleInterface, String file_ending, int max_images) {
         super(size, ImageFormat.JPEG, setToPreview, activityInterface, moduleInterface, file_ending,max_images);
     }
 

@@ -1,4 +1,4 @@
-package freed.utils;
+package com.troop.freedcam.utils;
 
 /**
  * Created by troop on 13.02.2017.

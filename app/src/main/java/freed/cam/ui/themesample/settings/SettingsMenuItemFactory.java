@@ -5,14 +5,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
-
-import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ApiParameter;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
+import com.troop.freedcam.utils.Log;
+
+import freed.ActivityInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildApi;
@@ -30,10 +34,6 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
-import com.troop.freedcam.utils.Log;
 
 public class SettingsMenuItemFactory
 {

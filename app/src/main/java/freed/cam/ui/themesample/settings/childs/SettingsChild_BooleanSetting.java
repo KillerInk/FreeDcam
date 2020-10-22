@@ -7,7 +7,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
-
 import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
 
 /**

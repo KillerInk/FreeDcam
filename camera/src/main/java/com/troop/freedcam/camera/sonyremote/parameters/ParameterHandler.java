@@ -23,17 +23,6 @@ import android.graphics.Rect;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.R;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.processor.RenderScriptManager;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
@@ -63,10 +52,21 @@ import com.troop.freedcam.camera.sonyremote.parameters.modes.WhiteBalanceModeSon
 import com.troop.freedcam.camera.sonyremote.parameters.modes.ZoomSettingSony;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
-import freed.utils.FreeDPool;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 13.12.2014.

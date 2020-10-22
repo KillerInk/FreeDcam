@@ -40,6 +40,14 @@ import android.widget.TextView;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.MediaScannerManager;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.gallery.helper.BitmapHelper;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,18 +55,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import freed.ActivityAbstract;
-import com.troop.freedcam.file.FileListController;
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.file.holder.FileHolder;
-import com.troop.freedcam.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
-
-import com.troop.freedcam.gallery.helper.BitmapHelper;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.file.MediaScannerManager;
-import com.troop.freedcam.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
 
 

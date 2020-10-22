@@ -31,18 +31,16 @@ import android.os.Handler;
 import android.os.StatFs;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
-
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 14.06.2015.

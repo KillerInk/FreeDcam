@@ -10,9 +10,10 @@ import android.util.Rational;
 
 import androidx.annotation.RequiresApi;
 
+import com.troop.freedcam.utils.Log;
+
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import com.troop.freedcam.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class DngProfileCreator {

@@ -3,14 +3,13 @@ package com.troop.freedcam.camera.camera1.parameters.ae;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ae.AeManager;
 import com.troop.freedcam.camera.basecamera.parameters.ae.AeStates;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by KillerInk on 29.12.2017.

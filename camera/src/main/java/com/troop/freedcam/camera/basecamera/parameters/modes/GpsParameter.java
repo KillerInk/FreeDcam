@@ -21,11 +21,11 @@ package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 import android.text.TextUtils;
 
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by troop on 21.07.2015.
@@ -38,14 +38,14 @@ public class GpsParameter extends AbstractParameter
 
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
-    private ActivityInterface activityInterface;
+    //private ActivityInterface activityInterface;
 
     public GpsParameter(CameraControllerInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
         this.cameraUiWrapper = cameraUiWrapper;
-        this.activityInterface = cameraUiWrapper.getActivityInterface();
-        userAcceptedPermission = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        /*this.activityInterface = cameraUiWrapper.getActivityInterface();
+        userAcceptedPermission = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);*/
     }
 
     @Override
@@ -71,7 +71,7 @@ public class GpsParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
+       /* if (activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
                 valueToSet.equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
         {
             SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
@@ -93,7 +93,7 @@ public class GpsParameter extends AbstractParameter
             SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_));
             fireStringValueChanged(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_));
             askedForPermission = false;
-        }
+        }*/
     }
 
 }

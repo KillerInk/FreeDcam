@@ -12,14 +12,13 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
+import com.troop.freedcam.utils.Log;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 04.12.2017.

@@ -7,9 +7,10 @@ import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
-import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import com.troop.freedcam.camera.camera2.modules.helper.CaptureType;
+import com.troop.freedcam.file.FileListController;
+
 import freed.dng.CustomMatrix;
 import freed.dng.ToneMapProfile;
 
@@ -35,16 +36,16 @@ public abstract class StillImageCapture extends AbstractImageCapture {
     protected boolean forceRawToDng = false;
     protected boolean support12bitRaw = false;
 
-    protected ActivityInterface activityInterface;
     protected ModuleInterface moduleInterface;
     protected final String file_ending;
+    protected FileListController fileListController;
 
 
-    public StillImageCapture(Size size, int format, boolean setToPreview,ActivityInterface activityInterface,ModuleInterface moduleInterface, String file_ending, int max_images) {
+    public StillImageCapture(Size size, int format, boolean setToPreview, FileListController fileListController, ModuleInterface moduleInterface, String file_ending, int max_images) {
         super(size, format, setToPreview,max_images);
-        this.activityInterface = activityInterface;
         this.moduleInterface = moduleInterface;
         this.file_ending = file_ending;
+        this.fileListController = fileListController;
     }
 
     public void setCustomMatrix(CustomMatrix custmMat)

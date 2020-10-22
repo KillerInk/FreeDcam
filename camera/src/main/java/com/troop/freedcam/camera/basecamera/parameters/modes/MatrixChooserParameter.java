@@ -20,6 +20,7 @@
 package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 import android.text.TextUtils;
+
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;

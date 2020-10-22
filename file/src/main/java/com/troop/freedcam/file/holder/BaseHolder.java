@@ -19,8 +19,8 @@
 
 package com.troop.freedcam.file.holder;
 
-import android.content.ContentValues;
 import android.content.Context;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;

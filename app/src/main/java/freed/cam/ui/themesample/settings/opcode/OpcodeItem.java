@@ -8,11 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
-
-import java.io.File;
-
 import com.troop.freedcam.settings.OpCodeUrl;
 import com.troop.freedcam.settings.SettingsManager;
+
+import java.io.File;
 
 /**
  * Created by KillerInk on 18.12.2017.

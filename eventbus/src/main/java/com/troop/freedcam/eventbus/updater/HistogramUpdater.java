@@ -6,8 +6,6 @@ import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.events.HistogramChangedEvent;
 import com.troop.freedcam.eventbus.events.HistogramVisibilityEvent;
 
-import org.greenrobot.eventbus.EventBus;
-
 public class HistogramUpdater
 {
     public static void sendHistogram(Allocation histodataR){

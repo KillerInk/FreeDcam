@@ -32,19 +32,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-
-import com.troop.freedcam.camera.camera2.camera2_hidden_keys.ReflectionHelper;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera1.Camera1Fragment;
 import com.troop.freedcam.camera.camera1.CameraHolder;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.ReflectionHelper;
+import com.troop.freedcam.file.MediaScannerManager;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.file.MediaScannerManager;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by Ingo on 06.09.2015.

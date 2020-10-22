@@ -1,13 +1,13 @@
 package com.troop.freedcam.settings;
 
+import com.troop.freedcam.settings.mode.SettingInterface;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.VideoMediaProfile;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-
-import com.troop.freedcam.settings.mode.SettingInterface;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.VideoMediaProfile;
 
 public class SettingsStorage
 {

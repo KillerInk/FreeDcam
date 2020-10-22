@@ -1,9 +1,9 @@
 package com.troop.freedcam.camera.sonyremote.runner;
 
-import java.io.IOException;
-
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.utils.Log;
+
+import java.io.IOException;
 
 /**
  * Created by KillerInk on 27.12.2017.

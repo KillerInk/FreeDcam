@@ -19,6 +19,8 @@ public class LoadImageModel
     @BindingAdapter("loadBitmap")
     public static void loadImage(ImageView view, BaseHolder image) {
         Log.d(TAG,"view tag:" + view.getTag(R.id.image_id) + " file:" + image.getName());
+        if (view.getTag() != null && view.getTag().equals(image.getName()))
+            return;
         view.setImageBitmap(null);
         view.setTag(R.id.image_id, image.getName());
         BitmapLoadRunnable bitmapLoadRunnable = new BitmapLoadRunnable(image, view);

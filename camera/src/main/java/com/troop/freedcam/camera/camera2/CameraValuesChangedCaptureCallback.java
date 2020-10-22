@@ -11,6 +11,9 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -73,7 +76,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
 
     private final String TAG = CameraValuesChangedCaptureCallback.class.getSimpleName();
-    private Camera2Fragment camera2Fragment;
+    private ParameterHandlerApi2 camera2Fragment;
     public boolean flashRequired = false;
     int afState;
     int aeState;
@@ -93,11 +96,13 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private final int WAITFORSCAN= 1;
     private int focusState;
     private AeAfLocker aeAfLocker;
+    private FocusHandler focusHandler;
 
-    public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
+    public CameraValuesChangedCaptureCallback(ParameterHandlerApi2 camera2Fragment,FocusHandler focusHandler)
     {
         this.camera2Fragment =camera2Fragment;
         this.aeAfLocker = new AeAfLocker();
+        this.focusHandler = focusHandler;
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -156,8 +161,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
 
 
-        ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
-        ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
+        ParameterInterface expotime = camera2Fragment.get(SettingKeys.M_ExposureTime);
+        ParameterInterface iso = camera2Fragment.get(SettingKeys.M_ManualIso);
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             processHuaweiAEValues(result, expotime, iso);
@@ -218,10 +223,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             }
         }
 
-        if (camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
+        if (camera2Fragment.get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
             String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
             if (expolock != null)
-                camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
+                camera2Fragment.get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
         }
 
         if (waitForAe_af_lock != null) {
@@ -275,7 +280,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null && result.get(TotalCaptureResult.CONTROL_AF_MODE) != TotalCaptureResult.CONTROL_AF_MODE_OFF) {
                 try {
                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                    camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
+                    camera2Fragment.get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
                 } catch (NullPointerException ex) {
                     Log.v(TAG, "cant get focus distance");
                 }
@@ -287,14 +292,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private void processFocus(boolean focus_is_locked) {
         if (focusState == SCAN) {
             focusState = FOCUSED;
-            if (camera2Fragment.getFocusHandler().focusEvent != null && waitForFocusLock) {
-
-                camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked);
+            if (focusHandler.focusEvent != null && waitForFocusLock) {
+                focusHandler.focusEvent.FocusFinished(focus_is_locked);
             }
             waitForFocusLock = false;
         }
-
-
     }
 
     private void processDefaultAEValues( TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {

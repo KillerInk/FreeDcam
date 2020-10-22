@@ -23,14 +23,13 @@ import android.hardware.Camera.Parameters;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.camera.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.TypedSettingMode;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 
 /**

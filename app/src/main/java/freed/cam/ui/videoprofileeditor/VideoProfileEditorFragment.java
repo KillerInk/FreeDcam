@@ -38,13 +38,12 @@ import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-
-import java.util.HashMap;
-
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.VideoMediaProfile;
 import com.troop.freedcam.utils.VideoMediaProfile.VideoMode;
+
+import java.util.HashMap;
 
 /**
  * Created by troop on 15.02.2016.

@@ -24,11 +24,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.R;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera1.CameraHolder;
@@ -36,7 +31,11 @@ import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.camera.camera1.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Ingo on 06.03.2016.

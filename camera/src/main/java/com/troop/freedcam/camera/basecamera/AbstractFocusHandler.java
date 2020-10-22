@@ -21,13 +21,13 @@ package com.troop.freedcam.camera.basecamera;
 
 import android.graphics.Rect;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-
+import com.troop.freedcam.camera.basecamera.focus.FocusHandlerInterface;
 import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
 import com.troop.freedcam.eventbus.updater.TouchToFocusUpdater;
 import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by troop on 09.12.2014.

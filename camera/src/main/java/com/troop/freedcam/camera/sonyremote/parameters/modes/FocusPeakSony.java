@@ -20,12 +20,12 @@
 package com.troop.freedcam.camera.sonyremote.parameters.modes;
 
 
-import java.util.Set;
-
-import com.troop.freedcam.processor.RenderScriptManager;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.sonyremote.PreviewStreamDrawer;
+import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
+
+import java.util.Set;
 
 /**
  * Created by troop on 23.08.2015.

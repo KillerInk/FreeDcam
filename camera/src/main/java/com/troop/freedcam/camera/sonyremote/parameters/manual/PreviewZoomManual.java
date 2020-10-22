@@ -22,11 +22,11 @@ package com.troop.freedcam.camera.sonyremote.parameters.manual;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import java.util.Set;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.sonyremote.PreviewStreamDrawer;
 import com.troop.freedcam.settings.SettingKeys;
+
+import java.util.Set;
 
 /**
  * Created by troop on 09.04.2016.

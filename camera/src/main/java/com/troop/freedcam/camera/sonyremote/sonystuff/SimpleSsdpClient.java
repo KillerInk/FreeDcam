@@ -4,6 +4,8 @@
 
 package com.troop.freedcam.camera.sonyremote.sonystuff;
 
+import com.troop.freedcam.utils.Log;
+
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.DatagramPacket;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import com.troop.freedcam.utils.Log;
 
 /**
  * A SSDP client class for this sample application. This implementation keeps

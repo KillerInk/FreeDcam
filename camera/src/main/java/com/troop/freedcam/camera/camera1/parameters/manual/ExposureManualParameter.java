@@ -21,12 +21,12 @@ package com.troop.freedcam.camera.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
 
-import java.util.ArrayList;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by troop on 17.08.2014.

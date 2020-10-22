@@ -3,18 +3,17 @@ package com.troop.freedcam.camera.camera1.parameters.modes;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.SettingMode;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by troop on 24.02.2017.

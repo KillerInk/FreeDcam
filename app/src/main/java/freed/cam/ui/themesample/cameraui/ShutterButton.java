@@ -30,19 +30,18 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.troop.freedcam.R;
-
-import org.greenrobot.eventbus.Subscribe;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleChangedEvent;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.events.CaptureStateChangedEvent;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ModuleHasChangedEvent;
-
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import freed.cam.events.CaptureStateChangedEvent;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.ModuleHasChangedEvent;
 
 /**
  * Created by troop on 20.06.2015.

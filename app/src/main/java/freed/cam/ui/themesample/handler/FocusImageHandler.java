@@ -35,23 +35,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.troop.freedcam.R;
-
-import freed.ActivityAbstract;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera1.Camera1Fragment;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+
+import freed.ActivityAbstract;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
-
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 
 
 /**

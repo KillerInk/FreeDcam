@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import com.troop.freedcam.utils.Log;
-import java.io.File;
 
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.utils.Log;
+
+import java.io.File;
 
 /**
  * Created by troop on 25.08.13.

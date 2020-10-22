@@ -8,14 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.gallery.R;
 import com.troop.freedcam.gallery.databinding.GalleryItemBinding;
 import com.troop.freedcam.gallery.model.GalleryItemModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GalleryRecyclerAdapter extends RecyclerView.Adapter<GalleryRecyclerAdapter.MyViewHolder> {
 

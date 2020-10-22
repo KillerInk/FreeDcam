@@ -22,21 +22,22 @@ import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
 
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
+import com.troop.freedcam.eventbus.events.TransformMatrixChangedEvent;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.BackgroundHandlerThread;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
-import com.troop.freedcam.utils.BackgroundHandlerThread;
-import com.troop.freedcam.utils.ContextApplication;
-
-import freed.cam.ui.themesample.handler.UserMessageHandler;
-import com.troop.freedcam.settings.Frameworks;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 16.03.2017.
@@ -51,7 +52,7 @@ public class CaptureSessionHandler
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CaptureRequest.Builder mImageCaptureRequestBuilder;
     private CameraCaptureSession mCaptureSession;
-    private Camera2Fragment cameraUiWrapper;
+    private Camera2Controller cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
     private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
@@ -125,7 +126,7 @@ public class CaptureSessionHandler
         }
     };
 
-    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
+    public CaptureSessionHandler(Camera2Controller cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
@@ -189,12 +190,6 @@ public class CaptureSessionHandler
     public void setImageCaptureSurface(Surface surface)
     {
         mImageCaptureRequestBuilder.addTarget(surface);
-    }
-
-
-    public SurfaceTexture getSurfaceTexture()
-    {
-        return cameraHolderApi2.textureView.getSurfaceTexture();
     }
 
     public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
@@ -436,7 +431,7 @@ public class CaptureSessionHandler
             mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+            EventBusHelper.post(new UserMessageEvent(ex.getLocalizedMessage(),false));
         }catch (IllegalArgumentException ex)
         {
             Log.WriteEx(ex);
@@ -667,8 +662,8 @@ public class CaptureSessionHandler
         float dispHeight = 0;
         if (renderscript)
         {
-            dispWidth = cameraHolderApi2.textureView.getWidth();
-            dispHeight = cameraHolderApi2.textureView.getHeight();
+            dispWidth = cameraUiWrapper.getTextureHolder().getWidth();
+            dispHeight = cameraUiWrapper.getTextureHolder().getHeight();
         }
         else if (displaySize.x > displaySize.y) {
             dispWidth = displaySize.x;
@@ -735,7 +730,7 @@ public class CaptureSessionHandler
         matrix.postScale(scaleX, scaleY, inputRect.centerX(), inputRect.centerY());
         matrix.postRotate(rotation, inputRect.centerX(), inputRect.centerY());
 
-        cameraHolderApi2.textureView.setTransform(matrix);
+        EventBusHelper.post(new TransformMatrixChangedEvent(matrix));
     }
 
     public void StartAePrecapture()
@@ -759,7 +754,7 @@ public class CaptureSessionHandler
                 mCaptureSession.captureBurst(capList, cameraBackroundValuesChangedListner, handler);
             } catch (CameraAccessException ex) {
                 Log.WriteEx(ex);
-                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+                EventBusHelper.post(new UserMessageEvent(ex.getLocalizedMessage(),false));
             }catch (IllegalArgumentException ex)
             {
                 Log.WriteEx(ex);

@@ -6,13 +6,13 @@ import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Util

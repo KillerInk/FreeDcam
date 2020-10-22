@@ -1,9 +1,8 @@
 package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by KillerInk on 15.01.2018.

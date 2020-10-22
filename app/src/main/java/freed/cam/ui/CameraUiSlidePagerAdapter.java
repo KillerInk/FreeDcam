@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import java.util.List;
-
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
-import freed.cam.ui.themesample.cameraui.CameraUiFragment;
-import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.gallery.views.GalleryFragment;
+
+import java.util.List;
+
+import freed.cam.ui.themesample.cameraui.CameraUiFragment;
+import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter

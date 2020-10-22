@@ -5,10 +5,9 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by Ingo on 03.10.2016.

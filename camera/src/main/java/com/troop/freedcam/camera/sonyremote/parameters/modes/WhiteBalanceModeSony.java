@@ -19,18 +19,18 @@
 
 package com.troop.freedcam.camera.sonyremote.parameters.modes;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.sonyremote.parameters.manual.WbCTManualSony;
+import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Set;
-
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.sonyremote.parameters.manual.WbCTManualSony;
-import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.utils.Log;
 
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {

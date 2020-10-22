@@ -19,14 +19,15 @@
 
 package com.troop.freedcam.camera.sonyremote.parameters.modes;
 
-import java.io.IOException;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.settings.SettingKeys;
-import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
+
+import java.io.IOException;
+
+import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 09.08.2016.

@@ -22,11 +22,10 @@ package com.troop.freedcam.camera.camera2.modules;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.IntervalHandler;
 import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 
 /**

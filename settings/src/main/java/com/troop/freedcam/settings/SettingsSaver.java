@@ -1,14 +1,14 @@
 package com.troop.freedcam.settings;
 
+import com.troop.freedcam.settings.mode.SettingInterface;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.XmlUtil;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-
-import com.troop.freedcam.settings.mode.SettingInterface;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.XmlUtil;
 
 public class SettingsSaver {
 

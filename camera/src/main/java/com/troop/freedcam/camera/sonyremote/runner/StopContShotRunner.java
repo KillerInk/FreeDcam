@@ -1,16 +1,15 @@
 package com.troop.freedcam.camera.sonyremote.runner;
 
+import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.image.ImageTask;
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-
-import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-
-import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 27.12.2017.

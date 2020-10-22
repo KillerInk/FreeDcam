@@ -3,6 +3,8 @@ package freed.jni;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 
+import com.troop.freedcam.utils.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -13,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import freed.dng.DngProfile;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 15.02.2015.

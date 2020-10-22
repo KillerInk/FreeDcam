@@ -17,7 +17,7 @@
  * /
  */
 
-package com.troop.freedcam.camera.basecamera;
+package com.troop.freedcam.camera.basecamera.cameraholder;
 
 import android.location.Location;
 
@@ -33,10 +33,4 @@ public interface CameraHolderInterface
      */
     boolean OpenCamera(int camera);
     void CloseCamera();
-
-
-    void SetLocation(Location location);
-    void CancelFocus();
-
-
 }

@@ -27,7 +27,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.R.id;
-import com.troop.freedcam.R.layout;
+import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
+import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
+import com.troop.freedcam.camera.sonyremote.parameters.modes.I_SonyApi;
+import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
+import com.troop.freedcam.camera.sonyremote.sonystuff.ServerDevice;
+import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleCameraEventObserver;
+import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.camera.sonyremote.sonystuff.SonyUtils;
+import com.troop.freedcam.camera.sonyremote.sonystuff.WifiHandler;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
@@ -38,27 +56,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.EventBusLifeCycle;
-import com.troop.freedcam.eventbus.enums.CaptureStates;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
-import com.troop.freedcam.processor.RenderScriptProcessorInterface;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
-import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
-import com.troop.freedcam.camera.sonyremote.parameters.modes.I_SonyApi;
-import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
-import com.troop.freedcam.camera.sonyremote.sonystuff.ServerDevice;
-import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleCameraEventObserver;
-import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-import com.troop.freedcam.camera.sonyremote.sonystuff.SonyUtils;
-import com.troop.freedcam.camera.sonyremote.sonystuff.WifiHandler;
-
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 import freed.views.AutoFitTextureView;
 
 /**

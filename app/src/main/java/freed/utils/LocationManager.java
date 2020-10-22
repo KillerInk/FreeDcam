@@ -24,17 +24,16 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.troop.freedcam.R;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
 
 import freed.ActivityInterface;
-import com.troop.freedcam.utils.ContextApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 
 /**

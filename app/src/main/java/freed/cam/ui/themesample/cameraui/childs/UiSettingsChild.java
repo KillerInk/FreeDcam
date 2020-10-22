@@ -34,17 +34,17 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 11.06.2015.

@@ -3,15 +3,13 @@ package com.troop.freedcam.camera.camera1.parameters.ae;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ae.AeManager;
 import com.troop.freedcam.camera.basecamera.parameters.ae.AeStates;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
-import freed.utils.FreeDPool;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 
 /**
@@ -117,7 +115,7 @@ public class AeManagerLgCamera1 extends AeManager
     private void startReadingMeta()
     {
         readMetaData = true;
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             while (readMetaData)
             {
                 try {
@@ -135,6 +133,6 @@ public class AeManagerLgCamera1 extends AeManager
                     Log.WriteEx(e);
                 }
             }
-        });
+        }).start();
     }
 }

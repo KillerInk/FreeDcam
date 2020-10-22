@@ -18,17 +18,17 @@
  */
 
 package com.troop.freedcam.settings;
+
 import android.text.TextUtils;
-import android.util.LongSparseArray;
+
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.VideoMediaProfile;
 
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;

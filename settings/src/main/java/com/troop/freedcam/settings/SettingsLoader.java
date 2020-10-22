@@ -1,21 +1,21 @@
 package com.troop.freedcam.settings;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.XmlElement;
 import com.troop.freedcam.settings.mode.ApiBooleanSettingMode;
 import com.troop.freedcam.settings.mode.GlobalBooleanSettingMode;
 import com.troop.freedcam.settings.mode.SettingInterface;
 import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.settings.mode.TypedSettingMode;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.XmlElement;
 import com.troop.freedcam.utils.XmlUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class SettingsLoader {

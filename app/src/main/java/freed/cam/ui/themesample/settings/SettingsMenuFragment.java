@@ -29,16 +29,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.camera1.parameters.modes.OpCodeParameter;
+import com.troop.freedcam.utils.Log;
+
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.opcode.OpCodeFragment;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 14.06.2015.

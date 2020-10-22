@@ -2,8 +2,10 @@ package freed.utils;
 
 import android.hardware.SensorManager;
 import android.view.OrientationEventListener;
-import com.troop.freedcam.utils.Log;
+
 import androidx.fragment.app.FragmentActivity;
+
+import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 17.09.2014.

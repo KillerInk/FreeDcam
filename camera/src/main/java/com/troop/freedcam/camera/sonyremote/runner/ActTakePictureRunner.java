@@ -1,6 +1,11 @@
 package com.troop.freedcam.camera.sonyremote.runner;
 
 
+import com.troop.freedcam.camera.sonyremote.modules.I_PictureCallback;
+import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
+import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,11 +13,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
-
-import com.troop.freedcam.camera.sonyremote.modules.I_PictureCallback;
-import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
-import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 27.12.2017.

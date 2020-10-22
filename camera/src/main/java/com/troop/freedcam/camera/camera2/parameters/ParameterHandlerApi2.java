@@ -25,9 +25,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
-import java.util.List;
-
-import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParameter;
@@ -36,6 +33,7 @@ import com.troop.freedcam.camera.basecamera.parameters.modes.ToneMapChooser;
 import com.troop.freedcam.camera.basecamera.parameters.modes.VideoAudioSourceMode;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.camera.camera2.parameters.ae.AeManagerCamera2;
 import com.troop.freedcam.camera.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import com.troop.freedcam.camera.camera2.parameters.manual.BurstApi2;
@@ -63,6 +61,8 @@ import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
+
+import java.util.List;
 
 /**
  * Created by troop on 12.12.2014.

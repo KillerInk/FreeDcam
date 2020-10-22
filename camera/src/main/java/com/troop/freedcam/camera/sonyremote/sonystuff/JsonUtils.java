@@ -18,6 +18,8 @@
  */
 package com.troop.freedcam.camera.sonyremote.sonystuff;
 
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,8 +27,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 14.12.2014.

@@ -32,28 +32,22 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
+import com.troop.freedcam.camera.camera2.modules.I_PreviewWrapper;
+import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.EventBusLifeCycle;
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.id;
-import com.troop.freedcam.R.layout;
+import com.troop.freedcam.processor.RenderScriptProcessor;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
-import com.troop.freedcam.camera.camera2.modules.I_PreviewWrapper;
-import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
-
-import com.troop.freedcam.processor.RenderScriptProcessor;
-import com.troop.freedcam.processor.RenderScriptProcessorInterface;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
-import freed.views.MyHistogram;
-import freed.views.AutoFitTextureView;
 
 
 /**
@@ -68,8 +62,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     public static int MAX_PREVIEW_WIDTH = 1920;
     public static int MAX_PREVIEW_HEIGHT = 1080;
 
-    private AutoFitTextureView textureView;
-    private MyHistogram histogram;
+    private TextureView textureView;
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private RenderScriptProcessor mProcessor;
     private boolean cameraIsOpen = false;
@@ -99,7 +92,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         view = inflater.inflate(layout.camerafragment, container, false);
         textureView = view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
-        this.histogram = view.findViewById(id.hisotview);
 
         if (mainToCameraHandler == null)
             throw new NullPointerException("main to camera handler is null");
@@ -109,16 +101,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
 
         Log.d(TAG, "Constructor done");
         return view;
-    }
-
-    @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
     }
 
     @Override
@@ -292,7 +274,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     @Override
     public void createCamera() {
         Log.d(TAG, "createCamera");
-        mProcessor = new RenderScriptProcessor(renderScriptManager,histogram, ImageFormat.YUV_420_888);
+        mProcessor = new RenderScriptProcessor(renderScriptManager, ImageFormat.YUV_420_888);
         parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
         focusHandler = new FocusHandler(Camera2Fragment.this);

@@ -23,23 +23,24 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.troop.freedcam.eventbus.enums.CaptureStates;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
-import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.jni.RawToDng;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 24.11.2014.
@@ -128,7 +129,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 else {
                     Log.d(TAG,"############ Failed to read Raw #########" );
-                    UserMessageHandler.sendMSG("Timout:Failed to read Raw",false);
+                    EventBusHelper.post(new UserMessageEvent("Timout:Failed to read Raw",false));
                     return;
                 }
             }

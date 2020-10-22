@@ -12,19 +12,18 @@ import androidx.fragment.app.Fragment;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
-
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by George on 1/19/2015.

@@ -41,14 +41,17 @@ import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-
-import freed.ActivityAbstract;
-import freed.ActivityInterface;
-import freed.cam.ActivityFreeDcamMain;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.sonyremote.parameters.JoyPad;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
+
+import freed.ActivityAbstract;
+import freed.ActivityInterface;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
@@ -62,10 +65,6 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
-
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 14.06.2015.

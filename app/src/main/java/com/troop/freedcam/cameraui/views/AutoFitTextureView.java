@@ -17,11 +17,17 @@
  * /
  */
 
-package freed.views;
+package com.troop.freedcam.cameraui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Size;
 import android.view.TextureView;
+
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * A {@link TextureView} that can be adjusted to a specified aspect ratio.
@@ -30,21 +36,24 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
 
     private int mRatioWidth;
     private int mRatioHeight;
-    Context context;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCameraChangedAspectRatio(CameraStateEvents.CameraChangedAspectRatioEvent event)
+    {
+        Size size = event.size;
+        setAspectRatio(size.getWidth(), size.getHeight());
+    }
 
     public AutoFitTextureView(Context context) {
         this(context, null);
-        this.context = context;
     }
 
     public AutoFitTextureView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-        this.context = context;
     }
 
     public AutoFitTextureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.context = context;
     }
 
     /**

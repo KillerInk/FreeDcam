@@ -4,9 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import freed.ActivityInterface;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import freed.ActivityInterface;
 import freed.utils.PermissionManager;
 
 /**

@@ -13,12 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.troop.freedcam.gallery.R;
 import com.troop.freedcam.gallery.adapter.GalleryRecyclerAdapter;
 import com.troop.freedcam.gallery.databinding.GalleryFragmentBinding;
 import com.troop.freedcam.gallery.helper.BitmapHelper;
-import com.troop.freedcam.gallery.util.PermissionManager;
 import com.troop.freedcam.gallery.viewmodel.GalleryViewModel;
 
 public class GalleryFragment extends Fragment {

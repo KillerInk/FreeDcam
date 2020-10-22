@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.ui.themesample;
+package com.troop.freedcam.cameraui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -31,12 +31,12 @@ import androidx.viewpager.widget.ViewPager;
  * when the metering rectangle gets moved left or right it tends to switch fragments
  * with disabling touch while metering is moved that is avoided
  */
-public class PagingView extends ViewPager
+public class DisableTouchViewPager extends ViewPager
 {
 
     private boolean allowScroll;
 
-    public PagingView(Context context, AttributeSet attrs) {
+    public DisableTouchViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         allowScroll = true;
     }

@@ -26,6 +26,18 @@ import android.os.Handler;
 import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.sonyremote.CameraHolderSony;
+import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -34,20 +46,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-
-import com.troop.freedcam.eventbus.enums.CaptureStates;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
-
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.sonyremote.CameraHolderSony;
-import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.file.holder.FileHolder;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 22.12.2014.

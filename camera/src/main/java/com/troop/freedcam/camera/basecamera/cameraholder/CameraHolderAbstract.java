@@ -17,9 +17,12 @@
  * /
  */
 
-package com.troop.freedcam.camera.basecamera;
+package com.troop.freedcam.camera.basecamera.cameraholder;
 
 import android.location.Location;
+
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
 
 /**
  * Created by troop on 12.12.2014.
@@ -44,9 +47,5 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     @Override
     public abstract void CloseCamera();
 
-    public abstract void StartFocus(FocusEvents autoFocusCallback);
-    public abstract void CancelFocus();
-
-    public abstract void SetLocation(Location loc);
 
 }

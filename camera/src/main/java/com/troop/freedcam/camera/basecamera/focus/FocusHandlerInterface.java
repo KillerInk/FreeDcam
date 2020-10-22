@@ -17,15 +17,19 @@
  * /
  */
 
-package com.troop.freedcam.camera.basecamera;
+package com.troop.freedcam.camera.basecamera.focus;
+
+import android.view.MotionEvent;
 
 /**
- * Created by troop on 06.01.2015.
+ * Created by troop on 02.09.2014.
  */
-public interface FocusEvents
+public interface FocusHandlerInterface
 {
-    void onFocusEvent(boolean success);
-    void onFocusLock(boolean locked);
+    void FocusStarted(int x, int y);
+    void FocusFinished(boolean success);
+    void FocusLocked(boolean locked);
+    void TouchToFocusSupported(boolean isSupported);
+    void AEMeteringSupported(boolean isSupported);
+    boolean onTouchEvent(MotionEvent event);
 }
-
-

@@ -19,6 +19,7 @@
 
 package com.troop.freedcam.camera.camera2;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
@@ -32,18 +33,17 @@ import android.os.Build.VERSION_CODES;
 import android.util.Size;
 import android.view.TextureView;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
+import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
-
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraHolderAbstract;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.FocusEvents;
-import com.troop.freedcam.utils.Log;
-import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 07.12.2014.
@@ -58,7 +58,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
-    public AutoFitTextureView textureView;
 
     public StreamConfigurationMap map;
     public int CurrentCamera;
@@ -112,6 +111,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     //###########################
     //###########################
 
+    @SuppressLint("MissingPermission")
     @Override
     public boolean OpenCamera(int camera)
     {
@@ -126,7 +126,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             List<CameraCharacteristics.Key<?>> keys = characteristics.getKeys();
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
-        } catch (CameraAccessException | IllegalArgumentException ex ) {
+        } catch (@SuppressLint("NewApi") CameraAccessException | IllegalArgumentException ex ) {
             Log.WriteEx(ex);
             if (mCameraDevice != null) {
                 mCameraDevice.close();
@@ -178,30 +178,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             CameraStateEvents.fireCameraCloseEvent();
             Log.d(TAG, "camera closed");
         }
-    }
-
-    public void SetSurface(TextureView surfaceHolder)
-    {
-        textureView = (AutoFitTextureView) surfaceHolder;
-    }
-
-    @Override
-    public void StartFocus(FocusEvents autoFocusCallback) {
-
-    }
-
-    @Override
-    public void CancelFocus() {
-
-    }
-
-
-
-
-    @Override
-    public void SetLocation(Location loc)
-    {
-
     }
 
     /**

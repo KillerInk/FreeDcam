@@ -32,11 +32,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-
-import org.greenrobot.eventbus.Subscribe;
-
-import freed.ActivityInterface;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleChangedEvent;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
@@ -44,6 +39,14 @@ import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
 import com.troop.freedcam.camera.camera2.parameters.manual.ManualToneMapCurveApi2;
 import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import freed.ActivityInterface;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
@@ -52,10 +55,6 @@ import freed.cam.ui.themesample.cameraui.childs.ManualButtonIso;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonShutter;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
-
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 import freed.views.CurveView;
 import freed.views.CurveViewControl;
 

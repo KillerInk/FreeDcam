@@ -35,9 +35,9 @@ import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.settings.SettingsManager;
 
 import freed.cam.ui.themesample.cameraui.CameraUiFragment.i_HelpFragment;
-import com.troop.freedcam.settings.SettingsManager;
 
 /**
  * Created by troop on 29.02.2016.

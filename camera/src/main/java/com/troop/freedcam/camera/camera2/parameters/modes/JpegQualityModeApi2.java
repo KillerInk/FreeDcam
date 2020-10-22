@@ -5,12 +5,12 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.text.TextUtils;
 
-import java.util.HashMap;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+
+import java.util.HashMap;
 
 /**
  * Created by Ingo on 03.10.2016.

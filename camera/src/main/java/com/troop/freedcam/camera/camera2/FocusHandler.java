@@ -27,18 +27,17 @@ import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.camera.R;
-
-import org.greenrobot.eventbus.Subscribe;
-
+import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.EventBusLifeCycle;
 import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
 import com.troop.freedcam.eventbus.events.ValueChangedEvent;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by troop on 12.12.2014.

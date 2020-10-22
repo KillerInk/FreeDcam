@@ -9,16 +9,17 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.image.ImageTask;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
+
 import java.io.File;
 import java.io.IOException;
 
 import freed.ActivityInterface;
-import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
-import com.troop.freedcam.settings.SettingsManager;
-
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.utils.Log;
 
 
 public class ImageTaskDngConverter extends ImageTask {
@@ -27,14 +28,14 @@ public class ImageTaskDngConverter extends ImageTask {
     private Image image;
     private CameraCharacteristics characteristics;
     private File file;
-    private ActivityInterface activityInterface;
+    private FileListController activityInterface;
     private int orientation;
     private Location location;
     private ModuleInterface moduleInterface;
 
     private final String TAG = ImageTaskDngConverter.class.getSimpleName();
 
-    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, ActivityInterface activityInterface, int orientation, Location location, ModuleInterface moduleInterface)
+    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, FileListController activityInterface, int orientation, Location location, ModuleInterface moduleInterface)
     {
         this.captureResult = captureResult;
         this.image = image;
@@ -67,7 +68,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            fileholder = activityInterface.getFileListController().getNewImgFileHolder(file, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
+            fileholder = activityInterface.getNewImgFileHolder(file, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
             dngCreator.writeImage(fileholder.getOutputStream(), image);
             dngCreator.close();
             image.close();

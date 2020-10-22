@@ -20,14 +20,13 @@
 package com.troop.freedcam.camera.sonyremote;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
 import com.troop.freedcam.camera.sonyremote.CameraHolderSony.I_CameraShotMode;
 import com.troop.freedcam.camera.sonyremote.modules.PictureModuleSony;
 import com.troop.freedcam.camera.sonyremote.modules.VideoModuleSony;
 import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 
 /**

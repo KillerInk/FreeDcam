@@ -2,9 +2,9 @@ package com.troop.freedcam.settings;
 
 import android.os.Build;
 
-import java.lang.reflect.Method;
-
 import com.troop.freedcam.utils.Log;
+
+import java.lang.reflect.Method;
 
 /**
  * Created by KillerInk on 10.01.2018.

@@ -22,19 +22,18 @@ package com.troop.freedcam.camera.camera1.parameters.modes;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 13.11.2014.

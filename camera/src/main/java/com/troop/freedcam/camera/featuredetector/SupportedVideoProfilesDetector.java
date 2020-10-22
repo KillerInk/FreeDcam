@@ -4,11 +4,10 @@ import android.media.CamcorderProfile;
 import android.os.Build;
 
 import com.troop.freedcam.camera.camera1.lge.media.CamcorderProfileExRef;
-
-import java.util.HashMap;
-
 import com.troop.freedcam.utils.Log;
 import com.troop.freedcam.utils.VideoMediaProfile;
+
+import java.util.HashMap;
 
 public class SupportedVideoProfilesDetector {
 

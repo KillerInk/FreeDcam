@@ -19,14 +19,14 @@
 
 package com.troop.freedcam.camera.sonyremote;
 
-import java.util.Set;
-
 import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.FocusEvents;
+import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
 import com.troop.freedcam.camera.sonyremote.parameters.modes.I_SonyApi;
 import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
 import com.troop.freedcam.utils.Log;
+
+import java.util.Set;
 
 /**
  * Created by troop on 31.01.2015.

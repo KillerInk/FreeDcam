@@ -4,13 +4,13 @@
 
 package com.troop.freedcam.camera.sonyremote.sonystuff;
 
+import com.troop.freedcam.utils.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import com.troop.freedcam.utils.Log;
 
 /**
  * A parser class for Liveview data Packet defined by Camera Remote API

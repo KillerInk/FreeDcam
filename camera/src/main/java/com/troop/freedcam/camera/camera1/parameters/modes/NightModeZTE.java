@@ -22,12 +22,11 @@ package com.troop.freedcam.camera.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by troop on 26.09.2014.

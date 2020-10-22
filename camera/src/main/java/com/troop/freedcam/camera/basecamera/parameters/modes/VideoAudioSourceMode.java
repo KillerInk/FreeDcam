@@ -1,11 +1,10 @@
 package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
 
 public class VideoAudioSourceMode extends AbstractParameter {
 

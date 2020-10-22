@@ -27,9 +27,9 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 
 import freed.ActivityInterface;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;

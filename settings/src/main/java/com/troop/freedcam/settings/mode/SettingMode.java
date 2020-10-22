@@ -1,13 +1,13 @@
 package com.troop.freedcam.settings.mode;
 
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.XmlElement;
+import com.troop.freedcam.utils.XmlUtil;
+
 import java.util.Arrays;
 import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.utils.XmlElement;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.XmlUtil;
 
 /**
  * Created by KillerInk on 31.12.2017.

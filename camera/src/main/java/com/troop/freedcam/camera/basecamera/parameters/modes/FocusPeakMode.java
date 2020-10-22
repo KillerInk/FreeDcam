@@ -18,7 +18,7 @@
  */
 
 package com.troop.freedcam.camera.basecamera.parameters.modes;
-import org.greenrobot.eventbus.Subscribe;
+
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.eventbus.events.ValueChangedEvent;
@@ -26,6 +26,8 @@ import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
+
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by troop on 10.09.2015.

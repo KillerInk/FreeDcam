@@ -23,7 +23,6 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -33,24 +32,6 @@ import android.view.ViewGroup;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.R.id;
 import com.troop.freedcam.camera.R.layout;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.EventBusLifeCycle;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
-import com.troop.freedcam.eventbus.events.ValueChangedEvent;
-import com.troop.freedcam.processor.RenderScriptManager;
-import com.troop.freedcam.processor.RenderScriptProcessor;
-import com.troop.freedcam.processor.RenderScriptProcessorInterface;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
 import com.troop.freedcam.camera.basecamera.modules.ModuleChangedEvent;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderLG;
@@ -59,12 +40,27 @@ import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderMTK;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderMotoX;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderSony;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
-
-
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
+import com.troop.freedcam.eventbus.events.ValueChangedEvent;
+import com.troop.freedcam.processor.RenderScriptManager;
+import com.troop.freedcam.processor.RenderScriptProcessor;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.Size;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by troop on 06.06.2015.
@@ -72,66 +68,9 @@ import com.troop.freedcam.utils.Log;
 public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, CameraHolder> implements ModuleChangedEvent, TextureView.SurfaceTextureListener, EventBusLifeCycle
 {
 
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
-
-    @Subscribe
-    public void onPictureSizeChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.PictureSize)
-        {
-            mainToCameraHandler.removeCallbacks(createPreviewRunner);
-            mainToCameraHandler.post(createPreviewRunner);
-        }
-    }
-
-    //this gets called when the cameraholder has open the camera
-    @Subscribe
-    public void onCameraOpen(CameraStateEvents.CameraOpenEvent openEvent)
-    {
-        mainToCameraHandler.initCamera();
-    }
-
-    @Subscribe
-    public void onCameraClose(CameraStateEvents.CameraCloseEvent cameraCloseEvent)
-    {
-        if (focusHandler != null)
-            ((FocusHandler) focusHandler).stopListning();
-        if (parametersHandler != null)
-            parametersHandler.unregisterListners();
-        if(focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.kill();
-    }
-
-    @Subscribe
-    public void onPreviewOpen(CameraStateEvents.PreviewOpenEvent previewOpenEvent) {
-
-        parametersHandler.setManualSettingsToParameters();
-    }
-
-    @Subscribe
-    public void onPreviewClose(CameraStateEvents.PreviewCloseEvent previewCloseEvent) {
-        cameraHolder.resetPreviewCallback();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCameraChangedAspectRatio(CameraStateEvents.CameraChangedAspectRatioEvent event)
-    {
-        Size size = event.size;
-        if (textureView != null)
-            textureView.setAspectRatio(size.getWidth(), size.getHeight());
-        if (focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.SetAspectRatio(size.getWidth(), size.getHeight());
-    }
-
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public RenderScriptProcessor focusPeakProcessorAp1;
     private boolean cameraIsOpen = false;
-    AutoFitTextureView textureView;
-    MyHistogram histogram;
 
     public static Camera1Fragment getInstance()
     {
@@ -150,12 +89,10 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        textureView = view.findViewById(id.autofitview);
-        histogram = view.findViewById(id.hisotview);
+        //histogram = view.findViewById(id.hisotview);
         if (mainToCameraHandler != null)
             mainToCameraHandler.createCamera();
         Log.d(TAG, "Ctor done");
-        textureView.setSurfaceTextureListener(this);
     }
 
     @Override
@@ -180,12 +117,18 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         stopListning();
     }
 
+    private Size getSizefromString(String s)
+    {
+        String split[] = s.split("x");
+        return new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+    }
+
     private Runnable createPreviewRunner =new Runnable()
     {
         @Override
         public void run() {
             Log.d(TAG, "createPreviewRunner.run()");
-            if (textureView == null || !PreviewSurfaceRdy) {
+            if (!PreviewSurfaceRdy) {
                 Log.d(TAG, "FAILED TO GET SURFACE FROM TEXTUREVIEW ################");
                 return;
             }
@@ -193,33 +136,33 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
                     || moduleHandler.getCurrentModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_hdr))
                     || moduleHandler.getCurrentModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_interval)))
             {
-                Size sizefromCam = new Size(parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
+                Size sizefromCam = getSizefromString(parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
                 List<Size> sizes = new ArrayList<>();
                 String[] stringsSizes = parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
                 final Size size;
                 for (String s : stringsSizes) {
-                    sizes.add(new Size(s));
+                    sizes.add(getSizefromString(s));
                 }
-                size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
+                size = getOptimalPreviewSize(sizes, sizefromCam.getWidth(), sizefromCam.getHeight(), true);
 
-                Log.d(TAG, "set size to " + size.width + "x" + size.height);
+                Log.d(TAG, "set size to " + size.getWidth() + "x" + size.getHeight());
                 if (focusPeakProcessorAp1 != null && SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get()) {
                     if(size == null || textureView.getSurfaceTexture() == null ||
-                            (size.height == focusPeakProcessorAp1.getHeight() && size.width == focusPeakProcessorAp1.getWidth()))
+                            (size.getHeight() == focusPeakProcessorAp1.getHeight() && size.getWidth() == focusPeakProcessorAp1.getWidth()))
                         return;
                     cameraHolder.StopPreview();
                     focusPeakProcessorAp1.kill();
                     cameraHolder.setSurface((Surface) null);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                        textureView.getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
+                        textureView.getSurfaceTexture().setDefaultBufferSize(size.getWidth(), size.getHeight());
                     }
 
-                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.getWidth() + "x" + size.getHeight(), true);
                     Surface surface = new Surface(textureView.getSurfaceTexture());
-                    focusPeakProcessorAp1.Reset(size.width, size.height,surface);
+                    focusPeakProcessorAp1.Reset(size.getWidth(), size.getHeight(),surface);
                     cameraToMainHandler.post(() -> focusPeakProcessorAp1.setHistogramEnable(false));
 
-                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.getWidth() + "x" + size.getHeight(), true);
                     cameraHolder.setSurface(focusPeakProcessorAp1.getInputSurface());
                     CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                     focusPeakProcessorAp1.start();
@@ -236,8 +179,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
                     else
                         ((CameraHolder)cameraHolder).setTextureView(textureView);
 
-                    Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                    Log.d(TAG, "set size to " + size.getWidth() + "x" + size.getHeight());
+                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.getWidth() + "x" + size.getHeight(), true);
                     CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                     cameraHolder.StartPreview();
                 }
@@ -245,14 +188,15 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
             }
             else if (moduleHandler.getCurrentModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_video)))
             {
-                Size sizefromCam = new Size("1920x1080");
+                Size sizefromCam = new Size(1920,1080);
 
                 List<Size> sizes = new ArrayList<>();
                 String[] stringsSizes = parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
                 for (String s : stringsSizes) {
-                    sizes.add(new Size(s));
+                    String split[] = s.split("x");
+                    sizes.add(new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1])));
                 }
-                final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
+                final Size size = getOptimalPreviewSize(sizes, sizefromCam.getWidth(), sizefromCam.getHeight(),false);
 
                 if(size == null || textureView.getSurfaceTexture() == null)
                     return;
@@ -269,8 +213,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
                 else
                     ((CameraHolder)cameraHolder).setTextureView(textureView);
 
-                Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
+                Log.d(TAG, "set size to " + size.getWidth() + "x" + size.getHeight());
+                parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.getWidth() + "x" + size.getHeight(), true);
                 CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
                 cameraHolder.StartPreview();
             }
@@ -287,9 +231,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         double ratio;
         for (Size s : sizes)
         {
-            ratio = (double) s.width / s.height;
+            ratio = (double) s.getWidth() / s.getHeight();
             if (ratio <= targetRatio + ASPECT_TOLERANCE && ratio >= targetRatio - ASPECT_TOLERANCE) {
-                if (s.width <= 2560 && s.height <= 1440 && s.width >= 800 && s.height >= 600)
+                if (s.getWidth() <= 2560 && s.getHeight() <= 1440 && s.getWidth() >= 800 && s.getHeight() >= 600)
                     aspectRatioMatches.add(s);
             }
         }
@@ -332,7 +276,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         }
         moduleHandler = new ModuleHandler(Camera1Fragment.this);
         if (RenderScriptManager.isSupported() && ((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
-            focusPeakProcessorAp1 = new RenderScriptProcessor(renderScriptManager, histogram, ImageFormat.NV21);
+            focusPeakProcessorAp1 = new RenderScriptProcessor(renderScriptManager,ImageFormat.NV21);
         }
         parametersHandler = new ParametersHandler(Camera1Fragment.this);
 
@@ -446,9 +390,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         @Override
         public int compare(Size o1, Size o2) {
             int calc = -1;
-            if (o1.width > o2.width)
+            if (o1.getWidth() > o2.getWidth())
                 calc++;
-            if (o1.height > o2.height)
+            if (o1.getHeight() > o2.getHeight())
                 calc++;
             return calc;
         }
@@ -470,31 +414,6 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
             Log.WriteEx(ex);
         }
 
-    }
-
-    @Override
-    public int getMargineLeft() {
-        return textureView.getLeft();
-    }
-
-    @Override
-    public int getMargineRight() {
-        return textureView.getRight();
-    }
-
-    @Override
-    public int getMargineTop() {
-        return textureView.getTop();
-    }
-
-    @Override
-    public int getPreviewWidth() {
-        return textureView.getWidth();
-    }
-
-    @Override
-    public int getPreviewHeight() {
-        return textureView.getHeight();
     }
 
     @Override

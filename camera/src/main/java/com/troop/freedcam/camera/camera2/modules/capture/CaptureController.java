@@ -8,15 +8,14 @@ import android.view.Surface;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.troop.freedcam.camera.camera2.modules.helper.RdyToSaveImg;
 import com.troop.freedcam.camera.image.EmptyTask;
-
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.utils.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CaptureController extends CameraCaptureSession.CaptureCallback

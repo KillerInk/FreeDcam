@@ -6,10 +6,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.camera.R;
-
-import java.util.Arrays;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
@@ -20,7 +16,10 @@ import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.camera2.parameters.modes.BaseModeApi2;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.Arrays;
 
 /**
  * Created by KillerInk on 29.12.2017.

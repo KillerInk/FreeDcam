@@ -11,10 +11,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.camera.R;
-
-
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.image.ImageTask;
 import com.troop.freedcam.settings.SettingsManager;

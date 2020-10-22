@@ -25,19 +25,19 @@ package com.troop.freedcam.camera.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
 
-import org.greenrobot.eventbus.Subscribe;
-
-import java.util.ArrayList;
-
 import com.troop.freedcam.camera.R;
-import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.camera.camera1.parameters.manual.BaseManualParameter;
+import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 public class BurstManualParam extends BaseManualParameter
 {

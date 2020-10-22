@@ -24,8 +24,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
@@ -34,6 +32,8 @@ import com.troop.freedcam.eventbus.EventBusLifeCycle;
 import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by troop on 05.05.2015.

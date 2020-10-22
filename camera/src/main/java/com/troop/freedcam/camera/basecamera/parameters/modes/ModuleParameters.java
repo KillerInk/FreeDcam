@@ -19,14 +19,14 @@
 
 package com.troop.freedcam.camera.basecamera.parameters.modes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingsManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by troop on 04.01.2016.

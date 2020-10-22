@@ -5,13 +5,13 @@
 package com.troop.freedcam.camera.sonyremote.sonystuff;
 
 
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.XmlElement;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.XmlElement;
 
 /**
  * A server device description class.

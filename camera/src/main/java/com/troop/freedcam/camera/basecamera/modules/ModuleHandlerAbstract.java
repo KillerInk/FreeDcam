@@ -20,8 +20,6 @@
 package com.troop.freedcam.camera.basecamera.modules;
 
 import android.os.Handler;
-import java.util.AbstractMap;
-import java.util.HashMap;
 
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
@@ -29,6 +27,9 @@ import com.troop.freedcam.eventbus.updater.ModuleUpdater;
 import com.troop.freedcam.utils.BackgroundHandlerThread;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.AbstractMap;
+import java.util.HashMap;
 
 /**
  * Created by troop on 09.12.2014.

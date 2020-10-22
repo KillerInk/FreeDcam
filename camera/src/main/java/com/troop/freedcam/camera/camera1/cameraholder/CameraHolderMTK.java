@@ -19,17 +19,15 @@
 
 package com.troop.freedcam.camera.camera1.cameraholder;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.CameraHolder;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
-
-
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by troop on 08.06.2016.

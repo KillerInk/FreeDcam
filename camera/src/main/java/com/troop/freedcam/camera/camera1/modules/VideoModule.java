@@ -23,11 +23,6 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Handler;
 
-import com.troop.freedcam.camera.R;
-
-import java.util.Arrays;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
@@ -37,10 +32,13 @@ import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 import com.troop.freedcam.utils.StringUtils;
 import com.troop.freedcam.utils.VideoMediaProfile;
 import com.troop.freedcam.utils.VideoMediaProfile.VideoMode;
+
+import java.util.Arrays;
 
 
 /**

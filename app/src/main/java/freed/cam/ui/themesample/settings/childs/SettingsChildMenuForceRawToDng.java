@@ -3,7 +3,6 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 
 import com.troop.freedcam.R;
-
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 

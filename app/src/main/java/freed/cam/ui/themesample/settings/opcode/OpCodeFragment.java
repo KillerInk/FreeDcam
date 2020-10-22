@@ -13,12 +13,11 @@ import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.image.ImageManager;
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingsManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.troop.freedcam.settings.OpCodeUrl;
-import com.troop.freedcam.settings.SettingsManager;
 
 /**
  * Created by KillerInk on 18.12.2017.

@@ -20,11 +20,11 @@
 package freed.cam.ui.themesample;
 
 
-
 import androidx.fragment.app.Fragment;
 
-import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+
+import freed.ActivityInterface;
 
 /**
  * Created by troop on 25.03.2015.

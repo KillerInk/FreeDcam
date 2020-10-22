@@ -29,6 +29,13 @@ import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.gallery.helper.BitmapHelper;
+import com.troop.freedcam.image.ImageManager;
+import com.troop.freedcam.image.ImageTask;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -43,17 +50,9 @@ import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.events.UpdateScreenSlide;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
-import freed.cam.ui.themesample.PagingView;
+import freed.cam.ui.themesample.DisableTouchViewPager;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import com.troop.freedcam.file.FileListController;
 import freed.utils.LocationManager;
-
-import com.troop.freedcam.gallery.helper.BitmapHelper;
-import com.troop.freedcam.image.ImageManager;
-import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
@@ -141,7 +140,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationManager orientationManager;
-    private PagingView uiViewPager;
+    private DisableTouchViewPager uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
     private LocationManager locationManager;
     private boolean activityIsResumed= false;

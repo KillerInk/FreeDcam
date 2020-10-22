@@ -25,11 +25,6 @@ import android.hardware.Camera.Parameters;
 import android.os.Build;
 
 import com.troop.freedcam.camera.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParameter;
@@ -78,9 +73,13 @@ import com.troop.freedcam.camera.camera1.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 import com.troop.freedcam.utils.StringUtils;
 import com.troop.freedcam.utils.StringUtils.FileEnding;
+
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Created by troop on 17.08.2014.
  * this class handels all camera1 releated parameters.

@@ -6,12 +6,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.troop.freedcam.R;
-
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
-
-import com.troop.freedcam.settings.SettingsManager;
-
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.SettingMode;
 
 public class UiSettingsChildSelfTimer extends UiSettingsChild {

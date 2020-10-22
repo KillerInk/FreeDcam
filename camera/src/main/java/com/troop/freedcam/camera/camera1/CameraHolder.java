@@ -20,6 +20,7 @@
 package com.troop.freedcam.camera.camera1;
 
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.Area;
 import android.hardware.Camera.Parameters;
@@ -28,19 +29,20 @@ import android.location.Location;
 import android.view.Surface;
 import android.view.TextureView;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
+import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.settings.Frameworks;
+import com.troop.freedcam.utils.Log;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.troop.freedcam.camera.basecamera.CameraHolderAbstract;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.FocusEvents;
-
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.settings.Frameworks;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 15.08.2014.
@@ -126,6 +128,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         CameraStateEvents.fireCameraCloseEvent();
     }
 
+    @Override
     public void SetCameraParameters(Parameters parameters)
     {
         try {
@@ -163,16 +166,18 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         return false;
     }
 
-    public void setTextureView(TextureView texturView)
+    @Override
+    public void setTextureView(SurfaceTexture texturView)
     {
         try {
-            mCamera.setPreviewTexture(texturView.getSurfaceTexture());
+            mCamera.setPreviewTexture(texturView);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
+    @Override
     public Surface getSurfaceHolder()
     {
         return previewSurfaceHolder;
@@ -183,7 +188,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     {
         if (mCamera == null)
         {
-            UserMessageHandler.sendMSG("Failed to Start Preview, Camera is null",false);
+            sendMSG("Failed to Start Preview, Camera is null");
             return;
         }
         try
@@ -193,8 +198,13 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             CameraStateEvents.firePreviewOpenEvent();
         } catch (Exception ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Failed to Start Preview",false);
+            sendMSG("Failed to Start Preview");
         }
+    }
+
+    protected void sendMSG(String msg)
+    {
+        EventBusHelper.post(new UserMessageEvent(msg,false));
     }
 
     @Override
@@ -215,6 +225,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         }
     }
 
+    @Override
     public Parameters GetCameraParameters()
     {
         try {
@@ -227,6 +238,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
 
     }
 
+    @Override
     public void TakePicture(PictureCallback picture)
     {
         try {
@@ -234,12 +246,12 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         }
         catch (RuntimeException ex)
         {
-            UserMessageHandler.sendMSG("Picture Taking failed, What a Terrible Failure!!",false);
+            sendMSG("Picture Taking failed, What a Terrible Failure!!");
             Log.WriteEx(ex);
         }
     }
 
-
+    @Override
     public void resetPreviewCallback()
     {
         try {
@@ -257,6 +269,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
 
     }
 
+    @Override
     public void StartFocus(final FocusEvents autoFocusCallback)
     {
         if (mCamera == null)
@@ -276,6 +289,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         }
     }
 
+    @Override
     public void CancelFocus()
     {
         if (mCamera == null)
@@ -283,6 +297,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         mCamera.cancelAutoFocus();
     }
 
+    @Override
     public void SetMeteringAreas(Rect meteringRect)
     {
         try {
@@ -324,7 +339,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             }
             catch (RuntimeException ex)
             {
-                UserMessageHandler.sendMSG("Set Location failed",false);
+                sendMSG("Set Location failed");
 
             }
         }

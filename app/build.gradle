@@ -74,6 +74,7 @@ dependencies {
     implementation project(path: ':settings')
     implementation project(path: ':camera')
     implementation project(path: ':language')
+    implementation project(path: ':eventbus')
 }
 
 android.applicationVariants.all { variant ->

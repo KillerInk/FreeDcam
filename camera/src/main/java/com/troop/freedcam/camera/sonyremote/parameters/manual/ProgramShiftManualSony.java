@@ -19,6 +19,12 @@
 
 package com.troop.freedcam.camera.sonyremote.parameters.manual;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
+import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,12 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
-import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
-import com.troop.freedcam.settings.SettingKeys;
 import freed.utils.FreeDPool;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by Ingo on 19.04.2015.

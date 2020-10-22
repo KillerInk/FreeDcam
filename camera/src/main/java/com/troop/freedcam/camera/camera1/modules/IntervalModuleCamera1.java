@@ -3,16 +3,15 @@ package com.troop.freedcam.camera.camera1.modules;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.IntervalHandler;
 import com.troop.freedcam.camera.camera2.modules.IntervalApi2;
 import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntervalModuleCamera1 extends PictureModule implements IntervalHandler.SuperDoWork {
 

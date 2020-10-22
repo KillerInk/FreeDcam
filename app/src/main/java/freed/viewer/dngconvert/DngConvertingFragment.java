@@ -53,6 +53,17 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.array;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.string;
+import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParameter;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.image.ImageLoader;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.settings.XmlParserWriter;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -62,22 +73,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.ActivityInterface;
-import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
-import com.troop.freedcam.file.FileListController;
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.file.holder.FileHolder;
-import com.troop.freedcam.file.holder.UriHolder;
-
 import freed.jni.ExifInfo;
 import freed.jni.RawToDng;
-import com.troop.freedcam.settings.SettingsManager;
-
-import com.troop.freedcam.image.ImageLoader;
-import com.troop.freedcam.settings.XmlParserWriter;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 22.12.2015.

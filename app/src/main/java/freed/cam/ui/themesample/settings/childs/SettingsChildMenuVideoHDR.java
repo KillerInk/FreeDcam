@@ -23,12 +23,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by troop on 17.08.2015.

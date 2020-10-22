@@ -3,8 +3,12 @@ package com.troop.freedcam.settings;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.LongSparseArray;
 
+import com.troop.freedcam.settings.mode.TypedSettingMode;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.XmlElement;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,14 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.XmlElement;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
-import com.troop.freedcam.settings.mode.TypedSettingMode;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 25.06.2017.

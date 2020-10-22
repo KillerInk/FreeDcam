@@ -33,16 +33,16 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import freed.ActivityInterface;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
-import com.troop.freedcam.utils.Log;
 
 
 /**

@@ -30,15 +30,15 @@ import android.os.Environment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
-
-import freed.utils.HideNavBarHelper;
-
 import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.gallery.helper.BitmapHelper;
 import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
+
+import java.io.File;
+
+import freed.utils.HideNavBarHelper;
 import freed.utils.PermissionManager;
 
 /**

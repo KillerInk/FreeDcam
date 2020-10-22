@@ -21,12 +21,9 @@ package com.troop.freedcam.camera.camera1;
 
 import android.graphics.Rect;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import com.troop.freedcam.camera.basecamera.AbstractFocusHandler;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.FocusEvents;
+import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.EventBusLifeCycle;
 import com.troop.freedcam.eventbus.events.FocusCoordinatesEvent;
@@ -35,6 +32,9 @@ import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by troop on 02.09.2014.

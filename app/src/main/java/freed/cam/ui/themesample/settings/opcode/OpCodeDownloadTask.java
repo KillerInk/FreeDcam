@@ -2,6 +2,11 @@ package freed.cam.ui.themesample.settings.opcode;
 
 import android.text.TextUtils;
 
+import com.troop.freedcam.image.ImageTask;
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,12 +26,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-
-import com.troop.freedcam.settings.OpCodeUrl;
-import com.troop.freedcam.settings.SettingsManager;
-
-import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 18.12.2017.

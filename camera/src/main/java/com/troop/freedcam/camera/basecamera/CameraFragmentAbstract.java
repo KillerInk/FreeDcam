@@ -27,9 +27,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
+import com.troop.freedcam.camera.basecamera.handler.CameraToMainHandler;
+import com.troop.freedcam.camera.basecamera.handler.MainToCameraHandler;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
-
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.utils.Log;

@@ -34,16 +34,6 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.troop.freedcam.camera.R;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import com.troop.freedcam.eventbus.enums.CaptureStates;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
-import com.troop.freedcam.processor.RenderScriptProcessor;
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ToneMapChooser;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
@@ -60,12 +50,20 @@ import com.troop.freedcam.camera.camera2.modules.helper.FindOutputHelper;
 import com.troop.freedcam.camera.camera2.modules.helper.Output;
 import com.troop.freedcam.camera.camera2.modules.helper.RdyToSaveImg;
 import com.troop.freedcam.camera.camera2.parameters.ae.AeManagerCamera2;
-
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.processor.RenderScriptProcessor;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 /**

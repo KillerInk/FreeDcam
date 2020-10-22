@@ -1,8 +1,8 @@
 package com.troop.freedcam.settings;
 
-import java.util.HashMap;
-
 import com.troop.freedcam.settings.mode.SettingInterface;
+
+import java.util.HashMap;
 
 public class SettingLayout {
     public String device;

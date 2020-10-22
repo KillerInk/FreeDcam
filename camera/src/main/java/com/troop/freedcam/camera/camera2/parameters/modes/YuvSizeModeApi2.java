@@ -23,11 +23,10 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by troop on 13.12.2014.

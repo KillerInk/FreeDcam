@@ -1,15 +1,30 @@
 package com.troop.freedcam.camera.basecamera;
 
+import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
+import com.troop.freedcam.camera.basecamera.handler.CameraToMainHandler;
+import com.troop.freedcam.camera.basecamera.handler.MainToCameraHandler;
+import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.models.TextureHolder;
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.utils.Log;
 
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
+import org.greenrobot.eventbus.Subscribe;
 
-public abstract class AbstractCameraController<P extends AbstractParameterHandler,C extends CameraHolderAbstract> implements CameraInterface, CameraControllerInterface
+public abstract class AbstractCameraController<P extends AbstractParameterHandler,C extends CameraHolderAbstract, F extends AbstractFocusHandler> implements CameraInterface, CameraControllerInterface, EventBusLifeCycle
 {
     private final String TAG = AbstractCameraController.class.getSimpleName();
+
+
+    @Subscribe
+    public void onTextureHolder(TextureHolder textureHolder)
+    {
+        this.textureHolder = textureHolder;
+    }
+
     protected RenderScriptManager renderScriptManager;
     public ModuleHandlerAbstract moduleHandler;
     /**
@@ -23,9 +38,10 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     /**
      * handels focus releated stuff for the current camera
      */
-    public AbstractFocusHandler focusHandler;
+    public F focusHandler;
 
     protected boolean PreviewSurfaceRdy;
+    protected TextureHolder textureHolder;
 
     /**
      * holds handler to invoke stuff in ui or camera thread
@@ -95,11 +111,6 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     }
 
     @Override
-    public boolean isAeMeteringSupported() {
-        return focusHandler.isAeMeteringSupported();
-    }
-
-    @Override
     public RenderScriptProcessorInterface getFocusPeakProcessor() {
         return null;
     }
@@ -124,5 +135,18 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
         return moduleHandler;
     }
 
+    @Override
+    public TextureHolder getTextureHolder() {
+        return textureHolder;
+    }
 
+    @Override
+    public void startListning() {
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    public void stopListning() {
+        EventBusHelper.unregister(this);
+    }
 }

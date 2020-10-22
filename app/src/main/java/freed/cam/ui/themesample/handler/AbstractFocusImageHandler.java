@@ -19,8 +19,9 @@
 
 package freed.cam.ui.themesample.handler;
 
+import com.troop.freedcam.camera.basecamera.focus.FocusHandlerInterface;
+
 import freed.ActivityAbstract;
-import com.troop.freedcam.camera.basecamera.FocusHandlerInterface;
 
 /**
  * Created by troop on 09.06.2015.

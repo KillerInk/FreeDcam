@@ -15,6 +15,15 @@ import android.renderscript.Type;
 import android.view.Surface;
 import android.view.TextureView;
 
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
+import com.troop.freedcam.camera.sonyremote.sonystuff.DataExtractor;
+import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleLiveviewSlicer;
+import com.troop.freedcam.processor.RenderScriptManager;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
@@ -22,17 +31,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
-
-import com.troop.freedcam.processor.RenderScriptManager;
-import com.troop.freedcam.processor.RenderScriptProcessorInterface;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
-import com.troop.freedcam.camera.sonyremote.sonystuff.DataExtractor;
-import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleLiveviewSlicer;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.utils.FreeDPool;
-import com.troop.freedcam.utils.Log;
 
 public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcessorInterface {
     private final String TAG = PreviewStreamDrawer.class.getSimpleName();

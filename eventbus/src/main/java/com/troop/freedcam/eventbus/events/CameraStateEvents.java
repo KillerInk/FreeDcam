@@ -1,9 +1,7 @@
 package com.troop.freedcam.eventbus.events;
 
-
-import android.util.Size;
-
 import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.utils.Size;
 
 public class CameraStateEvents {
 

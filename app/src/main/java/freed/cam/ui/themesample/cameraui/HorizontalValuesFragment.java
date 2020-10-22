@@ -31,9 +31,9 @@ import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
-
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
+
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
 

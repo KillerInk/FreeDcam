@@ -1,8 +1,8 @@
 package com.troop.freedcam.settings.mode;
 
+import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.XmlElement;
-import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.XmlUtil;
 
 /**

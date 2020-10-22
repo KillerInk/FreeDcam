@@ -22,8 +22,6 @@ package com.troop.freedcam.camera.basecamera.parameters;
 import android.graphics.Rect;
 import android.text.TextUtils;
 
-import java.util.HashMap;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ClippingMode;
 import com.troop.freedcam.camera.basecamera.parameters.modes.EnableRenderScriptMode;
@@ -38,7 +36,6 @@ import com.troop.freedcam.camera.basecamera.parameters.modes.IntervalShutterSlee
 import com.troop.freedcam.camera.basecamera.parameters.modes.NightOverlayParameter;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ParameterExternalShutter;
 import com.troop.freedcam.camera.basecamera.parameters.modes.SDModeParameter;
-
 import com.troop.freedcam.eventbus.EventBusLifeCycle;
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.settings.SettingKeys;
@@ -46,6 +43,8 @@ import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.SettingMode;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+
+import java.util.HashMap;
 
 /*
   Created by troop on 09.12.2014.

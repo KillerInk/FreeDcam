@@ -8,22 +8,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.BuildConfig;
-
-import freed.ActivityInterface;
-
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
-import com.troop.freedcam.camera.basecamera.CameraToMainHandler;
-import com.troop.freedcam.camera.basecamera.MainToCameraHandler;
+import com.troop.freedcam.camera.basecamera.handler.CameraToMainHandler;
+import com.troop.freedcam.camera.basecamera.handler.MainToCameraHandler;
 import com.troop.freedcam.camera.camera1.Camera1Fragment;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.featuredetector.CameraFeatureDetectorFragment;
 import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
-import freed.renderscript.RenderScriptManager;
-import com.troop.freedcam.utils.BackgroundHandlerThread;
-
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.BackgroundHandlerThread;
 import com.troop.freedcam.utils.Log;
+
+import freed.ActivityInterface;
+import freed.renderscript.RenderScriptManager;
 
 public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
     private final String TAG = CameraFragmentManager.class.getSimpleName();

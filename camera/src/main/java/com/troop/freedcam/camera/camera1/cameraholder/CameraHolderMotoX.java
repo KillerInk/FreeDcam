@@ -22,7 +22,6 @@ package com.troop.freedcam.camera.camera1.cameraholder;
 import android.hardware.Camera;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;

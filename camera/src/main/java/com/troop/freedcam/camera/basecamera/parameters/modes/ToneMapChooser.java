@@ -2,13 +2,14 @@ package com.troop.freedcam.camera.basecamera.parameters.modes;
 
 import android.text.TextUtils;
 
-import java.util.HashMap;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import freed.dng.ToneMapProfile;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+
+import java.util.HashMap;
+
+import freed.dng.ToneMapProfile;
 
 /**
  * Created by troop on 10.07.2017.

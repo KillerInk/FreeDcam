@@ -1,9 +1,9 @@
 package com.troop.freedcam.eventbus;
 
+import com.troop.freedcam.utils.Log;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.EventBusException;
-
-import com.troop.freedcam.utils.Log;
 
 public class EventBusHelper {
 

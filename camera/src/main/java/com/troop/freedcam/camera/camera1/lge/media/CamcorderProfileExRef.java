@@ -1,10 +1,10 @@
 package com.troop.freedcam.camera.camera1.lge.media;
 
+import com.troop.freedcam.utils.VideoMediaProfile;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import com.troop.freedcam.utils.VideoMediaProfile;
 
 /**
  * Created by KillerInk on 08.12.2017.

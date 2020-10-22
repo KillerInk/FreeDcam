@@ -21,14 +21,6 @@ package com.troop.freedcam.camera.sonyremote.parameters.manual;
 
 import android.text.TextUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Set;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
@@ -37,8 +29,17 @@ import com.troop.freedcam.camera.sonyremote.parameters.modes.I_SonyApi;
 import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.settings.SettingKeys;
-import freed.utils.FreeDPool;
 import com.troop.freedcam.utils.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Set;
+
+import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 15.12.2014.

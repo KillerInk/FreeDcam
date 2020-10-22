@@ -4,9 +4,10 @@ import android.content.Context;
 
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.utils.Log;
+
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.cameraui.ManualButton;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 03.08.2017.

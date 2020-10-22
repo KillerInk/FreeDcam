@@ -1,7 +1,5 @@
 package com.troop.freedcam.gallery.model;
 
-import androidx.databinding.BindingAdapter;
-
 import com.troop.freedcam.file.holder.BaseHolder;
 
 

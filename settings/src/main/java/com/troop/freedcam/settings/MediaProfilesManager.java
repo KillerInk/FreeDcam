@@ -1,5 +1,11 @@
 package com.troop.freedcam.settings;
 
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.VideoMediaProfile;
+import com.troop.freedcam.utils.XmlElement;
+import com.troop.freedcam.utils.XmlUtil;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,12 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
-import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.VideoMediaProfile;
-import com.troop.freedcam.utils.XmlElement;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.XmlUtil;
 
 
 public class MediaProfilesManager {

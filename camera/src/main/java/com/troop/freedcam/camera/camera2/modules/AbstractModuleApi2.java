@@ -27,11 +27,11 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
 import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.utils.ContextApplication;
 
 
 /**

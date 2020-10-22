@@ -24,8 +24,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentTransaction;
 
-import freed.ActivityAbstract;
 import com.troop.freedcam.file.FileListController;
+
+import freed.ActivityAbstract;
 import freed.utils.LocationManager;
 
 /**

@@ -1,12 +1,13 @@
-package com.troop.freedcam.camera.basecamera;
+package com.troop.freedcam.camera.basecamera.handler;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import java.lang.ref.WeakReference;
-
+import com.troop.freedcam.camera.basecamera.CameraInterface;
 import com.troop.freedcam.utils.Log;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by KillerInk on 22.12.2017.

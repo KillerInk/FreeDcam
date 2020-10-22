@@ -20,10 +20,9 @@
 package com.troop.freedcam.camera.camera2.parameters.modes;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.camera1.parameters.modes.VideoProfilesParameter;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by troop on 24.02.2016.

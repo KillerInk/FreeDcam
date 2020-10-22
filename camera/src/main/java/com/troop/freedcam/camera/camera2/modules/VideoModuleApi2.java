@@ -39,30 +39,31 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
+import com.troop.freedcam.camera.camera2.Camera2EXT.OpModes;
+import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.camera2.CameraHolderApi2;
+import com.troop.freedcam.camera.camera2.camera2_hidden_keys.qcom.CaptureRequestQcom;
+import com.troop.freedcam.camera.camera2.parameters.modes.VideoProfilesApi2;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.troop.freedcam.camera.camera2.Camera2EXT.OpModes;
-import com.troop.freedcam.camera.camera2.camera2_hidden_keys.qcom.CaptureRequestQcom;
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
-import com.troop.freedcam.camera.camera2.CameraHolderApi2;
-import com.troop.freedcam.camera.camera2.parameters.modes.VideoProfilesApi2;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.file.holder.FileHolder;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import com.troop.freedcam.utils.Log;
 import freed.utils.PermissionManager;
-import com.troop.freedcam.utils.VideoMediaProfile;
 
 /**
  * Created by troop on 26.11.2015.
@@ -109,7 +110,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 stopRecording();
             }
             if (isLowStorage) {
-                UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+                //TODO drop hardcoded string
+                EventBusHelper.post(new UserMessageEvent("Can't Record due to low storage space. Free some and try again.", false));
             }
         });
 
@@ -125,7 +127,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Log.d(TAG, "InitModule");
         super.InitModule();
 
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
         if (currentVideoProfile == null) {
@@ -171,7 +173,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     }
 
     private void startRecording() {
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_start);
+        changeCaptureState(CaptureStates.video_recording_start);
         Log.d(TAG, "startRecording");
         startPreviewVideo();
     }
@@ -184,7 +186,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         recorderSurface = null;
         isRecording = false;
 
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
 
         fireOnWorkFinish(recordingFile);
         //TODO fix mediascan
@@ -322,7 +324,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {
             Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         });
 
         videoRecorder.setInfoListener((mr, what, extra) -> {
@@ -388,7 +390,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
         else{
             isRecording = false;
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         }
     }
 
@@ -422,7 +424,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
             Log.d(TAG, "Failed to Config CaptureSession");
-            UserMessageHandler.sendMSG("Failed to Config CaptureSession",false);
+            EventBusHelper.post(new UserMessageEvent("Failed to Config CaptureSession",false));
         }
     };
 

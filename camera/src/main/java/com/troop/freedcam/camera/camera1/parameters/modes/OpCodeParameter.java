@@ -21,6 +21,14 @@ package com.troop.freedcam.camera.camera1.parameters.modes;
 
 import android.text.TextUtils;
 
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.settings.OpCodeUrl;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,15 +48,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
-
-import com.troop.freedcam.settings.OpCodeUrl;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-import freed.utils.FreeDPool;
-import com.troop.freedcam.utils.Log;
 
 
 /**
@@ -73,23 +72,23 @@ public class OpCodeParameter extends AbstractParameter
             for (final OpCodeUrl url : SettingsManager.getInstance().opcodeUrlList)
             {
                 if (!TextUtils.isEmpty(url.getOpcode2Url()))
-                    FreeDPool.Execute(() -> {
+                    new Thread(() -> {
                         try {
                             httpsGet(url.getOpcode2Url(), url.getID() + "opc2.bin");
                         } catch (IOException ex) {
                             Log.WriteEx(ex);
-                            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
+                            EventBusHelper.post(new UserMessageEvent(ex.getLocalizedMessage(),true));
                         }
-                    });
+                    }).start();
                 if (!TextUtils.isEmpty(url.getOpcode3Url()))
-                    FreeDPool.Execute(() -> {
+                    new Thread(() -> {
                         try {
                             httpsGet(url.getOpcode3Url(), url.getID() + "opc3.bin");
                         } catch (IOException ex) {
                             Log.WriteEx(ex);
-                            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),true);
+                            EventBusHelper.post(new UserMessageEvent(ex.getLocalizedMessage(),true));
                         }
-                    });
+                    }).start();
             }
         }
     }

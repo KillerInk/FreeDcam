@@ -1,12 +1,13 @@
 package com.troop.freedcam.camera.basecamera.parameters;
 
-import java.util.ArrayList;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.updater.ValueUpdater;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.mode.SettingMode;
+
+import java.util.ArrayList;
 
 /**
  * Created by troop on 18.06.2017.

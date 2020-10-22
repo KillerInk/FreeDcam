@@ -11,22 +11,23 @@ import android.view.Surface;
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.camera.R;
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.ContextApplication;
+import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.VideoMediaProfile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.troop.freedcam.utils.ContextApplication;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.settings.SettingKeys;
-import com.troop.freedcam.settings.SettingsManager;
-
-import com.troop.freedcam.file.holder.FileHolder;
-import com.troop.freedcam.file.holder.UriHolder;
-import com.troop.freedcam.utils.Log;
-import com.troop.freedcam.utils.VideoMediaProfile;
+//import freed.cam.ui.themesample.handler.UserMessageHandler;
 
 /**
  * Created by KillerInk on 22.02.2018.
@@ -161,13 +162,14 @@ public class VideoRecorder {
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioSource not Supported",true);
+
+                        //UserMessageHandler.sendMSG("AudioSource not Supported",true);
                         return false;
                     }
                     catch (IllegalStateException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioSource not Supported",true);
+                        //UserMessageHandler.sendMSG("AudioSource not Supported",true);
                         return false;
                     }
                 }
@@ -202,7 +204,7 @@ public class VideoRecorder {
         catch (IllegalArgumentException ex)
         {
             mediaRecorder.reset();
-            UserMessageHandler.sendMSG("VideoCodec not Supported",false);
+            EventBusHelper.post(new UserMessageEvent("VideoCodec not Supported",false));
         }
 
         switch (this.currentVideoProfile.Mode)
@@ -217,7 +219,7 @@ public class VideoRecorder {
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioCodec not Supported",false);
+                        EventBusHelper.post(new UserMessageEvent("AudioCodec not Supported",false));
                         return false;
                     }
                     mediaRecorder.setAudioChannels(this.currentVideoProfile.audioChannels);
@@ -238,19 +240,20 @@ public class VideoRecorder {
             mediaRecorder.prepare();
         } catch (IOException ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Prepare failed :" + ex.getMessage(),false);
+            EventBusHelper.post(new UserMessageEvent("Prepare failed :" + ex.getMessage(),false));
             return false;
         }
         return true;
     }
 
     private void setRecorderFilePath() {
-        BaseHolder baseHolder = cameraControllerInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
+        //TODO inject filelistcontroller or handel it different
+        /*BaseHolder baseHolder = cameraControllerInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile, SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         try {
             setToMediaRecorder(mediaRecorder,baseHolder);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void setToMediaRecorder(MediaRecorder recorder, BaseHolder baseHolder) throws FileNotFoundException {

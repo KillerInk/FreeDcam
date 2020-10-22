@@ -4,15 +4,15 @@
 
 package com.troop.freedcam.camera.sonyremote.sonystuff;
 
+import com.troop.freedcam.camera.sonyremote.sonystuff.ServerDevice.ApiService;
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
-
-import com.troop.freedcam.camera.sonyremote.sonystuff.ServerDevice.ApiService;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Simple Camera Remote API cameraUiWrapper class. (JSON based API <--> Java API)

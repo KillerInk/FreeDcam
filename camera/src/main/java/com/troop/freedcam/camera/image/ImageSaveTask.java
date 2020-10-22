@@ -3,25 +3,25 @@ package com.troop.freedcam.camera.image;
 import android.location.Location;
 import android.os.ParcelFileDescriptor;
 
+import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
+import com.troop.freedcam.file.FileListController;
+import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.file.holder.FileHolder;
+import com.troop.freedcam.file.holder.UriHolder;
+import com.troop.freedcam.image.ImageTask;
+import com.troop.freedcam.settings.SettingsManager;
+import com.troop.freedcam.utils.Log;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import freed.ActivityInterface;
-import com.troop.freedcam.camera.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
-import com.troop.freedcam.file.holder.BaseHolder;
-import com.troop.freedcam.file.holder.FileHolder;
-import com.troop.freedcam.file.holder.UriHolder;
 import freed.jni.ExifInfo;
 import freed.jni.GpsInfo;
 import freed.jni.OpCode;
 import freed.jni.RawToDng;
-import com.troop.freedcam.settings.SettingsManager;
-
-import com.troop.freedcam.image.ImageTask;
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by KillerInk on 13.11.2017.
@@ -53,7 +53,7 @@ public class ImageSaveTask extends ImageTask
     private int flash = 0;
     private float expoindex;
     private String whitebalance;
-    private ActivityInterface activityInterface;
+    private FileListController fileListController;
     private ModuleInterface moduleInterface;
 
     private Thread currentThread;
@@ -62,16 +62,16 @@ public class ImageSaveTask extends ImageTask
     private int greensplit = 0;
 
 
-    public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
+    public ImageSaveTask(FileListController fileListController, ModuleInterface moduleInterface)
     {
-        this.activityInterface = activityInterface;
+        this.fileListController = fileListController;
         this.moduleInterface = moduleInterface;
     }
 
 
     private void clear()
     {
-        this.activityInterface = null;
+        this.fileListController = null;
         this.whitebalance = null;
         this.location =null;
         this.filename = null;
@@ -208,7 +208,7 @@ public class ImageSaveTask extends ImageTask
 
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
-        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename,SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
+        BaseHolder fileholder = fileListController.getNewImgFileHolder(filename,SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         if (fileholder instanceof FileHolder)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
         else if(fileholder instanceof UriHolder) {
@@ -233,7 +233,7 @@ public class ImageSaveTask extends ImageTask
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
-        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename,SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
+        BaseHolder fileholder = fileListController.getNewImgFileHolder(filename,SettingsManager.getInstance().GetWriteExternal(),SettingsManager.getInstance().GetBaseFolder());
         try {
             BufferedOutputStream outStream = new BufferedOutputStream(fileholder.getOutputStream());
             outStream.write(bytesTosave);

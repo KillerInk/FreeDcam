@@ -24,12 +24,12 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.troop.freedcam.R;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
+
+import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 
 /**
  * Created by troop on 09.09.2015.

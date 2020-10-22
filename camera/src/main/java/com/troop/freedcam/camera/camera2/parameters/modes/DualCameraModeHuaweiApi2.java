@@ -4,12 +4,12 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import java.util.Map;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.StringUtils;
+
+import java.util.Map;
 
 /**
  * Created by troop on 29.03.2017.

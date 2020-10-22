@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.troop.freedcam.utils.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.utils.FreeDPool;
-import com.troop.freedcam.utils.Log;
 
 /**
  * A simple observer class for some status values in Camera. This class supports

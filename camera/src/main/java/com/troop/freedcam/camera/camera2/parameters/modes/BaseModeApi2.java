@@ -23,11 +23,6 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
@@ -35,6 +30,11 @@ import com.troop.freedcam.camera.camera2.CaptureSessionHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
 import com.troop.freedcam.utils.StringUtils;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by troop on 12.12.2014.

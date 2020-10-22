@@ -1,4 +1,4 @@
-package freed.cam.events;
+package com.troop.freedcam.eventbus.events;
 
 import com.troop.freedcam.settings.SettingKeys;
 

@@ -19,12 +19,6 @@
 
 package com.troop.freedcam.camera.sonyremote.parameters.modes;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
 import com.troop.freedcam.camera.sonyremote.sonystuff.JsonUtils;
@@ -34,6 +28,12 @@ import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * Created by troop on 26.01.2015.

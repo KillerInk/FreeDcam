@@ -24,14 +24,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import com.troop.freedcam.utils.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import com.troop.freedcam.utils.Log;
 
 /**
  * Created by troop on 18.10.2014.

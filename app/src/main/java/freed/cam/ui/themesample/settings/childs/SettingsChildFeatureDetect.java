@@ -3,8 +3,9 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.view.View;
 
-import freed.ActivityInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+
+import freed.ActivityInterface;
 
 /**
  * Created by troop on 20.07.2017.

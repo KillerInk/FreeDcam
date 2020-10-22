@@ -3,13 +3,14 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.settings.SettingsManager;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.events.ValueChangedEvent;
-import com.troop.freedcam.settings.SettingsManager;
 
 public class SettingsChildApi extends  SettingsChildMenu {
     public SettingsChildApi(Context context) {

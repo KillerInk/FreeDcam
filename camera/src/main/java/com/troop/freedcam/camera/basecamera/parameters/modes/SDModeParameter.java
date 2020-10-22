@@ -22,12 +22,12 @@ package com.troop.freedcam.camera.basecamera.parameters.modes;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import java.io.File;
-
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.StringUtils;
+
+import java.io.File;
 
 /**
  * Created by troop on 21.07.2015.

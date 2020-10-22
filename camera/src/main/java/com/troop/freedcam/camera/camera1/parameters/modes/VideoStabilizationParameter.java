@@ -23,10 +23,9 @@ import android.hardware.Camera.Parameters;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.R;
-
-import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.settings.SettingKeys;
+import com.troop.freedcam.utils.ContextApplication;
 
 /**
  * Created by Ar4eR on 10.12.15.
