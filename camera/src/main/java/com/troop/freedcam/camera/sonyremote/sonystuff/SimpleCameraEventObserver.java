@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import freed.utils.FreeDPool;
 
 /**
  * A simple observer class for some status values in Camera. This class supports
@@ -224,7 +223,7 @@ public class SimpleCameraEventObserver {
         }
 
         mWhileEventMonitoring = true;
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             SimpleCameraEventObserver.this.sendLog("start() exec.");
             // Call getEvent API continuously.
             boolean firstCall = true;
@@ -268,7 +267,7 @@ public class SimpleCameraEventObserver {
             } // MONITORLOOP end.
 
             SimpleCameraEventObserver.this.mWhileEventMonitoring = false;
-        });
+        }).start();
     }
 
     public void processEvents(JSONObject replyJson) throws JSONException

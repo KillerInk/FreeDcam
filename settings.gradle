@@ -1,3 +1,4 @@
+include ':cameraui'
 include ':language'
 include ':eventbus'
 include ':processor'

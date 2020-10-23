@@ -26,7 +26,6 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.camera.basecamera.CameraFragmentAbstract;
 import com.troop.freedcam.camera.sonyremote.parameters.ParameterHandler;
 import com.troop.freedcam.camera.sonyremote.parameters.modes.I_SonyApi;
@@ -61,7 +60,7 @@ import freed.views.AutoFitTextureView;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHandler,CameraHolderSony>
+public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHandler,CameraHolderSony,FocusHandler>
         implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents, EventBusLifeCycle, TextureView.SurfaceTextureListener
 {
     private final String TAG = SonyCameraRemoteFragment.class.getSimpleName();
@@ -379,32 +378,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
     {
         mEventObserver.stop();
         mEventObserver.clearEventChangeListener();
-    }
-
-    //CameraWrapperInterface api specific overrides
-    @Override
-    public int getMargineLeft() {
-        return surfaceView.getLeft();
-    }
-
-    @Override
-    public int getMargineRight() {
-        return surfaceView.getRight();
-    }
-
-    @Override
-    public int getMargineTop() {
-        return surfaceView.getTop();
-    }
-
-    @Override
-    public int getPreviewWidth() {
-        return surfaceView.getWidth();
-    }
-
-    @Override
-    public int getPreviewHeight() {
-        return surfaceView.getHeight();
     }
 
     @Override

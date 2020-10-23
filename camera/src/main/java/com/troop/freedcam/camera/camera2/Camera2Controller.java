@@ -1,7 +1,9 @@
 package com.troop.freedcam.camera.camera2;
 
 import android.graphics.ImageFormat;
+import android.graphics.Point;
 import android.os.Build;
+import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
@@ -15,6 +17,10 @@ import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Camera2Controller extends AbstractCameraController<ParameterHandlerApi2,CameraHolderApi2,FocusHandler> implements CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback {
 
     private final String TAG = Camera2Controller.class.getSimpleName();
@@ -22,6 +28,10 @@ public class Camera2Controller extends AbstractCameraController<ParameterHandler
     private boolean cameraIsOpen = false;
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
+    //limits the preview to use maximal that size for preview
+    //when set to high it its possbile to get a laggy preview with active focuspeak
+    public static int MAX_PREVIEW_WIDTH = 1920;
+    public static int MAX_PREVIEW_HEIGHT = 1080;
 
     @Subscribe
     public void onCameraOpen(CameraStateEvents.CameraOpenEvent event)
@@ -141,5 +151,38 @@ public class Camera2Controller extends AbstractCameraController<ParameterHandler
         //workaround, that seem to kill front camera when switching picformat
         if (!SettingsManager.getInstance().getIsFrontCamera())
             parametersHandler.setManualSettingsToParameters();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public Size getSizeForPreviewDependingOnImageSize(int imageformat, int mImageWidth, int mImageHeight)
+    {
+        List<Size> sizes = new ArrayList<>();
+        Size[] choices = ((CameraHolderApi2)cameraHolder).map.getOutputSizes(imageformat);
+        Point displaysize = captureSessionHandler.getDisplaySize();
+        double ratio = (double)mImageWidth/mImageHeight;
+        for (Size s : choices)
+        {
+            if (s.getWidth() <= MAX_PREVIEW_WIDTH && s.getHeight() <= MAX_PREVIEW_HEIGHT && ratioMatch((double)s.getWidth()/s.getHeight(),ratio))
+                sizes.add(s);
+        }
+        if (sizes.size() > 0) {
+            return Collections.max(sizes, new CameraHolderApi2.CompareSizesByArea());
+        } else {
+            Log.e(TAG, "Couldn't find any suitable previewSize size");
+            Size s = choices[0];
+            if (s.getWidth() > displaysize.x && s.getHeight() > displaysize.y)
+                return new Size(displaysize.x, displaysize.y);
+            return choices[0];
+        }
+    }
+
+    private boolean ratioMatch(double preview, double image)
+    {
+        double rangelimter = 0.1;
+
+        if (preview+rangelimter >= image && preview-rangelimter <= image)
+            return true;
+        else
+            return false;
     }
 }

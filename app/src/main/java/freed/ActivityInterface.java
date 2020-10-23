@@ -25,7 +25,7 @@ import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.gallery.helper.BitmapHelper;
 
 import freed.utils.LocationManager;
-import freed.utils.PermissionManager;
+import com.troop.freedcam.utils.PermissionManager;
 
 /**
  * Created by troop on 22.03.2015.

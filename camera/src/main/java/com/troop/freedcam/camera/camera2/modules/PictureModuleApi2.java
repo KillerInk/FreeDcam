@@ -21,6 +21,7 @@ package com.troop.freedcam.camera.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
@@ -36,6 +37,7 @@ import android.view.Surface;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ToneMapChooser;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
 import com.troop.freedcam.camera.camera2.CameraValuesChangedCaptureCallback;
@@ -95,7 +97,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     /*private boolean captureDng = false;
     private boolean captureJpeg = false;*/
     protected CaptureType captureType;
-    protected Camera2Fragment cameraUiWrapper;
     private boolean renderScriptError5 = false;
     protected CaptureController captureController;
 
@@ -164,9 +165,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         }
     }
 
-    public PictureModuleApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public PictureModuleApi2(Camera2Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = ContextApplication.getStringFromRessources(R.string.module_picture);
         filesSaved = new ArrayList<>();
         ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
@@ -257,12 +257,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     }
 
+
+
     private void preparePreviewTextureView(int orientationToSet, Size previewSize) {
-        SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+        SurfaceTexture texture = cameraUiWrapper.getTextureHolder().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
        /* if (cameraUiWrapper.getPreviewSurface() != null)
             cameraUiWrapper.getPreviewSurface().release();*/
-        Surface previewsurface = new Surface(cameraUiWrapper.getTexturView().getSurfaceTexture());
+        Surface previewsurface = new Surface(texture);
         final int w = previewSize.getWidth();
         final int h = previewSize.getHeight();
 
@@ -352,32 +354,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     protected void createImageCaptureListners() {
         ByteImageCapture byteImageCapture;
         if (captureType == CaptureType.Jpeg || captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
-            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg",max_images);
+            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getFileListController(),this,".jpg",max_images);
         else
         {
             Size smallestImageSize = Collections.min(
                     Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                     new CameraHolderApi2.CompareSizesByArea());
-            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getActivityInterface(),this,".jpg",max_images);
+            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getFileListController(),this,".jpg",max_images);
         }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
             String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
             String[] split = yuvsize.split("x");
             Size s = new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv",max_images);
+            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getFileListController(),this,".yuv",max_images);
             captureController.add(yuvimgcapture);
         }
 
         if (output.raw_format != 0 && isDngCapture())
         {
-            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".dng",max_images);
+            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getFileListController(),this,".dng",max_images);
             captureController.add(rawImageCapture);
             //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
         }
         else if (output.raw_format != 0 &&  isBayerCapture())
         {
-            ByteImageCapture byteImageCapture1 = new ByteImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".bayer",max_images);
+            ByteImageCapture byteImageCapture1 = new ByteImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getFileListController(),this,".bayer",max_images);
             captureController.add(byteImageCapture1);
         }
     }
@@ -511,7 +513,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Location currentLocation = null;
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
         {
-            currentLocation = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            currentLocation = cameraUiWrapper.getCurrentLocation();
             Log.d(TAG,"currentLocation null:" +(currentLocation == null));
             if (currentLocation != null)
                 cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_GPS_LOCATION,currentLocation);
@@ -526,7 +528,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                 stillImageCapture.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
                 stillImageCapture.setToneMapProfile(((ToneMapChooser) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
                 stillImageCapture.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
-                stillImageCapture.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+                stillImageCapture.setOrientation(cameraUiWrapper.getDeviceOrientation());
                 stillImageCapture.setCharacteristics(cameraUiWrapper.getCameraHolder().characteristics);
                 stillImageCapture.setCaptureType(captureType);
                 if (currentLocation != null)
@@ -539,7 +541,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         }
 
 
-        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getDeviceOrientation());
 
         //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
@@ -587,9 +589,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     protected String getFileString()
     {
         if (BurstCounter.getBurstCount() > 1)
-            return cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
+            return cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
         else
-            return cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(),"");
+            return cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(),"");
     }
 
     /**

@@ -29,6 +29,7 @@ import android.view.WindowManager;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
 import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.utils.ContextApplication;
@@ -37,7 +38,7 @@ import com.troop.freedcam.utils.ContextApplication;
 /**
  * Created by troop on 12.12.2014.
  */
-public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_PreviewWrapper
+public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2Controller> implements I_PreviewWrapper
 {
     ParameterHandlerApi2 parameterHandler;
 
@@ -46,7 +47,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
     private Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    AbstractModuleApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    AbstractModuleApi2(Camera2Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();

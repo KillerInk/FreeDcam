@@ -1,4 +1,4 @@
-package freed.utils;
+package com.troop.freedcam.utils;
 
 import android.Manifest;
 import android.app.Activity;

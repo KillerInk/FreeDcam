@@ -27,7 +27,9 @@ import android.os.Handler;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.parameters.manual.ManualFocus;
+import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
@@ -42,7 +44,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     private final String TAG = AfBracketApi2.class.getSimpleName();
     private ManualFocus manualFocus;
 
-    public AfBracketApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public AfBracketApi2(Camera2Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = ContextApplication.getStringFromRessources(R.string.module_afbracket);
     }
@@ -72,7 +74,7 @@ public class AfBracketApi2 extends PictureModuleApi2
         focusCaptureRange = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
         focusStep =  focusCaptureRange /PICSTOTAKE;
         currentFocusPos = 1;
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
+        changeCaptureState(CaptureStates.image_capture_stop);
 
     }
 

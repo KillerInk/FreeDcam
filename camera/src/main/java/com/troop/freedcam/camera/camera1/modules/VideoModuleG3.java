@@ -65,7 +65,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
         recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
         if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            Location location = cameraUiWrapper.getCurrentLocation();
             if (location != null)
                 recorder.setLocation(location);
         }

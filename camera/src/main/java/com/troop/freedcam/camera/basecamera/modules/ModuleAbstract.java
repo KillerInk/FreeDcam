@@ -33,19 +33,19 @@ import com.troop.freedcam.utils.Log;
 /**
  * Created by troop on 15.08.2014.
  */
-public abstract class ModuleAbstract implements ModuleInterface
+public abstract class ModuleAbstract<C extends  CameraControllerInterface> implements ModuleInterface
 {
     protected boolean isWorking;
     protected boolean isLowStorage;
     public String name;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
-    protected CameraControllerInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
 
-    public ModuleAbstract(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public ModuleAbstract(C cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;

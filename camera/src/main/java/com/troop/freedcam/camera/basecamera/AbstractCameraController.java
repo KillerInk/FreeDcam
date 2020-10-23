@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.basecamera;
 
+import android.location.Location;
+
 import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
 import com.troop.freedcam.camera.basecamera.handler.CameraToMainHandler;
 import com.troop.freedcam.camera.basecamera.handler.MainToCameraHandler;
@@ -7,14 +9,20 @@ import com.troop.freedcam.camera.basecamera.modules.ModuleHandlerAbstract;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.EventBusLifeCycle;
+import com.troop.freedcam.eventbus.events.DeviceOrientationChanged;
 import com.troop.freedcam.eventbus.models.TextureHolder;
+import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.PermissionManager;
 
 import org.greenrobot.eventbus.Subscribe;
 
-public abstract class AbstractCameraController<P extends AbstractParameterHandler,C extends CameraHolderAbstract, F extends AbstractFocusHandler> implements CameraInterface, CameraControllerInterface, EventBusLifeCycle
+public abstract class AbstractCameraController<P extends AbstractParameterHandler
+        ,C extends CameraHolderAbstract
+        , F extends AbstractFocusHandler>
+        implements CameraInterface, CameraControllerInterface, EventBusLifeCycle
 {
     private final String TAG = AbstractCameraController.class.getSimpleName();
 
@@ -23,6 +31,18 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     public void onTextureHolder(TextureHolder textureHolder)
     {
         this.textureHolder = textureHolder;
+    }
+
+    @Subscribe
+    public void onLocationChanged(Location location)
+    {
+        this.location = location;
+    }
+
+    @Subscribe
+    public void onDeviceOrientitonChanged(DeviceOrientationChanged location)
+    {
+        this.orientation = location.deviceOrientation;
     }
 
     protected RenderScriptManager renderScriptManager;
@@ -48,6 +68,11 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
      */
     protected MainToCameraHandler mainToCameraHandler;
     protected CameraToMainHandler cameraToMainHandler;
+
+    protected PermissionManager permissionManager;
+    protected FileListController fileListController;
+    private int orientation;
+    private Location location;
 
     public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler)
     {
@@ -138,6 +163,26 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     @Override
     public TextureHolder getTextureHolder() {
         return textureHolder;
+    }
+
+    @Override
+    public PermissionManager getPermissionManager() {
+        return permissionManager;
+    }
+
+    @Override
+    public FileListController getFileListController() {
+        return fileListController;
+    }
+
+    @Override
+    public int getDeviceOrientation() {
+        return orientation;
+    }
+
+    @Override
+    public Location getCurrentLocation() {
+        return location;
     }
 
     @Override

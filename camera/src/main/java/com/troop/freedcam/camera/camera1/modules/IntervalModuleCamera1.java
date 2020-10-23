@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.IntervalHandler;
+import com.troop.freedcam.camera.camera1.Camera1Controller;
 import com.troop.freedcam.camera.camera2.modules.IntervalApi2;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.utils.ContextApplication;
@@ -20,7 +21,7 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
     private boolean module_isWorking;
     private List<BaseHolder> files =new ArrayList<BaseHolder>();
 
-    public IntervalModuleCamera1(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public IntervalModuleCamera1(Camera1Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = ContextApplication.getStringFromRessources(R.string.module_interval);
         intervalHandler = new IntervalHandler(this);

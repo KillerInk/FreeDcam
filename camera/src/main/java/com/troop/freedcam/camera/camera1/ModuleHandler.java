@@ -35,11 +35,11 @@ import com.troop.freedcam.utils.Log;
 /**
  * Created by troop on 16.08.2014.
  */
-public class ModuleHandler extends ModuleHandlerAbstract
+public class ModuleHandler extends ModuleHandlerAbstract<Camera1Controller>
 {
 
 
-    public  ModuleHandler (CameraControllerInterface cameraUiWrapper)
+    public  ModuleHandler (Camera1Controller cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

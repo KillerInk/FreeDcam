@@ -28,10 +28,12 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.PermissionManager;
 
 import freed.ActivityInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -139,6 +141,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
             currentLocation = location;
         else
             currentLocation = null;
+        EventBusHelper.post(currentLocation);
         Log.d(TAG, "onLocationChanged:" + (currentLocation == null) + " isListing:" + isStarted);
     }
 

@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 15.12.2014.
@@ -91,7 +90,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     {
         if (stringvalues == null)
         {
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try
                 {
                     sendLog("Trying to get String Values from: " + VALUES_TO_GET);
@@ -106,7 +105,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
                     sendLog( "Error Trying to get String Values from: " + VALUES_TO_GET);
                     stringvalues = new String[0];
                 }
-            });
+            }).start();
         }
         sendLog("Returning values from: " + VALUES_TO_GET);
         return stringvalues;
@@ -119,7 +118,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     {
         sendLog("Set Value to " + valueToSet);
         currentInt = valueToSet;
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             if (valueToSet >= stringvalues.length || valueToSet < 0)
                 return;
             String val = stringvalues[valueToSet];
@@ -132,7 +131,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
             } catch (JSONException | IOException ex) {
                 Log.WriteEx(ex);
             }
-        });
+        }).start();
     }
 
     public String GetStringValue()

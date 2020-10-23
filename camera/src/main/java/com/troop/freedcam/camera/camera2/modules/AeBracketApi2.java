@@ -28,6 +28,7 @@ import android.os.Handler;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.ContextApplication;
@@ -52,7 +53,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     int currentiso;
 
 
-    public AeBracketApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public AeBracketApi2(Camera2Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = ContextApplication.getStringFromRessources(R.string.module_hdr);
     }

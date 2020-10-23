@@ -25,4 +25,8 @@ public class TextureHolder {
     {
         return textureView.getSurfaceTexture();
     }
+
+    public TextureView getTextureView() {
+        return textureView;
+    }
 }

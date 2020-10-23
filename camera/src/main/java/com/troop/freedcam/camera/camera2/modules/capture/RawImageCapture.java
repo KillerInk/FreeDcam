@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.camera2.modules.capture;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureResult;
+import android.location.Location;
 import android.media.Image;
 import android.os.Build;
 import android.util.Size;
@@ -45,13 +46,13 @@ public class RawImageCapture extends StillImageCapture {
         //Log.d(TAG, "save dng");
         if(image.getFormat() == ImageFormat.RAW10) {
             Log.d(TAG, "save 10bit dng");
-            task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),fileListController,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),fileListController,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile, location);
             image.close();
         }
         else if(image.getFormat() == ImageFormat.RAW_SENSOR) {
             if (forceRawToDng) { // use freedcam dngconverter
                 if (support12bitRaw)
-                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),fileListController,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),fileListController,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile,location);
                 else
                     task = process_rawWithDngConverter(imageToByteArray(image),
                             DngProfile.Plain,
@@ -65,7 +66,8 @@ public class RawImageCapture extends StillImageCapture {
                             customMatrix,
                             orientation,
                             externalSD,
-                            toneMapProfile);
+                            toneMapProfile,
+                            location);
                 image.close();
             }
             else { // use android dngCreator
@@ -87,13 +89,14 @@ public class RawImageCapture extends StillImageCapture {
                                                            CustomMatrix customMatrix,
                                                            int orientation,
                                                            boolean externalSD,
-                                                           ToneMapProfile toneMapProfile) {
+                                                           ToneMapProfile toneMapProfile,
+                                                           Location location) {
         ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
 
         if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_)))
-            saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
+            saveTask.setLocation(location);
         saveTask.setForceRawToDng(true);
         try {
             saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));

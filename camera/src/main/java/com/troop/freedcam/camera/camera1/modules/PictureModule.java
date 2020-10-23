@@ -28,10 +28,13 @@ import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera1.Camera1Controller;
 import com.troop.freedcam.camera.camera1.CameraHolder;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
+import com.troop.freedcam.camera.image.ImageSaveTask;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.file.holder.BaseHolder;
+import com.troop.freedcam.image.ImageManager;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
@@ -46,7 +49,7 @@ import freed.dng.DngProfile;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends ModuleAbstract implements Camera.PictureCallback
+public class PictureModule extends ModuleAbstract<Camera1Controller> implements Camera.PictureCallback
 {
 
     private final String TAG = PictureModule.class.getSimpleName();
@@ -57,7 +60,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     private boolean isBurstCapture = false;
 
 
-    public PictureModule(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public PictureModule(Camera1Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = ContextApplication.getStringFromRessources(R.string.module_picture);
@@ -104,7 +107,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                 }
 
             }
-            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getDeviceOrientation());
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
@@ -115,7 +118,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             else
                 burstcount = 1;
             if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+                cameraHolder.SetLocation(cameraUiWrapper.getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
             Log.d(TAG,"TakePicture");
@@ -258,14 +261,14 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     protected File getFile(String fileending)
     {
         if (isBurstCapture)
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
+            return new File(cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
         else
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
+            return new File(cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
     }
 
     protected void saveJpeg(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getFileListController(),this);
         task.setBytesTosave(data,ImageSaveTask.JPEG);
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         ImageManager.putImageSaveTask(task);
@@ -273,7 +276,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     protected void saveDng(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getFileListController(),this);
         task.setFnum(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFnumber());
         task.setFocal(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFocal());
         float exposuretime = cameraUiWrapper.getParameterHandler().getCurrentExposuretime();
@@ -310,13 +313,13 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         task.setDngProfile(dngProfile);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
         if (SettingsManager.getInstance().getIsFrontCamera())
-            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation()+180);
+            task.setOrientation(cameraUiWrapper.getDeviceOrientation()+180);
         else
-            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            task.setOrientation(cameraUiWrapper.getDeviceOrientation());
         task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
         if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.off_)))
-            task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            task.setLocation(cameraUiWrapper.getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }
 }

@@ -6,9 +6,7 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
-
-import freed.ActivityInterface;
-import freed.utils.PermissionManager;
+import com.troop.freedcam.utils.PermissionManager;
 
 /**
  * Created by troop on 12.01.2017.
@@ -25,15 +23,15 @@ public class WifiHandler extends WifiUtils {
 
     private final String TAG = WifiHandler.class.getSimpleName();
     private SimpleSsdpClient mSsdpClient;
-    private ActivityInterface activityInterface;
+    private PermissionManager permissionManager;
     private WifiEvents eventsListner;
     private Handler uiHandler;
     private boolean resumed = false;
 
 
-    public WifiHandler(ActivityInterface activityInterface) {
+    public WifiHandler(PermissionManager permissionManager) {
         super(ContextApplication.getContext());
-        this.activityInterface = activityInterface;
+        this.permissionManager = permissionManager;
         mSsdpClient = new SimpleSsdpClient();
         uiHandler = new Handler(Looper.getMainLooper());
     }
@@ -41,12 +39,12 @@ public class WifiHandler extends WifiUtils {
     public void onResume()
     {
         resumed = true;
-        if(activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location)) {
-            if (!activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Wifi))
-                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Wifi);
+        if(permissionManager.isPermissionGranted(PermissionManager.Permissions.Location)) {
+            if (!permissionManager.isPermissionGranted(PermissionManager.Permissions.Wifi))
+                permissionManager.requestPermission(PermissionManager.Permissions.Wifi);
         }
         else {
-            activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
+            permissionManager.requestPermission(PermissionManager.Permissions.Location);
             sendMessage("Location Permission is needed to find the camera!");
         }
     }

@@ -21,6 +21,8 @@ package com.troop.freedcam.camera.basecamera.modules;
 
 import android.os.SystemClock;
 
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
@@ -187,7 +189,7 @@ public class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ", (double) (SystemClock.uptimeMillis() - startTime) /1000 );
         t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + ((sleepTimeBetweenCaptures /1000) - timeGoneTillNextCapture);
-        UserMessageHandler.sendMSG(t,false);
+        EventBusHelper.post(new UserMessageEvent(t,false));
 
     }
 

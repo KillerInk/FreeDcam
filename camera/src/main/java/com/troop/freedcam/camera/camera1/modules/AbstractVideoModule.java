@@ -30,12 +30,15 @@ import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.modules.ModuleAbstract;
 import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
 import com.troop.freedcam.camera.camera1.CameraHolder;
+import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
+import com.troop.freedcam.eventbus.events.UserMessageEvent;
 import com.troop.freedcam.file.holder.FileHolder;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.PermissionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,14 +46,14 @@ import java.io.IOException;
 /**
  * Created by troop on 06.01.2016.
  */
-public abstract class AbstractVideoModule extends ModuleAbstract implements MediaRecorder.OnInfoListener
+public abstract class AbstractVideoModule<C extends CameraControllerInterface> extends ModuleAbstract<C> implements MediaRecorder.OnInfoListener
 {
     VideoRecorder recorder;
     private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    AbstractVideoModule(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    AbstractVideoModule(C cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = ContextApplication.getStringFromRessources(R.string.module_video);
     }
@@ -94,7 +97,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             stopRecording();
         }
         if( isLowStorage ) {
-            UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+            EventBusHelper.post(new UserMessageEvent("Can't Record due to low storage space. Free some and try again.", false));
         }
     }
 
@@ -112,13 +115,14 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
     private void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
-            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
-                cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+        if (cameraUiWrapper.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
+            //TODO check if its needed
+            /*if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
+                cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());*/
             prepareRecorder();
         }
         else
-            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
+            cameraUiWrapper.getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
 
     }
 
@@ -129,7 +133,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {
@@ -168,7 +172,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 else
                 {
                     Log.e(TAG,"Recording failed");
-                    UserMessageHandler.sendMSG("Start Recording failed ",false);
+                    EventBusHelper.post(new UserMessageEvent("Start Recording failed ",false));
                     isWorking = false;
                     ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
                     recorder.reset();
@@ -179,7 +183,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Start Recording failed",false);
+            EventBusHelper.post(new UserMessageEvent("Start Recording failed",false));
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.reset();
@@ -210,7 +214,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (Exception ex)
         {
             Log.e(TAG, "Stop Recording failed, was called bevor start");
-            UserMessageHandler.sendMSG("Stop Recording failed, was called bevor start",false);
+            EventBusHelper.post(new UserMessageEvent("Stop Recording failed, was called bevor start",false));
             Log.e(TAG,ex.getMessage());
             isWorking = false;
         }

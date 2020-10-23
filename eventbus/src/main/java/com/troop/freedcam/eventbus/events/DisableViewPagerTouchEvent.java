@@ -1,4 +1,4 @@
-package freed.cam.events;
+package com.troop.freedcam.eventbus.events;
 
 public class DisableViewPagerTouchEvent {
     public final boolean disableIt;

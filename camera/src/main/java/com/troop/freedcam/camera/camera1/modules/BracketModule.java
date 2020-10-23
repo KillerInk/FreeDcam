@@ -26,6 +26,7 @@ import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera1.Camera1Controller;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.settings.Frameworks;
@@ -48,7 +49,7 @@ public class BracketModule extends PictureModule {
     private int hdrCount;
     private BaseHolder[] files;
 
-    public BracketModule(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public BracketModule(Camera1Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = ContextApplication.getStringFromRessources(R.string.module_hdr);
     }
@@ -63,7 +64,7 @@ public class BracketModule extends PictureModule {
     public void DoWork() {
         mBackgroundHandler.post(() -> {
             if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+                cameraHolder.SetLocation(cameraUiWrapper.getCurrentLocation());
             files = new BaseHolder[3];
             hdrCount = 0;
             String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
@@ -147,7 +148,7 @@ public class BracketModule extends PictureModule {
 
     @Override
     protected File getFile(String fileending) {
-        return new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePathHDR(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
+        return new File(cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePathHDR(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
     }
 
     private void sleep(int time) {

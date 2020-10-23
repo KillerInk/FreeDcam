@@ -47,7 +47,7 @@ import com.troop.freedcam.utils.Log;
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.ActivityInterface;
-import freed.cam.events.DisableViewPagerTouchEvent;
+import com.troop.freedcam.eventbus.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;

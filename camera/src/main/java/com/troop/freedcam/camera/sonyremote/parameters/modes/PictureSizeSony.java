@@ -30,8 +30,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import freed.utils.FreeDPool;
-
 /**
  * Created by troop on 15.12.2014.
  */
@@ -49,7 +47,7 @@ public class PictureSizeSony extends BaseModeParameterSony
         jsonObject =null;
         if (stringvalues == null || stringvalues.length == 0) {
             stringvalues = new String[0];
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 synchronized (stringvalues){
                     try {
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
@@ -59,7 +57,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                         Log.WriteEx(ex);
                     }
                 }
-            });
+            }).start();
         }
         return stringvalues;
     }

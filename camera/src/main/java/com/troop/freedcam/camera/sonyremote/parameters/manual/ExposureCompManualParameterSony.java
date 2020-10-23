@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 03.01.2015.
@@ -53,7 +52,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             //String val = valueToSet +"";
             JSONArray array = null;
             if (stringvalues == null)
@@ -80,12 +79,12 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 Log.e(TAG, "Error SetValue " + valueToSet);
                 Log.WriteEx(ex);
             }
-        });
+        }).start();
     }
 
     private void getMinMaxValues()
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 Log.d(TAG, "try get min max values ");
                 JSONObject object =  ((ParameterHandler) cameraUiWrapper.getParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
@@ -101,14 +100,14 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 Log.WriteEx(ex);
 
             }
-        });
+        }).start();
 
     }
 
     public int GetValue()
     {
         if (currentInt == -100) {
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try {
                     JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
                     JSONArray array = object.getJSONArray("result");
@@ -120,7 +119,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     Log.e(TAG, "Error GetStringValue() ");
 
                 }
-            });
+            }).start();
         }
         return currentInt;
     }

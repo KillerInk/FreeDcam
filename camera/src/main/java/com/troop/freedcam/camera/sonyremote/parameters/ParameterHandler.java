@@ -66,7 +66,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 13.12.2014.
@@ -354,7 +353,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onImagesRecieved(final String[] url)
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             for (String s : url)
             {
                 if (cameraUiWrapper.getModuleHandler().getCurrentModule() instanceof PictureModuleSony)
@@ -367,7 +366,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
                     }
                 }
             }
-        });
+        }).start();
     }
 
     @Override

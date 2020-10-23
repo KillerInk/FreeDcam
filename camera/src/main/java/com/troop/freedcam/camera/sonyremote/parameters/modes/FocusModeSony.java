@@ -27,7 +27,6 @@ import com.troop.freedcam.utils.Log;
 
 import java.io.IOException;
 
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 09.08.2016.
@@ -42,7 +41,7 @@ public class FocusModeSony extends BaseModeParameterSony {
         super.SetValue(valueToSet, setToCamera);
         if (JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
         {
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try {
                     if (valueToSet.equals("MF"))
                         mRemoteApi.setLiveviewFrameInfo(false);
@@ -51,7 +50,7 @@ public class FocusModeSony extends BaseModeParameterSony {
                 } catch (IOException e) {
                     Log.WriteEx(e);
                 }
-            });
+            }).start();
 
         }
     }

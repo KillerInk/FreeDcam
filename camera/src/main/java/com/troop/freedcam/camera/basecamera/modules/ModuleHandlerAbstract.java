@@ -34,20 +34,20 @@ import java.util.HashMap;
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
+public abstract class ModuleHandlerAbstract<C extends CameraControllerInterface> implements ModuleHandlerInterface
 {
 
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
-    public AbstractMap<String, ModuleInterface> moduleList;
+    public HashMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
-    protected CameraControllerInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
 
     private BackgroundHandlerThread backgroundHandlerThread;
 
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
-    public ModuleHandlerAbstract(CameraControllerInterface cameraUiWrapper)
+    public ModuleHandlerAbstract(C cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();

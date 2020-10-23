@@ -20,7 +20,6 @@
 package com.troop.freedcam.camera.sonyremote;
 
 import android.content.Context;
-import android.location.Location;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
@@ -47,8 +46,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Set;
-
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 11.12.2014.
@@ -214,7 +211,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     public void StartRecording()
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 JSONObject replyJson = mRemoteApi.startMovieRec();
                 JSONArray resultsObj = replyJson.getJSONArray("result");
@@ -231,12 +228,12 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
             } catch (JSONException e) {
                 Log.w(TAG, "startRecording: JSON format error.");
             }
-        });
+        }).start();
     }
 
     public void StopRecording()
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 JSONObject replyJson = mRemoteApi.stopMovieRec();
                 JSONArray resultsObj = replyJson.getJSONArray("result");
@@ -253,7 +250,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
             } catch (JSONException e) {
                 Log.w(TAG, "StopRecording: JSON format error.");
             }
-        });
+        }).start();
     }
 
     @Override
@@ -262,7 +259,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
         if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition"))
         {
             Log.d(TAG, "Cancel Focus");
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try
                 {
                     JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
@@ -270,13 +267,13 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
                     Log.WriteEx(ex);
                     Log.d(TAG, "Cancel Focus failed");
                 }
-            });
+            }).start();
 
         }
         else if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))
         {
             Log.d(TAG, "Cancel Focus");
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try
                 {
                     JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
@@ -284,14 +281,10 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
                     Log.WriteEx(ex);
                     Log.d(TAG, "Cancel Focus failed");
                 }
-            });
+            }).start();
         }
     }
 
-    @Override
-    public void SetLocation(Location loc) {
-
-    }
 
     public boolean canCancelFocus()
     {
@@ -313,6 +306,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
         this.autoFocusCallback = autoFocusCallback;
     }
 
+    @Override
     public void SetTouchFocus(double x, double y)
     {
         if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("setTouchAFPosition"))
@@ -323,7 +317,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     private void runActObjectTracking(final double x,final double y)
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 JSONObject replyJson = mRemoteApi.actObjectTracking(x, y);
                 JSONArray resultsObj = replyJson.getJSONArray("result");
@@ -335,11 +329,11 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
             catch (NullPointerException e) {
                 Log.w(TAG, "remote api is null");
             }
-        });
+        }).start();
     }
 
     private void runSetTouch(final double x, final double y) {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 JSONObject replyJson = mRemoteApi.setTouchToFocus(x,y);
                 JSONArray resultsObj = replyJson.getJSONArray("result");
@@ -367,12 +361,12 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     public void SetLiveViewFrameInfo(final boolean val)
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 mRemoteApi.setLiveviewFrameInfo(val);
             } catch (IOException ex) {
                 Log.WriteEx(ex);
             }
-        });
+        }).start();
     }
 }

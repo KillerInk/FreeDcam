@@ -34,8 +34,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
-
 /**
  * Created by troop on 15.12.2014.
  */
@@ -89,7 +87,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
     protected void processValuesToSet(String valueToSet)
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try
             {
                 try {
@@ -103,7 +101,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
             } catch (IOException ex) {
                 Log.WriteEx(ex);
             }
-        });
+        }).start();
 
     }
 

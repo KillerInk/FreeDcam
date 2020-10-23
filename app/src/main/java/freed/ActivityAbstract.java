@@ -39,7 +39,7 @@ import com.troop.freedcam.utils.Log;
 import java.io.File;
 
 import freed.utils.HideNavBarHelper;
-import freed.utils.PermissionManager;
+import com.troop.freedcam.utils.PermissionManager;
 
 /**
  * Created by troop on 28.03.2016.

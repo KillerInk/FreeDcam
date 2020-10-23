@@ -19,6 +19,8 @@ import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterEvents;
 import com.troop.freedcam.camera.sonyremote.sonystuff.DataExtractor;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleLiveviewSlicer;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.DisableViewPagerTouchEvent;
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.utils.ContextApplication;
@@ -29,10 +31,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
-import freed.ActivityInterface;
-import freed.cam.events.DisableViewPagerTouchEvent;
-import freed.utils.FreeDPool;
 
 public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcessorInterface {
     private final String TAG = PreviewStreamDrawer.class.getSimpleName();
@@ -61,7 +59,6 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
     private int zoomPreviewMagineLeft;
     private int zoomPreviewMargineTop;
     private RenderScriptManager renderScriptManager;
-    private ActivityInterface activityInterface;
 
     //Tells the drawing Thread that it can draw
     private boolean DODRAW = false;
@@ -186,7 +183,7 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
         this.mWhileFetching = true;
 
         // A thread for retrieving liveview data from server.
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             Log.d(TAG, "Starting retrieving streaming data from server.");
             SimpleLiveviewSlicer slicer = null;
 
@@ -213,7 +210,7 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
                 frameQueue.clear();
                 mWhileFetching = false;
             }
-        });
+        }).start();
         startDrawingThread();
 
 
@@ -222,7 +219,7 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
     private void startDrawingThread() {
         DODRAW = true;
         // A thread for drawing liveview frame fetched by above thread.
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             IS_DRAWING = true;
             Log.d(TAG, "Starting drawing stream frame.");
             Bitmap frameBitmap = null;
@@ -266,7 +263,7 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
             }
             //mWhileFetching = false;
             IS_DRAWING = false;
-        });
+        }).start();
     }
 
     private void fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {

@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 19.04.2015.
@@ -57,7 +56,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     public int GetValue()
     {
         if (currentInt == -200)
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try {
                     JSONObject object = mRemoteApi.getParameterFromCamera("getWhiteBalance");
                     JSONArray array = null;
@@ -78,7 +77,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                     Log.WriteEx(ex);
 
                 }
-            });
+            }).start();
         return currentInt;
     }
 
@@ -92,7 +91,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             currentInt = 0;
         final int set= currentInt;
         final String[] t = values;
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try
             {
                 Log.d("WBCT", values[set]);
@@ -105,7 +104,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             } catch (IOException ex) {
                 Log.WriteEx(ex);
             }
-        });
+        }).start();
     }
 
     @Override
@@ -151,7 +150,7 @@ public class WbCTManualSony extends BaseManualParameterSony
 
     private void getMinMax()
     {
-        FreeDPool.Execute(() -> {
+        new Thread(() -> {
             try {
                 JSONObject jsonObject = mRemoteApi.getParameterFromCamera("getAvailableWhiteBalance");
                 try {
@@ -169,7 +168,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             } catch (IOException ex) {
                 Log.WriteEx(ex);
             }
-        });
+        }).start();
         while (values == null)
             try {
                 Thread.sleep(10);

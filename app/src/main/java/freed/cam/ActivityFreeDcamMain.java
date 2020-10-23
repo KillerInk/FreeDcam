@@ -29,6 +29,7 @@ import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
 import com.troop.freedcam.file.FileListController;
 import com.troop.freedcam.gallery.helper.BitmapHelper;
 import com.troop.freedcam.image.ImageManager;
@@ -43,7 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.events.CameraStateEvents;
-import freed.cam.events.DisableViewPagerTouchEvent;
+import com.troop.freedcam.eventbus.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.SwichCameraFragmentEvent;
@@ -55,7 +56,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.LocationManager;
 import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
-import freed.utils.PermissionManager;
+import com.troop.freedcam.utils.PermissionManager;
 
 /**
  * Created by troop on 18.08.2014.

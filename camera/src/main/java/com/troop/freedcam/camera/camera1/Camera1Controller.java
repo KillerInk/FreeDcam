@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Camera1Controller extends AbstractCameraController<ParametersHandler,CameraHolder> {
+public class Camera1Controller extends AbstractCameraController<ParametersHandler,CameraHolder,FocusHandler> {
 
     private final String TAG = Camera1Controller.class.getSimpleName();
 

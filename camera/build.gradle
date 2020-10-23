@@ -39,5 +39,6 @@ dependencies {
     implementation project(path: ':file')
     implementation project(path: ':dng')
     implementation project(path: ':image')
+    implementation 'androidx.documentfile:documentfile:1.0.1'
 }
 

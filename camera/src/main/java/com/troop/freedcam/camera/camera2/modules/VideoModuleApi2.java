@@ -42,6 +42,7 @@ import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.Camera2EXT.OpModes;
 import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
@@ -56,6 +57,7 @@ import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
+import com.troop.freedcam.utils.PermissionManager;
 import com.troop.freedcam.utils.VideoMediaProfile;
 
 import java.io.File;
@@ -63,7 +65,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 26.11.2015.
@@ -80,11 +81,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     protected ImageReader PicReader;
 
     private VideoRecorder videoRecorder;
-    protected Camera2Fragment cameraUiWrapper;
 
-    public VideoModuleApi2(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public VideoModuleApi2(Camera2Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        this.cameraUiWrapper = (Camera2Fragment) cameraUiWrapper;
         name = ContextApplication.getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
@@ -96,10 +95,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     @Override
     public void DoWork() {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
+        if (cameraUiWrapper.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
             startStopRecording();
         else
-            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
+            cameraUiWrapper.getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
     }
 
     private void startStopRecording() {
@@ -238,7 +237,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         or = orientation;
         mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or, false));
 
-        SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+        SurfaceTexture texture = cameraUiWrapper.getTextureHolder().getSurfaceTexture();
         texture.setDefaultBufferSize(w, h);
         previewsurface = new Surface(texture);
 
@@ -318,7 +317,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private void startPreviewVideo()
     {
-        String file = cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+        String file = cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
         recordingFile = new FileHolder(ContextApplication.getContext(),new File(file),SettingsManager.getInstance().GetWriteExternal());
         //TODO handel uri based holder
         videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
@@ -339,7 +338,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         });
 
         if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            Location location = cameraUiWrapper.getCurrentLocation();
             if (location != null)
                 videoRecorder.setLocation(location);
         }

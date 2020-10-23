@@ -33,8 +33,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
-
 /**
  * Created by Ingo on 19.04.2015.
  */
@@ -73,7 +71,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     }
 
     private void getminmax() {
-            FreeDPool.Execute(() -> {
+        new Thread(() -> {
                 try
                 {
                     Log.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
@@ -115,7 +113,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                     stringvalues = new String[0];
                 }
-            });
+            }).start();
             while (stringvalues == null)
                 try {
                     Thread.sleep(10);
@@ -129,7 +127,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
-       FreeDPool.Execute(() -> {
+        new Thread(() -> {
            JSONArray array = null;
            try {
                array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
@@ -138,7 +136,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
            } catch (JSONException | IOException ex) {
                Log.WriteEx(ex);
            }
-       });
+       }).start();
     }
 
 

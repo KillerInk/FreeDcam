@@ -19,8 +19,6 @@ import com.troop.freedcam.utils.Log;
 import java.io.File;
 import java.io.IOException;
 
-import freed.ActivityInterface;
-
 
 public class ImageTaskDngConverter extends ImageTask {
 

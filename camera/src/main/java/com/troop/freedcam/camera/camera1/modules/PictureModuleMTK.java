@@ -25,6 +25,7 @@ import android.os.Handler;
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.camera.camera1.Camera1Controller;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
@@ -49,7 +50,7 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile;
-    public PictureModuleMTK(CameraControllerInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public PictureModuleMTK(Camera1Controller cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
     }
@@ -59,9 +60,9 @@ public class PictureModuleMTK extends PictureModule
     {
         mBackgroundHandler.post(() -> {
             if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(ContextApplication.getStringFromRessources(com.troop.freedcam.camera.R.string.on_)))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+                cameraHolder.SetLocation(cameraUiWrapper.getCurrentLocation());
 
-            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getDeviceOrientation());
             Log.d(TAG, "Start Take Picture");
             waitForPicture = true;
             ParameterInterface picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);

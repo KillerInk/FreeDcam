@@ -15,7 +15,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.utils.FreeDPool;
 
 /**
  * A SSDP client class for this sample application. This implementation keeps
@@ -86,7 +85,7 @@ public class SimpleSsdpClient {
                         + String.format("ST: %s\r\n", SSDP_ST) + "\r\n";
         final byte[] sendData = ssdpRequest.getBytes();
 
-        FreeDPool.Execute(() -> {
+         new Thread(() -> {
             DatagramSocket socket = null;
             DatagramPacket receivePacket = null;
             DatagramPacket packet = null;
@@ -178,7 +177,7 @@ public class SimpleSsdpClient {
                 }
             }
             handler.onFinished();
-        });
+        }).start();
         return true;
     }
 

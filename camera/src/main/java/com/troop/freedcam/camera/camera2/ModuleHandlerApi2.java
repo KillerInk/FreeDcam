@@ -39,9 +39,9 @@ import com.troop.freedcam.settings.SettingsManager;
  * Created by troop on 12.12.2014.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ModuleHandlerApi2 extends ModuleHandlerAbstract
+public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2Controller>
 {
-    public  ModuleHandlerApi2 (CameraControllerInterface cameraUiWrapper)
+    public  ModuleHandlerApi2 (Camera2Controller cameraUiWrapper)
     {
         super(cameraUiWrapper);
         initModules();

@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
-import freed.utils.FreeDPool;
 
 /**
  * Created by troop on 15.12.2014.
@@ -109,14 +108,14 @@ public class ZoomManualSony extends BaseManualParameterSony
                 direction = "in";
             //currentzoomPos = valueToSet;
             final String finaldirection = direction;
-            FreeDPool.Execute(() -> {
+            new Thread(() -> {
                 try {
                     JSONObject object = mRemoteApi.actZoom(finaldirection, movement);
                     isZooming = false;
                 } catch (IOException ex) {
                     Log.WriteEx(ex);
                 }
-            });
+            }).start();
         }
         //super.SetValue(valueToSet);
     }

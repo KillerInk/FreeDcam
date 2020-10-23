@@ -47,7 +47,7 @@ import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 
 import freed.ActivityAbstract;
-import freed.cam.events.DisableViewPagerTouchEvent;
+import com.troop.freedcam.eventbus.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
