@@ -81,12 +81,12 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             //publishProgress("###################");
             SettingsManager.getInstance().SetCurrentCamera(i);
 
-            detectFrontCamera(arr[i]);
             //publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
 
             Camera.Parameters parameters = null;
             try {
-                 parameters = getParameters(Integer.parseInt(cam_ids.get(i)));
+                detectFrontCamera(arr[i]);
+                parameters = getParameters(Integer.parseInt(cam_ids.get(i)));
             }
             catch(RuntimeException ex)
             {
