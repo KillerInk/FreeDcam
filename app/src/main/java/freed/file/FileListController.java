@@ -73,6 +73,7 @@ public class FileListController {
     public FileListController(Context context)
     {
         this.context = context;
+        Log.d(TAG, "needStorageAccessFrameWork " + needStorageAccessFrameWork);
         storageFileManager = new StorageFileManager();
         mediaStoreController = new MediaStoreController(context);
     }
@@ -95,15 +96,22 @@ public class FileListController {
 
     public void loadDefaultFiles()
     {
-        Log.d(TAG, "loadDefaultFiles needStorageAccessFrameWork:" + needStorageAccessFrameWork);
-        if (!needStorageAccessFrameWork)
-            LoadDCIMDirs();
-        else
-            files = mediaStoreController.getFolders();
-        SortFileHolder(files);
-        Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
-        if (notifyFilesChanged != null)
-            notifyFilesChanged.onFilesChanged();
+        try {
+            Log.d(TAG, "loadDefaultFiles needStorageAccessFrameWork:" + needStorageAccessFrameWork);
+            if (!needStorageAccessFrameWork)
+                LoadDCIMDirs();
+            else
+                files = mediaStoreController.getFolders();
+            SortFileHolder(files);
+            Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
+            if (notifyFilesChanged != null)
+                notifyFilesChanged.onFilesChanged();
+        }
+        catch (SecurityException ex)
+        {
+            Log.e(TAG, ex.getMessage());
+            Log.WriteEx(ex);
+        }
     }
 
     /**
