@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cameraui_shutterbutton_size">90dp</dimen>
+    <dimen name="cameraui_manual_buttons_width">45dp</dimen>
+    <dimen name="cameraui_manual_buttons_height">39dp</dimen>
+    <dimen name="cameraui_button_width">32dp</dimen>
+    <dimen name="cameraui_button_height">39dp</dimen>
+</resources>

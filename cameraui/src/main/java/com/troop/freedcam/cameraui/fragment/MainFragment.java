@@ -34,7 +34,10 @@ public class MainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mainFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false);
         mainFragmentBinding.setMainViewModel(mViewModel);
-        mainFragmentBinding.disableTouchViewPager.setAdapter(new DisableTouchViewPagerAdapter(getFragmentManager()));
+        DisableTouchViewPagerAdapter disableTouchViewPagerAdapter = new DisableTouchViewPagerAdapter(getFragmentManager());
+        mainFragmentBinding.disableTouchViewPager.setAdapter(disableTouchViewPagerAdapter);
+        mainFragmentBinding.disableTouchViewPager.setCurrentItem(1);
+
         return mainFragmentBinding.getRoot();
     }
 

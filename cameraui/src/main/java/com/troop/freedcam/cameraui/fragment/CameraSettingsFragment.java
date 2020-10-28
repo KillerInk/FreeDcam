@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.freedcam.cameraui.R;
+import com.troop.freedcam.cameraui.viewmodels.CameraSettingsViewModel;
 
 public class CameraSettingsFragment extends Fragment {
 

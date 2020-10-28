@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data></data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:soundEffectsEnabled="false"
+        android:splitMotionEvents="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_zoom_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_zoom"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_zoom_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="zoom"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="zoom" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_focus_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_focus"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_focus_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mf"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="mf" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_iso_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_iso"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_iso_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="iso"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="iso" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_shutter_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_shutter"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_shutter_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="shutter"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="shutter" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_aperture_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_fnum"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_aperture_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="aperture"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="aperture" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_shift_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_shift"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:backgroundTint="@color/black" />
+
+                <TextView
+                    android:id="@+id/manual_shift_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="shift"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="shift" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_ev_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_exposure"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_ev_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ev"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="ev" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_saturation_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_saturation"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_saturation_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="saturation"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="saturation" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_sharpness_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_sharpness"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_sharpness_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sharpness"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="sharpness" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_tonemap_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_midtones"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_tonemap_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="tonemap"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="tonemap" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_whitebalance_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_wb"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_whitebalance_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="wb"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="wb" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_contrast_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_contrast"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_contrast_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="contrast"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="contrast" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_fx_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_fx"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_fx_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="fx"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="fx" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="45dp"
+                android:layout_height="39dp">
+
+                <Button
+                    android:id="@+id/manual_burst_imageview"
+                    android:layout_width="@dimen/cameraui_button_width"
+                    android:layout_height="@dimen/cameraui_button_height"
+                    android:background="@mipmap/manual_burst"
+                    app:backgroundTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/manual_burst_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="burst"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
+                    tools:text="burst" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

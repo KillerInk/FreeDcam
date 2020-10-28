@@ -1,4 +1,4 @@
-package com.troop.freedcam.cameraui.fragment;
+package com.troop.freedcam.cameraui.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
