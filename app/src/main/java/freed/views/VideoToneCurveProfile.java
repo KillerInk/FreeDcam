@@ -22,13 +22,16 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("rgb").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
-            rgb = new PointF[split.length];
-            for (int i = 0; i < split.length; i++) {
+            rgb = new PointF[split.length/2];
+            for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
                     float toset = Float.parseFloat(split[i]);
                     if (toset > 1)
                         toset = toset / 255;
-                    rgb[i] = new PointF(toset,toset);
+                    float toset2 = Float.parseFloat(split[i+1]);
+                    if (toset2 > 1)
+                        toset2 = toset2 / 255;
+                    rgb[i/2] = new PointF(toset,toset2);
                     //check if its in range 0-1 if not apply that range
                     //this happens when we extract it with exiftools. it shows it as 0-255 range
 
@@ -39,13 +42,16 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("r").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
-            r = new PointF[split.length];
-            for (int i = 0; i < split.length; i++) {
+            r = new PointF[split.length/2];
+            for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
                     float toset = Float.parseFloat(split[i]);
                     if (toset > 1)
                         toset = toset / 255;
-                    r[i] = new PointF(toset,toset);
+                    float toset2 = Float.parseFloat(split[i+1]);
+                    if (toset2 > 1)
+                        toset2 = toset2 / 255;
+                    r[i/2] = new PointF(toset,toset2);
                     //check if its in range 0-1 if not apply that range
                     //this happens when we extract it with exiftools. it shows it as 0-255 range
 
@@ -56,13 +62,16 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("g").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
-            g = new PointF[split.length];
-            for (int i = 0; i < split.length; i++) {
+            g = new PointF[split.length/2];
+            for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
                     float toset = Float.parseFloat(split[i]);
                     if (toset > 1)
                         toset = toset / 255;
-                    g[i] = new PointF(toset,toset);
+                    float toset2 = Float.parseFloat(split[i+1]);
+                    if (toset2 > 1)
+                        toset2 = toset2 / 255;
+                    g[i/2] = new PointF(toset,toset2);
                     //check if its in range 0-1 if not apply that range
                     //this happens when we extract it with exiftools. it shows it as 0-255 range
 
@@ -73,13 +82,16 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("b").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
-            b = new PointF[split.length];
-            for (int i = 0; i < split.length; i++) {
+            b = new PointF[split.length/2];
+            for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
                     float toset = Float.parseFloat(split[i]);
+                    float toset2 = Float.parseFloat(split[i+1]);
                     if (toset > 1)
                         toset = toset / 255;
-                    b[i] = new PointF(toset,toset);
+                    if (toset2 > 1)
+                        toset2 = toset2 / 255;
+                    b[i/2] = new PointF(toset,toset2);
                     //check if its in range 0-1 if not apply that range
                     //this happens when we extract it with exiftools. it shows it as 0-255 range
 
@@ -94,22 +106,26 @@ public class VideoToneCurveProfile {
         for (int i=0; i < rgb.length; i++)
         {
             rgbs.append(rgb[i].x).append(",");
+            rgbs.append(rgb[i].y).append(",");
         }
         StringBuilder rs = new StringBuilder();
         for (int i=0; i < r.length; i++)
         {
             rs.append(r[i].x).append(",");
+            rs.append(r[i].y).append(",");
         }
         StringBuilder gs = new StringBuilder();
         for (int i=0; i < g.length; i++)
         {
             gs.append(g[i].x).append(",");
+            gs.append(g[i].y).append(",");
         }
 
         StringBuilder bs = new StringBuilder();
         for (int i=0; i < b.length; i++)
         {
             bs.append(b[i].x).append(",");
+            bs.append(b[i].y).append(",");
         }
         String t = "";
         t += "<tonecurve name= " +String.valueOf("\"") +String.valueOf(name) +String.valueOf("\"")  +">" + "\r\n";
