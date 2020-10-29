@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/histogram_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_histogram"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/clipping_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/clipping"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/whitebalance_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_wb"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/iso_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_iso_png"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/flash_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_flash"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/focus_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_focus"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/exposure_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_ae"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/aepriotiry_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/ae_priority"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/contshot_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_contin"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/hdr_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_hdr"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/night_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_night"
+        app:backgroundTint="@color/black" />
+
+    <Button
+        android:id="@+id/picture_mode_button"
+        android:layout_width="@dimen/cameraui_button_width"
+        android:layout_height="@dimen/cameraui_button_height"
+        android:background="@mipmap/quck_set_format2"
+        app:backgroundTint="@color/black" />
+
+</LinearLayout>
