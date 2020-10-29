@@ -127,6 +127,14 @@
                 android:layout_height="wrap_content"
                 android:text="Save Curve" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/load_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/button_notclicked">
+        </LinearLayout>
     </RelativeLayout>
 
 

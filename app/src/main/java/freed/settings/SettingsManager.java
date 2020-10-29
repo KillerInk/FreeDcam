@@ -115,6 +115,7 @@ public class SettingsManager implements SettingsManagerInterface {
     {
         if (settingsStorage != null)
             settingsStorage.save();
+        new XmlParserWriter().saveToneCurveProfiles(videoToneCurveProfiles, getAppDataFolder());
     }
 
     public static <T> T get(SettingKeys.Key<T> key)
@@ -146,6 +147,7 @@ public class SettingsManager implements SettingsManagerInterface {
 
         Log.d(TAG, "load Settings");
         settingsStorage.load();
+        videoToneCurveProfiles = new XmlParserWriter().getToneCurveProfiles(getAppDataFolder());
         //loadOpCodes();
         parseXml();
     }
@@ -173,6 +175,7 @@ public class SettingsManager implements SettingsManagerInterface {
         matrixes = parser.getMatrixes(FreedApplication.getContext().getResources(),settingsStorage.appdataFolder);
 
         tonemapProfiles = parser.getToneMapProfiles(settingsStorage.appdataFolder);
+        videoToneCurveProfiles = parser.getToneCurveProfiles(settingsStorage.appdataFolder);
         if (settingsStorage.getDevice() == null || TextUtils.isEmpty(settingsStorage.getDevice()))
         {
             Log.d(TAG, "Lookup PreDefinedConfigFile");
