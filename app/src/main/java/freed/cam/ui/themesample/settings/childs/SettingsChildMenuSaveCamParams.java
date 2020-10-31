@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.media.MediaRecorder;
@@ -42,6 +43,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;
@@ -128,10 +130,10 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
         Arrays.sort(paras);
 
         FileOutputStream outputStream;
-        File freedcamdir = new File(Environment.getExternalStorageDirectory() + StringUtils.freedcamFolder);
+        File freedcamdir = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath());
         if (!freedcamdir.exists())
             freedcamdir.mkdirs();
-        File file = new File(Environment.getExternalStorageDirectory() + StringUtils.freedcamFolder+ Build.MODEL + "_CameraParameters.txt");
+        File file = new File(freedcamdir.getAbsolutePath()+"/"+ Build.MODEL + "_CameraParameters.txt");
         try {
             //file.mkdirs();
             file.createNewFile();
@@ -159,6 +161,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
                 reflectionHelper.dumpClass(CameraCharacteristics.class,outputStream,0);
                 reflectionHelper.dumpClass(CaptureRequest.class,outputStream,0);
                 reflectionHelper.dumpClass(CaptureResult.class,outputStream,0);
+                reflectionHelper.dumpClass(CameraManager.class,outputStream,0);
             }
 
             outputStream.close();
