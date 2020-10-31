@@ -26,6 +26,7 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <include
+            android:id="@+id/camera_ui_right_bar"
             layout="@layout/camera_ui_right_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
             app:layout_constraintTop_toTopOf="@id/camera_ui_manuals" />
 
         <include
+            android:id="@+id/camera_ui_left_bar"
             layout="@layout/camera_ui_leftbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
