@@ -13,25 +13,25 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <Button
+        <com.troop.freedcam.cameraui.views.ManualButton
             android:id="@+id/close_button"
-            android:layout_width="@dimen/cameraui_button_width"
-            android:layout_height="@dimen/cameraui_button_height"
-            android:background="@mipmap/quck_set_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setImageToView="@mipmap/quck_set_exit"
             app:backgroundTint="@color/black" />
 
-        <Button
+        <com.troop.freedcam.cameraui.views.ManualButton
             android:id="@+id/moduleswitch_button"
-            android:layout_width="@dimen/cameraui_button_width"
-            android:layout_height="@dimen/cameraui_button_height"
-            android:background="@mipmap/quck_set_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setImageToView="@mipmap/quck_set_mode"
             app:backgroundTint="@color/black" />
 
-        <Button
+        <com.troop.freedcam.cameraui.views.ManualButton
             android:id="@+id/focuspeak_button"
-            android:layout_width="@dimen/cameraui_button_width"
-            android:layout_height="@dimen/cameraui_button_height"
-            android:background="@mipmap/quck_set_zebra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setImageToView="@mipmap/quck_set_zebra"
             app:backgroundTint="@color/black" />
 
     </LinearLayout>
@@ -51,25 +51,25 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <Button
+        <com.troop.freedcam.cameraui.views.ManualButton
             android:id="@+id/selftimer_button"
-            android:layout_width="@dimen/cameraui_button_width"
-            android:layout_height="@dimen/cameraui_button_width"
-            android:background="@mipmap/selftimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setImageToView="@mipmap/selftimer"
             app:backgroundTint="@color/black" />
 
-        <Button
+        <com.troop.freedcam.cameraui.views.ManualButton
             android:id="@+id/aelock_button"
-            android:layout_width="@dimen/cameraui_button_width"
-            android:layout_height="@dimen/cameraui_button_height"
-            android:background="@mipmap/quck_set_ae_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setImageToView="@mipmap/quck_set_ae_lock"
             app:backgroundTint="@color/black" />
 
-        <Button
+        <com.troop.freedcam.cameraui.views.ManualButton
             android:id="@+id/camera_switch_button"
-            android:layout_width="@dimen/cameraui_button_width"
-            android:layout_height="@dimen/cameraui_button_height"
-            android:background="@mipmap/quck_set_cswitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:setImageToView="@mipmap/quck_set_cswitch"
             app:backgroundTint="@color/black" />
     </LinearLayout>
 </LinearLayout>

@@ -6,88 +6,88 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/histogram_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_histogram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_histogram"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/clipping_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/clipping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/clipping"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/whitebalance_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_wb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_wb"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/iso_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_iso_png"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_iso_png"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/flash_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_flash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_flash"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/focus_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_focus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_focus"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/exposure_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_ae"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_ae"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/aepriotiry_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/ae_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/ae_priority"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/contshot_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_contin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_contin"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/hdr_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_hdr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_hdr"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/night_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_night"
         app:backgroundTint="@color/black" />
 
-    <Button
+    <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/picture_mode_button"
-        android:layout_width="@dimen/cameraui_button_width"
-        android:layout_height="@dimen/cameraui_button_height"
-        android:background="@mipmap/quck_set_format2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:setImageToView="@mipmap/quck_set_format2"
         app:backgroundTint="@color/black" />
 
 </LinearLayout>
