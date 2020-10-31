@@ -5,35 +5,46 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="manualButtonModel"
+            type="com.troop.freedcam.cameraui.models.ManualButtonModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/manual_container"
 android:layout_width="45dp"
-android:layout_height="39dp">
+android:layout_height="39dp"
 
-<Button
+    android:visibility="@{manualButtonModel.visibility}"
+    android:enabled="@{manualButtonModel.enabled}"
+    >
+
+
+
+    <ImageView
     android:id="@+id/manual_imageview"
     android:layout_width="@dimen/cameraui_button_width"
     android:layout_height="@dimen/cameraui_button_height"
-    app:backgroundTint="@color/black"
+
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
-<TextView
-    android:id="@+id/manual_textview"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="zoom"
-    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-    android:textSize="8sp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.9"
-    tools:text="test" />
+    <TextView
+        android:id="@+id/manual_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="zoom"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        tools:text="test" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -16,7 +16,7 @@ import com.troop.freedcam.cameraui.databinding.CameraUiManualButtonBinding;
 public class ManualButton extends ConstraintLayout {
 
 
-    private CameraUiManualButtonBinding manualButtonBinding;
+    public CameraUiManualButtonBinding manualButtonBinding;
 
     public ManualButton(@NonNull Context context) {
         super(context);
@@ -61,7 +61,7 @@ public class ManualButton extends ConstraintLayout {
             manualButtonBinding.manualTextview.setText(a.getText(R.styleable.ManualButton_setTexttoView));
             Drawable drawable = a.getDrawable(R.styleable.ManualButton_setImageToView);
             if (drawable != null)
-                manualButtonBinding.manualImageview.setBackground(drawable);
+                manualButtonBinding.manualImageview.setImageDrawable(drawable);
         }
         finally {
             a.recycle();

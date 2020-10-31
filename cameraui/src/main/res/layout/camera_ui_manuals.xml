@@ -2,13 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <data></data>
+    <data>
+        <variable
+            name="manualButtonModel"
+            type="com.troop.freedcam.cameraui.models.ManualButtonModel" />
+    </data>
 
-    <ScrollView
+    <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:soundEffectsEnabled="false"
-        android:splitMotionEvents="true">
+        android:overScrollMode="never"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,104 +25,91 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@drawable/manual_zoom"
-                app:setTexttoView="zoom"
-                />
+                app:setTexttoView="zoom" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_focus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_focus"
-                app:setTexttoView="focus"
-                />
+                app:setTexttoView="focus" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_iso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_iso"
-                app:setTexttoView="iso"
-                />
+                app:setTexttoView="iso" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_shutter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_shutter"
-                app:setTexttoView="shutter"
-                />
+                app:setTexttoView="shutter" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_fnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_fnum"
-                app:setTexttoView="shutter"
-                />
+                app:setTexttoView="shutter" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_shift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_shift"
-                app:setTexttoView="shift"
-                />
+                app:setTexttoView="shift" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_exposurecompensation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_exposure"
-                app:setTexttoView="ev"
-                />
+                app:setTexttoView="ev" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_saturation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_saturation"
-                app:setTexttoView="saturation"
-                />
+                app:setTexttoView="saturation" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_sharpness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_sharpness"
-                app:setTexttoView="sharpness"
-                />
+                app:setTexttoView="sharpness" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_tonecurve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_midtones"
-                app:setTexttoView="tonecurve"
-                />
+                app:setTexttoView="tonecurve" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_whitebalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_wb"
-                app:setTexttoView="wb"
-                />
+                app:setTexttoView="wb" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_contrast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_contrast"
-                app:setTexttoView="contrast"
-                />
+                app:setTexttoView="contrast" />
 
             <com.troop.freedcam.cameraui.views.ManualButton
                 android:id="@+id/manual_fx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_fx"
-                app:setTexttoView="fx"
-                />
+                app:setTexttoView="fx" />
 
 
             <com.troop.freedcam.cameraui.views.ManualButton
@@ -126,9 +117,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:setImageToView="@mipmap/manual_burst"
-                app:setTexttoView="burst"
-                />
+                app:setTexttoView="burst" />
 
         </LinearLayout>
-    </ScrollView>
+    </HorizontalScrollView>
 </layout>
