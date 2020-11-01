@@ -1,5 +1,7 @@
 package com.troop.freedcam.cameraui.models;
 
+import android.widget.SeekBar;
+
 import androidx.databinding.Bindable;
 
 import com.troop.freedcam.cameraui.BR;

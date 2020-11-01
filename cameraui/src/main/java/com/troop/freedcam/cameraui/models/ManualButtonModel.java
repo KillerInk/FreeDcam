@@ -1,10 +1,11 @@
 package com.troop.freedcam.cameraui.models;
 
 import android.view.View;
+import android.widget.SeekBar;
 
-public class ManualButtonModel extends VisibilityEnableModel {
-    private ManualControlsHolderModel manualControlsHolderModel;
-    public ManualButtonModel(ManualControlsHolderModel manualControlsHolderModel)
+public class ManualButtonModel extends VisibilityEnableModel implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+    private ManualButtonModelClickedEvent manualControlsHolderModel;
+    public ManualButtonModel(ManualButtonModelClickedEvent manualControlsHolderModel)
     {
         this.manualControlsHolderModel = manualControlsHolderModel;
     }
@@ -19,11 +20,23 @@ public class ManualButtonModel extends VisibilityEnableModel {
         return 0;
     }
 
-    public View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            manualControlsHolderModel.onManualButtonClick(ManualButtonModel.this);
-        }
-    };
+    @Override
+    public void onClick(View v) {
+        manualControlsHolderModel.onManualButtonClicked(ManualButtonModel.this);
+    }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
 }

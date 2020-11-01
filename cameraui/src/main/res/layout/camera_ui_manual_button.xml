@@ -16,7 +16,7 @@
     android:layout_height="39dp"
     android:visibility="@{visibilityEnableModel.visibility}"
     android:enabled="@{visibilityEnableModel.enabled}"
-    android:onClick="@{visibilityEnableModel.onClickListener}">
+    android:onClick="@{visibilityEnableModel}">
 
     <ImageView
     android:id="@+id/manual_imageview"
