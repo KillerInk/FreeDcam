@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="manualButtonModel"
-            type="com.troop.freedcam.cameraui.models.ManualButtonModel" />
+            name="visibilityEnableModel"
+            type="com.troop.freedcam.cameraui.models.VisibilityEnableModel" />
     </data>
 
     <HorizontalScrollView

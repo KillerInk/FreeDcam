@@ -1,13 +1,22 @@
 package com.troop.freedcam.cameraui.viewmodels;
 
+import android.view.MotionEvent;
+import android.view.View;
+
 import androidx.lifecycle.ViewModel;
 
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
-import com.troop.freedcam.cameraui.views.ManualButton;
+import com.troop.freedcam.cameraui.models.ManualControlsHolderModel;
+import com.troop.freedcam.cameraui.models.RotatingSeekbarModel;
+import com.troop.freedcam.cameraui.models.VisibilityEnableModel;
+import com.troop.freedcam.cameraui.service.I_swipe;
+import com.troop.freedcam.cameraui.service.SwipeMenuListner;
 
 import java.util.HashMap;
 
-public class CameraUiViewModel extends ViewModel {
+public class CameraUiViewModel extends ViewModel implements I_swipe {
+
+
 
     public enum ManualButtons
     {
@@ -53,9 +62,21 @@ public class CameraUiViewModel extends ViewModel {
         cameraswitch,
     }
 
+    public View.OnTouchListener onTouchListener = new View.OnTouchListener()
+    {
+        public boolean onTouch(View v, MotionEvent event)
+        {
+            return touchHandler.onTouchEvent(event);
+        }
+
+    };
+
     private HashMap<ManualButtons, ManualButtonModel> manualButtonModelHashMap;
     private HashMap<LeftbarButtons, ManualButtonModel> leftbarButtonsManualButtonModelHashMap;
     private HashMap<RightbarButtons, ManualButtonModel> rightbarButtonsManualButtonModelHashMap;
+    private ManualControlsHolderModel manualControlsHolder;
+    private RotatingSeekbarModel seekBarModel;
+    private SwipeMenuListner touchHandler;
 
     public CameraUiViewModel() {
         manualButtonModelHashMap = new HashMap<>();
@@ -71,7 +92,9 @@ public class CameraUiViewModel extends ViewModel {
         RightbarButtons rightbarButtons[] = RightbarButtons.values();
         for (RightbarButtons buttons1: rightbarButtons)
             rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel());
-
+        manualControlsHolder = new ManualControlsHolderModel();
+        seekBarModel = new RotatingSeekbarModel();
+        touchHandler = new SwipeMenuListner(this);
     }
 
     public ManualButtonModel getManualButtonModel(ManualButtons manualButtons)
@@ -87,5 +110,45 @@ public class CameraUiViewModel extends ViewModel {
     public ManualButtonModel getManualButtonModel(RightbarButtons manualButtons)
     {
         return rightbarButtonsManualButtonModelHashMap.get(manualButtons);
+    }
+
+    public ManualControlsHolderModel getManualControlsHolderModel() {
+        return manualControlsHolder;
+    }
+
+    public RotatingSeekbarModel getSeekBarModel() {
+        return seekBarModel;
+    }
+
+    @Override
+    public void doLeftToRightSwipe() {
+
+    }
+
+    @Override
+    public void doRightToLeftSwipe() {
+
+    }
+
+    @Override
+    public void doTopToBottomSwipe() {
+        manualControlsHolder.setVisibility(View.GONE);
+        seekBarModel.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void doBottomToTopSwipe() {
+        manualControlsHolder.setVisibility(View.VISIBLE);
+        seekBarModel.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+
+    }
+
+    @Override
+    public void onMotionEvent(MotionEvent event) {
+
     }
 }

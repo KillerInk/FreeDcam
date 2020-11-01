@@ -6,7 +6,7 @@
 
     <data>
         <variable
-            name="manualButtonModel"
+            name="visibilityEnableModel"
             type="com.troop.freedcam.cameraui.models.ManualButtonModel" />
     </data>
 
@@ -15,8 +15,8 @@
 android:layout_width="45dp"
 android:layout_height="39dp"
 
-    android:visibility="@{manualButtonModel.visibility}"
-    android:enabled="@{manualButtonModel.enabled}"
+    android:visibility="@{visibilityEnableModel.visibility}"
+    android:enabled="@{visibilityEnableModel.enabled}"
     >
 
 
