@@ -33,6 +33,7 @@ public class CameraUiFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(CameraUiViewModel.class);
         cameraUiFragmentBinding.setCameraUiViewModel(mViewModel);
         cameraUiFragmentBinding.cameraUiManuals.setVisibilityEnableModel(mViewModel.getManualControlsHolderModel());
+        cameraUiFragmentBinding.cameraUiRightBar.setShutterButtonModel(mViewModel.getShutterButtonModel());
         //bind manuals
         cameraUiFragmentBinding.cameraUiManuals.manualBurst.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.ManualButtons.burst));
         cameraUiFragmentBinding.cameraUiManuals.manualContrast.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.ManualButtons.contrast));

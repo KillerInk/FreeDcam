@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<data>
+    <variable
+    name="shutterButtonModel"
+    type="com.troop.freedcam.cameraui.models.ShutterButtonModel" />
+</data>
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -43,8 +47,10 @@
         android:layout_width="@dimen/cameraui_shutterbutton_size"
         android:layout_height="@dimen/cameraui_shutterbutton_size"
         android:layout_weight="1"
+        android:visibility="@{shutterButtonModel.visibility}"
         android:background="@mipmap/shutter"
-        app:backgroundTint="@color/black" />
+        app:backgroundTint="@color/black"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

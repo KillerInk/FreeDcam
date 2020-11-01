@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
 import com.troop.freedcam.cameraui.models.ManualControlsHolderModel;
 import com.troop.freedcam.cameraui.models.RotatingSeekbarModel;
+import com.troop.freedcam.cameraui.models.ShutterButtonModel;
 import com.troop.freedcam.cameraui.models.VisibilityEnableModel;
 import com.troop.freedcam.cameraui.service.I_swipe;
 import com.troop.freedcam.cameraui.service.SwipeMenuListner;
@@ -76,6 +77,7 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     private HashMap<RightbarButtons, ManualButtonModel> rightbarButtonsManualButtonModelHashMap;
     private ManualControlsHolderModel manualControlsHolder;
     private RotatingSeekbarModel seekBarModel;
+    private ShutterButtonModel shutterButtonModel;
     private SwipeMenuListner touchHandler;
 
     public CameraUiViewModel() {
@@ -94,6 +96,7 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
             rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel());
         manualControlsHolder = new ManualControlsHolderModel();
         seekBarModel = new RotatingSeekbarModel();
+        shutterButtonModel = new ShutterButtonModel();
         touchHandler = new SwipeMenuListner(this);
     }
 
@@ -118,6 +121,10 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
 
     public RotatingSeekbarModel getSeekBarModel() {
         return seekBarModel;
+    }
+
+    public ShutterButtonModel getShutterButtonModel() {
+        return shutterButtonModel;
     }
 
     @Override
