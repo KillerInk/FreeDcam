@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Camera2Controller extends AbstractCameraController<ParameterHandlerApi2,CameraHolderApi2,FocusHandler> implements CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback {
+public class Camera2Controller extends AbstractCameraController<ParameterHandlerApi2,CameraHolderApi2,FocusHandler,ModuleHandlerApi2> implements CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback {
 
     private final String TAG = Camera2Controller.class.getSimpleName();
     private RenderScriptProcessor mProcessor;
@@ -185,4 +185,5 @@ public class Camera2Controller extends AbstractCameraController<ParameterHandler
         else
             return false;
     }
+
 }

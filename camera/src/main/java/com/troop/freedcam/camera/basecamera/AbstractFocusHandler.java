@@ -32,10 +32,10 @@ import org.greenrobot.eventbus.ThreadMode;
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class AbstractFocusHandler
+public abstract class AbstractFocusHandler<C extends CameraControllerInterface>
 {
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
-    protected CameraControllerInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
 
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -46,7 +46,7 @@ public abstract class AbstractFocusHandler
 
     protected abstract void startTouchFocus(FocusCoordinatesEvent obj);
 
-    protected AbstractFocusHandler(CameraControllerInterface cameraUiWrapper)
+    protected AbstractFocusHandler(C cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }

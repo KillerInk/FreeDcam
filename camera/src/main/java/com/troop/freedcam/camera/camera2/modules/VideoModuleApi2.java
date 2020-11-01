@@ -39,12 +39,10 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.troop.freedcam.camera.R;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.record.VideoRecorder;
 import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.Camera2EXT.OpModes;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
 import com.troop.freedcam.camera.camera2.camera2_hidden_keys.qcom.CaptureRequestQcom;
 import com.troop.freedcam.camera.camera2.parameters.modes.VideoProfilesApi2;

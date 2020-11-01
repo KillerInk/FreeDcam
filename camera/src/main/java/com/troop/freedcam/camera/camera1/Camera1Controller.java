@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Camera1Controller extends AbstractCameraController<ParametersHandler,CameraHolder,FocusHandler> {
+public class Camera1Controller extends AbstractCameraController<ParametersHandler,CameraHolder,FocusHandler,ModuleHandler> {
 
     private final String TAG = Camera1Controller.class.getSimpleName();
 
@@ -139,8 +139,8 @@ public class Camera1Controller extends AbstractCameraController<ParametersHandle
 
     @Override
     public void initCamera() {
-        ((FocusHandler) focusHandler).startListning();
-        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
+        focusHandler.startListning();
+        parametersHandler.LoadParametersFromCamera();
         CameraStateEvents.fireCameraOpenFinishEvent();
     }
 

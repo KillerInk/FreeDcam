@@ -25,7 +25,7 @@ import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.CaptureSessionHandler;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.utils.Log;
@@ -40,20 +40,20 @@ import java.util.Set;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class BaseModeApi2 extends AbstractParameter
+public class BaseModeApi2 extends AbstractParameter<Camera2Controller>
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected HashMap<String, Integer> parameterValues;
     protected Key<Integer> parameterKey;
     protected CaptureSessionHandler captureSessionHandler;
 
-    public BaseModeApi2(CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode)
+    public BaseModeApi2(Camera2Controller cameraUiWrapper, SettingKeys.Key settingMode)
     {
         super(cameraUiWrapper,settingMode);
-        this.captureSessionHandler = ((Camera2Fragment) cameraUiWrapper).captureSessionHandler;
+        this.captureSessionHandler = cameraUiWrapper.captureSessionHandler;
     }
 
-    public BaseModeApi2(CameraControllerInterface cameraUiWrapper, SettingKeys.Key key, Key<Integer> parameterKey) {
+    public BaseModeApi2(Camera2Controller cameraUiWrapper, SettingKeys.Key key, Key<Integer> parameterKey) {
         this(cameraUiWrapper,key);
         this.parameterKey = parameterKey;
 

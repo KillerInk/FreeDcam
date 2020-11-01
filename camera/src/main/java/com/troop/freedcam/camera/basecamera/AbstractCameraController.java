@@ -21,7 +21,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 public abstract class AbstractCameraController<P extends AbstractParameterHandler
         ,C extends CameraHolderAbstract
-        , F extends AbstractFocusHandler>
+        , F extends AbstractFocusHandler
+        ,M extends ModuleHandlerAbstract>
         implements CameraInterface, CameraControllerInterface, EventBusLifeCycle
 {
     private final String TAG = AbstractCameraController.class.getSimpleName();
@@ -46,7 +47,7 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     }
 
     protected RenderScriptManager renderScriptManager;
-    public ModuleHandlerAbstract moduleHandler;
+    public M moduleHandler;
     /**
      * parameters for avail for the cameraHolder
      */
@@ -141,7 +142,7 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     }
 
     @Override
-    public AbstractFocusHandler getFocusHandler() {
+    public F getFocusHandler() {
         return focusHandler;
     }
 

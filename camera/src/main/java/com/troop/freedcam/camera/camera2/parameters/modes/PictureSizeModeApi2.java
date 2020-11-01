@@ -24,6 +24,7 @@ import android.os.Build.VERSION_CODES;
 
 import com.troop.freedcam.camera.R;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
@@ -34,7 +35,7 @@ import com.troop.freedcam.utils.ContextApplication;
 public class PictureSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public PictureSizeModeApi2(CameraControllerInterface cameraUiWrapper) {
+    public PictureSizeModeApi2(Camera2Controller cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.PictureSize);
         setViewState(ViewState.Visible);
     }

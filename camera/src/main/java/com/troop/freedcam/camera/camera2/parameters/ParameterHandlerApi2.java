@@ -31,7 +31,7 @@ import com.troop.freedcam.camera.basecamera.parameters.modes.MatrixChooserParame
 import com.troop.freedcam.camera.basecamera.parameters.modes.ModuleParameters;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ToneMapChooser;
 import com.troop.freedcam.camera.basecamera.parameters.modes.VideoAudioSourceMode;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
 import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.camera.camera2.parameters.ae.AeManagerCamera2;
@@ -68,25 +68,23 @@ import java.util.List;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ParameterHandlerApi2 extends AbstractParameterHandler
+public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2Controller>
 {
     private final String TAG = ParameterHandlerApi2.class.getSimpleName();
 
 
     private CameraHolderApi2 cameraHolder;
-    private Camera2Fragment camera2Fragment;
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
-    public ParameterHandlerApi2(CameraControllerInterface wrapper)
+    public ParameterHandlerApi2(Camera2Controller wrapper)
     {
         super(wrapper);
-        this.camera2Fragment = (Camera2Fragment) wrapper;
     }
 
 
     public void Init()
     {
-        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
+        this.cameraHolder = cameraUiWrapper.getCameraHolder();
         List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
@@ -152,7 +150,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         //AE mode start
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex) {
-            AeManagerHuaweiCamera2 aeManager = new AeManagerHuaweiCamera2(camera2Fragment);
+            AeManagerHuaweiCamera2 aeManager = new AeManagerHuaweiCamera2(cameraUiWrapper);
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());
@@ -257,7 +255,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         try
         {
             Log.d(TAG, "Set Orientation to:" + orientation);
-            camera2Fragment.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation,true);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation,true);
         }
         catch (NullPointerException ex)
         {
@@ -268,7 +266,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public float[] getFocusDistances()
     {
-        return camera2Fragment.cameraBackroundValuesChangedListner.GetFocusRange();
+        return cameraUiWrapper.cameraBackroundValuesChangedListner.GetFocusRange();
     }
 
     @Override

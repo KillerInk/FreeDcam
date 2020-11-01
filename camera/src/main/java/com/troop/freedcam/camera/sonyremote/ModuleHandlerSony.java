@@ -32,12 +32,12 @@ import com.troop.freedcam.utils.Log;
 /**
  * Created by troop on 13.12.2014.
  */
-public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_CameraShotMode
+public class ModuleHandlerSony extends ModuleHandlerAbstract<CameraControllerSonyRemote> implements I_CameraShotMode
 {
     private CameraHolderSony cameraHolder;
     private final String TAG = ModuleHandlerSony.class.getSimpleName();
 
-    public ModuleHandlerSony(CameraControllerInterface cameraUiWrapper)
+    public ModuleHandlerSony(CameraControllerSonyRemote cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

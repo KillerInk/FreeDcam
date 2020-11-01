@@ -38,7 +38,7 @@ public abstract class ModuleHandlerAbstract<C extends CameraControllerInterface>
 {
 
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
-    public HashMap<String, ModuleInterface> moduleList;
+    protected HashMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
     protected C cameraUiWrapper;
 
@@ -115,6 +115,8 @@ public abstract class ModuleHandlerAbstract<C extends CameraControllerInterface>
         ModuleUpdater.sendModuleChanged(module);
     }
 
-
-
+    @Override
+    public HashMap<String, ModuleInterface> getModuleMap() {
+        return moduleList;
+    }
 }

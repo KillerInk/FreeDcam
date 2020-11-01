@@ -35,10 +35,8 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.troop.freedcam.camera.R;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ToneMapChooser;
 import com.troop.freedcam.camera.camera2.Camera2Controller;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
 import com.troop.freedcam.camera.camera2.CameraHolderApi2;
 import com.troop.freedcam.camera.camera2.CameraValuesChangedCaptureCallback;
 import com.troop.freedcam.camera.camera2.modules.capture.AbstractImageCapture;

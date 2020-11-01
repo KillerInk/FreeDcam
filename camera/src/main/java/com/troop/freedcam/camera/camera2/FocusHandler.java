@@ -43,7 +43,7 @@ import org.greenrobot.eventbus.Subscribe;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCycle
+public class FocusHandler extends AbstractFocusHandler<Camera2Controller> implements EventBusLifeCycle
 {
     private int mState;
     private boolean focusenabled;
@@ -52,7 +52,7 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
 
 
 
-    public FocusHandler(CameraControllerInterface cameraUiWrapper)
+    public FocusHandler(Camera2Controller cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
@@ -129,7 +129,7 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        cameraUiWrapper.captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
     }
 
 
@@ -158,8 +158,8 @@ public class FocusHandler extends AbstractFocusHandler implements EventBusLifeCy
 
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     @Override

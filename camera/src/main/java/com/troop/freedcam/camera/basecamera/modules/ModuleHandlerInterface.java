@@ -20,6 +20,8 @@
 package com.troop.freedcam.camera.basecamera.modules;
 
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 09.12.2014.
  */
@@ -55,4 +57,6 @@ public interface ModuleHandlerInterface
     void SetIsLowStorage(Boolean x);
 
     void initModules();
+
+    HashMap<String, ModuleInterface> getModuleMap();
 }

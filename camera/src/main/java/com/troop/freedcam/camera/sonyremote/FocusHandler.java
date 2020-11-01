@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * Created by troop on 31.01.2015.
  */
-public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I_SonyApi
+public class FocusHandler extends AbstractFocusHandler<CameraControllerSonyRemote> implements FocusEvents, I_SonyApi
 {
     private final String TAG = FocusHandler.class.getSimpleName();
     private boolean isFocusing;
@@ -41,7 +41,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
 
     }
 
-    public FocusHandler(CameraControllerInterface cameraUiWrapper)
+    public FocusHandler(CameraControllerSonyRemote cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
@@ -66,8 +66,8 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
         Log.d(this.TAG, "set focus to: x: " + xproz + " y: " +yproz);
-        ((CameraHolderSony) this.cameraUiWrapper.getCameraHolder()).StartFocus(this);
-        ((CameraHolderSony) this.cameraUiWrapper.getCameraHolder()).SetTouchFocus(xproz, yproz);
+        this.cameraUiWrapper.getCameraHolder().StartFocus(this);
+        this.cameraUiWrapper.getCameraHolder().SetTouchFocus(xproz, yproz);
         this.isFocusing = true;
         if (this.focusEvent != null)
             this.focusEvent.FocusStarted(x,y);

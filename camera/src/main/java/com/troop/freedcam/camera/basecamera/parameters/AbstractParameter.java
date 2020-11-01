@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by troop on 18.06.2017.
  */
 
-public abstract class AbstractParameter implements ParameterInterface {
+public abstract class AbstractParameter<C extends CameraControllerInterface> implements ParameterInterface {
 
     public enum ViewState{
         Visible,
@@ -27,7 +27,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     /**
      * the parameterhandler
      */
-    protected CameraControllerInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
     /**
      * contains the values that are supported by the parameters
      */
@@ -83,7 +83,7 @@ public abstract class AbstractParameter implements ParameterInterface {
         fireViewStateChanged(viewState);
     }
 
-    public AbstractParameter(CameraControllerInterface cameraUiWrapper, SettingKeys.Key  settingMode)
+    public AbstractParameter(C cameraUiWrapper, SettingKeys.Key  settingMode)
     {
         this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;

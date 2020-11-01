@@ -28,15 +28,15 @@ import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
  * Created by troop on 12.12.2014.
  * holds the instance for the camera to work with
  */
-public abstract class CameraHolderAbstract implements CameraHolderInterface
+public abstract class CameraHolderAbstract<C extends CameraControllerInterface> implements CameraHolderInterface
 {
-    protected CameraControllerInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
 
     /**
      *
      * @param cameraUiWrapper to listen on camera state changes
      */
-    protected CameraHolderAbstract(CameraControllerInterface cameraUiWrapper)
+    protected CameraHolderAbstract(C cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }

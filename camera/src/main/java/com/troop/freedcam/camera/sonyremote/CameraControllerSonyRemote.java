@@ -30,7 +30,7 @@ import java.util.Set;
 
 public class CameraControllerSonyRemote extends AbstractCameraController<
         ParameterHandler
-        ,CameraHolderSony,FocusHandler>
+        ,CameraHolderSony,FocusHandler,ModuleHandlerSony>
         implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents {
 
     private final String TAG = CameraControllerSonyRemote.class.getSimpleName();
@@ -356,5 +356,13 @@ public class CameraControllerSonyRemote extends AbstractCameraController<
     @Override
     public void onMessage(String msg) {
         EventBusHelper.post(new UserMessageEvent(msg,false));
+    }
+
+    public Set<String> getAvailableApiSet(){return mAvailableCameraApiSet;}
+
+    public void stopEventObserver()
+    {
+        mEventObserver.stop();
+        mEventObserver.clearEventChangeListener();
     }
 }

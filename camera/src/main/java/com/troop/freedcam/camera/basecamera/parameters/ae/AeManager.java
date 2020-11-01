@@ -12,15 +12,15 @@ import com.troop.freedcam.utils.Log;
  * Created by KillerInk on 29.12.2017.
  */
 
-public abstract class AeManager implements AeManagerInterface
+public abstract class AeManager<C extends CameraControllerInterface> implements AeManagerInterface
 {
-    protected CameraControllerInterface cameraControllerInterface;
+    protected C cameraControllerInterface;
     protected ManualIso manualIso;
     protected ManualExposureTime manualExposureTime;
     protected ExposureCompensation exposureCompensation;
     protected AeStates activeAeState = AeStates.auto;
 
-    public AeManager(CameraControllerInterface cameraControllerInterface)
+    public AeManager(C cameraControllerInterface)
     {
         this.cameraControllerInterface = cameraControllerInterface;
         manualIso = new ManualIso(cameraControllerInterface);

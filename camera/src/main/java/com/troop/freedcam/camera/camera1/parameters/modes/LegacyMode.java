@@ -4,6 +4,8 @@ import android.os.Build;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.RunFeatureDetectorEvent;
 import com.troop.freedcam.settings.mode.ApiBooleanSettingMode;
 import com.troop.freedcam.settings.mode.BooleanSettingModeInterface;
 
@@ -30,6 +32,6 @@ public class LegacyMode extends AbstractParameter implements BooleanSettingModeI
     @Override
     public void set(boolean bool) {
         settingMode.set(bool);
-        cameraUiWrapper.getActivityInterface().runFeatureDetector();
+        EventBusHelper.post(new RunFeatureDetectorEvent());
     }
 }

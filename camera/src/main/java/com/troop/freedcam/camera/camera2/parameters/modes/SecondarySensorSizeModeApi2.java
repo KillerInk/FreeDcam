@@ -4,13 +4,14 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
 public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
 
     private String size = "1920x1080";
-    public SecondarySensorSizeModeApi2(CameraControllerInterface cameraUiWrapper) {
+    public SecondarySensorSizeModeApi2(Camera2Controller cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.secondarySensorSize);
         setViewState(ViewState.Visible);
     }

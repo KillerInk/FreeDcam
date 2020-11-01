@@ -7,18 +7,18 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ManualApertureApi2 extends AbstractParameter {
+public class ManualApertureApi2 extends AbstractParameter<Camera2Controller> {
     float apertureValues[];
     public ManualApertureApi2(SettingKeys.Key key) {
         super(key);
     }
 
-    public ManualApertureApi2(CameraControllerInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+    public ManualApertureApi2(Camera2Controller cameraUiWrapper, SettingKeys.Key settingMode) {
         super(cameraUiWrapper, settingMode);
         String[] arr = SettingsManager.get(SettingKeys.M_Aperture).getValues();
         if (arr != null && arr.length > 1)
@@ -40,7 +40,7 @@ public class ManualApertureApi2 extends AbstractParameter {
     public void SetValue(int valueToSet, boolean setToCamera) {
         currentInt = valueToSet;
         float valtoset= apertureValues[currentInt];
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_APERTURE, valtoset,setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_APERTURE, valtoset,setToCamera);
         fireStringValueChanged(String.valueOf(apertureValues[currentInt]));
     }
 

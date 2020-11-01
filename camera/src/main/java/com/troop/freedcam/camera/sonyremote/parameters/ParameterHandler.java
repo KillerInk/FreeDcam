@@ -27,10 +27,10 @@ import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ModuleParameters;
+import com.troop.freedcam.camera.sonyremote.CameraControllerSonyRemote;
 import com.troop.freedcam.camera.sonyremote.CameraHolderSony;
 import com.troop.freedcam.camera.sonyremote.FocusHandler;
 import com.troop.freedcam.camera.sonyremote.PreviewStreamDrawer;
-import com.troop.freedcam.camera.sonyremote.SonyCameraRemoteFragment;
 import com.troop.freedcam.camera.sonyremote.modules.I_CameraStatusChanged;
 import com.troop.freedcam.camera.sonyremote.modules.PictureModuleSony;
 import com.troop.freedcam.camera.sonyremote.parameters.manual.BaseManualParameterSony;
@@ -70,26 +70,24 @@ import java.util.Set;
 /**
  * Created by troop on 13.12.2014.
  */
-public class ParameterHandler extends AbstractParameterHandler implements SimpleCameraEventObserver.ChangeListener
+public class ParameterHandler extends AbstractParameterHandler<CameraControllerSonyRemote> implements SimpleCameraEventObserver.ChangeListener
 {
     private final String TAG = ParameterHandler.class.getSimpleName();
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
     private final List<I_SonyApi> parametersChangedList;
     private final PreviewStreamDrawer surfaceView;
-    private final CameraControllerInterface cameraUiWrapper;
     private String cameraStatus = "IDLE";
 
     public I_CameraStatusChanged CameraStatusListner;
     public CameraHolderSony.I_CameraShotMode cameraShotMode;
 
 
-    public ParameterHandler(CameraControllerInterface cameraUiWrapper, PreviewStreamDrawer surfaceView)
+    public ParameterHandler(CameraControllerSonyRemote cameraUiWrapper, PreviewStreamDrawer surfaceView)
     {
         super(cameraUiWrapper);
         parametersChangedList = new ArrayList<>();
         this.surfaceView = surfaceView;
-        this.cameraUiWrapper =cameraUiWrapper;
         if (RenderScriptManager.isSupported()) {
             SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(ContextApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
             SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
@@ -268,7 +266,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onTimout() {
         CameraStateEvents.fireCameraErrorEvent("Camera connection timed out");
-        ((SonyCameraRemoteFragment)cameraUiWrapper).stopEventObserver();
+        cameraUiWrapper.stopEventObserver();
     }
 
     @Override

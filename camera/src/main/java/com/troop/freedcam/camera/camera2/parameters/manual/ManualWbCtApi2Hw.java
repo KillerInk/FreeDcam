@@ -5,19 +5,19 @@ import android.os.Build;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.camera2.Camera2Fragment;
+import com.troop.freedcam.camera.camera2.Camera2Controller;
 import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualWbCtApi2Hw  extends AbstractParameter
+public class ManualWbCtApi2Hw  extends AbstractParameter<Camera2Controller>
 {
     private boolean isSupported;
 
     private final String TAG = ManualWbCtApi2Hw.class.getSimpleName();
 
-    public ManualWbCtApi2Hw(CameraControllerInterface cameraUiWrapper) {
+    public ManualWbCtApi2Hw(Camera2Controller cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.M_Whitebalance);
         stringvalues = SettingsManager.get(SettingKeys.M_Whitebalance).getValues();
         currentInt = 0;
@@ -53,7 +53,7 @@ public class ManualWbCtApi2Hw  extends AbstractParameter
             toset = 0;
         else
             toset = Integer.parseInt(stringvalues[currentInt]);
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_WB_VALUE, toset,setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestHuawei.HUAWEI_SENSOR_WB_VALUE, toset,setToCamera);
 
     }
 
