@@ -12,14 +12,11 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/manual_container"
-android:layout_width="45dp"
-android:layout_height="39dp"
-
+    android:layout_width="45dp"
+    android:layout_height="39dp"
     android:visibility="@{visibilityEnableModel.visibility}"
     android:enabled="@{visibilityEnableModel.enabled}"
-    >
-
-
+    android:onClick="@{visibilityEnableModel.onClickListener}">
 
     <ImageView
     android:id="@+id/manual_imageview"

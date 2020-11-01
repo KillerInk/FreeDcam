@@ -1,22 +1,19 @@
 package com.troop.freedcam.cameraui.models;
 
+import androidx.databinding.Bindable;
+
+import com.troop.freedcam.cameraui.BR;
+
 public class RotatingSeekbarModel extends VisibilityEnableModel {
-    private int progress = 0;
-    private String[] values;
+    private ManualButtonModel manualButtonModel;
 
-    public void setProgress(int progress) {
-        this.progress = progress;
+    public void setManualButtonModel(ManualButtonModel manualButtonModel) {
+        this.manualButtonModel = manualButtonModel;
+        notifyPropertyChanged(BR.manualButtonModel);
     }
 
-    public int getProgress() {
-        return progress;
-    }
-
-    public void setValues(String[] values) {
-        this.values = values;
-    }
-
-    public String[] getValues() {
-        return values;
+    @Bindable
+    public ManualButtonModel getManualButtonModel() {
+        return manualButtonModel;
     }
 }

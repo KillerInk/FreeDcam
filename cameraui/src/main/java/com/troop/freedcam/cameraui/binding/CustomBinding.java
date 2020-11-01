@@ -1,9 +1,10 @@
-package com.troop.freedcam.cameraui;
+package com.troop.freedcam.cameraui.binding;
 
 import android.view.View;
 
 import androidx.databinding.BindingAdapter;
 
+import com.troop.freedcam.cameraui.models.ManualButtonModel;
 import com.troop.freedcam.cameraui.models.RotatingSeekbarModel;
 import com.troop.freedcam.cameraui.views.RotatingSeekbar;
 
@@ -16,11 +17,13 @@ public class CustomBinding {
     }
 
     @BindingAdapter("bindModelToRotatingSeekbar")
-    public static void bindModelToRotatingSeekbar(RotatingSeekbar rotatingSeekbar, RotatingSeekbarModel manualButtonModel)
+    public static void bindModelToRotatingSeekbar(RotatingSeekbar rotatingSeekbar, ManualButtonModel manualButtonModel)
     {
         if (manualButtonModel != null) {
-            rotatingSeekbar.SetStringValues(manualButtonModel.getValues());
-            rotatingSeekbar.setProgress(manualButtonModel.getProgress(), false);
+            if (manualButtonModel.getValues() != null) {
+                rotatingSeekbar.SetStringValues(manualButtonModel.getValues());
+                rotatingSeekbar.setProgress(manualButtonModel.getIndex(), false);
+            }
             if (rotatingSeekbar.getVisibility() == View.GONE)
                 rotatingSeekbar.setVisibility(View.VISIBLE);
         }

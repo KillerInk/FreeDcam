@@ -81,21 +81,24 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     private SwipeMenuListner touchHandler;
 
     public CameraUiViewModel() {
+        seekBarModel = new RotatingSeekbarModel();
+        manualControlsHolder = new ManualControlsHolderModel(seekBarModel);
+
+
         manualButtonModelHashMap = new HashMap<>();
         ManualButtons buttons[] = ManualButtons.values();
         for (ManualButtons b : buttons)
-            manualButtonModelHashMap.put(b, new ManualButtonModel());
+            manualButtonModelHashMap.put(b, new ManualButtonModel(manualControlsHolder));
         leftbarButtonsManualButtonModelHashMap = new HashMap<>();
         LeftbarButtons leftbarButtons[] = LeftbarButtons.values();
         for (LeftbarButtons buttons1: leftbarButtons)
-            leftbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel());
+            leftbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
 
         rightbarButtonsManualButtonModelHashMap = new HashMap<>();
         RightbarButtons rightbarButtons[] = RightbarButtons.values();
         for (RightbarButtons buttons1: rightbarButtons)
-            rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel());
-        manualControlsHolder = new ManualControlsHolderModel();
-        seekBarModel = new RotatingSeekbarModel();
+            rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
+
         shutterButtonModel = new ShutterButtonModel();
         touchHandler = new SwipeMenuListner(this);
     }
@@ -146,7 +149,10 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     @Override
     public void doBottomToTopSwipe() {
         manualControlsHolder.setVisibility(View.VISIBLE);
-        seekBarModel.setVisibility(View.VISIBLE);
+        if (seekBarModel.getManualButtonModel() != null)
+            seekBarModel.setVisibility(View.VISIBLE);
+        else
+            seekBarModel.setVisibility(View.GONE);
     }
 
     @Override

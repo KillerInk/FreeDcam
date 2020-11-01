@@ -62,7 +62,8 @@
             app:layout_constraintEnd_toStartOf="@+id/camera_ui_right_bar"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            bindModelToRotatingSeekbar="@{cameraUiViewModel.seekBarModel.manualButtonModel}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
