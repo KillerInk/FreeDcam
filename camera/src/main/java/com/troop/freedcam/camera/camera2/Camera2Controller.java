@@ -12,6 +12,7 @@ import com.troop.freedcam.camera.camera2.modules.I_PreviewWrapper;
 import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.processor.RenderScriptProcessor;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.Log;
 
@@ -96,8 +97,11 @@ public class Camera2Controller extends AbstractCameraController<ParameterHandler
     public void startCamera() {
         startListning();
         Log.d(TAG, "onResume");
-        if (PreviewSurfaceRdy && textureHolder.getSurfaceTexture() != null)
-            startCameraAsync();
+        if (textureHolder.getSurfaceTexture() != null) {
+            int[] ids = SettingsManager.getInstance().getCameraIds();
+            int currentid = SettingsManager.getInstance().GetCurrentCamera();
+            cameraIsOpen = cameraHolder.OpenCamera(ids[currentid]);
+        }
     }
 
     @Override
@@ -186,4 +190,8 @@ public class Camera2Controller extends AbstractCameraController<ParameterHandler
             return false;
     }
 
+    @Override
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
+        return mProcessor;
+    }
 }

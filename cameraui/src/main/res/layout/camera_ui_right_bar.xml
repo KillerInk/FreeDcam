@@ -47,10 +47,9 @@
         android:layout_width="@dimen/cameraui_shutterbutton_size"
         android:layout_height="@dimen/cameraui_shutterbutton_size"
         android:layout_weight="1"
-        android:visibility="@{shutterButtonModel.visibility}"
         android:background="@mipmap/shutter"
-        app:backgroundTint="@color/black"
-        />
+        android:visibility="@{shutterButtonModel.visibility}"
+        app:backgroundTint="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -12,6 +12,9 @@ import com.troop.freedcam.cameraui.models.ShutterButtonModel;
 import com.troop.freedcam.cameraui.models.VisibilityEnableModel;
 import com.troop.freedcam.cameraui.service.I_swipe;
 import com.troop.freedcam.cameraui.service.SwipeMenuListner;
+import com.troop.freedcam.eventbus.events.CameraStateEvents;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 
@@ -162,6 +165,12 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
 
     @Override
     public void onMotionEvent(MotionEvent event) {
+
+    }
+
+    @Subscribe
+    public void onCameraOpen(CameraStateEvents.CameraOpenFinishEvent cameraStateEvents)
+    {
 
     }
 }

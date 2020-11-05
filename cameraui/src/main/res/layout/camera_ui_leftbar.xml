@@ -19,8 +19,7 @@
         android:id="@+id/clipping_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:setImageToView="@mipmap/clipping"
-        app:backgroundTint="@color/black" />
+        app:setImageToView="@mipmap/clipping" />
 
     <com.troop.freedcam.cameraui.views.ManualButton
         android:id="@+id/whitebalance_mode_button"

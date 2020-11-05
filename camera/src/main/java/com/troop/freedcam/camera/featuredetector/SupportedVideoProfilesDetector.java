@@ -38,7 +38,6 @@ public class SupportedVideoProfilesDetector {
         int QUALITY_2160p = 8;
 
         HashMap<String, VideoMediaProfile> supportedProfiles = new HashMap<>();
-
         checkIfProfileSupported(camera_id, CamcorderProfile.QUALITY_480P, "480p",true,VideoMediaProfile.VideoMode.Normal, supportedProfiles);
         checkIfProfileSupported(camera_id, CamcorderProfile.QUALITY_720P, "720p",true,VideoMediaProfile.VideoMode.Normal, supportedProfiles);
         checkIfProfileSupported(camera_id, CamcorderProfile.QUALITY_1080P, "1080p",true,VideoMediaProfile.VideoMode.Normal, supportedProfiles);

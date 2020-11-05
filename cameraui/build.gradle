@@ -48,4 +48,5 @@ dependencies {
     implementation project(path: ':utils')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(path: ':camera')
+    implementation project(path: ':processor')
 }

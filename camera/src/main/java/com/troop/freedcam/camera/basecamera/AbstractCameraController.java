@@ -27,13 +27,6 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
 {
     private final String TAG = AbstractCameraController.class.getSimpleName();
 
-
-    @Subscribe
-    public void onTextureHolder(TextureHolder textureHolder)
-    {
-        this.textureHolder = textureHolder;
-    }
-
     @Subscribe
     public void onLocationChanged(Location location)
     {
@@ -61,7 +54,6 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
      */
     public F focusHandler;
 
-    protected boolean PreviewSurfaceRdy;
     protected TextureHolder textureHolder;
 
     /**
@@ -132,14 +124,17 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     }
 
     @Override
+    public void setRenderScriptManager(RenderScriptManager renderScriptManager) {
+        this.renderScriptManager = renderScriptManager;
+    }
+
+    @Override
     public RenderScriptManager getRenderScriptManager() {
         return renderScriptManager;
     }
 
     @Override
-    public RenderScriptProcessorInterface getFocusPeakProcessor() {
-        return null;
-    }
+    public abstract RenderScriptProcessorInterface getFocusPeakProcessor();
 
     @Override
     public F getFocusHandler() {
@@ -166,9 +161,20 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
         return textureHolder;
     }
 
+
+    @Override
+    public void setPermissionManager(PermissionManager permissionManager) {
+        this.permissionManager = permissionManager;
+    }
+
     @Override
     public PermissionManager getPermissionManager() {
         return permissionManager;
+    }
+
+    @Override
+    public void setFileListController(FileListController fileListController) {
+        this.fileListController = fileListController;
     }
 
     @Override
@@ -194,5 +200,10 @@ public abstract class AbstractCameraController<P extends AbstractParameterHandle
     @Override
     public void stopListning() {
         EventBusHelper.unregister(this);
+    }
+
+    public void setTextureHolder(TextureHolder textureHolder)
+    {
+        this.textureHolder = textureHolder;
     }
 }

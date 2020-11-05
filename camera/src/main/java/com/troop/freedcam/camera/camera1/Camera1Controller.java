@@ -18,6 +18,7 @@ import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
 import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.processor.RenderScriptProcessor;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
@@ -36,7 +37,7 @@ public class Camera1Controller extends AbstractCameraController<ParametersHandle
 
     private final String TAG = Camera1Controller.class.getSimpleName();
 
-    public RenderScriptProcessor focusPeakProcessorAp1;
+    private RenderScriptProcessor focusPeakProcessorAp1;
     private boolean cameraIsOpen = false;
 
     @Subscribe
@@ -200,7 +201,7 @@ public class Camera1Controller extends AbstractCameraController<ParametersHandle
         @Override
         public void run() {
             Log.d(TAG, "createPreviewRunner.run()");
-            if (textureHolder == null || !PreviewSurfaceRdy) {
+            if (textureHolder == null) {
                 Log.d(TAG, "FAILED TO GET SURFACE FROM TEXTUREVIEW ################");
                 return;
             }
@@ -316,6 +317,11 @@ public class Camera1Controller extends AbstractCameraController<ParametersHandle
         }
         else
             return Collections.max(sizes,new SizeCompare());
+    }
+
+    @Override
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
+        return focusPeakProcessorAp1;
     }
 
     private class SizeCompare implements Comparator<Size>

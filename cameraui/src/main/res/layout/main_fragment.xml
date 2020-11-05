@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="MainViewModel"
             type="com.troop.freedcam.cameraui.viewmodels.MainViewModel" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
 
     android:id="@+id/camera_ui"
     android:layout_width="match_parent"
@@ -14,10 +15,10 @@
     tools:context=".fragment.MainFragment">
 
 
-    <com.troop.freedcam.cameraui.views.AutoFitTextureView
-        android:id="@+id/autoFitTextureView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cameraFragmentContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <com.troop.freedcam.cameraui.views.DisableTouchViewPager
         android:id="@+id/disableTouchViewPager"

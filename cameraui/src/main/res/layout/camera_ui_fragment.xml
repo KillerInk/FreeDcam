@@ -10,10 +10,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout"
+        bindTouchListner="@{cameraUiViewModel.onTouchListener}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        bindTouchListner="@{cameraUiViewModel.onTouchListener}"
         tools:context=".fragment.CameraUiFragment">
+
+        <com.troop.freedcam.cameraui.views.AutoFitTextureView
+            android:id="@+id/autoFitTextureView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <include
             android:id="@+id/camera_ui_manuals"
@@ -47,14 +57,15 @@
             layout="@layout/camera_ui_leftbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.troop.freedcam.cameraui.views.RotatingSeekbar
             android:id="@+id/rotatingSeekbar2"
+            bindModelToRotatingSeekbar="@{cameraUiViewModel.seekBarModel.manualButtonModel}"
             android:layout_width="@dimen/cameraui_manual_fragment_rotatingseekbar_width"
             android:layout_height="0dp"
             android:visibility="@{cameraUiViewModel.seekBarModel.visibility}"
@@ -62,8 +73,7 @@
             app:layout_constraintEnd_toStartOf="@+id/camera_ui_right_bar"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bindModelToRotatingSeekbar="@{cameraUiViewModel.seekBarModel.manualButtonModel}"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

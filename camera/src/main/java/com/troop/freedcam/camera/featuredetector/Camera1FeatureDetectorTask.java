@@ -31,9 +31,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 {
     private static final  String TAG = Camera1FeatureDetectorTask.class.getSimpleName();
 
-    public Camera1FeatureDetectorTask(ProgressUpdate progressUpdate)
+    public Camera1FeatureDetectorTask()
     {
-        super(progressUpdate);
+        super();
     }
 
     private String camstring(int id)
@@ -124,136 +124,136 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.getApi(SettingKeys.Module).set(ContextApplication.getStringFromRessources(R.string.module_picture));
 
             detectPictureSizes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.PictureSize),"PictureSize");
+            //sendProgress(SettingsManager.get(SettingKeys.PictureSize),"PictureSize");
 
             detectFocusModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.FocusMode),"FocusMode");
+            //sendProgress(SettingsManager.get(SettingKeys.FocusMode),"FocusMode");
 
             detectWhiteBalanceModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.WhiteBalanceMode),"WhiteBalance");
+            //sendProgress(SettingsManager.get(SettingKeys.WhiteBalanceMode),"WhiteBalance");
 
             detectExposureModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.ExposureMode),"ExposureMode");
+            //sendProgress(SettingsManager.get(SettingKeys.ExposureMode),"ExposureMode");
 
             detectColorModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.ColorMode),"Color");
+            //sendProgress(SettingsManager.get(SettingKeys.ColorMode),"Color");
 
             detectFlashModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.FlashMode),"FLash");
+            //sendProgress(SettingsManager.get(SettingKeys.FlashMode),"FLash");
 
             detectIsoModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.IsoMode),"Iso");
+            //sendProgress(SettingsManager.get(SettingKeys.IsoMode),"Iso");
 
             detectAntiBandingModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.AntiBandingMode),"AntiBanding");
+            //sendProgress(SettingsManager.get(SettingKeys.AntiBandingMode),"AntiBanding");
 
             detectImagePostProcessingModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.ImagePostProcessing),"ImagePostProcessing");
+            //sendProgress(SettingsManager.get(SettingKeys.ImagePostProcessing),"ImagePostProcessing");
 
             detectPreviewSizeModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.PreviewSize),"PreviewSize");
+            //sendProgress(SettingsManager.get(SettingKeys.PreviewSize),"PreviewSize");
 
             detectJpeqQualityModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.JpegQuality),"JpegQuality");
+            //sendProgress(SettingsManager.get(SettingKeys.JpegQuality),"JpegQuality");
 
             detectAeBracketModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.AE_Bracket),"AeBracket");
+            //sendProgress(SettingsManager.get(SettingKeys.AE_Bracket),"AeBracket");
 
             detectPreviewFPSModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.PreviewFPS),"PreviewFPS");
+            //sendProgress(SettingsManager.get(SettingKeys.PreviewFPS),"PreviewFPS");
 
             detectPreviewFpsRanges(parameters);
 
             detectPreviewFormatModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.PreviewFormat),"PreviewFormat");
+            //sendProgress(SettingsManager.get(SettingKeys.PreviewFormat),"PreviewFormat");
 
             detectSceneModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.SceneMode),"Scene");
+            //sendProgress(SettingsManager.get(SettingKeys.SceneMode),"Scene");
 
             detectLensShadeModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.LensShade),"Lensshade");
+            //sendProgress(SettingsManager.get(SettingKeys.LensShade),"Lensshade");
 
             detectZeroShutterLagModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.ZSL),"ZeroShutterLag");
+            //sendProgress(SettingsManager.get(SettingKeys.ZSL),"ZeroShutterLag");
 
             detectSceneDetectModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.SceneDetect),"SceneDetect");
+            //sendProgress(SettingsManager.get(SettingKeys.SceneDetect),"SceneDetect");
 
             detectMemoryColorEnhancementModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.MemoryColorEnhancement),"MemoryColorEnhancement");
+            //sendProgress(SettingsManager.get(SettingKeys.MemoryColorEnhancement),"MemoryColorEnhancement");
 
             detectVideoSizeModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.VideoSize),"VideoSize");
+            //sendProgress(SettingsManager.get(SettingKeys.VideoSize),"VideoSize");
 
             detectCorrelatedDoubleSamplingModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.CDS_Mode),"CorrelatedDoubleSampling");
+            //sendProgress(SettingsManager.get(SettingKeys.CDS_Mode),"CorrelatedDoubleSampling");
 
             detectDisModes(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.DigitalImageStabilization), "DigitalImageStabilisation");
+            //sendProgress(SettingsManager.get(SettingKeys.DigitalImageStabilization), "DigitalImageStabilisation");
 
             detectDenoise(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
+            //sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
 
             detectTNR(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.TNR), "Temporoal_NR");
-            sendProgress(SettingsManager.get(SettingKeys.TNR_V), "Temporoal_VIDEO_NR");
+            //sendProgress(SettingsManager.get(SettingKeys.TNR), "Temporoal_NR");
+            //sendProgress(SettingsManager.get(SettingKeys.TNR_V), "Temporoal_VIDEO_NR");
 
             detectPDAF(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.PDAF), "PDAF");
+            //sendProgress(SettingsManager.get(SettingKeys.PDAF), "PDAF");
 
             detectSEEMoar(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.SeeMore), "StillMoreToneMap");
+            //sendProgress(SettingsManager.get(SettingKeys.SeeMore), "StillMoreToneMap");
 
             detectTruePotrait(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.TruePotrait), "TruePotrait");
+            //sendProgress(SettingsManager.get(SettingKeys.TruePotrait), "TruePotrait");
 
             detectRefocus(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.ReFocus), "ReFocus");
+            //sendProgress(SettingsManager.get(SettingKeys.ReFocus), "ReFocus");
 
             detectOptizoom(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.OptiZoom), "OptiZoom");
+            //sendProgress(SettingsManager.get(SettingKeys.OptiZoom), "OptiZoom");
 
             detectChromaFlash(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.ChromaFlash), "ChromaFlash");
+            //sendProgress(SettingsManager.get(SettingKeys.ChromaFlash), "ChromaFlash");
 
             detectRDI(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.RDI), "RDI");
+            //sendProgress(SettingsManager.get(SettingKeys.RDI), "RDI");
 
 
             detectNonZslmanual(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.NonZslManualMode), "NonZslManual");
+            //sendProgress(SettingsManager.get(SettingKeys.NonZslManualMode), "NonZslManual");
 
             detectVideoHdr(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.VideoHDR), "VideoHDR");
+            //sendProgress(SettingsManager.get(SettingKeys.VideoHDR), "VideoHDR");
 
             detectVideoHFR(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.VideoHighFramerate),"VideoHFR");
+            //sendProgress(SettingsManager.get(SettingKeys.VideoHighFramerate),"VideoHFR");
 
             detectVideoMediaProfiles(i);
 
             detectManualFocus(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_Focus),"ManualFocus");
+            //sendProgress(SettingsManager.get(SettingKeys.M_Focus),"ManualFocus");
 
             detectManualSaturation(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_Saturation),"ManualSaturation");
+            //sendProgress(SettingsManager.get(SettingKeys.M_Saturation),"ManualSaturation");
 
             detectManualSharpness(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_Sharpness),"ManualSharpness");
+            //sendProgress(SettingsManager.get(SettingKeys.M_Sharpness),"ManualSharpness");
 
             detectManualBrightness(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_Brightness),"ManualBrightness");
+            //sendProgress(SettingsManager.get(SettingKeys.M_Brightness),"ManualBrightness");
 
             detectManualContrast(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_Contrast),"ManualContrast");
+            //sendProgress(SettingsManager.get(SettingKeys.M_Contrast),"ManualContrast");
 
             detectManualExposureTime(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_ExposureTime),"ExposureTime");
+            //sendProgress(SettingsManager.get(SettingKeys.M_ExposureTime),"ExposureTime");
 
             detectManualIso(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_ManualIso),"Manual ISo");
+            //sendProgress(SettingsManager.get(SettingKeys.M_ManualIso),"Manual ISo");
 
             detectManualWhiteBalance(parameters);
-            sendProgress(SettingsManager.get(SettingKeys.M_Whitebalance),"Manual Wb");
+            //sendProgress(SettingsManager.get(SettingKeys.M_Whitebalance),"Manual Wb");
 
             detectQcomFocus(parameters);
 

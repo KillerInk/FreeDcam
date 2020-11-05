@@ -31,6 +31,9 @@ public interface CameraObjects<P extends AbstractParameterHandler
     F getFocusHandler();
     RenderScriptProcessorInterface getFocusPeakProcessor();
     RenderScriptManager getRenderScriptManager();
+    void setRenderScriptManager(RenderScriptManager renderScriptManager);
+    void setPermissionManager(PermissionManager permissionManager);
+    void setFileListController(FileListController fileListController);
     TextureHolder getTextureHolder();
     PermissionManager getPermissionManager();
     FileListController getFileListController();

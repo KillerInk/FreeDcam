@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.troop.freedcam.camera.CameraApiController;
 import com.troop.freedcam.cameraui.R;
+import com.troop.freedcam.cameraui.fragment.CameraFragmentManager;
 import com.troop.freedcam.cameraui.fragment.MainFragment;
 import com.troop.freedcam.cameraui.utils.HideNavBarHelper;
 
@@ -12,11 +14,13 @@ public class CameraUiActivity extends AppCompatActivity {
 
     private HideNavBarHelper hideNavBarHelper;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_ui_activity);
         hideNavBarHelper = new HideNavBarHelper();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, MainFragment.newInstance())

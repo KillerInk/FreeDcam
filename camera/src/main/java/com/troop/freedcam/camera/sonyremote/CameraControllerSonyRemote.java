@@ -14,6 +14,7 @@ import com.troop.freedcam.eventbus.enums.CaptureStates;
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
 import com.troop.freedcam.eventbus.events.UserMessageEvent;
+import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.utils.ContextApplication;
@@ -364,5 +365,10 @@ public class CameraControllerSonyRemote extends AbstractCameraController<
     {
         mEventObserver.stop();
         mEventObserver.clearEventChangeListener();
+    }
+
+    @Override
+    public RenderScriptProcessorInterface getFocusPeakProcessor() {
+        return previewStreamDrawer;
     }
 }
