@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.lifecycle.ViewModel;
 
+import com.troop.freedcam.cameraui.models.ButtonModel;
 import com.troop.freedcam.cameraui.models.CloseAppButtonModel;
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
 import com.troop.freedcam.cameraui.models.ManualControlsHolderModel;
@@ -67,6 +68,12 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         cameraswitch,
     }
 
+    @Subscribe
+    public void onCameraOpenFinishEvent(CameraStateEvents.CameraOpenFinishEvent cameraOpenFinishEvent)
+    {
+
+    }
+
     public View.OnTouchListener onTouchListener = new View.OnTouchListener()
     {
         public boolean onTouch(View v, MotionEvent event)
@@ -77,8 +84,8 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     };
 
     private HashMap<ManualButtons, ManualButtonModel> manualButtonModelHashMap;
-    private HashMap<LeftbarButtons, ManualButtonModel> leftbarButtonsManualButtonModelHashMap;
-    private HashMap<RightbarButtons, ManualButtonModel> rightbarButtonsManualButtonModelHashMap;
+    private HashMap<LeftbarButtons, ButtonModel> leftbarButtonsManualButtonModelHashMap;
+    private HashMap<RightbarButtons, ButtonModel> rightbarButtonsManualButtonModelHashMap;
     private ManualControlsHolderModel manualControlsHolder;
     private RotatingSeekbarModel seekBarModel;
     private ShutterButtonModel shutterButtonModel;
@@ -115,12 +122,12 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         return manualButtonModelHashMap.get(manualButtons);
     }
 
-    public ManualButtonModel getManualButtonModel(LeftbarButtons manualButtons)
+    public ButtonModel getManualButtonModel(LeftbarButtons manualButtons)
     {
         return leftbarButtonsManualButtonModelHashMap.get(manualButtons);
     }
 
-    public ManualButtonModel getManualButtonModel(RightbarButtons manualButtons)
+    public ButtonModel getManualButtonModel(RightbarButtons manualButtons)
     {
         return rightbarButtonsManualButtonModelHashMap.get(manualButtons);
     }

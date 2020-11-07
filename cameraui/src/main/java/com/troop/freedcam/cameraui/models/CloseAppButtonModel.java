@@ -5,11 +5,10 @@ import android.view.View;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.events.CloseAppEvent;
 
-public class CloseAppButtonModel extends ManualButtonModel
+public class CloseAppButtonModel extends ButtonModel
 {
 
     public CloseAppButtonModel() {
-        super(null);
         setVisibility(View.VISIBLE);
     }
 

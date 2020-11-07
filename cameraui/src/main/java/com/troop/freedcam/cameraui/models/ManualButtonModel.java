@@ -3,7 +3,7 @@ package com.troop.freedcam.cameraui.models;
 import android.view.View;
 import android.widget.SeekBar;
 
-public class ManualButtonModel extends VisibilityEnableModel implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class ManualButtonModel extends ButtonModel implements SeekBar.OnSeekBarChangeListener {
     private ManualButtonModelClickedEvent manualControlsHolderModel;
     public ManualButtonModel(ManualButtonModelClickedEvent manualControlsHolderModel)
     {
