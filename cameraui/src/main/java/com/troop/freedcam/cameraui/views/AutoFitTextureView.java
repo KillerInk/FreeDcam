@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.eventbus.events.TransformMatrixChangedEvent;
 import com.troop.freedcam.utils.Size;
 

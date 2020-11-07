@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi;
 import com.troop.freedcam.camera.basecamera.AbstractCameraController;
 import com.troop.freedcam.camera.camera2.modules.I_PreviewWrapper;
 import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.processor.RenderScriptProcessor;
 import com.troop.freedcam.processor.RenderScriptProcessorInterface;
 import com.troop.freedcam.settings.SettingsManager;
@@ -89,7 +89,7 @@ public class Camera2Controller extends AbstractCameraController<ParameterHandler
         parametersHandler.Init();
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
 
-        CameraStateEvents.fireCameraOpenFinishEvent();
+        CameraStateEvents.fireCameraOpenFinishEvent(this);
         moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
     }
 

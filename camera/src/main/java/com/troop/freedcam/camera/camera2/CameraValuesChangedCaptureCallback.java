@@ -12,8 +12,6 @@ import androidx.annotation.RequiresApi;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.camera.camera2.parameters.ParameterHandlerApi2;
-import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;

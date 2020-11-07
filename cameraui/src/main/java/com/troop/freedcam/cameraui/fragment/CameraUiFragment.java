@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.troop.freedcam.cameraui.R;
 import com.troop.freedcam.cameraui.databinding.CameraUiFragmentBinding;
 import com.troop.freedcam.cameraui.viewmodels.CameraUiViewModel;
+import com.troop.freedcam.eventbus.EventBusHelper;
 
 public class CameraUiFragment extends Fragment {
 
@@ -81,4 +82,15 @@ public class CameraUiFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBusHelper.register(mViewModel);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBusHelper.unregister(mViewModel);
+    }
 }

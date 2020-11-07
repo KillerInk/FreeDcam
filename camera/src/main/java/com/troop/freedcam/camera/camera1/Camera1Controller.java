@@ -13,7 +13,7 @@ import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderMotoX;
 import com.troop.freedcam.camera.camera1.cameraholder.CameraHolderSony;
 import com.troop.freedcam.camera.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.eventbus.events.ModuleHasChangedEvent;
 import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.processor.RenderScriptManager;
@@ -142,7 +142,7 @@ public class Camera1Controller extends AbstractCameraController<ParametersHandle
     public void initCamera() {
         focusHandler.startListning();
         parametersHandler.LoadParametersFromCamera();
-        CameraStateEvents.fireCameraOpenFinishEvent();
+        CameraStateEvents.fireCameraOpenFinishEvent(this);
     }
 
     @Override

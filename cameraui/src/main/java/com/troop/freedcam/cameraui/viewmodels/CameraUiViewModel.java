@@ -5,16 +5,19 @@ import android.view.View;
 
 import androidx.lifecycle.ViewModel;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.cameraui.models.ButtonModel;
 import com.troop.freedcam.cameraui.models.CloseAppButtonModel;
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
 import com.troop.freedcam.cameraui.models.ManualControlsHolderModel;
 import com.troop.freedcam.cameraui.models.RotatingSeekbarModel;
 import com.troop.freedcam.cameraui.models.ShutterButtonModel;
-import com.troop.freedcam.cameraui.models.VisibilityEnableModel;
 import com.troop.freedcam.cameraui.service.I_swipe;
 import com.troop.freedcam.cameraui.service.SwipeMenuListner;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.settings.SettingKeys;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -71,8 +74,46 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     @Subscribe
     public void onCameraOpenFinishEvent(CameraStateEvents.CameraOpenFinishEvent cameraOpenFinishEvent)
     {
-
+        /*
+        zoom,
+        focus,
+        iso,
+        shutter,
+        fnum,
+        shift,
+        ev,
+        saturation,
+        sharpness,
+        tonecurve,
+        wb,
+        contrast,
+        fx,
+        burst,
+         */
+        CameraControllerInterface cameraControllerInterface = cameraOpenFinishEvent.cameraControllerInterface;
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Zoom,ManualButtons.zoom);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Focus,ManualButtons.focus);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_ManualIso,ManualButtons.iso);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_ExposureTime,ManualButtons.shutter);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Fnumber,ManualButtons.fnum);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_ProgramShift,ManualButtons.shift);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_ExposureCompensation,ManualButtons.ev);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Saturation,ManualButtons.saturation);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Sharpness,ManualButtons.sharpness);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.TONE_MAP_MODE,ManualButtons.tonecurve);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Whitebalance,ManualButtons.wb);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Contrast,ManualButtons.contrast);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_FX,ManualButtons.fx);
+        setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Burst,ManualButtons.burst);
     }
+
+    private void setParameterToManualButton(CameraControllerInterface cameraControllerInterface, SettingKeys.Key key, ManualButtons buttons)
+    {
+        ParameterInterface parameterInterface = cameraControllerInterface.getParameterHandler().get(key);
+        if (parameterInterface != null)
+            manualButtonModelHashMap.get(buttons).setParameterInterface(parameterInterface);
+    }
+
 
     public View.OnTouchListener onTouchListener = new View.OnTouchListener()
     {
@@ -98,8 +139,11 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
 
         manualButtonModelHashMap = new HashMap<>();
         ManualButtons buttons[] = ManualButtons.values();
-        for (ManualButtons b : buttons)
-            manualButtonModelHashMap.put(b, new ManualButtonModel(manualControlsHolder));
+        for (ManualButtons b : buttons) {
+            ManualButtonModel m =  new ManualButtonModel(manualControlsHolder);
+            EventBusHelper.register(this);
+            manualButtonModelHashMap.put(b, m);
+        }
         leftbarButtonsManualButtonModelHashMap = new HashMap<>();
         LeftbarButtons leftbarButtons[] = LeftbarButtons.values();
         for (LeftbarButtons buttons1: leftbarButtons)

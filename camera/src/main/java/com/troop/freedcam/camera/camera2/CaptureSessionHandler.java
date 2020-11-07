@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
@@ -24,7 +23,6 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.camera.camera2.camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
 import com.troop.freedcam.eventbus.events.SwichCameraFragmentEvent;
 import com.troop.freedcam.eventbus.events.TransformMatrixChangedEvent;
 import com.troop.freedcam.eventbus.events.UserMessageEvent;

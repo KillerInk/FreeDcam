@@ -6,7 +6,7 @@ import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
 import com.troop.freedcam.camera.camera1.CameraHolder;
 import com.troop.freedcam.camera.camera1.sonyericsson.cameraextension.CameraExtension;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;
 

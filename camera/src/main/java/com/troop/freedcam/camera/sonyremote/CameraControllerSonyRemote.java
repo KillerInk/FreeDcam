@@ -11,7 +11,7 @@ import com.troop.freedcam.camera.sonyremote.sonystuff.SonyUtils;
 import com.troop.freedcam.camera.sonyremote.sonystuff.WifiHandler;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.eventbus.events.CaptureStateChangedEvent;
 import com.troop.freedcam.eventbus.events.UserMessageEvent;
 import com.troop.freedcam.processor.RenderScriptProcessorInterface;
@@ -344,7 +344,7 @@ public class CameraControllerSonyRemote extends AbstractCameraController<
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        CameraStateEvents.fireCameraOpenFinishEvent();
+        CameraStateEvents.fireCameraOpenFinishEvent(this);
     }
 
     @Override

@@ -23,7 +23,6 @@ import android.graphics.Rect;
 import android.text.TextUtils;
 
 import com.troop.freedcam.camera.R;
-import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.camera.basecamera.parameters.modes.ModuleParameters;
@@ -52,7 +51,7 @@ import com.troop.freedcam.camera.sonyremote.parameters.modes.WhiteBalanceModeSon
 import com.troop.freedcam.camera.sonyremote.parameters.modes.ZoomSettingSony;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.camera.sonyremote.sonystuff.SimpleRemoteApi;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.processor.RenderScriptManager;
 import com.troop.freedcam.settings.SettingKeys;
 import com.troop.freedcam.settings.SettingsManager;

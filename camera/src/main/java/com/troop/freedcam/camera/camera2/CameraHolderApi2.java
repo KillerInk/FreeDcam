@@ -28,15 +28,12 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.BlackLevelPattern;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.location.Location;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
-import android.view.TextureView;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
-import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.utils.ContextApplication;
 import com.troop.freedcam.utils.Log;
 

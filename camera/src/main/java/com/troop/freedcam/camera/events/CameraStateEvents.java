@@ -1,5 +1,6 @@
-package com.troop.freedcam.eventbus.events;
+package com.troop.freedcam.camera.events;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.eventbus.EventBusHelper;
 import com.troop.freedcam.utils.Size;
 
@@ -10,6 +11,12 @@ public class CameraStateEvents {
 
     public static class CameraOpenFinishEvent
     {
+        public final CameraControllerInterface cameraControllerInterface;
+
+        public CameraOpenFinishEvent(CameraControllerInterface cameraControllerInterface)
+        {
+            this.cameraControllerInterface = cameraControllerInterface;
+        }
     }
 
     public static class CameraCloseEvent
@@ -46,9 +53,9 @@ public class CameraStateEvents {
         EventBusHelper.post(new CameraOpenEvent());
     }
 
-    public static void fireCameraOpenFinishEvent()
+    public static void fireCameraOpenFinishEvent(CameraControllerInterface cameraControllerInterface)
     {
-        EventBusHelper.post(new CameraOpenFinishEvent());
+        EventBusHelper.post(new CameraOpenFinishEvent(cameraControllerInterface));
     }
 
     public static void fireCameraCloseEvent()

@@ -94,13 +94,15 @@ public  class BasicCameraFragment<C extends AbstractCameraController> extends Fr
 
     protected void onPauseFragment()
     {
-        if(cameraController.moduleHandler != null
+        if(cameraController != null
+                && cameraController.moduleHandler != null
                 && cameraController.moduleHandler.getCurrentModule() != null
                 && cameraController.moduleHandler.getCurrentModule().ModuleName() != null
                 && cameraController.moduleHandler.getCurrentModule().ModuleName().equals(ContextApplication.getStringFromRessources(R.string.module_video))
                 && cameraController.moduleHandler.getCurrentModule().IsWorking())
             cameraController.moduleHandler.getCurrentModule().DoWork();
-        cameraController.stopCameraAsync();
+        if (cameraController != null)
+            cameraController.stopCameraAsync();
     }
 
     @Override

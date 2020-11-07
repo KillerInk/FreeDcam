@@ -27,13 +27,12 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.location.Location;
 import android.view.Surface;
-import android.view.TextureView;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.cameraholder.CameraHolderAbstract;
 import com.troop.freedcam.camera.basecamera.focus.FocusEvents;
 import com.troop.freedcam.eventbus.EventBusHelper;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.eventbus.events.UserMessageEvent;
 import com.troop.freedcam.settings.Frameworks;
 import com.troop.freedcam.utils.Log;

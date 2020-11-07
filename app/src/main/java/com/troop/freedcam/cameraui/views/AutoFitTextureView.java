@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.util.Size;
 import android.view.TextureView;
 
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

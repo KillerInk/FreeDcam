@@ -21,7 +21,6 @@ package com.troop.freedcam.camera.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
@@ -51,7 +50,7 @@ import com.troop.freedcam.camera.camera2.modules.helper.Output;
 import com.troop.freedcam.camera.camera2.modules.helper.RdyToSaveImg;
 import com.troop.freedcam.camera.camera2.parameters.ae.AeManagerCamera2;
 import com.troop.freedcam.eventbus.enums.CaptureStates;
-import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.file.holder.BaseHolder;
 import com.troop.freedcam.processor.RenderScriptProcessor;
 import com.troop.freedcam.settings.Frameworks;
