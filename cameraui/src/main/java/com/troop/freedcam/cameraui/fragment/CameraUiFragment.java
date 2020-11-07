@@ -56,6 +56,7 @@ public class CameraUiFragment extends Fragment {
         cameraUiFragmentBinding.cameraUiLeftBar.isoModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.iso));
         cameraUiFragmentBinding.cameraUiLeftBar.flashModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.flash));
         cameraUiFragmentBinding.cameraUiLeftBar.focusModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.focus));
+        cameraUiFragmentBinding.cameraUiLeftBar.aepriotiryModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.aepriority));
         cameraUiFragmentBinding.cameraUiLeftBar.exposureModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.exposure));
         cameraUiFragmentBinding.cameraUiLeftBar.contshotModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.contshot));
         cameraUiFragmentBinding.cameraUiLeftBar.hdrModeButton.manualButtonBinding.setVisibilityEnableModel(mViewModel.getManualButtonModel(CameraUiViewModel.LeftbarButtons.hdr));
