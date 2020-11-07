@@ -219,7 +219,7 @@ public class StackActivity extends ActivityAbstract
             }
             File file = new File(filesToStack[0].getName());
             String parent = file.getParent();
-            saveBitmapToFile(outputBitmap,new File(parent+"/" + fileListController.getStorageFileManager().getNewFileDatedName("_Stack.jpg")));
+            saveBitmapToFile(outputBitmap,new File(parent+"/" + fileListController.getNewFilePath(false,"_Stack.jpg")));
             runOnUiThread(() -> closeButton.setVisibility(View.VISIBLE));
         }
         );

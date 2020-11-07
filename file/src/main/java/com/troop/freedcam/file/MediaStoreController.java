@@ -15,8 +15,10 @@ import com.troop.freedcam.utils.Log;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import freed.utils.StorageFileManager;
 public class MediaStoreController {
 
     private final String TAG = MediaStoreController.class.getSimpleName();
@@ -389,5 +391,32 @@ public class MediaStoreController {
         {
             ex.printStackTrace();
         }
+    }
+
+    public String getNewFilePath(boolean externalSd, String fileEnding)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
+            builder.append(File.separator).append("IMG_");
+        if (fileEnding.equals(".mp4"))
+            builder.append(File.separator).append("MOV_");
+        builder.append(StorageFileManager.getStringDatePAttern().format(new Date()))
+                .append(fileEnding);
+        return builder.toString();
+    }
+
+    public String getNewFilePathBurst(boolean externalSd, String fileEnding, int hdrcount)
+    {
+        StringBuilder builder = new StringBuilder();
+        if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
+            builder.append(File.separator).append("IMG_");
+        if (fileEnding.equals(".mp4"))
+            builder.append(File.separator).append("MOV_");
+        Date date = new Date();
+        builder.append(StorageFileManager.getStringDatePAttern().format(date));
+        builder.append("_BURST" + hdrcount);
+        builder.append(fileEnding);
+        return builder.toString();
     }
 }

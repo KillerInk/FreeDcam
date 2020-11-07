@@ -70,7 +70,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             SettingsManager.getInstance().init();
         }
         Log.d(TAG,"onCreatePermissionGranted");
-        File log = new File(Environment.getExternalStorageDirectory() +"/DCIM/FreeDcam/log.txt");
+        File log = new File(FreedApplication.getContext().getExternalFilesDir(null)+ "/log.txt");
         if (!forceLogging) {
             if (!Log.isLogToFileEnable() && log.exists()) {
                 new Log();

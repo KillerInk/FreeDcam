@@ -67,11 +67,11 @@ public class FileListController {
         return files;
     }
 
-    public StorageFileManager getStorageFileManager()
+   /* public StorageFileManager getStorageFileManager()
     {
         return storageFileManager;
     }
-    public MediaStoreController getMediaStoreController(){return mediaStoreController; }
+    public MediaStoreController getMediaStoreController(){return mediaStoreController; }*/
 
     public void loadDefaultFiles()
     {
@@ -293,7 +293,7 @@ public class FileListController {
             return new UriHolder(context,wr.getUri(), file.getName(), 0, wr.lastModified(), wr.isDirectory(), externalSD);
         }
         else {
-            Uri uri = getMediaStoreController().addImg(file);
+            Uri uri = mediaStoreController.addImg(file);
             return new UriHolder(context,uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,externalSD);
         }
     }
@@ -312,7 +312,7 @@ public class FileListController {
             return new UriHolder(context,wr.getUri(), file.getName(), Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(), wr.isDirectory(), externalSD);
         }
         else {
-            Uri uri = getMediaStoreController().addMovie(file);
+            Uri uri = mediaStoreController.addMovie(file);
             return new UriHolder(context,uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,externalSD);
         }
     }
@@ -334,4 +334,22 @@ public class FileListController {
                 e.printStackTrace();
             }
     }
+
+    public String getNewFilePath(boolean external, String fileending)
+    {
+        if (needStorageAccessFrameWork)
+            return mediaStoreController.getNewFilePath(external,fileending);
+        else
+            return storageFileManager.getNewFilePath(external,fileending);
+    }
+
+    public String getNewFilePathBurst(boolean external, String fileending, int count)
+    {
+        if (needStorageAccessFrameWork)
+            return mediaStoreController.getNewFilePathBurst(external,fileending,count);
+        else
+            return storageFileManager.getNewFilePathBurst(external,fileending,count);
+    }
+
+
 }

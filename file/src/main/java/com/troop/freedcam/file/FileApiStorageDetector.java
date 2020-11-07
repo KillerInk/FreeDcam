@@ -49,8 +49,6 @@ public class FileApiStorageDetector
         {
             File storagedir = getStorageDirectory();
             if (storagedir != null) {
-
-
                 File[] files = storagedir.listFiles();
                 if(files == null) {
                     Log.e(TAG, "getStorageDirectory().listFiles() is null!");

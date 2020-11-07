@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R;
 import com.troop.freedcam.settings.VideoToneCurveProfile;
 
+import java.util.HashMap;
+
+import freed.settings.SettingsManager;
+
 /**
  * Created by troop on 05.08.2017.
  */
@@ -94,6 +98,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         button_save.setOnClickListener(onSaveButtonClick);
 
         button_load =findViewById(R.id.button_load);
+        button_load.setOnClickListener(onLoadButtonClick);
 
         this.curveView = findViewById(R.id.curveViewHolder);
         curveView.setCurveChangedListner(this);
@@ -103,6 +108,10 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
         savePanel_editText_toneCurveName = findViewById(R.id.editText_curvename);
         savePanel_saveButton = findViewById(R.id.button_savecurve);
+        savePanel_saveButton.setOnClickListener(onSavePanelSaveCurveClick);
+
+        loadPanel = findViewById(R.id.load_panel);
+        loadPanel.setVisibility(GONE);
 
         rgbCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
         rCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
@@ -125,6 +134,46 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
+    private OnClickListener onLoadButtonClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (loadPanel.getVisibility() == GONE) {
+                HashMap<String,VideoToneCurveProfile> profiles = SettingsManager.getInstance().getVideoToneCurveProfiles();
+                String[] pro = new String[profiles.keySet().size()];
+                profiles.keySet().toArray(pro);
+                loadPanel.removeAllViews();
+                for (String s : pro)
+                {
+                    Button button = new Button(getContext());
+                    button.setText(s);
+                    button.setOnClickListener(onLoadPanelButtonClick);
+                    loadPanel.addView(button);
+                }
+                loadPanel.setVisibility(VISIBLE);
+            }
+            else
+                loadPanel.setVisibility(GONE);
+        }
+    };
+
+    private OnClickListener onLoadPanelButtonClick = new OnClickListener()
+    {
+        @Override
+        public void onClick(View v) {
+            String s =(String)((Button)v).getText();
+            VideoToneCurveProfile profile = SettingsManager.getInstance().getVideoToneCurveProfiles().get(s);
+            rgbCurve = profile.rgb;
+            rCurve = profile.r;
+            gCurve = profile.g;
+            bCurve = profile.b;
+            invalidate();
+            loadPanel.setVisibility(GONE);
+            curveView.setPoints(rgbCurve);
+            if (curveChangedListner != null)
+                curveChangedListner.onCurveChanged(rgbCurve);
+        }
+    };
+
     private OnClickListener onSavePanelSaveCurveClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -136,6 +185,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                 curveProfile.r = rCurve;
                 curveProfile.g = gCurve;
                 curveProfile.b = bCurve;
+                SettingsManager.getInstance().saveVideoToneCurveProfile(curveProfile);
                 savePanel.setVisibility(GONE);
             }
         }
