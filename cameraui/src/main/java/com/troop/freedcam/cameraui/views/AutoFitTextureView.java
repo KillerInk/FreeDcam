@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.view.TextureView;
 
 import com.troop.freedcam.eventbus.events.CameraStateEvents;
+import com.troop.freedcam.eventbus.events.TransformMatrixChangedEvent;
 import com.troop.freedcam.utils.Size;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -42,6 +43,12 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
     {
         Size size = event.size;
         setAspectRatio(size.getWidth(), size.getHeight());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTransformMatrixChanged(TransformMatrixChangedEvent transformMatrixChangedEvent)
+    {
+        setTransform(transformMatrixChangedEvent.matrix);
     }
 
     public AutoFitTextureView(Context context) {

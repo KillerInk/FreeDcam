@@ -80,6 +80,7 @@ public  class BasicCameraFragment<C extends AbstractCameraController> extends Fr
 
     protected void onResumeFragment()
     {
+        EventBusHelper.register(camerafragmentBinding.autoFitTextureViewCameraPreview);
         if (previewSurfaceRdy && !cameraIsOpen)
             cameraController.startCameraAsync();
     }
@@ -87,6 +88,7 @@ public  class BasicCameraFragment<C extends AbstractCameraController> extends Fr
     @Override
     public void onPause() {
         super.onPause();
+        EventBusHelper.unregister(camerafragmentBinding.autoFitTextureViewCameraPreview);
         onPauseFragment();
     }
 
