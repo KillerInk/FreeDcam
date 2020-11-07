@@ -8,7 +8,7 @@ import androidx.databinding.Bindable;
 import com.troop.freedcam.cameraui.BR;
 
 public class VisibilityEnableModel extends BaseObservable {
-    private int visibility = View.VISIBLE;
+    private int visibility = View.GONE;
     private boolean enabled = true;
 
     public void setVisibility(int visibility) {

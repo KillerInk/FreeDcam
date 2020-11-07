@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.lifecycle.ViewModel;
 
+import com.troop.freedcam.cameraui.models.CloseAppButtonModel;
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
 import com.troop.freedcam.cameraui.models.ManualControlsHolderModel;
 import com.troop.freedcam.cameraui.models.RotatingSeekbarModel;
@@ -99,8 +100,11 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
 
         rightbarButtonsManualButtonModelHashMap = new HashMap<>();
         RightbarButtons rightbarButtons[] = RightbarButtons.values();
-        for (RightbarButtons buttons1: rightbarButtons)
-            rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
+        for (RightbarButtons buttons1: rightbarButtons) {
+            if (buttons1 != RightbarButtons.close)
+                rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
+        }
+        rightbarButtonsManualButtonModelHashMap.put(RightbarButtons.close,new CloseAppButtonModel());
 
         shutterButtonModel = new ShutterButtonModel();
         touchHandler = new SwipeMenuListner(this);

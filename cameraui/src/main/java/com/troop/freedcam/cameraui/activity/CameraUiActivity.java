@@ -9,11 +9,20 @@ import com.troop.freedcam.cameraui.R;
 import com.troop.freedcam.cameraui.fragment.CameraFragmentManager;
 import com.troop.freedcam.cameraui.fragment.MainFragment;
 import com.troop.freedcam.cameraui.utils.HideNavBarHelper;
+import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.eventbus.events.CloseAppEvent;
+
+import org.greenrobot.eventbus.Subscribe;
 
 public class CameraUiActivity extends AppCompatActivity {
 
     private HideNavBarHelper hideNavBarHelper;
 
+    @Subscribe
+    public void onCloseAppEvent(CloseAppEvent event)
+    {
+        onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +35,18 @@ public class CameraUiActivity extends AppCompatActivity {
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBusHelper.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBusHelper.unregister(this);
     }
 
     @Override
