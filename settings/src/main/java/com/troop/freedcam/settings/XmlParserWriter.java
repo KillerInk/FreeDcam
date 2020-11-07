@@ -22,7 +22,6 @@ import java.util.List;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
-import freed.views.VideoToneCurveProfile;
 
 /**
  * Created by troop on 25.06.2017.
@@ -557,7 +556,7 @@ public class XmlParserWriter
         HashMap<String,VideoToneCurveProfile>  hashMap = new HashMap<>();
 
         try {
-            String xmlsource = StringUtils.getString(FreedApplication.getContext().getResources().openRawResource(R.raw.tonecurveprofiles));
+            String xmlsource = StringUtils.getString(ContextApplication.getContext().getResources().openRawResource(R.raw.tonecurveprofiles));
             XmlElement xmlElement = XmlElement.parse(xmlsource);
             getToneCurveProfiles(hashMap, xmlElement);
         } catch (IOException e) {

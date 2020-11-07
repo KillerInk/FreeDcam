@@ -148,7 +148,7 @@ public class BracketModule extends PictureModule {
 
     @Override
     protected File getFile(String fileending) {
-        return new File(cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePathHDR(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
+        return new File(cameraUiWrapper.getFileListController().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
     }
 
     private void sleep(int time) {

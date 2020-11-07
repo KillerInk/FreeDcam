@@ -1,4 +1,4 @@
-package freed.views;
+package com.troop.freedcam.cameraui.views;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,17 +12,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.settings.SettingsManager;
 import com.troop.freedcam.settings.VideoToneCurveProfile;
 
 import java.util.HashMap;
 
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 05.08.2017.
  */
 
-public class CurveViewControl extends LinearLayout implements CurveView.CurveChangedEvent {
+public class CurveViewControl extends LinearLayout implements freed.views.CurveView.CurveChangedEvent {
 
     private Button button_rgb;
     private Button button_r;
@@ -43,8 +43,8 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private PointF[] rCurve;
     private PointF[] gCurve;
     private PointF[] bCurve;
-    private CurveView curveView;
-    CurveView.CurveChangedEvent curveChangedListner;
+    private freed.views.CurveView curveView;
+    freed.views.CurveView.CurveChangedEvent curveChangedListner;
     private Button activeButton;
     private enum PointStates
     {
@@ -119,7 +119,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         bCurve = new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)};
     }
 
-    public void setCurveChangedListner(CurveView.CurveChangedEvent event)
+    public void setCurveChangedListner(freed.views.CurveView.CurveChangedEvent event)
     {
         this.curveChangedListner = event;
     }

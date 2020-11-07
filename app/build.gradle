@@ -15,7 +15,7 @@ android {
             keyPassword 'freedcam'
         }
     }
-
+    ndkVersion '21.3.6528147'
     compileSdkVersion 30
     buildToolsVersion '30.0.2'
     defaultConfig {

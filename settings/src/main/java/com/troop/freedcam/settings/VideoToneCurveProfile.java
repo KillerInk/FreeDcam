@@ -3,7 +3,8 @@ package com.troop.freedcam.settings;
 import android.graphics.PointF;
 import android.text.TextUtils;
 
-import freed.cam.apis.sonyremote.sonystuff.XmlElement;
+import com.troop.freedcam.utils.XmlElement;
+
 
 public class VideoToneCurveProfile {
     public String name;

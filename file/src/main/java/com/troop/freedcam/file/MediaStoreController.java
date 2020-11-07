@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import freed.utils.StorageFileManager;
 public class MediaStoreController {
 
     private final String TAG = MediaStoreController.class.getSimpleName();

@@ -133,7 +133,7 @@ public abstract class AbstractVideoModule<C extends CameraControllerInterface> e
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {

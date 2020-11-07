@@ -261,9 +261,9 @@ public class PictureModule extends ModuleAbstract<Camera1Controller> implements 
     protected File getFile(String fileending)
     {
         if (isBurstCapture)
-            return new File(cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
+            return new File(cameraUiWrapper.getFileListController().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
         else
-            return new File(cameraUiWrapper.getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
+            return new File(cameraUiWrapper.getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
     }
 
     protected void saveJpeg(byte[] data, File file)
