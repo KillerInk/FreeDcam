@@ -118,7 +118,7 @@ public class AutoHdrMode extends BaseModeParameter {
         }
     }
 
-    @Subscribe
+   /* @Subscribe
     public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
     {
         if (valueChangedEvent.key == SettingKeys.PictureFormat) {
@@ -130,7 +130,7 @@ public class AutoHdrMode extends BaseModeParameter {
                 hide();
             }
         }
-    }
+    }*/
 
     private void hide()
     {

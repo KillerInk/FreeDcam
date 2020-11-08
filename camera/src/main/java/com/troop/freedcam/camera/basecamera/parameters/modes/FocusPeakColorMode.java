@@ -67,7 +67,7 @@ public class FocusPeakColorMode extends AbstractParameter {
         fireStringValueChanged(valueToSet);
     }
 
-    @Subscribe
+    /*@Subscribe
     public void onStringValueChanged(ValueChangedEvent<String> valueob)
     {
         if (valueob.key == SettingKeys.EnableRenderScript) {
@@ -77,5 +77,5 @@ public class FocusPeakColorMode extends AbstractParameter {
             else
                 setViewState(ViewState.Visible);
         }
-    }
+    }*/
 }

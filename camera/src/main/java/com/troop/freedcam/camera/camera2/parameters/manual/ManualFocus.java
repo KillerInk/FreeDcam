@@ -114,8 +114,8 @@ public class ManualFocus extends AbstractParameter<Camera2Controller>
     @Override
     public void fireStringValueChanged(String value)
     {
-        currentString = value;
-        EventBusHelper.post(new FocusPositionChangedEvent(key,value, String.class));
+        /*currentString = value;
+        EventBusHelper.post(new FocusPositionChangedEvent(key,value, String.class));*/
     }
 
 

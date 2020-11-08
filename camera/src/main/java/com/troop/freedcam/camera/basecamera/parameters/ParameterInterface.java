@@ -29,10 +29,26 @@ import com.troop.freedcam.settings.SettingKeys;
  */
 public interface ParameterInterface extends EventBusLifeCycle
 {
+    enum ViewState{
+        Visible,
+        Hidden,
+        Disabled,
+        Enabled
+    }
 
-    AbstractParameter.ViewState getViewState();
+    interface ViewStateEvent
+    {
+        void onViewStateChanged(ViewState viewState);
+    }
 
-    void setViewState(AbstractParameter.ViewState state);
+    interface ValueChangedEvent
+    {
+        void onValueChanged(String val);
+    }
+
+    ViewState getViewState();
+
+    void setViewState(ViewState state);
 
     SettingKeys.Key getKey();
 
@@ -92,4 +108,7 @@ public interface ParameterInterface extends EventBusLifeCycle
      * @param value new values that are useable to get set
      */
     void fireStringValuesChanged(String[] value);
+
+    void setViewStateEventListner(ViewStateEvent viewStateEventListner);
+    void setValueChangedEventListner(ValueChangedEvent valueChangedEventListner);
 }

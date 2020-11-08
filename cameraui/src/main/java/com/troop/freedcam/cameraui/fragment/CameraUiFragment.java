@@ -13,10 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.events.CameraStateEvents;
 import com.troop.freedcam.cameraui.R;
 import com.troop.freedcam.cameraui.databinding.CameraUiFragmentBinding;
 import com.troop.freedcam.cameraui.viewmodels.CameraUiViewModel;
 import com.troop.freedcam.eventbus.EventBusHelper;
+import com.troop.freedcam.settings.SettingKeys;
+
+import org.greenrobot.eventbus.Subscribe;
 
 public class CameraUiFragment extends Fragment {
 

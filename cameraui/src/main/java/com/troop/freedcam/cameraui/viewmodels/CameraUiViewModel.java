@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.lifecycle.ViewModel;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
+import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.cameraui.models.ButtonModel;
 import com.troop.freedcam.cameraui.models.CloseAppButtonModel;
@@ -175,6 +176,8 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     {
         return rightbarButtonsManualButtonModelHashMap.get(manualButtons);
     }
+
+
 
     public ManualControlsHolderModel getManualControlsHolderModel() {
         return manualControlsHolder;

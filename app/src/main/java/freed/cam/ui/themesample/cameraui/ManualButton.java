@@ -35,6 +35,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.eventbus.events.ValueChangedEvent;
 import com.troop.freedcam.utils.Log;
 
 import org.greenrobot.eventbus.Subscribe;

@@ -85,6 +85,7 @@ public class ZoomApi2 extends AbstractParameter<Camera2Controller>
     {
         zoom = valueToSet;
         fireIntValueChanged(zoom);
+        fireStringValueChanged(stringvalues[valueToSet]);
         // diff values /2 cause we set it foreach side.
         int cropW = (minCropWidth * zoom)/2;
         int cropH = (minCropHeight * zoom)/2;

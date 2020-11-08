@@ -15,14 +15,10 @@ import java.util.ArrayList;
 
 public abstract class AbstractParameter<C extends CameraControllerInterface> implements ParameterInterface {
 
-    public enum ViewState{
-        Visible,
-        Hidden,
-        Disabled,
-        Enabled
-    }
 
     private ViewState viewState = ViewState.Hidden;
+    private ViewStateEvent viewStateEventListner;
+    private ValueChangedEvent valueChangedEvent;
 
     /**
      * the parameterhandler
@@ -79,8 +75,17 @@ public abstract class AbstractParameter<C extends CameraControllerInterface> imp
 
     @Override
     public void setViewState(ViewState viewState) {
-        this.viewState = viewState;
+        this.viewState =viewState;
         fireViewStateChanged(viewState);
+    }
+
+    public void setViewStateEventListner(ViewStateEvent viewStateEventListner) {
+        this.viewStateEventListner = viewStateEventListner;
+    }
+
+    public void setValueChangedEventListner(ValueChangedEvent valueChangedEventListner)
+    {
+        this.valueChangedEvent = valueChangedEventListner;
     }
 
     public AbstractParameter(C cameraUiWrapper, SettingKeys.Key  settingMode)
@@ -98,7 +103,8 @@ public abstract class AbstractParameter<C extends CameraControllerInterface> imp
     public void fireStringValueChanged(String value)
     {
         currentString = value;
-
+        if (valueChangedEvent != null)
+            valueChangedEvent.onValueChanged(currentString);
     }
 
     @Override

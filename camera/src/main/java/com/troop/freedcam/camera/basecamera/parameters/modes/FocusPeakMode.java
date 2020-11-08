@@ -77,7 +77,7 @@ public class FocusPeakMode extends AbstractParameter {
 
 
 
-    @Subscribe
+   /* @Subscribe
     public void onStringValueChanged(ValueChangedEvent<String> valueob)
     {
         if (valueob.key == SettingKeys.EnableRenderScript) {
@@ -87,5 +87,5 @@ public class FocusPeakMode extends AbstractParameter {
             else
                 setViewState(ViewState.Visible);
         }
-    }
+    }*/
 }

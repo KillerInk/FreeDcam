@@ -94,7 +94,7 @@ public class LgHdrMode extends BaseModeParameter
         }
     }
 
-    @Subscribe
+    /*@Subscribe
     public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
     {
         if (valueChangedEvent.key == SettingKeys.PictureFormat) {
@@ -106,7 +106,7 @@ public class LgHdrMode extends BaseModeParameter
                 Hide();
             }
         }
-    }
+    }*/
 
     private void Hide()
     {

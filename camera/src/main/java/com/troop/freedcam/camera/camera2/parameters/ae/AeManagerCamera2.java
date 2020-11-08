@@ -53,6 +53,7 @@ public class AeManagerCamera2 extends AeManager<Camera2Controller> {
 
             cameraControllerInterface.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val,setToCamera);
             manualExposureTime.fireIntValueChanged(valueToSet);
+            manualExposureTime.fireStringValueChanged(manualExposureTime.getStringValues()[valueToSet]);
         }
     }
 
@@ -71,6 +72,7 @@ public class AeManagerCamera2 extends AeManager<Camera2Controller> {
             }
             cameraControllerInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
             manualIso.fireIntValueChanged(valueToSet);
+            manualIso.fireStringValueChanged(manualIso.getStringValues()[valueToSet]);
         }
     }
 

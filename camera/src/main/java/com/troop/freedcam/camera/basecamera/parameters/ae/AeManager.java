@@ -83,13 +83,13 @@ public abstract class AeManager<C extends CameraControllerInterface> implements 
             return currentInt;
         }
 
-        @Override
+        /*@Override
         public String GetStringValue()
         {
             if (stringvalues == null || stringvalues.length == 0 || currentInt > stringvalues.length)
                 return "error";
             return stringvalues[currentInt];
-        }
+        }*/
 
 
         @Override
@@ -112,10 +112,10 @@ public abstract class AeManager<C extends CameraControllerInterface> implements 
                 return ViewState.Disabled;
         }
 
-        @Override
+        /*@Override
         public void fireStringValueChanged(String value) {
             EventBusHelper.post(new ShutterSpeedChangedEvent(key,value,String.class));
-        }
+        }*/
 
     }
 
@@ -148,10 +148,10 @@ public abstract class AeManager<C extends CameraControllerInterface> implements 
                 return ViewState.Disabled;
         }
 
-        @Override
+        /*@Override
         public void fireStringValueChanged(String value) {
             EventBusHelper.post(new IsoChangedEvent(key,value,String.class));
-        }
+        }*/
     }
 
     public class ExposureCompensation extends AbstractParameter
