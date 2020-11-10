@@ -19,6 +19,9 @@
 
 package com.troop.freedcam.camera.basecamera.parameters;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.troop.freedcam.eventbus.EventBusLifeCycle;
 import com.troop.freedcam.settings.SettingKeys;
 
@@ -44,6 +47,7 @@ public interface ParameterInterface extends EventBusLifeCycle
     interface ValueChangedEvent
     {
         void onValueChanged(String val);
+        void onValueChanged(int val);
     }
 
     ViewState getViewState();

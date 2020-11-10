@@ -26,6 +26,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Handler;
 import android.os.Looper;
@@ -141,7 +142,7 @@ public class RotatingSeekbar extends View
         }
     }
 
-    private String[] Values = "Auto,1/100000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,60,180".split(",");
+    private String[] Values = "Auto,longlongtext,1/100000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,60,180".split(",");
     private int currentValue = 3;
     private Paint paint;
     private int viewWidth;
@@ -236,6 +237,25 @@ public class RotatingSeekbar extends View
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec)-(int)convertDpiToPixel(35);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        int size = 0;
+        paint.setStrokeWidth(1);
+        paint.setTextSize(textsize);
+        for (String s : Values)
+        {
+            float mes = (int)paint.measureText(s);
+            if (mes > size)
+                size = (int)mes;
+        }
+        size = size+ 70;
+        setMeasuredDimension(size, height);
+
+    }
+
+    @Override
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
@@ -268,7 +288,7 @@ public class RotatingSeekbar extends View
                 int xpos = i * itemHeight + textsize + currentPosToDraw + itemHeight / 2 - textsize / 2;
                 canvas.drawLine(viewWidth - convertDpiToPixel(20), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
                 if (null != val)
-                    canvas.drawText(val, viewWidth / 2 + convertDpiToPixel(10), xpos, paint);
+                    canvas.drawText(val, viewWidth-60, xpos, paint);
             }
         }
         paint.setAlpha(255);

@@ -185,6 +185,7 @@ public abstract class AbstractParameterHandler<C extends CameraControllerInterfa
 
     public void setManualSettingsToParameters()
     {
+        setManualMode(SettingKeys.M_Zoom, false);
         setManualMode(SettingKeys.M_Contrast,false);
         setManualMode(SettingKeys.M_3D_Convergence,false);
         setManualMode(SettingKeys.M_Focus,false);

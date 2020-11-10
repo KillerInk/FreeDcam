@@ -17,9 +17,14 @@ public class ButtonModel extends VisibilityEnableModel implements View.OnClickLi
         else
         {
             parameterInterface.setViewStateEventListner(this::onViewStateChanged);
-            parameterInterface.setValueChangedEventListner(this::onValueChanged);
+            parameterInterface.setValueChangedEventListner(this);
             setViewState(parameterInterface.getViewState());
         }
+    }
+
+    public ParameterInterface getParameterInterface()
+    {
+        return parameterInterface;
     }
 
     public String[] getValues()
@@ -42,6 +47,11 @@ public class ButtonModel extends VisibilityEnableModel implements View.OnClickLi
 
     @Override
     public void onValueChanged(String val) {
+        notifyPropertyChanged(BR.value);
+    }
+
+    @Override
+    public void onValueChanged(int val) {
         notifyPropertyChanged(BR.value);
     }
 }

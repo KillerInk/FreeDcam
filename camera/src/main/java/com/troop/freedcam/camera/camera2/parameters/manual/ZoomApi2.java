@@ -59,11 +59,12 @@ public class ZoomApi2 extends AbstractParameter<Camera2Controller>
         minCropHeight = minCropH/ZOOM_LIMITER;
 
         stringvalues = createStringArray(0,ZOOM_LIMITER,1);
+        currentString = "0";
     }
 
     @Override
     public ViewState getViewState() {
-        if (((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0)
+        if (cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0)
             return ViewState.Visible;
         else
             return ViewState.Hidden;
@@ -76,7 +77,7 @@ public class ZoomApi2 extends AbstractParameter<Camera2Controller>
 
     @Override
     public String GetStringValue() {
-        return String.valueOf(zoom);
+        return currentString;
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
@@ -84,8 +85,9 @@ public class ZoomApi2 extends AbstractParameter<Camera2Controller>
     public void setValue(int valueToSet, boolean setToCamera)
     {
         zoom = valueToSet;
+        currentString = String.valueOf(zoom);
         fireIntValueChanged(zoom);
-        fireStringValueChanged(stringvalues[valueToSet]);
+        fireStringValueChanged(currentString);
         // diff values /2 cause we set it foreach side.
         int cropW = (minCropWidth * zoom)/2;
         int cropH = (minCropHeight * zoom)/2;

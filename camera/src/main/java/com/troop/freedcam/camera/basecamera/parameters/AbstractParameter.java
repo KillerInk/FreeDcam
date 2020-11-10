@@ -97,7 +97,8 @@ public abstract class AbstractParameter<C extends CameraControllerInterface> imp
     public void fireIntValueChanged(int current)
     {
         currentInt = current;
-        ValueUpdater.updateValue(key,current,Integer.class);
+        if (valueChangedEvent != null)
+            valueChangedEvent.onValueChanged(currentInt);
     }
 
     public void fireStringValueChanged(String value)
@@ -111,7 +112,8 @@ public abstract class AbstractParameter<C extends CameraControllerInterface> imp
     public void fireViewStateChanged(ViewState value)
     {
         viewState = value;
-        ValueUpdater.updateValue(key,value,ViewState.class);
+        if (viewStateEventListner != null)
+            viewStateEventListner.onViewStateChanged(viewState);
     }
 
     @Override

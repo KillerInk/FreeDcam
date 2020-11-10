@@ -66,13 +66,12 @@
         <com.troop.freedcam.cameraui.views.RotatingSeekbar
             android:id="@+id/rotatingSeekbar2"
             bindModelToRotatingSeekbar="@{cameraUiViewModel.seekBarModel.manualButtonModel}"
-            android:layout_width="@dimen/cameraui_manual_fragment_rotatingseekbar_width"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:visibility="@{cameraUiViewModel.seekBarModel.visibility}"
             app:layout_constraintBottom_toTopOf="@+id/camera_ui_manuals"
+
             app:layout_constraintEnd_toStartOf="@+id/camera_ui_right_bar"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -106,6 +106,20 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Contrast,ManualButtons.contrast);
         setParameterToManualButton(cameraControllerInterface,SettingKeys.M_FX,ManualButtons.fx);
         setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Burst,ManualButtons.burst);
+
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.HISTOGRAM, LeftbarButtons.histogram);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.CLIPPING, LeftbarButtons.clipping);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.WhiteBalanceMode, LeftbarButtons.wb);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.IsoMode, LeftbarButtons.iso);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.FlashMode, LeftbarButtons.flash);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.FocusMode, LeftbarButtons.focus);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.ExposureMode, LeftbarButtons.exposure);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.AE_PriorityMode, LeftbarButtons.aepriority);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.ContShootMode, LeftbarButtons.contshot);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.HDRMode, LeftbarButtons.hdr);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.NightMode, LeftbarButtons.night);
+        setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.PictureFormat, LeftbarButtons.imageformat);
+
     }
 
     private void setParameterToManualButton(CameraControllerInterface cameraControllerInterface, SettingKeys.Key key, ManualButtons buttons)
@@ -113,6 +127,13 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         ParameterInterface parameterInterface = cameraControllerInterface.getParameterHandler().get(key);
         if (parameterInterface != null)
             manualButtonModelHashMap.get(buttons).setParameterInterface(parameterInterface);
+    }
+
+    private void setParameterToLeftBarButtons(CameraControllerInterface cameraControllerInterface, SettingKeys.Key key, LeftbarButtons buttons)
+    {
+        ParameterInterface parameterInterface = cameraControllerInterface.getParameterHandler().get(key);
+        if (parameterInterface != null)
+            leftbarButtonsManualButtonModelHashMap.get(buttons).setParameterInterface(parameterInterface);
     }
 
 
@@ -226,9 +247,4 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
 
     }
 
-    @Subscribe
-    public void onCameraOpen(CameraStateEvents.CameraOpenFinishEvent cameraStateEvents)
-    {
-
-    }
 }
