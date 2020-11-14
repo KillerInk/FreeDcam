@@ -120,6 +120,11 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.NightMode, LeftbarButtons.night);
         setParameterToLeftBarButtons(cameraControllerInterface,SettingKeys.PictureFormat, LeftbarButtons.imageformat);
 
+        setParameterToRightBarButtons(cameraControllerInterface,SettingKeys.Module,RightbarButtons.module);
+        setParameterToRightBarButtons(cameraControllerInterface,SettingKeys.Focuspeak,RightbarButtons.focuspeak);
+        setParameterToRightBarButtons(cameraControllerInterface,SettingKeys.selfTimer,RightbarButtons.selftimer);
+        setParameterToRightBarButtons(cameraControllerInterface,SettingKeys.ExposureLock,RightbarButtons.aelock);
+
     }
 
     private void setParameterToManualButton(CameraControllerInterface cameraControllerInterface, SettingKeys.Key key, ManualButtons buttons)
@@ -134,6 +139,13 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         ParameterInterface parameterInterface = cameraControllerInterface.getParameterHandler().get(key);
         if (parameterInterface != null)
             leftbarButtonsManualButtonModelHashMap.get(buttons).setParameterInterface(parameterInterface);
+    }
+
+    private void setParameterToRightBarButtons(CameraControllerInterface cameraControllerInterface, SettingKeys.Key key, RightbarButtons buttons)
+    {
+        ParameterInterface parameterInterface = cameraControllerInterface.getParameterHandler().get(key);
+        if (parameterInterface != null)
+            rightbarButtonsManualButtonModelHashMap.get(buttons).setParameterInterface(parameterInterface);
     }
 
 
