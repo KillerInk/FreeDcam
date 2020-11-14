@@ -20,6 +20,7 @@ public class ButtonModel extends VisibilityEnableModel implements View.OnClickLi
             parameterInterface.setValueChangedEventListner(this);
             setViewState(parameterInterface.getViewState());
         }
+        notifyChange();
     }
 
     public ParameterInterface getParameterInterface()
