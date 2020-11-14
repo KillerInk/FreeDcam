@@ -26,6 +26,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Handler;
@@ -77,6 +78,7 @@ public class RotatingSeekbar extends View
             switch(msg.what)
             {
                 case INVALIDATE:
+                    RotatingSeekbar.this.requestLayout();
                     RotatingSeekbar.this.invalidate();
                     break;
                 case ONPROGRESSCHANGED:
@@ -202,7 +204,8 @@ public class RotatingSeekbar extends View
         paint.setTextAlign(Align.RIGHT);
         textsize = (int) convertDpiToPixel(textsize);
         grandientPaint = new Paint(Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG);
-
+        setBackgroundColor(Color.TRANSPARENT);
+        setAlpha(1);
         setProgress(currentValue, false);
     }
 
@@ -251,6 +254,8 @@ public class RotatingSeekbar extends View
                 size = (int)mes;
         }
         size = size+ 70;
+        if (size < convertDpiToPixel(40))
+            size = (int)convertDpiToPixel(40);
         setMeasuredDimension(size, height);
 
     }
@@ -265,7 +270,6 @@ public class RotatingSeekbar extends View
         grandientPaint.setShader(halfToBottmGradient);
         canvas.drawPaint(grandientPaint);
         paint.setStrokeWidth(10);
-        paint.setColor(textColor);
         //draw outlines
         canvas.drawLine(viewWidth -convertDpiToPixel(30), 0, viewWidth,0,paint);
         canvas.drawLine(viewWidth -convertDpiToPixel(30), viewHeight, viewWidth,viewHeight,paint);
@@ -273,8 +277,6 @@ public class RotatingSeekbar extends View
         paint.setStrokeWidth(2);
         canvas.drawLine(0, convertDpiToPixel(30), 0,viewHeight - convertDpiToPixel(30),paint);
         paint.setStrokeWidth(10);
-        paint.setColor(textColor);
-        paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {
             String val = Values[i];
