@@ -45,6 +45,7 @@ public class ManualButton extends ConstraintLayout {
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         manualButtonBinding = DataBindingUtil.inflate(inflater, R.layout.camera_ui_manual_button, this, false);
+        manualButtonBinding.manualTextview.setSelected(true);
         addView(manualButtonBinding.getRoot());
     }
 

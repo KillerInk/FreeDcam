@@ -43,7 +43,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9"
-        tools:text="test" />
+        tools:text="test"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:focusable="true"
+        android:scrollHorizontally="true"
+        android:focusableInTouchMode="true"
+        android:freezesText="true"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:gravity="center|center_vertical"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
