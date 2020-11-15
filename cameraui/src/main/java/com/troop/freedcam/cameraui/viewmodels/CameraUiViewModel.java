@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
 import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.cameraui.models.BooleanButtonModel;
 import com.troop.freedcam.cameraui.models.ButtonModel;
 import com.troop.freedcam.cameraui.models.CloseAppButtonModel;
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
@@ -186,10 +187,11 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         rightbarButtonsManualButtonModelHashMap = new HashMap<>();
         RightbarButtons rightbarButtons[] = RightbarButtons.values();
         for (RightbarButtons buttons1: rightbarButtons) {
-            if (buttons1 != RightbarButtons.close)
+            if (buttons1 != RightbarButtons.close && buttons1 != RightbarButtons.aelock)
                 rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
         }
         rightbarButtonsManualButtonModelHashMap.put(RightbarButtons.close,new CloseAppButtonModel());
+        rightbarButtonsManualButtonModelHashMap.put(RightbarButtons.aelock, new BooleanButtonModel());
 
         shutterButtonModel = new ShutterButtonModel();
         touchHandler = new SwipeMenuListner(this);
