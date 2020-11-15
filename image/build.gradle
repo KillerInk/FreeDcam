@@ -12,11 +12,9 @@ android {
         versionCode 1
         versionName "1.0"
 
-        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
         externalNativeBuild {
-            ndkBuild {
-                arguments "-j4"
-                abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            ndk {
+                abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
     }
@@ -31,17 +29,17 @@ android {
 
         }
     }
-    externalNativeBuild {
-        ndkBuild {
-            path 'src/main/jni/Android.mk'
-        }
-    }
     productFlavors {
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
     }
 }
 

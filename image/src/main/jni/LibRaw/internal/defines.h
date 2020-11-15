@@ -53,7 +53,7 @@ it under the terms of the one of two licenses as you choose:
 #define strcasecmp stricmp
 #define strncasecmp strnicmp
 #else
-#include <unistd.h>
+
 #include <utime.h>
 #include <netinet/in.h>
 typedef long long INT64;
