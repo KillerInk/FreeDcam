@@ -1,4 +1,6 @@
-package com.troop.freedcam.cameraui.models;
+package com.troop.freedcam.cameraui.models.event;
+
+import com.troop.freedcam.cameraui.models.ManualButtonModel;
 
 public interface ManualButtonModelClickedEvent {
 

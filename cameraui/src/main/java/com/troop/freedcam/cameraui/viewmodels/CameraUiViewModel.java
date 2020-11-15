@@ -6,15 +6,17 @@ import android.view.View;
 import androidx.lifecycle.ViewModel;
 
 import com.troop.freedcam.camera.basecamera.CameraControllerInterface;
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
 import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
 import com.troop.freedcam.cameraui.models.BooleanButtonModel;
 import com.troop.freedcam.cameraui.models.ButtonModel;
+import com.troop.freedcam.cameraui.models.ButtonValuesControllerModel;
 import com.troop.freedcam.cameraui.models.CloseAppButtonModel;
 import com.troop.freedcam.cameraui.models.ManualButtonModel;
 import com.troop.freedcam.cameraui.models.ManualControlsHolderModel;
 import com.troop.freedcam.cameraui.models.RotatingSeekbarModel;
 import com.troop.freedcam.cameraui.models.ShutterButtonModel;
+import com.troop.freedcam.cameraui.models.TextValuesButtonModel;
+import com.troop.freedcam.cameraui.models.ValuesHolderModel;
 import com.troop.freedcam.cameraui.service.I_swipe;
 import com.troop.freedcam.cameraui.service.SwipeMenuListner;
 import com.troop.freedcam.camera.events.CameraStateEvents;
@@ -76,22 +78,6 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     @Subscribe
     public void onCameraOpenFinishEvent(CameraStateEvents.CameraOpenFinishEvent cameraOpenFinishEvent)
     {
-        /*
-        zoom,
-        focus,
-        iso,
-        shutter,
-        fnum,
-        shift,
-        ev,
-        saturation,
-        sharpness,
-        tonecurve,
-        wb,
-        contrast,
-        fx,
-        burst,
-         */
         CameraControllerInterface cameraControllerInterface = cameraOpenFinishEvent.cameraControllerInterface;
         setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Zoom,ManualButtons.zoom);
         setParameterToManualButton(cameraControllerInterface,SettingKeys.M_Focus,ManualButtons.focus);
@@ -166,11 +152,14 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
     private RotatingSeekbarModel seekBarModel;
     private ShutterButtonModel shutterButtonModel;
     private SwipeMenuListner touchHandler;
+    private ButtonValuesControllerModel buttonValuesControllerModel;
+    private ValuesHolderModel valuesHolderModel;
 
     public CameraUiViewModel() {
         seekBarModel = new RotatingSeekbarModel();
         manualControlsHolder = new ManualControlsHolderModel(seekBarModel);
-
+        valuesHolderModel = new ValuesHolderModel();
+        buttonValuesControllerModel = new ButtonValuesControllerModel(valuesHolderModel);
 
         manualButtonModelHashMap = new HashMap<>();
         ManualButtons buttons[] = ManualButtons.values();
@@ -181,17 +170,25 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         }
         leftbarButtonsManualButtonModelHashMap = new HashMap<>();
         LeftbarButtons leftbarButtons[] = LeftbarButtons.values();
-        for (LeftbarButtons buttons1: leftbarButtons)
-            leftbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
+        for (LeftbarButtons buttons1: leftbarButtons) {
+            if (buttons1 != LeftbarButtons.clipping
+                    && buttons1 != LeftbarButtons.histogram)
+                leftbarButtonsManualButtonModelHashMap.put(buttons1, new TextValuesButtonModel(buttonValuesControllerModel,true));
+        }
+        leftbarButtonsManualButtonModelHashMap.put(LeftbarButtons.clipping, new BooleanButtonModel());
+        leftbarButtonsManualButtonModelHashMap.put(LeftbarButtons.histogram, new BooleanButtonModel());
 
         rightbarButtonsManualButtonModelHashMap = new HashMap<>();
         RightbarButtons rightbarButtons[] = RightbarButtons.values();
         for (RightbarButtons buttons1: rightbarButtons) {
-            if (buttons1 != RightbarButtons.close && buttons1 != RightbarButtons.aelock)
-                rightbarButtonsManualButtonModelHashMap.put(buttons1, new ManualButtonModel(manualControlsHolder));
+            if (buttons1 != RightbarButtons.close
+                    && buttons1 != RightbarButtons.aelock
+                    && buttons1 != RightbarButtons.focuspeak)
+                rightbarButtonsManualButtonModelHashMap.put(buttons1, new TextValuesButtonModel(buttonValuesControllerModel,false));
         }
         rightbarButtonsManualButtonModelHashMap.put(RightbarButtons.close,new CloseAppButtonModel());
         rightbarButtonsManualButtonModelHashMap.put(RightbarButtons.aelock, new BooleanButtonModel());
+        rightbarButtonsManualButtonModelHashMap.put(RightbarButtons.focuspeak, new BooleanButtonModel());
 
         shutterButtonModel = new ShutterButtonModel();
         touchHandler = new SwipeMenuListner(this);

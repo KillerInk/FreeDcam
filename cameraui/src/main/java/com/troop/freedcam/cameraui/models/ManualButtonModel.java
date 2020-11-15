@@ -3,8 +3,7 @@ package com.troop.freedcam.cameraui.models;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.troop.freedcam.camera.basecamera.parameters.AbstractParameter;
-import com.troop.freedcam.camera.basecamera.parameters.ParameterInterface;
+import com.troop.freedcam.cameraui.models.event.ManualButtonModelClickedEvent;
 
 public class ManualButtonModel extends ButtonModel implements SeekBar.OnSeekBarChangeListener {
     private ManualButtonModelClickedEvent manualControlsHolderModel;

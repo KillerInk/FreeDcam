@@ -1,6 +1,6 @@
 package com.troop.freedcam.cameraui.models;
 
-import android.view.View;
+import com.troop.freedcam.cameraui.models.event.ManualButtonModelClickedEvent;
 
 public class ManualControlsHolderModel extends VisibilityEnableModel implements ManualButtonModelClickedEvent {
     private RotatingSeekbarModel rotatingSeekbarModel;
