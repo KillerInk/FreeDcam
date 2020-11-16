@@ -182,12 +182,9 @@ public class SettingsManager implements SettingsManagerInterface {
             parser.parseAndFindSupportedDevice(FreedApplication.getContext().getResources(),matrixes,settingsStorage.appdataFolder);
             Log.d(TAG, "Lookup PreDefinedConfigFile done");
         }
-        else //load only stuff for dng
-        {
-            Log.d(TAG, "load dngProfiles");
-            opcodeUrlList = new ArrayList<>();
-        }
         dngProfileHashMap = parser.getDngProfiles(matrixes,settingsStorage.appdataFolder);
+        opcodeUrlList = new ArrayList<>();
+        loadOpCodes();
     }
 
     private void loadOpCodes()
