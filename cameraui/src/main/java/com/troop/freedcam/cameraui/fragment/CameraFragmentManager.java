@@ -36,16 +36,16 @@ public class CameraFragmentManager implements EventBusLifeCycle {
     }
 
 
-    private int fragmentHolderId;
-    private FragmentManager fragmentManager;
+    private final int fragmentHolderId;
+    private final FragmentManager fragmentManager;
     private AbstractCameraController cameraController;
     private BasicCameraFragment cameraFragment;
     private RenderScriptManager renderScriptManager;
-    private PermissionManager permissionManager;
+    private final PermissionManager permissionManager;
 
-    private BackgroundHandlerThread backgroundHandlerThread;
-    private MainToCameraHandler mainToCameraHandler;
-    private CameraToMainHandler cameraToMainHandler;
+    private final BackgroundHandlerThread backgroundHandlerThread;
+    private final MainToCameraHandler mainToCameraHandler;
+    private final CameraToMainHandler cameraToMainHandler;
 
     public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, PermissionManager permissionManager)
     {
