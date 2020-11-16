@@ -223,6 +223,10 @@ public class CameraUiViewModel extends ViewModel implements I_swipe {
         return shutterButtonModel;
     }
 
+    public ValuesHolderModel getValuesHolderModel() {
+        return valuesHolderModel;
+    }
+
     @Override
     public void doLeftToRightSwipe() {
 

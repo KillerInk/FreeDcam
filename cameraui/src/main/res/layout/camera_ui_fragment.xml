@@ -70,9 +70,25 @@
             android:layout_height="0dp"
             android:visibility="@{cameraUiViewModel.seekBarModel.visibility}"
             app:layout_constraintBottom_toTopOf="@+id/camera_ui_manuals"
-
             app:layout_constraintEnd_toStartOf="@+id/camera_ui_right_bar"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:id="@+id/parametervaluesscrollview"
+            bindPositionToScrollview="@{cameraUiViewModel.valuesHolderModel}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{cameraUiViewModel.valuesHolderModel.visibility}"
+            >
+
+            <LinearLayout
+                android:id="@+id/parametervaluesholder"
+                bindModelToLinearLayout="@{cameraUiViewModel.valuesHolderModel}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{cameraUiViewModel.valuesHolderModel.visibility}" />
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
