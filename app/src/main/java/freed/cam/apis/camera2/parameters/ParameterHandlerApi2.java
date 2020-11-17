@@ -289,7 +289,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
-        if (SettingsManager.get(SettingKeys.TONE_MAP_MODE).get().equals("CONTRAST_CURVE")) {
+        if (SettingsManager.get(SettingKeys.TONE_MAP_MODE) != null
+                && SettingsManager.get(SettingKeys.TONE_MAP_MODE).get() != null
+                && SettingsManager.get(SettingKeys.TONE_MAP_MODE).get().equals("CONTRAST_CURVE")) {
             VideoToneCurveProfile profile = SettingsManager.getInstance().getVideoToneCurveProfiles().get(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
             if (profile != null)
                 ((ManualToneMapCurveApi2.ToneCurveParameter) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(pointFtoFloatArray(profile.rgb));

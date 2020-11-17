@@ -30,7 +30,8 @@ public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSett
             SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
-        EventBusHelper.post(new SwichCameraFragmentEvent());
+        //EventBusHelper.post(new SwichCameraFragmentEvent());
+        cameraUiWrapper.restartCameraAsync();
         //cameraUiWrapper.getActivityInterface()..restartCameraAsync();
 
     }
