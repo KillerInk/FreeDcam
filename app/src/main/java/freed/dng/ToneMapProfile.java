@@ -32,6 +32,7 @@ public class ToneMapProfile {
     in detail in Chapter 6 DNG SDK.
      */
     private float hueSatMap[];
+    private float hueSatMap2[];
 
     /*
     This tag specifies the number of input samples in each dimension of the hue/saturation/value
@@ -112,6 +113,13 @@ public class ToneMapProfile {
                 hueSatMap[i] = Float.parseFloat(split[i]);
         }
 
+        if (!element.findChild("huesatmapdata2").isEmpty()) {
+            split = element.findChild("huesatmapdata2").getValue().split(" ");
+            hueSatMap2 = new float[split.length];
+            for (int i = 0; i < split.length; i++)
+                hueSatMap2[i] = Float.parseFloat(split[i]);
+        }
+
         if (!element.findChild("baselineexposure").isEmpty())
         {
             baselineExposure = element.findChild("baselineexposure").getFloatValue();
@@ -136,6 +144,10 @@ public class ToneMapProfile {
     public float[] getHueSatMapData1()
     {
         return hueSatMap;
+    }
+    public float[] getHueSatMapData2()
+    {
+        return hueSatMap2;
     }
     public int[] getHueSatMapDims(){
         return hueSatMapDims;
