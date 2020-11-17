@@ -312,6 +312,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
 
         CameraStateEvents.fireCameraOpenFinishEvent();
         moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
+        //parametersHandler.SetAppSettingsToParameters();
     }
 
     @Override

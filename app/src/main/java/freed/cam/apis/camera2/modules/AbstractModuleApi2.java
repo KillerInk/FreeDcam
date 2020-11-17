@@ -50,10 +50,6 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();
-        Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        displaySize = new Point();
-
-        display.getRealSize(displaySize);
     }
 
     @Override

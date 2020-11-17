@@ -124,7 +124,7 @@ public abstract class AbstractParameterHandler
 
     public abstract int getCurrentIso();
 
-    protected void SetAppSettingsToParameters()
+    public void SetAppSettingsToParameters()
     {
         setGlobalAppSettingsToCamera(SettingKeys.LOCATION_MODE,false);
         setAppSettingsToCamera(SettingKeys.ColorMode,false);

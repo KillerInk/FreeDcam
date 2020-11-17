@@ -225,7 +225,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
 
         registerListners();
-        SetAppSettingsToParameters();
+
     }
 
     @Override
