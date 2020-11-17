@@ -20,14 +20,18 @@
 package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
+import com.troop.freedcam.R;
+
 import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -63,6 +67,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.views.VideoToneCurveProfile;
 
 /**
  * Created by troop on 12.12.2014.
@@ -281,4 +286,25 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         return 0;
     }
 
+    @Override
+    public void SetAppSettingsToParameters() {
+        super.SetAppSettingsToParameters();
+        if (SettingsManager.get(SettingKeys.TONE_MAP_MODE).get().equals("CONTRAST_CURVE")) {
+            VideoToneCurveProfile profile = SettingsManager.getInstance().getVideoToneCurveProfiles().get(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
+            if (profile != null)
+                ((ManualToneMapCurveApi2.ToneCurveParameter) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(pointFtoFloatArray(profile.rgb));
+        }
+    }
+
+    public static float[] pointFtoFloatArray(PointF[] pointFs)
+    {
+        float[] ar = new float[pointFs.length*2];
+        int count = 0;
+        for (int i = 0; i< pointFs.length; i++)
+        {
+            ar[count++] = pointFs[i].x;
+            ar[count++] = pointFs[i].y;
+        }
+        return ar;
+    }
 }

@@ -103,7 +103,6 @@ public class ToneMapProfile {
             hueSatMapDims = new int[split.length];
             for (int i = 0; i < split.length; i++)
                 hueSatMapDims[i] = Integer.parseInt(split[i]);
-
         }
 
         if (!element.findChild("huesatmapdata1").isEmpty()) {
@@ -175,6 +174,12 @@ public class ToneMapProfile {
         {
             huesatmap.append(hueSatMap[i]).append(" ");
         }
+
+        StringBuilder huesatmap2 = new StringBuilder();
+        for (int i=0; i < hueSatMap2.length; i++)
+        {
+            huesatmap2.append(hueSatMap2[i]).append(" ");
+        }
         StringBuilder huesatmapdim = new StringBuilder();
         for (int i=0; i < hueSatMapDims.length; i++)
         {
@@ -187,6 +192,7 @@ public class ToneMapProfile {
         t += "<baselineexposureoffset>" + baselineExposureOffset + "</baselineexposureoffset>" + "\r\n";
         t += "<huesatmapdims>" + huesatmapdim + "</huesatmapdims>" + "\r\n";
         t += "<huesatmap>" + huesatmap + "</huesatmap>" + "\r\n";
+        t += "<huesatmap2>" + huesatmap2 + "</huesatmap2>" + "\r\n";
         t += "</tonemapprofile>"  + "\r\n";
 
 
