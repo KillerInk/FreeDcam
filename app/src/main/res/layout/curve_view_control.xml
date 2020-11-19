@@ -128,13 +128,18 @@
                 android:text="Save Curve" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/load_panel"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/button_notclicked">
-        </LinearLayout>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/load_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/button_notclicked"
+                android:isScrollContainer="true"
+                android:orientation="vertical" />
+        </ScrollView>
     </RelativeLayout>
 
 

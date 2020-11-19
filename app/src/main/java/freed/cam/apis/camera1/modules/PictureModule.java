@@ -260,9 +260,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     protected File getFile(String fileending)
     {
         if (isBurstCapture)
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
+            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
         else
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getStorageFileManager().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
+            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
     }
 
     protected void saveJpeg(byte[] data, File file)

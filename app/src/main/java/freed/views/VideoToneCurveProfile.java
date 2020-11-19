@@ -22,6 +22,7 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("rgb").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
+            split = trimmArray(split);
             rgb = new PointF[split.length/2];
             for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
@@ -42,6 +43,7 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("r").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
+            split = trimmArray(split);
             r = new PointF[split.length/2];
             for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
@@ -62,6 +64,7 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("g").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
+            split = trimmArray(split);
             g = new PointF[split.length/2];
             for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
@@ -82,6 +85,7 @@ public class VideoToneCurveProfile {
             String curve = element.findChild("b").getValue();
             curve = curve.replace("\n","").replace(" ","");
             split = curve.split(",");
+            split = trimmArray(split);
             b = new PointF[split.length/2];
             for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
@@ -98,6 +102,22 @@ public class VideoToneCurveProfile {
                 }
             }
         }
+    }
+
+    private String[] trimmArray(String[] split) {
+        if (split.length > 63)
+        {
+            int dif = split.length / 32;
+            String tmp[] = new String[64];
+            int t = 0;
+            for (int i = 0; i < split.length; i+= dif)
+            {
+                tmp[t++] = split[i];
+                tmp[t++] = split[i+1];
+            }
+            split = tmp;
+        }
+        return split;
     }
 
     public String getXmlString()

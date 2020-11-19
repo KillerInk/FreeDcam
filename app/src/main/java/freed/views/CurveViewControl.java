@@ -15,6 +15,7 @@ import com.troop.freedcam.R;
 
 import java.util.HashMap;
 
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -161,6 +162,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         public void onClick(View v) {
             String s =(String)((Button)v).getText();
             VideoToneCurveProfile profile = SettingsManager.getInstance().getVideoToneCurveProfiles().get(s);
+            SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).set(s);
             rgbCurve = profile.rgb;
             rCurve = profile.r;
             gCurve = profile.g;
@@ -185,6 +187,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                 curveProfile.g = gCurve;
                 curveProfile.b = bCurve;
                 SettingsManager.getInstance().saveVideoToneCurveProfile(curveProfile);
+                SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).set(curveProfile.name);
                 savePanel.setVisibility(GONE);
             }
         }

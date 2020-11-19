@@ -7,6 +7,9 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.MediaCodecInfo;
+import android.media.MediaCodecList;
+import android.media.MediaFormat;
 import android.os.Build;
 import android.util.Pair;
 import android.util.Range;
@@ -53,6 +56,62 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         super(progressUpdate);
     }
 
+    private String getProfileString(int profile) {
+        switch (profile) {
+            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10HDR10:
+                return "HEVCProfileMain10HDR10";
+            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain:
+                return "HEVCProfileMain";
+            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10:
+                return "HEVCProfileMain10";
+            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10HDR10Plus:
+                return "HEVCProfileMain10HDR10Plus";
+            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMainStill:
+                return "HEVCProfileMainStill";
+            default:
+                return String.valueOf(profile);
+        }
+    }
+
+    private String getLevelString(int profile)
+    {
+        switch (profile)
+        {
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel1:
+                return "HEVCMainTierLevel1";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel2:
+                return "HEVCMainTierLevel2";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel3:
+                return "HEVCMainTierLevel3";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel4:
+                return "HEVCMainTierLevel4";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel6:
+                return "HEVCMainTierLevel5";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel21:
+                return "HEVCMainTierLevel21";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel31:
+                return "HEVCMainTierLevel31";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel41:
+                return "HEVCMainTierLevel41";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel51:
+                return "HEVCMainTierLevel51";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel52:
+                return "HEVCMainTierLevel52";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel62:
+                return "HEVCMainTierLevel62";
+            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel61:
+                return "HEVCMainTierLevel61";
+            case MediaCodecInfo.CodecProfileLevel.AV1Level71:
+                return "AV1Level71";
+            case MediaCodecInfo.CodecProfileLevel.AV1Level73:
+                return "AV1Level73";
+            case MediaCodecInfo.CodecProfileLevel.AVCLevel5:
+                return "AVCLevel5";
+            default:
+                return String.valueOf(profile);
+        }
+    }
+
     @Override
     public void detect()
     {
@@ -61,6 +120,25 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //publishProgress("###################");
         //publishProgress("#######Camera2#####");
         //publishProgress("###################");*/
+
+        int count  = MediaCodecList.getCodecCount();
+        for (int i = 0; i < count; i++)
+        {
+            MediaCodecInfo info = MediaCodecList.getCodecInfoAt(i);
+
+            if(info.isEncoder()) {
+                Log.d(TAG, "MediaCodecInfo Name:" + info.getName() + " hwaccel:" + info.isHardwareAccelerated());
+                String types[] = info.getSupportedTypes();
+                for (String s : types) {
+                    MediaCodecInfo.CodecCapabilities codecCapabilities = info.getCapabilitiesForType(s);
+                    for (int t = 0; t < codecCapabilities.profileLevels.length; t++) {
+                        MediaCodecInfo.CodecProfileLevel lvl = codecCapabilities.profileLevels[t];
+                        Log.d(TAG, "Type: " + s + " profile: " + getProfileString(lvl.profile) + " lvl: " + getLevelString(lvl.level));
+                    }
+                }
+            }
+        }
+
         SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             /*//publishProgress("Check Camera2");*/
         CameraManager manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);

@@ -32,6 +32,7 @@ public class ToneMapProfile {
     in detail in Chapter 6 DNG SDK.
      */
     private float hueSatMap[];
+    private float hueSatMap2[];
 
     /*
     This tag specifies the number of input samples in each dimension of the hue/saturation/value
@@ -102,7 +103,6 @@ public class ToneMapProfile {
             hueSatMapDims = new int[split.length];
             for (int i = 0; i < split.length; i++)
                 hueSatMapDims[i] = Integer.parseInt(split[i]);
-
         }
 
         if (!element.findChild("huesatmapdata1").isEmpty()) {
@@ -110,6 +110,13 @@ public class ToneMapProfile {
             hueSatMap = new float[split.length];
             for (int i = 0; i < split.length; i++)
                 hueSatMap[i] = Float.parseFloat(split[i]);
+        }
+
+        if (!element.findChild("huesatmapdata2").isEmpty()) {
+            split = element.findChild("huesatmapdata2").getValue().split(" ");
+            hueSatMap2 = new float[split.length];
+            for (int i = 0; i < split.length; i++)
+                hueSatMap2[i] = Float.parseFloat(split[i]);
         }
 
         if (!element.findChild("baselineexposure").isEmpty())
@@ -137,6 +144,10 @@ public class ToneMapProfile {
     {
         return hueSatMap;
     }
+    public float[] getHueSatMapData2()
+    {
+        return hueSatMap2;
+    }
     public int[] getHueSatMapDims(){
         return hueSatMapDims;
     }
@@ -163,6 +174,12 @@ public class ToneMapProfile {
         {
             huesatmap.append(hueSatMap[i]).append(" ");
         }
+
+        StringBuilder huesatmap2 = new StringBuilder();
+        for (int i=0; i < hueSatMap2.length; i++)
+        {
+            huesatmap2.append(hueSatMap2[i]).append(" ");
+        }
         StringBuilder huesatmapdim = new StringBuilder();
         for (int i=0; i < hueSatMapDims.length; i++)
         {
@@ -175,6 +192,7 @@ public class ToneMapProfile {
         t += "<baselineexposureoffset>" + baselineExposureOffset + "</baselineexposureoffset>" + "\r\n";
         t += "<huesatmapdims>" + huesatmapdim + "</huesatmapdims>" + "\r\n";
         t += "<huesatmap>" + huesatmap + "</huesatmap>" + "\r\n";
+        t += "<huesatmap2>" + huesatmap2 + "</huesatmap2>" + "\r\n";
         t += "</tonemapprofile>"  + "\r\n";
 
 

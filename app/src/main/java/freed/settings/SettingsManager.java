@@ -182,23 +182,28 @@ public class SettingsManager implements SettingsManagerInterface {
             parser.parseAndFindSupportedDevice(FreedApplication.getContext().getResources(),matrixes,settingsStorage.appdataFolder);
             Log.d(TAG, "Lookup PreDefinedConfigFile done");
         }
-        else //load only stuff for dng
-        {
-            Log.d(TAG, "load dngProfiles");
-            opcodeUrlList = new ArrayList<>();
-        }
         dngProfileHashMap = parser.getDngProfiles(matrixes,settingsStorage.appdataFolder);
+        opcodeUrlList = new ArrayList<>();
+        loadOpCodes();
     }
 
     private void loadOpCodes()
     {
         new Thread(() -> {
-            File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getActiveCamera()+"opc2.bin");
-            File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getActiveCamera()+"opc3.bin");
-            if (op2.exists() || op3.exists())
-                opCode = new OpCode(op2,op3);
-            else
-                opCode = null;
+            try {
+                File op2 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getActiveCamera()+"opc2.bin");
+                File op3 = new File(settingsStorage.appdataFolder.getAbsolutePath()+"/"+settingsStorage.getActiveCamera()+"opc3.bin");
+                if (op2.exists() || op3.exists())
+                    opCode = new OpCode(op2,op3);
+                else
+                    opCode = null;
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
+
+
 
         }).start();
     }

@@ -235,7 +235,8 @@ public class RawToDng
                 SetToneCurve(profile.toneMapProfile.getToneCurve(),byteBuffer);
             if (profile.toneMapProfile.getHueSatMapData1() != null)
                 SetHueSatMapData1(profile.toneMapProfile.getHueSatMapData1(),byteBuffer);
-            //SetHueSatMapData2(profile.toneMapProfile.getHueSatMapData2());
+            if (profile.toneMapProfile.getHueSatMapData2() != null)
+                SetHueSatMapData2(profile.toneMapProfile.getHueSatMapData2(),byteBuffer);
             if (profile.toneMapProfile.getHueSatMapDims() != null)
                 SetHueSatMapDims(profile.toneMapProfile.getHueSatMapDims(),byteBuffer);
             if (profile.toneMapProfile.getBaselineExposure() != null)

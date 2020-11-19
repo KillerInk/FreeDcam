@@ -21,10 +21,4 @@ public class ManualButtonToneCurve extends ManualButton
         super(context, parameter, drawableImg);
     }
 
-    @Override
-    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent) {
-        super.onViewStateChanged(viewStateValueChangedEvent);
-        if (viewStateValueChangedEvent.key == parameter.getKey())
-            Log.d(TAG, "onViewStateChanged " + viewStateValueChangedEvent.newValue.toString());
-    }
 }

@@ -33,6 +33,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -350,12 +351,18 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             setViewState(ViewState.Hidden);
         }
 
+        @Override
+        public String GetStringValue() {
+            return SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get();
+        }
+
         public void setCurveToCamera(float[] curve)
         {
             toneCurve = curve;
             TonemapCurve tonemapCurve = new TonemapCurve(curve,curve,curve);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
             ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            fireStringValueChanged(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
 
         public void setCurveToCamera(float[] r, float[] g,float[] b)
@@ -363,6 +370,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             TonemapCurve tonemapCurve = new TonemapCurve(r,g,b);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
             ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            fireStringValueChanged(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
 
         public float[] getToneCurve()

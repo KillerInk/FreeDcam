@@ -28,6 +28,7 @@ app/build.gradle
 *.apk
 app/release
 /app/.cxx/
+*.cxx
 /app/libs/*
 /app/src/main/jni/include/*
 /halide_aot/*.a

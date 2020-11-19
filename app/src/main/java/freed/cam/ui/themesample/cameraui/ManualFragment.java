@@ -421,7 +421,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         ((ManualToneMapCurveApi2.ToneCurveParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(ar);
     }
 
-    private float[] pointFtoFloatArray(PointF[] pointFs)
+    public static float[] pointFtoFloatArray(PointF[] pointFs)
     {
         float[] ar = new float[pointFs.length*2];
         int count = 0;

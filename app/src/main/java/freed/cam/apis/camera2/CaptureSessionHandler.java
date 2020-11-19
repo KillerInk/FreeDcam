@@ -85,10 +85,10 @@ public class CaptureSessionHandler
                 // Finally, we start displaying the camera preview.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         cameraBackroundValuesChangedListner, handler);
+                cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
             } catch (CameraAccessException | IllegalStateException e) {
                 Log.WriteEx(e);
             }
-
         }
 
         @Override
@@ -150,6 +150,11 @@ public class CaptureSessionHandler
 
     public void SetCaptureSession(CameraCaptureSession cameraCaptureSession)
     {
+        if (mCaptureSession != null)
+        {
+            mCaptureSession.close();
+            mCaptureSession = null;
+        }
         mCaptureSession = cameraCaptureSession;
     }
 
@@ -158,7 +163,7 @@ public class CaptureSessionHandler
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
             return;
         try {
-            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             try {
                 if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
                     mPreviewRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG, (byte) 1);
