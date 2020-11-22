@@ -516,7 +516,7 @@ public class CaptureSessionHandler
         if (!captureSessionOpen)
             return;
         captureSessionOpen = false;
-        Clear();
+
         if (mCaptureSession == null)
         {
             Log.d(TAG,"CaptureSession is null");
@@ -527,6 +527,7 @@ public class CaptureSessionHandler
             if (!captureSessionOpen)
                 return;
             mCaptureSession.close();
+            Clear();
         }
         catch (NullPointerException ex)
         {
