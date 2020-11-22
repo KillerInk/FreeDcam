@@ -312,7 +312,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_freed_jni_RawUtils_unpackRAW(JNIEnv * 
 	rawp->openFile(strFilename);
 	jobject bmp = rawp->getBitmap(env);
 	(env)->ReleaseStringUTFChars(jfilename, strFilename);
-
+    rawp->recycle();
     return bmp;
 }
 
@@ -321,5 +321,6 @@ extern "C" JNIEXPORT jobject JNICALL Java_freed_jni_RawUtils_unpackRAWFD(JNIEnv 
     LibRawWrapper * rawp = new LibRawWrapper();
     rawp->openFD(fd);
     jobject bmp = rawp->getBitmap(env);
+    rawp->recycle();
     return bmp;
 }

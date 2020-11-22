@@ -71,8 +71,47 @@ jobject LibRawWrapper::getBitmap(JNIEnv* env) {
     // has already been called (repeated call will not cause any harm either).
     // we don't evoke recycle() or call the desctructor; C++ will do everything for us
     delete image;
-    raw.recycle();
+
     LOGD("rawdata recycled");
 
     return ob;
 }
+
+void LibRawWrapper::recycle() {
+    raw.recycle();
+}
+
+uint16_t *LibRawWrapper::getRawData() {
+    raw.imgdata.params.no_auto_bright = 0; //-W
+    raw.imgdata.params.use_camera_wb = 1;
+    raw.imgdata.params.output_bps = 16; // -6
+    raw.imgdata.params.output_color = 0;
+    //raw.imgdata.params.user_qual = 0;
+    //raw.imgdata.params.half_size = 1;
+    raw.imgdata.params.no_auto_scale = 0;
+    raw.imgdata.params.gamm[0] = 1.0; //-g 1 1
+    raw.imgdata.params.gamm[1] = 1.0; //-g 1 1
+    raw.imgdata.params.output_tiff = 0;
+    raw.imgdata.params.no_interpolation = 1;
+    int ret;
+    if ((ret = raw.unpack()) != LIBRAW_SUCCESS)
+        return NULL;
+    int width = raw.imgdata.sizes.raw_width;
+    int height =  raw.imgdata.sizes.raw_height;
+    int t = 0;
+    uint16_t * data = new uint16_t[width *  height];
+    for (size_t i = 0; i <  width *  height; i++)
+    {
+        data[i] = (raw.imgdata.rawdata.raw_image[i]);
+    }
+    return data;
+}
+
+void LibRawWrapper::getExifInfo(ExifInfo * exifInfo) {
+    exifInfo->_iso = raw.imgdata.other.iso_speed;
+    exifInfo->_exposure = raw.imgdata.other.shutter;
+    exifInfo->_fnumber = raw.imgdata.other.aperture;
+    exifInfo->_focallength = raw.imgdata.other.focal_len;
+    exifInfo->_orientation = static_cast<char*>(static_cast<void*>(&raw.imgdata.sizes.flip));
+}
+

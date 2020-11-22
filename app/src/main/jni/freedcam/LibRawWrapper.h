@@ -1,13 +1,12 @@
 //
 // Created by troop on 22.11.2020.
 //
-#include "../LibRaw/libraw/libraw.h"
-#include <jni.h>
 #ifndef FREEDCAM_LIBRAWWRAPPER_H
 #define FREEDCAM_LIBRAWWRAPPER_H
 
-
-
+#include "../LibRaw/libraw/libraw.h"
+#include "ExifInfo.h"
+#include <jni.h>
 
 class LibRawWrapper {
 
@@ -18,6 +17,8 @@ public:
     void openFile(const char *strFilename);
     jobject getBitmap(JNIEnv* env);
     void recycle();
+    uint16_t* getRawData();
+    void getExifInfo(ExifInfo * exifInfo);
 
     LibRawWrapper(){}
 
