@@ -130,7 +130,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
         if (currentVideoProfile == null) {
-            currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).getValues()[0]);
+            currentVideoProfile = SettingsManager.getInstance().getMediaProfiles().get(0);
         }
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
         Log.d(TAG, "Create VideoRecorder");
