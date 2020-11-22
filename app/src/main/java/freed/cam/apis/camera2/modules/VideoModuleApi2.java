@@ -58,6 +58,7 @@ import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
+import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -124,7 +125,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     public void InitModule() {
         Log.d(TAG, "InitModule");
         super.InitModule();
-
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
@@ -156,6 +157,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             Log.WriteEx(ex);
         }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
+        cameraUiWrapper.getFocusPeakProcessor().kill();
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
         videoRecorder = null;
         previewsurface = null;
     }
@@ -214,33 +217,67 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         int orientationToSet = (360 + sensorOrientation) % 360;
-        switch (orientationToSet) {
-            case 90:
-                orientation = 270;
-                break;
-            case 180:
-                orientation = 180;
-                break;
-            case 270:
-                orientation = 270;
-                break;
-            case 0:
-                orientation = 180;
-                break;
+        if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get()) {
+            Log.d(TAG, "RenderScriptPreview");
+            int rotation = 0;
+            switch (orientationToSet)
+            {
+                case 90:
+                    rotation = 0;
+                    break;
+                case 180:
+                    rotation =90;
+                    break;
+                case 270: rotation = 180;
+                    break;
+                case 0: rotation = 270;
+                    break;
+            }
+            if (SettingsManager.get(SettingKeys.orientationHack).get())
+                rotation = (360 + rotation+180)%360;
+            final int or = rotation;
+
+            Log.d(TAG, "rotation to set : " + or);
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),or,true));
+            SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+            previewsurface = new Surface(texture);
+
+            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
+
+            Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
+            cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
+            cameraUiWrapper.getFocusPeakProcessor().start();
         }
-        final int w, h, or;
-        w = previewSize.getWidth();
-        h = previewSize.getHeight();
-        if (SettingsManager.get(SettingKeys.orientationHack).get())
-            orientation = (360 + orientation+180)%360;
-        or = orientation;
-        mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or, false));
+        else {
+            switch (orientationToSet) {
+                case 90:
+                    orientation = 270;
+                    break;
+                case 180:
+                    orientation = 180;
+                    break;
+                case 270:
+                    orientation = 270;
+                    break;
+                case 0:
+                    orientation = 180;
+                    break;
+            }
+            final int w, h, or;
+            w = previewSize.getWidth();
+            h = previewSize.getHeight();
+            if (SettingsManager.get(SettingKeys.orientationHack).get())
+                orientation = (360 + orientation + 180) % 360;
+            or = orientation;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or, false));
 
-        SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
-        texture.setDefaultBufferSize(w, h);
-        previewsurface = new Surface(texture);
+            SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+            texture.setDefaultBufferSize(w, h);
+            previewsurface = new Surface(texture);
 
-        cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
+            cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
+        }
 
 
 

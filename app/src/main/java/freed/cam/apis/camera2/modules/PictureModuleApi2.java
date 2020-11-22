@@ -97,7 +97,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     private boolean captureJpeg = false;*/
     protected CaptureType captureType;
     protected Camera2Fragment cameraUiWrapper;
-    private boolean renderScriptError5 = false;
     protected CaptureController captureController;
 
     protected static class BurstCounter
@@ -132,45 +131,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     }
 
-
-    //use to workaround the problem with activated renderscript when switching back from a non renderscript session
-    private class MyRSErrorHandler extends RSErrorHandler
-    {
-        @Override
-        public void run() {
-            super.run();
-            Log.e(MyRSErrorHandler.class.getSimpleName(), mErrorNum +":"+ mErrorMessage);
-            if (mErrorNum == 5) // Error:5 setting IO output buffer usage.
-            {
-                renderScriptError5 = true;
-                if (renderScriptError5)
-                {
-                    renderScriptError5 = false;
-                    //clear the error else it trigger over and over....
-                    mErrorNum = 0;
-                    mErrorMessage = null;
-                    //Restart the module
-                    mBackgroundHandler.post(() -> {
-                        Log.e(TAG, "RS5 ERROR; RELOAD MODULE");
-                        try {
-                            cameraUiWrapper.getModuleHandler().setModule(SettingsManager.getInstance().GetCurrentModule());
-                        }
-                        catch (NullPointerException ex)
-                        {
-                            Log.WriteEx(ex);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         filesSaved = new ArrayList<>();
-        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
+
     }
 
     @Override
@@ -192,6 +158,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     public void InitModule()
     {
         super.InitModule();
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         captureController = getCaptureController();
@@ -206,6 +173,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
     }
 
     @Override
