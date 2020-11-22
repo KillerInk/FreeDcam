@@ -74,11 +74,11 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     @Override
     public void onModuleChanged(String module)
     {
-        if ((module.equals(getResources().getString(R.string.module_picture))
+        if (/*(module.equals(getResources().getString(R.string.module_picture))
                 || module.equals(getResources().getString(R.string.module_hdr))
                 || module.equals(getResources().getString(R.string.module_interval))
         || module.equals(getResources().getString(R.string.module_afbracket)))
-                && parameter != null && parameter.getViewState() == AbstractParameter.ViewState.Visible)
+                &&*/ parameter != null && parameter.getViewState() == AbstractParameter.ViewState.Visible)
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);

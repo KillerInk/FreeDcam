@@ -107,6 +107,8 @@ public class VideoProfilesParameter extends AbstractParameter
 
     public VideoMediaProfile GetCameraProfile(String profile)
     {
+        if (supportedProfiles == null)
+            supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
         if (profile == null || TextUtils.isEmpty(profile))
         {
             String[] t = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
