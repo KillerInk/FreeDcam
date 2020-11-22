@@ -33,6 +33,7 @@ android {
             }
         }
         signingConfig signingConfigs.config
+        versionNameSuffix 'hdr'
     }
     lintOptions { checkReleaseBuilds false }
     buildTypes {
