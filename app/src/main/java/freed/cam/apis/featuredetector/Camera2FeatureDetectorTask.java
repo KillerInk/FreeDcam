@@ -127,7 +127,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             MediaCodecInfo info = MediaCodecList.getCodecInfoAt(i);
 
             if(info.isEncoder()) {
-                Log.d(TAG, "MediaCodecInfo Name:" + info.getName() + " hwaccel:" + info.isHardwareAccelerated());
+                Log.d(TAG, "MediaCodecInfo Name:" + info.getName() + " hwaccel:" /*+ info.isHardwareAccelerated()*/);
                 String types[] = info.getSupportedTypes();
                 for (String s : types) {
                     MediaCodecInfo.CodecCapabilities codecCapabilities = info.getCapabilitiesForType(s);
