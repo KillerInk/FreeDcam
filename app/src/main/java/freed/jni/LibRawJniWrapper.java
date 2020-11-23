@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 import java.nio.ByteBuffer;
 
+import freed.dng.DngProfile;
+
 
 public class LibRawJniWrapper
 {
@@ -20,6 +22,7 @@ public class LibRawJniWrapper
     private native Bitmap getBitmap(ByteBuffer byteBuffer);
     private native void release(ByteBuffer byteBuffer);
     private native void getExifInfo(ByteBuffer byteBuffer, ByteBuffer exifInfo);
+    private native void getDngProfile(ByteBuffer byteBuffer,ByteBuffer dngprofile);
 
     public LibRawJniWrapper()
     {
@@ -65,5 +68,10 @@ public class LibRawJniWrapper
     public void getExifInfo(ExifInfo exifInfo)
     {
         getExifInfo(byteBuffer,exifInfo.getByteBuffer());
+    }
+
+    public void getDngProfile(DngProfile dngProfile)
+    {
+        getDngProfile(byteBuffer,dngProfile.getByteBuffer());
     }
 }

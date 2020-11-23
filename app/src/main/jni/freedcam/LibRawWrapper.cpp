@@ -115,3 +115,17 @@ void LibRawWrapper::getExifInfo(ExifInfo * exifInfo) {
     exifInfo->_orientation = static_cast<char*>(static_cast<void*>(&raw.imgdata.sizes.flip));
 }
 
+void LibRawWrapper::getDngProfile(DngProfile *dngprofile) {
+    float* bl = new float[4];
+    int black = (raw.imgdata.color.dng_levels.dng_cblack[6] << 2);
+    for (size_t i = 0; i < 4; i++)
+    {
+        bl[i] = black;
+    }
+    dngprofile->blacklevel = bl;
+    dngprofile->whitelevel = raw.imgdata.color.dng_levels.dng_whitelevel[0]<<2;
+    dngprofile->rawwidht = raw.imgdata.sizes.raw_width;
+    dngprofile->rawheight = raw.imgdata.sizes.raw_height;
+    dngprofile->rowSize = 0;
+}
+

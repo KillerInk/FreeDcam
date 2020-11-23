@@ -6,6 +6,7 @@
 
 #include "../LibRaw/libraw/libraw.h"
 #include "ExifInfo.h"
+#include "DngProfile.h"
 #include <jni.h>
 
 class LibRawWrapper {
@@ -19,6 +20,7 @@ public:
     void recycle();
     uint16_t* getRawData();
     void getExifInfo(ExifInfo * exifInfo);
+    void getDngProfile(DngProfile * dngProfile);
 
     LibRawWrapper(){}
 

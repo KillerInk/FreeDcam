@@ -45,4 +45,10 @@ extern "C"
         ExifInfo * exifInfo = (ExifInfo*)env->GetDirectBufferAddress(exif_info);
         writer->getExifInfo(exifInfo);
     }
+
+    JNIEXPORT void JNICALL Java_freed_jni_LibRawJniWrapper_getDngProfile(JNIEnv *env, jobject thiz, jobject byte_buffer, jobject dngprofile) {
+        LibRawWrapper* writer = (LibRawWrapper*)env->GetDirectBufferAddress(byte_buffer);
+        DngProfile * dngProfile = (DngProfile*)env->GetDirectBufferAddress(dngprofile);
+        writer->getDngProfile(dngProfile);
+    }
 }

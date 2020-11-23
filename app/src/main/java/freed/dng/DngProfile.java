@@ -54,6 +54,11 @@ public class DngProfile
 
     private ByteBuffer byteBuffer;
 
+    public DngProfile()
+    {
+        byteBuffer = init();
+    }
+
     private DngProfile(int blacklevel,int whitelevel,int widht, int height, int rawType, String bayerPattern, int rowsize, String matrixName)
     {
         byteBuffer = init();
