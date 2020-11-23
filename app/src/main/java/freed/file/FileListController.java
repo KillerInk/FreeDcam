@@ -220,9 +220,14 @@ public class FileListController {
         return documentFile;
     }
 
+    private DocumentFile getChoosenDocumentFolder()
+    {
+        return getExternalSdDocumentFile(context);
+    }
+
     public DocumentFile getFreeDcamDocumentFolder()
     {
-        DocumentFile dcimfolder;
+       /* DocumentFile dcimfolder;
         DocumentFile freedcamfolder = null;
         if((dcimfolder = getDCIMDocumentFolder(true)) !=null)
         {
@@ -230,7 +235,8 @@ public class FileListController {
             if (freedcamfolder == null)
                 freedcamfolder = dcimfolder.createDirectory("FreeDcam");
         }
-        return freedcamfolder;
+        return freedcamfolder;*/
+        return getChoosenDocumentFolder();
     }
 
     public boolean DeleteFile(BaseHolder file) {
@@ -330,7 +336,6 @@ public class FileListController {
             DocumentFile wr = df.createFile("*/*", file.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
             Uri uri = wr.getUri();
-            String lastpathSegment = uri.getLastPathSegment();
             return new UriHolder(uri, file.getName(), 0, wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
         }
         else {
