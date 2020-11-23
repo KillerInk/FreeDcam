@@ -216,7 +216,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG, "onResumeTasks() ");
         activityIsResumed = true;
         if (!SettingsManager.getInstance().isInit())
-            SettingsManager.getInstance();
+            SettingsManager.getInstance().init();
 
         cameraFragmentManager.onResume();
         if (!SettingsManager.getInstance().appVersionHasChanged() && uiViewPagerAdapter == null)
