@@ -329,7 +329,9 @@ public class FileListController {
             Log.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("*/*", file.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
-            return new UriHolder(wr.getUri(), file.getName(), Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+            Uri uri = wr.getUri();
+            String lastpathSegment = uri.getLastPathSegment();
+            return new UriHolder(uri, file.getName(), 0, wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
         }
         else {
             Uri uri = mediaStoreController.addMovie(file);
