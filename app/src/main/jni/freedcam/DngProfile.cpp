@@ -97,4 +97,4 @@ extern "C"
         DngProfile* dngProfile = (DngProfile*)env->GetDirectBufferAddress(javaHandler);
         return  env->NewStringUTF(dngProfile->bayerformat);
     }
-};
+}
