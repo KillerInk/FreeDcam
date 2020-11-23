@@ -41,6 +41,22 @@ public class LibRawJniWrapper
         return getBitmap(byteBuffer);
     }
 
+    public Bitmap getBitmap(String filepath)
+    {
+        openFile(byteBuffer,filepath);
+        Bitmap map = getBitmap(byteBuffer);
+        release(byteBuffer);
+        return map;
+    }
+
+    public Bitmap getBitmap(int filedescriptor)
+    {
+        openFD(byteBuffer,filedescriptor);
+        Bitmap map = getBitmap(byteBuffer);
+        release(byteBuffer);
+        return map;
+    }
+
     public void release()
     {
         release(byteBuffer);

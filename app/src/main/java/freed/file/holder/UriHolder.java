@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.FreedApplication;
-import freed.jni.RawUtils;
+import freed.jni.LibRawJniWrapper;
 
 public class UriHolder extends BaseHolder {
 
@@ -66,7 +66,7 @@ public class UriHolder extends BaseHolder {
         Bitmap response = null;
         if(mediaStoreUri != null) {
             ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r");
-            response = new RawUtils().UnPackRAWFD(pfd.getFd());
+            response = new LibRawJniWrapper().getBitmap(pfd.getFd());
             pfd.close();
         }
         return response;
