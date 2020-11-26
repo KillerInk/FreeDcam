@@ -32,9 +32,13 @@ import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
+
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.FreedviewerGridviewImageviewBinding;
 
 import java.lang.ref.WeakReference;
 
@@ -48,29 +52,14 @@ import freed.viewer.helper.BitmapHelper;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridImageView extends FrameLayout implements FileHolder.EventHandler
+public class GridImageView extends FrameLayout
 {
-    private ImageView imageView;
-    private TextView textView;
-    private TextView folderTextView;
-    private ImageView checkBox;
-    private ImageView sdcard;
-    private BaseHolder fileHolder;
-    private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
-    private BitmapHelper bitmapHelper;
-    private BitmapLoadRunnable bitmapLoadRunnable;
-    private GridImageUiHandler handler;
+    private FreedviewerGridviewImageviewBinding gridviewImageviewBinding;
 
 
     public GridImageView(Context context) {
         super(context);
-        init(context);
-    }
-
-    public GridImageView(Context context,BitmapHelper bitmapHelper) {
-        super(context);
-        this.bitmapHelper = bitmapHelper;
         init(context);
     }
 
@@ -87,200 +76,21 @@ public class GridImageView extends FrameLayout implements FileHolder.EventHandle
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout.freedviewer_gridview_imageview, this);
-        imageView = findViewById(id.gridimageviewholder);
-        imageView.setScaleType(ScaleType.CENTER_CROP);
-        textView = findViewById(id.filetypetextbox);
-        folderTextView = findViewById(id.foldertextbox);
-        checkBox = findViewById(id.checkBox_gridviewimage);
-        sdcard = findViewById(id.imageView_sd);
-        progressBar = findViewById(id.progressBar_gridimageview);
-        handler = new GridImageUiHandler();
+        gridviewImageviewBinding =  DataBindingUtil.inflate(inflater, layout.freedviewer_gridview_imageview, this, false);
+        gridviewImageviewBinding.gridimageviewholder.setScaleType(ScaleType.CENTER_CROP);
+        addView(gridviewImageviewBinding.getRoot());
     }
 
-    public void SetBitmapHelper(BitmapHelper bitmapHelper)
+    public void bindModel(GridImageViewModel gridImageViewModel)
     {
-        this.bitmapHelper =bitmapHelper;
+        gridviewImageviewBinding.setGridimageviewmodel(gridImageViewModel);
     }
 
-    public BaseHolder getFileHolder(){return fileHolder;}
-
-
-    public void SetEventListner(BaseHolder fileHolder)
-    {
-        this.fileHolder = fileHolder;
-        SetViewState(fileHolder.GetCurrentViewState());
-        fileHolder.SetEventListner(this);
-    }
-
-
-
-    private void SetFileEnding(String ending)
-    {
-        textView.setText(ending);
-    }
-    private void SetFolderName(String ending)
-    {
-        folderTextView.setText(ending);
-    }
     public Drawable getDrawable()
     {
-       return imageView.getDrawable();
+       return gridviewImageviewBinding.gridimageviewholder.getDrawable();
     }
 
-    public void SetViewState(GridViewFragment.ViewStates state)
-    {
-        switch (state)
-        {
-            case normal:
-                checkBox.setVisibility(View.GONE);
-                setChecked(false);
-                break;
-            case selection:
-                checkBox.setVisibility(View.VISIBLE);
-                if (fileHolder.IsSelected())
-                {
-                    setChecked(true);
-                }
-                else
-                    setChecked(false);
-        }
-    }
-
-    @Override
-    public void onViewStateChanged(GridViewFragment.ViewStates state) {
-        SetViewState(state);
-    }
-
-    @Override
-    public void onSelectionChanged(boolean selected)
-    {
-//        checkBox.setChecked(selected);
-//        invalidate();
-    }
-
-    @Override
-    public void updateImage() {
-        final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
-        if (bitmap != null)
-        {
-            imageView.setImageBitmap(bitmap);
-
-        }
-        progressBar.setVisibility(View.GONE);
-    }
-
-    public void resetImg()
-    {
-        if (imageView != null)
-            imageView.setImageBitmap(null);
-    }
-
-    private void setChecked(boolean checked) {
-        if (checked)
-            checkBox.setImageDrawable(getResources().getDrawable(drawable.cust_cb_sel));
-        else
-            checkBox.setImageDrawable(getResources().getDrawable(drawable.cust_cb_unsel));
-    }
-
-    public void loadFile(BaseHolder fileHolder, int mImageThumbSize)
-    {
-        if (this.fileHolder != fileHolder && bitmapLoadRunnable !=null)
-            ImageManager.removeImageLoadTask(bitmapLoadRunnable);
-
-        this.fileHolder = fileHolder;
-        Log.d(TAG, "load file:" + fileHolder.getName());
-        imageView.setImageBitmap(null);
-        if (!fileHolder.IsFolder())
-        {
-            imageView.setImageResource(drawable.noimage);
-            progressBar.setVisibility(View.VISIBLE);
-            try {
-                bitmapLoadRunnable = new BitmapLoadRunnable(this,fileHolder);
-                ImageManager.putImageLoadTask(bitmapLoadRunnable);
-            }
-            catch (NullPointerException ex)
-            {
-                Log.e(TAG, "Executer destryed");
-            }
-
-        }
-        else {
-            progressBar.setVisibility(View.GONE);
-            imageView.setImageResource(drawable.folder);
-        }
-        String f = fileHolder.getName();
-        if (!fileHolder.IsFolder()) {
-            SetFolderName("");
-            SetFileEnding(f.substring(f.length() - 3));
-        }
-        else {
-            SetFileEnding("");
-            SetFolderName(f);
-        }
-        if (fileHolder.isExternalSD())
-            sdcard.setVisibility(View.VISIBLE);
-        else
-            sdcard.setVisibility(View.GONE);
-        //invalidate();
-
-    }
-
-    class BitmapLoadRunnable extends ImageTask
-    {
-        private final String TAG = BitmapLoadRunnable.class.getSimpleName();
-        WeakReference<GridImageView>imageviewRef;
-        BaseHolder fileHolder;
-
-        public BitmapLoadRunnable(GridImageView imageView, BaseHolder fileHolder)
-        {
-            imageviewRef = new WeakReference<>(imageView);
-            this.fileHolder = fileHolder;
-        }
-
-        @Override
-        public boolean process() {
-            Log.d(TAG, "load file:" + fileHolder.getName());
-            final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
-            if (imageviewRef != null && bitmap != null) {
-                final GridImageView imageView = imageviewRef.get();
-                if (imageView != null && imageView.getFileHolder() == fileHolder)
-                {
-                    Log.d(TAG, "set bitmap to imageview");
-                    if (handler != null)
-                        handler.obtainMessage(MSG_SET_BITMAP, bitmap).sendToTarget();
-
-                }
-                else {
-                    Log.d(TAG, "Imageview has new file already, skipping it");
-                    bitmap.recycle();
-                }
-            }
-            else {
-                Log.d(TAG, "Imageview or bitmap null");
-                if (handler != null)
-                    handler.obtainMessage(MSG_SET_BITMAP, bitmap).sendToTarget();
-                if (bitmap != null)
-                    bitmap.recycle();
-            }
-            return false;
-        }
-    }
-
-    private final int MSG_SET_BITMAP = 0;
 
 
-    private class GridImageUiHandler extends android.os.Handler
-    {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_SET_BITMAP)
-            {
-                progressBar.setVisibility(View.GONE);
-                imageView.setImageBitmap((Bitmap)msg.obj);
-            }
-            else
-                super.handleMessage(msg);
-        }
-    }
 }

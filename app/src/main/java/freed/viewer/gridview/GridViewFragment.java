@@ -292,7 +292,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     filesSelectedList.add(mPagerAdapter.getBaseHolder(position));
                 }
                 updateFilesSelected();
-                ((GridImageView)view).SetViewState(currentViewState);
+                mPagerAdapter.setViewState(currentViewState,position);
                 break;
         }
     }

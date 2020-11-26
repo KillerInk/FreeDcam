@@ -6,6 +6,7 @@ import android.widget.BaseAdapter;
 
 import com.troop.freedcam.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -25,6 +26,7 @@ class ImageAdapter extends BaseAdapter
 
     private ActivityInterface viewerActivityInterface;
     private List<BaseHolder> files;
+    private List<GridImageViewModel> gridImageViewModels;
 
     /**
      * the current state of the gridview if items are in selection mode or normal rdy to click
@@ -38,6 +40,11 @@ class ImageAdapter extends BaseAdapter
     public void setFiles(List<BaseHolder> files)
     {
         this.files =files;
+        gridImageViewModels = new ArrayList<>();
+        for (BaseHolder baseHolder : files)
+        {
+            gridImageViewModels.add(new GridImageViewModel(viewerActivityInterface.getBitmapHelper(),baseHolder));
+        }
         notifyDataSetChanged();
     }
 
@@ -69,22 +76,16 @@ class ImageAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup container) {
         final GridImageView imageView;
         if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = new GridImageView(FreedApplication.getContext(),viewerActivityInterface.getBitmapHelper());
-        } else {
-            imageView = (GridImageView) convertView;
-            //imageView.resetImg();
-            imageView.SetBitmapHelper(viewerActivityInterface.getBitmapHelper());
+            imageView = new GridImageView(FreedApplication.getContext());
         }
+        else
+            imageView = (GridImageView) convertView;
         Log.d(TAG, "filessize:" + files.size() + " position:"+position);
         if (viewerActivityInterface.getFileListController().getFiles().size() <= position)
             position = viewerActivityInterface.getFileListController().getFiles().size() -1;
-        if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/)
-        {
-            //imageView.resetImg();
-            imageView.SetEventListner(files.get(position));
-            imageView.SetViewState(currentViewState);
-            imageView.loadFile(files.get(position), FreedApplication.getContext().getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
-        }
+
+        gridImageViewModels.get(position).setViewState(currentViewState);
+        imageView.bindModel(gridImageViewModels.get(position));
         return imageView;
     }
 
@@ -97,9 +98,18 @@ class ImageAdapter extends BaseAdapter
             return;
         for (int i = 0; i< files.size(); i++)
         {
-            BaseHolder f = files.get(i);
-            f.SetViewState(states);
+            /*BaseHolder f = files.get(i);
+            f.SetViewState(states);*/
+            gridImageViewModels.get(i).setViewState(states);
         }
+    }
+
+    public void setViewState(GridViewFragment.ViewStates states, int pos)
+    {
+        currentViewState = states;
+        if (files == null )
+            return;
+        gridImageViewModels.get(pos).setViewState(states);
 
     }
 }
