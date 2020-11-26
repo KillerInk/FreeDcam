@@ -412,14 +412,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
 
 
-            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
 
-            if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
-                if (currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3") || currentVideoProfile.ProfileName.contains("xEISx")) {
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
-                }
-            }
 
 
         }
@@ -441,6 +434,16 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
+
+            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
+
+            if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
+                if (currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3") || currentVideoProfile.ProfileName.contains("xEISx")) {
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
+                }
+            }
+
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
                 cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
             }
@@ -450,6 +453,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(index);
                 cameraUiWrapper.captureSessionHandler.StartHighspeedCaptureSession();
             }
+
             videoRecorder.start();
             isRecording = true;
 
