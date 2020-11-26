@@ -8,9 +8,42 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "JniUtils.h"
+#include <cstring>
 
 #define  LOG_TAG    "freedcam.LibRawWrapper"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+
+void copyMatrix(float* dest, float colormatrix[4][3])
+{
+    int m = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int t = 0; t < 3; t++)
+        {
+            dest[m++] = colormatrix[i][t];
+        }
+    }
+}
+void copyMatrix(float* dest, float colormatrix[3][4])
+{
+    int m = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int t = 0; t < 3; t++)
+        {
+            dest[m++] = colormatrix[i][t];
+        }
+    }
+}
+
+void copyMatrix(float* dest, float colormatrix[4])
+{
+    int m = 0;
+    for (int i = 0; i < 3; i++)
+    {
+        dest[m++] = colormatrix[i];
+    }
+}
 
 void LibRawWrapper::openFD(int fd) {
     FILE *f = fdopen(fd, "r" );
@@ -81,7 +114,7 @@ void LibRawWrapper::recycle() {
     raw.recycle();
 }
 
-uint16_t *LibRawWrapper::getRawData() {
+ushort * LibRawWrapper::getRawData() {
     raw.imgdata.params.no_auto_bright = 0; //-W
     raw.imgdata.params.use_camera_wb = 1;
     raw.imgdata.params.output_bps = 16; // -6
@@ -96,15 +129,10 @@ uint16_t *LibRawWrapper::getRawData() {
     int ret;
     if ((ret = raw.unpack()) != LIBRAW_SUCCESS)
         return NULL;
-    int width = raw.imgdata.sizes.raw_width;
-    int height =  raw.imgdata.sizes.raw_height;
+    width = raw.imgdata.sizes.raw_width;
+    height =  raw.imgdata.sizes.raw_height;
     int t = 0;
-    uint16_t * data = new uint16_t[width *  height];
-    for (size_t i = 0; i <  width *  height; i++)
-    {
-        data[i] = (raw.imgdata.rawdata.raw_image[i]);
-    }
-    return data;
+    return raw.imgdata.rawdata.raw_image;
 }
 
 void LibRawWrapper::getExifInfo(ExifInfo * exifInfo) {
@@ -115,17 +143,78 @@ void LibRawWrapper::getExifInfo(ExifInfo * exifInfo) {
     exifInfo->_orientation = static_cast<char*>(static_cast<void*>(&raw.imgdata.sizes.flip));
 }
 
+bool match(char* ar1, char* ar2)
+{
+    bool ret = true;
+    for (int i = 0; i < 4; ++i) {
+        if (ar1[i] != ar2[i])
+            return false;
+    }
+    return ret;
+}
+
 void LibRawWrapper::getDngProfile(DngProfile *dngprofile) {
     float* bl = new float[4];
-    int black = (raw.imgdata.color.dng_levels.dng_cblack[6] << 2);
+    int black = (raw.imgdata.color.dng_levels.dng_cblack[6]);
     for (size_t i = 0; i < 4; i++)
     {
         bl[i] = black;
     }
     dngprofile->blacklevel = bl;
-    dngprofile->whitelevel = raw.imgdata.color.dng_levels.dng_whitelevel[0]<<2;
+    dngprofile->whitelevel = raw.imgdata.color.dng_levels.dng_whitelevel[0];
     dngprofile->rawwidht = raw.imgdata.sizes.raw_width;
     dngprofile->rawheight = raw.imgdata.sizes.raw_height;
     dngprofile->rowSize = 0;
+
+    char cfaar[4];
+    cfaar[0] = raw.imgdata.idata.cdesc[raw.COLOR(0, 0)];
+    cfaar[1] = raw.imgdata.idata.cdesc[raw.COLOR(0, 1)];
+    cfaar[2] = raw.imgdata.idata.cdesc[raw.COLOR(1, 0)];
+    cfaar[3] = raw.imgdata.idata.cdesc[raw.COLOR(1, 1)];
+
+    char * cfa = cfaar;
+    char* bggr = "BGGR";
+    char* rggb = "RGGB";
+    char* grbg = "GRBG";
+    if (match(cfa,bggr))
+    {
+        dngprofile->bayerformat = "bggr";
+    }
+    else if (match(cfa,rggb))
+    {
+        dngprofile->bayerformat = "rggb";
+    }
+    else if (match(cfa,grbg))
+    {
+        dngprofile->bayerformat = "grbg";
+    }
+    else
+    {
+        dngprofile->bayerformat = "gbrg";
+    }
+
+    dngprofile->rawType = 6;
+
+}
+
+void LibRawWrapper::getCustomMatrix(CustomMatrix *matrix) {
+    matrix->colorMatrix1 = new float[9];
+    matrix->colorMatrix2 = new float[9];
+    matrix->neutralColorMatrix = new float[3];
+    matrix->fowardMatrix1 = new float[9];
+    matrix->fowardMatrix2 = new float[9];
+    matrix->reductionMatrix1 = new float[9];
+    matrix->reductionMatrix2 = new float[9];
+
+    copyMatrix(matrix->colorMatrix1, raw.imgdata.color.dng_color[0].colormatrix);
+    copyMatrix(matrix->colorMatrix2, raw.imgdata.color.dng_color[1].colormatrix);
+    copyMatrix(matrix->neutralColorMatrix, raw.imgdata.color.cam_mul);
+    matrix->neutralColorMatrix[0] = 1 / matrix->neutralColorMatrix[0];
+    matrix->neutralColorMatrix[1] = 1 / matrix->neutralColorMatrix[1];
+    matrix->neutralColorMatrix[2] = 1 / matrix->neutralColorMatrix[2];
+    copyMatrix(matrix->fowardMatrix1, raw.imgdata.color.dng_color[0].forwardmatrix);
+    copyMatrix(matrix->fowardMatrix2, raw.imgdata.color.dng_color[1].forwardmatrix);
+    copyMatrix(matrix->reductionMatrix1, raw.imgdata.color.dng_color[0].calibration);
+    copyMatrix(matrix->reductionMatrix2, raw.imgdata.color.dng_color[1].calibration);
 }
 

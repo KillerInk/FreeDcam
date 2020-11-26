@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import java.nio.ByteBuffer;
 
+import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 
 
@@ -23,6 +24,8 @@ public class LibRawJniWrapper
     private native void release(ByteBuffer byteBuffer);
     private native void getExifInfo(ByteBuffer byteBuffer, ByteBuffer exifInfo);
     private native void getDngProfile(ByteBuffer byteBuffer,ByteBuffer dngprofile);
+    private native void getCustomMatrix(ByteBuffer byteBuffer, ByteBuffer customMatrix);
+    private native short[] getRawData(ByteBuffer byteBuffer);
 
     public LibRawJniWrapper()
     {
@@ -73,5 +76,15 @@ public class LibRawJniWrapper
     public void getDngProfile(DngProfile dngProfile)
     {
         getDngProfile(byteBuffer,dngProfile.getByteBuffer());
+    }
+
+    public void getCustomMatrix(CustomMatrix customMatrix)
+    {
+        getCustomMatrix(byteBuffer,customMatrix.getByteBuffer());
+    }
+
+    public short[] getRawData()
+    {
+        return getRawData(byteBuffer);
     }
 }

@@ -51,4 +51,20 @@ extern "C"
         DngProfile * dngProfile = (DngProfile*)env->GetDirectBufferAddress(dngprofile);
         writer->getDngProfile(dngProfile);
     }
+
+    JNIEXPORT void JNICALL Java_freed_jni_LibRawJniWrapper_getCustomMatrix(JNIEnv *env, jobject thiz, jobject byte_buffer, jobject customatrix) {
+        LibRawWrapper* writer = (LibRawWrapper*)env->GetDirectBufferAddress(byte_buffer);
+        CustomMatrix * customMatrix = (CustomMatrix*)env->GetDirectBufferAddress(customatrix);
+        writer->getCustomMatrix(customMatrix);
+    }
+
+    JNIEXPORT jshortArray JNICALL Java_freed_jni_LibRawJniWrapper_getRawData(JNIEnv *env, jobject thiz, jobject byte_buffer) {
+        LibRawWrapper* writer = (LibRawWrapper*)env->GetDirectBufferAddress(byte_buffer);
+        ushort * img = writer->getRawData();
+        int len = (writer->width * writer->height);
+        jshortArray ret = env->NewShortArray(len);
+        env->SetShortArrayRegion(ret, 0, len, reinterpret_cast<const jshort *>(img));
+
+        return ret;
+    }
 }

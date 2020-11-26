@@ -7,6 +7,7 @@
 #include "../LibRaw/libraw/libraw.h"
 #include "ExifInfo.h"
 #include "DngProfile.h"
+#include "CustomMatrix.h"
 #include <jni.h>
 
 class LibRawWrapper {
@@ -14,13 +15,16 @@ class LibRawWrapper {
 private:
     LibRaw raw;
 public:
+    int width;
+    int height;
     void openFD(int fd);
     void openFile(const char *strFilename);
     jobject getBitmap(JNIEnv* env);
     void recycle();
-    uint16_t* getRawData();
+    ushort * getRawData();
     void getExifInfo(ExifInfo * exifInfo);
     void getDngProfile(DngProfile * dngProfile);
+    void getCustomMatrix(CustomMatrix * customMatrix);
 
     LibRawWrapper(){}
 
