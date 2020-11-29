@@ -17,37 +17,21 @@
  * /
  */
 
-package freed.viewer.gridview;
+package freed.viewer.gridview.views;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.troop.freedcam.R;
-import com.troop.freedcam.R.drawable;
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerGridviewImageviewBinding;
 
-import java.lang.ref.WeakReference;
-
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.image.ImageManager;
-import freed.image.ImageTask;
-import freed.utils.Log;
-import freed.viewer.helper.BitmapHelper;
+import freed.viewer.gridview.models.GridImageViewModel;
 
 /**
  * Created by troop on 11.12.2015.

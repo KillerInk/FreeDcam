@@ -1,17 +1,14 @@
-package freed.viewer.gridview;
-
-import android.view.View;
+package freed.viewer.gridview.models;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.troop.freedcam.BR;
-import com.troop.freedcam.R;
 
-import freed.ActivityInterface;
 import freed.file.holder.BaseHolder;
-import freed.image.ImageManager;
-import freed.utils.Log;
+import freed.viewer.gridview.BitmapLoadRunnable;
+import freed.viewer.gridview.enums.ViewStates;
+import freed.viewer.gridview.views.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
 
 public class GridImageViewModel extends BaseObservable
@@ -112,7 +109,7 @@ public class GridImageViewModel extends BaseObservable
         return bitmapHelper;
     }
 
-    public void setViewState(GridViewFragment.ViewStates state)
+    public void setViewState(ViewStates state)
     {
         switch (state)
         {
@@ -131,34 +128,4 @@ public class GridImageViewModel extends BaseObservable
         }
     }
 
-    /*public void loadFile(BaseHolder fileHolder, int mImageThumbSize)
-    {
-        if (this.imagePath != fileHolder && bitmapLoadRunnable !=null)
-            ImageManager.removeImageLoadTask(bitmapLoadRunnable);
-
-        this.imagePath = fileHolder;
-        Log.d(TAG, "load file:" + fileHolder.getName());
-        gridviewImageviewBinding.gridimageviewholder.setImageBitmap(null);
-        if (!fileHolder.IsFolder())
-        {
-            gridviewImageviewBinding.gridimageviewholder.setImageResource(R.drawable.noimage);
-            setProgressBarVisible(true);
-            try {
-                bitmapLoadRunnable = new GridImageView.BitmapLoadRunnable(this,fileHolder);
-                ImageManager.putImageLoadTask(bitmapLoadRunnable);
-            }
-            catch (NullPointerException ex)
-            {
-                Log.e(TAG, "Executer destryed");
-            }
-
-        }
-        else {
-            setProgressBarVisible(false);
-            gridviewImageviewBinding.gridimageviewholder.setImageResource(R.drawable.folder);
-        }
-
-        //invalidate();
-
-    }*/
 }

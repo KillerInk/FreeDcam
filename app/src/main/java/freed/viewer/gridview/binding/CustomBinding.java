@@ -1,4 +1,4 @@
-package freed.viewer.gridview;
+package freed.viewer.gridview.binding;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -7,9 +7,10 @@ import androidx.databinding.BindingAdapter;
 
 import com.troop.freedcam.R;
 
-import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.utils.Log;
+import freed.viewer.gridview.BitmapLoadRunnable;
+import freed.viewer.gridview.models.GridImageViewModel;
 
 public class CustomBinding {
 
@@ -30,7 +31,7 @@ public class CustomBinding {
 
 
     @BindingAdapter("setGridModelToView")
-    public static void setGridModelToView(ImageView gridImageView,GridImageViewModel gridImageViewModel)
+    public static void setGridModelToView(ImageView gridImageView, GridImageViewModel gridImageViewModel)
     {
         if (gridImageViewModel == null || gridImageViewModel.getImagePath() == null)
             return;

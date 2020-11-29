@@ -30,7 +30,7 @@
         <fragment
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:name="freed.viewer.gridview.GridViewFragment"
+            android:name="freed.viewer.gridview.views.GridViewFragment"
             android:id="@+id/freedviewer_gridview"
             tools:layout="@layout/freedviewer_gridviewfragment" />
     </FrameLayout>

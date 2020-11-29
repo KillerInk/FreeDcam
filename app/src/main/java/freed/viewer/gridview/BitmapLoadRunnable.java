@@ -8,6 +8,7 @@ import java.lang.ref.WeakReference;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageTask;
 import freed.utils.Log;
+import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.helper.BitmapHelper;
 
 public  class BitmapLoadRunnable extends ImageTask

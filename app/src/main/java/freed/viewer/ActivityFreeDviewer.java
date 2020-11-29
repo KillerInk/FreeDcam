@@ -42,7 +42,7 @@ import freed.utils.FreeDPool;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
-import freed.viewer.gridview.GridViewFragment;
+import freed.viewer.gridview.views.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.ScreenSlideFragment;
 

@@ -1,26 +1,26 @@
-package freed.viewer.gridview;
+package freed.viewer.gridview.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.troop.freedcam.R;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
+import freed.viewer.gridview.enums.ViewStates;
+import freed.viewer.gridview.models.GridImageViewModel;
+import freed.viewer.gridview.views.GridImageView;
+import freed.viewer.gridview.views.GridViewFragment;
 
 /**
  * Created by troop on 02.03.2017.
  */
 
-class ImageAdapter extends BaseAdapter
+public class ImageAdapter extends BaseAdapter
 {
     private final String TAG = ImageAdapter.class.getSimpleName();
 
@@ -31,7 +31,7 @@ class ImageAdapter extends BaseAdapter
     /**
      * the current state of the gridview if items are in selection mode or normal rdy to click
      */
-    private GridViewFragment.ViewStates currentViewState = GridViewFragment.ViewStates.normal;
+    private ViewStates currentViewState = ViewStates.normal;
 
     public ImageAdapter(ActivityInterface viewerActivityInterface) {
         this.viewerActivityInterface = viewerActivityInterface;
@@ -91,7 +91,7 @@ class ImageAdapter extends BaseAdapter
 
 
 
-    public void SetViewState(GridViewFragment.ViewStates states)
+    public void SetViewState(ViewStates states)
     {
         currentViewState = states;
         if (files == null )
@@ -104,7 +104,7 @@ class ImageAdapter extends BaseAdapter
         }
     }
 
-    public void setViewState(GridViewFragment.ViewStates states, int pos)
+    public void setViewState(ViewStates states, int pos)
     {
         currentViewState = states;
         if (files == null )

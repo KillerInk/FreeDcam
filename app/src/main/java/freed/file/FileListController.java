@@ -144,7 +144,7 @@ public class FileListController {
         }
     }
 
-    public void LoadFolder(BaseHolder fileHolder,FormatTypes types )
+    public void LoadFolder(BaseHolder fileHolder,FormatTypes types)
     {
         Log.d(TAG, "LoadFolder needStorageAccessFrameWork" + needStorageAccessFrameWork);
         synchronized (filesLock) {

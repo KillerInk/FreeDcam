@@ -31,8 +31,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
-import freed.viewer.gridview.GridViewFragment;
-import freed.viewer.gridview.GridViewFragment.ViewStates;
+import freed.viewer.gridview.views.GridViewFragment;
+import freed.viewer.gridview.views.GridViewFragment.ViewStates;
 
 /**
  * Created by Ingo on 27.12.2015.
