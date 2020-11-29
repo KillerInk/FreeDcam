@@ -31,17 +31,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
+import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.gridview.views.GridViewFragment;
-import freed.viewer.gridview.views.GridViewFragment.ViewStates;
 
 /**
  * Created by Ingo on 27.12.2015.
  */
 public abstract class BaseHolder
 {
-    protected ViewStates currentstate = GridViewFragment.ViewStates.normal;
-    protected EventHandler handler;
-    protected boolean selected;
     private String name;
     private long lastmodified;
     private boolean isFolder;
@@ -55,45 +52,6 @@ public abstract class BaseHolder
         this.isSDCard = isSDCard;
     }
 
-    public GridViewFragment.ViewStates GetCurrentViewState()
-    {
-        return currentstate;
-    }
-
-    public void SetViewState(GridViewFragment.ViewStates state)
-    {
-        currentstate = state;
-        if (handler != null)
-            handler.onViewStateChanged(state);
-    }
-
-    public void SetEventListner(EventHandler handler)
-    {
-        this.handler = handler;
-    }
-
-    public void UpdateImage()
-    {
-        handler.updateImage();
-    }
-
-    public interface EventHandler
-    {
-        void onViewStateChanged(GridViewFragment.ViewStates state);
-        void onSelectionChanged(boolean selected);
-        void updateImage();
-    }
-
-    public boolean IsSelected()
-    {
-        return selected;
-    }
-    public void SetSelected(boolean selected)
-    {
-        this.selected = selected;
-        if (handler !=null)
-            handler.onSelectionChanged(selected);
-    }
 
     public String getName()
     {

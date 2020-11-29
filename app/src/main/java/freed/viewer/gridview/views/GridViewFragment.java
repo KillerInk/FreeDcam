@@ -42,6 +42,7 @@ import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.troop.freedcam.BR;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -79,7 +80,7 @@ import freed.viewer.stack.StackActivity;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends Fragment implements I_OnActivityResultCallback ,AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class GridViewFragment extends Fragment implements I_OnActivityResultCallback
 {
 
     private FreedviewerGridviewfragmentBinding gridviewfragmentBinding;
@@ -87,64 +88,33 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
 
     public final int STACK_REQUEST = 44;
     public final int DNGCONVERT_REQUEST = 45;
-    private boolean firststart = false;
 
     private ImageAdapter mPagerAdapter;
 
     private final String TAG = GridViewFragment.class.getSimpleName();
 
-
-    /**
-     * count of selected files
-     */
-    private int filesSelectedCount;
-    /**
-     * rootdir is when all folders contained from DCIM on internal and external SD card are showed.
-     * internalSD/DCIM/Camera
-     * internalSD/DCIM/FreeDcam
-     * extSD/DCIM/FreeDcam showed with sd icon
-     */
-    //private boolean isRootDir = true;
-
     private ActivityInterface viewerActivityInterface;
     private ScreenSlideFragment.ButtonClick onGridItemClick;
-    //private BaseHolder folderToShow;
 
     public int DEFAULT_ITEM_TO_SET = 0;
-
-    public void SetPosition(int position)
-    {
-        gridviewfragmentBinding.gridViewBase.smoothScrollToPosition(position);
-    }
 
     public View GetGridItem(int position)
     {
         return gridviewfragmentBinding.gridViewBase.getChildAt(position);
     }
 
-
+    public void setGridViewFragmentModelView(GridViewFragmentModelView gridViewFragmentModelView)
+    {
+        Log.d(TAG,"setGridViewFragmentModelView");
+        this.gridViewFragmentModelView = gridViewFragmentModelView;
+        bindGridModelView();
+    }
 
     public void SetOnGridItemClick(ScreenSlideFragment.ButtonClick onGridItemClick)
     {
         this.onGridItemClick = onGridItemClick;
     }
 
-    public void NotifyDataSetChanged(List<BaseHolder> files)
-    {
-        mPagerAdapter.setFiles(files);
-        if (!firststart) {
-            if (files != null
-                    && files.size() > 0
-                    && files.get(0) instanceof UriHolder
-                    ) {
-
-                isRootDir = false;
-                Log.d(TAG, "NotifyDataSetChanged rootdir:" +isRootDir);
-                setViewMode(ViewStates.normal);
-            }
-            firststart = true;
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -152,13 +122,17 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         super.onCreateView(inflater, container, savedInstanceState);
         viewerActivityInterface = (ActivityInterface) getActivity();
         gridviewfragmentBinding = DataBindingUtil.inflate(inflater, layout.freedviewer_gridviewfragment, container, false);
-        gridViewFragmentModelView = new ViewModelProvider(this).get(GridViewFragmentModelView.class);
+        bindGridModelView();
+        return gridviewfragmentBinding.getRoot();
+    }
 
-        gridviewfragmentBinding.gridViewBase.setOnItemClickListener(this);
-        gridviewfragmentBinding.gridViewBase.setOnItemLongClickListener(this);
+    private void bindGridModelView() {
+        if (gridviewfragmentBinding == null || gridViewFragmentModelView == null)
+            return;
+        gridviewfragmentBinding.setGridfragmentmodel(gridViewFragmentModelView);
+        gridviewfragmentBinding.gridViewBase.setOnItemClickListener(gridViewFragmentModelView.onItemClickListener);
         gridviewfragmentBinding.gridViewBase.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
-
-        gridviewfragmentBinding.buttonGoback.setOnClickListener(gridViewFragmentModelView.onGobBackClick);
+        gridViewFragmentModelView.setButtonClick(onGridItemClick);
 
         gridviewfragmentBinding.buttonFiletype.setOnClickListener(v -> showFileSelectionPopup(v));
 
@@ -192,7 +166,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             popup.show();
         });
 
-        gridviewfragmentBinding.buttonDoAction.setVisibility(View.GONE);
+        //gridviewfragmentBinding.buttonDoAction.setVisibility(View.GONE);
         gridViewFragmentModelView.getIntentModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
@@ -215,19 +189,29 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         gridViewFragmentModelView.getAlterDialogModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                Builder builder = new Builder(getContext());
                 builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
                         .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
             }
         });
-        firstload();
 
-        return gridviewfragmentBinding.getRoot();
+        gridViewFragmentModelView.getIntentSenderModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                try {
+                    startIntentSenderForResult(gridViewFragmentModelView.getIntentSenderModel().getIntentSender(), ActivityAbstract.DELETE_REQUEST_CODE,null,0,0,0,null);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        firstload();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        gridViewFragmentModelView.getFilesHolderModel().setFiles(gridViewFragmentModelView.getFilesHolderModel().getFiles());
     }
 
     @Override
@@ -253,36 +237,27 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
                     mPagerAdapter.SetViewState(gridViewFragmentModelView.getViewStateModel().getCurrentViewState());
                 }
             });
+            gridViewFragmentModelView.getFilesHolderModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                @Override
+                public void onPropertyChanged(Observable sender, int propertyId) {
+                    if (propertyId == BR.files) {
+                        getActivity().runOnUiThread(() -> mPagerAdapter.setGridImageViewModels(gridViewFragmentModelView.getFilesHolderModel().getGridImageViewModels()));
+                    }
+                }
+            });
             gridviewfragmentBinding.gridViewBase.setAdapter(mPagerAdapter);
             gridViewFragmentModelView.setViewMode(ViewStates.normal);
         }
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
-    }
-
-
-
     private void showFileSelectionPopup(View v) {
         PopupMenu popup = new PopupMenu(getContext(), v);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                return false;
-            }
-        });
 
         popup.setOnMenuItemClickListener(gridViewFragmentModelView.popupMenuItemClickListner);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(menu.filetypepopupmenu, popup.getMenu());
         popup.show();
     }
-
-
-
-
 
     @Override
     public void onActivityResultCallback(Uri uri) {
@@ -294,13 +269,10 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     {
         //super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == STACK_REQUEST || requestCode == DNGCONVERT_REQUEST)
-            viewerActivityInterface.getFileListController().LoadFolder(folderToShow,formatsToShow);
+            gridViewFragmentModelView.refreshCurrentFolder();
         if (requestCode == ActivityAbstract.DELETE_REQUEST_CODE)
         {
-            UriHolder uriHolder = urisToDelte.get(0);
-            urisToDelte.remove(0);
-            viewerActivityInterface.getFileListController().DeleteFile(uriHolder);
-            NotifyDataSetChanged(viewerActivityInterface.getFileListController().getFiles());
+            gridViewFragmentModelView.refreshCurrentFolder();
         }
 
     }

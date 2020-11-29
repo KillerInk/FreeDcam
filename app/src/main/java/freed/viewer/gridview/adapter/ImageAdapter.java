@@ -25,7 +25,7 @@ public class ImageAdapter extends BaseAdapter
     private final String TAG = ImageAdapter.class.getSimpleName();
 
     private ActivityInterface viewerActivityInterface;
-    private List<BaseHolder> files;
+    //private List<BaseHolder> files;
     private List<GridImageViewModel> gridImageViewModels;
 
     /**
@@ -37,7 +37,7 @@ public class ImageAdapter extends BaseAdapter
         this.viewerActivityInterface = viewerActivityInterface;
     }
 
-    public void setFiles(List<BaseHolder> files)
+    /*public void setFiles(List<BaseHolder> files)
     {
         this.files =files;
         gridImageViewModels = new ArrayList<>();
@@ -46,24 +46,32 @@ public class ImageAdapter extends BaseAdapter
             gridImageViewModels.add(new GridImageViewModel(viewerActivityInterface.getBitmapHelper(),baseHolder));
         }
         notifyDataSetChanged();
+    }*/
+
+    public void setGridImageViewModels(List<GridImageViewModel> files)
+    {
+        gridImageViewModels = files;
+        notifyDataSetChanged();
     }
 
-    public BaseHolder getBaseHolder(int pos)
+
+
+   /* public BaseHolder getBaseHolder(int pos)
     {
         return files.get(pos);
-    }
+    }*/
 
     @Override
     public int getCount()
     {
-        if (files != null)
-            return files.size();
+        if (gridImageViewModels != null)
+            return gridImageViewModels.size();
         return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return files.get(position);
+        return gridImageViewModels.get(position);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class ImageAdapter extends BaseAdapter
         }
         else
             imageView = (GridImageView) convertView;
-        Log.d(TAG, "filessize:" + files.size() + " position:"+position);
+        Log.d(TAG, "filessize:" + gridImageViewModels.size() + " position:"+position);
         if (viewerActivityInterface.getFileListController().getFiles().size() <= position)
             position = viewerActivityInterface.getFileListController().getFiles().size() -1;
 
@@ -94,9 +102,9 @@ public class ImageAdapter extends BaseAdapter
     public void SetViewState(ViewStates states)
     {
         currentViewState = states;
-        if (files == null )
+        if (gridImageViewModels == null )
             return;
-        for (int i = 0; i< files.size(); i++)
+        for (int i = 0; i< gridImageViewModels.size(); i++)
         {
             /*BaseHolder f = files.get(i);
             f.SetViewState(states);*/
@@ -107,9 +115,8 @@ public class ImageAdapter extends BaseAdapter
     public void setViewState(ViewStates states, int pos)
     {
         currentViewState = states;
-        if (files == null )
+        if (gridImageViewModels == null )
             return;
         gridImageViewModels.get(pos).setViewState(states);
-
     }
 }

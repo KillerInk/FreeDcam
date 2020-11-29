@@ -119,7 +119,7 @@ public class GridImageViewModel extends BaseObservable
                 break;
             case selection:
                 setCheckVisible(true);
-                if (imagePath.IsSelected())
+                if (getChecked())
                 {
                     setChecked(true);
                 }

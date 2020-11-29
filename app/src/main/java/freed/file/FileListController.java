@@ -67,7 +67,7 @@ public class FileListController {
     private StorageFileManager storageFileManager;
     private MediaStoreController mediaStoreController;
     private Context context;
-    private NotifyFilesChanged notifyFilesChanged;
+    private List<NotifyFilesChanged> notifyFilesChangedList;
     private final Object filesLock = new Object();
 
     public FileListController(Context context)
@@ -76,11 +76,13 @@ public class FileListController {
         Log.d(TAG, "needStorageAccessFrameWork " + needStorageAccessFrameWork);
         storageFileManager = new StorageFileManager();
         mediaStoreController = new MediaStoreController(context);
+        notifyFilesChangedList = new ArrayList<>();
     }
 
     public void setNotifyFilesChanged(NotifyFilesChanged notifyFilesChanged)
     {
-        this.notifyFilesChanged = notifyFilesChanged;
+        if (!notifyFilesChangedList.contains(notifyFilesChanged))
+            notifyFilesChangedList.add(notifyFilesChanged);
     }
 
     public List<BaseHolder> getFiles()
@@ -104,8 +106,7 @@ public class FileListController {
                 files = mediaStoreController.getFolders();
             SortFileHolder(files);
             Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
         catch (SecurityException ex)
         {
@@ -125,8 +126,7 @@ public class FileListController {
                 files.clear();
                 files = storageFileManager.getDCIMDirs();
             }
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
     }
 
@@ -177,8 +177,7 @@ public class FileListController {
                     files = tmplist;
                 SortFileHolder(files);
             }
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
     }
 
@@ -245,6 +244,8 @@ public class FileListController {
             deleted = deleteFile(file);
         }
         Log.d(TAG, "delete file: " + file.getName() + " " + deleted);
+        if (deleted)
+            getFiles().remove(file);
         return deleted;
     }
 
@@ -252,8 +253,7 @@ public class FileListController {
         synchronized (filesLock) {
             for (BaseHolder f : files)
                 deleteFile(f);
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
     }
 
@@ -285,8 +285,7 @@ public class FileListController {
         synchronized (filesLock) {
             files.add(file);
             SortFileHolder(files);
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
 
     }
@@ -300,9 +299,13 @@ public class FileListController {
                     files.add(fh);
             }
             SortFileHolder(files);
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
+    }
+
+    private void fireNotifyFilesChanged() {
+        for (NotifyFilesChanged n : notifyFilesChangedList)
+            n.onFilesChanged();
     }
 
     public BaseHolder getNewImgFileHolder(File file)

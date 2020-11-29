@@ -75,9 +75,8 @@ public class UriHolder extends BaseHolder {
     @Override
     public boolean delete(Context context) {
 
-        Uri deluri = Uri.parse(mediaStoreUri.toString().replace("/"+String.valueOf(ID),""));
         int del = context.getContentResolver().delete(
-                deluri,
+                mediaStoreUri,
                 MediaStore.Images.Media._ID +" = ?",
                 new String[]{String.valueOf(ID) });
 

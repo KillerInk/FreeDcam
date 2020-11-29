@@ -17,7 +17,10 @@ public class CustomBinding {
     @BindingAdapter("setVisibility")
     public static void setVisibility(View view, boolean visibile)
     {
-        view.setVisibility(visibile ? View.VISIBLE : View.GONE);
+        if (visibile)
+            view.setVisibility(View.VISIBLE);
+        else
+            view.setVisibility(View.GONE);
     }
 
     @BindingAdapter("setChecked")

@@ -24,7 +24,7 @@
         android:columnWidth="@dimen/image_thumbnail_size"
         android:numColumns="auto_fit"
         android:scrollingCache="false"
-        android:smoothScrollbar="true" />
+        android:smoothScrollbar="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,7 +42,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/back_button_press" />
+            android:background="@drawable/back_button_press"
+            android:onClick="@{gridfragmentmodel.onGobBackClick}"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,13 +53,14 @@
 
             <TextView
                 android:id="@+id/textView_filesSelected"
+                setVisibility="@{gridfragmentmodel.filesSelectedModel.visibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
-                android:text="@string/files_selected"
+                android:text="@{gridfragmentmodel.filesSelectedModel.filesSelectedString}"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/abc_background_cache_hint_selector_material_light" />
+                android:textColor="@color/menuTextColor" />
 
             <Button
                 android:id="@+id/button_filetype"
@@ -67,26 +69,29 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
                 android:background="#00000000"
-                android:text="@string/ALL"
-                android:textColor="@color/button_material_light"
+                android:text="@{gridfragmentmodel.buttonFiletype.text}"
+                android:textColor="@color/menuTextColor"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button_DoAction"
+                setVisibility="@{gridfragmentmodel.buttonDoAction.visibility}"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/app_icon_size"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:text="OK"
-                android:textColor="@color/button_material_light"
+                android:text="@{gridfragmentmodel.buttonDoAction.text}"
+                android:textColor="@color/menuTextColor"
+                android:onClick="@{gridfragmentmodel.buttonDoAction.onClickListener}"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button_options"
+                setVisibility="@{gridfragmentmodel.buttonOptions.visibility}"
                 android:layout_width="50dp"
                 android:layout_height="@dimen/app_icon_size"
                 android:layout_gravity="center_vertical"
@@ -94,7 +99,7 @@
                 android:layout_weight="1"
                 android:background="#00000000"
                 android:text="..."
-                android:textColor="@color/button_material_light"
+                android:textColor="@color/menuTextColor"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 

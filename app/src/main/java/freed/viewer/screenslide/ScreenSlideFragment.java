@@ -124,6 +124,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     View view;
 
     private boolean showExifInfo = false;
+    private int position;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -249,13 +250,16 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(2);
         mPager.addOnPageChangeListener(this);
+        mPager.setCurrentItem(position, false);
         return view;
     }
 
 
     public void SetPostition(int position)
     {
-        mPager.setCurrentItem(position, false);
+        this.position = position;
+        if (mPager != null)
+            mPager.setCurrentItem(position, false);
     }
 
 
