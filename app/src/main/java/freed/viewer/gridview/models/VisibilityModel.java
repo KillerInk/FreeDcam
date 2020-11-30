@@ -5,7 +5,7 @@ import androidx.databinding.Bindable;
 
 import com.troop.freedcam.BR;
 
-public class VisibilityButton extends BaseObservable {
+public class VisibilityModel extends BaseObservable {
 
     private boolean visibility;
 

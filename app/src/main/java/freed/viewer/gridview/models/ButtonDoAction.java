@@ -6,7 +6,7 @@ import androidx.databinding.Bindable;
 
 import com.troop.freedcam.BR;
 
-public class ButtonDoAction extends VisibilityButton {
+public class ButtonDoAction extends VisibilityModel {
     private View.OnClickListener onClickListener;
     private String text;
 

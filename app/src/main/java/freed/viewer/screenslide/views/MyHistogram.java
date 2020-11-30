@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.viewer.screenslide;
+package freed.viewer.screenslide.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

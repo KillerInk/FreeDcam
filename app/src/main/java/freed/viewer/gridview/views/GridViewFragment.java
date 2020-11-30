@@ -19,63 +19,42 @@
 
 package freed.viewer.gridview.views;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.RecoverableSecurityException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.PopupMenu;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.troop.freedcam.BR;
 import com.troop.freedcam.R;
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.menu;
-import com.troop.freedcam.R.string;
 import com.troop.freedcam.databinding.FreedviewerGridviewfragmentBinding;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.file.FileListController.FormatTypes;
-import freed.file.holder.BaseHolder;
-import freed.file.holder.FileHolder;
-import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
 import freed.renderscript.RenderScriptManager;
-import freed.utils.FreeDPool;
 import freed.utils.Log;
-import freed.utils.StringUtils.FileEnding;
-import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.dngconvert.DngConvertingFragment;
 
 import freed.viewer.gridview.adapter.ImageAdapter;
-import freed.viewer.gridview.enums.RequestModes;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.gridview.modelview.GridViewFragmentModelView;
-import freed.viewer.screenslide.ScreenSlideFragment;
-import freed.viewer.stack.DngStackActivity;
-import freed.viewer.stack.StackActivity;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**
  * Created by troop on 11.12.2015.

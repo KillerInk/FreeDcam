@@ -34,7 +34,6 @@ import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.troop.freedcam.R;
 
@@ -50,12 +49,13 @@ import freed.utils.PermissionManager;
 import freed.viewer.gridview.modelview.GridViewFragmentModelView;
 import freed.viewer.gridview.views.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.ScreenSlideFragment;
+import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**
  * Created by troop on 11.12.2015.
  */
-public class ActivityFreeDviewer extends ActivityAbstract implements FileListController.NotifyFilesChanged
+public class ActivityFreeDviewer extends ActivityAbstract
 {
     private final String TAG = ActivityFreeDviewer.class.getSimpleName();
     private GridViewFragment gridViewFragment;
@@ -65,6 +65,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     private AnimatorSet mCurrentAnimator;
     private int mShortAnimationDuration;
     private GridViewFragmentModelView gridViewFragmentModelView;
+    private ScreenSlideFragmentModelView screenSlideFragmentModelView;
 
 
     @Override
@@ -85,11 +86,13 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
     {
         Log.d(TAG,"init");
         gridViewFragmentModelView =  new ViewModelProvider(this).get(GridViewFragmentModelView.class);
+        screenSlideFragmentModelView = new ViewModelProvider(this).get(ScreenSlideFragmentModelView.class);
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
         fileListController = new FileListController(getApplicationContext());
         gridViewFragmentModelView.setFileListController(fileListController);
         gridViewFragmentModelView.setBitmapHelper(bitmapHelper);
-        fileListController.setNotifyFilesChanged(this);
+        screenSlideFragmentModelView.setFileListController(fileListController);
+        screenSlideFragmentModelView.setBitmapHelper(bitmapHelper);
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         gridViewFragment = new GridViewFragment();
@@ -98,6 +101,7 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
 
         screenSlideFragment = new ScreenSlideFragment();
         screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
+        screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
         slideholder =  findViewById(R.id.freedviewer_screenslideholder);
         gridholder = findViewById(R.id.freedviewer_gridviewholder);
         slideholder.setVisibility(View.GONE);
@@ -126,9 +130,9 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
         return null;
     }
 
-    private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = (position, view) -> loadGridView(position,view);
+    private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = this::loadGridView;
 
-    private final ScreenSlideFragment.ButtonClick onGridItemClick = (position, view) -> loadScreenSlide(position,view);
+    private final ScreenSlideFragment.ButtonClick onGridItemClick = this::loadScreenSlide;
 
     private void loadGridView(int position, View view)
     {
@@ -311,24 +315,20 @@ public class ActivityFreeDviewer extends ActivityAbstract implements FileListCon
         if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST)
         {
             List<BaseHolder> files = fileListController.getFiles();
-            if(files.size() > 0 && fileListController.getFiles().get(0).IsFolder()) {
+            if(files.size() > 0 && files.get(0).IsFolder()) {
 
-                BaseHolder f =  fileListController.getFiles().get(0);
+                BaseHolder f =  files.get(0);
                 fileListController.LoadFolder(f, gridViewFragmentModelView.formatsToShow);
             }
             else
                 fileListController.loadDefaultFiles();
         }
+       /* else if (requestCode == ActivityAbstract.DELETE_REQUEST_CODE)
+        {
+            screenSlideFragmentModelView.getFilesHolderModel().notifyChange();
+            gridViewFragmentModelView.getFilesHolderModel().notifyChange();
+        }*/
 
     }
 
-    @Override
-    public void onFilesChanged() {
-        runOnUiThread(()->{
-            //gridViewFragment.NotifyDataSetChanged(fileListController.getFiles());
-            Log.d(TAG, "onFilesChanged");
-            screenSlideFragment.NotifyDATAhasChanged(fileListController.getFiles());
-        });
-
-    }
 }

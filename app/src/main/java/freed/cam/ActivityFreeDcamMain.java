@@ -55,7 +55,7 @@ import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.ScreenSlideFragment;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
@@ -81,6 +81,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onFilesChanged() {
         if (uiViewPagerAdapter != null)
             uiViewPagerAdapter.updateScreenSlideFile(fileListController.getFiles());
+    }
+
+    @Override
+    public void onFileDeleted(int id) {
+
     }
 
     private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask

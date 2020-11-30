@@ -71,7 +71,11 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         this.fileListController = fileListController;
         if (fileListController.getFiles() != null && fileListController.getFiles().size() > 0)
             setFiles(fileListController.getFiles());
-        fileListController.setNotifyFilesChanged(this::onFilesChanged);
+        fileListController.setNotifyFilesChanged(this);
+    }
+
+    public FileListController getFileListController() {
+        return fileListController;
     }
 
     @Override
@@ -79,6 +83,13 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         Log.d(TAG,"onFilesChanged");
         if (fileListController.getFiles() != null && fileListController.getFiles().size() > 0)
             setFiles(fileListController.getFiles());
+    }
+
+    @Override
+    public void onFileDeleted(int id) {
+        Log.d(TAG,"onFileDeleted " +id);
+        gridImageViewModels.remove(id);
+        notifyPropertyChanged(BR.files);
     }
 
     public void setBitmapHelper(BitmapHelper bitmapHelper)

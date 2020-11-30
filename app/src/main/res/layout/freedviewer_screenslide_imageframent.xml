@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="imageFragmentModel"
+            type="freed.viewer.screenslide.models.ImageFragmentModel" />
+    </data>
+<RelativeLayout
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <view
+    <com.ortiz.touch.TouchImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        class="com.ortiz.touch.TouchImageView"
         android:id="@+id/imageView_PicView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        setImageModelModelToImageView="@{imageFragmentModel}"
+        />
 
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar_screenslideImageview"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        setVisibility="@{imageFragmentModel.progressBarVisible}"/>
 
 
 </RelativeLayout>
+</layout>

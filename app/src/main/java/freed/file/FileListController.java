@@ -58,6 +58,7 @@ public class FileListController {
     public interface NotifyFilesChanged
     {
         void onFilesChanged();
+        void onFileDeleted(int id);
     }
 
 
@@ -240,19 +241,31 @@ public class FileListController {
 
     public boolean DeleteFile(BaseHolder file) {
         boolean deleted = false;
+        for (int i = 0; i< getFiles().size();i++)
+        {
+            if (getFiles().get(i).getName().equals(file.getName()))
+                fireNotifyFilesDeleted(i);
+        }
         synchronized (filesLock) {
             deleted = deleteFile(file);
         }
         Log.d(TAG, "delete file: " + file.getName() + " " + deleted);
-        if (deleted)
+        if (deleted) {
             getFiles().remove(file);
+
+        }
+
         return deleted;
     }
 
     public void DeleteFiles(List<BaseHolder> files) {
         synchronized (filesLock) {
-            for (BaseHolder f : files)
-                deleteFile(f);
+            if (files.get(0) instanceof FileHolder) {
+                for (BaseHolder f : files)
+                    deleteFile(f);
+            }
+            else
+                mediaStoreController.deleteFiles(files);
             fireNotifyFilesChanged();
         }
     }
@@ -306,6 +319,11 @@ public class FileListController {
     private void fireNotifyFilesChanged() {
         for (NotifyFilesChanged n : notifyFilesChangedList)
             n.onFilesChanged();
+    }
+
+    private void fireNotifyFilesDeleted(int id) {
+        for (NotifyFilesChanged n : notifyFilesChangedList)
+            n.onFileDeleted(id);
     }
 
     public BaseHolder getNewImgFileHolder(File file)

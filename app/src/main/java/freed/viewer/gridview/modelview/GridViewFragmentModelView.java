@@ -33,10 +33,9 @@ import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.models.IntentModel;
 import freed.viewer.gridview.models.IntentSenderModel;
 import freed.viewer.gridview.models.ViewStateModel;
-import freed.viewer.gridview.models.VisibilityButton;
-import freed.viewer.gridview.views.GridImageView;
+import freed.viewer.gridview.models.VisibilityModel;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.ScreenSlideFragment;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;
 
@@ -50,8 +49,8 @@ public class GridViewFragmentModelView extends ViewModel
     private final List<UriHolder> urisToDelte = new ArrayList<>();
     private final ButtonDoAction buttonFiletype;
     private final ButtonDoAction buttonDoAction;
-    private final VisibilityButton buttonOptions;
-    private final VisibilityButton textViewFilesSelected;
+    private final VisibilityModel buttonOptions;
+    private final VisibilityModel textViewFilesSelected;
 
     public FileListController.FormatTypes formatsToShow = FileListController.FormatTypes.all;
     private FileListController.FormatTypes lastFormat = FileListController.FormatTypes.all;
@@ -71,11 +70,11 @@ public class GridViewFragmentModelView extends ViewModel
         filesHolderModel = new FilesHolderModel();
         buttonFiletype = new ButtonDoAction();
         buttonDoAction = new ButtonDoAction();
-        buttonOptions = new VisibilityButton();
+        buttonOptions = new VisibilityModel();
         buttonOptions.setVisibility(true);
         buttonFiletype.setVisibility(true);
         buttonFiletype.setText("ALL");
-        textViewFilesSelected = new VisibilityButton();
+        textViewFilesSelected = new VisibilityModel();
         intentModel = new IntentModel();
         finishActivityModel = new FinishActivityModel();
         alterDialogModel = new FinishActivityModel();
@@ -135,7 +134,7 @@ public class GridViewFragmentModelView extends ViewModel
         return buttonFiletype;
     }
 
-    public VisibilityButton getButtonOptions() {
+    public VisibilityModel getButtonOptions() {
         return buttonOptions;
     }
 
@@ -435,27 +434,36 @@ public class GridViewFragmentModelView extends ViewModel
     public void deleteFiles()
     {
         ImageManager.cancelImageLoadTasks();
-        FreeDPool.Execute(() -> {
-            urisToDelte.clear();
-            for (int i = 0; i < filesSelectedList.size(); i++)
-            {
-                try {
-                    filesHolderModel.deleteFile(filesSelectedList.get(i));
+        urisToDelte.clear();
+        try {
+            filesHolderModel.getFileListController().DeleteFiles(filesSelectedList);
+        }
+        catch(SecurityException ex){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (ex instanceof RecoverableSecurityException)
+                {
+                    RecoverableSecurityException rex = (RecoverableSecurityException)ex;
+                    intentSenderModel.setIntentSender(rex.getUserAction().getActionIntent().getIntentSender());
                 }
-                catch(SecurityException ex){
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        if (ex instanceof RecoverableSecurityException)
-                        {
-                            RecoverableSecurityException rex = (RecoverableSecurityException)ex;
-                            UriHolder uriHolder = (UriHolder) filesSelectedList.get(i);
-                            urisToDelte.add(uriHolder);
-                            intentSenderModel.setIntentSender(rex.getUserAction().getActionIntent().getIntentSender());
-                        }
+            }
+        }
+        /*for (int i = 0; i < filesSelectedList.size(); i++)
+        {
+            try {
+                filesHolderModel.deleteFile(filesSelectedList.get(i));
+            }
+            catch(SecurityException ex){
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if (ex instanceof RecoverableSecurityException)
+                    {
+                        RecoverableSecurityException rex = (RecoverableSecurityException)ex;
+                        UriHolder uriHolder = (UriHolder) filesSelectedList.get(i);
+                        urisToDelte.add(uriHolder);
+                        intentSenderModel.setIntentSender(rex.getUserAction().getActionIntent().getIntentSender());
                     }
                 }
             }
-            //filesHolderModel.LoadFolder(filesHolderModel.);
-        });
+        }*/
     }
 
     private void resetFilesSelected()

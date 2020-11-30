@@ -4,7 +4,7 @@ import androidx.databinding.Bindable;
 
 import com.troop.freedcam.BR;
 
-public class FilesSelectedModel extends VisibilityButton {
+public class FilesSelectedModel extends VisibilityModel {
 
     private int filesSelectedCount = 0;
     private String filesSelectedString;
