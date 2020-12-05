@@ -89,8 +89,8 @@ public class ImageAdapter extends BaseAdapter
         else
             imageView = (GridImageView) convertView;
         Log.d(TAG, "filessize:" + gridImageViewModels.size() + " position:"+position);
-        if (viewerActivityInterface.getFileListController().getFiles().size() <= position)
-            position = viewerActivityInterface.getFileListController().getFiles().size() -1;
+        if (gridImageViewModels.size() <= position)
+            position = gridImageViewModels.size() -1;
 
         gridImageViewModels.get(position).setViewState(currentViewState);
         imageView.bindModel(gridImageViewModels.get(position));

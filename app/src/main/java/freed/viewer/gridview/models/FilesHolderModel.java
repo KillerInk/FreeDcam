@@ -19,7 +19,9 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
     private List<BaseHolder> files;
     private FileListController fileListController;
     private List<GridImageViewModel> gridImageViewModels;
+    private List<GridImageViewModel> visibleGridImageViewModels;
     private BitmapHelper bitmapHelper;
+    private FileListController.FormatTypes formatType = FileListController.FormatTypes.all;
 
     public FilesHolderModel()
     {
@@ -31,13 +33,29 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         for (BaseHolder baseHolder : files)
         {
             gridImageViewModels.add(new GridImageViewModel(bitmapHelper,baseHolder));
+            visibleGridImageViewModels = gridImageViewModels;
         }
+        notifyPropertyChanged(BR.files);
+    }
+
+    public void setFormatType(FileListController.FormatTypes formatType)
+    {
+        this.formatType = formatType;
+        visibleGridImageViewModels = new ArrayList<>();
+        if (formatType != FileListController.FormatTypes.all) {
+            for (int i = 0; i < gridImageViewModels.size(); i++) {
+                if (gridImageViewModels.get(i).getImagePath().getFileformat() == formatType)
+                    visibleGridImageViewModels.add(gridImageViewModels.get(i));
+            }
+        }
+        else
+            visibleGridImageViewModels = gridImageViewModels;
         notifyPropertyChanged(BR.files);
     }
 
     public List<GridImageViewModel> getGridImageViewModels()
     {
-        return gridImageViewModels;
+        return visibleGridImageViewModels;
     }
 
     @Bindable

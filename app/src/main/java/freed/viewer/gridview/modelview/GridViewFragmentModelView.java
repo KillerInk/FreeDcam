@@ -44,7 +44,7 @@ public class GridViewFragmentModelView extends ViewModel
     private final String TAG = GridViewFragmentModelView.class.getSimpleName();
     private final ViewStateModel viewStateModel;
     private final FilesHolderModel filesHolderModel;
-    private boolean isRootDir;
+    private boolean isRootDir = true;
     private final List<BaseHolder> filesSelectedList = new ArrayList<>();
     private final List<UriHolder> urisToDelte = new ArrayList<>();
     private final ButtonDoAction buttonFiletype;
@@ -162,7 +162,7 @@ public class GridViewFragmentModelView extends ViewModel
                 case normal:
                     if (formatsToShow == FileListController.FormatTypes.raw && lastFormat != FileListController.FormatTypes.raw) {
                         formatsToShow = lastFormat;
-                        filesHolderModel.LoadFolder(folderToShow,formatsToShow);
+                        filesHolderModel.setFormatType(formatsToShow);
                     }
                     //resetFilesSelected();
                     requestMode = RequestModes.none;
@@ -193,7 +193,7 @@ public class GridViewFragmentModelView extends ViewModel
                         case rawToDng:
                             lastFormat = formatsToShow;
                             formatsToShow = FileListController.FormatTypes.raw;
-                            filesHolderModel.LoadFolder(folderToShow,formatsToShow);
+                            filesHolderModel.setFormatType(formatsToShow);
                             buttonOptions.setVisibility(false);
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("RawToDng");
@@ -203,7 +203,7 @@ public class GridViewFragmentModelView extends ViewModel
                         case stack:
                             lastFormat = formatsToShow;
                             formatsToShow = FileListController.FormatTypes.jpg;
-                            filesHolderModel.LoadFolder(folderToShow,formatsToShow);
+                            filesHolderModel.setFormatType(formatsToShow);
                             buttonOptions.setVisibility(false);
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("Stack");
@@ -215,7 +215,7 @@ public class GridViewFragmentModelView extends ViewModel
                             formatsToShow = FileListController.FormatTypes.dng;
                             if (folderToShow == null)
                                 folderToShow = filesHolderModel.getFiles().get(0);
-                            filesHolderModel.LoadFolder(folderToShow,formatsToShow);
+                            filesHolderModel.setFormatType(formatsToShow);
                             buttonOptions.setVisibility(false);
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("DngStack");
@@ -521,7 +521,8 @@ public class GridViewFragmentModelView extends ViewModel
                 formatsToShow = FileListController.FormatTypes.mp4;
             }
             //if (savedInstanceFilePath != null)
-            filesHolderModel.LoadFolder(folderToShow,formatsToShow);
+            filesHolderModel.setFormatType(formatsToShow);
+            //filesHolderModel.LoadFolder(folderToShow,formatsToShow);
 
             return false;
         }

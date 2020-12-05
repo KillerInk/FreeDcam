@@ -31,6 +31,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
+import freed.file.FileListController;
+import freed.utils.StringUtils;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.gridview.views.GridViewFragment;
 
@@ -43,6 +45,7 @@ public abstract class BaseHolder
     private long lastmodified;
     private boolean isFolder;
     private boolean isSDCard;
+    private FileListController.FormatTypes fileformat;
 
     public BaseHolder(String name, long lastmodified, boolean isFolder,boolean isSDCard)
     {
@@ -50,8 +53,24 @@ public abstract class BaseHolder
         this.lastmodified = lastmodified;
         this.isFolder = isFolder;
         this.isSDCard = isSDCard;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.BAYER))
+            fileformat = FileListController.FormatTypes.raw;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.DNG))
+            fileformat = FileListController.FormatTypes.dng;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.RAW))
+            fileformat = FileListController.FormatTypes.raw;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.JPG))
+            fileformat = FileListController.FormatTypes.jpg;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.JPS))
+            fileformat = FileListController.FormatTypes.jps;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.MP4))
+            fileformat = FileListController.FormatTypes.mp4;
     }
 
+
+    public FileListController.FormatTypes getFileformat() {
+        return fileformat;
+    }
 
     public String getName()
     {
