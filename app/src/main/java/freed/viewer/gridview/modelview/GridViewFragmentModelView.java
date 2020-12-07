@@ -50,7 +50,6 @@ public class GridViewFragmentModelView extends ViewModel
     private final ButtonDoAction buttonFiletype;
     private final ButtonDoAction buttonDoAction;
     private final VisibilityModel buttonOptions;
-    private final VisibilityModel textViewFilesSelected;
 
     public FileListController.FormatTypes formatsToShow = FileListController.FormatTypes.all;
     private FileListController.FormatTypes lastFormat = FileListController.FormatTypes.all;
@@ -71,10 +70,11 @@ public class GridViewFragmentModelView extends ViewModel
         buttonFiletype = new ButtonDoAction();
         buttonDoAction = new ButtonDoAction();
         buttonOptions = new VisibilityModel();
-        buttonOptions.setVisibility(true);
-        buttonFiletype.setVisibility(true);
+        if (isRootDir) {
+            buttonOptions.setVisibility(false);
+            buttonFiletype.setVisibility(false);
+        }
         buttonFiletype.setText("ALL");
-        textViewFilesSelected = new VisibilityModel();
         intentModel = new IntentModel();
         finishActivityModel = new FinishActivityModel();
         alterDialogModel = new FinishActivityModel();
@@ -153,7 +153,8 @@ public class GridViewFragmentModelView extends ViewModel
         if (isRootDir)
         {
             buttonFiletype.setVisibility(false);
-            textViewFilesSelected.setVisibility(false);
+            buttonOptions.setVisibility(false);
+            filesSelectedModel.setVisibility(false);
         }
         else
         {
@@ -167,14 +168,13 @@ public class GridViewFragmentModelView extends ViewModel
                     //resetFilesSelected();
                     requestMode = RequestModes.none;
                     buttonFiletype.setVisibility(true);
-                    textViewFilesSelected.setVisibility(false);
                     buttonOptions.setVisibility(true);
                     buttonDoAction.setVisibility(false);
-                    textViewFilesSelected.setVisibility(false);
+                    filesSelectedModel.setVisibility(false);
                     break;
                 case selection:
                     resetFilesSelected();
-                    textViewFilesSelected.setVisibility(true);
+                    filesSelectedModel.setVisibility(true);
                     updateFilesSelected();
                     switch (requestMode) {
                         case none:
@@ -331,11 +331,15 @@ public class GridViewFragmentModelView extends ViewModel
                         setViewMode(viewStateModel.getCurrentViewState());
                     }
                 }
-                else if (filesHolderModel.getFiles().size() > 0 && filesHolderModel.getFiles().get(0) instanceof UriHolder)
+                else if (filesHolderModel.getFiles().size() > 0 && filesHolderModel.getFiles().get(0) instanceof UriHolder) {
                     if (filesHolderModel.getFiles().get(0).IsFolder())
                         finishActivityModel.setOb(null);
-                    else
+                    else {
                         filesHolderModel.loadDefault();
+                        isRootDir = true;
+                        setViewMode(ViewStates.normal);
+                    }
+                }
                 else
                 {
                     filesHolderModel.loadDefault();

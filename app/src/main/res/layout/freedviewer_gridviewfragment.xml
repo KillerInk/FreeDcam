@@ -70,6 +70,7 @@
                 android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
                 android:background="#00000000"
                 android:text="@{gridfragmentmodel.buttonFiletype.text}"
+                setVisibility="@{gridfragmentmodel.buttonFiletype.visibility}"
                 android:textColor="@color/menuTextColor"
                 android:textSize="18dp"
                 android:textStyle="bold" />
