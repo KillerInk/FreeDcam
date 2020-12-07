@@ -163,7 +163,8 @@ public class GridViewFragmentModelView extends ViewModel
                 case normal:
                     if (formatsToShow == FileListController.FormatTypes.raw && lastFormat != FileListController.FormatTypes.raw) {
                         formatsToShow = lastFormat;
-                        filesHolderModel.setFormatType(formatsToShow);
+                        if (filesHolderModel.getFormatType() != formatsToShow)
+                            filesHolderModel.setFormatType(formatsToShow);
                     }
                     //resetFilesSelected();
                     requestMode = RequestModes.none;
@@ -193,7 +194,8 @@ public class GridViewFragmentModelView extends ViewModel
                         case rawToDng:
                             lastFormat = formatsToShow;
                             formatsToShow = FileListController.FormatTypes.raw;
-                            filesHolderModel.setFormatType(formatsToShow);
+                            if (filesHolderModel.getFormatType() != formatsToShow)
+                                filesHolderModel.setFormatType(formatsToShow);
                             buttonOptions.setVisibility(false);
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("RawToDng");
@@ -203,7 +205,8 @@ public class GridViewFragmentModelView extends ViewModel
                         case stack:
                             lastFormat = formatsToShow;
                             formatsToShow = FileListController.FormatTypes.jpg;
-                            filesHolderModel.setFormatType(formatsToShow);
+                            if (filesHolderModel.getFormatType() != formatsToShow)
+                                filesHolderModel.setFormatType(formatsToShow);
                             buttonOptions.setVisibility(false);
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("Stack");
@@ -215,7 +218,8 @@ public class GridViewFragmentModelView extends ViewModel
                             formatsToShow = FileListController.FormatTypes.dng;
                             if (folderToShow == null)
                                 folderToShow = filesHolderModel.getFiles().get(0);
-                            filesHolderModel.setFormatType(formatsToShow);
+                            if (filesHolderModel.getFormatType() != formatsToShow)
+                                filesHolderModel.setFormatType(formatsToShow);
                             buttonOptions.setVisibility(false);
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("DngStack");
@@ -439,37 +443,42 @@ public class GridViewFragmentModelView extends ViewModel
     {
         ImageManager.cancelImageLoadTasks();
         urisToDelte.clear();
-        try {
+        if (filesSelectedList.get(0).getHolderType() == FileHolder.class)
+        {
             filesHolderModel.getFileListController().DeleteFiles(filesSelectedList);
         }
-        catch(SecurityException ex){
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                if (ex instanceof RecoverableSecurityException)
-                {
-                    RecoverableSecurityException rex = (RecoverableSecurityException)ex;
-                    intentSenderModel.setIntentSender(rex.getUserAction().getActionIntent().getIntentSender());
-                }
-            }
-        }
-        /*for (int i = 0; i < filesSelectedList.size(); i++)
+        else
         {
+            for (BaseHolder baseHolder : filesSelectedList)
+                urisToDelte.add((UriHolder) baseHolder);
+            deleteUriFile();
+        }
+    }
+
+    public void deleteNextFile()
+    {
+        deleteUriFile();
+    }
+
+    private void deleteUriFile()
+    {
+        if (urisToDelte.size() > 0)
             try {
-                filesHolderModel.deleteFile(filesSelectedList.get(i));
+
+                filesHolderModel.getFileListController().DeleteFile(urisToDelte.get(0));
+                urisToDelte.remove(0);
+                deleteUriFile();
             }
             catch(SecurityException ex){
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     if (ex instanceof RecoverableSecurityException)
                     {
                         RecoverableSecurityException rex = (RecoverableSecurityException)ex;
-                        UriHolder uriHolder = (UriHolder) filesSelectedList.get(i);
-                        urisToDelte.add(uriHolder);
                         intentSenderModel.setIntentSender(rex.getUserAction().getActionIntent().getIntentSender());
                     }
                 }
             }
-        }*/
     }
-
     private void resetFilesSelected()
     {
         for (int i = 0; i< filesHolderModel.getGridImageViewModels().size(); i++)
@@ -525,7 +534,8 @@ public class GridViewFragmentModelView extends ViewModel
                 formatsToShow = FileListController.FormatTypes.mp4;
             }
             //if (savedInstanceFilePath != null)
-            filesHolderModel.setFormatType(formatsToShow);
+            if (filesHolderModel.getFormatType() != formatsToShow)
+                filesHolderModel.setFormatType(formatsToShow);
             //filesHolderModel.LoadFolder(folderToShow,formatsToShow);
 
             return false;
@@ -571,12 +581,5 @@ public class GridViewFragmentModelView extends ViewModel
     public void refreshCurrentFolder()
     {
         filesHolderModel.LoadFolder(folderToShow,formatsToShow);
-    }
-
-    public void deleteFile()
-    {
-        UriHolder uriHolder = urisToDelte.get(0);
-        urisToDelte.remove(0);
-        filesHolderModel.deleteFile(uriHolder);
     }
 }

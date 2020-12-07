@@ -39,6 +39,11 @@ public class UriHolder extends BaseHolder {
     }
 
     @Override
+    public Class getHolderType() {
+        return UriHolder.class;
+    }
+
+    @Override
     public Bitmap getBitmap(Context context, BitmapFactory.Options options) {
         Bitmap response = null;
         if (mediaStoreUri != null){

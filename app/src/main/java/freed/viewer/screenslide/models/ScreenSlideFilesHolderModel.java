@@ -62,7 +62,8 @@ public class ScreenSlideFilesHolderModel extends BaseObservable implements FileL
     @Override
     public void onFileDeleted(int id) {
         Log.d(TAG,"onFileDeleted " +id);
-        imageFragmentModels.remove(id);
+        if (id < imageFragmentModels.size())
+            imageFragmentModels.remove(id);
         notifyPropertyChanged(BR.files);
     }
 

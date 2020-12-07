@@ -25,15 +25,19 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
 
     public FilesHolderModel()
     {
+        gridImageViewModels = new ArrayList<>();
+        visibleGridImageViewModels = new ArrayList<>();
     }
 
     public void setFiles(List<BaseHolder> files) {
         this.files = files;
-        gridImageViewModels = new ArrayList<>();
+        gridImageViewModels.clear();
+        visibleGridImageViewModels.clear();
         for (BaseHolder baseHolder : files)
         {
-            gridImageViewModels.add(new GridImageViewModel(bitmapHelper,baseHolder));
-            visibleGridImageViewModels = gridImageViewModels;
+            GridImageViewModel model =new GridImageViewModel(bitmapHelper,baseHolder);
+            gridImageViewModels.add(model);
+            visibleGridImageViewModels.add(model);
         }
         notifyPropertyChanged(BR.files);
     }
@@ -41,7 +45,7 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
     public void setFormatType(FileListController.FormatTypes formatType)
     {
         this.formatType = formatType;
-        visibleGridImageViewModels = new ArrayList<>();
+        visibleGridImageViewModels.clear();
         if (formatType != FileListController.FormatTypes.all) {
             for (int i = 0; i < gridImageViewModels.size(); i++) {
                 if (gridImageViewModels.get(i).getImagePath().getFileformat() == formatType)
@@ -51,6 +55,10 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         else
             visibleGridImageViewModels = gridImageViewModels;
         notifyPropertyChanged(BR.files);
+    }
+
+    public FileListController.FormatTypes getFormatType() {
+        return formatType;
     }
 
     public List<GridImageViewModel> getGridImageViewModels()
@@ -106,7 +114,8 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
     @Override
     public void onFileDeleted(int id) {
         Log.d(TAG,"onFileDeleted " +id);
-        gridImageViewModels.remove(id);
+        if (id < gridImageViewModels.size())
+            gridImageViewModels.remove(id);
         notifyPropertyChanged(BR.files);
     }
 

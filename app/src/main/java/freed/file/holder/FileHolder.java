@@ -77,6 +77,11 @@ public class FileHolder extends BaseHolder
 
 
     @Override
+    public Class getHolderType() {
+        return FileHolder.class;
+    }
+
+    @Override
     public Bitmap getBitmap(Context context, BitmapFactory.Options options) {
         Bitmap response = null;
         if (file != null)

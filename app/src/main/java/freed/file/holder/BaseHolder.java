@@ -67,6 +67,8 @@ public abstract class BaseHolder
             fileformat = FileListController.FormatTypes.mp4;
     }
 
+    public abstract Class getHolderType();
+
 
     public FileListController.FormatTypes getFileformat() {
         return fileformat;

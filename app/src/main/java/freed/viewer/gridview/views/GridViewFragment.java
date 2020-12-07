@@ -251,7 +251,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             gridViewFragmentModelView.refreshCurrentFolder();
         if (requestCode == ActivityAbstract.DELETE_REQUEST_CODE)
         {
-            gridViewFragmentModelView.refreshCurrentFolder();
+            gridViewFragmentModelView.deleteNextFile();
         }
 
     }
