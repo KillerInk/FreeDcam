@@ -113,39 +113,6 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         gridviewfragmentBinding.gridViewBase.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         gridViewFragmentModelView.setButtonClick(onGridItemClick);
 
-        gridviewfragmentBinding.buttonFiletype.setOnClickListener(v -> showFileSelectionPopup(v));
-
-        gridviewfragmentBinding.buttonOptions.setOnClickListener(v -> {
-            if (gridViewFragmentModelView.isRootDir())
-                return;
-            PopupMenu popup = new PopupMenu(getContext(), v);
-
-            popup.getMenu().add(0,0,0, "Delete File");
-            if (RenderScriptManager.isSupported())
-               popup.getMenu().add(0,1,1, "StackJpeg");
-            popup.getMenu().add(0,2,2, "Raw to Dng");
-            popup.getMenu().add(0,3,3, "DngStack");
-            popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId())
-                {
-                    case 0:
-                        gridViewFragmentModelView.onDeltedButtonClick.onClick(null);
-                        break;
-                    case 1:
-                        gridViewFragmentModelView.onStackClick.onClick(null);
-                        break;
-                    case 2:
-                        gridViewFragmentModelView.onRawToDngClick.onClick(null);
-                        break;
-                    case 3:
-                        gridViewFragmentModelView.onDngStackClick.onClick(null);
-                }
-                return false;
-            });
-            popup.show();
-        });
-
-        //gridviewfragmentBinding.buttonDoAction.setVisibility(View.GONE);
         gridViewFragmentModelView.getIntentModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
@@ -229,14 +196,6 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         }
     }
 
-    private void showFileSelectionPopup(View v) {
-        PopupMenu popup = new PopupMenu(getContext(), v);
-
-        popup.setOnMenuItemClickListener(gridViewFragmentModelView.popupMenuItemClickListner);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(menu.filetypepopupmenu, popup.getMenu());
-        popup.show();
-    }
 
     @Override
     public void onActivityResultCallback(Uri uri) {

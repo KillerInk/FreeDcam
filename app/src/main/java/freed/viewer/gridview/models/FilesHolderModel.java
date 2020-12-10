@@ -53,7 +53,9 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
             }
         }
         else
-            visibleGridImageViewModels = gridImageViewModels;
+            for (int i = 0; i < gridImageViewModels.size(); i++) {
+                    visibleGridImageViewModels.add(gridImageViewModels.get(i));
+            }
         notifyPropertyChanged(BR.files);
     }
 

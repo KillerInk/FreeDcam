@@ -26,12 +26,15 @@ import freed.viewer.dngconvert.DngConvertingActivity;
 import freed.viewer.gridview.enums.RequestModes;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.gridview.models.ButtonDoAction;
+import freed.viewer.gridview.models.ButtonFileTypeModel;
+import freed.viewer.gridview.models.ButtonOptionsModel;
 import freed.viewer.gridview.models.FilesHolderModel;
 import freed.viewer.gridview.models.FilesSelectedModel;
 import freed.viewer.gridview.models.FinishActivityModel;
 import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.models.IntentModel;
 import freed.viewer.gridview.models.IntentSenderModel;
+import freed.viewer.gridview.models.PopupMenuModel;
 import freed.viewer.gridview.models.ViewStateModel;
 import freed.viewer.gridview.models.VisibilityModel;
 import freed.viewer.helper.BitmapHelper;
@@ -47,9 +50,9 @@ public class GridViewFragmentModelView extends ViewModel
     private boolean isRootDir = true;
     private final List<BaseHolder> filesSelectedList = new ArrayList<>();
     private final List<UriHolder> urisToDelte = new ArrayList<>();
-    private final ButtonDoAction buttonFiletype;
+    private final ButtonFileTypeModel buttonFiletype;
     private final ButtonDoAction buttonDoAction;
-    private final VisibilityModel buttonOptions;
+    private final ButtonOptionsModel buttonOptions;
 
     public FileListController.FormatTypes formatsToShow = FileListController.FormatTypes.all;
     private FileListController.FormatTypes lastFormat = FileListController.FormatTypes.all;
@@ -60,6 +63,7 @@ public class GridViewFragmentModelView extends ViewModel
     private final FinishActivityModel alterDialogModel;
     private final FilesSelectedModel filesSelectedModel;
     private ScreenSlideFragment.ButtonClick onGridItemClick;
+    private PopupMenuModel popupMenuModel;
 
     private final IntentSenderModel intentSenderModel;
 
@@ -67,9 +71,9 @@ public class GridViewFragmentModelView extends ViewModel
     {
         viewStateModel = new ViewStateModel();
         filesHolderModel = new FilesHolderModel();
-        buttonFiletype = new ButtonDoAction();
+        buttonFiletype = new ButtonFileTypeModel(this);
         buttonDoAction = new ButtonDoAction();
-        buttonOptions = new VisibilityModel();
+        buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onStackClick,onRawToDngClick,onDngStackClick,this);
         if (isRootDir) {
             buttonOptions.setVisibility(false);
             buttonFiletype.setVisibility(false);
@@ -80,6 +84,7 @@ public class GridViewFragmentModelView extends ViewModel
         alterDialogModel = new FinishActivityModel();
         filesSelectedModel = new FilesSelectedModel();
         intentSenderModel = new IntentSenderModel();
+        popupMenuModel = new PopupMenuModel(buttonOptions);
     }
 
     public void setFileListController(FileListController fileListController)
@@ -130,16 +135,20 @@ public class GridViewFragmentModelView extends ViewModel
         return filesSelectedModel;
     }
 
-    public ButtonDoAction getButtonFiletype() {
+    public ButtonFileTypeModel getButtonFiletype() {
         return buttonFiletype;
     }
 
-    public VisibilityModel getButtonOptions() {
+    public ButtonOptionsModel getButtonOptions() {
         return buttonOptions;
     }
 
     public IntentSenderModel getIntentSenderModel() {
         return intentSenderModel;
+    }
+
+    public PopupMenuModel getPopupMenuModel() {
+        return popupMenuModel;
     }
 
     public boolean isRootDir() {
@@ -494,53 +503,12 @@ public class GridViewFragmentModelView extends ViewModel
         filesSelectedModel.setFilesSelectedCount(filesSelectedList.size());
     }
 
-    public final PopupMenu.OnMenuItemClickListener popupMenuItemClickListner = new PopupMenu.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            int i = item.getItemId();
-            if (i == R.id.all)
-            {
-                buttonFiletype.setText("ALL");
-                formatsToShow = FileListController.FormatTypes.all;
-            }
-            else if (i == R.id.raw)
-            {
-                buttonFiletype.setText("RAW");
-                formatsToShow = FileListController.FormatTypes.raw;
-            }
-            else if (i == R.id.bayer)
-            {
-                buttonFiletype.setText("BAYER");
-                formatsToShow = FileListController.FormatTypes.raw;
-            }
-            else if (i == R.id.dng)
-            {
-                buttonFiletype.setText("DNG");
-                formatsToShow = FileListController.FormatTypes.dng;
-            }
-            else if (i == R.id.jps)
-            {
-                buttonFiletype.setText("JPS");
-                formatsToShow = FileListController.FormatTypes.jps;
-            }
-            else if (i == R.id.jpg)
-            {
-                buttonFiletype.setText("JPG");
-                formatsToShow = FileListController.FormatTypes.jpg;
-            }
-            else if (i == R.id.mp4)
-            {
-                buttonFiletype.setText("MP4");
-                formatsToShow = FileListController.FormatTypes.mp4;
-            }
-            //if (savedInstanceFilePath != null)
-            if (filesHolderModel.getFormatType() != formatsToShow)
-                filesHolderModel.setFormatType(formatsToShow);
-            //filesHolderModel.LoadFolder(folderToShow,formatsToShow);
-
-            return false;
-        }
-    };
+    public void setFormatsToShow(FileListController.FormatTypes formatsToShow)
+    {
+        this.formatsToShow = formatsToShow;
+        if (filesHolderModel.getFormatType() != formatsToShow)
+            filesHolderModel.setFormatType(formatsToShow);
+    }
 
     public AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override

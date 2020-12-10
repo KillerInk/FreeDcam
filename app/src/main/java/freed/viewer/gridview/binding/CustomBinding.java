@@ -1,7 +1,9 @@
 package freed.viewer.gridview.binding;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.databinding.BindingAdapter;
 
@@ -11,6 +13,7 @@ import freed.image.ImageManager;
 import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.models.GridImageViewModel;
+import freed.viewer.gridview.models.PopupMenuModel;
 
 public class CustomBinding {
 
@@ -21,6 +24,22 @@ public class CustomBinding {
             view.setVisibility(View.VISIBLE);
         else
             view.setVisibility(View.GONE);
+    }
+
+    @BindingAdapter("setStringsToPopupMenu")
+    public static void setStringsToLayout(LinearLayout view, PopupMenuModel popupMenuModel)
+    {
+        if (popupMenuModel != null && popupMenuModel.getStrings() != null)
+        {
+            view.removeAllViews();
+            for (String s : popupMenuModel.getStrings())
+            {
+                Button button = new Button(view.getContext());
+                button.setText(s);
+                button.setOnClickListener(popupMenuModel.onClickListener);
+                view.addView(button);
+            }
+        }
     }
 
     @BindingAdapter("setChecked")

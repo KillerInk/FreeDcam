@@ -141,6 +141,7 @@ public class FileListController {
                 files = mediaStoreController.getFilesFromFolder("FreeDcam");
             }
             SortFileHolder(files);
+            fireNotifyFilesChanged();
             EventBusHelper.post(new UpdateScreenSlide());
         }
     }

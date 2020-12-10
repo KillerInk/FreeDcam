@@ -56,8 +56,14 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public void setImageFragmentModels(List<ImageFragmentModel> imageFragmentModels)
     {
-        this.imageFragmentModels = imageFragmentModels;
-        notifyDataSetChanged();
+        mPager.post(new Runnable() {
+            @Override
+            public void run() {
+                ScreenSlidePagerAdapter.this.imageFragmentModels = imageFragmentModels;
+                notifyDataSetChanged();
+            }
+        });
+
     }
 
 
