@@ -28,6 +28,7 @@ public class ButtonFileTypeModel extends ButtonDoAction implements Popup , View.
             Button button = (Button)v;
             String txt = (String)button.getText();
             gridViewFragmentModelView.setFormatsToShow(getFormat(txt));
+            setText(txt);
         }
     };
 

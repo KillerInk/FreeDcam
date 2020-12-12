@@ -83,17 +83,18 @@ public class ImageAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup container) {
         final GridImageView imageView;
-        if (convertView == null) { // if it's not recycled, initialize some attributes
+        //if (convertView == null) { // if it's not recycled, initialize some attributes
             imageView = new GridImageView(FreedApplication.getContext());
-        }
+        /*}
         else
-            imageView = (GridImageView) convertView;
+            imageView = (GridImageView) convertView;*/
         Log.d(TAG, "filessize:" + gridImageViewModels.size() + " position:"+position);
         if (gridImageViewModels.size() <= position)
             position = gridImageViewModels.size() -1;
 
         gridImageViewModels.get(position).setViewState(currentViewState);
         imageView.bindModel(gridImageViewModels.get(position));
+        gridImageViewModels.get(position).notifyChange();
         return imageView;
     }
 

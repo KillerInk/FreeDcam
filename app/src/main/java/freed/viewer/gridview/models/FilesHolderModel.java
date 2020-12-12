@@ -33,6 +33,7 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         this.files = files;
         gridImageViewModels.clear();
         visibleGridImageViewModels.clear();
+        notifyPropertyChanged(BR.files);
         for (BaseHolder baseHolder : files)
         {
             GridImageViewModel model =new GridImageViewModel(bitmapHelper,baseHolder);

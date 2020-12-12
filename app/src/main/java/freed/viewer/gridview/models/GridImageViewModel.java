@@ -37,7 +37,6 @@ public class GridImageViewModel extends BaseObservable
         }
         setExternalSD(imagePath.isExternalSD());
         setProgressBarVisible(false);
-        notifyChange();
     }
 
     public void setFilending(String filending)
