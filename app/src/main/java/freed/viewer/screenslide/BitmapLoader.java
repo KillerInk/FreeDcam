@@ -21,8 +21,6 @@ public class BitmapLoader extends ImageTask
     private WeakReference<TouchImageView> imageviewRef;
     private BaseHolder file;
     private ImageFragmentModel imageFragmentModel;
-    private int [] pixels;
-    private int [] histogramData;
 
     public BitmapLoader(ImageFragmentModel file, TouchImageView imageFragment)
     {
@@ -36,15 +34,13 @@ public class BitmapLoader extends ImageTask
 
         Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getName());
         final Bitmap response = imageFragmentModel.getBitmapHelper().getBitmap(file,false);
-        /*createHistogramm(response);
-        if (waitForWorkFinish != null && position >-1)
-            waitForWorkFinish.onHistogramData(histogramData, position);
-        waitForWorkFinish = null;*/
+        int hist[] = createHistogramm(response);
         Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getName());
         if (imageviewRef != null && response != null) {
             final TouchImageView imageFragment = imageviewRef.get();
             if (imageFragment != null && imageFragmentModel.getBaseHolder() == file)
             {
+                imageFragmentModel.setHistodata(hist);
                 Log.d(TAG, "set bitmap to imageview");
                 imageFragment.post(() -> {
                     imageFragmentModel.setProgressBarVisible(false);
@@ -64,11 +60,13 @@ public class BitmapLoader extends ImageTask
         return true;
     }
 
-    private void createHistogramm(Bitmap bitmap)
+    private  int [] createHistogramm(Bitmap bitmap)
     {
         Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
-            return;
+            return null;
+        int [] pixels = null;
+        int [] histogramData = null;
         if (histogramData == null)
             histogramData = new int [ 256 * 3 ];
         int w = bitmap.getWidth ();
@@ -77,7 +75,7 @@ public class BitmapLoader extends ImageTask
             pixels = new int [ w * h ];
         bitmap.getPixels(pixels, 0, w, 0, 0, w, h);
         if (pixels == null)
-            return;
+            return null;
         try {
             for ( int i = 0 ; i < w ; i+=4) {
                 for ( int j = 0 ; j < h ; j+=4) {
@@ -95,5 +93,6 @@ public class BitmapLoader extends ImageTask
         {
             Log.WriteEx(ex);
         }
+        return histogramData;
     }
 }

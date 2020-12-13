@@ -5,6 +5,10 @@
         <variable
             name="screenslideFragmentModel"
             type="freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView" />
+
+        <variable
+            name="imagefragment"
+            type="freed.viewer.screenslide.models.ImageFragmentModel" />
     </data>
     <RelativeLayout
         android:orientation="vertical"
@@ -43,7 +47,8 @@
                 android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
                 android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
                 android:layout_marginLeft="2dp"
-                setVisibility="@{screenslideFragmentModel.histogram.visibility}"/>
+                setVisibility="@{screenslideFragmentModel.histogram.visibility}"
+                setHistogramData="@{imagefragment.histodata}"/>
 
             <LinearLayout
                 android:id="@+id/bottom_bar"

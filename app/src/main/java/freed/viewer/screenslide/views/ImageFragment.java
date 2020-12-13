@@ -54,27 +54,14 @@ import freed.viewer.screenslide.views.ScreenSlideFragment.FragmentClickClistner;
 public class ImageFragment extends Fragment
 {
 
-    public interface I_WaitForWorkFinish
-    {
-        void onHistogramData(int[] histodata, int position);
-    }
-
     public int getPosition;
 
     private final String TAG = ImageFragment.class.getSimpleName();
     private FragmentClickClistner onClickListener;
-    private int [] histogramData;
-    private I_WaitForWorkFinish waitForWorkFinish;
-    private int position = -1;
 
     private FreedviewerScreenslideImageframentBinding imageframentBinding;
     private ImageFragmentModel imageFragmentModel;
 
-    public void SetWaitForWorkFinishLisnter(I_WaitForWorkFinish workFinish, int position)
-    {
-        this.position = position;
-        waitForWorkFinish = workFinish;
-    }
 
     public void setImageFragmentModel(ImageFragmentModel imageFragmentModel)
     {
@@ -89,7 +76,7 @@ public class ImageFragment extends Fragment
 
     public int[] GetHistogramData()
     {
-        return histogramData;
+        return imageFragmentModel.getHistodata();
     }
 
     public void SetOnclickLisnter(FragmentClickClistner onClickListener)
@@ -120,7 +107,7 @@ public class ImageFragment extends Fragment
     @Override
     public synchronized void onDestroyView() {
         super.onDestroyView();
-        histogramData = null;
+        imageFragmentModel.setHistodata(null);
     }
 
     private final OnClickListener onImageClick = new OnClickListener() {

@@ -78,13 +78,12 @@ import freed.utils.StringUtils.FileEnding;
 import freed.viewer.screenslide.adapter.ScreenSlidePagerAdapter;
 import freed.viewer.screenslide.models.ImageFragmentModel;
 import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
-import freed.viewer.screenslide.views.ImageFragment.I_WaitForWorkFinish;
 
 
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
+public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_OnActivityResultCallback
 {
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface ButtonClick
@@ -294,22 +293,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         screenSlideFragmentModelView.updateUi(mPagerAdapter.getCurrentFile());
         ImageFragment fragment = (ImageFragment) mPagerAdapter.getRegisteredFragment(position);
-        if (fragment == null)
-        {
-            //histogram.setVisibility(View.GONE);
-            return;
-        }
+        screenslideFragmentBinding.setImagefragment(mPagerAdapter.getCurrentImageFragmentModel());
 
-        int[] histodata = fragment.GetHistogramData();
-        if (histodata != null)
-        {
-            //histogram.SetHistogramData(histodata);
-        }
-        else
-        {
-            //deleteButton.setVisibility(View.GONE);
-            fragment.SetWaitForWorkFinishLisnter(this, position);
-        }
     }
 
     @Override
@@ -317,12 +302,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
 
 
-    }
-
-    @Override
-    public void onHistogramData(final int[] histodata, final int position)
-    {
-        //exifHandler.setHistogram(histodata,position);
     }
 
     @Override

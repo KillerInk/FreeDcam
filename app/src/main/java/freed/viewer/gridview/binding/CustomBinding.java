@@ -14,6 +14,8 @@ import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.models.PopupMenuModel;
+import freed.viewer.screenslide.models.ImageFragmentModel;
+import freed.viewer.screenslide.views.MyHistogram;
 
 public class CustomBinding {
 
@@ -49,6 +51,13 @@ public class CustomBinding {
             view.setImageDrawable(view.getResources().getDrawable(R.drawable.cust_cb_sel));
         else
             view.setImageDrawable(view.getResources().getDrawable(R.drawable.cust_cb_unsel));
+    }
+
+    @BindingAdapter("setHistogramData")
+    public static void setHistogramData(MyHistogram view, int[] checked)
+    {
+        if (checked != null)
+            view.SetHistogramData(checked);
     }
 
 

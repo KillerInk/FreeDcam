@@ -14,6 +14,7 @@ public class ImageFragmentModel extends BaseObservable {
     private BitmapHelper bitmapHelper;
 
     public BitmapLoader bitmapLoader;
+    private int[] histodata;
 
     public ImageFragmentModel(BitmapHelper bitmapHelper, BaseHolder baseHolder) {
         this.bitmapHelper = bitmapHelper;
@@ -42,5 +43,16 @@ public class ImageFragmentModel extends BaseObservable {
     public void setBaseHolder(BaseHolder baseHolder) {
         this.baseHolder = baseHolder;
         notifyPropertyChanged(BR.baseHolder);
+    }
+
+    @Bindable
+    public int[] getHistodata() {
+        return histodata;
+    }
+
+
+    public void setHistodata(int[] histodata) {
+        this.histodata = histodata;
+        notifyPropertyChanged(BR.histodata);
     }
 }

@@ -47,6 +47,14 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             return null;
     }
 
+    public ImageFragmentModel getCurrentImageFragmentModel()
+    {
+        if (imageFragmentModels != null && imageFragmentModels.size()>0)
+            return imageFragmentModels.get(mPager.getCurrentItem());
+        else
+            return null;
+    }
+
     public void setImageFragmentModels(List<ImageFragmentModel> imageFragmentModels)
     {
         mPager.post(new Runnable() {
