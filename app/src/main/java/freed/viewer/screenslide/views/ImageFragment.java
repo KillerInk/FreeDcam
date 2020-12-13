@@ -107,7 +107,8 @@ public class ImageFragment extends Fragment
     @Override
     public synchronized void onDestroyView() {
         super.onDestroyView();
-        imageFragmentModel.setHistodata(null);
+        if (imageFragmentModel != null)
+            imageFragmentModel.setHistodata(null);
     }
 
     private final OnClickListener onImageClick = new OnClickListener() {

@@ -75,7 +75,8 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     public Fragment getItem(int position)
     {
         ImageFragment currentFragment = new ImageFragment();
-        currentFragment.setImageFragmentModel(imageFragmentModels.get(position));
+        if (imageFragmentModels != null && imageFragmentModels.size() > 0 && position < imageFragmentModels.size())
+            currentFragment.setImageFragmentModel(imageFragmentModels.get(position));
         currentFragment.SetOnclickLisnter(onClickListener);
 
         return currentFragment;
