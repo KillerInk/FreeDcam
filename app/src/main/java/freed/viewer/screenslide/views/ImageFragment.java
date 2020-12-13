@@ -62,35 +62,13 @@ public class ImageFragment extends Fragment
     public int getPosition;
 
     private final String TAG = ImageFragment.class.getSimpleName();
-    private BaseHolder file;
     private FragmentClickClistner onClickListener;
-	private int [] pixels;
     private int [] histogramData;
-    private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
     private int position = -1;
 
     private FreedviewerScreenslideImageframentBinding imageframentBinding;
     private ImageFragmentModel imageFragmentModel;
-
-    /**
-     * Set the file to load by this fragment
-     * @param filepath
-     */
-    public void SetFilePath(BaseHolder filepath)
-    {
-        file = filepath;
-    }
-
-    public BaseHolder getFile()
-    {
-        return file;
-    }
-
-    public boolean IsWorking()
-    {
-        return isWorking;
-    }
 
     public void SetWaitForWorkFinishLisnter(I_WaitForWorkFinish workFinish, int position)
     {
@@ -108,14 +86,6 @@ public class ImageFragment extends Fragment
         return imageFragmentModel;
     }
 
-    /**
-     *
-     * @return the File attached to this view
-     */
-    public BaseHolder GetFilePath()
-    {
-        return file;
-    }
 
     public int[] GetHistogramData()
     {

@@ -23,9 +23,6 @@ import freed.viewer.gridview.views.GridViewFragment;
 public class ImageAdapter extends BaseAdapter
 {
     private final String TAG = ImageAdapter.class.getSimpleName();
-
-    private ActivityInterface viewerActivityInterface;
-    //private List<BaseHolder> files;
     private List<GridImageViewModel> gridImageViewModels;
 
     /**
@@ -33,33 +30,14 @@ public class ImageAdapter extends BaseAdapter
      */
     private ViewStates currentViewState = ViewStates.normal;
 
-    public ImageAdapter(ActivityInterface viewerActivityInterface) {
-        this.viewerActivityInterface = viewerActivityInterface;
+    public ImageAdapter() {
     }
-
-    /*public void setFiles(List<BaseHolder> files)
-    {
-        this.files =files;
-        gridImageViewModels = new ArrayList<>();
-        for (BaseHolder baseHolder : files)
-        {
-            gridImageViewModels.add(new GridImageViewModel(viewerActivityInterface.getBitmapHelper(),baseHolder));
-        }
-        notifyDataSetChanged();
-    }*/
 
     public void setGridImageViewModels(List<GridImageViewModel> files)
     {
         gridImageViewModels = files;
         notifyDataSetChanged();
     }
-
-
-
-   /* public BaseHolder getBaseHolder(int pos)
-    {
-        return files.get(pos);
-    }*/
 
     @Override
     public int getCount()
@@ -83,18 +61,13 @@ public class ImageAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup container) {
         final GridImageView imageView;
-        //if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = new GridImageView(FreedApplication.getContext());
-        /*}
-        else
-            imageView = (GridImageView) convertView;*/
+        imageView = new GridImageView(FreedApplication.getContext());
         Log.d(TAG, "filessize:" + gridImageViewModels.size() + " position:"+position);
         if (gridImageViewModels.size() <= position)
             position = gridImageViewModels.size() -1;
 
         gridImageViewModels.get(position).setViewState(currentViewState);
         imageView.bindModel(gridImageViewModels.get(position));
-        gridImageViewModels.get(position).notifyChange();
         return imageView;
     }
 
@@ -107,8 +80,6 @@ public class ImageAdapter extends BaseAdapter
             return;
         for (int i = 0; i< gridImageViewModels.size(); i++)
         {
-            /*BaseHolder f = files.get(i);
-            f.SetViewState(states);*/
             gridImageViewModels.get(i).setViewState(states);
         }
     }

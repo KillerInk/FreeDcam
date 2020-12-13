@@ -157,7 +157,8 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     @Override
     public void onResume() {
         super.onResume();
-        gridViewFragmentModelView.getFilesHolderModel().setFiles(gridViewFragmentModelView.getFilesHolderModel().getFiles());
+        if(gridViewFragmentModelView.getFilesHolderModel().getFiles() != null)
+            gridViewFragmentModelView.getFilesHolderModel().setFiles(gridViewFragmentModelView.getFilesHolderModel().getFiles());
     }
 
     @Override
@@ -176,7 +177,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     {
         if (mPagerAdapter == null)
         {
-            mPagerAdapter = new ImageAdapter(viewerActivityInterface);
+            mPagerAdapter = new ImageAdapter();
             gridViewFragmentModelView.getViewStateModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                 @Override
                 public void onPropertyChanged(Observable sender, int propertyId) {

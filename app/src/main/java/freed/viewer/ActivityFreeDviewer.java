@@ -113,7 +113,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private void replaceCameraFragment(Fragment fragment, String id, int layout)
     {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        //transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         transaction.replace(layout, fragment, id);
         transaction.commit();
     }

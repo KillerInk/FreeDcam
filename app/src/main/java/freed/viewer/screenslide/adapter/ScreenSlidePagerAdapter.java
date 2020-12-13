@@ -27,7 +27,6 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private final SparseArray<Fragment> registeredFragments;
-    //private List<BaseHolder> files;
     private List<ImageFragmentModel> imageFragmentModels;
     private ViewPager mPager;
     private ScreenSlideFragment.FragmentClickClistner onClickListener;
@@ -47,12 +46,6 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         else
             return null;
     }
-
-    /*public synchronized void setFiles(List<BaseHolder> files)
-    {
-        this.files =files;
-        notifyDataSetChanged();
-    }*/
 
     public void setImageFragmentModels(List<ImageFragmentModel> imageFragmentModels)
     {
@@ -74,10 +67,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     public Fragment getItem(int position)
     {
         ImageFragment currentFragment = new ImageFragment();
-        if (imageFragmentModels == null || imageFragmentModels.size() == 0)
-            currentFragment.SetFilePath(null);
-        else
-            currentFragment.setImageFragmentModel(imageFragmentModels.get(position));
+        currentFragment.setImageFragmentModel(imageFragmentModels.get(position));
         currentFragment.SetOnclickLisnter(onClickListener);
 
         return currentFragment;
