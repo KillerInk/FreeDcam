@@ -53,13 +53,16 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
                     visibleGridImageViewModels.add(gridImageViewModels.get(i));
             }
         }
-        else
+        else {
             for (int i = 0; i < gridImageViewModels.size(); i++) {
-                    visibleGridImageViewModels.add(gridImageViewModels.get(i));
+                visibleGridImageViewModels.add(gridImageViewModels.get(i));
             }
+        }
         notifyPropertyChanged(BR.files);
+        notifyPropertyChanged(BR.formatType);
     }
 
+    @Bindable
     public FileListController.FormatTypes getFormatType() {
         return formatType;
     }

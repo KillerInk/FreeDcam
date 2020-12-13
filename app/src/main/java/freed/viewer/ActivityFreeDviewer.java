@@ -31,10 +31,12 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
+import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.troop.freedcam.BR;
 import com.troop.freedcam.R;
 
 import java.util.List;
@@ -99,6 +101,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
         gridViewFragment.setGridViewFragmentModelView(gridViewFragmentModelView);
         gridViewFragment.SetOnGridItemClick(onGridItemClick);
 
+
+
         screenSlideFragment = new ScreenSlideFragment();
         screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
         screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
@@ -107,6 +111,18 @@ public class ActivityFreeDviewer extends ActivityAbstract
         slideholder.setVisibility(View.GONE);
         replaceCameraFragment(gridViewFragment,"Gridview", R.id.freedviewer_gridviewholder);
         replaceCameraFragment(screenSlideFragment,"Gridview", R.id.freedviewer_screenslideholder);
+
+
+        gridViewFragmentModelView.getFilesHolderModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (BR.formatType == propertyId)
+                {
+                    screenSlideFragmentModelView.getFilesHolderModel().setFormatTypes(gridViewFragmentModelView.getFilesHolderModel().getFormatType());
+                }
+            }
+        });
+
         FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
     }
 

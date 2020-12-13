@@ -52,7 +52,11 @@ public class ButtonFileTypeModel extends ButtonDoAction implements Popup , View.
 
     @Override
     public void onClick(View v) {
-        gridViewFragmentModelView.getPopupMenuModel().setButtonOptionsModel(this::getOnPopupChildClickListner);
-        gridViewFragmentModelView.getPopupMenuModel().setStrings(values);
+        if (!gridViewFragmentModelView.getPopupMenuModel().getVisibility()) {
+            gridViewFragmentModelView.getPopupMenuModel().setButtonOptionsModel(this::getOnPopupChildClickListner);
+            gridViewFragmentModelView.getPopupMenuModel().setStrings(values);
+        }
+        else
+            gridViewFragmentModelView.getPopupMenuModel().setVisibility(false);
     }
 }

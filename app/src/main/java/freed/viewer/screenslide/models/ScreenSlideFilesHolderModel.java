@@ -22,12 +22,33 @@ public class ScreenSlideFilesHolderModel extends BaseObservable implements FileL
     private List<BaseHolder> files;
     private List<ImageFragmentModel> imageFragmentModels;
 
+    private FileListController.FormatTypes formatTypes;
+
     public void setFileListController(FileListController fileListController)
     {
         this.fileListController = fileListController;
         this.fileListController.setNotifyFilesChanged(this);
         if (fileListController.getFiles() != null && fileListController.getFiles().size() > 0)
             setFiles(fileListController.getFiles());
+    }
+
+    public void setFormatTypes(FileListController.FormatTypes formatTypes) {
+        this.formatTypes = formatTypes;
+        imageFragmentModels = new ArrayList<>();
+        if (formatTypes != FileListController.FormatTypes.all)
+        {
+            for (BaseHolder baseHolder : files)
+            {
+                if (baseHolder.getFileformat() == formatTypes)
+                    imageFragmentModels.add(new ImageFragmentModel(bitmapHelper,baseHolder));
+            }
+        }
+        else
+            for (BaseHolder baseHolder : files)
+            {
+                imageFragmentModels.add(new ImageFragmentModel(bitmapHelper,baseHolder));
+            }
+        notifyPropertyChanged(BR.files);
     }
 
     public void setBitmapHelper(BitmapHelper bitmapHelper) {
