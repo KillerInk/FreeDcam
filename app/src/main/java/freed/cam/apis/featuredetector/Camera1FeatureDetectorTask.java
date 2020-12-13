@@ -82,6 +82,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.getInstance().SetCurrentCamera(i);
 
             //publishProgress("isFrontCamera:"+SettingsManager.getInstance().getIsFrontCamera() + " CameraID:"+ i);
+            SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
+            SettingsManager.get(SettingKeys.orientationHack).set("0");
+            SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
 
             Camera.Parameters parameters = null;
             try {

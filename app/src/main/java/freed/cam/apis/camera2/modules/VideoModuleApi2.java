@@ -62,6 +62,7 @@ import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.OrientationUtil;
 import freed.utils.PermissionManager;
 import freed.utils.VideoMediaProfile;
 
@@ -233,9 +234,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 case 0: rotation = 270;
                     break;
             }
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                rotation = (360 + rotation+180)%360;
-            final int or = rotation;
+            final int or = OrientationUtil.getOrientation(rotation);
 
             Log.d(TAG, "rotation to set : " + or);
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),or,true));
@@ -267,9 +266,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             final int w, h, or;
             w = previewSize.getWidth();
             h = previewSize.getHeight();
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                orientation = (360 + orientation + 180) % 360;
-            or = orientation;
+            or = OrientationUtil.getOrientation(orientation);
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or, false));
 
             SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();

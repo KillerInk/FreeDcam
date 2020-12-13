@@ -65,6 +65,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.OrientationUtil;
 
 
 /**
@@ -253,9 +254,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                 case 0: rotation = 270;
                     break;
             }
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                rotation = (360 + rotation+180)%360;
-            final int or = rotation;
+            final int or = OrientationUtil.getOrientation(rotation);
 
             Log.d(TAG, "rotation to set : " + or);
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,true));
@@ -276,16 +275,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                     rotation = 270;
                     break;
                 case 180:
-                    rotation =180;
+                    rotation =0;
                     break;
                 case 270: rotation = 270;
                     break;
                 case 0: rotation = 180;
                     break;
             }
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                rotation =  (360 + rotation+180)%360;
-            final int or = rotation;
+
+            final int or = OrientationUtil.getOrientation(rotation);;
             Log.d(TAG, "rotation to set : " + or);
 
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,false));

@@ -67,6 +67,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.OrientationUtil;
 import freed.views.VideoToneCurveProfile;
 
 /**
@@ -250,13 +251,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (SettingsManager.get(SettingKeys.orientationHack).get())
-        {
-            int or = orientation +180;
-            if (or >360)
-                or = or - 360;
-            orientation = or;
-        }
+        orientation = OrientationUtil.getOrientation(orientation);
         if (cameraHolder == null || cameraHolder.isWorking)
             return;
         try

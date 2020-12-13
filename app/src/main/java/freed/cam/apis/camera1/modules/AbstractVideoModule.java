@@ -41,6 +41,7 @@ import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.OrientationUtil;
 import freed.utils.PermissionManager;
 
 /**
@@ -147,8 +148,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
             recorder.setInfoListener(this);
 
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                recorder.setOrientation(180);
+            if (!SettingsManager.get(SettingKeys.orientationHack).get().equals("0"))
+                recorder.setOrientation(Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get()));
             else
                 recorder.setOrientation(0);
 

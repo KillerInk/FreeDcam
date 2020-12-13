@@ -44,24 +44,18 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (SettingsManager.get(SettingKeys.orientationHack).get())
-            onStringValueChanged(getResources().getString(R.string.on_));
-        else
-            onStringValueChanged(getResources().getString(R.string.off_));
+        onStringValueChanged(SettingsManager.get(SettingKeys.orientationHack).get());
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {getResources().getString(R.string.on_), getResources().getString(R.string.off_)};
+        return SettingsManager.get(SettingKeys.orientationHack).getValues();
     }
 
     @Override
     public void SetValue(String value)
     {
-        if (value.equals(getContext().getResources().getString(R.string.on_)))
-            SettingsManager.get(SettingKeys.orientationHack).set(true);
-        else
-            SettingsManager.get(SettingKeys.orientationHack).set(false);
+        SettingsManager.get(SettingKeys.orientationHack).set(value);
         if (cameraUiWrapper instanceof Camera1Fragment) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);
