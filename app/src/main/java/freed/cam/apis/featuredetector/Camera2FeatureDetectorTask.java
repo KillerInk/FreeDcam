@@ -161,9 +161,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 //publishProgress("#####CameraID:"+cameraids.get(c)+"####");
                 //publishProgress("###################");
                 //publishProgress("Check camera features:" + cameraids.get(c));
-                SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
-                SettingsManager.get(SettingKeys.orientationHack).set("0");
-                SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
+
 
                 CameraCharacteristics characteristics = null;
                 try {
@@ -179,6 +177,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 //SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
                 SettingsManager.getInstance().SetCurrentCamera(c);
+
+                SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
+                SettingsManager.get(SettingKeys.orientationHack).set("0");
+                SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
                 //AUX Camera WIDE
                /* switch (characteristics.get(CameraCharacteristics.LENS_FACING))
                 {
