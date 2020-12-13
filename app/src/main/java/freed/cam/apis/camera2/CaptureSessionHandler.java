@@ -36,6 +36,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
+import freed.utils.MatrixUtil;
 
 /**
  * Created by troop on 16.03.2017.
@@ -662,12 +663,6 @@ public class CaptureSessionHandler
 
     public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
     {
-        Matrix matrix = new Matrix();
-        matrix.reset();
-        RectF inputRect = new RectF(0, 0, w, h);
-        Log.d(MATRIXTAG, "PreviewSize:" + w +"x"+ h);
-        Log.d(MATRIXTAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
-
         float dispWidth = 0;
         float dispHeight = 0;
         if (renderscript)
@@ -684,61 +679,7 @@ public class CaptureSessionHandler
             dispWidth = displaySize.y;
             dispHeight = displaySize.x;
         }
-
-        float viewRatio = dispWidth / dispHeight;
-        float inputRatio = inputRect.width() /inputRect.height();
-
-        Log.d(MATRIXTAG,"previewratio : " + viewRatio + " inputratio :" + inputRatio);
-
-        RectF viewRect = new RectF(0, 0, dispWidth, dispHeight);
-
-        float centerX = viewRect.centerX();
-        float centerY = viewRect.centerY();
-
-        /*
-          input is like that when holding device in landscape
-
-            ________
-            |      |                               _____________________
-            |      |                               |                   |
-            |      |  need to get transformed to:  |                   | viewrect
-            |      |                               |___________________|
-            ________
-         */
-
-        float scaleX;
-        float scaleY;
-        if (renderscript)
-        {
-            //renderscript has already set the width and height due the Allocation
-            //we have to use the real width and height from the Allocation
-            if (rotation == 90 || rotation == 270) {
-                Log.d(MATRIXTAG, "orientation 90/270");
-                scaleY = w / viewRect.height();
-                scaleX = h / viewRect.width();
-            } else {
-                Log.d(MATRIXTAG, "orientation 0/180");
-                scaleY = h / viewRect.height();
-                scaleX = w / viewRect.width();
-            }
-        }
-        else {
-            if (rotation == 90 || rotation == 270) {
-                Log.d(MATRIXTAG, "orientation 90/270");
-                scaleY= inputRect.width() / viewRect.height();
-                scaleX = inputRect.height() / viewRect.width();
-            } else {
-                Log.d(MATRIXTAG, "orientation 0/180");
-                scaleY = inputRect.height() / viewRect.height();
-                scaleX = inputRect.width() / viewRect.width();
-            }
-        }
-        Log.d(MATRIXTAG,"scaleX:" +scaleX + " scaleY:" +scaleY + " centerX:"+centerX +" centerY:" +centerY + " rotation:" + rotation);
-
-        inputRect.offset(centerX - inputRect.centerX(), centerY - inputRect.centerY());
-        matrix.setRectToRect(inputRect,viewRect, Matrix.ScaleToFit.CENTER);
-        matrix.postScale(scaleX, scaleY, inputRect.centerX(), inputRect.centerY());
-        matrix.postRotate(rotation, inputRect.centerX(), inputRect.centerY());
+        Matrix matrix = MatrixUtil.getTransFormMatrix(w,h,(int)dispWidth,(int)dispHeight,rotation,renderscript);
 
         cameraHolderApi2.textureView.setTransform(matrix);
     }

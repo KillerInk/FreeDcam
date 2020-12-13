@@ -237,7 +237,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             final int or = OrientationUtil.getOrientation(rotation);
 
             Log.d(TAG, "rotation to set : " + or);
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),or,true));
+            int w = previewSize.getWidth();
+            int h = previewSize.getHeight();
+            if (or == 90 || or == 270) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
+            }
+            int finalW = w;
+            int finalH = h;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH,or,true));
             SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
@@ -263,11 +271,17 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                     orientation = 180;
                     break;
             }
-            final int w, h, or;
+            int w, h, or;
             w = previewSize.getWidth();
             h = previewSize.getHeight();
             or = OrientationUtil.getOrientation(orientation);
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or, false));
+            if (or == 0 || or == 180) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
+            }
+            int finalW = w;
+            int finalH = h;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH, or, false));
 
             SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
             texture.setDefaultBufferSize(w, h);

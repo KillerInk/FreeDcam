@@ -233,8 +233,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
        /* if (cameraUiWrapper.getPreviewSurface() != null)
             cameraUiWrapper.getPreviewSurface().release();*/
         Surface previewsurface = new Surface(cameraUiWrapper.getTexturView().getSurfaceTexture());
-        final int w = previewSize.getWidth();
-        final int h = previewSize.getHeight();
+        int w = previewSize.getWidth();
+        int h = previewSize.getHeight();
+
 
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
 
@@ -255,9 +256,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                     break;
             }
             final int or = OrientationUtil.getOrientation(rotation);
-
+            if (or == 90 || or == 270) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
+            }
             Log.d(TAG, "rotation to set : " + or);
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,true));
+            int finalW = w;
+            int finalH = h;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH,or,true));
 
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
 
@@ -285,8 +291,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
             final int or = OrientationUtil.getOrientation(rotation);;
             Log.d(TAG, "rotation to set : " + or);
-
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,false));
+            if (or == 0 || or == 180) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
+            }
+            int finalW1 = w;
+            int finalH1 = h;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW1, finalH1, or,false));
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
     }
