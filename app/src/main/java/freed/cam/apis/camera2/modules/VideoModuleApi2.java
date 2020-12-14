@@ -239,9 +239,18 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             Log.d(TAG, "rotation to set : " + or);
             int w = previewSize.getWidth();
             int h = previewSize.getHeight();
-            if (or == 90 || or == 270) {
-                w = previewSize.getHeight();
-                h = previewSize.getWidth();
+            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+                if (or == 90 || or == 270) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            }
+            else
+            {
+                if (or == 0 || or == 180) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
             }
             int finalW = w;
             int finalH = h;
@@ -275,9 +284,18 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             w = previewSize.getWidth();
             h = previewSize.getHeight();
             or = OrientationUtil.getOrientation(orientation);
-            if (or == 0 || or == 180) {
-                w = previewSize.getHeight();
-                h = previewSize.getWidth();
+            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+                if (or == 0 || or == 180) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            }
+            else
+            {
+                if (or == 90 || or == 270) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
             }
             int finalW = w;
             int finalH = h;
@@ -421,11 +439,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 else
                     cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
             }
-
-
-
-
-
         }
         else{
             isRecording = false;

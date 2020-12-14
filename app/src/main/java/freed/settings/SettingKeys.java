@@ -142,6 +142,7 @@ public class SettingKeys{
     public final static Key<SettingMode> orientationHack = new Key(SettingMode.class, R.string.aps_orientationHack);
     public final static Key<ApiBooleanSettingMode> openCamera1Legacy = new Key(ApiBooleanSettingMode.class, R.string.aps_opencamera1legacy);
     public final static Key<ApiBooleanSettingMode> useHuaweiWhiteBalance = new Key(ApiBooleanSettingMode.class, R.string.aps_usehuawei_wb);
+    public final static Key<ApiBooleanSettingMode> SWITCH_ASPECT_RATIO = new Key(ApiBooleanSettingMode.class, R.string.aps_switch_aspect_ratio);
 
 
     public final static Key<GlobalBooleanSettingMode> useCustomMatrixOnCamera2 = new Key(GlobalBooleanSettingMode.class, R.string.aps_usecustom_matrix_oncamera2);

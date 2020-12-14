@@ -256,9 +256,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                     break;
             }
             final int or = OrientationUtil.getOrientation(rotation);
-            if (or == 90 || or == 270) {
-                w = previewSize.getHeight();
-                h = previewSize.getWidth();
+            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+                if (or == 90 || or == 270) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            } else
+            {
+                if (or == 0 || or == 180) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
             }
             Log.d(TAG, "rotation to set : " + or);
             int finalW = w;
@@ -291,9 +299,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
             final int or = OrientationUtil.getOrientation(rotation);;
             Log.d(TAG, "rotation to set : " + or);
-            if (or == 0 || or == 180) {
-                w = previewSize.getHeight();
-                h = previewSize.getWidth();
+            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+                if (or == 0 || or == 180) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            }
+            else
+            {
+                if (or == 90 || or == 270) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
             }
             int finalW1 = w;
             int finalH1 = h;

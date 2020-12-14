@@ -86,6 +86,9 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             SettingsManager.get(SettingKeys.orientationHack).set("0");
             SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
 
+            SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
+            SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
+
             Camera.Parameters parameters = null;
             try {
                 detectFrontCamera(arr[i]);

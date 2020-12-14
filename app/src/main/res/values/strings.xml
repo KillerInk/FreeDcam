@@ -85,6 +85,8 @@
 
     <string name="setting_interval_duration_header" translatable="false">Duration till interval ends</string>
     <string name="setting_interval_duration_text" translatable="false">Interval Duration</string>
+    <string name="setting_switch_aspect_header" translatable="false">Switch width and height</string>
+    <string name="setting_switch_aspect_text" translatable="false">Switch Preview Aspect Ratio</string>
 
     <string name="setting_timer_header" translatable="false">Delay till shutter fires</string>
     <string name="setting_timer_text" translatable="false">Time</string>

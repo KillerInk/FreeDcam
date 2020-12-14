@@ -30,6 +30,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
+import freed.cam.ui.themesample.settings.childs.SettingsChild_SwitchAspectRatio;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.BooleanSettingModeInterface;
@@ -208,6 +209,9 @@ public class SettingsMenuItemFactory
             orientationHack.SetCameraUIWrapper(cameraUiWrapper);
             orientationHack.SetUiItemClickListner(click);
             globalSettingGroup.addView(orientationHack);
+
+            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,cameraUiWrapper,SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
+            globalSettingGroup.addView(aspectRatio);
 
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
             sdSave.SetCameraUiWrapper(cameraUiWrapper);

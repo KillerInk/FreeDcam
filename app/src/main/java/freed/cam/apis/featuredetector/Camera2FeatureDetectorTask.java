@@ -181,6 +181,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
                 SettingsManager.get(SettingKeys.orientationHack).set("0");
                 SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
+
+                SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
+                SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
+
                 //AUX Camera WIDE
                /* switch (characteristics.get(CameraCharacteristics.LENS_FACING))
                 {
