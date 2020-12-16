@@ -203,6 +203,11 @@ public class VideoRecorder {
             UserMessageHandler.sendMSG("Failed to set Framerate",true);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && this.currentVideoProfile.level != -1 && this.currentVideoProfile.profile != -1)
+        {
+            mediaRecorder.setVideoEncodingProfileLevel(this.currentVideoProfile.profile,this.currentVideoProfile.level);
+        }
+
 
          /*setCaptureRate
 

@@ -21,4 +21,9 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="PopupStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+
 </resources>
