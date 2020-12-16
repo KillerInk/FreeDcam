@@ -42,8 +42,16 @@ public class ProfileLevelModel extends ButtonModel
 
     public void setDefault()
     {
-        if (values != null && values.size() >0)
+        if (values != null && values.size() >0) {
             setTxt(values.get(0));
+            updateProfileLevel(values.get(0));
+        }
+    }
+
+    private void updateProfileLevel(String s) {
+        MediaCodecInfo.CodecProfileLevel level = modelView.getCodecProfileLevel(s);
+        modelView.currentProfile.get().level = level.level;
+        modelView.currentProfile.get().profile = level.profile;
     }
 
     @Override
@@ -54,8 +62,6 @@ public class ProfileLevelModel extends ButtonModel
     @Override
     public void onPopupItemClick(String item) {
         super.onPopupItemClick(item);
-        MediaCodecInfo.CodecProfileLevel level =  modelView.getCodecProfileLevel(item);
-        modelView.currentProfile.get().level = level.level;
-        modelView.currentProfile.get().profile = level.profile;
+        updateProfileLevel(item);
     }
 }

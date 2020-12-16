@@ -61,15 +61,20 @@ public class EncoderModel extends ButtonModel
         super.onPopupItemClick(item);
         modelView.currentProfile.get().encoderName = item;
         setValues();
-        profileLevelModel.setDefault();
+
     }
 
     public void setValues()
     {
         profileLevelModel.setValues(modelView.getProfileLevels(getTxt()));
-        if (!getTxt().equals("Default"))
+        if (!getTxt().equals("Default")) {
             profileLevelModel.setVisibility(true);
-        else
+            profileLevelModel.setDefault();
+        }
+        else {
             profileLevelModel.setVisibility(false);
+            modelView.currentProfile.get().profile = -1;
+            modelView.currentProfile.get().level = -1;
+        }
     }
 }
