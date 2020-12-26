@@ -678,9 +678,8 @@ public class CaptureSessionHandler
             dispHeight = displaySize.x;
         }
         Matrix matrix = MatrixUtil.getTransFormMatrix(w,h,(int)dispWidth,(int)dispHeight,rotation,renderscript);
-        cameraHolderApi2.textureView.setOrientation(rotation);
+
         cameraHolderApi2.textureView.setTransform(matrix);
-        cameraHolderApi2.textureView.scale(w,h,(int)dispWidth,(int)dispHeight,rotation);
     }
 
     public void StartAePrecapture()

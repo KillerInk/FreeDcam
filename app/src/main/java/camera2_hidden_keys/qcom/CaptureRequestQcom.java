@@ -18,6 +18,10 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
     public static final CaptureRequest.Key AWB_Range;
 
     public static final CaptureRequest.Key METERING_MODE;
+    public static final CaptureRequest.Key<Byte> HDR10_VIDEO;
+
+
+
 
 
     static {
@@ -32,6 +36,7 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
         AWB_Range = getKeyType("org.codeaurora.qcamera3.manualWB.color_temperature_range", Integer.class);
 
         METERING_MODE = getKeyType("org.codeaurora.qcamera3.exposure_metering.exposure_metering_mode", Integer.class);
+        HDR10_VIDEO = getKeyType("org.quic.camera2.streamconfigs.HDRVideoMode", Byte.class);
     }
 
 
