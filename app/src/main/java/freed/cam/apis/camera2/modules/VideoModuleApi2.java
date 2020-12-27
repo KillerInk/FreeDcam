@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.List;
 
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
+import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -441,6 +442,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
                 {
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,false);
+                    if (active_op == OpCodes.xiaomi_hdr10)
+                        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte)1,false);
                 }
                 else
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,false);
@@ -477,6 +480,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
                 {
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,true);
+                    if (active_op == OpCodes.xiaomi_hdr10)
+                        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte)1,false);
                 }
                 else
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,true);

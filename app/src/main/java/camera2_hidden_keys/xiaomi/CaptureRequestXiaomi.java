@@ -63,6 +63,8 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
 
     public static final CaptureRequest.Key<Boolean> CONTROL_ENABLE_REMOSAIC;
 
+    public static final CaptureRequest.Key<Byte> PRO_VIDEO_LOG_ENABLED;
+
 
     static {
         /*BOKEH_F_NUMBER = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", String.class);
@@ -91,5 +93,6 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
         WATERMARK_TIME = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", String.class);*/
         QCFA_ENABLED = getKeyType("xiaomi.quadcfa.enabled", Byte.class);
         CONTROL_ENABLE_REMOSAIC = getKeyType("xiaomi.remosaic.enabled", Boolean.class);
+        PRO_VIDEO_LOG_ENABLED = getKeyType("xiaomi.pro.video.log.enabled", Byte.class);
     }
 }
