@@ -38,6 +38,8 @@ import android.util.Range;
 import android.util.Size;
 import android.view.Surface;
 
+import androidx.annotation.NonNull;
+
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -45,10 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Camera2EXT.OpModes;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
-import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
-import camera2_hidden_keys.xiaomi.OpCode;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -311,9 +310,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
 
+        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
 
-
-        if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")){
+        if(active_op == OpCodes.eis_lookahead|| active_op == OpCodes.eis_realtime){
             PicReader = ImageReader.newInstance(320, 240, ImageFormat.YUV_420_888, 2);
             PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -328,32 +327,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader.close();
             PicReader = null;
         }
-
-        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+        
         if (active_op != OpCodes.off)
         {
-            cameraUiWrapper.captureSessionHandler.setOPMODE(active_op.GetInt());
-            cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession();
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
-            {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,true);
-            }
-            else
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,true);
-            if (active_op == OpCodes.eis_lookahead || active_op == OpCodes.eis_realtime)
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
+            cameraUiWrapper.captureSessionHandler.setOPMODE(currentVideoProfile.opcode);
+            cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewSessionCallback);
 
         }
         else
-            cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
-
-        Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
-        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
+            cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewSessionCallback);
     }
 
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
@@ -424,14 +406,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             if (active_op != OpCodes.off)
             {
                 cameraUiWrapper.captureSessionHandler.setOPMODE(active_op.GetInt());
-                cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewrdy);
+                cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(recordingSessionCallback);
             }
             else
             {
                 if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
-                    cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewrdy);
+                    cameraUiWrapper.captureSessionHandler.CreateCaptureSession(recordingSessionCallback);
                 else
-                    cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
+                    cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(recordingSessionCallback);
             }
 
         }
@@ -446,7 +428,39 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         startRecording();
     }
 
-    private final StateCallback previewrdy = new StateCallback()
+    private final StateCallback previewSessionCallback = new StateCallback() {
+        @Override
+        public void onConfigured(@NonNull CameraCaptureSession session) {
+
+            cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
+
+            OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+            if (active_op != OpCodes.off)
+            {
+
+                if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
+                {
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,false);
+                }
+                else
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,false);
+                if (active_op == OpCodes.eis_lookahead || active_op == OpCodes.eis_realtime)
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,false);
+
+            }
+
+            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,false);
+            cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
+        }
+
+        @Override
+        public void onConfigureFailed(@NonNull CameraCaptureSession session) {
+
+        }
+    };
+
+    private final StateCallback recordingSessionCallback = new StateCallback()
     {
 
         @Override

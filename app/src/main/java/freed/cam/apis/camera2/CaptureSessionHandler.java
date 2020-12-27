@@ -514,8 +514,7 @@ public class CaptureSessionHandler
     public void CloseCaptureSession()
     {
         Log.d(TAG, "CloseCaptureSession");
-        if (!captureSessionOpen)
-            return;
+
         captureSessionOpen = false;
 
         if (mCaptureSession == null)
