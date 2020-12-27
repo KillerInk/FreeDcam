@@ -47,6 +47,8 @@ import java.util.List;
 
 import Camera2EXT.OpModes;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
+import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
+import camera2_hidden_keys.xiaomi.OpCode;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
@@ -56,6 +58,7 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.renderscript.RenderScriptProcessor;
@@ -326,33 +329,27 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader = null;
         }
 
-        if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
-            if (currentVideoProfile.ProfileName.contains("2EIS2")) {
-                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
-            } else if (currentVideoProfile.ProfileName.contains("3EIS3")) {
-                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
-            } else if (currentVideoProfile.ProfileName.contains("xEISx")) {
-                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-            } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
-                cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.qbcHDR);
-            } else {
-                cameraUiWrapper.captureSessionHandler.setOPMODE(0);
-            }
+        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+        if (active_op != OpCodes.off)
+        {
+            cameraUiWrapper.captureSessionHandler.setOPMODE(active_op.GetInt());
             cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession();
+            if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
+            {
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,true);
+            }
+            else
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,true);
+            if (active_op == OpCodes.eis_lookahead || active_op == OpCodes.eis_realtime)
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
+
         }
         else
             cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
 
         Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
-
-        if(currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3")||currentVideoProfile.ProfileName.contains("xEISx")) {
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
-        }
-
     }
-
-
 
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
     {
@@ -418,18 +415,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             recorderSurface = videoRecorder.getSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
-            if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
-                if (currentVideoProfile.ProfileName.contains("2EIS2")) {
-                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_RealTimeEIS);
-                } else if (currentVideoProfile.ProfileName.contains("3EIS3")) {
-                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_LookAheadEIS);
-                } else if (currentVideoProfile.ProfileName.contains("xEISx")) {
-                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.OP_VidHanceEIS60);
-                } else if (currentVideoProfile.ProfileName.contains("3hdr")) {
-                    cameraUiWrapper.captureSessionHandler.setOPMODE(OpModes.qbcHDR);
-                } else {
-                    cameraUiWrapper.captureSessionHandler.setOPMODE(0);
-                }
+            OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+            if (active_op != OpCodes.off)
+            {
+                cameraUiWrapper.captureSessionHandler.setOPMODE(active_op.GetInt());
                 cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewrdy);
             }
             else
@@ -439,6 +428,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 else
                     cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(previewrdy);
             }
+
         }
         else{
             isRecording = false;
@@ -462,10 +452,17 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
 
-            if (SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).get()) {
-                if (currentVideoProfile.ProfileName.contains("2EIS2") || currentVideoProfile.ProfileName.contains("3EIS3") || currentVideoProfile.ProfileName.contains("xEISx")) {
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
+            OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+            if (active_op != OpCodes.off)
+            {
+                if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
+                {
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,true);
                 }
+                else
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,true);
+                if (active_op == OpCodes.eis_lookahead || active_op == OpCodes.eis_realtime)
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,true);
             }
 
             if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {

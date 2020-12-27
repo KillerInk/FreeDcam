@@ -26,4 +26,13 @@ public enum  OpCodes {
     {
         return value;
     }
+    public static OpCodes get(int val)
+    {
+        for (OpCodes audio : OpCodes.values())
+        {
+            if (audio.GetInt() == val)
+                return audio;
+        }
+        return off;
+    }
 }

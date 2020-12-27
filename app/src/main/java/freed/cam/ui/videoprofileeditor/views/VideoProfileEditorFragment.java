@@ -191,6 +191,8 @@ public class VideoProfileEditorFragment extends Fragment {
             OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
             videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
 
+            videoProfileEditorModelView.getProfile().videoHdr = videoProfileEditorFragmentBinding.videoHDR.isChecked();
+
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoProfileEditorModelView.getVideoMediaProfiles().containsKey(videoProfileEditorFragmentBinding.editTextProfileName.getText().toString()))
             {

@@ -523,12 +523,31 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     dumpQCFA(characteristics);
 
+                    detectXiaomiStuff(characteristics);
+
                 }
             }
             SettingsManager.getInstance().SetCurrentCamera(0);
             if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
             }
+    }
+
+    private void detectXiaomiStuff(CameraCharacteristics characteristics) {
+        try {
+            int video10 = characteristics.get(CameraCharacteristicsXiaomi.SUPPORT_VIDEO_HDR10);
+            Log.d(TAG, "video10bit suppported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "video10bit unsuppported");
+        }
+        try {
+            Integer[] eismodes = characteristics.get(CameraCharacteristicsXiaomi.EIS_QUALITY_SUPPORTED);
+            Log.d(TAG, "eismodes supported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "eismodes unsupported");
+        }
     }
 
     private void findCameraIds(CameraManager manager, List<String> cameraids) {
