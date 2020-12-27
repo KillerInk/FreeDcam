@@ -7,13 +7,16 @@ import camera2_hidden_keys.xiaomi.OpCode;
 public enum  OpCodes {
 
     off(-1),
-    disbled(0),
-    xiaomi_hdr10(OpCode.SESSION_OPERATION_MODE_HDR10),
-    lg_hdr10(Opcode.LG_VIDEO_HDR),
+    disabled(0),
     eis_realtime(OpModes.OP_RealTimeEIS),
     eis_lookahead(OpModes.OP_LookAheadEIS),
     eis_videnahnc60(OpModes.OP_VidHanceEIS60),
-    qbc_hdr(OpModes.qbcHDR);
+    lg_hdr10(Opcode.LG_VIDEO_HDR),
+    lg_preview_hdr10(Opcode.LG_VIDEO_HDR_PREVIEW),
+    qbc_hdr(OpModes.qbcHDR),
+    xiaomi_hdr10(OpCode.SESSION_OPERATION_MODE_HDR10),
+    xiaomi_supereis(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREIS),
+    xiaomi_supereispro(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREISPRO);
 
 
 
