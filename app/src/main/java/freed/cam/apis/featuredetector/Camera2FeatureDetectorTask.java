@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaCodecInfo;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import camera2_hidden_keys.ReflectionHelper;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
@@ -68,6 +70,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //publishProgress("###################");*/
 
         new MediaCodecInfoParser().logMediaCodecInfos();
+
+       /* ReflectionHelper reflectionHelper = new ReflectionHelper();
+        reflectionHelper.logClass(CameraManager.class,0);
+        reflectionHelper.logClass(CameraDevice.class,0);*/
 
         SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             /*//publishProgress("Check Camera2");*/
