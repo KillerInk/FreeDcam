@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.InverseBindingAdapter;
 
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
+import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 
 public class Converter
@@ -50,6 +51,21 @@ public class Converter
     {
         String ret = "";
         for (AudioCodecs audio : AudioCodecs.values())
+        {
+            if (audio.GetInt() == codec)
+                ret = audio.toString();
+        }
+        if (editText != null)
+            editText.setText(ret);
+        return ret;
+    }
+
+
+    @BindingAdapter("convertOpCodecIntToString")
+    public static String convertOpCodecIntToString(Button editText, int codec)
+    {
+        String ret = "";
+        for (OpCodes audio : OpCodes.values())
         {
             if (audio.GetInt() == codec)
                 ret = audio.toString();

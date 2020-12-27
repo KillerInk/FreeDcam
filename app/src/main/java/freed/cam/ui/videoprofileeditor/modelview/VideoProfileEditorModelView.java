@@ -22,6 +22,7 @@ import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 import freed.cam.ui.videoprofileeditor.models.AudioCodecModel;
 import freed.cam.ui.videoprofileeditor.models.EncoderModel;
+import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileLevelModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileModel;
@@ -48,6 +49,7 @@ public class VideoProfileEditorModelView extends ViewModel {
     private AudioCodecModel audioCodecModel;
     private EncoderModel encoderModel;
     private ProfileLevelModel profileLevelModel;
+    private OpcodeModel opcodeModel;
 
     public VideoProfileEditorModelView()
     {
@@ -64,6 +66,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         profileLevelModel = new ProfileLevelModel(popupModel,this);
         encoderModel = new EncoderModel(popupModel,profileLevelModel,this);
         videoCodecModel = new VideoCodecModel(popupModel,encoderModel,this);
+        opcodeModel = new OpcodeModel(popupModel);
 
         MediaCodecInfoParser mediaCodecInfoParser = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -105,6 +108,10 @@ public class VideoProfileEditorModelView extends ViewModel {
         return profileLevelModel;
     }
 
+    public OpcodeModel getOpcodeModel() {
+        return opcodeModel;
+    }
+
     public void setProfile(VideoMediaProfile currentProfile) {
         this.currentProfile.set(currentProfile.clone());
         updateModels();
@@ -121,6 +128,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         videoCodecModel.setTxt(Converter.convertVideoCodecIntToString(null, currentProfile.get().videoCodec));
         videoCodecModel.setValues();
         audioCodecModel.setTxt(Converter.convertAudioCodecIntToString(null, currentProfile.get().audioCodec));
+        opcodeModel.setTxt(Converter.convertOpCodecIntToString(null, currentProfile.get().opcode));
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             encoderModel.setVisibility(true);
             if (currentProfile.get().encoderName.isEmpty()) {

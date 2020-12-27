@@ -47,9 +47,11 @@ import java.util.List;
 
 import freed.cam.ui.videoprofileeditor.MyMediaCodec;
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
+import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 import freed.cam.ui.videoprofileeditor.models.AudioCodecModel;
 import freed.cam.ui.videoprofileeditor.models.EncoderModel;
+import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileLevelModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileModel;
@@ -101,6 +103,8 @@ public class VideoProfileEditorFragment extends Fragment {
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonVideoEnCoder);
                 if (((PopupModel)sender).getPopUpItemClick() instanceof ProfileLevelModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonProfileLevel);
+                if (((PopupModel)sender).getPopUpItemClick() instanceof OpcodeModel)
+                    menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonOpcode);
                 menu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -183,6 +187,9 @@ public class VideoProfileEditorFragment extends Fragment {
 
             AudioCodecs audioCodec = AudioCodecs.valueOf((String)videoProfileEditorFragmentBinding.buttonAudioCodec.getText());
             videoProfileEditorModelView.getProfile().audioCodec = audioCodec.GetInt();
+
+            OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
+            videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
 
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoProfileEditorModelView.getVideoMediaProfiles().containsKey(videoProfileEditorFragmentBinding.editTextProfileName.getText().toString()))
