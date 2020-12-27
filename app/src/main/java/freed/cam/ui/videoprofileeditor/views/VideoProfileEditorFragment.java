@@ -53,6 +53,7 @@ import freed.cam.ui.videoprofileeditor.models.AudioCodecModel;
 import freed.cam.ui.videoprofileeditor.models.EncoderModel;
 import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
+import freed.cam.ui.videoprofileeditor.models.PreviewOpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileLevelModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileModel;
 import freed.cam.ui.videoprofileeditor.models.RecordModel;
@@ -103,7 +104,9 @@ public class VideoProfileEditorFragment extends Fragment {
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonVideoEnCoder);
                 if (((PopupModel)sender).getPopUpItemClick() instanceof ProfileLevelModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonProfileLevel);
-                if (((PopupModel)sender).getPopUpItemClick() instanceof OpcodeModel)
+                if (((PopupModel)sender).getPopUpItemClick() instanceof PreviewOpcodeModel)
+                    menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonPreviewOpcode);
+                else if (((PopupModel)sender).getPopUpItemClick() instanceof OpcodeModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonOpcode);
                 menu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
@@ -190,6 +193,9 @@ public class VideoProfileEditorFragment extends Fragment {
 
             OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
             videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
+
+            OpCodes opcodes2 = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonPreviewOpcode.getText());
+            videoProfileEditorModelView.getProfile().preview_opcode = opcodes2.GetInt();
 
             videoProfileEditorModelView.getProfile().videoHdr = videoProfileEditorFragmentBinding.videoHDR.isChecked();
 

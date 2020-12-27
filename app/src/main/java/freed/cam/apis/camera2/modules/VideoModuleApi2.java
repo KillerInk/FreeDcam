@@ -310,7 +310,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
 
-        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+        OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
 
         if(active_op == OpCodes.eis_lookahead|| active_op == OpCodes.eis_realtime){
             PicReader = ImageReader.newInstance(320, 240, ImageFormat.YUV_420_888, 2);
@@ -327,10 +327,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader.close();
             PicReader = null;
         }
-        
+
         if (active_op != OpCodes.off)
         {
-            cameraUiWrapper.captureSessionHandler.setOPMODE(currentVideoProfile.opcode);
+            cameraUiWrapper.captureSessionHandler.setOPMODE(currentVideoProfile.preview_opcode);
             cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewSessionCallback);
 
         }
@@ -434,7 +434,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
 
-            OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+            OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
             if (active_op != OpCodes.off)
             {
 
