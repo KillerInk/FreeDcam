@@ -334,6 +334,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         {
             cameraUiWrapper.captureSessionHandler.setOPMODE(active_op.GetInt());
             cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession();
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
             {
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,true);
