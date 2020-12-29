@@ -42,7 +42,7 @@ model{
                 cpp {
                     source {
                         srcDirs "generator/", "${halide_dir}/tools/", "${halide_dir}/include/","generator/hdrplus/"
-                        include "stage1_align_merge_generator.cpp", "GenGen.cpp","align.cpp", "merge.cpp", "util.cpp"
+                        include "stage1_align_merge_generator.cpp","stage1_alignmerge_generator.cpp", "GenGen.cpp","align.cpp", "merge.cpp", "util.cpp"
                     }
                 }
             }
@@ -66,6 +66,13 @@ model{
                 into file("${buildDir}/exe/halide_generator")
             }
 
+            task copyFiles(type: Copy){
+                logger.quiet("copyFiles")
+                from "$projectDir/libs"
+
+                into "$projectDir/../app/libs"
+            }
+
             //hook into build
             build{
                 //on windows its needed, if halide is not in the %PATH, to copy the halide.dll to the exe to run the generator
@@ -73,13 +80,6 @@ model{
                 //the compiler runs after doFirst and calls doLast
                 doFirst {
                     logger.quiet("build.doFirst")
-                }
-
-                //our exe is now ready lets start the generator
-                doLast{
-                    logger.quiet("build.doLast")
-
-                    //define abis
                     Map<String, String> archs = [
                             // armeabi and armeabi-v7a are the same as far as Halide is concerned
                             /*"armeabi"    : "arm-32-android",*/
@@ -90,7 +90,7 @@ model{
                             "x86"        : "x86-32-android"*/
                     ]
                     //define the generators that should get builded
-                    def gens = ["stage1_align_merge"]
+                    def gens = ["stage1_align_merge","stage1_alignmerge"]
                     gens.each { gen ->
                         archs.each { arch ->
                             mkdir("${projectDir}/libs/${arch.key}")
@@ -102,6 +102,27 @@ model{
                             process.waitFor()
                         }
                     }
+                }
+                
+                doLast {
+                    logger.quiet("build.doLast")
+                    //define abis
+                    logger.quiet("copyFiles")
+                    copy{
+                        from "$projectDir/libs"
+                        include "**/*.a"
+                        into "$projectDir/../app/libs"
+                    }
+                    copy{
+                        from "${halide_dir}/include/HalideRuntime.h", "${halide_dir}/include/HalideBuffer.h"
+                        into "${projectDir}/../app/src/main/jni/include"
+                    }
+                    copy{
+                        from "$projectDir/libs/arm64-v8a/"
+                        include "*.h"
+                        into "${projectDir}/../app/src/main/jni/include"
+                    }
+
                 }
             }
         }
