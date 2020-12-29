@@ -103,7 +103,7 @@ model{
                         }
                     }
                 }
-                
+
                 doLast {
                     logger.quiet("build.doLast")
                     //define abis

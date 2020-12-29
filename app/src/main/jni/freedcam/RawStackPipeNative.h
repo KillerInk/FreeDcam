@@ -10,7 +10,6 @@
 #include "../include/HalideBuffer.h"
 #include "../include/stage1_alignmerge.h"
 #include "../include/stage1_align_merge.h"
-#include "../include/stage2_RawToRgb.h"
 #include <jni.h>
 #include <stdlib.h>
 #include <android/log.h>
@@ -215,7 +214,7 @@ public:
         output.deallocate();
     }
 
-    void writeJpeg(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
+   /* void writeJpeg(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
     {
         Halide::Runtime::Buffer<uint8_t> jpeg_output(width, height, 4);
         stage2_RawToRgb(output,
@@ -230,13 +229,13 @@ public:
                         jpeg_output);
 
         FILE *fp = fopen(outfile, "wb");
-        /* write header to the file */
-        /* write image data bytes to the file */
+        *//* write header to the file *//*
+        *//* write image data bytes to the file *//*
         unsigned char * tmp = jpeg_output.data();
         LOGD("write tmp %i", sizeof(tmp));
         fwrite(tmp, sizeof(tmp), 1, fp);
         fclose(fp);
-    }
+    }*/
 
     void writeDng(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
     {

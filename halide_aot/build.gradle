@@ -52,9 +52,9 @@ model{
                     include "*.a"
                     include "*.h"
                 }
-                delete fileTree("${projectDir}/../app/src/main/jni/include").matching {
+               /* delete fileTree("${projectDir}/../app/src/main/jni/include").matching {
                     include "*.h"
-                }
+                }*/
                 /*delete "$projectDir/stage1_align_merge.a"
                 delete "$projectDir/stage1_align_merge.h"*/
             }

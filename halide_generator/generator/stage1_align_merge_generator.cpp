@@ -16,9 +16,9 @@ namespace {
         Output <Halide::Buffer<uint16_t>> output{"output", 2};
 
         void generate() {
-            Func alignment = align(inputs,inputs.width(), inputs.height());
+            Func alignment = align(inputs,inputs.dim(0).max(), inputs.dim(1).max());
             Func merged = merge(inputs, alignment, minoffset, maxoffset, l1mindistance,
-                                l1maxdistance,inputs.width(), inputs.height(),inputs.dim(2).extent());
+                                l1maxdistance,inputs.dim(0).max(), inputs.dim(1).max(),inputs.dim(2).max());
             output = merged;
         }
     };
