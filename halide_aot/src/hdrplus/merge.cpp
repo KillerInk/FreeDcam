@@ -88,12 +88,21 @@ Func merge_temporal(ImageParam imgs, Func alignment, Expr minoffset, Expr maxoff
     ///////////////////////////////////////////////////////////////////////////
     // schedule
     ///////////////////////////////////////////////////////////////////////////
-
+    Var block, thread;
     weight.compute_root().parallel(ty).vectorize(tx, 16);
+   /* weight.compute_root().parallel(ty);
+    weight.split(tx, block, thread, 16);
+    weight.gpu_blocks(block).gpu_threads(thread);*/
 
     total_weight.compute_root().parallel(ty).vectorize(tx, 16);
+    /*total_weight.compute_root().parallel(ty);
+    total_weight.split(tx, block, thread, 16);
+    total_weight.gpu_blocks(block).gpu_threads(thread);*/
 
     output.compute_root().parallel(ty).vectorize(ix, 32);
+    /*output.compute_root().parallel(ty);
+    output.split(ix, block, thread, 32);
+    output.gpu_blocks(block).gpu_threads(thread);*/
 
     return output;
 }
@@ -138,10 +147,16 @@ Func merge_spatial(Func input) {
     ///////////////////////////////////////////////////////////////////////////
     // schedule
     ///////////////////////////////////////////////////////////////////////////
-
     weight.compute_root().vectorize(v, 32);
+    /*weight.compute_root();
+    Var block2, thread2;
+    weight.split(v, block2, thread2, 32);
+    weight.gpu_blocks(block2).gpu_threads(thread2);*/
 
     output.compute_root().parallel(y).vectorize(x, 32);
+    /*output.compute_root();
+    output.split(x, block2, thread2, 32);
+    output.gpu_blocks(block2).gpu_threads(thread2);*/
 
     return output;
 }

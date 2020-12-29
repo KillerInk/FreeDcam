@@ -95,7 +95,7 @@ model{
                     ProcessBuilder processBuilder = new ProcessBuilder()
                     processBuilder.command(envVars.split(' '))
                     logger.quiet("Output of running " + envVars + " is: ")
-                    Process process = processBuilder.start()
+                    Process process = processBuilder.inheritIO().start()
                     process.waitFor()
 
                 }

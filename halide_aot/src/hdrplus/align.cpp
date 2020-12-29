@@ -44,6 +44,8 @@ Func align_layer(Func layer, Func prev_alignment, Point prev_min, Point prev_max
     // sum of L1 distances over each pixel in a tile, for the offset specified by xi, yi
 
     scores(xi, yi, tx, ty, n) = sum(dist);
+    //scores.gpu_tile(xx, yy, tx, ty, xi, yi, 8, 8);
+
 
     // alignment offset for each tile (offset where score is minimum)
 
@@ -54,8 +56,20 @@ Func align_layer(Func layer, Func prev_alignment, Point prev_min, Point prev_max
     ///////////////////////////////////////////////////////////////////////////
 
     scores.compute_at(alignment, tx).vectorize(xi, 8);
+    //scores.compute_at(alignment, tx);
+  /*  Var block, thread;
+    scores.split(xi, block, thread, 4);*/
+
 
     alignment.compute_root().parallel(ty).vectorize(tx, 16);
+    /*alignment.compute_root();
+    alignment.gpu_tile(tx, ty, block,thread, 4, 4);*/
+    /*alignment.compute_root().parallel(ty);
+    Var block2, thread2;
+    alignment.split(ty, block2, thread2, 16);
+    alignment.gpu_blocks(block2).gpu_threads(thread2);*/
+
+    //alignment.gpu_threads(tx, ty);
 
     return alignment;
 }
@@ -116,5 +130,10 @@ Func align(ImageParam imgs) {
     alignment(tx, ty, n) = 2 * P(alignment_0(tx, ty, n));
 
     Func alignment_repeat = BoundaryConditions::repeat_edge(alignment, 0, num_tx, 0, num_ty);
+   /* Var block2, thread2;
+    alignment_repeat.split(tx, block2, thread2, 16);
+    alignment_repeat.gpu_blocks(block2)
+            .gpu_threads(thread2);*/
+    //alignment.gpu_threads(tx, ty);
 	return alignment_repeat;
 }

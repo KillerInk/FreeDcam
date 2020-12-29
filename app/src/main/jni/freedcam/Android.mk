@@ -34,7 +34,9 @@ LOCAL_LDLIBS := -lz \
 	-lm \
 	-llog \
 	-ljnigraphics \
-	-landroid
+	-landroid \
+	-lEGL \
+	-lGLESv2
 LOCAL_C_INCLUDES += \
 					$(NDK_APP_PROJECT_PATH)/tiff/libtiff/ \
 

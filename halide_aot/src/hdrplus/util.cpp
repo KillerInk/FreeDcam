@@ -11,10 +11,9 @@ using namespace Halide::ConciseCasts;
  * box_down2 -- averages 2x2 regions of an image to downsample linearly.
  */
 Func box_down2(Func input, std::string name) {
-
+    Var x("x"), y("y"), n("n");
     Func output(name);
-    
-    Var x, y, n;
+
     RDom r(0, 2, 0, 2);
 
     // output with box filter and stride 2
@@ -25,7 +24,13 @@ Func box_down2(Func input, std::string name) {
     // schedule
     ///////////////////////////////////////////////////////////////////////////
 
-    output.compute_root().parallel(y).vectorize(x, 16);
+    //output.compute_root().parallel(y).vectorize(x, 16);
+    Var block,thread;
+    output.compute_root();
+    output.split(x, block, thread, 16);
+    output.gpu_blocks(block).gpu_threads(thread);
+    //output.gpu_tile(x, y, xo, xo,xi,yi, 8, 8);
+    //output.gpu_threads(x, y);
 
     return output;
 }
@@ -63,6 +68,10 @@ Func gauss_down4(Func input, std::string name) {
     k.compute_root().parallel(y).parallel(x);
 
     output.compute_root().parallel(y).vectorize(x, 16);
+    /*Var block,thread;
+    output.compute_root().parallel(y);
+    output.split(x, block, thread, 4);
+    output.gpu_blocks(block).gpu_threads(thread);*/
 
     return output;
 }

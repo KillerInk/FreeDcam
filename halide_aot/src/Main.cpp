@@ -48,10 +48,16 @@ int main(int argc, char* argv[]) {
 	std::vector<Target::Feature> arm_features; // A list of features to set
 	//arm_features.push_back(Target::LargeBuffers);
 	//arm_features.push_back(Target::NoNEON);
+	arm_features.push_back(Target::OpenCL);
+	//arm_features.push_back(Target::OpenGLCompute);
 	target.set_features(arm_features);
+
+
+
 
 	//Func alignment = align(imgs);
 	Func stage1_align_merge = align_merge(imgs,minoffset, maxoffset,l1mindistance,l1maxdistance);
+
 	std::vector<Argument> argss(5);
 	argss[0] = imgs;
 	argss[1] = minoffset;
