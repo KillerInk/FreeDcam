@@ -1,160 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#000000">
-    <androidx.viewpager.widget.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="screenslideFragmentModel"
+            type="freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView" />
+
+        <variable
+            name="imagefragment"
+            type="freed.viewer.screenslide.models.ImageFragmentModel" />
+    </data>
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ui_holder"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="true">
+        android:background="#000000">
+        <androidx.viewpager.widget.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ui_holder"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentBottom="true">
 
 
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/screenslide_exif_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="#71000001"
-        android:orientation="vertical">
-
-        <freed.viewer.screenslide.MyHistogram
-            android:id="@+id/screenslide_histogram"
-            android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
-            android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
-            android:layout_marginLeft="2dp" />
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/bottom_bar"
-            android:layout_width="match_parent"
+            android:id="@+id/screenslide_exif_holder"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:background="#71000001"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            setVisibility="@{screenslideFragmentModel.exifViewModel.visibility}">
 
-            <TextView
-                android:id="@+id/textView_filename"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/freedviewer_screenslide_exifInfoHeight"
-                android:layout_marginLeft="5dp"
-                android:text="Large Text"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#FFFFFFFF" />
+            <freed.viewer.screenslide.views.MyHistogram
+                android:id="@+id/screenslide_histogram"
+                android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
+                android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
+                android:layout_marginLeft="2dp"
+                setVisibility="@{screenslideFragmentModel.histogram.visibility}"
+                setHistogramData="@{imagefragment.histodata}"/>
 
             <LinearLayout
-                android:id="@+id/exif_info"
+                android:id="@+id/bottom_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="#71000001"
+                android:orientation="vertical"
+                setVisibility="@{screenslideFragmentModel.bottomBar.visibility}">
+
+                <TextView
+                    android:id="@+id/textView_filename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/freedviewer_screenslide_exifInfoHeight"
+                    android:layout_marginLeft="5dp"
+                    android:text="@{screenslideFragmentModel.exifViewModel.filename.text}"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#FFFFFFFF"
+                    setTypeFaceToTextView="@{screenslideFragmentModel.exifViewModel}"/>
 
                 <LinearLayout
+                    android:id="@+id/exif_info"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView_iso"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
-                        android:layout_weight="1"
-                        android:text="ISO:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#FFFFFFFF" />
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textView_shutter"
+                        <TextView
+                            android:id="@+id/textView_iso"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
+                            android:layout_weight="1"
+                            android:text="@{screenslideFragmentModel.exifViewModel.iso.text}"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFFFF"
+                            setTypeFaceToTextView="@{screenslideFragmentModel.exifViewModel}"/>
+
+                        <TextView
+                            android:id="@+id/textView_shutter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
+                            android:layout_weight="1"
+                            android:text="@{screenslideFragmentModel.exifViewModel.shutter.text}"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFFFF"
+                            setTypeFaceToTextView="@{screenslideFragmentModel.exifViewModel}"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
-                        android:layout_weight="1"
-                        android:text="Exposure Time:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#FFFFFFFF" />
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/textView_focal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
+                            android:layout_weight="1"
+                            android:text="@{screenslideFragmentModel.exifViewModel.focal.text}"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFFFF"
+                            setTypeFaceToTextView="@{screenslideFragmentModel.exifViewModel}"/>
 
-                    <TextView
-                        android:id="@+id/textView_focal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
-                        android:layout_weight="1"
-                        android:text="Focal Length:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#FFFFFFFF" />
+                        <TextView
+                            android:id="@+id/textView_fnumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
+                            android:layout_weight="1"
+                            android:text="@{screenslideFragmentModel.exifViewModel.fnumber.text}"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#FFFFFFFF"
+                            setTypeFaceToTextView="@{screenslideFragmentModel.exifViewModel}"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/textView_fnumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/freedviewer_screenslide_exifInfoItemMargine"
-                        android:layout_weight="1"
-                        android:text="Aperture:"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#FFFFFFFF" />
                 </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="50dp"
-        android:layout_height="fill_parent"
-        android:id="@+id/top_bar"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:baselineAligned="false"
-        android:layout_alignParentRight="true">
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/top_bar"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:baselineAligned="false"
+            android:layout_alignParentRight="true"
+            setVisibility="@{screenslideFragmentModel.topBar.visibility}">
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_info"
-            android:textSize="10sp"
-            android:background="@drawable/info"
-            android:layout_marginBottom="@dimen/app_icon_size" />
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="@dimen/freedviewer_topbar_height"
+                android:id="@+id/button_info"
+                android:textSize="10sp"
+                android:background="@drawable/info"
+                android:layout_marginBottom="@dimen/app_icon_size"
+                android:onClick="@{screenslideFragmentModel.infoButtonModel}"/>
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_closeView"
-            android:textSize="10sp"
-            android:background="@drawable/go_back"
-            android:layout_marginBottom="@dimen/app_icon_size" />
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="@dimen/freedviewer_topbar_height"
+                android:id="@+id/button_closeView"
+                android:textSize="10sp"
+                android:background="@drawable/go_back"
+                android:layout_marginBottom="@dimen/app_icon_size" />
 
-        <Button
-            android:layout_width="@dimen/freedviewer_topbar_height"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_play"
-            android:textSize="10sp"
-            android:background="@drawable/ic_play"/>
+            <Button
+                android:layout_width="@dimen/freedviewer_topbar_height"
+                android:layout_height="@dimen/freedviewer_topbar_height"
+                android:id="@+id/button_play"
+                android:textSize="10sp"
+                android:background="@drawable/ic_play"/>
 
-        <Button
-            android:layout_width="@dimen/freedviewer_topbar_height"
-            android:layout_height="@dimen/freedviewer_topbar_height"
-            android:id="@+id/button_delete"
-            android:textSize="10sp"
-            android:background="@drawable/delete"
-            android:layout_marginTop="@dimen/app_icon_size" />
-    </LinearLayout>
+            <Button
+                android:layout_width="@dimen/freedviewer_topbar_height"
+                android:layout_height="@dimen/freedviewer_topbar_height"
+                android:id="@+id/button_delete"
+                android:textSize="10sp"
+                android:background="@drawable/delete"
+                android:layout_marginTop="@dimen/app_icon_size" />
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

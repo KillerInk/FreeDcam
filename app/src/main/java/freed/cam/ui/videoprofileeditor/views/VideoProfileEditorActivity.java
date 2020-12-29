@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.ui.videoprofileeditor;
+package freed.cam.ui.videoprofileeditor.views;
 
 import android.R.id;
 import android.os.Bundle;

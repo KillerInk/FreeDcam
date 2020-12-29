@@ -55,7 +55,8 @@ import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.ScreenSlideFragment;
+import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
@@ -81,6 +82,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onFilesChanged() {
         if (uiViewPagerAdapter != null)
             uiViewPagerAdapter.updateScreenSlideFile(fileListController.getFiles());
+    }
+
+    @Override
+    public void onFileDeleted(int id) {
+
     }
 
     private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
@@ -149,6 +155,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private LinearLayout nightoverlay;
     private CameraFragmentManager cameraFragmentManager;
     private UserMessageHandler userMessageHandler;
+    private ScreenSlideFragmentModelView screenSlideFragmentModelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +173,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
         bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
+        screenSlideFragmentModelView = new ScreenSlideFragmentModelView();
+        screenSlideFragmentModelView.setFileListController(fileListController);
+        screenSlideFragmentModelView.setBitmapHelper(bitmapHelper);
     }
 
     @Override
@@ -216,7 +226,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG, "onResumeTasks() ");
         activityIsResumed = true;
         if (!SettingsManager.getInstance().isInit())
-            SettingsManager.getInstance();
+            SettingsManager.getInstance().init();
 
         cameraFragmentManager.onResume();
         if (!SettingsManager.getInstance().appVersionHasChanged() && uiViewPagerAdapter == null)
@@ -244,7 +254,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     private void initScreenSlide() {
-        uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager(),onThumbBackClick);
+        uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager(),onThumbBackClick,screenSlideFragmentModelView);
         if (uiViewPager == null)
             uiViewPager = findViewById(id.viewPager_fragmentHolder);
         uiViewPager.setOffscreenPageLimit(2);

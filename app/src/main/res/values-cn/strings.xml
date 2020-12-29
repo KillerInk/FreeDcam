@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- settings_leftmenufragment  -->
+    <string name="all_perms_granted" translatable="false">All permissions granted</string>
+    <string name="all_perms_denied" translatable="false">All permissions denied, try yet</string>
+    <string name="app_name">themesample</string>
+    <string name="setting_picture_group_header">照片模式</string>
+    <string name="setting_Automation" translatable="false">Interval Mode Settings</string>
+    <string name="setting_bayerformat_description">传感器原始格式模式被编码为 DNG</string>
+    <string name="setting_bayerformat_header">拜尔格式: </string>
+    <string name="setting_opcode_description" translatable="false">Click to download OPCode for DNG. Used for flat field correction</string>
+    <string name="setting_opcode_header" translatable="false">Raw Flat Field: </string>
+    <string name="setting_matrixchooser_description" translatable="false">Choose Custom ColorMatrix, when off default get used</string>
+    <string name="setting_matrixchooser_header" translatable="false">CustomMatrix: </string>
+    <string name="setting_tonemapchooser_description" translatable="false">Tonemap curve that get applied to the dng</string>
+    <string name="setting_tonemapchooser_header" translatable="false">ToneMapProfile: </string>
+    <string name="setting_mfnr_description" translatable="false">Multiframe 3D NR</string>
+    <string name="setting_mfnr_header" translatable="false">MNFR: </string>
+    <string name="setting_jpegquality_description">质量值 % </string>
+    <string name="setting_jpegquality_header">JPEG 质量: </string>
+    <string name="setting_picturesize_description">照片尺寸 : </string>
+    <string name="setting_picturesize_header">尺寸: </string>
+
+    <string name="setting_secondarypicturesize_description" translatable="false">Secondary Picture Size : </string>
+    <string name="setting_secondarypicturesize_header" translatable="false">Secondary Size: </string>
+    <string name="setting_raw_group_header" translatable="false">Raw Stuff </string>
+
+
+    <string name="setting_video_group_header">视频模式</string>
+    <string name="setting_videoprofile_description">视频拍摄所用的配置</string>
+    <string name="setting_videoprofile_header">视频配置文件: </string>
+
+    <string name="setting_videoaudiosource_description" translatable="false">Audio Source for recording</string>
+    <string name="setting_videoaudiosource_header" translatable="false">AudioSource: </string>
+
+    <string name="setting_videoprofileeditor_description" translatable="false">Create Custom VideoProfiles</string>
+    <string name="setting_videoprofileeditor_header" translatable="false">Video Profile Editor </string>
+    <string name="setting_videohdr_description">打开以启用高动态范围(HDR)视频</string>
+    <string name="setting_videohfr_description" translatable="false">Video FPS Selection</string>
+    <string name="setting_videohsr_description" translatable="false">Enables Highspeed Video Recording</string>
+    <string name="setting_videobitrate_description" translatable="false">Video Bitrate Selection</string>
+    <string name="setting_vs_description" translatable="false">Enables video stabilization</string>
+    <string name="setting_videohdr_header">HDR 视频: </string>
+    <string name="setting_videohfr_header" translatable="false">Video Frame Rate: </string>
+    <string name="setting_videohsr_header" translatable="false">Video HSR: </string>
+    <string name="setting_videobitrate_header" translatable="false">Video Bitrate: </string>
+    <string name="setting_vs_header" translatable="false">Video Stabilization: </string>
+    <string name="setting_hdr_">包围模式 </string>
+    <string name="setting_aebracket_header">自动包围曝光: </string>
+    <string name="setting_aebracket_description">若开启， 相机一次拍摄3张照片。</string>
+    <string name="setting_imagestack_header" translatable="false">Stacking Mode Settings: </string>
+    <string name="setting_imagestack_description" translatable="false">Select how the Images get Stacked</string>
+
+    <string name="setting_freedcam_">Freedcam 设置</string>
+    <string name="setting_api_header">API:</string>
+    <string name="setting_api_description">选择你想用的 Api </string>
+    <string name="setting_externalshutter_description">可从入耳式耳机、音量按钮触发快门的备用键</string>
+    <string name="setting_externalshutter_header">外部快门触发器: </string>
+    <string name="setting_location_description">在图像中启用地理标记 </string>
+    <string name="setting_location_header">地理标记位置: </string>
+    <string name="setting_guide_description">覆在选定的合成网格上</string>
+    <string name="setting_guide_header">网格: </string>
+    <string name="setting_horizont_description" translatable="false">Dual Axis Image Level to show image straightness</string>
+    <string name="setting_horizont_header" translatable="false">Image Level: </string>
+    <string name="setting_focuspeak_description">在预览上启用对焦峰值</string>
+    <string name="setting_focuspeak_header">对焦峰值: </string>
+    <string name="setting_nightoverlay_description" translatable="false">shows a red Overlay</string>
+    <string name="setting_nightoverlay_header" translatable="false">NightOverlay: </string>
+    <string name="setting_touchtocapture_description" translatable="false">When enabled, a image capture starts.</string>
+    <string name="setting_touchtocapture_header" translatable="false">Touch to Capture: </string>
+    <string name="setting_orientation_header">方向修正: </string>
+    <string name="setting_orientation_description">若开启，将相机旋转 180°</string>
+    <string name="setting_featuredetector_header" translatable="false">Run FeatureDetector</string>
+    <string name="setting_featuredetector_description" translatable="false"></string>
+    <string name="setting_sdcard_header">存储位置: </string>
+    <string name="setting_sdcard_description" translatable="false">
+        File save location.\n
+        NOTE: On KitKat you can save only to external SD when your Device is rooted and the SDFix is applied!\n
+        On Lollipop and Marshmallow choose the root of your SDcard!
+    </string>
+
+    <string name="setting_interval_header" translatable="false">Shutter Fire Interval</string>
+    <string name="setting_interval_texter" translatable="false">Interval</string>
+
+    <string name="setting_interval_duration_header" translatable="false">Duration till interval ends</string>
+    <string name="setting_interval_duration_text" translatable="false">Interval Duration</string>
+    <string name="setting_switch_aspect_header" translatable="false">Switch width and height</string>
+    <string name="setting_switch_aspect_text" translatable="false">Switch Preview Aspect Ratio</string>
+
+    <string name="setting_timer_header" translatable="false">Delay till shutter fires</string>
+    <string name="setting_timer_text" translatable="false">Time</string>
+
+    <string name="setting_theme_header">主题: </string>
+    <string name="setting_theme_description">选择你喜爱的主题</string>
+    <string name="setting_savecamparams_header">保存相机参数</string>
+    <string name="setting_savecamparams_description" translatable="false"> </string>
+
+    <!-- settings_rightmenufragment  -->
+    <string name="setting_camera_">... 设置</string>
+    <string name="setting_antiflicker_header">抗闪烁: </string>
+    <string name="setting_antiflicker_description">减少人造光源上的闪烁</string>
+    <string name="setting_color_header">色彩效果: </string>
+    <string name="setting_color_description">色彩效果样式</string>
+    <string name="setting_scene_header">情景: </string>
+    <string name="setting_scene_description">选择匹配当前场景的情景</string>
+    <string name="setting_focuspeakcolor_header" translatable="false">Focuspeak Color: </string>
+    <string name="setting_focuspeakcolor_description" translatable="false">Color for the sharp area</string>
+    <string name="setting_enablerenderscript_header" translatable="false">Preview PostProcessing: </string>
+    <string name="setting_enablerenderscript_description" translatable="false">Activate it to enable Focuspeak or LiveHistogram</string>
+    <string name="setting_opencameralegacy_header" translatable="false">Open Camera in LegacyMode: </string>
+    <string name="setting_opencameralegacy_description" translatable="false">De/Activate when you have problems with Manuals</string>
+
+    <string name="setting_qcom_">Qualcomm 设置</string>
+    <string name="setting_cds_header">相关双采样: </string>
+    <string name="setting_cds_description">测量两次传感器电读出</string>
+    <string name="setting_dis_header">数字图像稳定: </string>
+    <string name="setting_dis_description">移动电子图像以抵消物体移动</string>
+    <string name="setting_lensshade_header">镜头遮光罩: </string>
+    <string name="setting_lensshade_description">减少边缘的光晕 </string>
+    <string name="setting_mce_header">Memory Color Enhancement: </string>
+    <string name="setting_mce_description">增强色彩，效果相当于 adobe vibrance</string>
+    <string name="setting_redeye_header">红眼削减: </string>
+    <string name="setting_redeye_description">在主闪光之前发出一个小的预闪光</string>
+    <string name="setting_scenedec_header">场景侦测: </string>
+    <string name="setting_scenedec_description">自动场景模式切换器</string>
+
+    <string name="setting_temporaldenoise_header">时域降噪: </string>
+    <string name="setting_temporaldenoise_description">多帧3D降噪</string>
+    <string name="setting_temporaldenoiseV_header" translatable="false">Temporal Video Denoise: </string>
+    <string name="setting_temporaldenoiseV_description" translatable="false">Multi Frame Video 3D Noise Reduction</string>
+    <string name="setting_pdaf_header" translatable="false">PDAF Control: </string>
+    <string name="setting_pdaf_description" translatable="false">Control Phase Detection Auto Focus</string>
+    <string name="setting_rdi_header" translatable="false">RDI: </string>
+    <string name="setting_rdi_description" translatable="false">Raw Dump Interface for Zero Lag Raws</string>
+    <string name="setting_seemore_header" translatable="false">StillMOre: </string>
+    <string name="setting_seemore_description" translatable="false">Tonemap LTM</string>
+    <string name="setting_refocus_header" translatable="false">Refocus: </string>
+    <string name="setting_refous_description" translatable="false">FAUX DOF</string>
+    <string name="setting_truepotrait_header" translatable="false">True Potrait: </string>
+    <string name="setting_truepotrait_description" translatable="false">Description pending</string>
+    <string name="setting_optizoom_header" translatable="false">Optizoom: </string>
+    <string name="setting_optizoom_description" translatable="false">Auto track zoom object</string>
+    <string name="setting_chroma_header" translatable="false">Chroma Flash: </string>
+    <string name="setting_chroma_description" translatable="false">MultiFRame flash image</string>
+
+
+    <string name="setting_waveletdenoise_header">小波去噪: </string>
+    <string name="setting_waveletdenoise_description" translatable="false">Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!</string>
+    <string name="setting_zsl_header" translatable="false">Zero Shutter Lag: </string>
+    <string name="setting_zsl_description">缓冲图像，以便即时拍摄 N/A to raw 必须处于关闭状态</string>
+
+    <string name="setting_lensfilter_header" translatable="false">Virtual Lens Filter</string>
+    <string name="setting_lensfilter_description" translatable="false">Apply Lens Filter Effect</string>
+
+    <string name="setting_camera2_">Camera 2 设置</string>
+    <string name="setting_colorcorrection_header">相关色温: </string>
+    <string name="setting_colorcorrection_description">将此更改为手动或自动</string>
+    <string name="setting_controlmode_header">相机控制: </string>
+    <string name="setting_controlmode_description">控制主相机功能，关闭转为全手动操控</string>
+    <string name="setting_edge_header">边缘模式: </string>
+    <string name="setting_edge_description" translatable="false"></string>
+    <string name="setting_hotpixel_header">热像素校正: </string>
+    <string name="setting_hotpixel_description" translatable="false"></string>
+    <string name="setting_tonemap_header" translatable="false">Tonemap: </string>
+    <string name="setting_tonemap_description" translatable="false"></string>
+
+    <string name="setting_sonycameraremote_">Sony 相机远程设置</string>
+    <string name="setting_objecttrack_header">对象追踪: </string>
+    <string name="setting_objecttrack_description">启用将焦点设置在要跟踪的对象上</string>
+    <string name="setting_zoomsetting_header" translatable="false">Zoom Setting: </string>
+    <string name="setting_zoomsetting_description" translatable="false">Set to enable/disable digital zoom</string>
+    <string name="setting_postview_header">PostViewSize: </string>
+    <string name="setting_postview_description">从远程相机传输的图像的尺寸</string>
+
+    <string name="setting_omap_">OMAP 设置</string>
+    <string name="setting_ipp_header">图像后期处理: </string>
+    <string name="setting_ipp_description">后期处理质量</string>
+
+    <string name="setting_lg_">LG 设置</string>
+    <string name="setting_ois_header">光学图像稳定: </string>
+    <string name="setting_ois_description" translatable="false"></string>
+
+    <string name="setting_htc_">HTC 设置</string>
+    <string name="setting_nonzsl_header">手动操控(ZSL= OFF): </string>
+    <string name="setting_nonzsl_description">打开在 ZSL 关闭时启用手动操控 </string>
+
+    <string name="setting_scalepreview_header" translatable="false">Scale Preview</string>
+    <string name="setting_scalepreview_description" translatable="false">Turn on to Scale the preview x2</string>
+
+    <string name="setting_dualprimarycamera_header" translatable="false">Dual Camera</string>
+    <string name="setting_dualprimarycamera_description" translatable="false">Switch the Camera</string>
+    <string name="setting_aetargetfps_header" translatable="false">AE Frame Range</string>
+    <string name="setting_aetargetfps_description" translatable="false">The Frame Range that could get used by AE</string>
+    <string name="setting_forcerawtodng_header" translatable="false">Use FreeDcam DngConverter:</string>
+    <string name="setting_forcerawtodng_description" translatable="false">Only for 16bit Dng(RAW_SENSOR)\n
+        When turned On the FreeDcam Dng Converter get used\n
+        Off use the Android DngConverter</string>
+    <string name="setting_usecustomdngprofile_header" translatable="false">Enable to use customDngProfile</string>
+    <string name="setting_usecustomdngprofile_description" translatable="false">If Enable and a custom dngprofile.xml exists it get used</string>
+
+
+    <!-- cameraui  -->
+    <string name="uisetting_wb_header">WB</string>
+    <string name="uisetting_iso_header">ISO</string>
+    <string name="uisetting_flash_header">闪光灯</string>
+    <string name="uisetting_focus_header">对焦</string>
+    <string name="uisetting_ae_header">自动曝光</string>
+    <string name="uisetting_night_header">夜间</string>
+    <string name="uisetting_continouseshot_header">连拍</string>
+    <string name="uisetting_format_header">格式</string>
+    <string name="uisetting_settings_header">设置</string>
+    <string name="uisetting_camerswitch_header">相机</string>
+    <string name="uisetting_mode_header">模式</string>
+    <string name="uisetting_exit_header">退出</string>
+    <string name="timelapse_frames" translatable="false">Timelapse Frames</string>
+
+    <!-- ImageViewer -->
+    <string name="delete_file" translatable="false">Delete File?</string>
+    <string name="yes" translatable="false">Yes</string>
+    <string name="no" translatable="false">No</string>
+    <string name="no_files" translatable="false">No Files</string>
+    <string name="failed_to_load" translatable="false">Failed to load:</string>
+    <string name="sec" translatable="false">sec</string>
+    <string name="mm" translatable="false">mm</string>
+    <string name="unknown_raw_add_manual_stuff" translatable="false">Unknown RawFile, pls add needed Stuff Manual</string>
+    <string name="converting_dng" translatable="false">Converting DNG</string>
+    <string name="ALL" translatable="false">ALL</string>
+    <string name="All" translatable="false">All</string>
+    <string name="delete_files" translatable="false">Delete File\'s?</string>
+    <string name="width" translatable="false">Width:</string>
+    <string name="height" translatable="false">Height:</string>
+    <string name="blacklevel" translatable="false">Blacklevel:</string>
+    <string name="whitelevel" translatable="false">Whitelevel:</string>
+    <string name="converttodng" translatable="false">Convert to DNG</string>
+    <string name="no_sel_raw" translatable="false">No selected RAW file, pls return back and select it</string>
+    <string name="files_selected" translatable="false">Files selected:</string>
+    <string name="setting_imagestack" translatable="false">ImageStack</string>
+
+    <string name="off" translatable="false">Off</string>
+    <string name="on" translatable="false">On</string>
+    <string name="fast" translatable="false">Fast</string>
+    <string name="highquality" translatable="false">High Quality</string>
+    <string name="zeroshutterlag" translatable="false">Zero Shutter Lag</string>
+    <string name="auto" translatable="false">Auto</string>
+
+
+
+
+
+    <!-- sceneModes -->
+    <string name="scene_disable" translatable="false">Disable</string>
+    <string name="scene_face" translatable="false">Face</string>
+    <string name="scene_action" translatable="false">Action</string>
+    <string name="scene_portrait" translatable="false">Portrait</string>
+    <string name="scene_landscape" translatable="false">Landscape</string>
+    <string name="scene_night" translatable="false">Night</string>
+    <string name="scene_night_portrait" translatable="false">Night Portrait</string>
+    <string name="scene_theatre" translatable="false">Theatre</string>
+    <string name="scene_beach" translatable="false">Beach</string>
+    <string name="scene_snow" translatable="false">Snow</string>
+    <string name="scene_sunset" translatable="false">Sunset</string>
+    <string name="scene_steadyphoto" translatable="false">Steadyphoto</string>
+    <string name="scene_fireworks" translatable="false">Fireworks</string>
+    <string name="scene_sport" translatable="false">Sport</string>
+    <string name="scene_party" translatable="false">Party</string>
+    <string name="scene_candlelight" translatable="false">Candlelight</string>
+    <string name="scene_barcode" translatable="false">Barcode</string>
+    <string name="scene_highspeedvideo" translatable="false">Highspeed Video</string>
+    <string name="scene_hdr" translatable="false">HDR</string>
+
+    <!-- flashmodes -->
+    <string name="flash_single" translatable="false">Single</string>
+    <string name="flash_torch" translatable="false">Torch</string>
+
+    <!-- antibanding -->
+    <string name="antibanding_50hz" translatable="false">50HZ</string>
+    <string name="antibanding_60hz" translatable="false">60HZ</string>
+
+    <!-- colormode -->
+    <string name="color_mono" translatable="false">Mono</string>
+    <string name="color_negativ" translatable="false">Negativ</string>
+    <string name="color_solarize" translatable="false">Solarize</string>
+    <string name="color_sepia" translatable="false">Sepia</string>
+    <string name="color_posterize" translatable="false">Posterize</string>
+    <string name="color_whiteboard" translatable="false">Whiteboard</string>
+    <string name="color_blackboard" translatable="false">Blackboard</string>
+    <string name="color_aqua" translatable="false">Aqua</string>
+
+    <string name="controlmode_Scene" translatable="false">Scene</string>
+    <string name="controlmode_off_keep_state" translatable="false">Off Keep State</string>
+
+    <string name="denoise_minimal" translatable="false">Minimal</string>
+    <string name="denoise_zsl" translatable="false">ZeroShutterLag</string>
+
+    <string name="focus_mode_macro" translatable="false">Macro</string>
+    <string name="focus_mode_continousevideo" translatable="false">Continouse Video</string>
+    <string name="focus_mode_continousepicture" translatable="false">Continouse Picture</string>
+    <string name="focus_mode_edof" translatable="false">Extended Deep of Field</string>
+
+    <string name="ae_mode_alwaysfLash" translatable="false">Always Flash</string>
+    <string name="ae_mode_autofLash" translatable="false">Auto Flash</string>
+    <string name="ae_mode_redeyefLash" translatable="false">Auto Flash Redeye</string>
+
+    <string name="pictureformat_dng10" translatable="false">10bitDNG</string>
+    <string name="pictureformat_dng12" translatable="false">12bitDNG</string>
+    <string name="pictureformat_dng16" translatable="false">16bitDNG</string>
+    <string name="pictureformat_jpeg" translatable="false">Jpeg</string>
+    <string name="pictureformat_bayer" translatable="false">Bayer16</string>
+    <string name="pictureformat_bayer10" translatable="false">Bayer10</string>
+    <string name="pictureformat_jpg_p_dng" translatable="false">Jpg+16bitDng</string>
+    <string name="pictureformat_yuv" translatable="false">yuv</string>
+
+    <string name="colorcorrection_transform_matrix" translatable="false">Transform Matrix</string>
+    <string name="customrowsize" translatable="false">Custom Row Size</string>
+
+
+    <!-- huawei dual camera  -->
+    <string name="hw_dualcamera_Primary" translatable="false">Color</string>
+    <string name="hw_dualcamera_Secondary" translatable="false">Mono</string>
+    <string name="hw_dualcamera_Dual" translatable="false">Dual</string>
+
+
+    <string name="fcolor_blue" translatable="false">Blue</string>
+    <string name="fcolor_red" translatable="false">Red</string>
+    <string name="fcolor_green" translatable="false">Green</string>
+    <string name="fcolor_white" translatable="false">White</string>
+    <string name="fcolor_yellow" translatable="false">Yellow</string>
+    <string name="fcolor_magenta" translatable="false">Magenta</string>
+    <string name="fcolor_cyan" translatable="false">Cyan</string>
+
+    <string name="video_audio_source_default" translatable="false">Default</string>
+    <string name="video_audio_source_mic" translatable="false">Mic</string>
+    <string name="video_audio_source_voiceuplink" translatable="false">Voice Uplink</string>
+    <string name="video_audio_source_voicedownlink" translatable="false">Voice Downlink</string>
+    <string name="video_audio_source_voice_call" translatable="false">Voice Call</string>
+    <string name="video_audio_source_camcorder" translatable="false">Camcorder</string>
+    <string name="video_audio_source_voice_recognition" translatable="false">Voice Recognition</string>
+    <string name="video_audio_source_voice_communication" translatable="false">Voice Communication</string>
+    <string name="video_audio_source_unprocessed" translatable="false">Unprocessed</string>
+    <string name="setting_rawsize_header" translatable="false">Raw Size</string>
+    <string name="setting_rawsize_description" translatable="false">Size of the Raw</string>
+    <string name="setting_yuvsize_header" translatable="false">Yuv Size</string>
+    <string name="setting_yuvsize_description" translatable="false">Size of the Yuv</string>
+
+
+</resources>

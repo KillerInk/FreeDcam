@@ -1,9 +1,10 @@
-package freed.viewer.screenslide;
+package freed.viewer.screenslide.adapter;
 
 
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -14,16 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.file.holder.BaseHolder;
+import freed.viewer.screenslide.models.ImageFragmentModel;
+import freed.viewer.screenslide.views.ImageFragment;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**
  * Created by KillerInk on 03.12.2017.
  */
 
-class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
+public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private final SparseArray<Fragment> registeredFragments;
-    private List<BaseHolder> files =  new ArrayList<>();
+    private List<ImageFragmentModel> imageFragmentModels;
     private ViewPager mPager;
     private ScreenSlideFragment.FragmentClickClistner onClickListener;
 
@@ -37,29 +41,42 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public BaseHolder getCurrentFile()
     {
-        if (files != null && files.size()>0)
-            return files.get(mPager.getCurrentItem());
+        if (imageFragmentModels != null && imageFragmentModels.size()>0)
+            return imageFragmentModels.get(mPager.getCurrentItem()).getBaseHolder();
         else
             return null;
     }
 
-    public synchronized void setFiles(List<BaseHolder> files)
+    public ImageFragmentModel getCurrentImageFragmentModel()
     {
-        this.files =files;
-        notifyDataSetChanged();
+        if (imageFragmentModels != null && imageFragmentModels.size()>0)
+            return imageFragmentModels.get(mPager.getCurrentItem());
+        else
+            return null;
+    }
+
+    public void setImageFragmentModels(List<ImageFragmentModel> imageFragmentModels)
+    {
+        mPager.post(new Runnable() {
+            @Override
+            public void run() {
+                ScreenSlidePagerAdapter.this.imageFragmentModels = imageFragmentModels;
+                notifyDataSetChanged();
+            }
+        });
+
     }
 
 
     //FragmentStatePagerAdapter implementation START
 
+    @NonNull
     @Override
     public Fragment getItem(int position)
     {
-        ImageFragment  currentFragment = new ImageFragment();
-        if (files == null || files.size() == 0)
-            currentFragment.SetFilePath(null);
-        else
-            currentFragment.SetFilePath(files.get(position));
+        ImageFragment currentFragment = new ImageFragment();
+        if (imageFragmentModels != null && imageFragmentModels.size() > 0 && position < imageFragmentModels.size())
+            currentFragment.setImageFragmentModel(imageFragmentModels.get(position));
         currentFragment.SetOnclickLisnter(onClickListener);
 
         return currentFragment;
@@ -68,8 +85,8 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     @Override
     public int getCount()
     {
-        if(files != null && files.size() > 0)
-            return files.size();
+        if(imageFragmentModels != null && imageFragmentModels.size() > 0)
+            return imageFragmentModels.size();
         else return 1;
     }
 
@@ -77,8 +94,8 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     public int getItemPosition(Object object)
     {
         ImageFragment imageFragment = (ImageFragment) object;
-        BaseHolder file = imageFragment.GetFilePath();
-        int position = files.indexOf(file);
+        ImageFragmentModel file = imageFragment.getImageFragmentModel();
+        int position = imageFragmentModels.indexOf(file);
         // The current data matches the data in this active fragment, so let it be as it is.
         if (position == imageFragment.getPosition){
             return PagerAdapter.POSITION_UNCHANGED;

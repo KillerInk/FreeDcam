@@ -58,6 +58,14 @@ public class VideoMediaProfile
 
     public long maxRecordingSize;
 
+    public int profile = -1;
+    public int level = -1;
+    public String encoderName = "Default";
+
+    public boolean videoHdr = false;
+    public int opcode = -1;
+    public int preview_opcode = -1;
+
     public enum VideoMode
     {
         Normal,
@@ -89,7 +97,28 @@ public class VideoMediaProfile
         Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
-    public VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12,long maxRecordingSize, String ProfileName, VideoMode mode, boolean isAudioActive)
+    public VideoMediaProfile(int v1,
+                             int v2,
+                             int v3,
+                             int v4,
+                             int v5,
+                             int v6,
+                             int v7,
+                             int v8,
+                             int v9,
+                             int v10,
+                             int v11,
+                             int v12,
+                             long maxRecordingSize,
+                             String ProfileName,
+                             VideoMode mode,
+                             boolean isAudioActive,
+                             int profile,
+                             int lvl,
+                             String encoderName,
+                             boolean videohdr,
+                             int opcode,
+                             int preview_opcode)
     {
         audioBitRate = v1;
         audioChannels = v2;
@@ -107,6 +136,12 @@ public class VideoMediaProfile
         Mode = mode;
         this.isAudioActive = isAudioActive;
         this.maxRecordingSize = maxRecordingSize;
+        this.profile = profile;
+        this.level =lvl;
+        this.encoderName = encoderName;
+        this.videoHdr = videohdr;
+        this.opcode = opcode;
+        this.preview_opcode = preview_opcode;
         Log.d(TAG, "ProfileName:"+ ProfileName+ " Duration:"+ duration +" FileFormat:"+ fileFormat +" Quality:"+ quality +" RecSize:" + maxRecordingSize);
         Log.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
         Log.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
@@ -179,6 +214,12 @@ public class VideoMediaProfile
         isAudioActive = xmlElement.findChild("isAudioActive").getBooleanValue();
         Mode = VideoMode.valueOf(xmlElement.findChild("Mode").getValue());
         maxRecordingSize = xmlElement.findChild("recordingsize").getLongValue();
+        profile = xmlElement.findChild("profile").getIntValue(-1);
+        level = xmlElement.findChild("level").getIntValue(-1);
+        encoderName = xmlElement.findChild("encodername").getValue();
+        videoHdr = xmlElement.findChild("videohdr").getBooleanValue();
+        opcode = xmlElement.findChild("opcode").getIntValue(-1);
+        preview_opcode = xmlElement.findChild("preview_opcode").getIntValue(-1);
     }
     public String getXmlString()
     {
@@ -199,13 +240,40 @@ public class VideoMediaProfile
         t += "<isAudioActive>" + isAudioActive + "</isAudioActive>" + "\r\n";
         t += "<Mode>" + Mode.toString() + "</Mode>" + "\r\n";
         t += "<recordingsize>" + maxRecordingSize + "</recordingsize>" + "\r\n";
+        t += "<profile>" + profile + "</profile>" + "\r\n";
+        t += "<level>" + level + "</level>" + "\r\n";
+        t += "<encodername>" + encoderName + "</encodername>" + "\r\n";
+        t += "<videohdr>" + videoHdr + "</videohdr>" + "\r\n";
+        t += "<opcode>" + opcode + "</opcode>" + "\r\n";
+        t += "<preview_opcode>" + preview_opcode + "</preview_opcode>" + "\r\n";
         t += "</mediaprofile>"  + "\r\n";
         return t;
     }
 
     public VideoMediaProfile clone()
     {
-        return new VideoMediaProfile(audioBitRate, audioChannels, audioCodec, audioSampleRate, duration, fileFormat, quality, videoBitRate, videoCodec, videoFrameRate, videoFrameHeight, videoFrameWidth,maxRecordingSize, ProfileName, Mode, isAudioActive);
+        return new VideoMediaProfile(audioBitRate,
+                audioChannels,
+                audioCodec,
+                audioSampleRate,
+                duration,
+                fileFormat,
+                quality,
+                videoBitRate,
+                videoCodec,
+                videoFrameRate,
+                videoFrameHeight,
+                videoFrameWidth,
+                maxRecordingSize,
+                ProfileName,
+                Mode,
+                isAudioActive,
+                profile,
+                level,
+                encoderName,
+                videoHdr,
+                opcode,
+                preview_opcode);
     }
 
 }

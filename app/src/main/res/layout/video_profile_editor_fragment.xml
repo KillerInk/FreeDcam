@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="videoProfileModelView"
+            type="freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView" />
+    </data>
+<LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -32,8 +38,9 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="New Button"
+                    android:text="@{videoProfileModelView.profileModel.txt}"
                     android:id="@+id/button_Profile"
+                    android:onClick="@{()->videoProfileModelView.profileModel.onClick()}"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -56,7 +63,8 @@
                     android:ems="10"
                     android:id="@+id/editText_ProfileName"
                     android:layout_weight="1"
-                    android:inputType="text" />
+                    android:text="@{videoProfileModelView.currentProfile.ProfileName}"
+                    android:inputType="textNoSuggestions" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,7 +86,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:text="@{String.valueOf(videoProfileModelView.currentProfile.videoFrameWidth)}"
+                    android:inputType="numberSigned" />
             </LinearLayout>
 
             <LinearLayout
@@ -100,7 +109,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:text="@{String.valueOf(videoProfileModelView.currentProfile.videoFrameHeight)}"
+                    android:inputType="numberSigned" />
             </LinearLayout>
 
             <LinearLayout
@@ -120,7 +130,8 @@
                 <Switch
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/switchAudio" />
+                    android:id="@+id/switchAudio"
+                    android:setChecked="@{videoProfileModelView.currentProfile.isAudioActive}"/>
 
             </LinearLayout>
 
@@ -144,6 +155,7 @@
                     android:inputType="numberSigned"
                     android:ems="10"
                     android:id="@+id/editText_audioBitrate"
+                    android:text="@{String.valueOf(videoProfileModelView.currentProfile.audioBitRate)}"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -167,6 +179,7 @@
                     android:inputType="numberSigned"
                     android:ems="10"
                     android:id="@+id/editText_audioSampleRate"
+                    android:text="@{String.valueOf(videoProfileModelView.currentProfile.audioSampleRate)}"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -190,6 +203,7 @@
                     android:inputType="numberSigned"
                     android:ems="10"
                     android:id="@+id/editText_videoBitrate"
+                    android:text="@{String.valueOf(videoProfileModelView.currentProfile.videoBitRate)}"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -213,6 +227,7 @@
                     android:inputType="numberSigned"
                     android:ems="10"
                     android:id="@+id/editText_videoframerate"
+                    android:text="@{String.valueOf(videoProfileModelView.currentProfile.videoFrameRate)}"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -237,6 +252,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
+                    convertByteToMb="@{videoProfileModelView.currentProfile.maxRecordingSize}"
                     android:inputType="numberSigned" />
             </LinearLayout>
 
@@ -260,6 +276,7 @@
                     android:inputType="numberSigned"
                     android:ems="10"
                     android:id="@+id/editText_recordtime"
+                    convertFromMStoMin="@{videoProfileModelView.currentProfile.duration}"
                     android:layout_weight="1" />
 
             </LinearLayout>
@@ -281,7 +298,8 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="New Button"
+                    android:text="@{videoProfileModelView.recordModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.recordModel.onClick()}"
                     android:id="@+id/button_recordMode"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -302,8 +320,55 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="New Button"
+                    android:text="@{videoProfileModelView.videoCodecModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.videoCodecModel.onClick()}"
                     android:id="@+id/button_videoCodec"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                setVisibility="@{videoProfileModelView.encoderModel.visibility}">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Encoder:"
+                    android:layout_weight="1"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{videoProfileModelView.encoderModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.encoderModel.onClick()}"
+                    android:id="@+id/button_videoEnCoder"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                setVisibility="@{videoProfileModelView.profileLevelModel.visibility}">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Profile/Level:"
+                    android:layout_weight="1"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{videoProfileModelView.profileLevelModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.profileLevelModel.onClick()}"
+                    android:id="@+id/button_profileLevel"
                     android:layout_weight="1" />
             </LinearLayout>
 
@@ -323,10 +388,77 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="New Button"
+                    android:text="@{videoProfileModelView.audioCodecModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.audioCodecModel.onClick()}"
                     android:id="@+id/button_audioCodec"
                     android:layout_weight="1" />
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Video HDR:"
+                    android:layout_weight="1"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/videoHDR"
+                    android:setChecked="@{videoProfileModelView.currentProfile.videoHdr}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="OpCode:"
+                    android:layout_weight="1"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{videoProfileModelView.opcodeModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.opcodeModel.onClick()}"
+                    android:id="@+id/button_opcode"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Preview OpCode:"
+                    android:layout_weight="1"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{videoProfileModelView.preview_opcodeModel.txt}"
+                    android:onClick="@{()->videoProfileModelView.preview_opcodeModel.onClick()}"
+                    android:id="@+id/button_preview_opcode"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -351,3 +483,4 @@
     </ScrollView>
 
 </LinearLayout>
+</layout>

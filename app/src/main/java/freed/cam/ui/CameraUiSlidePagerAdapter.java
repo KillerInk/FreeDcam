@@ -13,7 +13,8 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.file.holder.BaseHolder;
-import freed.viewer.screenslide.ScreenSlideFragment;
+import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 {
@@ -24,9 +25,10 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
     private CameraFragmentAbstract cameraFragment;
     ScreenSlideFragment.ButtonClick click;
 
-    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click) {
+    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click, ScreenSlideFragmentModelView screenSlideFragmentModelView) {
         super(fm);
         this.click = click;
+        screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
     }
 
     public void setCameraFragment(CameraFragmentAbstract cameraFragment)
@@ -41,7 +43,8 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public void updateScreenSlideFile(List<BaseHolder> files)
     {
-        screenSlideFragment.NotifyDATAhasChanged(files);
+        //TODO
+        //screenSlideFragment.NotifyDATAhasChanged(files);
     }
 
     @Override

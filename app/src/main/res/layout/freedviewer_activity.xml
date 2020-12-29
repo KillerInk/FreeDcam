@@ -27,12 +27,6 @@
         android:layout_height="match_parent"
         android:id="@+id/freedviewer_gridviewholder">
 
-        <fragment
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:name="freed.viewer.gridview.GridViewFragment"
-            android:id="@+id/freedviewer_gridview"
-            tools:layout="@layout/freedviewer_gridviewfragment" />
     </FrameLayout>
 
     <FrameLayout
@@ -40,11 +34,5 @@
         android:layout_height="match_parent"
         android:id="@+id/freedviewer_screenslideholder">
 
-        <fragment
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:name="freed.viewer.screenslide.ScreenSlideFragment"
-            android:id="@+id/freedviewer_screenslide_fragment"
-            tools:layout="@layout/freedviewer_screenslide_fragment" />
     </FrameLayout>
 </RelativeLayout>

@@ -128,7 +128,7 @@ public abstract class AbstractInfoOverlayHandler
                 }
                 catch (NullPointerException ex)
                 {
-                    Log.WriteEx(ex);
+                    //Log.WriteEx(ex);
                 }
                 getStorageSpace();
             }

@@ -518,9 +518,9 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         if (cameraParameters == null)
             return;
-        if (SettingsManager.get(SettingKeys.orientationHack).get() || SettingsManager.getInstance().getIsFrontCamera())
+        if (!SettingsManager.get(SettingKeys.orientationHack).get().equals("0") || SettingsManager.getInstance().getIsFrontCamera())
         {
-            int or = orientation +180;
+            int or = orientation +Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get());
             if (or >360)
                 or = or - 360;
             orientation = or;
@@ -621,10 +621,8 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetCameraRotation()
     {
 
-        if (!SettingsManager.get(SettingKeys.orientationHack).get())
-            ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(0);
-        else
-            ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(180);
+        int or = Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get());
+        ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(or);
     }
 
     public void SetupMTK()    {

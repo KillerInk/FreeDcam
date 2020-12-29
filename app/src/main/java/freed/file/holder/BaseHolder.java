@@ -31,21 +31,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.ActivityInterface;
-import freed.viewer.gridview.GridViewFragment;
-import freed.viewer.gridview.GridViewFragment.ViewStates;
+import freed.file.FileListController;
+import freed.utils.StringUtils;
+import freed.viewer.gridview.enums.ViewStates;
+import freed.viewer.gridview.views.GridViewFragment;
 
 /**
  * Created by Ingo on 27.12.2015.
  */
 public abstract class BaseHolder
 {
-    protected ViewStates currentstate = GridViewFragment.ViewStates.normal;
-    protected EventHandler handler;
-    protected boolean selected;
     private String name;
     private long lastmodified;
     private boolean isFolder;
     private boolean isSDCard;
+    private FileListController.FormatTypes fileformat;
 
     public BaseHolder(String name, long lastmodified, boolean isFolder,boolean isSDCard)
     {
@@ -53,46 +53,25 @@ public abstract class BaseHolder
         this.lastmodified = lastmodified;
         this.isFolder = isFolder;
         this.isSDCard = isSDCard;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.BAYER))
+            fileformat = FileListController.FormatTypes.raw;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.DNG))
+            fileformat = FileListController.FormatTypes.dng;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.RAW))
+            fileformat = FileListController.FormatTypes.raw;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.JPG))
+            fileformat = FileListController.FormatTypes.jpg;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.JPS))
+            fileformat = FileListController.FormatTypes.jps;
+        if (name.toLowerCase().endsWith(StringUtils.FileEnding.MP4))
+            fileformat = FileListController.FormatTypes.mp4;
     }
 
-    public GridViewFragment.ViewStates GetCurrentViewState()
-    {
-        return currentstate;
-    }
+    public abstract Class getHolderType();
 
-    public void SetViewState(GridViewFragment.ViewStates state)
-    {
-        currentstate = state;
-        if (handler != null)
-            handler.onViewStateChanged(state);
-    }
 
-    public void SetEventListner(EventHandler handler)
-    {
-        this.handler = handler;
-    }
-
-    public void UpdateImage()
-    {
-        handler.updateImage();
-    }
-
-    public interface EventHandler
-    {
-        void onViewStateChanged(GridViewFragment.ViewStates state);
-        void onSelectionChanged(boolean selected);
-        void updateImage();
-    }
-
-    public boolean IsSelected()
-    {
-        return selected;
-    }
-    public void SetSelected(boolean selected)
-    {
-        this.selected = selected;
-        if (handler !=null)
-            handler.onSelectionChanged(selected);
+    public FileListController.FormatTypes getFileformat() {
+        return fileformat;
     }
 
     public String getName()

@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="gridimageviewmodel"
+            type="freed.viewer.gridview.models.GridImageViewModel" />
+    </data>
+<FrameLayout
     android:layout_width="@dimen/image_thumbnail_size" android:layout_height="@dimen/image_thumbnail_size">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/gridimageviewholder"
+            setGridModelToView="@{gridimageviewmodel}"
             android:layout_margin="2dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="jpg"
+            android:text="@{gridimageviewmodel.filending}"
             android:textAllCaps="true"
             android:id="@+id/filetypetextbox"
             android:layout_marginLeft="5dp"
@@ -24,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Folder"
+            android:text="@{gridimageviewmodel.foldername}"
             android:id="@+id/foldertextbox"
             android:singleLine="true"
             android:ellipsize="end"
@@ -38,19 +45,25 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView_sd"
         android:layout_gravity="right|top"
-        android:background="@drawable/sd" />
+        android:background="@drawable/sd"
+        setVisibility="@{gridimageviewmodel.externalSD}"/>
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/checkBox_gridviewimage"
         android:background="@drawable/cust_cb_unsel"
-        android:layout_margin="2dp" />
+        android:layout_margin="2dp"
+        setChecked="@{gridimageviewmodel.checked}"
+        setVisibility="@{gridimageviewmodel.checkVisible}"
+        />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar_gridimageview"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        setVisibility="@{gridimageviewmodel.progressBarVisible}"/>
 
 </FrameLayout>
+</layout>

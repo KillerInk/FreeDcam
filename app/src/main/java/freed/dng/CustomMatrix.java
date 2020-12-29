@@ -41,6 +41,11 @@ public class CustomMatrix
     private native void setMatrixes(ByteBuffer buffer, float[] colorMatrix1,float[] colorMatrix2,float[] neutral,float[] fMatrix1,float[] fMatrix2,
                                         float[] rMatrix1,float[] rMatrix2,double[] noise);
 
+    public CustomMatrix()
+    {
+        byteBuffer = init();
+    }
+
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,double[]noise)
     {
         byteBuffer = init();

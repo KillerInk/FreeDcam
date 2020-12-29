@@ -27,6 +27,12 @@ extern "C"
         exifInfo->_iso= iso;
     }
 
+    JNIEXPORT jint JNICALL Java_freed_jni_ExifInfo_GetIso(JNIEnv *env, jobject thiz,jobject javaHandler)
+    {
+        ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
+        return exifInfo->_iso;
+    }
+
     JNIEXPORT void JNICALL Java_freed_jni_ExifInfo_SetFlash(JNIEnv *env, jobject thiz,jobject javaHandler,
             jint flash)
     {
@@ -41,6 +47,12 @@ extern "C"
         exifInfo->_exposure = exposuretime;
     }
 
+    JNIEXPORT jdouble JNICALL Java_freed_jni_ExifInfo_GetExposureTime(JNIEnv *env, jobject thiz,jobject javaHandler)
+    {
+        ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
+        return exifInfo->_exposure;
+    }
+
     JNIEXPORT void JNICALL Java_freed_jni_ExifInfo_SetFocalLength(JNIEnv *env, jobject thiz,jobject javaHandler,
             jfloat focal)
     {
@@ -48,11 +60,24 @@ extern "C"
         exifInfo->_focallength = focal;
     }
 
+    JNIEXPORT jfloat JNICALL Java_freed_jni_ExifInfo_GetFocalLength(JNIEnv *env, jobject thiz,jobject javaHandler)
+    {
+        ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
+        return exifInfo->_focallength;
+    }
+
     JNIEXPORT void JNICALL Java_freed_jni_ExifInfo_SetFnumber(JNIEnv *env, jobject thiz,jobject javaHandler,
             jfloat fnum)
     {
         ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
         exifInfo->_fnumber = fnum;
+    }
+
+    JNIEXPORT jfloat JNICALL Java_freed_jni_ExifInfo_GetFnumber(JNIEnv *env, jobject thiz,jobject javaHandler)
+
+    {
+        ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
+        return exifInfo->_fnumber;
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_ExifInfo_SetExposureIndex(JNIEnv *env, jobject thiz,jobject javaHandler,

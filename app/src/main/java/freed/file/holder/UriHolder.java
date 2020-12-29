@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.FreedApplication;
-import freed.jni.RawUtils;
+import freed.jni.LibRawJniWrapper;
 
 public class UriHolder extends BaseHolder {
 
@@ -36,6 +36,11 @@ public class UriHolder extends BaseHolder {
     public long getID()
     {
         return ID;
+    }
+
+    @Override
+    public Class getHolderType() {
+        return UriHolder.class;
     }
 
     @Override
@@ -66,7 +71,7 @@ public class UriHolder extends BaseHolder {
         Bitmap response = null;
         if(mediaStoreUri != null) {
             ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r");
-            response = new RawUtils().UnPackRAWFD(pfd.getFd());
+            response = new LibRawJniWrapper().getBitmap(pfd.getFd());
             pfd.close();
         }
         return response;
@@ -75,9 +80,8 @@ public class UriHolder extends BaseHolder {
     @Override
     public boolean delete(Context context) {
 
-        Uri deluri = Uri.parse(mediaStoreUri.toString().replace("/"+String.valueOf(ID),""));
         int del = context.getContentResolver().delete(
-                deluri,
+                mediaStoreUri,
                 MediaStore.Images.Media._ID +" = ?",
                 new String[]{String.valueOf(ID) });
 

@@ -37,7 +37,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import freed.file.FileListController;
-import freed.jni.RawUtils;
+import freed.jni.LibRawJniWrapper;
 import freed.utils.Log;
 
 /**
@@ -77,6 +77,11 @@ public class FileHolder extends BaseHolder
 
 
     @Override
+    public Class getHolderType() {
+        return FileHolder.class;
+    }
+
+    @Override
     public Bitmap getBitmap(Context context, BitmapFactory.Options options) {
         Bitmap response = null;
         if (file != null)
@@ -97,7 +102,7 @@ public class FileHolder extends BaseHolder
     public Bitmap getBitmapFromDng(Context context) throws IOException {
         Bitmap response = null;
         if (file != null)
-            response = new RawUtils().UnPackRAW(file.getAbsolutePath());
+            response = new LibRawJniWrapper().getBitmap(file.getAbsolutePath());
         return response;
     }
 

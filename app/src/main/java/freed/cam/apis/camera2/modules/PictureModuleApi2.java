@@ -65,6 +65,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
+import freed.utils.OrientationUtil;
 
 
 /**
@@ -97,7 +98,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     private boolean captureJpeg = false;*/
     protected CaptureType captureType;
     protected Camera2Fragment cameraUiWrapper;
-    private boolean renderScriptError5 = false;
     protected CaptureController captureController;
 
     protected static class BurstCounter
@@ -132,45 +132,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     }
 
-
-    //use to workaround the problem with activated renderscript when switching back from a non renderscript session
-    private class MyRSErrorHandler extends RSErrorHandler
-    {
-        @Override
-        public void run() {
-            super.run();
-            Log.e(MyRSErrorHandler.class.getSimpleName(), mErrorNum +":"+ mErrorMessage);
-            if (mErrorNum == 5) // Error:5 setting IO output buffer usage.
-            {
-                renderScriptError5 = true;
-                if (renderScriptError5)
-                {
-                    renderScriptError5 = false;
-                    //clear the error else it trigger over and over....
-                    mErrorNum = 0;
-                    mErrorMessage = null;
-                    //Restart the module
-                    mBackgroundHandler.post(() -> {
-                        Log.e(TAG, "RS5 ERROR; RELOAD MODULE");
-                        try {
-                            cameraUiWrapper.getModuleHandler().setModule(SettingsManager.getInstance().GetCurrentModule());
-                        }
-                        catch (NullPointerException ex)
-                        {
-                            Log.WriteEx(ex);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         filesSaved = new ArrayList<>();
-        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
+
     }
 
     @Override
@@ -192,6 +159,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     public void InitModule()
     {
         super.InitModule();
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         captureController = getCaptureController();
@@ -206,6 +174,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
+        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
     }
 
     @Override
@@ -264,8 +233,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
        /* if (cameraUiWrapper.getPreviewSurface() != null)
             cameraUiWrapper.getPreviewSurface().release();*/
         Surface previewsurface = new Surface(cameraUiWrapper.getTexturView().getSurfaceTexture());
-        final int w = previewSize.getWidth();
-        final int h = previewSize.getHeight();
+        int w = previewSize.getWidth();
+        int h = previewSize.getHeight();
+
 
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
 
@@ -285,12 +255,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                 case 0: rotation = 270;
                     break;
             }
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                rotation = (360 + rotation+180)%360;
-            final int or = rotation;
-
+            final int or = OrientationUtil.getOrientation(rotation);
+            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+                if (or == 90 || or == 270) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            } else
+            {
+                if (or == 0 || or == 180) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            }
             Log.d(TAG, "rotation to set : " + or);
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h,or,true));
+            int finalW = w;
+            int finalH = h;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH,or,true));
 
             cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
 
@@ -308,19 +289,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                     rotation = 270;
                     break;
                 case 180:
-                    rotation =180;
+                    rotation =0;
                     break;
                 case 270: rotation = 270;
                     break;
                 case 0: rotation = 180;
                     break;
             }
-            if (SettingsManager.get(SettingKeys.orientationHack).get())
-                rotation =  (360 + rotation+180)%360;
-            final int or = rotation;
-            Log.d(TAG, "rotation to set : " + or);
 
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(w, h, or,false));
+            final int or = OrientationUtil.getOrientation(rotation);;
+            Log.d(TAG, "rotation to set : " + or);
+            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+                if (or == 0 || or == 180) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            }
+            else
+            {
+                if (or == 90 || or == 270) {
+                    w = previewSize.getHeight();
+                    h = previewSize.getWidth();
+                }
+            }
+            int finalW1 = w;
+            int finalH1 = h;
+            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW1, finalH1, or,false));
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
     }

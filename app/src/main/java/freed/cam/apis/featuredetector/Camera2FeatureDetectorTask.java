@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaCodecInfo;
@@ -25,10 +26,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import camera2_hidden_keys.ReflectionHelper;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
 import freed.FreedApplication;
+import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -56,61 +59,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         super(progressUpdate);
     }
 
-    private String getProfileString(int profile) {
-        switch (profile) {
-            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10HDR10:
-                return "HEVCProfileMain10HDR10";
-            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain:
-                return "HEVCProfileMain";
-            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10:
-                return "HEVCProfileMain10";
-            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10HDR10Plus:
-                return "HEVCProfileMain10HDR10Plus";
-            case MediaCodecInfo.CodecProfileLevel.HEVCProfileMainStill:
-                return "HEVCProfileMainStill";
-            default:
-                return String.valueOf(profile);
-        }
-    }
-
-    private String getLevelString(int profile)
-    {
-        switch (profile)
-        {
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel1:
-                return "HEVCMainTierLevel1";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel2:
-                return "HEVCMainTierLevel2";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel3:
-                return "HEVCMainTierLevel3";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel4:
-                return "HEVCMainTierLevel4";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel6:
-                return "HEVCMainTierLevel5";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel21:
-                return "HEVCMainTierLevel21";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel31:
-                return "HEVCMainTierLevel31";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel41:
-                return "HEVCMainTierLevel41";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel51:
-                return "HEVCMainTierLevel51";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel52:
-                return "HEVCMainTierLevel52";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel62:
-                return "HEVCMainTierLevel62";
-            case MediaCodecInfo.CodecProfileLevel.HEVCMainTierLevel61:
-                return "HEVCMainTierLevel61";
-            case MediaCodecInfo.CodecProfileLevel.AV1Level71:
-                return "AV1Level71";
-            case MediaCodecInfo.CodecProfileLevel.AV1Level73:
-                return "AV1Level73";
-            case MediaCodecInfo.CodecProfileLevel.AVCLevel5:
-                return "AVCLevel5";
-            default:
-                return String.valueOf(profile);
-        }
-    }
 
     @Override
     public void detect()
@@ -121,23 +69,11 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //publishProgress("#######Camera2#####");
         //publishProgress("###################");*/
 
-        int count  = MediaCodecList.getCodecCount();
-        for (int i = 0; i < count; i++)
-        {
-            MediaCodecInfo info = MediaCodecList.getCodecInfoAt(i);
+        new MediaCodecInfoParser().logMediaCodecInfos();
 
-            if(info.isEncoder()) {
-                Log.d(TAG, "MediaCodecInfo Name:" + info.getName() + " hwaccel:" + info.isHardwareAccelerated());
-                String types[] = info.getSupportedTypes();
-                for (String s : types) {
-                    MediaCodecInfo.CodecCapabilities codecCapabilities = info.getCapabilitiesForType(s);
-                    for (int t = 0; t < codecCapabilities.profileLevels.length; t++) {
-                        MediaCodecInfo.CodecProfileLevel lvl = codecCapabilities.profileLevels[t];
-                        Log.d(TAG, "Type: " + s + " profile: " + getProfileString(lvl.profile) + " lvl: " + getLevelString(lvl.level));
-                    }
-                }
-            }
-        }
+       /* ReflectionHelper reflectionHelper = new ReflectionHelper();
+        reflectionHelper.logClass(CameraManager.class,0);
+        reflectionHelper.logClass(CameraDevice.class,0);*/
 
         SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
             /*//publishProgress("Check Camera2");*/
@@ -161,6 +97,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 //publishProgress("#####CameraID:"+cameraids.get(c)+"####");
                 //publishProgress("###################");
                 //publishProgress("Check camera features:" + cameraids.get(c));
+
+
                 CameraCharacteristics characteristics = null;
                 try {
                     characteristics = manager.getCameraCharacteristics(cameraids.get(c));
@@ -175,6 +113,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 //SettingsManager.getInstance().SetCurrentCamera(Integer.parseInt(s));
                 SettingsManager.getInstance().SetCurrentCamera(c);
+
+                SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
+                SettingsManager.get(SettingKeys.orientationHack).set("0");
+                SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
+
+                SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
+                SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
+
                 //AUX Camera WIDE
                /* switch (characteristics.get(CameraCharacteristics.LENS_FACING))
                 {
@@ -583,12 +529,31 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     dumpQCFA(characteristics);
 
+                    detectXiaomiStuff(characteristics);
+
                 }
             }
             SettingsManager.getInstance().SetCurrentCamera(0);
             if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
                 SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
             }
+    }
+
+    private void detectXiaomiStuff(CameraCharacteristics characteristics) {
+        try {
+            int video10 = characteristics.get(CameraCharacteristicsXiaomi.SUPPORT_VIDEO_HDR10);
+            Log.d(TAG, "video10bit suppported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "video10bit unsuppported");
+        }
+        try {
+            Integer[] eismodes = characteristics.get(CameraCharacteristicsXiaomi.EIS_QUALITY_SUPPORTED);
+            Log.d(TAG, "eismodes supported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "eismodes unsupported");
+        }
     }
 
     private void findCameraIds(CameraManager manager, List<String> cameraids) {

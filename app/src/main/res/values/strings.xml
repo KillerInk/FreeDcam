@@ -2,55 +2,55 @@
 <resources>
 
     <!-- settings_leftmenufragment  -->
-    <string name="all_perms_granted" translatable="false">All permissions granted</string>
-    <string name="all_perms_denied" translatable="false">All permissions denied, try yet</string>
+    <string name="all_perms_granted" translatable="true">All permissions granted</string>
+    <string name="all_perms_denied" translatable="true">All permissions denied, try yet</string>
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Mode</string>
-    <string name="setting_Automation" translatable="false">Interval Mode Settings</string>
+    <string name="setting_Automation" translatable="true">Interval Mode Settings</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
     <string name="setting_bayerformat_header">Bayer Format: </string>
-    <string name="setting_opcode_description" translatable="false">Click to download OPCode for DNG. Used for flat field correction</string>
-    <string name="setting_opcode_header" translatable="false">Raw Flat Field: </string>
-    <string name="setting_matrixchooser_description" translatable="false">Choose Custom ColorMatrix, when off default get used</string>
-    <string name="setting_matrixchooser_header" translatable="false">CustomMatrix: </string>
-    <string name="setting_tonemapchooser_description" translatable="false">Tonemap curve that get applied to the dng</string>
-    <string name="setting_tonemapchooser_header" translatable="false">ToneMapProfile: </string>
-    <string name="setting_mfnr_description" translatable="false">Multiframe 3D NR</string>
-    <string name="setting_mfnr_header" translatable="false">MNFR: </string>
+    <string name="setting_opcode_description">Click to download OPCode for DNG. Used for flat field correction</string>
+    <string name="setting_opcode_header">Raw Flat Field: </string>
+    <string name="setting_matrixchooser_description">Choose Custom ColorMatrix, when off default get used</string>
+    <string name="setting_matrixchooser_header">CustomMatrix: </string>
+    <string name="setting_tonemapchooser_description">Tonemap curve that get applied to the dng</string>
+    <string name="setting_tonemapchooser_header">ToneMapProfile: </string>
+    <string name="setting_mfnr_description">Multiframe 3D NR</string>
+    <string name="setting_mfnr_header">MNFR: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
     <string name="setting_jpegquality_header">JPEG Quality: </string>
     <string name="setting_picturesize_description">Picture Size : </string>
     <string name="setting_picturesize_header">Size: </string>
 
-    <string name="setting_secondarypicturesize_description" translatable="false">Secondary Picture Size : </string>
-    <string name="setting_secondarypicturesize_header" translatable="false">Secondary Size: </string>
-    <string name="setting_raw_group_header" translatable="false">Raw Stuff </string>
+    <string name="setting_secondarypicturesize_description">Secondary Picture Size : </string>
+    <string name="setting_secondarypicturesize_header">Secondary Size: </string>
+    <string name="setting_raw_group_header">Raw Stuff </string>
 
 
     <string name="setting_video_group_header">Video Mode</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
 
-    <string name="setting_videoaudiosource_description" translatable="false">Audio Source for recording</string>
-    <string name="setting_videoaudiosource_header" translatable="false">AudioSource: </string>
+    <string name="setting_videoaudiosource_description">Audio Source for recording</string>
+    <string name="setting_videoaudiosource_header">AudioSource: </string>
 
-    <string name="setting_videoprofileeditor_description" translatable="false">Create Custom VideoProfiles</string>
-    <string name="setting_videoprofileeditor_header" translatable="false">Video Profile Editor </string>
+    <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
+    <string name="setting_videoprofileeditor_header">Video Profile Editor </string>
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
-    <string name="setting_videohfr_description" translatable="false">Video FPS Selection</string>
-    <string name="setting_videohsr_description" translatable="false">Enables Highspeed Video Recording</string>
-    <string name="setting_videobitrate_description" translatable="false">Video Bitrate Selection</string>
-    <string name="setting_vs_description" translatable="false">Enables video stabilization</string>
+    <string name="setting_videohfr_description">Video FPS Selection</string>
+    <string name="setting_videohsr_description">Enables Highspeed Video Recording</string>
+    <string name="setting_videobitrate_description">Video Bitrate Selection</string>
+    <string name="setting_vs_description">Enables video stabilization</string>
     <string name="setting_videohdr_header">Video HDR: </string>
-    <string name="setting_videohfr_header" translatable="false">Video Frame Rate: </string>
-    <string name="setting_videohsr_header" translatable="false">Video HSR: </string>
-    <string name="setting_videobitrate_header" translatable="false">Video Bitrate: </string>
-    <string name="setting_vs_header" translatable="false">Video Stabilization: </string>
+    <string name="setting_videohfr_header">Video Frame Rate: </string>
+    <string name="setting_videohsr_header">Video HSR: </string>
+    <string name="setting_videobitrate_header">Video Bitrate: </string>
+    <string name="setting_vs_header">Video Stabilization: </string>
     <string name="setting_hdr_">Bracket Mode </string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
-    <string name="setting_imagestack_header" translatable="false">Stacking Mode Settings: </string>
-    <string name="setting_imagestack_description" translatable="false">Select how the Images get Stacked</string>
+    <string name="setting_imagestack_header">Stacking Mode Settings: </string>
+    <string name="setting_imagestack_description">Select how the Images get Stacked</string>
 
     <string name="setting_freedcam_">Freedcam Settings</string>
     <string name="setting_api_header">API:</string>
@@ -61,38 +61,40 @@
     <string name="setting_location_header">Geo-Tag Location: </string>
     <string name="setting_guide_description">Overlays selected composition grid</string>
     <string name="setting_guide_header">Grid: </string>
-    <string name="setting_horizont_description" translatable="false">Dual Axis Image Level to show image straightness</string>
-    <string name="setting_horizont_header" translatable="false">Image Level: </string>
+    <string name="setting_horizont_description">Dual Axis Image Level to show image straightness</string>
+    <string name="setting_horizont_header">Image Level: </string>
     <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
     <string name="setting_focuspeak_header">Focuspeak: </string>
-    <string name="setting_nightoverlay_description" translatable="false">shows a red Overlay</string>
-    <string name="setting_nightoverlay_header" translatable="false">NightOverlay: </string>
-    <string name="setting_touchtocapture_description" translatable="false">When enabled, a image capture starts.</string>
-    <string name="setting_touchtocapture_header" translatable="false">Touch to Capture: </string>
+    <string name="setting_nightoverlay_description">shows a red Overlay</string>
+    <string name="setting_nightoverlay_header">NightOverlay: </string>
+    <string name="setting_touchtocapture_description">When enabled, a image capture starts.</string>
+    <string name="setting_touchtocapture_header">Touch to Capture: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
-    <string name="setting_featuredetector_header" translatable="false">Run FeatureDetector</string>
-    <string name="setting_featuredetector_description" translatable="false"></string>
+    <string name="setting_featuredetector_header">Run FeatureDetector</string>
+    <string name="setting_featuredetector_description"></string>
     <string name="setting_sdcard_header">Storage Location: </string>
-    <string name="setting_sdcard_description" translatable="false">
+    <string name="setting_sdcard_description">
         File save location.\n
         NOTE: On KitKat you can save only to external SD when your Device is rooted and the SDFix is applied!\n
         On Lollipop and Marshmallow choose the root of your SDcard!
     </string>
 
-    <string name="setting_interval_header" translatable="false">Shutter Fire Interval</string>
-    <string name="setting_interval_texter" translatable="false">Interval</string>
+    <string name="setting_interval_header">Shutter Fire Interval</string>
+    <string name="setting_interval_texter">Interval</string>
 
-    <string name="setting_interval_duration_header" translatable="false">Duration till interval ends</string>
-    <string name="setting_interval_duration_text" translatable="false">Interval Duration</string>
+    <string name="setting_interval_duration_header">Duration till interval ends</string>
+    <string name="setting_interval_duration_text">Interval Duration</string>
+    <string name="setting_switch_aspect_header">Switch width and height</string>
+    <string name="setting_switch_aspect_text">Switch Preview Aspect Ratio</string>
 
-    <string name="setting_timer_header" translatable="false">Delay till shutter fires</string>
-    <string name="setting_timer_text" translatable="false">Time</string>
+    <string name="setting_timer_header">Delay till shutter fires</string>
+    <string name="setting_timer_text">Time</string>
 
     <string name="setting_theme_header">Theme: </string>
     <string name="setting_theme_description">Choose your favorite Theme</string>
     <string name="setting_savecamparams_header">Save Camera Parameters</string>
-    <string name="setting_savecamparams_description" translatable="false"> </string>
+    <string name="setting_savecamparams_description"> </string>
 
     <!-- settings_rightmenufragment  -->
     <string name="setting_camera_">... Settings</string>
@@ -102,12 +104,12 @@
     <string name="setting_color_description">Color effect style</string>
     <string name="setting_scene_header">Scene: </string>
     <string name="setting_scene_description">Select the Scene that matches current Scenario</string>
-    <string name="setting_focuspeakcolor_header" translatable="false">Focuspeak Color: </string>
-    <string name="setting_focuspeakcolor_description" translatable="false">Color for the sharp area</string>
-    <string name="setting_enablerenderscript_header" translatable="false">Preview PostProcessing: </string>
-    <string name="setting_enablerenderscript_description" translatable="false">Activate it to enable Focuspeak or LiveHistogram</string>
-    <string name="setting_opencameralegacy_header" translatable="false">Open Camera in LegacyMode: </string>
-    <string name="setting_opencameralegacy_description" translatable="false">De/Activate when you have problems with Manuals</string>
+    <string name="setting_focuspeakcolor_header">Focuspeak Color: </string>
+    <string name="setting_focuspeakcolor_description">Color for the sharp area</string>
+    <string name="setting_enablerenderscript_header">Preview PostProcessing: </string>
+    <string name="setting_enablerenderscript_description">Activate it to enable Focuspeak or LiveHistogram</string>
+    <string name="setting_opencameralegacy_header">Open Camera in LegacyMode: </string>
+    <string name="setting_opencameralegacy_description">De/Activate when you have problems with Manuals</string>
 
     <string name="setting_qcom_">Qualcomm Settings</string>
     <string name="setting_cds_header">Correlated double sampling: </string>
@@ -125,31 +127,31 @@
 
     <string name="setting_temporaldenoise_header">Temporal Denoise: </string>
     <string name="setting_temporaldenoise_description">Multi Frame 3D Noise Reduction</string>
-    <string name="setting_temporaldenoiseV_header" translatable="false">Temporal Video Denoise: </string>
-    <string name="setting_temporaldenoiseV_description" translatable="false">Multi Frame Video 3D Noise Reduction</string>
-    <string name="setting_pdaf_header" translatable="false">PDAF Control: </string>
-    <string name="setting_pdaf_description" translatable="false">Control Phase Detection Auto Focus</string>
-    <string name="setting_rdi_header" translatable="false">RDI: </string>
-    <string name="setting_rdi_description" translatable="false">Raw Dump Interface for Zero Lag Raws</string>
-    <string name="setting_seemore_header" translatable="false">StillMOre: </string>
-    <string name="setting_seemore_description" translatable="false">Tonemap LTM</string>
-    <string name="setting_refocus_header" translatable="false">Refocus: </string>
-    <string name="setting_refous_description" translatable="false">FAUX DOF</string>
-    <string name="setting_truepotrait_header" translatable="false">True Potrait: </string>
-    <string name="setting_truepotrait_description" translatable="false">Description pending</string>
-    <string name="setting_optizoom_header" translatable="false">Optizoom: </string>
-    <string name="setting_optizoom_description" translatable="false">Auto track zoom object</string>
-    <string name="setting_chroma_header" translatable="false">Chroma Flash: </string>
-    <string name="setting_chroma_description" translatable="false">MultiFRame flash image</string>
+    <string name="setting_temporaldenoiseV_header">Temporal Video Denoise: </string>
+    <string name="setting_temporaldenoiseV_description">Multi Frame Video 3D Noise Reduction</string>
+    <string name="setting_pdaf_header">PDAF Control: </string>
+    <string name="setting_pdaf_description">Control Phase Detection Auto Focus</string>
+    <string name="setting_rdi_header">RDI: </string>
+    <string name="setting_rdi_description">Raw Dump Interface for Zero Lag Raws</string>
+    <string name="setting_seemore_header">StillMOre: </string>
+    <string name="setting_seemore_description">Tonemap LTM</string>
+    <string name="setting_refocus_header">Refocus: </string>
+    <string name="setting_refous_description">FAUX DOF</string>
+    <string name="setting_truepotrait_header">True Potrait: </string>
+    <string name="setting_truepotrait_description">Description pending</string>
+    <string name="setting_optizoom_header">Optizoom: </string>
+    <string name="setting_optizoom_description">Auto track zoom object</string>
+    <string name="setting_chroma_header">Chroma Flash: </string>
+    <string name="setting_chroma_description">MultiFRame flash image</string>
 
 
     <string name="setting_waveletdenoise_header">Wavelet Denoise: </string>
-    <string name="setting_waveletdenoise_description" translatable="false">Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!</string>
-    <string name="setting_zsl_header" translatable="false">Zero Shutter Lag: </string>
+    <string name="setting_waveletdenoise_description">Turn off to disable the Jpeg PostProcess NoiseFilter,dont use it with temporal!</string>
+    <string name="setting_zsl_header">Zero Shutter Lag: </string>
     <string name="setting_zsl_description">Buffers Images for instant Capture N/A to raw must be off</string>
 
-    <string name="setting_lensfilter_header" translatable="false">Virtual Lens Filter</string>
-    <string name="setting_lensfilter_description" translatable="false">Apply Lens Filter Effect</string>
+    <string name="setting_lensfilter_header">Virtual Lens Filter</string>
+    <string name="setting_lensfilter_description">Apply Lens Filter Effect</string>
 
     <string name="setting_camera2_">Camera 2 Settings</string>
     <string name="setting_colorcorrection_header">Correlated Color Temperature: </string>
@@ -157,17 +159,17 @@
     <string name="setting_controlmode_header">Camera Control: </string>
     <string name="setting_controlmode_description">Controls the Main Camera Functions, turn off for full manual</string>
     <string name="setting_edge_header">Edge Mode: </string>
-    <string name="setting_edge_description" translatable="false"></string>
+    <string name="setting_edge_description"></string>
     <string name="setting_hotpixel_header">Hot Pixel Correction: </string>
-    <string name="setting_hotpixel_description" translatable="false"></string>
-    <string name="setting_tonemap_header" translatable="false">Tonemap: </string>
-    <string name="setting_tonemap_description" translatable="false"></string>
+    <string name="setting_hotpixel_description"></string>
+    <string name="setting_tonemap_header">Tonemap: </string>
+    <string name="setting_tonemap_description"></string>
 
     <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
     <string name="setting_objecttrack_header">Object Tracking: </string>
     <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
-    <string name="setting_zoomsetting_header" translatable="false">Zoom Setting: </string>
-    <string name="setting_zoomsetting_description" translatable="false">Set to enable/disable digital zoom</string>
+    <string name="setting_zoomsetting_header">Zoom Setting: </string>
+    <string name="setting_zoomsetting_description">Set to enable/disable digital zoom</string>
     <string name="setting_postview_header">PostViewSize: </string>
     <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
 
@@ -177,25 +179,25 @@
 
     <string name="setting_lg_">LG Settings</string>
     <string name="setting_ois_header">Optical Image Stabilisation: </string>
-    <string name="setting_ois_description" translatable="false"></string>
+    <string name="setting_ois_description"></string>
 
     <string name="setting_htc_">HTC Settings</string>
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
-    <string name="setting_scalepreview_header" translatable="false">Scale Preview</string>
-    <string name="setting_scalepreview_description" translatable="false">Turn on to Scale the preview x2</string>
+    <string name="setting_scalepreview_header">Scale Preview</string>
+    <string name="setting_scalepreview_description">Turn on to Scale the preview x2</string>
 
-    <string name="setting_dualprimarycamera_header" translatable="false">Dual Camera</string>
-    <string name="setting_dualprimarycamera_description" translatable="false">Switch the Camera</string>
-    <string name="setting_aetargetfps_header" translatable="false">AE Frame Range</string>
-    <string name="setting_aetargetfps_description" translatable="false">The Frame Range that could get used by AE</string>
-    <string name="setting_forcerawtodng_header" translatable="false">Use FreeDcam DngConverter:</string>
-    <string name="setting_forcerawtodng_description" translatable="false">Only for 16bit Dng(RAW_SENSOR)\n
+    <string name="setting_dualprimarycamera_header">Dual Camera</string>
+    <string name="setting_dualprimarycamera_description">Switch the Camera</string>
+    <string name="setting_aetargetfps_header">AE Frame Range</string>
+    <string name="setting_aetargetfps_description">The Frame Range that could get used by AE</string>
+    <string name="setting_forcerawtodng_header">Use FreeDcam DngConverter:</string>
+    <string name="setting_forcerawtodng_description">Only for 16bit Dng(RAW_SENSOR)\n
         When turned On the FreeDcam Dng Converter get used\n
         Off use the Android DngConverter</string>
-    <string name="setting_usecustomdngprofile_header" translatable="false">Enable to use customDngProfile</string>
-    <string name="setting_usecustomdngprofile_description" translatable="false">If Enable and a custom dngprofile.xml exists it get used</string>
+    <string name="setting_usecustomdngprofile_header">Enable to use customDngProfile</string>
+    <string name="setting_usecustomdngprofile_description">If Enable and a custom dngprofile.xml exists it get used</string>
 
 
     <!-- cameraui  -->
@@ -211,135 +213,135 @@
     <string name="uisetting_camerswitch_header">Camera</string>
     <string name="uisetting_mode_header">Mode</string>
     <string name="uisetting_exit_header">Exit</string>
-    <string name="timelapse_frames" translatable="false">Timelapse Frames</string>
+    <string name="timelapse_frames">Timelapse Frames</string>
 
     <!-- ImageViewer -->
-    <string name="delete_file" translatable="false">Delete File?</string>
-    <string name="yes" translatable="false">Yes</string>
-    <string name="no" translatable="false">No</string>
-    <string name="no_files" translatable="false">No Files</string>
-    <string name="failed_to_load" translatable="false">Failed to load:</string>
-    <string name="sec" translatable="false">sec</string>
-    <string name="mm" translatable="false">mm</string>
-    <string name="unknown_raw_add_manual_stuff" translatable="false">Unknown RawFile, pls add needed Stuff Manual</string>
-    <string name="converting_dng" translatable="false">Converting DNG</string>
-    <string name="ALL" translatable="false">ALL</string>
-    <string name="All" translatable="false">All</string>
-    <string name="delete_files" translatable="false">Delete File\'s?</string>
-    <string name="width" translatable="false">Width:</string>
-    <string name="height" translatable="false">Height:</string>
-    <string name="blacklevel" translatable="false">Blacklevel:</string>
-    <string name="whitelevel" translatable="false">Whitelevel:</string>
-    <string name="converttodng" translatable="false">Convert to DNG</string>
-    <string name="no_sel_raw" translatable="false">No selected RAW file, pls return back and select it</string>
-    <string name="files_selected" translatable="false">Files selected:</string>
-    <string name="setting_imagestack" translatable="false">ImageStack</string>
+    <string name="delete_file">Delete File?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="no_files">No Files</string>
+    <string name="failed_to_load">Failed to load:</string>
+    <string name="sec">sec</string>
+    <string name="mm">mm</string>
+    <string name="unknown_raw_add_manual_stuff">Unknown RawFile, pls add needed Stuff Manual</string>
+    <string name="converting_dng">Converting DNG</string>
+    <string name="ALL">ALL</string>
+    <string name="All">All</string>
+    <string name="delete_files">Delete File\'s?</string>
+    <string name="width">Width:</string>
+    <string name="height">Height:</string>
+    <string name="blacklevel">Blacklevel:</string>
+    <string name="whitelevel">Whitelevel:</string>
+    <string name="converttodng">Convert to DNG</string>
+    <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
+    <string name="files_selected">Files selected:</string>
+    <string name="setting_imagestack">ImageStack</string>
 
-    <string name="off" translatable="false">Off</string>
-    <string name="on" translatable="false">On</string>
-    <string name="fast" translatable="false">Fast</string>
-    <string name="highquality" translatable="false">High Quality</string>
-    <string name="zeroshutterlag" translatable="false">Zero Shutter Lag</string>
-    <string name="auto" translatable="false">Auto</string>
+    <string name="off">Off</string>
+    <string name="on">On</string>
+    <string name="fast">Fast</string>
+    <string name="highquality">High Quality</string>
+    <string name="zeroshutterlag">Zero Shutter Lag</string>
+    <string name="auto">Auto</string>
 
 
 
 
 
     <!-- sceneModes -->
-    <string name="scene_disable" translatable="false">Disable</string>
-    <string name="scene_face" translatable="false">Face</string>
-    <string name="scene_action" translatable="false">Action</string>
-    <string name="scene_portrait" translatable="false">Portrait</string>
-    <string name="scene_landscape" translatable="false">Landscape</string>
-    <string name="scene_night" translatable="false">Night</string>
-    <string name="scene_night_portrait" translatable="false">Night Portrait</string>
-    <string name="scene_theatre" translatable="false">Theatre</string>
-    <string name="scene_beach" translatable="false">Beach</string>
-    <string name="scene_snow" translatable="false">Snow</string>
-    <string name="scene_sunset" translatable="false">Sunset</string>
-    <string name="scene_steadyphoto" translatable="false">Steadyphoto</string>
-    <string name="scene_fireworks" translatable="false">Fireworks</string>
-    <string name="scene_sport" translatable="false">Sport</string>
-    <string name="scene_party" translatable="false">Party</string>
-    <string name="scene_candlelight" translatable="false">Candlelight</string>
-    <string name="scene_barcode" translatable="false">Barcode</string>
-    <string name="scene_highspeedvideo" translatable="false">Highspeed Video</string>
-    <string name="scene_hdr" translatable="false">HDR</string>
+    <string name="scene_disable">Disable</string>
+    <string name="scene_face">Face</string>
+    <string name="scene_action">Action</string>
+    <string name="scene_portrait">Portrait</string>
+    <string name="scene_landscape">Landscape</string>
+    <string name="scene_night">Night</string>
+    <string name="scene_night_portrait">Night Portrait</string>
+    <string name="scene_theatre">Theatre</string>
+    <string name="scene_beach">Beach</string>
+    <string name="scene_snow">Snow</string>
+    <string name="scene_sunset">Sunset</string>
+    <string name="scene_steadyphoto">Steadyphoto</string>
+    <string name="scene_fireworks">Fireworks</string>
+    <string name="scene_sport">Sport</string>
+    <string name="scene_party">Party</string>
+    <string name="scene_candlelight">Candlelight</string>
+    <string name="scene_barcode">Barcode</string>
+    <string name="scene_highspeedvideo">Highspeed Video</string>
+    <string name="scene_hdr">HDR</string>
 
     <!-- flashmodes -->
-    <string name="flash_single" translatable="false">Single</string>
-    <string name="flash_torch" translatable="false">Torch</string>
+    <string name="flash_single">Single</string>
+    <string name="flash_torch">Torch</string>
 
     <!-- antibanding -->
-    <string name="antibanding_50hz" translatable="false">50HZ</string>
-    <string name="antibanding_60hz" translatable="false">60HZ</string>
+    <string name="antibanding_50hz">50HZ</string>
+    <string name="antibanding_60hz">60HZ</string>
 
     <!-- colormode -->
-    <string name="color_mono" translatable="false">Mono</string>
-    <string name="color_negativ" translatable="false">Negativ</string>
-    <string name="color_solarize" translatable="false">Solarize</string>
-    <string name="color_sepia" translatable="false">Sepia</string>
-    <string name="color_posterize" translatable="false">Posterize</string>
-    <string name="color_whiteboard" translatable="false">Whiteboard</string>
-    <string name="color_blackboard" translatable="false">Blackboard</string>
-    <string name="color_aqua" translatable="false">Aqua</string>
+    <string name="color_mono">Mono</string>
+    <string name="color_negativ">Negativ</string>
+    <string name="color_solarize">Solarize</string>
+    <string name="color_sepia">Sepia</string>
+    <string name="color_posterize">Posterize</string>
+    <string name="color_whiteboard">Whiteboard</string>
+    <string name="color_blackboard">Blackboard</string>
+    <string name="color_aqua">Aqua</string>
 
-    <string name="controlmode_Scene" translatable="false">Scene</string>
-    <string name="controlmode_off_keep_state" translatable="false">Off Keep State</string>
+    <string name="controlmode_Scene">Scene</string>
+    <string name="controlmode_off_keep_state">Off Keep State</string>
 
-    <string name="denoise_minimal" translatable="false">Minimal</string>
-    <string name="denoise_zsl" translatable="false">ZeroShutterLag</string>
+    <string name="denoise_minimal">Minimal</string>
+    <string name="denoise_zsl">ZeroShutterLag</string>
 
-    <string name="focus_mode_macro" translatable="false">Macro</string>
-    <string name="focus_mode_continousevideo" translatable="false">Continouse Video</string>
-    <string name="focus_mode_continousepicture" translatable="false">Continouse Picture</string>
-    <string name="focus_mode_edof" translatable="false">Extended Deep of Field</string>
+    <string name="focus_mode_macro">Macro</string>
+    <string name="focus_mode_continousevideo">Continouse Video</string>
+    <string name="focus_mode_continousepicture">Continouse Picture</string>
+    <string name="focus_mode_edof">Extended Deep of Field</string>
 
-    <string name="ae_mode_alwaysfLash" translatable="false">Always Flash</string>
-    <string name="ae_mode_autofLash" translatable="false">Auto Flash</string>
-    <string name="ae_mode_redeyefLash" translatable="false">Auto Flash Redeye</string>
+    <string name="ae_mode_alwaysfLash">Always Flash</string>
+    <string name="ae_mode_autofLash">Auto Flash</string>
+    <string name="ae_mode_redeyefLash">Auto Flash Redeye</string>
 
-    <string name="pictureformat_dng10" translatable="false">10bitDNG</string>
-    <string name="pictureformat_dng12" translatable="false">12bitDNG</string>
-    <string name="pictureformat_dng16" translatable="false">16bitDNG</string>
-    <string name="pictureformat_jpeg" translatable="false">Jpeg</string>
-    <string name="pictureformat_bayer" translatable="false">Bayer16</string>
-    <string name="pictureformat_bayer10" translatable="false">Bayer10</string>
-    <string name="pictureformat_jpg_p_dng" translatable="false">Jpg+16bitDng</string>
-    <string name="pictureformat_yuv" translatable="false">yuv</string>
+    <string name="pictureformat_dng10">10bitDNG</string>
+    <string name="pictureformat_dng12">12bitDNG</string>
+    <string name="pictureformat_dng16">16bitDNG</string>
+    <string name="pictureformat_jpeg">Jpeg</string>
+    <string name="pictureformat_bayer">Bayer16</string>
+    <string name="pictureformat_bayer10">Bayer10</string>
+    <string name="pictureformat_jpg_p_dng">Jpg+16bitDng</string>
+    <string name="pictureformat_yuv">yuv</string>
 
-    <string name="colorcorrection_transform_matrix" translatable="false">Transform Matrix</string>
-    <string name="customrowsize" translatable="false">Custom Row Size</string>
+    <string name="colorcorrection_transform_matrix">Transform Matrix</string>
+    <string name="customrowsize">Custom Row Size</string>
 
 
     <!-- huawei dual camera  -->
-    <string name="hw_dualcamera_Primary" translatable="false">Color</string>
-    <string name="hw_dualcamera_Secondary" translatable="false">Mono</string>
-    <string name="hw_dualcamera_Dual" translatable="false">Dual</string>
+    <string name="hw_dualcamera_Primary">Color</string>
+    <string name="hw_dualcamera_Secondary">Mono</string>
+    <string name="hw_dualcamera_Dual">Dual</string>
 
 
-    <string name="fcolor_blue" translatable="false">Blue</string>
-    <string name="fcolor_red" translatable="false">Red</string>
-    <string name="fcolor_green" translatable="false">Green</string>
-    <string name="fcolor_white" translatable="false">White</string>
-    <string name="fcolor_yellow" translatable="false">Yellow</string>
-    <string name="fcolor_magenta" translatable="false">Magenta</string>
-    <string name="fcolor_cyan" translatable="false">Cyan</string>
+    <string name="fcolor_blue">Blue</string>
+    <string name="fcolor_red">Red</string>
+    <string name="fcolor_green">Green</string>
+    <string name="fcolor_white">White</string>
+    <string name="fcolor_yellow">Yellow</string>
+    <string name="fcolor_magenta">Magenta</string>
+    <string name="fcolor_cyan">Cyan</string>
 
-    <string name="video_audio_source_default" translatable="false">Default</string>
-    <string name="video_audio_source_mic" translatable="false">Mic</string>
-    <string name="video_audio_source_voiceuplink" translatable="false">Voice Uplink</string>
-    <string name="video_audio_source_voicedownlink" translatable="false">Voice Downlink</string>
-    <string name="video_audio_source_voice_call" translatable="false">Voice Call</string>
-    <string name="video_audio_source_camcorder" translatable="false">Camcorder</string>
-    <string name="video_audio_source_voice_recognition" translatable="false">Voice Recognition</string>
-    <string name="video_audio_source_voice_communication" translatable="false">Voice Communication</string>
-    <string name="video_audio_source_unprocessed" translatable="false">Unprocessed</string>
-    <string name="setting_rawsize_header" translatable="false">Raw Size</string>
-    <string name="setting_rawsize_description" translatable="false">Size of the Raw</string>
-    <string name="setting_yuvsize_header" translatable="false">Yuv Size</string>
-    <string name="setting_yuvsize_description" translatable="false">Size of the Yuv</string>
+    <string name="video_audio_source_default">Default</string>
+    <string name="video_audio_source_mic">Mic</string>
+    <string name="video_audio_source_voiceuplink">Voice Uplink</string>
+    <string name="video_audio_source_voicedownlink">Voice Downlink</string>
+    <string name="video_audio_source_voice_call">Voice Call</string>
+    <string name="video_audio_source_camcorder">Camcorder</string>
+    <string name="video_audio_source_voice_recognition">Voice Recognition</string>
+    <string name="video_audio_source_voice_communication">Voice Communication</string>
+    <string name="video_audio_source_unprocessed">Unprocessed</string>
+    <string name="setting_rawsize_header">Raw Size</string>
+    <string name="setting_rawsize_description">Size of the Raw</string>
+    <string name="setting_yuvsize_header">Yuv Size</string>
+    <string name="setting_yuvsize_description">Size of the Yuv</string>
 
 
 </resources>

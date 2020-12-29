@@ -63,7 +63,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.viewer.screenslide.MyHistogram;
+import freed.viewer.screenslide.views.MyHistogram;
 import freed.views.AutoFitTextureView;
 
 /**

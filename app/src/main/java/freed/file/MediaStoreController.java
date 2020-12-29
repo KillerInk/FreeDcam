@@ -1,12 +1,16 @@
 package freed.file;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.RemoteException;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 
 import java.io.File;
@@ -418,5 +422,24 @@ public class MediaStoreController {
         builder.append("_BURST" + hdrcount);
         builder.append(fileEnding);
         return builder.toString();
+    }
+
+    public void deleteFiles(List<BaseHolder> baseHolders)
+    {
+        ArrayList<ContentProviderOperation> operationList = new ArrayList<ContentProviderOperation>();
+        ContentProviderOperation contentProviderOperation;
+        for (BaseHolder baseHolder: baseHolders)
+        {
+            UriHolder uriHolder = (UriHolder) baseHolder;
+            contentProviderOperation = ContentProviderOperation.newDelete(uriHolder.getMediaStoreUri()).withSelection(MediaStore.Images.Media._ID +" = ?", new String[]{String.valueOf(uriHolder.getID())}).build();
+            operationList.add(contentProviderOperation);
+        }
+        try {
+            context.getContentResolver().applyBatch(MediaStore.AUTHORITY,operationList);
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -141,7 +141,7 @@
         </activity>
 
         <activity
-            android:name="freed.cam.ui.videoprofileeditor.VideoProfileEditorActivity"
+            android:name="freed.cam.ui.videoprofileeditor.views.VideoProfileEditorActivity"
             android:label="GridView"
             android:screenOrientation="portrait">
             <intent-filter>

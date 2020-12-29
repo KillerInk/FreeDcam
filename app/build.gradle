@@ -21,11 +21,12 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 214
-        versionName '4.3.14'
+        versionCode 222
+        versionName '4.3.22'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a'
+        setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
         externalNativeBuild {
             ndkBuild {
                 arguments "-j4"
@@ -41,6 +42,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            ndk.debugSymbolLevel 'full'
         }
         debug {
             jniDebuggable true
@@ -59,15 +61,19 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
 		sourceCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 }
 
 android.applicationVariants.all { variant ->

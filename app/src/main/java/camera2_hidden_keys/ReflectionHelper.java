@@ -75,6 +75,36 @@ public class ReflectionHelper {
         return ret.toString();
     }
 
+    public void logClass(Class classtoDump,int depth)
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getTab(depth) + getAccessType(classtoDump.getModifiers()) + "class " + classtoDump.getSimpleName() + " {\r\n");
+        Field[] f = classtoDump.getDeclaredFields();
+        if (f.length > 0) {
+            for (int i = 0; i < f.length; i++)
+                builder.append((createFieldLogString(f[i], depth + 1) + "\r\n"));
+            builder.append("\r\n");
+        }
+
+        Method[] m = classtoDump.getDeclaredMethods();
+        if (m.length > 0)
+        {
+            for (int i = 0; i < m.length; i++)
+                builder.append((createMethodLogString(m[i],depth +1) + "\r\n"));
+            builder.append("\r\n");
+        }
+
+        depth++;
+        Class[] classes = classtoDump.getClasses();
+        for (Class cls : classes) {
+            logClass(cls, depth);
+        }
+        depth--;
+        builder.append((getTab(depth) +"}\r\n"));
+        String t = builder.toString();
+        Log.d("ReflectionHelper",t);
+    }
+
     public void dumpClass(Class classtoDump, FileOutputStream outputStream, int depth) throws IOException {
 
         outputStream.write((getTab(depth) + getAccessType(classtoDump.getModifiers()) + "class " + classtoDump.getSimpleName() + " {\r\n").getBytes());

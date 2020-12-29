@@ -119,6 +119,7 @@ public class VideoRecorder {
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
+            UserMessageHandler.sendMSG("Failed to set Max Recording size",true);
             //return false;
         }
         try {
@@ -129,7 +130,7 @@ public class VideoRecorder {
         {
             Log.WriteEx(ex);
             Log.e(TAG,"Failed to set Duration");
-            //return false;
+            UserMessageHandler.sendMSG("Failed to set Duration",true);
         }
 
         if (errorListener != null)
@@ -178,8 +179,35 @@ public class VideoRecorder {
 
         setRecorderFilePath();
 
-        mediaRecorder.setVideoEncodingBitRate(this.currentVideoProfile.videoBitRate);
-        mediaRecorder.setVideoFrameRate(this.currentVideoProfile.videoFrameRate);
+        try {
+            mediaRecorder.setVideoEncodingBitRate(this.currentVideoProfile.videoBitRate);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            UserMessageHandler.sendMSG("Failed to set Bitrate",true);
+        }
+        catch (IllegalStateException ex)
+        {
+            UserMessageHandler.sendMSG("Failed to set Bitrate",true);
+        }
+
+        try {
+            mediaRecorder.setVideoFrameRate(this.currentVideoProfile.videoFrameRate);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            UserMessageHandler.sendMSG("Failed to set Framerate",true);
+        }
+        catch (IllegalStateException ex)
+        {
+            UserMessageHandler.sendMSG("Failed to set Framerate",true);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && this.currentVideoProfile.level != -1 && this.currentVideoProfile.profile != -1)
+        {
+            mediaRecorder.setVideoEncodingProfileLevel(this.currentVideoProfile.profile,this.currentVideoProfile.level);
+        }
+
 
          /*setCaptureRate
 

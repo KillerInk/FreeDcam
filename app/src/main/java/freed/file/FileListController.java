@@ -58,16 +58,17 @@ public class FileListController {
     public interface NotifyFilesChanged
     {
         void onFilesChanged();
+        void onFileDeleted(int id);
     }
 
 
-    public static boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+    public static boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT > Build.VERSION_CODES.P;
 
     private List<BaseHolder> files =new ArrayList<>();
     private StorageFileManager storageFileManager;
     private MediaStoreController mediaStoreController;
     private Context context;
-    private NotifyFilesChanged notifyFilesChanged;
+    private List<NotifyFilesChanged> notifyFilesChangedList;
     private final Object filesLock = new Object();
 
     public FileListController(Context context)
@@ -76,11 +77,13 @@ public class FileListController {
         Log.d(TAG, "needStorageAccessFrameWork " + needStorageAccessFrameWork);
         storageFileManager = new StorageFileManager();
         mediaStoreController = new MediaStoreController(context);
+        notifyFilesChangedList = new ArrayList<>();
     }
 
     public void setNotifyFilesChanged(NotifyFilesChanged notifyFilesChanged)
     {
-        this.notifyFilesChanged = notifyFilesChanged;
+        if (!notifyFilesChangedList.contains(notifyFilesChanged))
+            notifyFilesChangedList.add(notifyFilesChanged);
     }
 
     public List<BaseHolder> getFiles()
@@ -104,8 +107,7 @@ public class FileListController {
                 files = mediaStoreController.getFolders();
             SortFileHolder(files);
             Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
         catch (SecurityException ex)
         {
@@ -125,8 +127,7 @@ public class FileListController {
                 files.clear();
                 files = storageFileManager.getDCIMDirs();
             }
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
     }
 
@@ -140,11 +141,12 @@ public class FileListController {
                 files = mediaStoreController.getFilesFromFolder("FreeDcam");
             }
             SortFileHolder(files);
+            fireNotifyFilesChanged();
             EventBusHelper.post(new UpdateScreenSlide());
         }
     }
 
-    public void LoadFolder(BaseHolder fileHolder,FormatTypes types )
+    public void LoadFolder(BaseHolder fileHolder,FormatTypes types)
     {
         Log.d(TAG, "LoadFolder needStorageAccessFrameWork" + needStorageAccessFrameWork);
         synchronized (filesLock) {
@@ -177,8 +179,7 @@ public class FileListController {
                     files = tmplist;
                 SortFileHolder(files);
             }
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
     }
 
@@ -220,9 +221,14 @@ public class FileListController {
         return documentFile;
     }
 
+    private DocumentFile getChoosenDocumentFolder()
+    {
+        return getExternalSdDocumentFile(context);
+    }
+
     public DocumentFile getFreeDcamDocumentFolder()
     {
-        DocumentFile dcimfolder;
+       /* DocumentFile dcimfolder;
         DocumentFile freedcamfolder = null;
         if((dcimfolder = getDCIMDocumentFolder(true)) !=null)
         {
@@ -230,24 +236,38 @@ public class FileListController {
             if (freedcamfolder == null)
                 freedcamfolder = dcimfolder.createDirectory("FreeDcam");
         }
-        return freedcamfolder;
+        return freedcamfolder;*/
+        return getChoosenDocumentFolder();
     }
 
     public boolean DeleteFile(BaseHolder file) {
         boolean deleted = false;
+        for (int i = 0; i< getFiles().size();i++)
+        {
+            if (getFiles().get(i).getName().equals(file.getName()))
+                fireNotifyFilesDeleted(i);
+        }
         synchronized (filesLock) {
             deleted = deleteFile(file);
         }
         Log.d(TAG, "delete file: " + file.getName() + " " + deleted);
+        if (deleted) {
+            getFiles().remove(file);
+
+        }
+
         return deleted;
     }
 
     public void DeleteFiles(List<BaseHolder> files) {
         synchronized (filesLock) {
-            for (BaseHolder f : files)
-                deleteFile(f);
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            if (files.get(0) instanceof FileHolder) {
+                for (BaseHolder f : files)
+                    deleteFile(f);
+            }
+            else
+                mediaStoreController.deleteFiles(files);
+            fireNotifyFilesChanged();
         }
     }
 
@@ -279,8 +299,7 @@ public class FileListController {
         synchronized (filesLock) {
             files.add(file);
             SortFileHolder(files);
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
 
     }
@@ -294,9 +313,18 @@ public class FileListController {
                     files.add(fh);
             }
             SortFileHolder(files);
-            if (notifyFilesChanged != null)
-                notifyFilesChanged.onFilesChanged();
+            fireNotifyFilesChanged();
         }
+    }
+
+    private void fireNotifyFilesChanged() {
+        for (NotifyFilesChanged n : notifyFilesChangedList)
+            n.onFilesChanged();
+    }
+
+    private void fireNotifyFilesDeleted(int id) {
+        for (NotifyFilesChanged n : notifyFilesChangedList)
+            n.onFileDeleted(id);
     }
 
     public BaseHolder getNewImgFileHolder(File file)
@@ -329,7 +357,8 @@ public class FileListController {
             Log.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("*/*", file.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
-            return new UriHolder(wr.getUri(), file.getName(), Long.valueOf(wr.getUri().getLastPathSegment()), wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+            Uri uri = wr.getUri();
+            return new UriHolder(uri, file.getName(), 0, wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
         }
         else {
             Uri uri = mediaStoreController.addMovie(file);

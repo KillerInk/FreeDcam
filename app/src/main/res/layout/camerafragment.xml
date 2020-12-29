@@ -5,7 +5,7 @@
 
     <view
         android:id="@+id/hisotview"
-        class="freed.viewer.screenslide.MyHistogram"
+        class="freed.viewer.screenslide.views.MyHistogram"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginLeft="46dp"

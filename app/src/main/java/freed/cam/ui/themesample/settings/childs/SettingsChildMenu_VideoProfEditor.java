@@ -23,7 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import freed.cam.ui.videoprofileeditor.VideoProfileEditorActivity;
+import freed.cam.ui.videoprofileeditor.views.VideoProfileEditorActivity;
 
 /**
  * Created by troop on 17.02.2016.
