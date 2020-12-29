@@ -18,7 +18,7 @@ using namespace Halide::ConciseCasts;
  * discounted, and tiles below a certain distance are assumed to be perfectly aligned.
  */
 
-Func merge_temporal(ImageParam imgs, Func alignment, Expr minoffset, Expr maxoffset, Expr l1mindist,Expr l1maxdist) {
+Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, Expr l1mindist,Expr l1maxdist,Expr width, Expr height,Expr count) {
 
     Func weight("merge_temporal_weights");
     Func total_weight("merge_temporal_total_weights");
@@ -26,11 +26,11 @@ Func merge_temporal(ImageParam imgs, Func alignment, Expr minoffset, Expr maxoff
 
     Var ix, iy, tx, ty, n;
     RDom r0(0, 16, 0, 16);                          // reduction over pixels in downsampled tile
-    RDom r1(1, imgs.dim(2).max());                 // reduction over alternate images
+    RDom r1(1, count);                 // reduction over alternate images
 
     // mirror input with overlapping edges
 
-    Func imgs_mirror = BoundaryConditions::mirror_interior(imgs, 0, imgs.dim(0).max(), 0, imgs.dim(1).max());
+    Func imgs_mirror = BoundaryConditions::mirror_interior(imgs, 0, width, 0, width);
 
     // downsampled layer for computing L1 distances
 
@@ -151,9 +151,16 @@ Func merge_spatial(Func input) {
  * merge -- fully merges aligned frames in the temporal and spatial
  * dimension to produce one denoised bayer frame.
  */
-Func merge(Halide::ImageParam imgs, Func alignment,Expr minoffset,Expr maxoffset, Expr l1mindist, Expr l1maxdist) {
+Halide::Func merge(Halide::ImageParam imgs, Func alignment,Expr minoffset,Expr maxoffset, Expr l1mindist, Expr l1maxdist) {
 
-    Func merge_temporal_output = merge_temporal(imgs, alignment, minoffset,maxoffset,l1mindist, l1maxdist);
+    Func merge_temporal_output = merge_temporal(imgs, alignment, minoffset,maxoffset,l1mindist, l1maxdist,imgs.width(),imgs.height(),imgs.dim(2).extent());
+
+    return merge_spatial(merge_temporal_output);
+}
+
+Halide::Func merge(Halide::Func imgs, Func alignment,Expr minoffset,Expr maxoffset, Expr l1mindist, Expr l1maxdist,Expr width, Expr height, Expr count) {
+
+    Func merge_temporal_output = merge_temporal(imgs, alignment, minoffset,maxoffset,l1mindist, l1maxdist,width,height,count);
 
     return merge_spatial(merge_temporal_output);
 }
