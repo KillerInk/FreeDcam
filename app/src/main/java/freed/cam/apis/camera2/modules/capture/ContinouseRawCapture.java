@@ -90,6 +90,16 @@ public class ContinouseRawCapture extends RawImageCapture {
         new Thread(stackRunner).start();
     }
 
+    public void startStackAvarage(int burstcount, int upshift)
+    {
+        Log.d(TAG, "start stack");
+        if (stackRunner != null)
+            stackRunner.stop();
+        stackRunner = null;
+        stackRunner = new StackAvarageRunner(burstcount,upshift);
+        new Thread(stackRunner).start();
+    }
+
     public void startStackALL(int bust, int upshift)
     {
         StackAllRunner stackAllRunner = new StackAllRunner(bust,upshift);
@@ -103,11 +113,11 @@ public class ContinouseRawCapture extends RawImageCapture {
 
     private class StackRunner implements Runnable
     {
-        private final int burst;
+        protected final int burst;
         boolean run = false;
         long rawsize = 0;
-        private final int upshift;
-        private RawStack rawStack;
+        protected final int upshift;
+        protected RawStack rawStack;
         int w;
         int h;
         public StackRunner(int burst, int upshift)
@@ -163,6 +173,81 @@ public class ContinouseRawCapture extends RawImageCapture {
                 Log.d(TAG, "stackframes done " + stackCoutn);
             }
             String f = getFilepath() + "_hdr_frames" + burst + file_ending;
+            ImageTask task;
+            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            ImageSaveTask itask = (ImageSaveTask)task;
+            if (upshift > 0) {
+                int bl = itask.getDngProfile().getBlacklvl();
+                itask.getDngProfile().setBlackLevel(bl << upshift);
+                int wl = itask.getDngProfile().getWhitelvl();
+                itask.getDngProfile().setWhiteLevel(wl << upshift);
+            }
+            itask.getDngProfile().setRawType(DngProfile.S16bit_To_16bit);
+
+            if (task != null) {
+                ImageManager.putImageSaveTask(task);
+                Log.d(TAG, "Put task to Queue");
+            }
+            rawStack.clear();
+            rawStack = null;
+            ContinouseRawCapture.this.stackRunner = null;
+        }
+    }
+
+    private class StackAvarageRunner extends StackRunner
+    {
+        public StackAvarageRunner(int burst, int upshift)
+        {
+            super(burst,upshift);
+            run = true;
+        }
+
+        public void stop(){ run = false; }
+
+        @Override
+        public void run() {
+            Log.d(TAG, "start stack");
+            rawStack = new RawStack();
+            rawStack.setShift(upshift);
+            Image image = null;
+            int stackCoutn = 0;
+
+                try {
+                    image = imageBlockingQueue.take();
+                } catch (InterruptedException e) {
+                    Log.WriteEx(e);
+                }
+                ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                w = image.getWidth();
+                h = image.getHeight();
+                rawStack.setFirstFrame(buffer, w, h);
+                image.close();
+            synchronized (imageBlockingQueue) {
+                imageBlockingQueue.notifyAll();
+            }
+            stackCoutn++;
+            while (run && stackCoutn < burst) {
+
+                try {
+                        image = imageBlockingQueue.take();
+                        Log.d(TAG, "take result");
+                } catch (InterruptedException e) {
+                    Log.WriteEx(e);
+                }
+
+                    buffer = image.getPlanes()[0].getBuffer();
+                    Log.d(TAG, "stackframes");
+                    rawStack.stackNextFrameAvarage(buffer);
+                    image.close();
+                    buffer.clear();
+                synchronized (imageBlockingQueue) {
+                    imageBlockingQueue.notifyAll();
+                }
+                stackCoutn++;
+                EventBusHelper.post(new UserMessageEvent("Stacked:" +stackCoutn,false));
+                Log.d(TAG, "stackframes done " + stackCoutn);
+            }
+            String f = getFilepath() + "_average_frames" + burst + file_ending;
             ImageTask task;
             task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             ImageSaveTask itask = (ImageSaveTask)task;

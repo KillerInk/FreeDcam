@@ -61,6 +61,16 @@ extern "C"
         rawStackPipeNative->stackFrame((uint16_t*)copyByteArray(env, input));
     }
 
+    JNIEXPORT void JNICALL Java_freed_jni_RawStack_stackFrameAvarage(JNIEnv *env, jobject thiz, jobject javaHandler, jbyteArray input) {
+        RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(javaHandler);
+        rawStackPipeNative->stackFrameAvarage((uint16_t*)copyByteArray(env, input));
+    }
+
+    JNIEXPORT void JNICALL Java_freed_jni_RawStack_stackByteBufferAvarage(JNIEnv *env, jobject thiz, jobject javaHandler, jobject input) {
+        RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(javaHandler);
+        rawStackPipeNative->stackFrameAvarage((uint16_t*)env->GetDirectBufferAddress(input));
+    }
+
     JNIEXPORT void JNICALL Java_freed_jni_RawStack_stackFrameBuffer(JNIEnv *env, jobject thiz, jobject javaHandler, jobject input) {
         RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(javaHandler);
         rawStackPipeNative->stackFrame((uint16_t*)env->GetDirectBufferAddress(input));

@@ -16,6 +16,13 @@ LOCAL_C_INCLUDES += include/
 LOCAL_CPP_INCLUDES += include/
 include $(PREBUILT_STATIC_LIBRARY)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE    := avarage_generator
+LOCAL_SRC_FILES := $(LOCAL_PATH)/../../../../libs/$(TARGET_ARCH_ABI)/avarage_generator.a
+LOCAL_C_INCLUDES += include/
+LOCAL_CPP_INCLUDES += include/
+include $(PREBUILT_STATIC_LIBRARY)
+
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libfreedcam
@@ -34,7 +41,7 @@ LOCAL_LDLIBS := -lz \
 LOCAL_C_INCLUDES += \
 					$(NDK_APP_PROJECT_PATH)/tiff/libtiff/ \
 
-LOCAL_STATIC_LIBRARIES := libtiff libraw alignmerge align_merge
+LOCAL_STATIC_LIBRARIES := libtiff libraw alignmerge align_merge avarage_generator
 include $(BUILD_SHARED_LIBRARY)
 
 

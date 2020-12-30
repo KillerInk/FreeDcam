@@ -10,6 +10,7 @@
 #include "../include/HalideBuffer.h"
 #include "../include/stage1_alignmerge.h"
 #include "../include/stage1_align_merge.h"
+#include "../include/avarage_generator.h"
 #include <jni.h>
 #include <stdlib.h>
 #include <android/log.h>
@@ -203,6 +204,27 @@ public:
         stage1_alignmerge(input,input_to_merge,minoffset, maxoffset,l1mindistance,l1maxdistance,output);
         for (int i = 0; i < offset; ++i) {
             mergedata[i] = outdata[i];
+        }
+        LOGD("stackframedone");
+    }
+
+
+    void stackFrameAvarage(uint16_t * nextdata)
+    {
+        LOGD("stackframe");
+        for (int i = 0; i < offset; ++i) {
+            if(upshift > 0) {
+                inputdata[i + offset] = ((nextdata[i]) << upshift) + bl;
+                mergedata[i + offset] = ((nextdata[i]) << upshift) + bl;
+            } else{
+                inputdata[i + offset] = ((nextdata[i]) << upshift);
+                mergedata[i + offset] = ((nextdata[i]) << upshift);
+            }
+        }
+
+        avarage_generator(input,output);
+        for (int i = 0; i < offset; ++i) {
+            inputdata[i] = outdata[i];
         }
         LOGD("stackframedone");
     }

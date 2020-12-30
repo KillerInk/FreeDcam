@@ -72,6 +72,11 @@ public class RawStackPipe extends PictureModuleApi2 {
     @Override
     protected void takePicture() {
         super.takePicture();
+        internalTakePicture();
+    }
+
+    protected void internalTakePicture()
+    {
         if (SettingsManager.get(SettingKeys.forceRawToDng).get()) {
             if (SettingsManager.get(SettingKeys.support12bitRaw).get())
                 continouseRawCapture.startStack(BurstCounter.getBurstCount(), 2);

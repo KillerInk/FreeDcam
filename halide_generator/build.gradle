@@ -68,7 +68,7 @@ model{
                 cpp {
                     source {
                         srcDirs "generator/", "${halide_dir}/tools/", "${halide_dir}/include/","generator/hdrplus/"
-                        include "stage1_align_merge_generator.cpp","stage1_alignmerge_generator.cpp", "GenGen.cpp","align.cpp", "merge.cpp", "util.cpp"
+                        include "stage1_align_merge_generator.cpp","stage1_alignmerge_generator.cpp", "GenGen.cpp","align.cpp", "merge.cpp", "util.cpp", "avarage_generator.cpp"
                     }
                 }
             }
@@ -116,7 +116,7 @@ model{
                             "x86"        : "x86-32-android"*/
                     ]
                     //define the generators that should get builded
-                    def gens = ["stage1_align_merge","stage1_alignmerge"]
+                    def gens = ["stage1_align_merge","stage1_alignmerge","avarage_generator"]
                     gens.each { gen ->
                         archs.each { arch ->
                             mkdir("${projectDir}/libs/${arch.key}")

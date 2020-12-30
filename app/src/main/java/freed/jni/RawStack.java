@@ -21,6 +21,8 @@ public class RawStack {
     private native void setBaseFrame(ByteBuffer buffer, byte[] fileBytes,int width, int heigt);
     private native void setBaseFrameBuffer(ByteBuffer buffer, ByteBuffer fileBytes,int width, int heigt);
     private native void stackFrame(ByteBuffer buffer, byte[] nextframe);
+    private native void stackFrameAvarage(ByteBuffer buffer, byte[] nextframe);
+    private native void stackByteBufferAvarage(ByteBuffer buffer, ByteBuffer nextframe);
     private native void stackFrameBuffer(ByteBuffer buffer, ByteBuffer nextframe);
     private native void writeDng(ByteBuffer buffer, ByteBuffer dngprofile, ByteBuffer customMatrix, String outfile, ByteBuffer exifinfo);
     private native void writeJpeg(ByteBuffer buffer, ByteBuffer dngprofile, ByteBuffer customMatrix, String outfile, ByteBuffer exifinfo);
@@ -81,6 +83,16 @@ public class RawStack {
     public synchronized void stackNextFrame(ByteBuffer bytes)
     {
         stackFrameBuffer(byteBuffer,bytes);
+    }
+
+    public synchronized void stackNextFrameAvarage(byte[] bytes)
+    {
+        stackFrameAvarage(byteBuffer,bytes);
+    }
+
+    public synchronized void stackNextFrameAvarage(ByteBuffer bytes)
+    {
+        stackByteBufferAvarage(byteBuffer,bytes);
     }
 
     public synchronized void saveDng(DngProfile profile, CustomMatrix customMatrix, String fileout, ExifInfo exifInfo)
