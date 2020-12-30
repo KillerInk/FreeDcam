@@ -94,7 +94,7 @@ model{
                     gens.each { gen ->
                         archs.each { arch ->
                             mkdir("${projectDir}/libs/${arch.key}")
-                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}"
+                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}-opencl"
                             ProcessBuilder processBuilder = new ProcessBuilder()
                             processBuilder.command(envVars.split(' '))
                             logger.quiet("Output of running " + envVars + " is: ")
