@@ -1,4 +1,30 @@
+import java.util.function.Consumer
+
 apply plugin: "cpp"
+
+class StreamGobbler extends Thread {
+    InputStream is;
+    Logger logger2;
+
+    private StreamGobbler(InputStream is, Logger type) {
+        this.is = is;
+        this.logger2 = type;
+    }
+
+    @Override
+    public void run() {
+        try {
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String line = null;
+            while ((line = br.readLine()) != null)
+                logger2.quiet(line);
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+}
 
 def halide_dir = findProperty('halideDir')
 
@@ -98,8 +124,14 @@ model{
                             ProcessBuilder processBuilder = new ProcessBuilder()
                             processBuilder.command(envVars.split(' '))
                             logger.quiet("Output of running " + envVars + " is: ")
+                            processBuilder.redirectErrorStream(true);
+                            // Inherit System.out as redirect output stream
+                            processBuilder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
                             Process process = processBuilder.start()
+                            StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), logger)
+                            outputGobbler.start()
                             process.waitFor()
+
                         }
                     }
                 }
