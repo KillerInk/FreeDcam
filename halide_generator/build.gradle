@@ -26,7 +26,7 @@ class StreamGobbler extends Thread {
     }
 }
 
-def halide_dir = findProperty('halideDir')
+def halide_dir = 'C:\\Users\\troop\\Downloads\\Halide-10.0.0-x86-64-windows-db901f7f7084025abc3cbb9d17b0f2d3f1745900\\Halide-10.0.0-x86-64-windows'
 
 gradle.afterProject { project ->
     if (project.state.failure) {
@@ -120,7 +120,7 @@ model{
                     gens.each { gen ->
                         archs.each { arch ->
                             mkdir("${projectDir}/libs/${arch.key}")
-                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}-opencl"
+                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}-opencl-debug"
                             ProcessBuilder processBuilder = new ProcessBuilder()
                             processBuilder.command(envVars.split(' '))
                             logger.quiet("Output of running " + envVars + " is: ")

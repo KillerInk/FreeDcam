@@ -1,6 +1,4 @@
 #include "Halide.h"
-#include "hdrplus/align.h"
-#include "hdrplus/merge.h"
 
 using namespace Halide;
 namespace {
@@ -17,9 +15,9 @@ namespace {
 
         void generate() {
 
-            Func merged{"merged"};
-            merged(x,y) =  (inputs(x,y,0) + inputs(x,y,1))/2;
-            output(x,y) = merged(x,y);
+            /*Expr merged{"merged"};
+            merged =  (inputs(x,y,0) + inputs(x,y,1))/2;*/
+            output(x,y) = (inputs(x,y,0) + inputs(x,y,1))/2;;
 
 
 
@@ -148,8 +146,31 @@ namespace {
                           output(...) = ...
              */
 
+            //output.gpu_tile(x,xi,16);
+            /**
+            produce output:
+              gpu_block y.y<Default_GPU>:
+                gpu_block x.x<Default_GPU>:
+                  gpu_thread y.xo in [0, 15]<Default_GPU>:
+                    gpu_thread x.xi in [0, 15]<Default_GPU>:
+                      output(...) = ...
+             */
+
+            //output.tile(x,y,xi,xo,16,16);
+            output.gpu_tile(x, y, xi, yi, 32, 32);
+            //output.compute_root();
+
+            /**
+             produce output:
+              for y.y:
+                for x.x:
+                  for y.xo in [0, 15]:
+                    for x.xi in [0, 15]:
+                      output(...) = ...
+             */
+
             //the only working method that create not a black output
-            output.parallel(y).vectorize(x,128);
+            //output.parallel(y).vectorize(x,128);
             /**
              * produce output:
                   parallel y:

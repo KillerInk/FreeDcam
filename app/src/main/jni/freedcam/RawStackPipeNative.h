@@ -142,12 +142,13 @@ public:
                 inputdata[i+tmpoffset] = ((image[i]) << upshift);
             }
         }
+
     }
 
     uint16_t * merge_align()
     {
         LOGD("merge align");
-        Halide::Runtime::Buffer<uint16_t> out(width, height, 1);
+        Halide::Runtime::Buffer<uint16_t> out(width, height);
         stage1_align_merge(input,minoffset, maxoffset,l1mindistance,l1maxdistance,out);
         imagecount = 0;
         outdata = out.data();
@@ -167,7 +168,7 @@ public:
         Halide::Runtime::Buffer<uint16_t> tmp2(width, height, 2);
         input_to_merge = tmp2;
         LOGD("init output");
-        Halide::Runtime::Buffer<uint16_t> tmp3(width, height, 1);
+        Halide::Runtime::Buffer<uint16_t> tmp3(width, height);
         output = tmp3;
         inputdata = input.data();
         mergedata = input_to_merge.data();
@@ -221,8 +222,9 @@ public:
                 mergedata[i + offset] = ((nextdata[i]) << upshift);
             }
         }
-
+        input.set_host_dirty(true);
         avarage_generator(input,output);
+        output.copy_to_host();
         for (int i = 0; i < offset; ++i) {
             inputdata[i] = outdata[i];
         }
