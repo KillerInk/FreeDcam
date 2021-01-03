@@ -40,75 +40,7 @@ public:
 
     int bl = 0;
 
-    void readFile(const char* file, int size, unsigned char* output)
-    {
-        FILE *ptr;
 
-        ptr = fopen(file,"rb");
-
-        fread(input,sizeof(input),size,ptr);
-        fclose(ptr);
-    }
-
-    /*void mergeFiles(int width, int height,int buffersize, const char * files[], int filecount, const char * outfile)
-    {
-
-        this->width = width;
-        this->height = height;
-        offset = width*height;
-        LOGD("init input");
-        Halide::Runtime::Buffer<uint16_t> tmp(width, height, buffersize);
-        input = tmp;
-        LOGD("init input_to_merge");
-        Halide::Runtime::Buffer<uint16_t> tmp2(width, height, buffersize);
-        input_to_merge = tmp2;
-        LOGD("init output");
-        Halide::Runtime::Buffer<uint16_t> tmp3(width, height, buffersize);
-        output = tmp3;
-        inputdata = input.data();
-        mergedata = input_to_merge.data();
-        outdata = output.data();
-
-        int size = width * height*4;
-        unsigned char * charinput = new unsigned char[size];
-
-        readFile(files[0],size,charinput);
-
-        uint16 * input16 = (uint16*)input;
-        for (int i = 0; i < offset; ++i) {
-            if(upshift > 0) {
-                inputdata[i] = ((input16[i]) << upshift) + bl;
-                mergedata[i] = ((input16[i]) << upshift) + bl;
-            } else
-            {
-                inputdata[i] = ((charinput[i]) << upshift);
-                mergedata[i] = ((charinput[i]) << upshift);
-            }
-        }
-
-        for (int i = 1; i < filecount; i+=buffersize) {
-            for (int t = 0; t < buffersize; ++t)
-            {
-                readFile(files[i+t],size, charinput);
-                input16 = (uint16*)input;
-                for (int z = 0; z < offset*t; ++i) {
-                    if(upshift > 0) {
-                        inputdata[z*t] = ((input16[z]) << upshift) + bl;
-                        mergedata[z*t] = ((input16[z]) << upshift) + bl;
-                    } else
-                    {
-                        inputdata[z*t] = ((charinput[z]) << upshift);
-                        mergedata[z*t] = ((charinput[z]) << upshift);
-                    }
-                }
-                stage1_alignmerge(input,input_to_merge,output);
-                for (int i = 0; i < offset; ++i) {
-                    mergedata[i] = outdata[i];
-                }
-            }
-
-        }
-    }*/
 
     void setBaseFrame(int width, int height, uint16_t * images, int imagecount)
     {
@@ -151,6 +83,7 @@ public:
         Halide::Runtime::Buffer<uint16_t> out(width, height);
         stage1_align_merge(input,minoffset, maxoffset,l1mindistance,l1maxdistance,out);
         imagecount = 0;
+        out.copy_to_host();
         outdata = out.data();
         return (uint16_t*) outdata;
     }
@@ -203,6 +136,8 @@ public:
         }
 
         stage1_alignmerge(input,input_to_merge,minoffset, maxoffset,l1mindistance,l1maxdistance,output);
+        output.copy_to_host();
+        input_to_merge.copy_to_host();
         for (int i = 0; i < offset; ++i) {
             mergedata[i] = outdata[i];
         }

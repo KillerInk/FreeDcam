@@ -107,7 +107,7 @@ Func merge_spatial(Func input) {
     Func weight("raised_cosine_weights");
     Func output("merge_spatial_output");
 
-    Var v, x, y;
+    Var v, x, y,xii,yii;
 
     // (modified) raised cosine window for determining pixel weights
 
@@ -141,7 +141,8 @@ Func merge_spatial(Func input) {
 
     weight.compute_root().vectorize(v, 32);
 
-    output.compute_root().parallel(y).vectorize(x, 32);
+    //output.compute_root().parallel(y).vectorize(x, 32);
+    output.gpu_tile(x,y,xii,yii,32,32);
 
     return output;
 }
