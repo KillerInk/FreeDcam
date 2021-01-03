@@ -24,7 +24,7 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
     Func total_weight("merge_temporal_total_weights");
     Func output("merge_temporal_output");
 
-    Var ix, iy, tx, ty, n;
+    Var ix, iy, tx, ty, n,tyi,ixi;
     RDom r0(0, 16, 0, 16);                          // reduction over pixels in downsampled tile
     RDom r1(1, count);                 // reduction over alternate images
 
@@ -89,11 +89,13 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
     // schedule
     ///////////////////////////////////////////////////////////////////////////
 
-    weight.compute_root().parallel(ty).vectorize(tx, 16);
-
-    total_weight.compute_root().parallel(ty).vectorize(tx, 16);
+    //weight.compute_root().parallel(ty).vectorize(tx, 16);
+    weight.compute_root().gpu_tile(tx,ty,ixi,tyi,16,16);
+    //total_weight.compute_root().parallel(ty).vectorize(tx, 16);
+    total_weight.compute_root().gpu_tile(tx,ty,ixi,tyi,16,16);
 
     output.compute_root().parallel(ty).vectorize(ix, 32);
+    //output.compute_root().gpu_tile(ix,iy,ixi,tyi,32,32).gpu_blocks(ix,iy).gpu_threads(tx,ty);
 
     return output;
 }
