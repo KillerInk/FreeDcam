@@ -455,6 +455,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,false);
             cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
+            cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
         }
 
         @Override
