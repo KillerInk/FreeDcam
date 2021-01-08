@@ -7,6 +7,7 @@ import android.hardware.camera2.DngCreator;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.Size;
 import androidx.annotation.RequiresApi;
 
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -323,9 +325,10 @@ public class ContinouseRawCapture extends RawImageCapture {
                 //images.add(img);
                 //bufferList.add(img.getPlanes()[0].getBuffer());
             }
-
+            long starTime = SystemClock.uptimeMillis();
             byte[] bytes = rawStack.stackAll();
-            Log.d(TAG, "Stacked " + count +"/"+burst);
+            long endTime = SystemClock.uptimeMillis();
+            Log.d(TAG, "Stacked " + count +"/"+burst +" stacktime: " + (endTime -starTime) +"ms");
 
             String f = getFilepath() + "_hdr_frames" + burst + file_ending;
             ImageTask task;
