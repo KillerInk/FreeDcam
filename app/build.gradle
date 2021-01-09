@@ -26,11 +26,13 @@ android {
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
-        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
         externalNativeBuild {
-            ndkBuild {
-                arguments "-j4"
-                abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+            cmake {
+                arguments "-DANDROID_TOOLCHAIN=clang"
+                cppFlags " -fexceptions -fpermissive -fopenmp -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
+            }
+            ndk {
+                abiFilters 'armeabi-v7a','arm64-v8a'
             }
         }
         signingConfig signingConfigs.config
@@ -49,8 +51,8 @@ android {
         }
     }
     externalNativeBuild {
-        ndkBuild {
-            path 'src/main/jni/Android.mk'
+        cmake {
+            path "CMakeLists.txt"
         }
     }
     productFlavors {
@@ -62,6 +64,7 @@ android {
     }
     buildFeatures {
         dataBinding true
+        //prefab true
     }
 }
 
@@ -73,6 +76,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation project(':libtiff')
 }
 
 android.applicationVariants.all { variant ->
