@@ -5,12 +5,13 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-    ndkVersion '21.3.6528147'
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
@@ -26,7 +27,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            path "src/main/cpp/tiff-4.2.0/CMakeLists.txt"
+            path "CMakeLists.txt"
         }
     }
 
@@ -35,20 +36,18 @@ android {
         prefabPublishing true
     }
 
-    // Include the "mylibrary" module from the native build system in the AAR,
-    // and export the headers in src/main/cpp/include to its consumers
+// Include the "mylibrary" module from the native build system in the AAR,
+// and export the headers in src/main/cpp/include to its consumers
     prefab {
-        tiff {
-            headers "src/main/cpp/tiff-4.2.0/libtiff"
+        raw {
+            headers "src/main/cpp/Libraw"
+            headers "src/main/cpp/Libraw/libraw"
         }
     }
 
     packagingOptions {
-        exclude("**/libtiff.so")
-        exclude("**/libtiffxx.so")
-        exclude("**/libc++_shared.so")
+        exclude("**/libraw.so")
     }
-
 
     buildTypes {
         release {
@@ -68,6 +67,8 @@ android {
         checkReleaseBuilds false
     }
 }
+
+
 
 dependencies {
 }

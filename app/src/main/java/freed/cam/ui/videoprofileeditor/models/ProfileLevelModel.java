@@ -1,5 +1,6 @@
 package freed.cam.ui.videoprofileeditor.models;
 
+import android.annotation.SuppressLint;
 import android.media.MediaCodecInfo;
 
 import androidx.databinding.Bindable;
@@ -48,6 +49,7 @@ public class ProfileLevelModel extends ButtonModel
         }
     }
 
+    @SuppressLint("NewApi")
     private void updateProfileLevel(String s) {
         MediaCodecInfo.CodecProfileLevel level = modelView.getCodecProfileLevel(s);
         modelView.currentProfile.get().level = level.level;

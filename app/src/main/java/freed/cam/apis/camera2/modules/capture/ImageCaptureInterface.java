@@ -1,5 +1,6 @@
 package freed.cam.apis.camera2.modules.capture;
 
+import android.annotation.SuppressLint;
 import android.hardware.camera2.CaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
@@ -7,6 +8,7 @@ import android.view.Surface;
 
 import freed.image.ImageTask;
 
+@SuppressLint("NewApi")
 public interface ImageCaptureInterface extends ImageReader.OnImageAvailableListener {
     /**
      * @return the Surface from the ImageReader attached to this instance
