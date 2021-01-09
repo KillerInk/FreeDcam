@@ -29,7 +29,7 @@ android {
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_STL=c++_shared","-DCMAKE_PREFIX_PATH=../libtiff"
+                arguments "-DANDROID_STL=c++_shared"
                 cppFlags " -fexceptions -fpermissive -fopenmp -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
             }
             ndk {
