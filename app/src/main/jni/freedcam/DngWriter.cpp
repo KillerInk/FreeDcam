@@ -206,7 +206,7 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
     {
         LOGD("TIFFCreateGPSDirectory() failed" );
     }
-    if (!TIFFSetField( tif, GPSTAG_GPSVersionID, "\002\003\0\0"))
+    if (!TIFFSetField( tif, GPSTAG_VERSIONID, "\002\003\0\0"))
     {
         LOGD("Can't write GPSVersionID" );
     }
@@ -217,13 +217,13 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
         longitudeRef = "W";
         gpsInfo->Longitude[0] = fabsf(gpsInfo->Longitude[0]);
     }
-    if (!TIFFSetField( tif, GPSTAG_GPSLongitudeRef, longitudeRef))
+    if (!TIFFSetField( tif, GPSTAG_LONGITUDEREF, longitudeRef))
     {
         LOGD("Can't write LongitudeRef" );
     }
     LOGD("LONG REF Written %c", longitudeRef);
 
-    if (!TIFFSetField(tif, GPSTAG_GPSLongitude, gpsInfo->Longitude))
+    if (!TIFFSetField(tif, GPSTAG_LONGITUDE, gpsInfo->Longitude))
     {
         LOGD("Can't write Longitude" );
     }
@@ -234,29 +234,29 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
         gpsInfo->Latitude[0] = fabsf(gpsInfo->Latitude[0]);
     }
     LOGD("PMETH Written");
-    if (!TIFFSetField( tif, GPSTAG_GPSLatitudeRef, latitudeRef)) {
+    if (!TIFFSetField( tif, GPSTAG_LATITUDEREF, latitudeRef)) {
         LOGD("Can't write LAti REf" );
     }
     LOGD("LATI REF Written %c", latitudeRef);
 
-    if (!TIFFSetField( tif, GPSTAG_GPSLatitude,gpsInfo->Latitude))
+    if (!TIFFSetField( tif, GPSTAG_LATITUDE,gpsInfo->Latitude))
     {
         LOGD("Can't write Latitude" );
     }
     LOGD("Latitude Written");
-    if (!TIFFSetField( tif, GPSTAG_GPSAltitude,gpsInfo->Altitude))
+    if (!TIFFSetField( tif, GPSTAG_ALTITUDE,gpsInfo->Altitude))
     {
         LOGD("Can't write Altitude" );
     }
     LOGD("Altitude Written");
 
-    if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, gpsInfo->gpsTime))
+    if (!TIFFSetField( tif, GPSTAG_TIMESTAMP, gpsInfo->gpsTime))
         {
             LOGD("Can't write gpsTime" );
         }
     LOGD("GPSTimeStamp Written");
 
-    if (!TIFFSetField( tif, GPSTAG_GPSDateStamp, gpsInfo->gpsDate))
+    if (!TIFFSetField( tif, GPSTAG_DATESTAMP, gpsInfo->gpsDate))
         {
             LOGD("Can't write gpsTime" );
         }

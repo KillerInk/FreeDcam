@@ -566,6 +566,18 @@ typedef enum {
 #define TIFFTAG_CURRENTICCPROFILE	50833	/* & */
 #define TIFFTAG_CURRENTPREPROFILEMATRIX	50834	/* & */
 
+#define TIFFTAG_FOWARDMATRIX1		50964
+#define TIFFTAG_FOWARDMATRIX2		50965
+#define TIFFTAG_NOISEPROFILE		51041
+#define     TIFFTAG_EP_STANDARD_ID         37398
+#define TIFFTAG_PROFILETONECURVE	50940
+#define TIFFTAG_PROFILEHUESATMAPDIMS 50937
+#define TIFFTAG_PROFILEHUESATMAPDATA1 50938
+#define TIFFTAG_PROFILEHUESATMAPDATA2 50939
+#define TIFFTAG_BASELINEEXPOSUREOFFSET	51109
+#define TIFFTAG_OPC2 51009 /* OpCode 2 lens shit */
+#define TIFFTAG_OPC3 51022 /* OpCode 3 lens shit */
+
 #define TIFFTAG_RPCCOEFFICIENT          50844   /* Define by GDAL for geospatial georeferencing through RPC: http://geotiff.maptools.org/rpc_prop.html */
 
 #define	TIFFTAG_ALIAS_LAYER_METADATA	50784	/* Alias Sketchbook Pro layer usage description. */

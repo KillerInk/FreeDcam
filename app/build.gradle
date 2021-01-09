@@ -30,7 +30,7 @@ android {
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_STL=c++_shared"
-                cppFlags " -fexceptions -fpermissive -fopenmp -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
+                cppFlags " -fexceptions -fpermissive -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
             }
             ndk {
                 abiFilters 'armeabi-v7a','arm64-v8a'
