@@ -28,7 +28,7 @@ android {
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_TOOLCHAIN=clang"
+                arguments "-DANDROID_STL=c++_shared","-DCMAKE_PREFIX_PATH=../libtiff"
                 cppFlags " -fexceptions -fpermissive -fopenmp -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
             }
             ndk {
@@ -64,7 +64,7 @@ android {
     }
     buildFeatures {
         dataBinding true
-        //prefab true
+        prefab true
     }
 }
 
@@ -76,7 +76,7 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation project(':libtiff')
+    implementation project(path: ':libtiff')
 }
 
 android.applicationVariants.all { variant ->

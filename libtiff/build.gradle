@@ -11,14 +11,13 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_TOOLCHAIN=clang"
-                cppFlags " -fexceptions -fpermissive -fopenmp -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
+                arguments "-DANDROID_STL=c++_shared"
+                arguments "-DBUILD_SHARED_LIBS=true"
             }
             ndk {
                 abiFilters 'armeabi-v7a','arm64-v8a'
@@ -33,14 +32,19 @@ android {
     }
 
     buildFeatures {
-        prefabPublishing true
+        prefab true
+        //prefabPublishing true
     }
 
-    prefab {
+    // Include the "mylibrary" module from the native build system in the AAR,
+    // and export the headers in src/main/cpp/include to its consumers
+    /*prefab {
         libtiff {
-            headers "src/main/cpp/include"
+            headers "src/main/cpp/tiff-4.2.0/libtiff"
         }
-    }
+    }*/
+
+
     buildTypes {
         release {
             minifyEnabled false

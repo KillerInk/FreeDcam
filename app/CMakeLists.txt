@@ -8,7 +8,7 @@ SET(MY_CXX_FLAGS ${MY_CXX_FLAGS} ${MY_C_AND_CXX_FLAGS})
 
 set(libraw_dir src/main/cpp/LibRaw)
 
-find_package(libtiff REQUIRED)
+find_package(libtiff REQUIRED CONFIG)
 
 include_directories(
         ${libraw_dir}
