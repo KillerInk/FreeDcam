@@ -5,7 +5,7 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    ndkVersion '21.3.6528147'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
@@ -17,7 +17,6 @@ android {
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_STL=c++_shared"
-                arguments "-DBUILD_SHARED_LIBS=true"
             }
             ndk {
                 abiFilters 'armeabi-v7a','arm64-v8a'
@@ -31,18 +30,25 @@ android {
         }
     }
 
+    // Enable generation of Prefab packages and include them in the library's AAR.
     buildFeatures {
-        prefab true
-        //prefabPublishing true
+        prefabPublishing true
+        //prefab true
     }
 
     // Include the "mylibrary" module from the native build system in the AAR,
     // and export the headers in src/main/cpp/include to its consumers
-    /*prefab {
-        libtiff {
+    prefab {
+        tiff {
             headers "src/main/cpp/tiff-4.2.0/libtiff"
         }
-    }*/
+    }
+
+//    packagingOptions {
+//        exclude("**/libtiff.so")
+//        exclude("**/libtiffxx.so")
+//        exclude("**/libc++_shared.so")
+//    }
 
 
     buildTypes {

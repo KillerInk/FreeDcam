@@ -23,8 +23,7 @@
 # LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 # OF THIS SOFTWARE.
 
-cmake_minimum_required(VERSION 2.8.11) # b/c of use of BUILD_INTERFACE generator expression
-
+cmake_minimum_required(VERSION 3.4.1) # b/c of use of BUILD_INTERFACE generator expression
 # Default policy is from 2.8.9
 cmake_policy(VERSION 2.8.9)
 # Set MacOSX @rpath usage globally.
@@ -737,14 +736,14 @@ endif()
 #report_values(TIFF_INCLUDES TIFF_LIBRARY_DEPS)
 
 # Process subdirectories
-add_subdirectory(port)
+#add_subdirectory(port)
 add_subdirectory(libtiff)
-add_subdirectory(tools)
+#[[add_subdirectory(tools)
 add_subdirectory(test)
 add_subdirectory(contrib)
 add_subdirectory(build)
 add_subdirectory(man)
-add_subdirectory(html)
+add_subdirectory(html)]]
 
 #message(STATUS "EXTRA_DIST: ${EXTRA_DIST}")
 
