@@ -19,6 +19,7 @@
 
 package freed.cam.apis.sonyremote.sonystuff;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -65,7 +66,7 @@ public class WifiUtils
 
     public String[] getConfiguredNetworkSSIDs()
     {
-        List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
+        @SuppressLint("MissingPermission") List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
         String[] ret = new String[configs.size()];
         int i = 0;
         for (WifiConfiguration config : configs) {
@@ -83,7 +84,7 @@ public class WifiUtils
 
     public void ConnectToSSID(String SSID)
     {
-        List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+        @SuppressLint("MissingPermission") List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         for( WifiConfiguration i : list ) {
             if(i.SSID != null && i.SSID.equals(SSID))
             {

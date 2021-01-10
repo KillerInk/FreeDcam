@@ -5,7 +5,7 @@
 #include <jni.h>
 #include <stdlib.h>
 #include <android/log.h>
-#include "../tiff/libtiff/tiffio.h"
+#include <tiffio.h>
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
