@@ -80,8 +80,10 @@ android {
         checkDependencies false
         checkReleaseBuilds false
     }
-}
+    preBuild.dependsOn ":libraw:build"
+    preBuild.dependsOn ":libtiff:build"
 
+}
 
 
 dependencies {
@@ -90,8 +92,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation project(path: ':libtiff')
-    implementation project(path: ':libraw')
+    api project(path: ':libtiff')
+    api project(path: ':libraw')
 }
 
 android.applicationVariants.all { variant ->
