@@ -1,0 +1,2 @@
+FreeDCam is an open source camera app which try to enable stuff that is
+forgotten by the manufacturers. 
