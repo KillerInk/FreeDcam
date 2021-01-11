@@ -1,9 +1,3 @@
-tasks.whenTaskAdded { task ->
-    if (task.name.equals("lint")) {
-        task.enabled = false
-    }
-}
-
 apply plugin: 'com.android.application'
 
 android {
@@ -24,7 +18,6 @@ android {
 
     compileSdkVersion 30
     buildToolsVersion '30.0.2'
-    ndkVersion '21.3.6528147'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
@@ -33,13 +26,11 @@ android {
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
+        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
         externalNativeBuild {
-            cmake {
-                arguments "-DANDROID_STL=c++_shared"
-                cppFlags " -fexceptions -fpermissive -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
-            }
-            ndk {
-                abiFilters 'armeabi-v7a','arm64-v8a'
+            ndkBuild {
+                arguments "-j4"
+                abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
             }
         }
         signingConfig signingConfigs.config
@@ -58,8 +49,8 @@ android {
         }
     }
     externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
         }
     }
     productFlavors {
@@ -71,19 +62,9 @@ android {
     }
     buildFeatures {
         dataBinding true
-        prefab true
     }
-
-    lintOptions {
-        quiet true
-        abortOnError false
-        checkDependencies false
-        checkReleaseBuilds false
-    }
-    preBuild.dependsOn ":libraw:build"
-    preBuild.dependsOn ":libtiff:build"
-
 }
+
 
 
 dependencies {
@@ -92,8 +73,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    api project(path: ':libtiff')
-    api project(path: ':libraw')
 }
 
 android.applicationVariants.all { variant ->

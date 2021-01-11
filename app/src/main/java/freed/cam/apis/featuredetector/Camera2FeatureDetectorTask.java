@@ -1,6 +1,5 @@
 package freed.cam.apis.featuredetector;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
@@ -103,7 +102,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 CameraCharacteristics characteristics = null;
                 try {
                     characteristics = manager.getCameraCharacteristics(cameraids.get(c));
-                } catch (@SuppressLint("NewApi") CameraAccessException e) {
+                } catch (CameraAccessException e) {
                     Log.WriteEx(e);
                 }
                 if (characteristics == null) {
@@ -618,7 +617,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             {
                 Log.d(TAG, "unsupported id: " + i);
             }
-            catch (@SuppressLint("NewApi") CameraAccessException ex)
+            catch (CameraAccessException ex)
             {
                 Log.d(TAG, "unsupported id: " + i);
             }

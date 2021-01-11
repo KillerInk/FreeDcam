@@ -4,7 +4,7 @@
 #ifndef FREEDCAM_LIBRAWWRAPPER_H
 #define FREEDCAM_LIBRAWWRAPPER_H
 
-#include "libraw.h"
+#include "../LibRaw/libraw/libraw.h"
 #include "ExifInfo.h"
 #include "DngProfile.h"
 #include "CustomMatrix.h"

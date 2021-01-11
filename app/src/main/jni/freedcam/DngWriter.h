@@ -6,15 +6,15 @@
 #define FREEDCAM_DNGWRITER_H
 
 
-#include "tiffio.h"
-#include "tiffiop.h"
+#include "../tiff/libtiff/tiffio.h"
+#include "../tiff/libtiff/tiffiop.h"
 #include "ExifInfo.h"
 #include "GpsInfo.h"
 #include "DngProfile.h"
 #include "CustomMatrix.h"
 #include "OpCode.h"
 #include <android/log.h>
-#include <tif_dir.h>
+#include <../tiff/libtiff/tif_dir.h>
 #include <assert.h>
 #include <stdlib.h>
 

@@ -19,7 +19,6 @@
 
 package freed.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -92,7 +91,6 @@ public class LocationManager implements LocationListener, LifecycleObserver
     }
 
 
-    @SuppressLint("MissingPermission")
     private void startLocationListing()
     {
         Log.d(TAG, "start location");

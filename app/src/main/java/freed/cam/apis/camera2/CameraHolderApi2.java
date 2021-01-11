@@ -19,7 +19,6 @@
 
 package freed.cam.apis.camera2;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
@@ -113,7 +112,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     //###########################
     //###########################
 
-    @SuppressLint("MissingPermission")
     @Override
     public boolean OpenCamera(int camera)
     {
@@ -128,7 +126,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             List<CameraCharacteristics.Key<?>> keys = characteristics.getKeys();
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
-        } catch (@SuppressLint("NewApi") CameraAccessException | IllegalArgumentException ex ) {
+        } catch (CameraAccessException | IllegalArgumentException ex ) {
             Log.WriteEx(ex);
             if (mCameraDevice != null) {
                 mCameraDevice.close();

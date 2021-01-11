@@ -1,3 +1,2 @@
-include ':libraw'
-include ':libtiff'
+
 include ':app'
