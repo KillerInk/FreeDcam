@@ -32,11 +32,10 @@ android {
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
-        ndk.abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
         externalNativeBuild {
             ndkBuild {
                 arguments "-j4"
-                abiFilters 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64'
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
         signingConfig signingConfigs.config
