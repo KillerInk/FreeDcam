@@ -33,19 +33,13 @@ android {
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
-        /*externalNativeBuild {
+        externalNativeBuild {
             cmake {
                 arguments "-DANDROID_STL=c++_shared"
                 cppFlags " -fexceptions -fpermissive -DAVOID_TABLES -O3 -fstrict-aliasing -fprefetch-loop-arrays -Wno-c++11-narrowing -Wnonportable-include-path"
             }
             ndk {
                 abiFilters 'armeabi-v7a','arm64-v8a'
-            }
-        }*/
-        externalNativeBuild {
-            ndkBuild {
-                arguments "-j4"
-                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
         signingConfig signingConfigs.config
@@ -63,14 +57,9 @@ android {
             signingConfig signingConfigs.config
         }
     }
-   /* externalNativeBuild {
+    externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
-        }
-    }*/
-    externalNativeBuild {
-        ndkBuild {
-            path 'src/main/jni/freedcam/Android.mk'
         }
     }
     productFlavors {
