@@ -25,8 +25,9 @@ class StreamGobbler extends Thread {
         }
     }
 }
-
-def halide_dir =findProperty('halideDir')
+//set folder inside gradle.properties
+//halide_dir=M\:\\halide\\halide_win64_150218
+def halide_dir = findProperty('halide_dir')
 
 gradle.afterProject { project ->
     if (project.state.failure) {
