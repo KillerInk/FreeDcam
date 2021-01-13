@@ -124,15 +124,21 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     }
 
     private void stopBackgroundThread() {
-        if (mBackgroundThread == null)
+        if (mBackgroundThread == null) {
+            Log.d(TAG, "mBackgroundThread is already null");
             return;
+        }
+        Log.d(TAG, "mBackgroundThread.quitSafely()");
         mBackgroundThread.quitSafely();
         try {
+            Log.d(TAG, "mBackgroundThread.join()");
             mBackgroundThread.join();
             mBackgroundThread = null;
             mBackgroundHandler = null;
+            Log.d(TAG, "mBackgroundThread = null");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "stopBackgroundThread done");
     }
 }

@@ -347,7 +347,7 @@ public class ContinouseRawCapture extends RawImageCapture {
                 ImageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
             }
-            rawStack.clear();
+            //rawStack.clear();
         }
     }
 }
