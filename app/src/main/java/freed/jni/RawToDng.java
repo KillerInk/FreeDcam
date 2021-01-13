@@ -32,6 +32,7 @@ public class RawToDng
     private String wbct;
 
     private OpCode opCode;
+    private ParcelFileDescriptor fileout;
 
     private native ByteBuffer init();
     private native void recycle(ByteBuffer byteBuffer);
@@ -186,6 +187,7 @@ public class RawToDng
         if (fileBytes == null) {
             throw new NullPointerException();
         }
+
         SetBayerData(fileBytes, fileout,byteBuffer);
         if (opCode != null)
             SetOpCode(byteBuffer,opCode.getByteBuffer());
@@ -197,7 +199,7 @@ public class RawToDng
         if (fileBytes == null) {
             throw new NullPointerException();
         }
-
+        this.fileout = fileout;
         SetBayerDataFD(fileBytes, fileout.getFd(), filename,byteBuffer);
         if (opCode != null)
             SetOpCode(byteBuffer,opCode.getByteBuffer());
@@ -246,6 +248,13 @@ public class RawToDng
         WriteDNG(byteBuffer);
         recycle(byteBuffer);
         byteBuffer = null;
+        if (fileout != null) {
+            try {
+                fileout.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static byte[] readFile(File file) throws IOException {

@@ -466,7 +466,7 @@ void DngWriter::processLoose(TIFF *tif) {
             LOGD("Error writing TIFF scanline.");
         }
     }
-    LOGD("Free Memory");
+    LOGD("Free Memory processLoose");
     if(buffer != NULL)
     {
         LOGD("Free Buffer");
@@ -501,8 +501,7 @@ void DngWriter::processSXXX16(TIFF *tif) {
     }
 
     LOGD("Finalizng DNG");
-    LOGD("Free Memory");
-
+    LOGD("Free Memory processSXXX16");
 }
 
 void DngWriter::process16to10(TIFF *tif) {
@@ -557,7 +556,7 @@ void DngWriter::process16to10(TIFF *tif) {
     TIFFWriteRawStrip(tif, 0, pixel, dngProfile->rawheight*rowsizeInBytes);
     LOGD("Finalizng DNG");
 
-    LOGD("Free Memory");
+    LOGD("Free Memory process16to10");
     delete[] pixel;
 }
 
@@ -616,7 +615,7 @@ void DngWriter::process16to12(TIFF *tif) {
     TIFFWriteRawStrip(tif, 0, pixel, dngProfile->rawheight*rowsizeInBytes);
     LOGD("Finalizng DNG");
 
-    LOGD("Free Memory");
+    LOGD("Free Memory process16to12");
     delete[] pixel;
 }
 
@@ -786,9 +785,11 @@ void DngWriter::WriteDNG() {
     {
         LOGD("opcode null");
     }
-
+    LOGD("writeRawStuff");
     writeRawStuff(tif);
+    LOGD("TIFFWriteDirectory");
     TIFFWriteDirectory(tif);
+    LOGD("TIFFClose");
     TIFFClose(tif);
 
 
