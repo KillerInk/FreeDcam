@@ -344,7 +344,7 @@ public class GridViewFragmentModelView extends ViewModel
                         setViewMode(viewStateModel.getCurrentViewState());
                     }
                 }
-                else if (filesHolderModel.getFiles().size() > 0 && filesHolderModel.getFiles().get(0) instanceof UriHolder) {
+                else if (filesHolderModel.getFiles() != null && filesHolderModel.getFiles().size() > 0 && filesHolderModel.getFiles().get(0) instanceof UriHolder) {
                     if (filesHolderModel.getFiles().get(0).IsFolder())
                         finishActivityModel.setOb(null);
                     else {
