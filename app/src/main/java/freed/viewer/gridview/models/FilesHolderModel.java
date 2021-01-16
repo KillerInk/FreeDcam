@@ -29,7 +29,7 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         visibleGridImageViewModels = new ArrayList<>();
     }
 
-    public void setFiles(List<BaseHolder> files) {
+    public synchronized void setFiles(List<BaseHolder> files) {
         this.files = files;
         gridImageViewModels.clear();
         visibleGridImageViewModels.clear();

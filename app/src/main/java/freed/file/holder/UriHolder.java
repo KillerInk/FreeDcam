@@ -16,6 +16,7 @@ import java.io.OutputStream;
 
 import freed.FreedApplication;
 import freed.jni.LibRawJniWrapper;
+import freed.utils.Log;
 
 public class UriHolder extends BaseHolder {
 
@@ -49,8 +50,8 @@ public class UriHolder extends BaseHolder {
         if (mediaStoreUri != null){
             try (ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r")) {
                 response = BitmapFactory.decodeFileDescriptor(pfd.getFileDescriptor(), null, options);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Log.WriteEx(ex);
             }
         }
         return response;
@@ -70,9 +71,13 @@ public class UriHolder extends BaseHolder {
     public Bitmap getBitmapFromDng(Context context) throws IOException {
         Bitmap response = null;
         if(mediaStoreUri != null) {
-            ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r");
-            response = new LibRawJniWrapper().getBitmap(pfd.getFd());
-            pfd.close();
+            try (ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r")){
+                response = new LibRawJniWrapper().getBitmap(pfd.getFd());
+            }
+            catch (IOException ex)
+            {
+                Log.WriteEx(ex);
+            }
         }
         return response;
     }
