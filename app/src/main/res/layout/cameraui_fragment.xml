@@ -246,37 +246,36 @@
             android:layout_alignParentEnd="true" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:gravity="center|center_horizontal|bottom">
+            android:gravity="center|center_horizontal|bottom"
+            android:orientation="vertical">
 
             <freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer
-                android:layout_width="@dimen/ui_settings_item_height"
-                android:layout_height="@dimen/ui_settings_item_height"
                 android:id="@+id/selftimer"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/selftimer"
-                android:layout_marginTop="18dp"/>
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/selftimer" />
 
 
             <freed.cam.ui.themesample.cameraui.childs.UiSettingsChildAeLock
-                android:layout_width="@dimen/ui_settings_item_width"
-                android:layout_height="@dimen/ui_settings_item_height"
                 android:id="@+id/ae_lock"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/quck_set_ae_lock"
-                android:layout_marginTop="5dp"/>
+                android:layout_width="37dp"
+                android:layout_height="44dp"
+
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/quck_set_ae_lock" />
 
             <freed.cam.ui.themesample.cameraui.childs.UiSettingsChildCameraSwitch
-                android:layout_width="@dimen/ui_settings_item_width"
-                android:layout_height="@dimen/ui_settings_item_height"
                 android:id="@+id/camera_switch"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/quck_set_cswitch"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" />
+                android:layout_width="37dp"
+                android:layout_height="44dp"
+
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/quck_set_cswitch" />
 
         </LinearLayout>
 
