@@ -130,6 +130,7 @@ public class SettingsMenuItemFactory
                     mfnr.SetUiItemClickListner(click);
                     picGroup.addView(mfnr);
                 }
+                settingsChildHolder.addView(picGroup);
 
                 GroupChild intervalGroup = new GroupChild(context, context.getResources().getString(R.string.setting_Automation));
 
@@ -141,7 +142,7 @@ public class SettingsMenuItemFactory
                 menuIntervalDuration.SetUiItemClickListner(click);
                 intervalGroup.addView(menuIntervalDuration);
 
-                picGroup.addView(intervalGroup);
+                settingsChildHolder.addView(intervalGroup);
 
                 GroupChild dngGroup = new GroupChild(context, context.getResources().getString(R.string.setting_raw_group_header));
 
@@ -180,9 +181,9 @@ public class SettingsMenuItemFactory
                     }
                 }
                 if (dngGroup.childSize() > 0)
-                    picGroup.addView(dngGroup);
+                    settingsChildHolder.addView(dngGroup);
 
-                settingsChildHolder.addView(picGroup);
+
             }
          /*
             Gobal settings

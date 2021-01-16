@@ -39,7 +39,7 @@
     <dimen name="settings_menu_item_description">11dp</dimen>
     <dimen name="settings_menu_item_header_value">13dp</dimen>
     <dimen name="settings_menu_item_header">15dp</dimen>
-    <dimen name="settingsmenu_groupchild_margin_left">5dp</dimen>
+    <dimen name="settingsmenu_groupchild_margin_left">15dp</dimen>
     <dimen name="curveViewWidth">300dp</dimen>
     <dimen name="curveViewHeight">300dp</dimen>
     <dimen name="curveViewButtonHeight">30dp</dimen>

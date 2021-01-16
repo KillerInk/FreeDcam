@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/settingsmenuBackColor">
+    android:background="@android:color/black"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/left_holder"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/settingsmenuBackColor"
-            android:id="@+id/left_holder">
+            android:background="@color/menuBackgColor"
+            android:orientation="vertical">
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/right_holder"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:background="@color/menuBackgColor"
-            android:id="@+id/right_holder"
-            android:layout_marginLeft="1dp" />
+            android:orientation="vertical" />
     </LinearLayout>
 
 </LinearLayout>
