@@ -84,7 +84,7 @@
             </intent-filter>
         </activity>
 
-        <activity
+       <!-- <activity
             android:name="freed.cam.ActivityFreeDcamShare"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
@@ -98,7 +98,7 @@
                 <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity
             android:name="freed.viewer.ActivityFreeDviewer"
