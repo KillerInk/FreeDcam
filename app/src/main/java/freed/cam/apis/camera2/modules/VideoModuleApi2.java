@@ -516,6 +516,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         {
             Log.d(TAG, "Failed to Config CaptureSession");
             UserMessageHandler.sendMSG("Failed to Config CaptureSession",false);
+            stopRecording();
         }
     };
 
