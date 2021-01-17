@@ -438,12 +438,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
             if (active_op != OpCodes.off)
             {
-
+                if (active_op == OpCodes.xiaomi_hdr10)
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte)1,false);
                 if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
                 {
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,false);
-                    if (active_op == OpCodes.xiaomi_hdr10)
-                        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte)1,false);
+
                 }
                 else
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF,false);
