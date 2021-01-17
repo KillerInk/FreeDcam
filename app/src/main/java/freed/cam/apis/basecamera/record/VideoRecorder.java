@@ -262,7 +262,13 @@ public class VideoRecorder {
             mediaRecorder.prepare();
         } catch (IOException ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Prepare failed :" + ex.getMessage(),false);
+            UserMessageHandler.sendMSG("Prepare failed: " + ex.getMessage(),false);
+            return false;
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+            UserMessageHandler.sendMSG("Prepare failed: " + ex.getMessage(),false);
             return false;
         }
         return true;
