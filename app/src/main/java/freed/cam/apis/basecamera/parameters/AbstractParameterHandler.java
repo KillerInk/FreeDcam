@@ -205,6 +205,7 @@ public abstract class AbstractParameterHandler
         if (SettingsManager.get(parametertolook) instanceof SettingMode){
             ParameterInterface parameter = get(parametertolook);
             SettingMode settingMode = (SettingMode) SettingsManager.get(parametertolook);
+            Log.d(TAG, "setAppSettingsToCamera " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " isSupported:" + settingMode.isSupported());
             if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
             {
                 if (TextUtils.isEmpty(settingMode.get()))
