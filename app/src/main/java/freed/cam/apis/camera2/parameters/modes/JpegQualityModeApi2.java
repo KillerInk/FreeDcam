@@ -21,6 +21,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     public JpegQualityModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.JpegQuality);
         parameterValues =new HashMap<>();
+        settingMode.setIsSupported(true);
         for (int i= 10; i <= 100; i+=10)
         {
             parameterValues.put(i+"", i);
