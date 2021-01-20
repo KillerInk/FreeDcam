@@ -68,7 +68,6 @@ import freed.cam.apis.camera1.parameters.modes.LegacyMode;
 import freed.cam.apis.camera1.parameters.modes.LgHdrMode;
 import freed.cam.apis.camera1.parameters.modes.MotoHDR;
 import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
-import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.apis.camera1.parameters.modes.PictureFormatHandler;
 import freed.cam.apis.camera1.parameters.modes.PreviewFpsParameter;
 import freed.cam.apis.camera1.parameters.modes.PreviewSizeParameter;
@@ -165,10 +164,6 @@ public class ParametersHandler extends AbstractParameterHandler
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         add(SettingKeys.PictureFormat, new PictureFormatHandler(cameraParameters, cameraUiWrapper, this));
-        if (SettingsManager.getInstance().getDngProfilesMap()!= null
-                && SettingsManager.getInstance().getDngProfilesMap().size() > 0
-                && SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported())
-            add(SettingKeys.OPCODE, new OpCodeParameter());
 
         if (SettingsManager.get(SettingKeys.PictureSize).isSupported())
             add(SettingKeys.PictureSize ,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.PictureSize));
