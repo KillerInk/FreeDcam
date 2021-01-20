@@ -228,6 +228,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
+        catch (NullPointerException  |IllegalArgumentException ex)
+        catch (NullPointerException  |IllegalArgumentException ex)
     }
 
     private void processDefaultFocus(TotalCaptureResult result) {
