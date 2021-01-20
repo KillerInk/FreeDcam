@@ -71,13 +71,9 @@ public class UriHolder extends BaseHolder {
     public Bitmap getBitmapFromDng(Context context) throws IOException {
         Bitmap response = null;
         if(mediaStoreUri != null) {
-            try (ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r")){
-                response = new LibRawJniWrapper().getBitmap(pfd.getFd());
-            }
-            catch (IOException ex)
-            {
-                Log.WriteEx(ex);
-            }
+            ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(mediaStoreUri, "r");
+            //detach it because we use it on jni side and close it there
+            response = new LibRawJniWrapper().getBitmap(pfd.detachFd());
         }
         return response;
     }
