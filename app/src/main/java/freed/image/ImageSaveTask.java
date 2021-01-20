@@ -219,12 +219,12 @@ public class ImageSaveTask extends ImageTask
         }
 
         rawToDng.WriteDngWithProfile(profile);
-        if (pfd != null)
+        /*if (pfd != null)
             try {
                 pfd.close();
             } catch (IOException e) {
                 Log.WriteEx(e);
-            }
+            }*/
         moduleInterface.internalFireOnWorkDone(fileholder);
     }
 
