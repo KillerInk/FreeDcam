@@ -9,6 +9,8 @@ import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
+import camera2_hidden_keys.qcom.CaptureResultQcom;
+import camera2_hidden_keys.xiaomi.CaptureResultXiaomi;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.Frameworks;
@@ -24,7 +26,6 @@ import freed.utils.StringUtils;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback
 {
-
     private final boolean DO_LOG = false;
     private void log(String s)
     {
@@ -40,6 +41,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     public interface WaitForAe_Af_Lock
     {
         void on_Ae_Af_Lock(AeAfLocker aeAfLocker);
+    }
+
+    public interface HistogramChangedEvent
+    {
+        void onHistogramChanged(int[] histogram_data);
     }
 
     public class AeAfLocker
@@ -93,11 +99,17 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private final int WAITFORSCAN= 1;
     private int focusState;
     private AeAfLocker aeAfLocker;
+    private HistogramChangedEvent histogramChangedEventListner;
 
     public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
         this.aeAfLocker = new AeAfLocker();
+    }
+
+    public void setHistogramChangedEventListner(HistogramChangedEvent histogramChangedEventListner)
+    {
+        this.histogramChangedEventListner = histogramChangedEventListner;
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -228,8 +240,26 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
+        try {
+            if (result.get(CaptureResultQcom.HISTOGRAM_STATS) != null) {
+                int[] histo = result.get(CaptureResultQcom.HISTOGRAM_STATS);
+                if (histogramChangedEventListner != null) {
+                    histogramChangedEventListner.onHistogramChanged(histo);
+                }
+            }
+        }
         catch (NullPointerException  |IllegalArgumentException ex)
+        {}
+        try {
+            if (result.get(CaptureResultXiaomi.HISTOGRAM_STATS_MTK) != null) {
+                int[] histo = result.get(CaptureResultXiaomi.HISTOGRAM_STATS_MTK);
+                if (histogramChangedEventListner != null) {
+                    histogramChangedEventListner.onHistogramChanged(histo);
+                }
+            }
+        }
         catch (NullPointerException  |IllegalArgumentException ex)
+        {}
     }
 
     private void processDefaultFocus(TotalCaptureResult result) {
