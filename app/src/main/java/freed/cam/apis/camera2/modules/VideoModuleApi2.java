@@ -310,28 +310,21 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
 
-        OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
-
-        if(active_op == OpCodes.eis_lookahead
-                || active_op == OpCodes.eis_realtime
-                || active_op == OpCodes.xiaomi_supereis
-                || active_op == OpCodes.xiaomi_supereispro
-        || active_op == OpCodes.xiaomi_hdr10){
-            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
-            PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
-                @Override
-                public void onImageAvailable(ImageReader reader) {
-                    reader.acquireLatestImage().close();
-                }
-            },null);
-            cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
-        }
-        else if (PicReader != null)
+        if (PicReader != null)
         {
             PicReader.close();
             PicReader = null;
         }
+        PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
+        PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
+            @Override
+            public void onImageAvailable(ImageReader reader) {
+                reader.acquireLatestImage().close();
+            }
+        },null);
+        cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
+        OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
         if (active_op != OpCodes.off)
         {
             cameraUiWrapper.captureSessionHandler.setOPMODE(currentVideoProfile.preview_opcode);
