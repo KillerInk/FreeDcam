@@ -403,7 +403,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Video HDR:"
+                    android:text="HLG/PQ:"
                     android:layout_weight="1"
                     android:textColor="@color/abc_primary_text_material_light" />
 
