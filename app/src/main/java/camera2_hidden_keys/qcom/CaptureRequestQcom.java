@@ -22,6 +22,19 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
     public static final byte HDR10_VIDEO_ON = 2;
     public static final byte HDR10_VIDEO_OFF = 0;
 
+    public static final CaptureRequest.Key QCOM_VIDEO_HDR_ENABLED;
+    public static final int QCOM_VIDEO_HDR_ON = 1;
+    public static final int QCOM_VIDEO_HDR_OFF = 0;
+
+    public static final CaptureRequest.Key SUPERNIGHT_RAW_ENABLED;
+
+    public static final CaptureRequest.Key<Byte> CINEMATIC_VIDEO_ENABLED;
+    public static final Byte CINEMATIC_VIDEO_ON = (byte)1;
+    public static final Byte CINEMATIC_VIDEO_OFF= (byte)0;
+
+
+
+
 
 
 
@@ -39,6 +52,9 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
 
         METERING_MODE = getKeyType("org.codeaurora.qcamera3.exposure_metering.exposure_metering_mode", Integer.class);
         HDR10_VIDEO = getKeyType("org.quic.camera2.streamconfigs.HDRVideoMode", Byte.class);
+        QCOM_VIDEO_HDR_ENABLED = getKeyType("org.codeaurora.qcamera3.sessionParameters.EnableMFHDR", Integer.class);
+        SUPERNIGHT_RAW_ENABLED = getKeyType("xiaomi.supernight.raw.enabled", Boolean.class);
+        CINEMATIC_VIDEO_ENABLED = getKeyType("xiaomi.pro.video.movie.enabled", Byte.class);
     }
 
 
