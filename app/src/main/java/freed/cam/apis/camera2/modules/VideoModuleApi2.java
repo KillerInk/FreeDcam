@@ -461,8 +461,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
             if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
             {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_ON,false);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_PQ,false);
             }
+            else if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && !currentVideoProfile.videoHdr)
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_HLG,false);
             else {
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF, false);
             }

@@ -19,7 +19,8 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
 
     public static final CaptureRequest.Key METERING_MODE;
     public static final CaptureRequest.Key<Byte> HDR10_VIDEO;
-    public static final byte HDR10_VIDEO_ON = 2;
+    public static final byte HDR10_VIDEO_PQ = 2;
+    public static final byte HDR10_VIDEO_HLG = 1;
     public static final byte HDR10_VIDEO_OFF = 0;
 
     public static final CaptureRequest.Key QCOM_VIDEO_HDR_ENABLED;

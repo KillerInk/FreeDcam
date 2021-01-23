@@ -40,5 +40,6 @@ public class OpCode {
     public static final int SESSION_OPERATION_MODE_VIDEO_SUPEREIS = 32781;
     public static final int SESSION_OPERATION_MODE_VIDEO_SUPEREISPRO = 32783;
     public static final int SESSION_OPERATION_MODE_VV = 32780;
+    public static final int STREAM_CONFIG_MODE_ZZHDR  = 0xF002;
 
 }

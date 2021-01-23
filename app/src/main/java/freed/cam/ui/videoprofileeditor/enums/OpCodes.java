@@ -16,7 +16,8 @@ public enum  OpCodes {
     qbc_hdr(OpModes.qbcHDR),
     xiaomi_hdr10(OpCode.SESSION_OPERATION_MODE_HDR10),
     xiaomi_supereis(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREIS),
-    xiaomi_supereispro(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREISPRO);
+    xiaomi_supereispro(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREISPRO),
+    zz_hdr(OpCode.STREAM_CONFIG_MODE_ZZHDR);
 
 
 
