@@ -64,6 +64,7 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
     public static final CaptureRequest.Key<Boolean> CONTROL_ENABLE_REMOSAIC;
 
     public static final CaptureRequest.Key<Byte> PRO_VIDEO_LOG_ENABLED;
+    public static final CaptureRequest.Key<Integer> AUTOZOOM_INPREVIEW;
 
 
     static {
@@ -94,5 +95,6 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
         QCFA_ENABLED = getKeyType("xiaomi.quadcfa.enabled", Byte.class);
         CONTROL_ENABLE_REMOSAIC = getKeyType("xiaomi.remosaic.enabled", Boolean.class);
         PRO_VIDEO_LOG_ENABLED = getKeyType("xiaomi.pro.video.log.enabled", Byte.class);
+        AUTOZOOM_INPREVIEW = getKeyType("com.vidhance.autozoom.applyinpreview", Integer.class);
     }
 }
