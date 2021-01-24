@@ -155,6 +155,7 @@ public class VideoProfileEditorModelView extends ViewModel {
                 encoderModel.setTxt(currentProfile.get().encoderName);
             encoderModel.setValues();
             hdrModes.setTxt(Converter.convertHdrModecIntToString(null,currentProfile.get().videoHdr));
+            hdrModes.setVisibility(true);
             if (currentProfile.get().level == -1 && currentProfile.get().profile == -1)
                 profileLevelModel.setDefault();
             else {
