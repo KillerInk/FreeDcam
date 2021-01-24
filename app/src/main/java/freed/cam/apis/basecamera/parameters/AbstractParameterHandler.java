@@ -175,7 +175,7 @@ public abstract class AbstractParameterHandler
         setAppSettingsToCamera(SettingKeys.Ae_TargetFPS,false);
         setAppSettingsToCamera(SettingKeys.secondarySensorSize, false);
 
-        setAppSettingsToCamera(SettingKeys.ExposureMode,true);
+        setAppSettingsToCamera(SettingKeys.ExposureMode,false);
         if (RenderScriptManager.isSupported() && cameraUiWrapper.getFocusPeakProcessor() != null) {
             setAppSettingsToCamera(SettingKeys.FOCUSPEAK_COLOR, true);
             setAppSettingsToCamera(SettingKeys.HISTOGRAM, true);

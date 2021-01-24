@@ -19,9 +19,11 @@ import freed.cam.ui.videoprofileeditor.MyMediaCodec;
 
 import freed.cam.ui.videoprofileeditor.binding.Converter;
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
+import freed.cam.ui.videoprofileeditor.enums.HdrModes;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 import freed.cam.ui.videoprofileeditor.models.AudioCodecModel;
 import freed.cam.ui.videoprofileeditor.models.EncoderModel;
+import freed.cam.ui.videoprofileeditor.models.HdrModel;
 import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
 import freed.cam.ui.videoprofileeditor.models.PreviewOpcodeModel;
@@ -52,6 +54,7 @@ public class VideoProfileEditorModelView extends ViewModel {
     private ProfileLevelModel profileLevelModel;
     private OpcodeModel opcodeModel;
     private PreviewOpcodeModel preview_opcodeModel;
+    private HdrModel hdrModes;
 
     public VideoProfileEditorModelView()
     {
@@ -70,6 +73,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         videoCodecModel = new VideoCodecModel(popupModel,encoderModel,this);
         opcodeModel = new OpcodeModel(popupModel);
         preview_opcodeModel = new PreviewOpcodeModel(popupModel);
+        hdrModes = new HdrModel(popupModel);
 
         MediaCodecInfoParser mediaCodecInfoParser = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -119,6 +123,10 @@ public class VideoProfileEditorModelView extends ViewModel {
         return preview_opcodeModel;
     }
 
+    public HdrModel getHdrModes() {
+        return hdrModes;
+    }
+
     public void setProfile(VideoMediaProfile currentProfile) {
         this.currentProfile.set(currentProfile.clone());
         updateModels();
@@ -146,6 +154,7 @@ public class VideoProfileEditorModelView extends ViewModel {
             else
                 encoderModel.setTxt(currentProfile.get().encoderName);
             encoderModel.setValues();
+            hdrModes.setTxt(Converter.convertHdrModecIntToString(null,currentProfile.get().videoHdr));
             if (currentProfile.get().level == -1 && currentProfile.get().profile == -1)
                 profileLevelModel.setDefault();
             else {
@@ -157,6 +166,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         else {
             profileLevelModel.setVisibility(false);
             encoderModel.setVisibility(false);
+            hdrModes.setVisibility(false);
         }
     }
 

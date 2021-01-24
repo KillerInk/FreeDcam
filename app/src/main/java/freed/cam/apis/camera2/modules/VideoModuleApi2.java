@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import camera2_hidden_keys.lg.Opcode;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
@@ -56,6 +57,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.modules.capture.ContinouseYuvCapture;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
@@ -81,6 +83,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private Surface previewsurface;
     private Surface recorderSurface;
     private BaseHolder recordingFile;
+    //protected ContinouseYuvCapture PicReader;
     protected ImageReader PicReader;
 
     private VideoRecorder videoRecorder;
@@ -312,21 +315,23 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         if (PicReader != null)
         {
+            //PicReader.release();
             PicReader.close();
             PicReader = null;
         }
-        PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
-        PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
-            @Override
-            public void onImageAvailable(ImageReader reader) {
-                reader.acquireLatestImage().close();
-            }
-        },null);
-        cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
         OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
         if (active_op != OpCodes.off)
         {
+            //PicReader = new ContinouseYuvCapture(previewSize,ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,"",30);
+            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 30);
+           /* PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
+                @Override
+                public void onImageAvailable(ImageReader reader) {
+                    reader.acquireLatestImage().close();
+                }
+            },null);*/
+            cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
             cameraUiWrapper.captureSessionHandler.setOPMODE(currentVideoProfile.preview_opcode);
             cameraUiWrapper.captureSessionHandler.CreateCustomCaptureSession(previewSessionCallback);
 
@@ -430,13 +435,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         public void onConfigured(@NonNull CameraCaptureSession session) {
 
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
-
-            applyOpCodeToSession();
+            cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
+            OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
+            applyOpCodeToSession(active_op);
 
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,false);
             cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
-            cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
+
         }
 
         @Override
@@ -445,22 +451,25 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
     };
 
-    private void applyOpCodeToSession() {
-        OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
+    private void applyOpCodeToSession(OpCodes active_op) {
         if (active_op != OpCodes.off)
         {
+            switch (currentVideoProfile.videoHdr)
+            {
+                case 0:
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF, false);
+                    break;
+                case 1:
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_HLG, false);
+                    break;
+                case 2:
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_PQ, false);
+                    break;
+            }
             if (active_op == OpCodes.xiaomi_hdr10) {
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte) 1, false);
             }
-            if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && currentVideoProfile.videoHdr)
-            {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_PQ,false);
-            }
-            else if ((active_op == OpCodes.lg_hdr10 || active_op == OpCodes.xiaomi_hdr10) && !currentVideoProfile.videoHdr)
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_HLG,false);
-            else {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF, false);
-            }
+
             if (active_op == OpCodes.eis_lookahead || active_op == OpCodes.eis_realtime)
                 cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.eis_mode, (byte) 1,false);
             if (active_op == OpCodes.xiaomi_supereis
@@ -485,8 +494,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
                     Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
-
-                    applyOpCodeToSession();
+                    OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+                    applyOpCodeToSession(active_op);
 
                     if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
                         cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();

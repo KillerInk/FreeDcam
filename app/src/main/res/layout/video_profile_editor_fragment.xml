@@ -397,21 +397,24 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="fill_parent"
+                setVisibility="@{videoProfileModelView.hdrModes.visibility}">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="HLG/PQ:"
                     android:layout_weight="1"
                     android:textColor="@color/abc_primary_text_material_light" />
 
-                <Switch
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:text="@{videoProfileModelView.hdrModes.txt}"
+                    android:onClick="@{()->videoProfileModelView.hdrModes.onClick()}"
                     android:id="@+id/videoHDR"
-                    android:setChecked="@{videoProfileModelView.currentProfile.videoHdr}"/>
+                    android:layout_weight="1" />
 
             </LinearLayout>
 

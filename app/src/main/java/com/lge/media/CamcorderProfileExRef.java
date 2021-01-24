@@ -150,7 +150,7 @@ public class CamcorderProfileExRef {
                     -1,
                     -1,
                     "Default",
-                    false,
+                    0,
                     -1,
                     -1
             );

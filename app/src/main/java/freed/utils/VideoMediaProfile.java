@@ -62,7 +62,7 @@ public class VideoMediaProfile
     public int level = -1;
     public String encoderName = "Default";
 
-    public boolean videoHdr = false;
+    public int videoHdr = 0;
     public int opcode = -1;
     public int preview_opcode = -1;
 
@@ -116,7 +116,7 @@ public class VideoMediaProfile
                              int profile,
                              int lvl,
                              String encoderName,
-                             boolean videohdr,
+                             int videohdr,
                              int opcode,
                              int preview_opcode)
     {
@@ -217,7 +217,7 @@ public class VideoMediaProfile
         profile = xmlElement.findChild("profile").getIntValue(-1);
         level = xmlElement.findChild("level").getIntValue(-1);
         encoderName = xmlElement.findChild("encodername").getValue();
-        videoHdr = xmlElement.findChild("videohdr").getBooleanValue();
+        videoHdr = xmlElement.findChild("videohdr").getIntValue(0);
         opcode = xmlElement.findChild("opcode").getIntValue(-1);
         preview_opcode = xmlElement.findChild("preview_opcode").getIntValue(-1);
     }
