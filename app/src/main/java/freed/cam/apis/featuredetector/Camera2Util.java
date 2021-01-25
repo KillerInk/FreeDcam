@@ -7,11 +7,13 @@ import android.util.Size;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
+import freed.utils.Log;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -74,5 +76,13 @@ public class Camera2Util
             settingMode.setValues(lookupar);
 
         }
+    }
+
+    public static void dumpIntArray(int[] array,String TAG,String name)
+    {
+        if (array != null)
+            Log.d(TAG, name +":"+ Arrays.toString(array));
+        else
+            Log.d(TAG, name +": isNull");
     }
 }

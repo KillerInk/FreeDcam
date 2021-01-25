@@ -20,6 +20,8 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
     public static final CameraCharacteristics.Key<Integer[]> qcfa_availableStreamConfigurations;
     public static final CameraCharacteristics.Key<Integer[]> qcfa_activeArraySize;
     public static final CameraCharacteristics.Key<Integer> customhw;
+    public static final CameraCharacteristics.Key<int[]> sensorModeTable;
+    public static final CameraCharacteristics.Key<int[]> support_video_hdr_modes;
 
 
     static {
@@ -33,6 +35,8 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
         qcfa_availableStreamConfigurations = getKeyType("org.codeaurora.qcamera3.quadra_cfa.availableStreamConfigurations", Integer[].class);
         qcfa_activeArraySize = getKeyType("org.codeaurora.qcamera3.quadra_cfa.activeArraySize", Integer[].class);
         customhw = getKeyType("com.qti.node.customhw", Integer.class);
+        sensorModeTable = getKeyType("org.quic.camera2.sensormode.info.SensorModeTable", int[].class);
+        support_video_hdr_modes = getKeyType("org.codeaurora.qcamera3.available_video_hdr_modes.video_hdr_modes", int[].class);
     }
 
 

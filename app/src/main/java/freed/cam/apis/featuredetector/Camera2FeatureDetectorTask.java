@@ -531,6 +531,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                     detectXiaomiStuff(characteristics);
 
+                    dumpQcomStuff(characteristics);
+
                 }
             }
             SettingsManager.getInstance().SetCurrentCamera(0);
@@ -846,6 +848,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         {
             Log.e(TAG,"HUAWEI_AVAILIBLE_DEPTH_SIZES false");
         }
+
     }
 
     private void detectColorcorrectionMode(CameraCharacteristics cameraCharacteristics)
@@ -1546,6 +1549,29 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             catch (IllegalArgumentException | NullPointerException ex)
         {
             Log.d(TAG, "No QCFA sensor");
+        }
+    }
+
+    private void dumpQcomStuff(CameraCharacteristics characteristics)
+    {
+        try {
+            int[] sensor_mode_table = characteristics.get(CameraCharacteristicsQcom.sensorModeTable);
+            Camera2Util.dumpIntArray(sensor_mode_table,TAG, "sensor_mode_table");
+            Log.d(TAG,"qcom sensor mode table");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"qcom sensor mode table false");
+        }
+
+        try {
+            int[] supported_video_hdr_modes = characteristics.get(CameraCharacteristicsQcom.support_video_hdr_modes);
+            Camera2Util.dumpIntArray(supported_video_hdr_modes,TAG, "supported_video_hdr_modes");
+            Log.d(TAG,"supported_video_hdr_modes");
+        }
+        catch (NullPointerException | IllegalArgumentException ex)
+        {
+            Log.e(TAG,"supported_video_hdr_modes false");
         }
     }
 }
