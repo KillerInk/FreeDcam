@@ -164,7 +164,7 @@ public class CaptureSessionHandler
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
             return;
         try {
-            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             try {
                 if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
                     mPreviewRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG, (byte) 1);

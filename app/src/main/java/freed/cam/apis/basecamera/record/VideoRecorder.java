@@ -1,5 +1,6 @@
 package freed.cam.apis.basecamera.record;
 
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.location.Location;
 import android.media.MediaRecorder;
@@ -45,6 +46,7 @@ public class VideoRecorder {
 
     CameraWrapperInterface cameraWrapperInterface;
     private Surface previewSurface;
+    private Surface inputSurface;
 
     public VideoRecorder(CameraWrapperInterface cameraWrapperInterface,MediaRecorder recorder)
     {
@@ -103,6 +105,10 @@ public class VideoRecorder {
     public void stop()
     {
         mediaRecorder.stop();
+    }
+
+    public void setInputSurface(Surface inputSurface) {
+        this.inputSurface = inputSurface;
     }
 
     public boolean prepare()
@@ -228,6 +234,10 @@ public class VideoRecorder {
             mediaRecorder.reset();
             UserMessageHandler.sendMSG("VideoCodec not Supported",false);
         }
+
+        if (inputSurface != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            mediaRecorder.setInputSurface(inputSurface);
+
 
         switch (this.currentVideoProfile.Mode)
         {

@@ -30,8 +30,10 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.ImageReader;
+import android.media.MediaCodec;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.util.Range;
@@ -88,6 +90,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private VideoRecorder videoRecorder;
     protected Camera2Fragment cameraUiWrapper;
+    private Surface inputSurface;
 
     public VideoModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -141,7 +144,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
         Log.d(TAG, "Create VideoRecorder");
+
+
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            inputSurface = MediaCodec.createPersistentInputSurface();
+            videoRecorder.setInputSurface(inputSurface);
+        }
+
         startPreview();
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
             parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
@@ -401,7 +412,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         videoRecorder.setOrientation(0);
 
         if(videoRecorder.prepare()) {
-            recorderSurface = videoRecorder.getSurface();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                recorderSurface = inputSurface;
+            }
+            else {
+                recorderSurface = videoRecorder.getSurface();
+            }
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
             OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
