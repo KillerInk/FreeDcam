@@ -69,7 +69,8 @@ public class EncoderModel extends ButtonModel
         profileLevelModel.setValues(modelView.getProfileLevels(getTxt()));
         if (!getTxt().equals("Default")) {
             profileLevelModel.setVisibility(true);
-            //profileLevelModel.setDefault();
+            if (getTxt().isEmpty())
+                profileLevelModel.setDefault();
         }
         else {
             profileLevelModel.setVisibility(false);
