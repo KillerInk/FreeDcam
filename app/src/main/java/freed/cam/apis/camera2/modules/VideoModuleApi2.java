@@ -200,7 +200,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private void stopRecording() {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
-        if (SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).isSupported()) {
+        OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
+        if (active_op == OpCodes.xiaomi_supereis || active_op == OpCodes.xiaomi_supereispro){
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL, CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_STOP, true);
             try {
                 Thread.sleep(500);
@@ -343,7 +344,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         if (active_op != OpCodes.off)
         {
             //PicReader = new ContinouseYuvCapture(previewSize,ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,"",30);
-            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 30);
+            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
            /* PicReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -460,10 +461,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         public void onConfigured(@NonNull CameraCaptureSession session) {
 
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
-            if (SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).isSupported())
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL,CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_PREPARE,false);
+
             cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
             OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
+            if (active_op == OpCodes.xiaomi_supereis || active_op == OpCodes.xiaomi_supereispro)
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL,CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_PREPARE,false);
             applyOpCodeToSession(active_op);
 
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
@@ -518,11 +520,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 @Override
                 public void run() {
                     cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
-                    if (SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).isSupported())
+                    OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
+                    if (active_op == OpCodes.xiaomi_supereis || active_op == OpCodes.xiaomi_supereispro)
                         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL,CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_START,false);
                     Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
-                    OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
                     applyOpCodeToSession(active_op);
 
                     if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
