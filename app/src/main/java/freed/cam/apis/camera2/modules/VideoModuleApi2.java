@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import camera2_hidden_keys.lg.CaptureRequestLg;
 import camera2_hidden_keys.lg.Opcode;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
@@ -200,9 +201,18 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private void stopRecording() {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
-        OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
+        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
         if (active_op == OpCodes.xiaomi_supereis || active_op == OpCodes.xiaomi_supereispro){
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL, CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_STOP, true);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        if (active_op == OpCodes.lg_hdr10_steady)
+        {
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestLg.KEY_EIS_END_STREAM, (byte)1, true);
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
