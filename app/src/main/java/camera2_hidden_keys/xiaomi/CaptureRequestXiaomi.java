@@ -66,6 +66,12 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
     public static final CaptureRequest.Key<Byte> PRO_VIDEO_LOG_ENABLED;
     public static final CaptureRequest.Key<Integer> AUTOZOOM_INPREVIEW;
 
+    public static final int VALUE_VIDEO_RECORD_CONTROL_PREPARE = 0;
+    public static final int VALUE_VIDEO_RECORD_CONTROL_START = 1;
+    public static final int VALUE_VIDEO_RECORD_CONTROL_STOP = 2;
+    public static final CaptureRequest.Key<Integer> VIDEO_RECORD_CONTROL;
+
+
 
     static {
         /*BOKEH_F_NUMBER = getKeyType("com.huawei.capture.metadata.faceBeautyLevel", String.class);
@@ -96,5 +102,6 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
         CONTROL_ENABLE_REMOSAIC = getKeyType("xiaomi.remosaic.enabled", Boolean.class);
         PRO_VIDEO_LOG_ENABLED = getKeyType("xiaomi.pro.video.log.enabled", Byte.class);
         AUTOZOOM_INPREVIEW = getKeyType("com.vidhance.autozoom.applyinpreview", Integer.class);
+        VIDEO_RECORD_CONTROL = getKeyType("xiaomi.video.recordControl", Integer.class);
     }
 }

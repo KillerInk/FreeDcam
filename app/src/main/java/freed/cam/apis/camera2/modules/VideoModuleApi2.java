@@ -148,10 +148,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             inputSurface = MediaCodec.createPersistentInputSurface();
             videoRecorder.setInputSurface(inputSurface);
-        }
+        }*/
 
         startPreview();
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
@@ -200,6 +200,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private void stopRecording() {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
+        if (SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).isSupported()) {
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL, CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_STOP, true);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         cameraUiWrapper.captureSessionHandler.RemoveSurface(recorderSurface);
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
@@ -412,13 +420,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         videoRecorder.setOrientation(0);
 
         if(videoRecorder.prepare()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
                 recorderSurface = inputSurface;
             }
-            else {
+            else {*/
                 recorderSurface = videoRecorder.getSurface();
-            }
+            //}
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
             OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
@@ -452,6 +460,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         public void onConfigured(@NonNull CameraCaptureSession session) {
 
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
+            if (SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).isSupported())
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL,CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_PREPARE,false);
             cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
             OpCodes active_op = OpCodes.get(currentVideoProfile.preview_opcode);
             applyOpCodeToSession(active_op);
@@ -508,7 +518,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 @Override
                 public void run() {
                     cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
-
+                    if (SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).isSupported())
+                        cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL,CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_START,false);
                     Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
                     OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);

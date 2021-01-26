@@ -30,6 +30,7 @@ import camera2_hidden_keys.ReflectionHelper;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
+import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.renderscript.RenderScriptManager;
@@ -555,6 +556,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }catch (IllegalArgumentException | NullPointerException ex)
         {
             Log.d(TAG, "eismodes unsupported");
+        }
+
+        try {
+            if(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL != null)
+                SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).setIsSupported(true);
+            Log.d(TAG, "VIDEO_RECORD_CONTROL supported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "VIDEO_RECORD_CONTROL unsupported");
         }
     }
 
