@@ -53,7 +53,7 @@ public class VideoProfileEditorModelView extends ViewModel {
     private EncoderModel encoderModel;
     private ProfileLevelModel profileLevelModel;
     private OpcodeModel opcodeModel;
-    private PreviewOpcodeModel preview_opcodeModel;
+    //private PreviewOpcodeModel preview_opcodeModel;
     private HdrModel hdrModes;
 
     public VideoProfileEditorModelView()
@@ -72,7 +72,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         encoderModel = new EncoderModel(popupModel,profileLevelModel,this);
         videoCodecModel = new VideoCodecModel(popupModel,encoderModel,this);
         opcodeModel = new OpcodeModel(popupModel);
-        preview_opcodeModel = new PreviewOpcodeModel(popupModel);
+        //preview_opcodeModel = new PreviewOpcodeModel(popupModel);
         hdrModes = new HdrModel(popupModel);
 
         MediaCodecInfoParser mediaCodecInfoParser = null;
@@ -119,9 +119,9 @@ public class VideoProfileEditorModelView extends ViewModel {
         return opcodeModel;
     }
 
-    public PreviewOpcodeModel getPreview_opcodeModel() {
-        return preview_opcodeModel;
-    }
+    //public PreviewOpcodeModel getPreview_opcodeModel() {
+    //    return preview_opcodeModel;
+    //}
 
     public HdrModel getHdrModes() {
         return hdrModes;
@@ -144,7 +144,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         videoCodecModel.setValues();
         audioCodecModel.setTxt(Converter.convertAudioCodecIntToString(null, currentProfile.get().audioCodec));
         opcodeModel.setTxt(Converter.convertOpCodecIntToString(null, currentProfile.get().opcode));
-        preview_opcodeModel.setTxt(Converter.convertOpCodecIntToString(null, currentProfile.get().preview_opcode));
+        //preview_opcodeModel.setTxt(Converter.convertOpCodecIntToString(null, currentProfile.get().preview_opcode));
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             encoderModel.setVisibility(true);
             if (currentProfile.get().encoderName.isEmpty()) {

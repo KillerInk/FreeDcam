@@ -440,27 +440,6 @@
                     android:layout_weight="1" />
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Preview OpCode:"
-                    android:layout_weight="1"
-                    android:textColor="@color/abc_primary_text_material_light" />
-
-                <Button
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{videoProfileModelView.preview_opcodeModel.txt}"
-                    android:onClick="@{()->videoProfileModelView.preview_opcodeModel.onClick()}"
-                    android:id="@+id/button_preview_opcode"
-                    android:layout_weight="1" />
-            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

@@ -221,7 +221,14 @@ public class CaptureSessionHandler
         Log.d(TAG, "RemoveSurface");
         if (surfaces.contains(surface))
             surfaces.remove(surface);
-        mPreviewRequestBuilder.removeTarget(surface);
+        try {
+            if (mPreviewRequestBuilder != null)
+                mPreviewRequestBuilder.removeTarget(surface);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
 

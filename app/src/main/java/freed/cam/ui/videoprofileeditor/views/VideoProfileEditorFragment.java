@@ -106,8 +106,6 @@ public class VideoProfileEditorFragment extends Fragment {
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonVideoEnCoder);
                 if (((PopupModel)sender).getPopUpItemClick() instanceof ProfileLevelModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonProfileLevel);
-                if (((PopupModel)sender).getPopUpItemClick() instanceof PreviewOpcodeModel)
-                    menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonPreviewOpcode);
                 else if (((PopupModel)sender).getPopUpItemClick() instanceof OpcodeModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonOpcode);
                 else if (((PopupModel)sender).getPopUpItemClick() instanceof HdrModel)
@@ -197,9 +195,7 @@ public class VideoProfileEditorFragment extends Fragment {
 
             OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
             videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
-
-            OpCodes opcodes2 = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonPreviewOpcode.getText());
-            videoProfileEditorModelView.getProfile().preview_opcode = opcodes2.GetInt();
+            
             HdrModes hdrmode = HdrModes.valueOf((String)videoProfileEditorFragmentBinding.videoHDR.getText());
             videoProfileEditorModelView.getProfile().videoHdr = hdrmode.GetInt();
 
