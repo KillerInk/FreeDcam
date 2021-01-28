@@ -25,8 +25,8 @@ public class OpcodeProcessorFactory {
             case xiaomi_hdr10:
                 return new XiaomiHdr10Processor(captureSessionHandler,opCodes);
 
-            case lg_hdr10_steady:
-                return new LgHdrSteadyOpcodeProcessor(captureSessionHandler,opCodes);
+           /* case lg_hdr10_steady:
+                return new LgHdrSteadyOpcodeProcessor(captureSessionHandler,opCodes);*/
 
             default:
                 return new BaseOpcodeProcessor(captureSessionHandler,opCodes) {

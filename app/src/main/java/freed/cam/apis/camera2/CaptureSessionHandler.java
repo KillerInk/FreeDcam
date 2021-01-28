@@ -58,14 +58,8 @@ public class CaptureSessionHandler
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
 
-    private int OPMODE = 0;
 
     private boolean captureSessionOpen = false;
-
-
-    public void setOPMODE(int opmode){
-        OPMODE = opmode;
-    }
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -265,7 +259,7 @@ public class CaptureSessionHandler
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void CreateCustomCaptureSession()
+    public void CreateCustomCaptureSession(int OPMODE)
     {
         Log.d(TAG, "CreateCustomCaptureSession:");
         if(cameraHolderApi2.mCameraDevice == null)
@@ -339,7 +333,7 @@ public class CaptureSessionHandler
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void CreateCustomCaptureSession(CameraCaptureSession.StateCallback customCallback)
+    public void CreateCustomCaptureSession(int OPMODE,CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
         isHighSpeedSession = false;

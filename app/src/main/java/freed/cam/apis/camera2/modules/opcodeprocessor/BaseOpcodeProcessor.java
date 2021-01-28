@@ -22,8 +22,7 @@ public abstract class BaseOpcodeProcessor implements OpcodeProcessor
 
     @Override
     public void createOpCodeSession(CameraCaptureSession.StateCallback recordingSessionCallback) {
-        captureSessionHandler.setOPMODE(active_op.GetInt());
-        captureSessionHandler.CreateCustomCaptureSession(recordingSessionCallback);
+        captureSessionHandler.CreateCustomCaptureSession(active_op.GetInt(),recordingSessionCallback);
     }
 
 }
