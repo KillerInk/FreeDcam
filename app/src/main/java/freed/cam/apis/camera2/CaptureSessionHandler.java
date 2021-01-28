@@ -292,11 +292,13 @@ public class CaptureSessionHandler
             ccreateCustomCaptureSession.invoke(cdv,var1,var2,var3,var4,var5);
 
         }catch (NoSuchMethodException e)
-        {e.printStackTrace();} catch (IllegalAccessException e) {
+        {
+            Log.WriteEx(e);
+        } catch (IllegalAccessException e) {
 
-            e.printStackTrace();
+            Log.WriteEx(e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 

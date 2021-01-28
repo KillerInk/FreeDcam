@@ -201,11 +201,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private void stopRecording() {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
-        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
-        if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            opcodeProcessor.stopRecording();
+
 
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
+        if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            opcodeProcessor.stopRecording();
 
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.captureSessionHandler.RemoveSurface(recorderSurface);
@@ -330,6 +330,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         if (PicReader != null)
         {
+            Log.d(TAG, "Close Opcode PicReader, is open from different session");
             //PicReader.release();
             PicReader.close();
             PicReader = null;
@@ -338,12 +339,16 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
 
         if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.d(TAG, "Create Opcode PicReader");
             PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
             opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
+            Log.d(TAG, "Create Preview OpCodeSession" + active_op.name() + ":" + active_op.GetInt());
             opcodeProcessor.createOpCodeSession(previewSessionCallback);
-        } else
+        } else {
+            Log.d(TAG, "Create normal Preview Session");
             cameraUiWrapper.captureSessionHandler.CreateCaptureSession(previewSessionCallback);
+        }
 
     }
 

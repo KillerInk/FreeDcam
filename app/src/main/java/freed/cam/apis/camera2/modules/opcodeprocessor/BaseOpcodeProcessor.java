@@ -7,10 +7,12 @@ import androidx.annotation.RequiresApi;
 
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
+import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public abstract class BaseOpcodeProcessor implements OpcodeProcessor
 {
+    private final String TAG = BaseOpcodeProcessor.class.getSimpleName();
     protected CaptureSessionHandler captureSessionHandler;
     protected OpCodes active_op;
 
@@ -22,6 +24,7 @@ public abstract class BaseOpcodeProcessor implements OpcodeProcessor
 
     @Override
     public void createOpCodeSession(CameraCaptureSession.StateCallback recordingSessionCallback) {
+        Log.d(TAG,"createOpcodeSession " + active_op.name() + ":"+ active_op.GetInt());
         captureSessionHandler.CreateCustomCaptureSession(active_op.GetInt(),recordingSessionCallback);
     }
 

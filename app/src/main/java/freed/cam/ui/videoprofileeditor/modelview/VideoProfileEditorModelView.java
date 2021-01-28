@@ -145,7 +145,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         audioCodecModel.setTxt(Converter.convertAudioCodecIntToString(null, currentProfile.get().audioCodec));
         opcodeModel.setTxt(Converter.convertOpCodecIntToString(null, currentProfile.get().opcode));
         //preview_opcodeModel.setTxt(Converter.convertOpCodecIntToString(null, currentProfile.get().preview_opcode));
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             encoderModel.setVisibility(true);
             if (currentProfile.get().encoderName.isEmpty()) {
                 encoderModel.setTxt("Default");

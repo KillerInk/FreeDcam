@@ -38,7 +38,7 @@ public class XiaomiEisOpcodeProcessor extends BaseOpcodeProcessor {
     public void stopRecording() {
         captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL, CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_STOP, true);
         try {
-            Thread.sleep(500);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
