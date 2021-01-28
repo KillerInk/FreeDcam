@@ -19,6 +19,8 @@ public class XiaomiEisOpcodeProcessor extends BaseOpcodeProcessor {
     @Override
     public void applyOpCodeToSession() {
         captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte) 1, false);
+        /*captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.AUTOZOOM_SCALE_OFFSET, 0f, false);
+        captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.AUTOZOOM_INPREVIEW, 0, false);*/
         captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE, CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE_ON,false);
         captureSessionHandler.SetPreviewParameter(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE_OFF,false);
     }
@@ -30,12 +32,14 @@ public class XiaomiEisOpcodeProcessor extends BaseOpcodeProcessor {
 
     @Override
     public void startRecording() {
+        //captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.RECORDING_END_STREAM,(byte)0,false);
         captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL,CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_START,false);
     }
 
 
     @Override
     public void stopRecording() {
+        //captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.RECORDING_END_STREAM,(byte)1,false);
         captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL, CaptureRequestXiaomi.VALUE_VIDEO_RECORD_CONTROL_STOP, true);
         try {
             Thread.sleep(300);

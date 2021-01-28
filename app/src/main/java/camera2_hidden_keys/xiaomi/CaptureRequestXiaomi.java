@@ -65,11 +65,14 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
 
     public static final CaptureRequest.Key<Byte> PRO_VIDEO_LOG_ENABLED;
     public static final CaptureRequest.Key<Integer> AUTOZOOM_INPREVIEW;
+    public static final CaptureRequest.Key<Float> AUTOZOOM_SCALE_OFFSET;
+
 
     public static final int VALUE_VIDEO_RECORD_CONTROL_PREPARE = 0;
     public static final int VALUE_VIDEO_RECORD_CONTROL_START = 1;
     public static final int VALUE_VIDEO_RECORD_CONTROL_STOP = 2;
     public static final CaptureRequest.Key<Integer> VIDEO_RECORD_CONTROL;
+    public static final CaptureRequest.Key<Byte> RECORDING_END_STREAM;
 
 
 
@@ -103,5 +106,9 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
         PRO_VIDEO_LOG_ENABLED = getKeyType("xiaomi.pro.video.log.enabled", Byte.class);
         AUTOZOOM_INPREVIEW = getKeyType("com.vidhance.autozoom.applyinpreview", Integer.class);
         VIDEO_RECORD_CONTROL = getKeyType("xiaomi.video.recordControl", Integer.class);
+        RECORDING_END_STREAM = getKeyType("org.quic.camera.recording.endOfStream", Byte.class);
+        AUTOZOOM_SCALE_OFFSET = getKeyType("com.vidhance.autozoom.scale_offset", Float.class);
+
+
     }
 }
