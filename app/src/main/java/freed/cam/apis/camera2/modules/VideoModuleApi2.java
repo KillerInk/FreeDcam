@@ -92,6 +92,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     //private Surface inputSurface;
 
     private OpcodeProcessor opcodeProcessor;
+    private OpCodes active_op = OpCodes.off;
 
     public VideoModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -143,10 +144,16 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         if (currentVideoProfile == null) {
             currentVideoProfile = SettingsManager.getInstance().getMediaProfiles().get(0);
         }
+        Log.d(TAG, "VideoMediaProfile: " + currentVideoProfile.getXmlString());
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
+
+        active_op = OpCodes.get(currentVideoProfile.opcode);
+        Log.d(TAG, "Opcode " + active_op.name() + ":" +active_op.GetInt());
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.N) {
+            opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
+        }
+
         Log.d(TAG, "Create VideoRecorder");
-
-
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
 
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -336,13 +343,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader = null;
         }
 
-        OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+
 
         if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.d(TAG, "Create Opcode PicReader");
             PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
-            opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
+
             Log.d(TAG, "Create Preview OpCodeSession" + active_op.name() + ":" + active_op.GetInt());
             opcodeProcessor.createOpCodeSession(previewSessionCallback);
         } else {
@@ -422,10 +429,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             //}
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
 
-            OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
+            OpCodes.get(currentVideoProfile.opcode);
             if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             {
-                opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
+                //opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
                 opcodeProcessor.createOpCodeSession(recordingSessionCallback);
             }
             else
@@ -451,14 +458,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private final StateCallback previewSessionCallback = new StateCallback() {
         @Override
         public void onConfigured(@NonNull CameraCaptureSession session) {
-
+            Log.d(TAG, "onConfigured Preview Session");
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
 
             cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
-            OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
             if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Log.d(TAG, "opcodeProcessor.prepareRecording");
                 opcodeProcessor.prepareRecording();
-                opcodeProcessor.applyOpCodeToSession();
                 applyOpCodeToSession(active_op);
             }
 
@@ -470,7 +476,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         @Override
         public void onConfigureFailed(@NonNull CameraCaptureSession session) {
-
+            Log.d(TAG, "Failed to configure Preview Session");
         }
     };
 
@@ -505,11 +511,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
+            Log.d(TAG, "onConfigured Recording Session");
             mBackgroundHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
-                    OpCodes active_op = OpCodes.get(currentVideoProfile.opcode);
                     if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                         opcodeProcessor.startRecording();
 
@@ -538,7 +544,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         @Override
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
-            Log.d(TAG, "Failed to Config CaptureSession");
+            Log.d(TAG, "Failed to Config RecordingSession");
             UserMessageHandler.sendMSG("Failed to Config CaptureSession",false);
             stopRecording();
         }

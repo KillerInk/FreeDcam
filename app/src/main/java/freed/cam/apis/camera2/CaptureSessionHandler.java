@@ -574,7 +574,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null || mCaptureSession == null)
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetPreviewParameter :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (setToCamera)
             try {
@@ -598,7 +598,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null )
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetParameterRepeating :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);
@@ -609,7 +609,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null|| mCaptureSession == null)
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetParameter :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (isHighSpeedSession)
             StartHighspeedCaptureSession();
@@ -641,7 +641,7 @@ public class CaptureSessionHandler
     {
         if (mImageCaptureRequestBuilder == null|| mCaptureSession == null)
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetSetCaptureParameter :" + key.getName() + " to " + value);
         mImageCaptureRequestBuilder.set(key,value);
     }
 
