@@ -32,6 +32,11 @@ import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
 import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
+import freed.cam.apis.featuredetector.camera2.DenoisParameterDetector;
+import freed.cam.apis.featuredetector.camera2.ManualFocusDetector;
+import freed.cam.apis.featuredetector.camera2.OisDetector;
+import freed.cam.apis.featuredetector.camera2.PictureFormatDetector;
+import freed.cam.apis.featuredetector.camera2.PictureSizeDetector;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.Frameworks;
@@ -239,49 +244,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         ////publishProgress("Detect Edge failed");
                     }
 
-
-                    try {
-                        ////publishProgress("Detect OpticalImageStabilisationMode");
-                        int[] oisvalues = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
-                        boolean ois_supported= false;
-                        if (oisvalues.length > 1)
-                        {
-                            if (oisvalues[0] == 1)
-                                ois_supported =true;
-                            if (oisvalues[1] == 1)
-                                ois_supported = true;
-                        }
-                        else if (oisvalues.length == 1)
-                            if (oisvalues[0] == 1)
-                                ois_supported = true;
-
-                        if (!ois_supported)
-                        {
-                            try{
-                                byte ois = characteristics.get(CameraCharacteristicsXiaomi.teleois_supported);
-                                if (ois == (byte)1)
-                                    ois_supported = true;
-                            }
-                            catch (IllegalArgumentException | NullPointerException ex)
-                            {
-                                Log.d(TAG, "No Xiaomi ois");
-                            }
-                        }
-                        if (ois_supported)
-                        {
-                            String values[] = new String[2];
-                            values[0] = FreedApplication.getStringFromRessources(R.string.off) + ",0";
-                            values[1] = FreedApplication.getStringFromRessources(R.string.on) + ",1";
-                            SettingsManager.get(SettingKeys.OIS_MODE).setValues(values);
-                            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(true);
-                            SettingsManager.get(SettingKeys.OIS_MODE).set(FreedApplication.getStringFromRessources(R.string.on));
-                        }
-                        else
-                            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(false);
-                    } catch (Exception e) {
-                        Log.WriteEx(e);
-                        ////publishProgress("Detect Ois failed");
-                    }
+                    new OisDetector().checkIfSupported(characteristics);
 
                     try {
                         ////publishProgress("Detect FocusMode");
@@ -312,54 +275,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         ////publishProgress("Detect videoStabilisation failed");
                     }
 
-                    try {
-                        ////publishProgress("Detect Denoise");
-                        Camera2Util.detectIntMode(characteristics, CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES, SettingsManager.get(SettingKeys.Denoise), FreedApplication.getStringArrayFromRessource(R.array.denoiseModes));
-                        if (SettingsManager.get(SettingKeys.Denoise).contains(FreedApplication.getStringFromRessources(R.string.denoise_zsl)))
-                        {
-                            String vals[] = SettingsManager.get(SettingKeys.Denoise).getValues();
-                            String newvals[] = new String[vals.length-1];
-                            String zsldnoise= FreedApplication.getStringFromRessources(R.string.denoise_zsl);
-                            int t = 0;
-                            for (int i = 0; i< vals.length; i++)
-                            {
-                                if (!vals[i].contains(zsldnoise))
-                                    newvals[t++] = vals[i];
-                            }
-                            SettingsManager.get(SettingKeys.Denoise).setValues(newvals);
-                        }
-                        sendProgress(SettingsManager.get(SettingKeys.Denoise), "Denoise");
-                    } catch (Exception e) {
-                        Log.WriteEx(e);
-                        ////publishProgress("Detect Denoise failed");
-                    }
 
-                    try {
-                        ////publishProgress("Detect PictureFormat");
-                        detectPictureFormats(characteristics);
-                        sendProgress(SettingsManager.get(SettingKeys.PictureFormat), "PictureFormat");
-                    } catch (Exception e) {
-                        Log.WriteEx(e);
-                        ////publishProgress("Detect PictureFormat failed");
-                    }
 
-                    try {
-                        ////publishProgress("Detect Manual Focus");
-                        detectManualFocus(characteristics);
-                        sendProgress(SettingsManager.get(SettingKeys.M_Focus), "Manual Focus");
-                    } catch (Exception e) {
-                        Log.WriteEx(e);
-                        ////publishProgress("Detect MF failed");
-                    }
-
-                    try {
-                        ////publishProgress("Detect PictureSizes");
-                        detectPictureSizes(characteristics);
-                        sendProgress(SettingsManager.get(SettingKeys.PictureSize), "PictureSizes:");
-                    } catch (Exception e) {
-                        Log.WriteEx(e);
-                        ////publishProgress("Detect PictureSize failed");
-                    }
+                    new DenoisParameterDetector().checkIfSupported(characteristics);
+                    new PictureFormatDetector().checkIfSupported(characteristics);
+                    new ManualFocusDetector().checkIfSupported(characteristics);
+                    new PictureSizeDetector().checkIfSupported(characteristics);
 
                     try {
                         ////publishProgress("Detect Video Profiles");
@@ -934,243 +855,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
     }
 
-    private void detectPictureFormats(CameraCharacteristics characteristics)
-    {
-        StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        HashMap<String, Integer> hmap = new HashMap<>();
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW10)) {
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng10), ImageFormat.RAW10);
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer10), ImageFormat.RAW10);
-            }
-        } catch (Exception e) {
-            Log.WriteEx(e);
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW_SENSOR)) {
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16), ImageFormat.RAW_SENSOR);
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer), ImageFormat.RAW_SENSOR);
-                Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
-                /*if (size == null || size.length == 1) {
-                    int[] rawsizes = characteristics.get(CameraCharacteristicsXiaomi.availableRawSizes);
-                    if (rawsizes != null && rawsizes.length > 0)
-                    {
-                        List<Size> s = new ArrayList<>();
-                        for (int i= 0; i < rawsizes.length; i+=2)
-                        {
-                            s.add(new Size(rawsizes[i], rawsizes[i+1]));
-                        }
-                        size = s.toArray(new Size[s.size()]);
-                    }
-                }*/
-                if (size != null)
-                {
-                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
-                    if (size.length > 1)
-                    {
-                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
-                        String[] rawsizes = new String[size.length];
-                        for (int i = 0; i<size.length;i++)
-                        {
-                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
-                        }
-                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
-                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
-                    }
-                    else
-                    {
-                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Log.WriteEx(e);
-        }
-        try {
-            if (characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT) != null) {
-                Byte rawFormat = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_RAW_FORMAT);
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16), rawFormat.intValue());
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer), rawFormat.intValue());
-                Size[] size = smap.getOutputSizes(ImageFormat.RAW_SENSOR);
-                if (size != null)
-                {
-                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
-                    if (size.length > 1)
-                    {
-                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(true);
-                        String[] rawsizes = new String[size.length];
-                        for (int i = 0; i<size.length;i++)
-                        {
-                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
-                            Log.d(TAG, "Add new RawSize:" + rawsizes[i]);
-                        }
-                        SettingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
-                        SettingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
-                    }
-                    else
-                    {
-                        SettingsManager.get(SettingKeys.RawSize).setIsSupported(false);
-                    }
-                }
-            }
-        } catch (IllegalArgumentException | NullPointerException e) {
-            Log.d(TAG, "Dont support HUAWEI_RAW_FORMAT");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW12))
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_dng12), ImageFormat.RAW12);
-        } catch (Exception e) {
-            Log.d(TAG, "Dont support RAW12");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.JPEG))
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg), ImageFormat.JPEG);
-        } catch (Exception e) {
-            Log.d(TAG, "Dont support JPEG");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888)) {
-                hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv), ImageFormat.YUV_420_888);
-                Size[] size = smap.getOutputSizes(ImageFormat.YUV_420_888);
-                if (size != null)
-                {
-                    Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
-                    if (size.length > 1)
-                    {
-                        SettingsManager.get(SettingKeys.YuvSize).setIsSupported(true);
-                        String[] rawsizes = new String[size.length];
-                        for (int i = 0; i<size.length;i++)
-                        {
-                            rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
-                        }
-                        SettingsManager.get(SettingKeys.YuvSize).setValues(rawsizes);
-                        SettingsManager.get(SettingKeys.YuvSize).set(rawsizes[0]);
-                    }
-                    else
-                    {
-                        SettingsManager.get(SettingKeys.YuvSize).setIsSupported(false);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "Dont support YUV_420_888");
-        }
-        if (
-                hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg)) &&
-                (
-                        hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_dng10))
-                        || hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16)))
-                )
-                    hmap.put(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng), ImageFormat.JPEG);
-
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.NV16))
-                Log.d(TAG, "Support NV16");
-        }
-        catch (IllegalArgumentException ex)
-        {
-            Log.d(TAG, "Dont support NV16");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.NV21))
-                Log.d(TAG, "Support NV21");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support NV21");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.YUV_420_888))
-                    Log.d(TAG, "Support YUV_420_888");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support YUV_420_888");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.YUV_422_888))
-                    Log.d(TAG, "Support YUV_422_888");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support YUV_422_888");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.YUV_444_888))
-                    Log.d(TAG, "Support YUV_444_888");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support YUV_444_888");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.YV12))
-                    Log.d(TAG, "Support YV12");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support yv12");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.DEPTH16))
-                    Log.d(TAG, "Support DEPTH16");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support DEPTH16");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.DEPTH_POINT_CLOUD))
-                    Log.d(TAG, "Support DEPTH_POINT_CLOUD");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support DEPTH_POINT_CLOUD");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.RAW_PRIVATE))
-                    Log.d(TAG, "Support RAW_PRIVATE");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support RAW_PRIVATE");
-        }
-        try {
-            if (smap.isOutputSupportedFor(ImageFormat.PRIVATE))
-                    Log.d(TAG, "Support PRIVATE");
-        } catch (IllegalArgumentException e) {
-            Log.d(TAG, "Dont support PRIVATE");
-        }
-
-        SettingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
-        if(hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg)))
-            SettingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg));
-        else if (hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
-            SettingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv));
-        SettingsManager.get(SettingKeys.PictureFormat).setValues(StringUtils.IntHashmapToStringArray(hmap));
-    }
-
-    private void detectPictureSizes(CameraCharacteristics characteristics)
-    {
-        List<Size> outputSizes = new ArrayList<>();
-        StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        outputSizes.addAll(Arrays.asList(smap.getOutputSizes(ImageFormat.JPEG)));
-
-
-        Size[] highsize = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            highsize = smap.getHighResolutionOutputSizes(ImageFormat.JPEG);
-            if (highsize != null)
-                outputSizes.addAll(Arrays.asList(highsize));
-        }
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
-        {
-            int[] highres = characteristics.get(CameraCharacteristicsXiaomi.availableSuperResolutionStreamConfigurations);
-            if(highres != null)
-                outputSizes.addAll(Arrays.asList(Camera2Util.getOutputSizeForImageFormat(highres,ImageFormat.YUV_420_888)));
-        }
-        String[] ar = new String[outputSizes.size()];
-        Size[] sizes = new Size[outputSizes.size()];
-        outputSizes.toArray(sizes);
-
-        java.util.Arrays.sort(sizes,new SizeComparer());
-
-        int i = 0;
-        for (Size s : sizes)
-        {
-            ar[i++] = s.getWidth()+"x"+s.getHeight();
-        }
-
-
-
-        SettingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
-        SettingsManager.get(SettingKeys.PictureSize).set(ar[0]);
-        SettingsManager.get(SettingKeys.PictureSize).setValues(ar);
-    }
 
     private class SizeComparer implements Comparator<Size> {
 
@@ -1256,50 +940,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         SettingsManager.get(SettingKeys.SceneMode).setValues(lookupar);
     }
 
-    private void detectManualFocus(CameraCharacteristics cameraCharacteristics)
-    {
-        SettingMode mf = SettingsManager.get(SettingKeys.M_Focus);
-        float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
-        if (SettingsManager.getInstance().getCamera2MinFocusPosition() > 0)
-            maxfocusrange = SettingsManager.getInstance().getCamera2MinFocusPosition();
-        if (maxfocusrange == 0)
-        {
-            mf.setIsSupported(false);
-            return;
-        }
-        float step = 0.001f;
-        List<Float> floats = new ArrayList<>();
-        for (float i = step; i < maxfocusrange; i += step)
-        {
-            floats.add(i);
-            if (i > 0.01f)
-                step = 0.02f;
-            if (i > 0.1f)
-                step = 0.1f;
-            if (i > 1)
-                step = 0.2f;
-            if (i + step > maxfocusrange)
-                floats.add(maxfocusrange);
-        }
-
-        StringFloatArray focusranges = new StringFloatArray(floats.size() + 2);
-        focusranges.add(0, FreedApplication.getStringFromRessources(R.string.auto),0f);
-        focusranges.add(1,"∞", 0.0001f); //10000m
-        int t = 2;
-        for (int i = 0; i < floats.size(); i++)
-        {
-            focusranges.add(t++,StringUtils.getMeterString(1/floats.get(i)),floats.get(i));
-        }
-
-        if (focusranges.getSize() > 0) {
-            mf.setIsSupported(true);
-            mf.setValues(focusranges.getStringArray());
-        }
-        else
-            mf.setIsSupported(false);
-
-
-    }
 
     private void detectManualExposure(CameraCharacteristics characteristics)
     {

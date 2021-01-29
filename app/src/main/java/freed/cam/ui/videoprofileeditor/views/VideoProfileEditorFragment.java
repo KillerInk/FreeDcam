@@ -195,7 +195,7 @@ public class VideoProfileEditorFragment extends Fragment {
 
             OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
             videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
-            
+
             HdrModes hdrmode = HdrModes.valueOf((String)videoProfileEditorFragmentBinding.videoHDR.getText());
             videoProfileEditorModelView.getProfile().videoHdr = hdrmode.GetInt();
 
