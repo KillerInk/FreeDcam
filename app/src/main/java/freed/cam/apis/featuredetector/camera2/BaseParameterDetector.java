@@ -15,7 +15,7 @@ public abstract class BaseParameterDetector {
         {
             findAndFillSettings(cameraCharacteristics);
         }
-        catch (IllegalArgumentException | NullPointerException e)
+        catch (IllegalArgumentException | NullPointerException | ClassCastException e)
         {
             Log.WriteEx(e);
         }
