@@ -33,7 +33,7 @@ public class OisDetector extends BaseParameterDetector {
             if (oisvalues[0] == 1)
                 ois_supported = true;
 
-        if (!ois_supported)
+        /*if (!ois_supported)
         {
             try{
                 byte ois = characteristics.get(CameraCharacteristicsXiaomi.teleois_supported);
@@ -44,7 +44,7 @@ public class OisDetector extends BaseParameterDetector {
             {
                 Log.d(TAG, "No Xiaomi ois");
             }
-        }
+        }*/
         if (ois_supported)
         {
             String values[] = new String[2];
