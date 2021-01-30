@@ -182,6 +182,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         } catch (NullPointerException ex) {
             Log.WriteEx(ex);
         }
+        if (PicReader != null)
+        {
+            Log.d(TAG, "Close Opcode PicReader");
+            cameraUiWrapper.captureSessionHandler.RemoveSurface(PicReader.getSurface());
+            PicReader.close();
+            PicReader = null;
+        }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
         ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
@@ -334,16 +341,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
-
-        if (PicReader != null)
-        {
-            Log.d(TAG, "Close Opcode PicReader, is open from different session");
-            //PicReader.release();
-            PicReader.close();
-            PicReader = null;
-        }
-
-
 
         if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.d(TAG, "Create Opcode PicReader");
