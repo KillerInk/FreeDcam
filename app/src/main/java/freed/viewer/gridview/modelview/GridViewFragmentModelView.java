@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
@@ -344,7 +345,7 @@ public class GridViewFragmentModelView extends ViewModel
                         setViewMode(viewStateModel.getCurrentViewState());
                     }
                 }
-                else if (filesHolderModel.getFiles() != null && filesHolderModel.getFiles().size() > 0 && filesHolderModel.getFiles().get(0) instanceof UriHolder) {
+                else if (filesHolderModel.getFiles() != null && filesHolderModel.getFiles().size() > 0 && (filesHolderModel.getFiles().get(0) instanceof UriHolder|| filesHolderModel.getFiles().get(0) instanceof DocumentHolder)) {
                     if (filesHolderModel.getFiles().get(0).IsFolder())
                         finishActivityModel.setOb(null);
                     else {
@@ -396,6 +397,8 @@ public class GridViewFragmentModelView extends ViewModel
                             ar.add(((FileHolder) f.getImagePath()).getFile().getAbsolutePath());
                         else if (f.getImagePath() instanceof UriHolder)
                             ar.add(((UriHolder) f.getImagePath()).getMediaStoreUri().toString());
+                        else if (f.getImagePath() instanceof DocumentHolder)
+                            ar.add(((DocumentHolder)f.getImagePath()).getDocumentFile().getUri().toString());
                     }
 
                 }

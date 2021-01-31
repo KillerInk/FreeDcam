@@ -19,6 +19,7 @@ import java.util.List;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.UpdateScreenSlide;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.settings.SettingsManager;
@@ -105,6 +106,14 @@ public class FileListController {
                 LoadDCIMDirs();
             else
                 files = mediaStoreController.getFolders();
+
+            DocumentFile documentFile = getFreeDcamDocumentFolder();
+            if (documentFile != null)
+            {
+                DocumentHolder documentHolder = new DocumentHolder(documentFile.getName(),documentFile.lastModified(),documentFile.isDirectory(),true,documentFile);
+                files.add(documentHolder);
+            }
+
             SortFileHolder(files);
             Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
             fireNotifyFilesChanged();
@@ -114,6 +123,11 @@ public class FileListController {
             Log.e(TAG, ex.getMessage());
             Log.WriteEx(ex);
         }
+    }
+
+    public void loadDocumentFile(String doc)
+    {
+
     }
 
     /**
@@ -150,34 +164,37 @@ public class FileListController {
     {
         Log.d(TAG, "LoadFolder needStorageAccessFrameWork" + needStorageAccessFrameWork);
         synchronized (filesLock) {
-            if (!needStorageAccessFrameWork) {
-                files.clear();
-                storageFileManager.readFilesFromFolder(((FileHolder)fileHolder).getFile(), files, types, fileHolder.isExternalSD());
-            }
-            else
+            if (fileHolder instanceof DocumentHolder)
             {
-                files.clear();
-                List<BaseHolder> tmplist =new ArrayList<>();
-                tmplist = mediaStoreController.getFilesFromFolder(fileHolder.getName());
-                if (types != FormatTypes.all) {
-                    for (BaseHolder fh : tmplist) {
-                        if (fh.getName() != null) {
-                            if (fh.getName().endsWith("jpg") && types == FormatTypes.jpg)
-                                files.add(fh);
-                            if (fh.getName().endsWith("jps") && types == FormatTypes.jps)
-                                files.add(fh);
-                            if (fh.getName().endsWith("dng") && types == FormatTypes.dng)
-                                files.add(fh);
-                            if (fh.getName().endsWith("bayer") && types == FormatTypes.raw)
-                                files.add(fh);
-                            if (fh.getName().endsWith("mp4") && types == FormatTypes.mp4)
-                                files.add(fh);
+                new DocumentFileController().readFilesFromFolder((DocumentHolder) fileHolder,files,types,fileHolder.isExternalSD());
+            }
+            else {
+                if (!needStorageAccessFrameWork) {
+                    files.clear();
+                    storageFileManager.readFilesFromFolder(((FileHolder) fileHolder).getFile(), files, types, fileHolder.isExternalSD());
+                } else {
+                    files.clear();
+                    List<BaseHolder> tmplist = new ArrayList<>();
+                    tmplist = mediaStoreController.getFilesFromFolder(fileHolder.getName());
+                    if (types != FormatTypes.all) {
+                        for (BaseHolder fh : tmplist) {
+                            if (fh.getName() != null) {
+                                if (fh.getName().endsWith("jpg") && types == FormatTypes.jpg)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("jps") && types == FormatTypes.jps)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("dng") && types == FormatTypes.dng)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("bayer") && types == FormatTypes.raw)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("mp4") && types == FormatTypes.mp4)
+                                    files.add(fh);
+                            }
                         }
-                    }
+                    } else
+                        files = tmplist;
+                    SortFileHolder(files);
                 }
-                else
-                    files = tmplist;
-                SortFileHolder(files);
             }
             fireNotifyFilesChanged();
         }

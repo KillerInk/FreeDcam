@@ -65,6 +65,7 @@ import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.jni.ExifInfo;
@@ -366,7 +367,7 @@ public class DngConvertingFragment extends Fragment
             String[] files = params[0];
             ActivityInterface activityInterface = (ActivityInterface)getActivity();
             List<BaseHolder> convertFiles = new ArrayList<>();
-            if (files[0].startsWith("content") || files[0].startsWith("uri"))
+            if (files[0].startsWith("uri"))
             {
                 activityInterface.getFileListController().LoadFreeDcamDCIMDirsFiles();
                 List<BaseHolder> baseHolders = activityInterface.getFileListController().getFiles();
@@ -374,9 +375,24 @@ public class DngConvertingFragment extends Fragment
                 {
                     for (BaseHolder b : baseHolders)
                     {
-                        if (((UriHolder) b).getMediaStoreUri().toString().equals(s))
-                            convertFiles.add(b);
+                        if (b.getHolderType() ==  UriHolder.class) {
+                            if (((UriHolder) b).getMediaStoreUri().toString().equals(s))
+                                convertFiles.add(b);
+                        }
+                        else if (b.getHolderType() == DocumentHolder.class)
+                        {
+                            if (((DocumentHolder) b).getDocumentFile().getUri().toString().equals(s))
+                                convertFiles.add(b);
+                        }
                     }
+                }
+            }
+            else if (files[0].startsWith("content"))
+            {
+                for (String s : files) {
+                    Uri uri = Uri.parse(s);
+                    DocumentFile fi = DocumentFile.fromTreeUri(getContext(),uri);
+                    convertFiles.add(new DocumentHolder(fi,true));
                 }
             }
             else
