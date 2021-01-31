@@ -25,6 +25,7 @@
 
 #define RAW_16BIT_TO_12BIT 5
 #define RAW_16BIT 6
+#define QUADBAYER_16BIT 7
 
 #ifdef LOG_RAW_DATA
 const char *bit_rep[16] = {
@@ -504,6 +505,91 @@ void DngWriter::processSXXX16(TIFF *tif) {
     LOGD("Free Memory processSXXX16");
 }
 
+
+void DngWriter::quadBayer16bit(TIFF *tif) {
+    int  row, col, pos;
+    int rowsize = dngProfile->rawwidht;
+    unsigned short rggb1[rowsize];
+    unsigned short rggb2[rowsize];
+    unsigned short rggb3[rowsize];
+    unsigned short rggb4[rowsize];
+    unsigned short r1,r2,r3,r4;
+    unsigned short g1,g2,g3,g4;
+    unsigned short gg1,gg2,gg3,gg4;
+    unsigned short b1,b2,b3,b4;
+
+    for (row=0; row < dngProfile->rawheight; row+=4)
+    {
+        for (col = 0; col < dngProfile->rawwidht; col+=4)
+        { // iterate over pixel columns
+            // r1  r2  g1 g2 = r1  g1  r2 g2
+            // r3  r4  g3 g4 = g3  b1  g4 b2
+            // gg1 gg2 b1 b2 = r3  gg1 r4 gg2
+            // gg3 gg4 b3 b4 = gg3 b3  gg4 b4
+            //row1 r1  r2  g1 g2
+            pos = row*col;
+            r1 = bayerBytes[pos];
+            r2 = bayerBytes[pos+1];
+            g1 = bayerBytes[pos+2];
+            g2 = bayerBytes[pos+3];
+
+            //row2 r3  r4  g3 g4
+            pos = (row+1)*col;
+            r3 = bayerBytes[pos];
+            r4 = bayerBytes[pos+1];
+            g3 = bayerBytes[pos+2];
+            g4 = bayerBytes[pos+3];
+
+            //row3 gg1 gg2 b1 b2
+            pos = (row+2)*col;
+            gg1 = bayerBytes[pos];
+            gg2 = bayerBytes[pos+1];
+            b1 = bayerBytes[pos+2];
+            b2 = bayerBytes[pos+3];
+
+            //row4 gg3 gg4 b3 b4
+            pos = (row+3)*col;
+            gg3 = bayerBytes[pos];
+            gg4 = bayerBytes[pos+1];
+            b3 = bayerBytes[pos+2];
+            b4 = bayerBytes[pos+3];
+
+            //r1  g1  r2 g2
+            rggb1[col] =   r1 << 8 |g1;
+            rggb1[col+1] =   r2 << 8 |g2;
+
+            //g3  b1  g4 b2
+            rggb2[col] =   g3 << 8 |b1;
+            rggb2[col+1] =   g4 << 8 |b2;
+
+            //r3  gg1 r4 gg2
+            rggb3[col] =   r3 << 8 |gg1;
+            rggb3[col+1] =   r4 << 8 |gg2;
+
+            //gg3 b3  gg4 b4
+            rggb4[col] =   gg3 << 8 |b3;
+            rggb4[col+1] =   gg4 << 8 |b4;
+
+
+        }
+        if (TIFFWriteScanline (tif, rggb1, row, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+        if (TIFFWriteScanline (tif, rggb2, row+1, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+        if (TIFFWriteScanline (tif, rggb3, row+2, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+        if (TIFFWriteScanline (tif, rggb4, row+3, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+    }
+
+    LOGD("Finalizng DNG");
+    LOGD("Free Memory quadBayer16bit");
+}
+
 void DngWriter::process16to10(TIFF *tif) {
     long j;
     int rowsizeInBytes= dngProfile->rawwidht*10/8;
@@ -679,6 +765,8 @@ void DngWriter::writeRawStuff(TIFF *tif) {
     }
     else if (dngProfile->rawType == RAW_16BIT)
         processSXXX16(tif);
+    else if (dngProfile->rawType == QUADBAYER_16BIT)
+        quadBayer16bit(tif);
     else
         LOGD("rawType is not implented");
 }
