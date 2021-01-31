@@ -7,6 +7,8 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
@@ -18,6 +20,9 @@ import android.util.Size;
 
 import com.troop.freedcam.R;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -26,7 +31,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import Camera2EXT.Keys;
 import camera2_hidden_keys.ReflectionHelper;
+import camera2_hidden_keys.VendorKeyParser;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
@@ -126,6 +133,25 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 return;
             }
             boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
+
+            VendorKeyParser vendorKeyParser = new VendorKeyParser();
+            try {
+                vendorKeyParser.readVendorKeys(characteristics);
+                List<CaptureRequest.Key> keys = vendorKeyParser.getRequests();
+                if (keys.size() > 0)
+                {
+                    for (int i = 0; i< keys.size();i++)
+                    {
+                        Log.d(TAG, keys.get(i).getName());
+                    }
+                }
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
 
             SettingsManager.getInstance().SetCurrentCamera(c);
 
