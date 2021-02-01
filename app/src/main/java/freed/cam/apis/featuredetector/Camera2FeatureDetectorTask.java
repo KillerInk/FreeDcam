@@ -5,37 +5,24 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.MediaCodecInfo;
-import android.media.MediaCodecList;
-import android.media.MediaFormat;
 import android.os.Build;
-import android.util.Pair;
-import android.util.Range;
 import android.util.Size;
 
 import com.troop.freedcam.R;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
-import Camera2EXT.Keys;
-import camera2_hidden_keys.ReflectionHelper;
 import camera2_hidden_keys.VendorKeyParser;
-import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
+import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
 import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
@@ -73,14 +60,9 @@ import freed.cam.apis.featuredetector.camera2.huawei.SecondarySensorSizeDetector
 import freed.cam.apis.featuredetector.camera2.huawei.WhitebalanceRangeDetector;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.renderscript.RenderScriptManager;
-import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.settings.mode.SettingMode;
 import freed.utils.Log;
-import freed.utils.StringFloatArray;
-import freed.utils.StringUtils;
-import freed.utils.VideoMediaProfile;
 
 
 /**
@@ -135,14 +117,16 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
 
             VendorKeyParser vendorKeyParser = new VendorKeyParser();
+            HashSet<String> vendorkeys = null;
             try {
                 vendorKeyParser.readVendorKeys(characteristics);
-                List<CaptureRequest.Key> keys = vendorKeyParser.getRequests();
-                if (keys.size() > 0)
+                vendorkeys = vendorKeyParser.getRequests();
+                if (vendorkeys.size() > 0)
                 {
-                    for (int i = 0; i< keys.size();i++)
+                    Iterator<String> i = vendorkeys.iterator();
+                    while (i.hasNext())
                     {
-                        Log.d(TAG, keys.get(i).getName());
+                        Log.d(TAG, i.next());
                     }
                 }
             } catch (NoSuchMethodException e) {
@@ -240,7 +224,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 dumpQCFA(characteristics);
 
-                detectXiaomiStuff(characteristics);
+                detectXiaomiStuff(characteristics,vendorkeys);
 
                 dumpQcomStuff(characteristics);
 
@@ -252,30 +236,62 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         }
     }
 
-    private void detectXiaomiStuff(CameraCharacteristics characteristics) {
+    private void detectXiaomiStuff(CameraCharacteristics characteristics, HashSet<String> vendorkeys) {
         try {
-            int video10 = characteristics.get(CameraCharacteristicsXiaomi.SUPPORT_VIDEO_HDR10);
-            Log.d(TAG, "video10bit suppported");
+            if(isKeySupported(vendorkeys,CameraCharacteristicsXiaomi.SUPPORT_VIDEO_HDR10)) {
+                int video10 = characteristics.get(CameraCharacteristicsXiaomi.SUPPORT_VIDEO_HDR10);
+                Log.d(TAG, "video10bit suppported");
+            }
         }catch (IllegalArgumentException | NullPointerException ex)
         {
             Log.d(TAG, "video10bit unsuppported");
         }
         try {
-            Integer[] eismodes = characteristics.get(CameraCharacteristicsXiaomi.EIS_QUALITY_SUPPORTED);
-            Log.d(TAG, "eismodes supported");
+            if (isKeySupported(vendorkeys,CameraCharacteristicsXiaomi.EIS_QUALITY_SUPPORTED)) {
+                Integer[] eismodes = characteristics.get(CameraCharacteristicsXiaomi.EIS_QUALITY_SUPPORTED);
+                Log.d(TAG, "eismodes supported");
+            }
         }catch (IllegalArgumentException | NullPointerException ex)
         {
             Log.d(TAG, "eismodes unsupported");
         }
 
         try {
-            if(CaptureRequestXiaomi.VIDEO_RECORD_CONTROL != null)
+            if (isKeySupported(vendorkeys,CaptureRequestXiaomi.VIDEO_RECORD_CONTROL))
                 SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).setIsSupported(true);
             Log.d(TAG, "VIDEO_RECORD_CONTROL supported");
         }catch (IllegalArgumentException | NullPointerException ex)
         {
             Log.d(TAG, "VIDEO_RECORD_CONTROL unsupported");
         }
+
+        try {
+            if (isKeySupported(vendorkeys,CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED))
+                SettingsManager.get(SettingKeys.XIAOMI_PRO_VIDEO_LOG).setIsSupported(true);
+            Log.d(TAG, "VIDEO_RECORD_CONTROL supported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "VIDEO_RECORD_CONTROL unsupported");
+        }
+
+        try {
+            if (isKeySupported(vendorkeys, CaptureRequestQcom.HDR10_VIDEO))
+                SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).setIsSupported(true);
+            Log.d(TAG, "VIDEO_RECORD_CONTROL supported");
+        }catch (IllegalArgumentException | NullPointerException ex)
+        {
+            Log.d(TAG, "VIDEO_RECORD_CONTROL unsupported");
+        }
+    }
+
+    private boolean isKeySupported(HashSet<String> vendorkeys, CaptureRequest.Key key)
+    {
+        return vendorkeys != null && vendorkeys.contains(key.getName());
+    }
+
+    private boolean isKeySupported(HashSet<String> vendorkeys, CameraCharacteristics.Key key)
+    {
+        return vendorkeys != null && vendorkeys.contains(key.getName());
     }
 
     private void findCameraIds(CameraManager manager, List<String> cameraids) {

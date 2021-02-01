@@ -144,6 +144,8 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> useHuaweiWhiteBalance = new Key(ApiBooleanSettingMode.class, R.string.aps_usehuawei_wb);
     public final static Key<ApiBooleanSettingMode> SWITCH_ASPECT_RATIO = new Key(ApiBooleanSettingMode.class, R.string.aps_switch_aspect_ratio);
     public final static Key<ApiBooleanSettingMode> XIAOMI_VIDEO_RECORD_CONTROL = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_video_record_control);
+    public final static Key<ApiBooleanSettingMode> XIAOMI_PRO_VIDEO_LOG = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_pro_video_log);
+    public final static Key<ApiBooleanSettingMode> QCOM_VIDEO_HDR10 = new Key(ApiBooleanSettingMode.class, R.string.aps_qcom_video_hdr);
 
 
     public final static Key<GlobalBooleanSettingMode> useCustomMatrixOnCamera2 = new Key(GlobalBooleanSettingMode.class, R.string.aps_usecustom_matrix_oncamera2);

@@ -14,17 +14,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class VendorKeyParser
 {
 
-    private List<CaptureRequest.Key> availiblekeys;
+    private HashSet<String> availiblekeys;
 
     public VendorKeyParser()
     {
-        availiblekeys = new ArrayList<>();
+        availiblekeys = new HashSet<>();
     }
 
     public void readVendorKeys(CameraCharacteristics cameraCharacteristics) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -42,12 +44,12 @@ public class VendorKeyParser
         {
             for (Object b : keys)
             {
-                availiblekeys.add((CaptureRequest.Key) b);
+                availiblekeys.add(((CaptureRequest.Key) b).getName());
             }
         }
     }
 
-    public List<CaptureRequest.Key> getRequests() {
+    public HashSet<String> getRequests() {
         return availiblekeys;
     }
 
@@ -65,7 +67,7 @@ public class VendorKeyParser
     private ArrayList getAllvendorKeysApi26(CameraCharacteristics characteristics) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method getNativeCopy = getNativeCopy();
         getNativeCopy.setAccessible(true);
-        Object metadata = getNativeCopy.invoke(characteristics,null);
+        Object metadata = getNativeCopy.invoke(characteristics);
         Method getAllVendorKeys = RestrictionBypass.getDeclaredMethod(metadata.getClass(),"getAllVendorKeys",Class.class);
         getAllVendorKeys.setAccessible(true);
         //seems to be equal wich key.class we use, it returns always all key for CameraCharateristics, CaptureRequest and CaptureResult
@@ -77,7 +79,7 @@ public class VendorKeyParser
     }
 
     private Method getNativeCopy() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        return RestrictionBypass.getDeclaredMethod(CameraCharacteristics.class, "getNativeCopy",null);
+        return RestrictionBypass.getDeclaredMethod(CameraCharacteristics.class, "getNativeCopy");
     }
 
 

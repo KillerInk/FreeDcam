@@ -30,7 +30,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.ImageReader;
-import android.media.MediaCodec;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Build;
@@ -216,7 +215,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
 
-
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             opcodeProcessor.stopRecording();
@@ -359,7 +357,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
     {
         List<Size> sizes = new ArrayList<>();
-        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
@@ -462,7 +459,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Log.d(TAG, "opcodeProcessor.prepareRecording");
                 opcodeProcessor.prepareRecording();
-                applyOpCodeToSession(active_op);
+                applyQcomSettingsToSession(active_op);
             }
 
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
@@ -477,34 +474,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
     };
 
-    private void applyOpCodeToSession(OpCodes active_op) {
-        if (active_op != OpCodes.off)
-        {
-            switch (currentVideoProfile.videoHdr)
-            {
-                case 0:
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF, false);
-                    break;
-                case 1:
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_HLG, false);
-                    break;
-                case 2:
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_PQ, false);
-                    break;
-            }
-
-            if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                opcodeProcessor.applyOpCodeToSession();
-            /*if (active_op == OpCodes.xiaomi_hdr10) {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED, (byte) 1, false);
-            }*/
-
-        }
-    }
-
     private final StateCallback recordingSessionCallback = new StateCallback()
     {
-
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
@@ -518,7 +489,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
                     Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
-                    applyOpCodeToSession(active_op);
+                    applyQcomSettingsToSession(active_op);
 
                     if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
                         cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
@@ -534,8 +505,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                     isRecording = true;
                 }
             });
-
-
         }
 
         @Override
@@ -569,5 +538,31 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 index = i;
         }
         return index;
+    }
+
+    private void applyQcomSettingsToSession(OpCodes active_op) {
+
+        setQcomVideoHdr();
+        if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            opcodeProcessor.applyOpCodeToSession();
+    }
+
+    private void setQcomVideoHdr()
+    {
+        if (SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).isSupported())
+        {
+            switch (currentVideoProfile.videoHdr)
+            {
+                case 0:
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_OFF, false);
+                    break;
+                case 1:
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_HLG, false);
+                    break;
+                case 2:
+                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequestQcom.HDR10_VIDEO, CaptureRequestQcom.HDR10_VIDEO_PQ, false);
+                    break;
+            }
+        }
     }
 }
