@@ -154,8 +154,10 @@ public class VideoProfileEditorModelView extends ViewModel {
             else
                 encoderModel.setTxt(currentProfile.get().encoderName);
             encoderModel.setValues();
-            hdrModes.setTxt(Converter.convertHdrModecIntToString(null,currentProfile.get().videoHdr));
-            hdrModes.setVisibility(true);
+            if (SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).isSupported()) {
+                hdrModes.setTxt(Converter.convertHdrModecIntToString(null, currentProfile.get().videoHdr));
+                hdrModes.setVisibility(true);
+            }
             if (currentProfile.get().level == -1 && currentProfile.get().profile == -1)
                 profileLevelModel.setDefault();
             else {
