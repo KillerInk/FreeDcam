@@ -22,6 +22,8 @@ package freed.cam.apis.camera2.parameters.manual;
 import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.troop.freedcam.R;
 
@@ -44,6 +46,7 @@ public class ManualFocus extends AbstractParameter
 {
     private final String TAG = ManualFocus.class.getSimpleName();
     protected StringFloatArray focusvalues;
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     public ManualFocus(CameraWrapperInterface cameraUiWrapper)
     {
@@ -89,13 +92,34 @@ public class ManualFocus extends AbstractParameter
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
                 ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }
+            applyAutoZoom();
             if (currentInt > focusvalues.getSize())
                 currentInt = focusvalues.getSize() -1;
             float valtoset= focusvalues.getValue(currentInt);
             Log.d(TAG, "Set MF TO: " + valtoset+ " ValueTOSET: " + valueToSet);
             ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset,setToCamera);
+
         }
     }
+
+    private void applyAutoZoom()
+    {
+        if (SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
+        {
+            int factor = Integer.parseInt(SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).SetValue(factor,true);
+            handler.removeCallbacks(resetzoomRunner);
+            int delay = Integer.parseInt(SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
+            handler.postDelayed(resetzoomRunner,delay*1000);
+        }
+    }
+
+    private Runnable resetzoomRunner = new Runnable() {
+        @Override
+        public void run() {
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).SetValue(0,true);
+        }
+    };
 
     @Override
     public String[] getStringValues() {

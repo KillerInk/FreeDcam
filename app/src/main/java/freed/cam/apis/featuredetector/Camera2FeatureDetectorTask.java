@@ -220,6 +220,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
                 dumpQcomStuff(characteristics);
 
+                if (SettingsManager.get(SettingKeys.M_Focus).isSupported()) {
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(true);
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).set(true);
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setIsSupported(true);
+                    String[] zoom = new String[]{"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setValues(zoom);
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).set("50");
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setIsSupported(true);
+                    String[] duration = new String[]{"0", "1", "2", "3", "4", "5"};
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setValues(duration);
+                    SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).set("1");
+                }
+
             }
         }
         SettingsManager.getInstance().SetCurrentCamera(0);

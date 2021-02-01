@@ -142,6 +142,10 @@
     <string name="aps_afbracketmin" translatable="false">afbracketmin</string>
     <string name="aps_timelapseframes" translatable="false">timelapsframes</string>
 
+    <string name="aps_zoom_on_mf" translatable="false">zoom_on_mf</string>
+    <string name="aps_zoom_on_mf_zoomfactor" translatable="false">zoom_on_mf_zoomfactor</string>
+    <string name="aps_zoom_on_mf_zoomduration" translatable="false">zoom_on_mf_zoomduration</string>
+
 
 
 </resources>

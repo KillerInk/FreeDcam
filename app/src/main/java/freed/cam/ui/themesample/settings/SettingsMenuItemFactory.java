@@ -11,6 +11,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
+import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -472,6 +473,21 @@ public class SettingsMenuItemFactory
             if (params.get(SettingKeys.Ae_TargetFPS) != null) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.Ae_TargetFPS), R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description);
                 ton.SetUiItemClickListner(click);
+                settingsgroup.addView(ton);
+            }
+
+            if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported()) {
+                SettingsChild_BooleanSetting ton = new SettingsChild_BooleanSetting(context,apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS),R.string.setting_zoom_on_mf_header, R.string.setting_zoom_on_mf_description);
+                settingsgroup.addView(ton);
+            }
+
+            if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).isSupported()) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR),R.string.setting_zoom_on_mf_factor_header, R.string.setting_zoom_on_mf_factor_description);
+                settingsgroup.addView(ton);
+            }
+
+            if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).isSupported()) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION),R.string.setting_zoom_on_mf_duration_header, R.string.setting_zoom_on_mf_duration_description);
                 settingsgroup.addView(ton);
             }
             return settingsgroup;

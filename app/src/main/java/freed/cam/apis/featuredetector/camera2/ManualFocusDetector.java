@@ -66,7 +66,9 @@ public class ManualFocusDetector extends BaseParameterDetector
             mf.setIsSupported(true);
             mf.setValues(focusranges.getStringArray());
         }
-        else
+        else {
             mf.setIsSupported(false);
+            SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(false);
+        }
     }
 }
