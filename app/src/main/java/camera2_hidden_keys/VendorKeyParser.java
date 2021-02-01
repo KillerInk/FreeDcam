@@ -18,10 +18,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import freed.utils.Log;
+
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class VendorKeyParser
 {
-
+    private final String TAG = VendorKeyParser.class.getSimpleName();
     private HashSet<String> availiblekeys;
 
     public VendorKeyParser()
@@ -44,9 +46,11 @@ public class VendorKeyParser
         {
             for (Object b : keys)
             {
+                Log.d(TAG, ((CaptureRequest.Key) b).getName());
                 availiblekeys.add(((CaptureRequest.Key) b).getName());
             }
         }
+        else Log.d(TAG, "No vendorKeys found " + Build.VERSION.SDK + " " + Build.VERSION.SDK_INT);
     }
 
     public HashSet<String> getRequests() {

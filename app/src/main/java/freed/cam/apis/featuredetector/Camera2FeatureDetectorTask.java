@@ -121,14 +121,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             try {
                 vendorKeyParser.readVendorKeys(characteristics);
                 vendorkeys = vendorKeyParser.getRequests();
-                if (vendorkeys.size() > 0)
-                {
-                    Iterator<String> i = vendorkeys.iterator();
-                    while (i.hasNext())
-                    {
-                        Log.d(TAG, i.next());
-                    }
-                }
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
