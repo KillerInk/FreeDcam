@@ -185,6 +185,13 @@
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
+    <string name="setting_zoom_on_mf_header">Auto Zoom on ManualFocus</string>
+    <string name="setting_zoom_on_mf_description">Auto Zoom when using ManualFocus</string>
+    <string name="setting_zoom_on_mf_factor_header">Zoom Factor</string>
+    <string name="setting_zoom_on_mf_factor_description">Zoom Factor that get applied</string>
+    <string name="setting_zoom_on_mf_duration_header">Zoom Duration</string>
+    <string name="setting_zoom_on_mf_duration_description">Duration after the zoom get reseted</string>
+
     <string name="setting_scalepreview_header">Scale Preview</string>
     <string name="setting_scalepreview_description">Turn on to Scale the preview x2</string>
 
