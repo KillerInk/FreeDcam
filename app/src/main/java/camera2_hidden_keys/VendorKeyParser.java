@@ -74,7 +74,7 @@ public class VendorKeyParser
         Object metadata = getNativeCopy.invoke(characteristics);
         Method getAllVendorKeys = RestrictionBypass.getDeclaredMethod(metadata.getClass(),"getAllVendorKeys",Class.class);
         getAllVendorKeys.setAccessible(true);
-        //seems to be equal wich key.class we use, it returns always all key for CameraCharateristics, CaptureRequest and CaptureResult
+        //seems to be equal wich key.class we use, it returns always all keys for CameraCharacteristics, CaptureRequest and CaptureResult
         return (ArrayList) getAllVendorKeys.invoke(metadata, CaptureRequest.Key.class);
     }
 
@@ -85,6 +85,4 @@ public class VendorKeyParser
     private Method getNativeCopy() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         return RestrictionBypass.getDeclaredMethod(CameraCharacteristics.class, "getNativeCopy");
     }
-
-
 }

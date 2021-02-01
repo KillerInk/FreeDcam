@@ -555,20 +555,20 @@ void DngWriter::quadBayer16bit(TIFF *tif) {
             b4 = bayerBytes[pos+3];
 
             //r1  g1  r2 g2
-            rggb1[col] =   r1 << 8 |g1;
-            rggb1[col+1] =   r2 << 8 |g2;
+            rggb1[col] =   g1 << 8 |r1;
+            rggb1[col+1] =   g2 << 8 |r2;
 
             //g3  b1  g4 b2
-            rggb2[col] =   g3 << 8 |b1;
-            rggb2[col+1] =   g4 << 8 |b2;
+            rggb2[col] =   b1 << 8 |g3;
+            rggb2[col+1] =   b2 << 8 |g4;
 
             //r3  gg1 r4 gg2
-            rggb3[col] =   r3 << 8 |gg1;
-            rggb3[col+1] =   r4 << 8 |gg2;
+            rggb3[col] =   gg1 << 8 |r3;
+            rggb3[col+1] =   gg2 << 8 |r4;
 
             //gg3 b3  gg4 b4
-            rggb4[col] =   gg3 << 8 |b3;
-            rggb4[col+1] =   gg4 << 8 |b4;
+            rggb4[col] =   b3 << 8 |gg3;
+            rggb4[col+1] =   b4 << 8 |gg4;
 
 
         }
