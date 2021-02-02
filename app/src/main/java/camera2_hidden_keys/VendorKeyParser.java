@@ -32,7 +32,7 @@ public class VendorKeyParser
     }
 
     public void readVendorKeys(CameraCharacteristics cameraCharacteristics) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        ArrayList keys = null;
+        ArrayList<CaptureRequest.Key> keys = null;
         if (get_mProperties() != null)
         {
             keys = getAllvendorKeysApi29(cameraCharacteristics);
@@ -44,10 +44,10 @@ public class VendorKeyParser
 
         if (keys != null)
         {
-            for (Object b : keys)
+            for (CaptureRequest.Key b : keys)
             {
-                Log.d(TAG, ((CaptureRequest.Key) b).getName());
-                availiblekeys.add(((CaptureRequest.Key) b).getName());
+                Log.d(TAG, b.getName());
+                availiblekeys.add(b.getName());
             }
         }
         else Log.d(TAG, "No vendorKeys found " + Build.VERSION.SDK + " " + Build.VERSION.SDK_INT);
