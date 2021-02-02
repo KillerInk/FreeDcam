@@ -19,7 +19,7 @@ public class EdgeModeDetector extends BaseParameterDetector{
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, SettingsManager.get(SettingKeys.EDGE_MODE), FreedApplication.getStringArrayFromRessource(R.array.edgeModes));
         String vals[] = SettingsManager.get(SettingKeys.EDGE_MODE).getValues();
-        String newvals[] = new String[vals.length-1];
+        String newvals[] = new String[vals.length];
         String zsldnoise= FreedApplication.getStringFromRessources(R.string.zeroshutterlag);
         int t = 0;
         for (int i = 0; i< vals.length; i++)
