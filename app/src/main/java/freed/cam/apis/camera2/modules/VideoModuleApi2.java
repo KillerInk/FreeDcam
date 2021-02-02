@@ -422,8 +422,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 recorderSurface = videoRecorder.getSurface();
             //}
             cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
+            applyQcomSettingsToSession(active_op);
 
-            OpCodes.get(currentVideoProfile.opcode);
             if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             {
                 //opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
@@ -489,7 +489,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
                     Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
                     cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
-                    applyQcomSettingsToSession(active_op);
 
                     if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
                         cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
