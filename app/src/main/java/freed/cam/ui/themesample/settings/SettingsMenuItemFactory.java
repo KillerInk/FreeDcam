@@ -483,11 +483,13 @@ public class SettingsMenuItemFactory
 
             if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).isSupported()) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR),R.string.setting_zoom_on_mf_factor_header, R.string.setting_zoom_on_mf_factor_description);
+                ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
 
             if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).isSupported()) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION),R.string.setting_zoom_on_mf_duration_header, R.string.setting_zoom_on_mf_duration_description);
+                ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
             return settingsgroup;
