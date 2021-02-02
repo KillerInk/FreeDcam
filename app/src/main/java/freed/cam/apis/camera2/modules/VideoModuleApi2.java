@@ -148,7 +148,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         active_op = OpCodes.get(currentVideoProfile.opcode);
         Log.d(TAG, "Opcode " + active_op.name() + ":" +active_op.GetInt());
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.N && active_op != OpCodes.off) {
             opcodeProcessor = OpcodeProcessorFactory.getOpCodeProcessor(active_op, cameraUiWrapper.captureSessionHandler);
         }
 
@@ -346,6 +346,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
             Log.d(TAG, "Create Preview OpCodeSession" + active_op.name() + ":" + active_op.GetInt());
+            applyQcomSettingsToSession(active_op);
             opcodeProcessor.createOpCodeSession(previewSessionCallback);
         } else {
             Log.d(TAG, "Create normal Preview Session");
@@ -459,7 +460,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Log.d(TAG, "opcodeProcessor.prepareRecording");
                 opcodeProcessor.prepareRecording();
-                applyQcomSettingsToSession(active_op);
             }
 
             Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
