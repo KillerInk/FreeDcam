@@ -13,7 +13,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ColorModeDetector extends BaseParameterDetector{
+public class ColorModeDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {

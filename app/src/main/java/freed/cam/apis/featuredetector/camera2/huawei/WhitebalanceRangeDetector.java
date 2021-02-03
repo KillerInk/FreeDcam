@@ -13,12 +13,13 @@ import java.util.List;
 
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import freed.FreedApplication;
-import freed.cam.apis.featuredetector.camera2.BaseParameterDetector;
+import freed.cam.apis.featuredetector.BaseParameterDetector;
+import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
-public class WhitebalanceRangeDetector extends BaseParameterDetector {
+public class WhitebalanceRangeDetector extends BaseParameter2Detector {
     private final String TAG = WhitebalanceRangeDetector.class.getSimpleName();
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

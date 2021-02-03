@@ -7,14 +7,12 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
-import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class OisDetector extends BaseParameterDetector {
+public class OisDetector extends BaseParameter2Detector {
 
     private final String TAG = OisDetector.class.getSimpleName();
 

@@ -13,7 +13,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class AwbModesDetector extends BaseParameterDetector{
+public class AwbModesDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {

@@ -9,9 +9,8 @@ import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera2Util;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
 
-public class ShadingModesDetector extends BaseParameterDetector {
+public class ShadingModesDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

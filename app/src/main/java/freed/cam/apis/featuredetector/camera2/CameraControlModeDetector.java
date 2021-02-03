@@ -16,7 +16,7 @@ import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class CameraControlModeDetector  extends BaseParameterDetector{
+public class CameraControlModeDetector  extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         detectControlMode(cameraCharacteristics);

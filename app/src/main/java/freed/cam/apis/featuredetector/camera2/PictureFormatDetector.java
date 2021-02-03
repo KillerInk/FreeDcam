@@ -21,7 +21,7 @@ import freed.utils.Log;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class PictureFormatDetector extends BaseParameterDetector {
+public class PictureFormatDetector extends BaseParameter2Detector {
 
     private final String TAG = PictureFormatDetector.class.getSimpleName();
 

@@ -9,7 +9,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 
-public class VideoMediaProfilesDetector extends BaseParameterDetector {
+public class VideoMediaProfilesDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         int camid = SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()];

@@ -1,4 +1,4 @@
-package freed.cam.apis.featuredetector.camera2;
+package freed.cam.apis.featuredetector;
 
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
@@ -7,9 +7,8 @@ import androidx.annotation.RequiresApi;
 
 import freed.utils.Log;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public abstract class BaseParameterDetector {
-    public void checkIfSupported(CameraCharacteristics cameraCharacteristics)
+public abstract class BaseParameterDetector<T> {
+    public void checkIfSupported(T cameraCharacteristics)
     {
         try
         {
@@ -21,6 +20,6 @@ public abstract class BaseParameterDetector {
         }
     }
 
-    protected abstract void findAndFillSettings(CameraCharacteristics cameraCharacteristics);
+    protected abstract void findAndFillSettings(T cameraCharacteristics);
 
 }

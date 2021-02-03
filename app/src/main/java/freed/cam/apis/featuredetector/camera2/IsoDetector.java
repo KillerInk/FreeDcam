@@ -14,7 +14,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class IsoDetector extends BaseParameterDetector {
+public class IsoDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         detectManualIso(cameraCharacteristics);

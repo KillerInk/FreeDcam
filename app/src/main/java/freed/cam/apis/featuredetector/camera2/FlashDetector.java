@@ -15,7 +15,7 @@ import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class FlashDetector extends BaseParameterDetector {
+public class FlashDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         detectFlash(cameraCharacteristics);

@@ -9,7 +9,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ApertureDetector extends BaseParameterDetector {
+public class ApertureDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         detectManualAperture(cameraCharacteristics);

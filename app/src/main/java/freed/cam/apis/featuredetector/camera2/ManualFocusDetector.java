@@ -18,7 +18,7 @@ import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ManualFocusDetector extends BaseParameterDetector
+public class ManualFocusDetector extends BaseParameter2Detector
 {
 
     @Override

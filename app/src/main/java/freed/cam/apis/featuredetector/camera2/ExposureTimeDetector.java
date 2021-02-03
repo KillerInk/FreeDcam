@@ -14,7 +14,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ExposureTimeDetector extends BaseParameterDetector {
+public class ExposureTimeDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         detectManualexposureTime(cameraCharacteristics);

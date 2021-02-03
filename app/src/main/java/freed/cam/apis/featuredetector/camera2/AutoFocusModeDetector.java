@@ -13,7 +13,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class AutoFocusModeDetector extends BaseParameterDetector {
+public class AutoFocusModeDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, SettingsManager.get(SettingKeys.FocusMode), FreedApplication.getStringArrayFromRessource(R.array.focusModes));

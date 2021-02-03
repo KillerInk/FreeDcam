@@ -10,11 +10,12 @@ import com.troop.freedcam.R;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera2Util;
-import freed.cam.apis.featuredetector.camera2.BaseParameterDetector;
+import freed.cam.apis.featuredetector.BaseParameterDetector;
+import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
-public class DualPrimaryCameraDetector extends BaseParameterDetector {
+public class DualPrimaryCameraDetector extends BaseParameter2Detector {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {

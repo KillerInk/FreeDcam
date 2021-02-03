@@ -17,7 +17,7 @@ import freed.utils.Log;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ColorCorrectionModeDetector extends BaseParameterDetector{
+public class ColorCorrectionModeDetector extends BaseParameter2Detector {
 
     private final String TAG = ColorCorrectionModeDetector.class.getSimpleName();
 

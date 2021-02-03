@@ -13,7 +13,7 @@ import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class EvDetector extends BaseParameterDetector {
+public class EvDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         detectManualExposure(cameraCharacteristics);
