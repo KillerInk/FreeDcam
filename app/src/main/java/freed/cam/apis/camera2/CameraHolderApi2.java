@@ -215,7 +215,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
                     (long) rhs.getWidth() * rhs.getHeight());
         }
-
     }
 
     //###########################  CALLBACKS
@@ -256,10 +255,4 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         }
     };
-
-
-
-
-
-
 }

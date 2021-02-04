@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.lge.hardware.LGCameraRef;
 import com.troop.freedcam.R;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import freed.FreedApplication;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.featuredetector.camera1.AeBracketDetector;
 import freed.cam.apis.featuredetector.camera1.AntibandingDetector;
+import freed.cam.apis.featuredetector.camera1.ApertureDetector;
 import freed.cam.apis.featuredetector.camera1.AutoHdrDetector;
 import freed.cam.apis.featuredetector.camera1.BaseParameter1Detector;
 import freed.cam.apis.featuredetector.camera1.ChromaFlashDetector;
@@ -22,6 +24,7 @@ import freed.cam.apis.featuredetector.camera1.ColorModeDetector;
 import freed.cam.apis.featuredetector.camera1.CorrelatedDoubleSamplingDetector;
 import freed.cam.apis.featuredetector.camera1.DenoiseDetector;
 import freed.cam.apis.featuredetector.camera1.DigitalImageStabDetector;
+import freed.cam.apis.featuredetector.camera1.DualPrimaryCameraDetector;
 import freed.cam.apis.featuredetector.camera1.ExposureModeDetector;
 import freed.cam.apis.featuredetector.camera1.FlashModeDetector;
 import freed.cam.apis.featuredetector.camera1.FocusModeDetector;
@@ -59,6 +62,8 @@ import freed.cam.apis.featuredetector.camera1.VideoSizeModeDetector;
 import freed.cam.apis.featuredetector.camera1.VideoStabDetector;
 import freed.cam.apis.featuredetector.camera1.WhiteBalanceModeDetector;
 import freed.cam.apis.featuredetector.camera1.ZeroShutterLagDetector;
+import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
+import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.FrameworkDetector;
 import freed.settings.Frameworks;
@@ -79,58 +84,64 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
 
     private List<BaseParameter1Detector> parameter1Detectors;
-    public Camera1FeatureDetectorTask(ProgressUpdate progressUpdate)
+    public Camera1FeatureDetectorTask()
     {
-        super(progressUpdate);
-        parameter1Detectors = new ArrayList<>();
-        parameter1Detectors.add(new PictureFormatDetector());
-        parameter1Detectors.add(new PictureSizeDetector());
-        parameter1Detectors.add(new FocusModeDetector());
-        parameter1Detectors.add(new WhiteBalanceModeDetector());
-        parameter1Detectors.add(new ExposureModeDetector());
-        parameter1Detectors.add(new ColorModeDetector());
-        parameter1Detectors.add(new FlashModeDetector());
-        parameter1Detectors.add(new IsoModesDetector());
-        parameter1Detectors.add(new AntibandingDetector());
-        parameter1Detectors.add(new ImagePostProcessingDetector());
-        parameter1Detectors.add(new PreviewSizeDetector());
-        parameter1Detectors.add(new JpegQualityMode());
+        super();
+    }
 
-        parameter1Detectors.add(new AeBracketDetector());
-        parameter1Detectors.add(new PreviewFpsDetector());
-        parameter1Detectors.add(new PreviewFormatDetector());
-        parameter1Detectors.add(new SceneModeDetector());
-        parameter1Detectors.add(new LensShadeModeDetector());
-        parameter1Detectors.add(new ZeroShutterLagDetector());
-        parameter1Detectors.add(new MemColorEnhancDetector());
-        parameter1Detectors.add(new VideoSizeModeDetector());
-        parameter1Detectors.add(new CorrelatedDoubleSamplingDetector());
-        parameter1Detectors.add(new VideoHdrDetector());
-        parameter1Detectors.add(new VideoHfrDetector());
-        parameter1Detectors.add(new DigitalImageStabDetector());
-        parameter1Detectors.add(new DenoiseDetector());
-        parameter1Detectors.add(new TemporalNoiseReductionDetector());
-        parameter1Detectors.add(new PdafDetector());
-        parameter1Detectors.add(new SeeMoarDetector());
-        parameter1Detectors.add(new TruePortraitDetector());
-        parameter1Detectors.add(new ReFocusDetector());
-        parameter1Detectors.add(new OptizoomDetector());
-        parameter1Detectors.add(new ChromaFlashDetector());
-        parameter1Detectors.add(new RdiDetector());
-        parameter1Detectors.add(new VideoStabDetector());
-        parameter1Detectors.add(new NonZslManualDetector());
-        parameter1Detectors.add(new PreviewFpsRangeDetector());
-        parameter1Detectors.add(new AutoHdrDetector());
+    @Override
+    public List<Class> createParametersToCheckList() {
+        List<Class> parameter1Detectors = new ArrayList<>();
+        parameter1Detectors.add(PictureFormatDetector.class);
+        parameter1Detectors.add(PictureSizeDetector.class);
+        parameter1Detectors.add(FocusModeDetector.class);
+        parameter1Detectors.add(WhiteBalanceModeDetector.class);
+        parameter1Detectors.add(ExposureModeDetector.class);
+        parameter1Detectors.add(ColorModeDetector.class);
+        parameter1Detectors.add(FlashModeDetector.class);
+        parameter1Detectors.add(IsoModesDetector.class);
+        parameter1Detectors.add(AntibandingDetector.class);
+        parameter1Detectors.add(ImagePostProcessingDetector.class);
+        parameter1Detectors.add(PreviewSizeDetector.class);
+        parameter1Detectors.add(JpegQualityMode.class);
 
-        parameter1Detectors.add(new ManualSaturationDetector());
-        parameter1Detectors.add(new ManualFocusDetector());
-        parameter1Detectors.add(new ManualSharpnessDetector());
-        parameter1Detectors.add(new ManualBrightnessDetector());
-        parameter1Detectors.add(new ManualContrastDetector());
-        parameter1Detectors.add(new ManualExposureDetector());
-        parameter1Detectors.add(new ManualIsoDetector());
-        parameter1Detectors.add(new ManualWhiteBalanceDetector());
+        parameter1Detectors.add(AeBracketDetector.class);
+        parameter1Detectors.add(PreviewFpsDetector.class);
+        parameter1Detectors.add(PreviewFormatDetector.class);
+        parameter1Detectors.add(SceneModeDetector.class);
+        parameter1Detectors.add(LensShadeModeDetector.class);
+        parameter1Detectors.add(ZeroShutterLagDetector.class);
+        parameter1Detectors.add(MemColorEnhancDetector.class);
+        parameter1Detectors.add(VideoSizeModeDetector.class);
+        parameter1Detectors.add(CorrelatedDoubleSamplingDetector.class);
+        parameter1Detectors.add(VideoHdrDetector.class);
+        parameter1Detectors.add(VideoHfrDetector.class);
+        parameter1Detectors.add(DigitalImageStabDetector.class);
+        parameter1Detectors.add(DenoiseDetector.class);
+        parameter1Detectors.add(TemporalNoiseReductionDetector.class);
+        parameter1Detectors.add(PdafDetector.class);
+        parameter1Detectors.add(SeeMoarDetector.class);
+        parameter1Detectors.add(TruePortraitDetector.class);
+        parameter1Detectors.add(ReFocusDetector.class);
+        parameter1Detectors.add(OptizoomDetector.class);
+        parameter1Detectors.add(ChromaFlashDetector.class);
+        parameter1Detectors.add(RdiDetector.class);
+        parameter1Detectors.add(VideoStabDetector.class);
+        parameter1Detectors.add(NonZslManualDetector.class);
+        parameter1Detectors.add(PreviewFpsRangeDetector.class);
+        parameter1Detectors.add(AutoHdrDetector.class);
 
+        parameter1Detectors.add(ManualSaturationDetector.class);
+        parameter1Detectors.add(ManualFocusDetector.class);
+        parameter1Detectors.add(ManualSharpnessDetector.class);
+        parameter1Detectors.add(ManualBrightnessDetector.class);
+        parameter1Detectors.add(ManualContrastDetector.class);
+        parameter1Detectors.add(ManualExposureDetector.class);
+        parameter1Detectors.add(ManualIsoDetector.class);
+        parameter1Detectors.add(ManualWhiteBalanceDetector.class);
+        parameter1Detectors.add(DualPrimaryCameraDetector.class);
+        parameter1Detectors.add(ApertureDetector.class);
+        return parameter1Detectors;
     }
 
     private String camstring(int id)
@@ -138,12 +149,15 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         return FreedApplication.getStringFromRessources(id);
     }
 
-    public void detect()
-    {
+    @Override
+    public void preDetect() {
         SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
         if (SettingsManager.getInstance().getFrameWork() == Frameworks.Default)
             SettingsManager.getInstance().setFramework(FrameworkDetector.getFramework());
+    }
 
+    @Override
+    public List<String> findCameraIDs() {
         List<String> cam_ids = new ArrayList<>();
         for (int i = 0; i < 200; i++)
         {
@@ -158,85 +172,50 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.d(TAG, "Failed to get Parameters from Camera:" + i);
             }
         }
-        int arr[] = new int[cam_ids.size()];
-        for (int i = 0; i<arr.length;i++)
-            arr[i] = Integer.parseInt(cam_ids.get(i));
-        SettingsManager.getInstance().setCameraIds(arr);
+        return cam_ids;
+    }
 
-        Log.d(TAG, "Cameras Found: " + cam_ids.size());
-        for (int i = 0; i < cam_ids.size(); i++)
+    @Override
+    public void checkCameraID(int id, List<String> cameraids, List<Class> parametersToDetect) {
+        super.checkCameraID(id,cameraids,parametersToDetect);
+
+        Camera.Parameters parameters = null;
+        try {
+            detectFrontCamera(Integer.parseInt(cameraids.get(id)));
+            parameters = getParameters(Integer.parseInt(cameraids.get(id)));
+        }
+        catch(RuntimeException ex)
         {
-            SettingsManager.getInstance().SetCurrentCamera(i);
+            Log.d(TAG, "Failed to get Parameters from Camera:" + id);
+        }
+        if(parameters == null)
+            return;
 
-            SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
-            SettingsManager.get(SettingKeys.orientationHack).set("0");
-            SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
-
-            SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
-            SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
-
-            Camera.Parameters parameters = null;
+        for (int i = 0; i < parametersToDetect.size(); i++) {
             try {
-                detectFrontCamera(arr[i]);
-                parameters = getParameters(Integer.parseInt(cam_ids.get(i)));
-            }
-            catch(RuntimeException ex)
-            {
-                Log.d(TAG, "Failed to get Parameters from Camera:" + i);
-            }
-            if(parameters == null)
-                return;
-
-            SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
-            SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
-
-            SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
-            SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
-            if (RenderScriptManager.isSupported()) {
-                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
-                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-                SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
-            }
-
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
-
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.getStringFromRessources(R.string.video_audio_source_default));
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
-            SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
-
-            SettingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
-
-            for (BaseParameter1Detector parameter1Detector : parameter1Detectors)
-                parameter1Detector.checkIfSupported(parameters);
-
-
-
-            detectVideoMediaProfiles(i);
-
-
-
-            detectQcomFocus(parameters);
-
-            if (parameters.get("hw-dual-primary-supported") != null)
-            {
-                SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setValues(parameters.get("hw-dual-primary-supported").split(","));
-                SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setCamera1ParameterKEY("hw-dual-primary-mode");
-                SettingsManager.get(SettingKeys.dualPrimaryCameraMode).setIsSupported(true);
-            }
-
-            if (parameters.get("hw-supported-aperture-value") != null)
-            {
-                SettingsManager.get(SettingKeys.M_Aperture).setCamera1ParameterKEY("hw-set-aperture-value");
-                SettingsManager.get(SettingKeys.M_Aperture).setValues(parameters.get("hw-supported-aperture-value").split(","));
-                SettingsManager.get(SettingKeys.M_Aperture).setIsSupported(true);
+                BaseParameterDetector parameter2Detector = getInstance(parametersToDetect.get(i));
+                parameter2Detector.checkIfSupported(parameters);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
             }
         }
 
-        SettingsManager.getInstance().SetCurrentCamera(0);
+        detectVideoMediaProfiles(id);
+        detectQcomFocus(parameters);
     }
 
 
 
+    @Override
+    public void postDetect() {
+        SettingsManager.getInstance().SetCurrentCamera(0);
+    }
 
 
     private void detectQcomFocus(Camera.Parameters parameters)

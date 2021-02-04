@@ -22,4 +22,5 @@ public abstract class BaseParameterDetector<T> {
 
     protected abstract void findAndFillSettings(T cameraCharacteristics);
 
+
 }

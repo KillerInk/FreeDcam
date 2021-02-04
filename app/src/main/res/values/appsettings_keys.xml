@@ -145,6 +145,7 @@
     <string name="aps_zoom_on_mf" translatable="false">zoom_on_mf</string>
     <string name="aps_zoom_on_mf_zoomfactor" translatable="false">zoom_on_mf_zoomfactor</string>
     <string name="aps_zoom_on_mf_zoomduration" translatable="false">zoom_on_mf_zoomduration</string>
+    <string name="aps_histogram_stats_qcom" translatable="false">histogram_stats_qcom</string>
 
 
 

@@ -1,7 +1,18 @@
 package freed.cam.apis.featuredetector;
 
-import java.util.Arrays;
+import com.troop.freedcam.R;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+
+import freed.FreedApplication;
+import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
+import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
+import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
@@ -13,55 +24,68 @@ import freed.utils.Log;
 abstract class AbstractFeatureDetectorTask {
 
     private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
-    private ProgressUpdate progressUpdateListner;
-    AbstractFeatureDetectorTask(ProgressUpdate progressUpdate)
+    private List<Class> parametersToDetect;
+    AbstractFeatureDetectorTask()
     {
-        this.progressUpdateListner = progressUpdate;
+        parametersToDetect = createParametersToCheckList();
     }
 
-    public interface ProgressUpdate
+    public abstract List<Class> createParametersToCheckList();
+
+
+    public void detect()
     {
-        void onProgessUpdate(String msg);
-        void onTaskEnd(String msg);
+        preDetect();
+        List<String> cameraIDs = findCameraIDs();
+        for (int i = 0; i < cameraIDs.size();i++)
+            checkCameraID(i,cameraIDs,parametersToDetect);
+        postDetect();
     }
 
-    void sendProgress(SettingInterface settingMode, String name)
+    public abstract void preDetect();
+
+    public abstract List<String> findCameraIDs();
+
+    public void checkCameraID(int id, List<String> cameraids, List<Class> parametersToDetect)
     {
-        if (settingMode instanceof SettingMode) {
-            SettingMode ts = (SettingMode) settingMode;
-            if (ts.isSupported()) {
-                String[]ar = ts.getValues();
-                String t = getStringFromArray(ar);
-                Log.d(TAG, name+" Values:" +t);
-                Log.d(TAG, name+":" + ts.get());
-                //publishProgress(name+" Values:" +t);
-                //publishProgress(name+":" + ts.get());
-            }
-            else
-                Log.d(TAG,name+" not supported");
-                //publishProgress(name+" not supported");
+        SettingsManager.getInstance().SetCurrentCamera(id);
+
+        SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
+        SettingsManager.get(SettingKeys.orientationHack).set("0");
+        SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
+
+        SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
+        SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
+
+
+        SettingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+
+
+        SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
+        SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
+
+        SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.getStringFromRessources(R.string.video_audio_source_default));
+        SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
+        SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
+        if (RenderScriptManager.isSupported()) {
+            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
+            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
         }
 
+        SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
+        SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
+
+        SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
     }
 
-    public abstract void detect();
+    public abstract void postDetect();
 
-    void publishProgress(String value) {
-        if (progressUpdateListner != null)
-            progressUpdateListner.onProgessUpdate(value);
+
+
+    protected  <T> T getInstance(Class classtype) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<?> constructor =  classtype.getConstructor();
+        return (T) constructor.newInstance();
     }
-
-    public void onPostExecute(String s) {
-        if (progressUpdateListner != null)
-            progressUpdateListner.onTaskEnd(s);
-    }
-
-    String getStringFromArray(String[] arr)
-    {
-        if (arr == null)
-            return "";
-        return Arrays.toString(arr);
-    }
-
-
 }

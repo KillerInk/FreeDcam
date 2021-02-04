@@ -85,35 +85,19 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     }
 
 
-
-    private AbstractFeatureDetectorTask.ProgressUpdate cameraListner = new AbstractFeatureDetectorTask.ProgressUpdate() {
-        @Override
-        public void onProgessUpdate(String msg) {
-            Log.d(TAG, msg);
-            handler.obtainMessage(FeatureDetectorHandler.MSG_SENDLOG, msg).sendToTarget();
-
-        }
-
-        @Override
-        public void onTaskEnd(String msg) {
-        }
-    };
-
     private class CameraFeatureRunner extends ImageTask
     {
         @Override
         public boolean process() {
             Log.d(TAG, "CameraFeatureRunner process");
-            if (cameraListner != null)
-                cameraListner.onProgessUpdate("Detect camera Features");
             SettingsManager.getInstance().setCamApi(SettingsManager.API_SONY);
             Camera2FeatureDetectorTask task  = null;
             Camera1FeatureDetectorTask task1 = null;
             if (Build.VERSION.SDK_INT >= 21) {
-                task =  new Camera2FeatureDetectorTask(cameraListner);
+                task =  new Camera2FeatureDetectorTask();
                 task.detect();
             }
-            task1 = new Camera1FeatureDetectorTask(cameraListner);
+            task1 = new Camera1FeatureDetectorTask();
             task1.detect();
             if (SettingsManager.getInstance().hasCamera2Features()) {
                 if (task.hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)

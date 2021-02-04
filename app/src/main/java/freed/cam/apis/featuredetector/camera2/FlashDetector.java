@@ -18,7 +18,8 @@ import freed.utils.StringUtils;
 public class FlashDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        detectFlash(cameraCharacteristics);
+        if(!SettingsManager.getInstance().getIsFrontCamera())
+            detectFlash(cameraCharacteristics);
     }
 
 
