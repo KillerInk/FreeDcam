@@ -21,18 +21,14 @@ import freed.utils.Log;
  * Created by troop on 23.01.2017.
  */
 
-abstract class AbstractFeatureDetectorTask {
-
-    private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
+abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
     private List<Class> parametersToDetect;
     AbstractFeatureDetectorTask()
     {
         parametersToDetect = createParametersToCheckList();
     }
 
-    public abstract List<Class> createParametersToCheckList();
-
-
+    @Override
     public void detect()
     {
         preDetect();
@@ -42,10 +38,7 @@ abstract class AbstractFeatureDetectorTask {
         postDetect();
     }
 
-    public abstract void preDetect();
-
-    public abstract List<String> findCameraIDs();
-
+    @Override
     public void checkCameraID(int id, List<String> cameraids, List<Class> parametersToDetect)
     {
         SettingsManager.getInstance().SetCurrentCamera(id);
@@ -79,10 +72,6 @@ abstract class AbstractFeatureDetectorTask {
 
         SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
     }
-
-    public abstract void postDetect();
-
-
 
     protected  <T> T getInstance(Class classtype) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<?> constructor =  classtype.getConstructor();

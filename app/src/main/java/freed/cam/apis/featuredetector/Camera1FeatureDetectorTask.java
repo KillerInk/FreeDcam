@@ -82,8 +82,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 {
     private static final  String TAG = Camera1FeatureDetectorTask.class.getSimpleName();
 
-
-    private List<BaseParameter1Detector> parameter1Detectors;
     public Camera1FeatureDetectorTask()
     {
         super();
@@ -405,7 +403,5 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         }
         SettingsManager.getInstance().saveMediaProfiles(supportedProfiles);
         SettingsManager.get(SettingKeys.VideoProfiles).set("720p");
-
-        //publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 }
