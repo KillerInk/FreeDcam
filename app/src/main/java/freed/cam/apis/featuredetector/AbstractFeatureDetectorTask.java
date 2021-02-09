@@ -33,6 +33,11 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
     {
         preDetect();
         List<String> cameraIDs = findCameraIDs();
+        int arr[] = new int[cameraIDs.size()];
+        for (int i = 0; i<arr.length;i++)
+            arr[i] = Integer.parseInt(cameraIDs.get(i));
+        SettingsManager.getInstance().setCameraIds(arr);
+        SettingsManager.getInstance().SetCurrentCamera(0);
         for (int i = 0; i < cameraIDs.size();i++)
             checkCameraID(i,cameraIDs,parametersToDetect);
         postDetect();
