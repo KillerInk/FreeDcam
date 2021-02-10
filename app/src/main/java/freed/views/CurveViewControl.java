@@ -102,6 +102,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
         this.curveView = findViewById(R.id.curveViewHolder);
         curveView.setCurveChangedListner(this);
+        curveView.bringToFront();
 
         savePanel = findViewById(R.id.save_panel);
         savePanel.setVisibility(GONE);
@@ -127,10 +128,17 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private OnClickListener onSaveButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (savePanel.getVisibility() == GONE)
+            if (savePanel.getVisibility() == GONE) {
+                curveView.setVisibility(GONE);
+                loadPanel.setVisibility(GONE);
                 savePanel.setVisibility(VISIBLE);
-            else
+                savePanel.bringToFront();
+            }
+            else {
                 savePanel.setVisibility(GONE);
+                curveView.setVisibility(VISIBLE);
+                curveView.bringToFront();
+            }
         }
     };
 
@@ -148,11 +156,19 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                     button.setText(s);
                     button.setOnClickListener(onLoadPanelButtonClick);
                     loadPanel.addView(button);
+                    button.bringToFront();
                 }
+                savePanel.setVisibility(GONE);
+                curveView.setVisibility(GONE);
                 loadPanel.setVisibility(VISIBLE);
+                loadPanel.bringToFront();
+
             }
-            else
+            else {
                 loadPanel.setVisibility(GONE);
+                curveView.setVisibility(VISIBLE);
+                curveView.bringToFront();
+            }
         }
     };
 
@@ -170,6 +186,8 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
             invalidate();
             loadPanel.setVisibility(GONE);
             curveView.setPoints(rgbCurve);
+            curveView.setVisibility(VISIBLE);
+            curveView.bringToFront();
             if (curveChangedListner != null)
                 curveChangedListner.onCurveChanged(rgbCurve);
         }
@@ -189,6 +207,8 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                 SettingsManager.getInstance().saveVideoToneCurveProfile(curveProfile);
                 SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).set(curveProfile.name);
                 savePanel.setVisibility(GONE);
+                curveView.setVisibility(VISIBLE);
+                curveView.bringToFront();
             }
         }
     };
