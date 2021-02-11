@@ -14,6 +14,7 @@ import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildApi;
@@ -278,8 +279,9 @@ public class SettingsMenuItemFactory
                 return settingsgroup;
             }
 
-            if (params.get(SettingKeys.EnableRenderScript) != null) {
-                SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) params.get(SettingKeys.EnableRenderScript), R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description);
+            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null) {
+                SettingsChildMenu ers = new SettingsChildMenu(context, params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE), R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description);
+                ers.SetUiItemClickListner(click);
                 settingsgroup.addView(ers);
             }
 
@@ -287,7 +289,7 @@ public class SettingsMenuItemFactory
                 SettingsChildMenu fpc = new SettingsChildMenu(context, params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
                 fpc.SetUiItemClickListner(click);
                 settingsgroup.addView(fpc);
-                if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
+                if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
                     fpc.setVisibility(View.VISIBLE);
                 else
                     fpc.setVisibility(View.GONE);

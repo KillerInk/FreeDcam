@@ -59,6 +59,7 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessorFactory;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.file.holder.BaseHolder;
@@ -136,7 +137,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     public void InitModule() {
         Log.d(TAG, "InitModule");
         super.InitModule();
-        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
+        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
@@ -189,8 +190,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader = null;
         }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.getFocusPeakProcessor().kill();
-        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
+        cameraUiWrapper.getPreview().close();
+        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
         videoRecorder = null;
         previewsurface = null;
     }
@@ -250,7 +251,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         int orientationToSet = (360 + sensorOrientation) % 360;
-        if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get()) {
+        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
             Log.d(TAG, "RenderScriptPreview");
             int rotation = 0;
             switch (orientationToSet)
@@ -291,11 +292,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
 
-            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
+            cameraUiWrapper.getPreview().setOutputSurface(previewsurface);
+            cameraUiWrapper.getPreview().setSize(previewSize.getWidth(),previewSize.getHeight());
 
-            Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
+            Surface camerasurface = cameraUiWrapper.getPreview().getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
-            cameraUiWrapper.getFocusPeakProcessor().start();
+            cameraUiWrapper.getPreview().start();
         }
         else {
             switch (orientationToSet) {

@@ -59,6 +59,7 @@ import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.events.CameraStateEvents;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.file.holder.BaseHolder;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.Frameworks;
@@ -159,7 +160,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     public void InitModule()
     {
         super.InitModule();
-        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
+        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         captureController = getCaptureController();
@@ -173,8 +174,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         captureController.clear();
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.getFocusPeakProcessor().kill();
-        ((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
+        cameraUiWrapper.getPreview().close();
+        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
     }
 
     @Override
@@ -239,7 +240,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
 
-        if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get()) {
+        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
             Log.d(TAG, "RenderScriptPreview");
             int rotation = 0;
             switch (orientationToSet)
@@ -273,11 +274,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             int finalH = h;
             mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH,or,true));
 
-            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight(),previewsurface);
+            cameraUiWrapper.getPreview().setOutputSurface(previewsurface);
+            cameraUiWrapper.getPreview().setSize(previewSize.getWidth(),previewSize.getHeight());
 
-            Surface camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
+            Surface camerasurface = cameraUiWrapper.getPreview().getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
-            cameraUiWrapper.getFocusPeakProcessor().start();
+            cameraUiWrapper.getPreview().start();
         }
         else
         {

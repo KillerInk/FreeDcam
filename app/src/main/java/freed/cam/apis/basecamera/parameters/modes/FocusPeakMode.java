@@ -28,6 +28,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -44,7 +45,8 @@ public class FocusPeakMode extends AbstractParameter {
 
     @Override
     public ViewState getViewState() {
-        if (RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded() && SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
+        if (RenderScriptManager.isSupported() && cameraUiWrapper.getPreview().isSucessfullLoaded()
+                && !SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
             return ViewState.Visible;
         else
             return ViewState.Hidden;
@@ -55,11 +57,11 @@ public class FocusPeakMode extends AbstractParameter {
     {
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
+            cameraUiWrapper.getPreview().setFocusPeak(true);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
-            cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
+            cameraUiWrapper.getPreview().setFocusPeak(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 
@@ -67,7 +69,7 @@ public class FocusPeakMode extends AbstractParameter {
 
     @Override
     public String GetStringValue() {
-        if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
+        if (cameraUiWrapper.getPreview().isFocusPeak())
             return FreedApplication.getStringFromRessources(R.string.on_);
         else
             return FreedApplication.getStringFromRessources(R.string.off_);
@@ -83,7 +85,7 @@ public class FocusPeakMode extends AbstractParameter {
     @Subscribe
     public void onStringValueChanged(ValueChangedEvent<String> valueob)
     {
-        if (valueob.key == SettingKeys.EnableRenderScript) {
+        if (valueob.key == SettingKeys.PREVIEW_POST_PROCESSING_MODE) {
             String value = valueob.newValue;
             if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
                 setViewState(ViewState.Hidden);

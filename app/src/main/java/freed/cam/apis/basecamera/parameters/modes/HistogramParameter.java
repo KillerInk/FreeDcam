@@ -22,11 +22,11 @@ public class HistogramParameter extends FocusPeakMode {
         state = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            cameraUiWrapper.getFocusPeakProcessor().setHistogramEnable(true);
+            cameraUiWrapper.getPreview().setHistogram(true);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
-            cameraUiWrapper.getFocusPeakProcessor().setHistogramEnable(false);
+            cameraUiWrapper.getPreview().setHistogram(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 

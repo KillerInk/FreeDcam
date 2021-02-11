@@ -56,6 +56,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.ValueChangedEvent;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
@@ -102,8 +103,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
             ((FocusHandler) focusHandler).stopListning();
         if (parametersHandler != null)
             parametersHandler.unregisterListners();
-        if(focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.kill();
+        getPreview().close();
     }
 
     @Subscribe
@@ -123,12 +123,10 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         Size size = event.size;
         if (textureView != null)
             textureView.setAspectRatio(size.width, size.height);
-        if (focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
+        getPreview().setSize(size.width, size.height);
     }
 
     private final String TAG = Camera1Fragment.class.getSimpleName();
-    public RenderScriptProcessor focusPeakProcessorAp1;
     private boolean cameraIsOpen = false;
     AutoFitTextureView textureView;
     MyHistogram histogram;
@@ -203,12 +201,11 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
                 size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
 
                 Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (focusPeakProcessorAp1 != null && SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get()) {
-                    if(size == null || textureView.getSurfaceTexture() == null ||
-                            (size.height == focusPeakProcessorAp1.getHeight() && size.width == focusPeakProcessorAp1.getWidth()))
+                if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+                    if(size == null || textureView.getSurfaceTexture() == null)
                         return;
                     cameraHolder.StopPreview();
-                    focusPeakProcessorAp1.kill();
+                    getPreview().close();
                     cameraHolder.setSurface((Surface) null);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                         textureView.getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
@@ -216,13 +213,14 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
 
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
                     Surface surface = new Surface(textureView.getSurfaceTexture());
-                    focusPeakProcessorAp1.Reset(size.width, size.height,surface);
-                    cameraToMainHandler.post(() -> focusPeakProcessorAp1.setHistogramEnable(false));
+                    getPreview().setOutputSurface(surface);
+                    getPreview().setSize(size.width, size.height);
+                    cameraToMainHandler.post(() -> getPreview().setHistogram(false));
 
                     parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, true);
-                    cameraHolder.setSurface(focusPeakProcessorAp1.getInputSurface());
+                    cameraHolder.setSurface(getPreview().getInputSurface());
                     CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
-                    focusPeakProcessorAp1.start();
+                    getPreview().start();
                     cameraHolder.StartPreview();
                 }
                 else
@@ -257,9 +255,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
                 if(size == null || textureView.getSurfaceTexture() == null)
                     return;
                 cameraHolder.StopPreview();
-                if (focusPeakProcessorAp1 != null) {
-                    focusPeakProcessorAp1.kill();
-                }
+                getPreview().close();
                 
                 if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
                     cameraHolder.setSurface((Surface)null);
@@ -332,7 +328,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         }
         moduleHandler = new ModuleHandler(Camera1Fragment.this);
         if (RenderScriptManager.isSupported() && ((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
-            focusPeakProcessorAp1 = new RenderScriptProcessor(renderScriptManager, histogram, ImageFormat.NV21);
+            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
         }
         parametersHandler = new ParametersHandler(Camera1Fragment.this);
 
@@ -363,8 +359,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     public void stopCamera() {
         EventBusHelper.unregister(this);
         Log.d(TAG, "Stop Camera");
-        if (focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.kill();
+        getPreview().close();
         if (cameraHolder != null)
             cameraHolder.CloseCamera();
         cameraIsOpen = false;
@@ -373,8 +368,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void restartCamera() {
         Log.d(TAG, "Stop Camera");
-        if (focusPeakProcessorAp1 != null)
-            focusPeakProcessorAp1.kill();
+        getPreview().close();
         cameraHolder.CloseCamera();
         cameraIsOpen = false;
         if (!cameraIsOpen)
@@ -496,14 +490,5 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     public int getPreviewHeight() {
         return textureView.getHeight();
     }
-
-    @Override
-    public RenderScriptProcessorInterface getFocusPeakProcessor() {
-        return focusPeakProcessorAp1;
-    }
-
-
-
-
 
 }

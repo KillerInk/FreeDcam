@@ -32,6 +32,9 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -47,8 +50,11 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
+import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.renderscript.RenderScriptProcessorInterface;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
@@ -69,7 +75,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     private AutoFitTextureView textureView;
     private MyHistogram histogram;
     private final String TAG = Camera2Fragment.class.getSimpleName();
-    private RenderScriptProcessor mProcessor;
     private boolean cameraIsOpen = false;
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
@@ -98,15 +103,17 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         textureView = view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
         this.histogram = view.findViewById(id.hisotview);
+        Log.d(TAG, "Constructor done");
+        return view;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (mainToCameraHandler == null)
             throw new NullPointerException("main to camera handler is null");
         mainToCameraHandler.createCamera();
         Log.d(TAG,"Create Camera");
-
-
-        Log.d(TAG, "Constructor done");
-        return view;
     }
 
     @Override
@@ -150,7 +157,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         try {
             Log.d(TAG, "onCameraClose");
             cameraIsOpen = false;
-            mProcessor.kill();
+            getPreview().close();
         }
         catch (NullPointerException ex)
         {
@@ -232,10 +239,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         return textureView.getHeight();
     }
 
-    @Override
-    public RenderScriptProcessorInterface getFocusPeakProcessor() {
-        return mProcessor;
-    }
 
     public TextureView getTexturView()
     {
@@ -290,7 +293,10 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     @Override
     public void createCamera() {
         Log.d(TAG, "createCamera");
-        mProcessor = new RenderScriptProcessor(renderScriptManager,histogram, ImageFormat.YUV_420_888);
+        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
+            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
+        else
+            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogram);
         parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
         focusHandler = new FocusHandler(Camera2Fragment.this);
@@ -317,7 +323,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
 
     @Override
     public void startCamera() {
-        if (!cameraIsOpen) {
+        if (!cameraIsOpen && cameraHolder != null) {
             Log.d(TAG, "Start Camera");
             cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
         } else

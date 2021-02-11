@@ -7,8 +7,11 @@ import org.greenrobot.eventbus.Subscribe;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
+import freed.cam.previewpostprocessing.Preview;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -17,11 +20,11 @@ import freed.utils.Log;
 
 public class FocusPeakColorMode extends AbstractParameter {
 
-    private RenderScriptProcessorInterface focuspeakProcessor;
-    public FocusPeakColorMode(RenderScriptProcessorInterface renderScriptManager, SettingKeys.Key settingMode) {
+    private Preview focuspeakProcessor;
+    public FocusPeakColorMode(Preview renderScriptManager, SettingKeys.Key settingMode) {
         super(settingMode);
         this.focuspeakProcessor = renderScriptManager;
-
+        SetValue(GetStringValue(),false);
     }
 
     @Override
@@ -29,7 +32,7 @@ public class FocusPeakColorMode extends AbstractParameter {
         if (focuspeakProcessor == null)
             return;
         try {
-            settingMode.set(valueToSet);
+            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(valueToSet);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_red))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(false);
@@ -67,10 +70,20 @@ public class FocusPeakColorMode extends AbstractParameter {
         fireStringValueChanged(valueToSet);
     }
 
+    @Override
+    public String[] getStringValues() {
+        return SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues();
+    }
+
+    @Override
+    public String GetStringValue() {
+        return SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).get();
+    }
+
     @Subscribe
     public void onStringValueChanged(ValueChangedEvent<String> valueob)
     {
-        if (valueob.key == SettingKeys.EnableRenderScript) {
+        if (valueob.key == SettingKeys.PREVIEW_POST_PROCESSING_MODE) {
             String value = valueob.newValue;
             if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
                 setViewState(ViewState.Hidden);

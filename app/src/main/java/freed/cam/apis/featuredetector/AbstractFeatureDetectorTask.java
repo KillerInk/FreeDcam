@@ -10,12 +10,14 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingInterface;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
+import freed.utils.StringUtils;
 
 /**
  * Created by troop on 23.01.2017.
@@ -66,16 +68,7 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
         SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
-        if (RenderScriptManager.isSupported()) {
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
-        }
 
-        SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
-        SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
-
-        SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
     }
 
     protected  <T> T getInstance(Class classtype) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {

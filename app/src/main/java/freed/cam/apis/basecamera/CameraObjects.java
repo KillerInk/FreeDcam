@@ -3,8 +3,7 @@ package freed.cam.apis.basecamera;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessorInterface;
+import freed.cam.previewpostprocessing.PreviewControllerInterface;
 
 public interface CameraObjects {
     /**
@@ -20,7 +19,6 @@ public interface CameraObjects {
     AbstractParameterHandler getParameterHandler();
     ModuleHandlerAbstract getModuleHandler();
     AbstractFocusHandler getFocusHandler();
-    RenderScriptProcessorInterface getFocusPeakProcessor();
-    RenderScriptManager getRenderScriptManager();
+    PreviewControllerInterface getPreview();
     ActivityInterface getActivityInterface();
 }

@@ -27,6 +27,7 @@ import com.troop.freedcam.R;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -52,7 +53,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
-        if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
+        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
             onViewStateChanged(AbstractParameter.ViewState.Visible);
 
     }

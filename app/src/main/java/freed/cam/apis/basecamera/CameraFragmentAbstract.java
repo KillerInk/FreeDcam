@@ -30,8 +30,8 @@ import androidx.fragment.app.Fragment;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessorInterface;
+import freed.cam.previewpostprocessing.PreviewController;
+import freed.cam.previewpostprocessing.PreviewControllerInterface;
 import freed.utils.Log;
 
 /**
@@ -42,7 +42,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
-    protected RenderScriptManager renderScriptManager;
 
     public ModuleHandlerAbstract moduleHandler;
     /**
@@ -60,6 +59,7 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
     protected boolean PreviewSurfaceRdy;
     private ActivityInterface activityInterface;
+    private PreviewControllerInterface preview;
 
     /**
      * holds handler to invoke stuff in ui or camera thread
@@ -74,7 +74,12 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
     public CameraFragmentAbstract()
     {
+        preview = new PreviewController();
+    }
 
+    @Override
+    public PreviewControllerInterface getPreview() {
+        return preview;
     }
 
     public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler, ActivityInterface activityInterface)
@@ -105,11 +110,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
         super.onDestroyView();
 
-    }
-    
-    public void setRenderScriptManager(RenderScriptManager renderScriptManager)
-    {
-        this.renderScriptManager = renderScriptManager;
     }
 
     @Override
@@ -168,11 +168,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     public abstract int getPreviewHeight();
 
     @Override
-    public RenderScriptManager getRenderScriptManager() {
-        return renderScriptManager;
-    }
-
-    @Override
     public ActivityInterface getActivityInterface() {
         return activityInterface;
     }
@@ -180,11 +175,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     @Override
     public boolean isAeMeteringSupported() {
         return focusHandler.isAeMeteringSupported();
-    }
-
-    @Override
-    public RenderScriptProcessorInterface getFocusPeakProcessor() {
-        return null;
     }
 
     @Override

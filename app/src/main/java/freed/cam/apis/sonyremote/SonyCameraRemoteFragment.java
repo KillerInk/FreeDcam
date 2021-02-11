@@ -53,6 +53,8 @@ import freed.cam.events.CameraStateEvents;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
+import freed.cam.previewpostprocessing.RenderScriptPreview;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
@@ -92,7 +94,10 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
         surfaceView = view.findViewById(id.autofitview);
-        previewStreamDrawer = new PreviewStreamDrawer(surfaceView,renderScriptManager);
+        getPreview().setTextureView(surfaceView);
+        getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),null);
+        RenderScriptPreview rsPrev = (RenderScriptPreview)getPreview();
+        previewStreamDrawer = new PreviewStreamDrawer(surfaceView,rsPrev.getRenderScriptManager());
 
         //textView_wifi = view.findViewById(id.textView_wificonnect);
 
@@ -406,11 +411,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
     @Override
     public int getPreviewHeight() {
         return surfaceView.getHeight();
-    }
-
-    @Override
-    public RenderScriptProcessorInterface getFocusPeakProcessor() {
-        return previewStreamDrawer;
     }
 
 

@@ -23,11 +23,11 @@ public class ClippingMode extends HistogramParameter {
         state = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            cameraUiWrapper.getFocusPeakProcessor().setClippingEnable(true);
+            cameraUiWrapper.getPreview().setClipping(true);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
-            cameraUiWrapper.getFocusPeakProcessor().setClippingEnable(false);
+            cameraUiWrapper.getPreview().setClipping(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 

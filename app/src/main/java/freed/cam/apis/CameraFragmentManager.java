@@ -28,7 +28,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
     private CameraFragmentAbstract cameraFragment;
-    private RenderScriptManager renderScriptManager;
 
     private CameraFeatureDetectorFragment fd;
     private BackgroundHandlerThread backgroundHandlerThread;
@@ -40,8 +39,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
-        if (RenderScriptManager.isSupported())
-            renderScriptManager = new RenderScriptManager(context);
         Log.d(TAG,"Create camera BackgroundHandler");
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
@@ -104,7 +101,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             Log.d(TAG, "Reuse CamaraFragment");
             mainToCameraHandler.setCameraInterface(cameraFragment);
             cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
-            cameraFragment.setRenderScriptManager(renderScriptManager);
         }
         else {
             Log.d(TAG, "create new CameraFragment");
@@ -154,7 +150,6 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
                 mainToCameraHandler.setCameraInterface(cameraFragment);
                 cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
-                cameraFragment.setRenderScriptManager(renderScriptManager);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             }
         }
