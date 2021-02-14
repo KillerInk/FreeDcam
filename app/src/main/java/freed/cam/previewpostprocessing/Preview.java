@@ -1,14 +1,23 @@
 package freed.cam.previewpostprocessing;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 
 import freed.views.AutoFitTextureView;
 
 public interface Preview
 {
-    void setTextureView(TextureView autofitTextureView);
+
+    public interface PreviewEvent
+    {
+        void onPreviewAvailable(SurfaceTexture surface, int width, int height);
+        void onPreviewSizeChanged(SurfaceTexture surface, int width, int height);
+        boolean onPreviewDestroyed(SurfaceTexture surface);
+        void onPreviewUpdated(SurfaceTexture surface);
+    }
     void close();
     SurfaceTexture getSurfaceTexture();
     Surface getInputSurface();
@@ -26,4 +35,9 @@ public interface Preview
     boolean isHistogram();
     void start();
     void stop();
+    View getPreviewView();
+    void setPreviewEventListner(PreviewEvent eventListner);
+    int getPreviewWidth();
+    int getPreviewHeight();
+    void setRotation(int width, int height,int rotation);
 }

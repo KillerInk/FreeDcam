@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 
 import freed.viewer.screenslide.views.MyHistogram;
 
@@ -19,24 +20,19 @@ public class PreviewController implements PreviewControllerInterface
         switch (previewPostProcessingModes)
         {
             case off:
-                preview = new NormalPreview();
+                preview = new NormalPreview(context);
                 break;
             case RenderScript:
                 preview = new RenderScriptPreview(context,histogram);
                 break;
             case OpenGL:
-                preview = new NormalPreview();
+                preview = new NormalPreview(context);
                 break;
         }
     }
 
     public Preview getPreview() {
         return preview;
-    }
-
-    @Override
-    public void setTextureView(TextureView autofitTextureView) {
-        preview.setTextureView(autofitTextureView);
     }
 
     @Override
@@ -122,6 +118,31 @@ public class PreviewController implements PreviewControllerInterface
     @Override
     public void stop() {
         preview.stop();
+    }
+
+    @Override
+    public View getPreviewView() {
+        return preview.getPreviewView();
+    }
+
+    @Override
+    public void setPreviewEventListner(PreviewEvent eventListner) {
+        preview.setPreviewEventListner(eventListner);
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return preview.getPreviewWidth();
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return preview.getPreviewHeight();
+    }
+
+    @Override
+    public void setRotation(int width, int height, int rotation) {
+        preview.setRotation(width,height,rotation);
     }
 
 }

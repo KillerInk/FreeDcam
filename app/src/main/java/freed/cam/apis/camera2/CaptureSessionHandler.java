@@ -191,10 +191,10 @@ public class CaptureSessionHandler
     }
 
 
-    public SurfaceTexture getSurfaceTexture()
+    /*public SurfaceTexture getSurfaceTexture()
     {
         return cameraHolderApi2.textureView.getSurfaceTexture();
-    }
+    }*/
 
     public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
     {
@@ -667,8 +667,8 @@ public class CaptureSessionHandler
         float dispHeight = 0;
         if (renderscript)
         {
-            dispWidth = cameraHolderApi2.textureView.getWidth();
-            dispHeight = cameraHolderApi2.textureView.getHeight();
+            dispWidth = cameraUiWrapper.getPreview().getPreviewWidth();
+            dispHeight = cameraUiWrapper.getPreview().getPreviewHeight();
         }
         else if (displaySize.x > displaySize.y) {
             dispWidth = displaySize.x;

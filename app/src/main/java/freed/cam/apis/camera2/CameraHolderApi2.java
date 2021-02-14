@@ -58,7 +58,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
-    public AutoFitTextureView textureView;
 
     public StreamConfigurationMap map;
     public int CurrentCamera;
@@ -180,10 +179,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
     }
 
-    public void SetSurface(TextureView surfaceHolder)
-    {
-        textureView = (AutoFitTextureView) surfaceHolder;
-    }
 
     @Override
     public void StartFocus(FocusEvents autoFocusCallback) {

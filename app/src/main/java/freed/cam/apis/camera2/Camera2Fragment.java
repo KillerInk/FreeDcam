@@ -31,6 +31,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +51,7 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
@@ -65,14 +67,14 @@ import freed.views.AutoFitTextureView;
  * Created by troop on 06.06.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2, CameraHolderApi2> implements TextureView.SurfaceTextureListener, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
+public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2, CameraHolderApi2> implements Preview.PreviewEvent, CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback, EventBusLifeCycle
 {
     //limits the preview to use maximal that size for preview
     //when set to high it its possbile to get a laggy preview with active focuspeak
     public static int MAX_PREVIEW_WIDTH = 1920;
     public static int MAX_PREVIEW_HEIGHT = 1080;
 
-    private AutoFitTextureView textureView;
+    private View textureView;
     private MyHistogram histogram;
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private boolean cameraIsOpen = false;
@@ -100,8 +102,11 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     {
         super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
-        textureView = view.findViewById(id.autofitview);
-        this.textureView.setSurfaceTextureListener(this);
+        textureView = getPreview().getPreviewView();
+        FrameLayout frameLayout = view.findViewById(id.autofitview);
+        frameLayout.addView(textureView);
+
+        getPreview().setPreviewEventListner(this);
         this.histogram = view.findViewById(id.hisotview);
         Log.d(TAG, "Constructor done");
         return view;
@@ -131,7 +136,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         super.onResume();
         startListning();
         Log.d(TAG, "onResume");
-        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy && textureView.getSurfaceTexture() != null)
+        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy && getPreview().getSurfaceTexture() != null)
             startCameraAsync();
     }
 
@@ -175,9 +180,9 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         Log.d(TAG, "onPreviewClose");
     }
 
+
     @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
-    {
+    public void onPreviewAvailable(SurfaceTexture surface, int width, int height) {
         Log.d(TAG, "SurfaceTextureAvailable");
         if (!PreviewSurfaceRdy) {
             PreviewSurfaceRdy = true;
@@ -196,13 +201,12 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     }
 
     @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+    public void onPreviewSizeChanged(SurfaceTexture surface, int width, int height) {
         Log.d(TAG, "onSurfaceTextureSizeChanged WxH " + width+"x"+height);
     }
 
     @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
-    {
+    public boolean onPreviewDestroyed(SurfaceTexture surface) {
         Log.d(TAG, "Surface destroyed");
         PreviewSurfaceRdy = false;
         Camera2Fragment.this.surface = null;
@@ -210,8 +214,8 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     }
 
     @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-        //Log.d(TAG, "onSurfaceTextureUpdated");
+    public void onPreviewUpdated(SurfaceTexture surface) {
+
     }
 
     @Override
@@ -240,10 +244,10 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     }
 
 
-    public TextureView getTexturView()
+/*    public TextureView getTexturView()
     {
-        return textureView;
-    }
+        return getPreview().getSurfaceTexture();
+    }*/
 
     public Surface getPreviewSurface()
     {
@@ -313,7 +317,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         captureSessionHandler.CreatePreviewRequestBuilder();
         ((FocusHandler) focusHandler).startListning();
         parametersHandler.Init();
-        cameraHolder.SetSurface(textureView);
+        //cameraHolder.SetSurface(getPreview().getSurfaceTexture());
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
 
         CameraStateEvents.fireCameraOpenFinishEvent();
@@ -374,4 +378,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
             mi.stopPreview();
         }
     }
+
+
 }

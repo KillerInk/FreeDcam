@@ -2,25 +2,30 @@ package freed.cam.previewpostprocessing;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingsManager;
+import freed.utils.MatrixUtil;
 import freed.viewer.screenslide.views.MyHistogram;
 import freed.views.AutoFitTextureView;
 
-public class RenderScriptPreview implements Preview {
+public class RenderScriptPreview extends AutoFitTexturviewPreview {
 
     private RenderScriptManager renderScriptManager;
     private RenderScriptProcessor mProcessor;
-    private TextureView textureView;
     private Surface outputsurface;
 
     public RenderScriptPreview(Context context, MyHistogram histogram)
     {
+        super(context);
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
         if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_2))
@@ -33,19 +38,10 @@ public class RenderScriptPreview implements Preview {
         return renderScriptManager;
     }
 
-    @Override
-    public void setTextureView(TextureView autofitTextureView) {
-        this.textureView = autofitTextureView;
-    }
 
     @Override
     public void close() {
         mProcessor.kill();
-    }
-
-    @Override
-    public SurfaceTexture getSurfaceTexture() {
-        return textureView.getSurfaceTexture();
     }
 
     @Override
@@ -127,4 +123,14 @@ public class RenderScriptPreview implements Preview {
     public void stop() {
         mProcessor.kill();
     }
+
+    @Override
+    public void setRotation(int width, int height, int rotation) {
+        float dispWidth = 0;
+        float dispHeight = 0;
+        dispWidth = getPreviewWidth();
+        dispHeight = getPreviewHeight();
+        Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,true);
+    }
+
 }

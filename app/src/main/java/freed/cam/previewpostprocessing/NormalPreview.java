@@ -1,29 +1,36 @@
 package freed.cam.previewpostprocessing;
 
+import android.content.Context;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
+import android.view.WindowManager;
 
 
+import androidx.annotation.NonNull;
+
+import freed.FreedApplication;
+import freed.utils.DisplayUtil;
+import freed.utils.MatrixUtil;
 import freed.views.AutoFitTextureView;
 
-public class NormalPreview implements Preview {
+public class NormalPreview extends AutoFitTexturviewPreview {
 
-    private AutoFitTextureView autoFitTextureView;
+    Point displaySize;
 
-    @Override
-    public void setTextureView(TextureView autofitTextureView) {
-        this.autoFitTextureView = (AutoFitTextureView)autofitTextureView;
+    public NormalPreview(Context context) {
+        super(context);
+        displaySize = DisplayUtil.getDisplaySize();
     }
+
 
     @Override
     public void close() {
 
-    }
-
-    @Override
-    public SurfaceTexture getSurfaceTexture() {
-        return autoFitTextureView.getSurfaceTexture();
     }
 
     @Override
@@ -36,10 +43,7 @@ public class NormalPreview implements Preview {
 
     }
 
-    @Override
-    public void setSize(int width, int height) {
-        autoFitTextureView.setAspectRatio(width,height);
-    }
+
 
     @Override
     public boolean isSucessfullLoaded() {
@@ -100,5 +104,23 @@ public class NormalPreview implements Preview {
     public void stop() {
 
     }
+
+    @Override
+    public void setRotation(int width, int height, int rotation) {
+        float dispWidth = 0;
+        float dispHeight = 0;
+        if (displaySize.x > displaySize.y) {
+            dispWidth = displaySize.x;
+            dispHeight = displaySize.y;
+        }
+        else
+        {
+            dispWidth = displaySize.y;
+            dispHeight = displaySize.x;
+        }
+        Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,false);
+        getAutoFitTextureView().setTransform(matrix);
+    }
+
 
 }

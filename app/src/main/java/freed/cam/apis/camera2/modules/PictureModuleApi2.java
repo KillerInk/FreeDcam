@@ -272,7 +272,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             Log.d(TAG, "rotation to set : " + or);
             int finalW = w;
             int finalH = h;
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH,or,true));
+            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW,finalH,or));
 
             cameraUiWrapper.getPreview().setOutputSurface(previewsurface);
             cameraUiWrapper.getPreview().setSize(previewSize.getWidth(),previewSize.getHeight());
