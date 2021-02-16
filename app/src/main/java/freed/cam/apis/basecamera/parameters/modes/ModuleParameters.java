@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingsManager;
@@ -43,8 +44,11 @@ public class ModuleParameters extends AbstractParameter {
     @Override
     public String[] getStringValues() {
         List<String> mods = new ArrayList<>();
-        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
-            mods.add(module.getValue().LongName());
+
+        for (Object module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
+
+            HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
+            mods.add(mod.getValue().LongName());
         }
         return mods.toArray(new String[mods.size()]);
     }
@@ -58,10 +62,11 @@ public class ModuleParameters extends AbstractParameter {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
-            if (valueToSet.equals(module.getValue().LongName())) {
-                SettingsManager.getInstance().SetCurrentModule(module.getValue().ModuleName());
-                cameraUiWrapper.getModuleHandler().setModule(module.getValue().ModuleName());
+        for (Object module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
+            HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
+            if (valueToSet.equals(mod.getValue().LongName())) {
+                SettingsManager.getInstance().SetCurrentModule(mod.getValue().ModuleName());
+                cameraUiWrapper.getModuleHandler().setModule(mod.getValue().ModuleName());
                 break;
             }
 

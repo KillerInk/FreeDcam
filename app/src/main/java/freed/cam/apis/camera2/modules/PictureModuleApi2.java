@@ -98,7 +98,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     /*private boolean captureDng = false;
     private boolean captureJpeg = false;*/
     protected CaptureType captureType;
-    protected Camera2Fragment cameraUiWrapper;
     protected CaptureController captureController;
 
     protected static class BurstCounter
@@ -133,9 +132,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     }
 
-    public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public PictureModuleApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        this.cameraUiWrapper = (Camera2Fragment)cameraUiWrapper;
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         filesSaved = new ArrayList<>();
 
@@ -160,7 +158,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     public void InitModule()
     {
         super.InitModule();
-        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         captureController = getCaptureController();
@@ -229,11 +226,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     }
 
     private void preparePreviewTextureView(int orientationToSet, Size previewSize) {
-        SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+        SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
        /* if (cameraUiWrapper.getPreviewSurface() != null)
             cameraUiWrapper.getPreviewSurface().release();*/
-        Surface previewsurface = new Surface(cameraUiWrapper.getTexturView().getSurfaceTexture());
+        Surface previewsurface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
         int w = previewSize.getWidth();
         int h = previewSize.getHeight();
 
@@ -316,7 +313,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             }
             int finalW1 = w;
             int finalH1 = h;
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW1, finalH1, or,false));
+            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW1, finalH1, or));
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
     }

@@ -93,8 +93,8 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
     {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
-        surfaceView = view.findViewById(id.autofitview);
-        getPreview().setTextureView(surfaceView);
+        surfaceView =  view.findViewById(id.autofitview);
+        //getPreview().setTextureView(surfaceView);
         getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),null);
         RenderScriptPreview rsPrev = (RenderScriptPreview)getPreview();
         previewStreamDrawer = new PreviewStreamDrawer(surfaceView,rsPrev.getRenderScriptManager());

@@ -661,7 +661,7 @@ public class CaptureSessionHandler
 
     private final String MATRIXTAG = TAG + ".SetTextureViewSize";
 
-    public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
+    /*public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
     {
         float dispWidth = 0;
         float dispHeight = 0;
@@ -682,7 +682,7 @@ public class CaptureSessionHandler
         Matrix matrix = MatrixUtil.getTransFormMatrix(w,h,(int)dispWidth,(int)dispHeight,rotation,renderscript);
 
         cameraHolderApi2.textureView.setTransform(matrix);
-    }
+    }*/
 
     public void StartAePrecapture()
     {

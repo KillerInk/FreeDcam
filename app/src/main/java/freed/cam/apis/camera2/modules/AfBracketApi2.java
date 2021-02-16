@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -43,7 +44,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     private final String TAG = AfBracketApi2.class.getSimpleName();
     private ManualFocus manualFocus;
 
-    public AfBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public AfBracketApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_afbracket);
     }

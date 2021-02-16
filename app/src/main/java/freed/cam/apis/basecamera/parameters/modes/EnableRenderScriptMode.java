@@ -5,17 +5,19 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.BooleanSettingModeInterface;
 
-public class EnableRenderScriptMode extends FocusPeakMode  {
+public class EnableRenderScriptMode extends AbstractParameter {
 
 
-    public EnableRenderScriptMode(CameraWrapperInterface cameraUiWrapper) {
+    public EnableRenderScriptMode(SettingKeys.Key cameraUiWrapper) {
         super(cameraUiWrapper);
+        fireStringValueChanged(SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get());
     }
 
     @Override

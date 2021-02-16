@@ -115,4 +115,10 @@ public class RenderScriptManager
     {
         return mAllocationIn.getSurface();
     }
+
+    public void reset()
+    {
+        mAllocationIn = null;
+        mAllocationOut = null;
+    }
 }

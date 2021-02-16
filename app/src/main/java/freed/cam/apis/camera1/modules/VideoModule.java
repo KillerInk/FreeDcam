@@ -31,6 +31,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
+import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.file.holder.BaseHolder;
@@ -51,7 +52,7 @@ public class VideoModule extends AbstractVideoModule
     private final String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public VideoModule(Camera1Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
     }
 
@@ -165,7 +166,7 @@ public class VideoModule extends AbstractVideoModule
         cameraUiWrapper.stopPreviewAsync();
         if (SettingsManager.get(SettingKeys.PreviewSize).isSupported()) {
             Log.d(TAG,"Set previewSize to:" + size);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size, true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size, false);
             Log.d(TAG,"Set previewSize done");
         }
         //video size applies the parameters to the camera

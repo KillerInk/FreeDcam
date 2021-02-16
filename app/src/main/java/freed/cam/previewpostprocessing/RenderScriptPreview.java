@@ -4,15 +4,20 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
+import android.renderscript.RenderScript;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import freed.cam.apis.camera2.modules.AbstractModuleApi2;
+import freed.cam.events.EventBusHelper;
+import freed.cam.events.SwichCameraFragmentEvent;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
 import freed.utils.MatrixUtil;
 import freed.viewer.screenslide.views.MyHistogram;
 import freed.views.AutoFitTextureView;
@@ -22,6 +27,30 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     private RenderScriptManager renderScriptManager;
     private RenderScriptProcessor mProcessor;
     private Surface outputsurface;
+    private boolean renderScriptError5 = false;
+
+    //use to workaround the problem with activated renderscript when switching back from a non renderscript session
+    protected class MyRSErrorHandler extends RenderScript.RSErrorHandler
+    {
+        @Override
+        public void run() {
+            super.run();
+            Log.e(MyRSErrorHandler.class.getSimpleName(), mErrorNum +":"+ mErrorMessage);
+            if (mErrorNum == 5) // Error:5 setting IO output buffer usage.
+            {
+                renderScriptError5 = true;
+                if (renderScriptError5)
+                {
+                    renderScriptError5 = false;
+                    //clear the error else it trigger over and over....
+                    mErrorNum = 0;
+                    mErrorMessage = null;
+                    //Restart the module
+                    EventBusHelper.post(new SwichCameraFragmentEvent());
+                }
+            }
+        }
+    }
 
     public RenderScriptPreview(Context context, MyHistogram histogram)
     {
@@ -32,6 +61,7 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
             mProcessor = new RenderScriptProcessor(renderScriptManager,histogram, ImageFormat.YUV_420_888);
         else if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_1))
             mProcessor = new RenderScriptProcessor(renderScriptManager, histogram, ImageFormat.NV21);
+
     }
 
     public RenderScriptManager getRenderScriptManager() {
@@ -116,12 +146,14 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
 
     @Override
     public void start() {
+        mProcessor.setRenderScriptErrorListner(new MyRSErrorHandler());
         mProcessor.start();
     }
 
     @Override
     public void stop() {
         mProcessor.kill();
+        mProcessor.setRenderScriptErrorListner(null);
     }
 
     @Override
@@ -131,6 +163,7 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
         dispWidth = getPreviewWidth();
         dispHeight = getPreviewHeight();
         Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,true);
+        getAutoFitTextureView().setTransform(matrix);
     }
 
 }

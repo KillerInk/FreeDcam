@@ -7,9 +7,11 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import freed.utils.Log;
 import freed.views.AutoFitTextureView;
 
 public abstract class AutoFitTexturviewPreview implements Preview, TextureView.SurfaceTextureListener {
+    private final String TAG = AutoFitTexturviewPreview.class.getSimpleName();
     private AutoFitTextureView autoFitTextureView;
     private PreviewEvent previewEventListner;
 
@@ -54,18 +56,21 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
 
     @Override
     public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
+        Log.d(TAG, "onSurfaceTextureAvailable");
         if (previewEventListner != null)
             previewEventListner.onPreviewAvailable(surface,width,height);
     }
 
     @Override
     public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
+        Log.d(TAG, "onSurfaceTextureSizeChanged");
         if (previewEventListner != null)
             previewEventListner.onPreviewSizeChanged(surface,width,height);
     }
 
     @Override
     public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
+        Log.d(TAG, "onSurfaceTextureDestroyed");
         if (previewEventListner != null)
             previewEventListner.onPreviewDestroyed(surface);
         return false;
@@ -73,6 +78,7 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
 
     @Override
     public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
+        //Log.d(TAG, "onSurfaceTextureUpdated");
         if (previewEventListner != null)
             previewEventListner.onPreviewUpdated(surface);
     }

@@ -102,12 +102,17 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     {
         super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
+        this.histogram = view.findViewById(id.hisotview);
+        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
+            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
+        else
+            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogram);
         textureView = getPreview().getPreviewView();
         FrameLayout frameLayout = view.findViewById(id.autofitview);
         frameLayout.addView(textureView);
 
         getPreview().setPreviewEventListner(this);
-        this.histogram = view.findViewById(id.hisotview);
+
         Log.d(TAG, "Constructor done");
         return view;
     }
@@ -297,10 +302,6 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     @Override
     public void createCamera() {
         Log.d(TAG, "createCamera");
-        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
-        else
-            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogram);
         parametersHandler = new ParameterHandlerApi2(Camera2Fragment.this);
         moduleHandler = new ModuleHandlerApi2(Camera2Fragment.this);
         focusHandler = new FocusHandler(Camera2Fragment.this);

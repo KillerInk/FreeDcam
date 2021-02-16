@@ -36,7 +36,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
+public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> implements ModuleHandlerInterface
 {
     public enum CaptureStates
     {
@@ -57,14 +57,14 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CW cameraUiWrapper;
 
     private BackgroundHandlerThread backgroundHandlerThread;
 
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
-    public ModuleHandlerAbstract(CameraWrapperInterface cameraUiWrapper)
+    public ModuleHandlerAbstract(CW cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();

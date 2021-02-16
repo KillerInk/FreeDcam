@@ -26,6 +26,7 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
+import freed.cam.apis.camera2.Camera2Fragment;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
 
@@ -40,7 +41,7 @@ public class IntervalApi2 extends PictureModuleApi2 implements I_PreviewWrapper,
 
     private boolean module_isWorking;
 
-    public IntervalApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public IntervalApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_interval);
         intervalHandler = new IntervalHandler(this);

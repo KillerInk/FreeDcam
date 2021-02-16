@@ -20,6 +20,7 @@
 package freed.cam.apis.camera1;
 
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.Area;
 import android.hardware.Camera.Parameters;
@@ -163,10 +164,10 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         return false;
     }
 
-    public void setTextureView(TextureView texturView)
+    public void setTextureView(SurfaceTexture texturView)
     {
         try {
-            mCamera.setPreviewTexture(texturView.getSurfaceTexture());
+            mCamera.setPreviewTexture(texturView);
         } catch (IOException e) {
             e.printStackTrace();
         }

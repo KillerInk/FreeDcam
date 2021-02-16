@@ -187,7 +187,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
     @Override
     public void start() {
-        if (renderScriptManager.GetOut() == null)
+        if (renderScriptManager.GetOut() == null || renderScriptManager.GetOut() == null)
             Log.d(TAG, "OutputSurface is null");
         if (renderScriptManager.GetIn() == null || renderScriptManager.GetIn().getSurface() == null)
             Log.d(TAG, "InputSurface is null");
@@ -352,15 +352,13 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                 mProcessingTask = null;
                 if (renderScriptManager.GetIn() != null) {
                     renderScriptManager.GetIn().setOnBufferAvailableListener(null);
-                    renderScriptManager.GetIn().getSurface().release();
                     renderScriptManager.GetIn().destroy();
                 }
                 if (renderScriptManager.GetOut() != null)
                 {
-                    renderScriptManager.GetOut().setSurface(null);
                     renderScriptManager.GetOut().destroy();
-
                 }
+                renderScriptManager.reset();
             }
         }
         width = 0;

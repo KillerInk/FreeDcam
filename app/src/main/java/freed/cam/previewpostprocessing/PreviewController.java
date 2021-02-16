@@ -37,7 +37,8 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void close() {
-        preview.close();
+        if (preview != null)
+            preview.close();
     }
 
     public SurfaceTexture getSurfaceTexture()

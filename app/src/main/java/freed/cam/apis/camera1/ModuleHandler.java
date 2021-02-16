@@ -35,11 +35,11 @@ import freed.utils.Log;
 /**
  * Created by troop on 16.08.2014.
  */
-public class ModuleHandler extends ModuleHandlerAbstract
+public class ModuleHandler extends ModuleHandlerAbstract<Camera1Fragment>
 {
 
 
-    public  ModuleHandler (CameraWrapperInterface cameraUiWrapper)
+    public  ModuleHandler (Camera1Fragment cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

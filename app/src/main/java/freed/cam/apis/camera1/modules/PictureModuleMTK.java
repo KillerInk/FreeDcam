@@ -32,6 +32,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.jni.RawToDng;
@@ -48,7 +49,7 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile;
-    public PictureModuleMTK(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public PictureModuleMTK(Camera1Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
     }

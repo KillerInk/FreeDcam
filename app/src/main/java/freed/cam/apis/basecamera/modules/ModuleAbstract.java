@@ -33,19 +33,19 @@ import freed.utils.Log;
 /**
  * Created by troop on 15.08.2014.
  */
-public abstract class ModuleAbstract implements ModuleInterface
+public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implements ModuleInterface
 {
     protected boolean isWorking;
     protected boolean isLowStorage;
     public String name;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CW cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
 
 
-    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public ModuleAbstract(CW cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;

@@ -88,15 +88,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     protected ImageReader PicReader;
 
     private VideoRecorder videoRecorder;
-    protected Camera2Fragment cameraUiWrapper;
     //private Surface inputSurface;
 
     private OpcodeProcessor opcodeProcessor;
     private OpCodes active_op = OpCodes.off;
 
-    public VideoModuleApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public VideoModuleApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        this.cameraUiWrapper = (Camera2Fragment) cameraUiWrapper;
         name = FreedApplication.getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
@@ -287,8 +285,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
             int finalW = w;
             int finalH = h;
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH,or,true));
-            SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW, finalH,or));
+            SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
 
@@ -333,9 +331,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
             int finalW = w;
             int finalH = h;
-            mainHandler.post(() -> cameraUiWrapper.captureSessionHandler.SetTextureViewSize(finalW, finalH, or, false));
+            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW, finalH, or));
 
-            SurfaceTexture texture = cameraUiWrapper.getTexturView().getSurfaceTexture();
+            SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
             texture.setDefaultBufferSize(w, h);
             previewsurface = new Surface(texture);
 
