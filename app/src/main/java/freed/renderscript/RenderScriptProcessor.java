@@ -107,10 +107,16 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         if (histogram == null)
             return;
         processHistogram = enable;
-        if (processHistogram)
-            histogram.setVisibility(View.VISIBLE);
-        else
-            histogram.setVisibility(View.GONE);
+        histogram.post(new Runnable() {
+            @Override
+            public void run() {
+                if (processHistogram)
+                    histogram.setVisibility(View.VISIBLE);
+                else
+                    histogram.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     @Override

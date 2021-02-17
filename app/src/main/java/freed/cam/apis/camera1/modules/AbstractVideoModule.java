@@ -24,19 +24,25 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.view.Surface;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
@@ -64,6 +70,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1Fragment
     public void InitModule() {
         super.InitModule();
         changeCaptureState(CaptureStates.video_recording_stop);
+        createPreview();
         initRecorder();
     }
 
@@ -114,6 +121,35 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1Fragment
     }
 //ModuleInterface END
 
+    private void createPreview()
+    {
+        Size sizefromCam = new Size("1920x1080");
+
+        List<Size> sizes = new ArrayList<>();
+        String[] stringsSizes = cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
+        for (String s : stringsSizes) {
+            sizes.add(new Size(s));
+        }
+        final Size size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
+
+        if(size == null || cameraUiWrapper.getPreview().getSurfaceTexture() == null)
+            return;
+        cameraUiWrapper.cameraHolder.StopPreview();
+        cameraUiWrapper.getPreview().stop();
+
+        if (cameraUiWrapper.cameraHolder.canSetSurfaceDirect()) {
+            cameraUiWrapper. cameraHolder.setSurface((Surface)null);
+            Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
+            cameraUiWrapper.cameraHolder.setSurface(surface);
+        }
+        else
+            cameraUiWrapper.cameraHolder.setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
+
+        Log.d(TAG, "set size to " + size.width + "x" + size.height);
+        cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+        CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
+        cameraUiWrapper.cameraHolder.StartPreview();
+    }
 
     private void startRecording()
     {

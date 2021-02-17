@@ -20,23 +20,31 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.Surface;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.events.CameraStateEvents;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.dng.DngProfile;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
@@ -64,7 +72,7 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
-        this.cameraHolder = (CameraHolder)cameraUiWrapper.getCameraHolder();
+        this.cameraHolder = cameraUiWrapper.getCameraHolder();
     }
 
     @Override
@@ -133,13 +141,67 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
         changeCaptureState(CaptureStates.image_capture_stop);
         if (cameraUiWrapper.getParameterHandler() == null)
             return;
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("yuv420sp",true);
+        //cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("yuv420sp",true);
+        createPreview();
+
         ParameterInterface videohdr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHDR);
         if (SettingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             videohdr.SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
         if(SettingsManager.getInstance().isZteAe()) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
         }
+    }
+
+    private void createPreview()
+    {
+        Size sizefromCam = new Size(cameraUiWrapper.parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
+        List<Size> sizes = new ArrayList<>();
+        String[] stringsSizes = cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
+        final Size size;
+        for (String s : stringsSizes) {
+            sizes.add(new Size(s));
+        }
+        size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
+
+        Log.d(TAG, "set size to " + size.width + "x" + size.height);
+        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+            if(size == null || cameraUiWrapper.getPreview().getSurfaceTexture() == null)
+                return;
+            cameraHolder.StopPreview();
+            cameraUiWrapper.getPreview().stop();
+            cameraHolder.setSurface((Surface) null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                cameraUiWrapper.getPreview().getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
+            }
+
+            cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
+            cameraUiWrapper.getPreview().setOutputSurface(surface);
+            cameraUiWrapper.getPreview().setSize(size.width, size.height);
+            cameraUiWrapper.getPreview().setHistogram(false);
+
+            cameraHolder.setSurface(cameraUiWrapper.getPreview().getInputSurface());
+            CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
+            cameraHolder.StartPreview();
+            cameraUiWrapper.getPreview().start();
+        }
+        else
+        {
+            cameraHolder.StopPreview();
+            if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
+                cameraHolder.setSurface((Surface)null);
+                Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
+                cameraHolder.setSurface(surface);
+            }
+            else
+                ((CameraHolder)cameraHolder).setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
+
+            Log.d(TAG, "set size to " + size.width + "x" + size.height);
+            cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
+            cameraHolder.StartPreview();
+        }
+
     }
 
     @Override

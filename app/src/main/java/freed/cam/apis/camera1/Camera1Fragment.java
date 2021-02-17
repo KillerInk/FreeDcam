@@ -75,23 +75,6 @@ import freed.views.AutoFitTextureView;
 public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, CameraHolder> implements ModuleChangedEvent, Preview.PreviewEvent, EventBusLifeCycle
 {
 
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
-
-    @Subscribe
-    public void onPictureSizeChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.PictureSize)
-        {
-            Log.d(TAG, "onPictureSizeChanged");
-            mainToCameraHandler.removeCallbacks(createPreviewRunner);
-            mainToCameraHandler.post(createPreviewRunner);
-        }
-    }
-
     //this gets called when the cameraholder has open the camera
     @Subscribe
     public void onCameraOpen(CameraStateEvents.CameraOpenEvent openEvent)
@@ -123,15 +106,14 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCameraChangedAspectRatio(CameraStateEvents.CameraChangedAspectRatioEvent event)
     {
-        Size size = event.size;
-        getPreview().setSize(size.width,size.height);
+        /*Size size = event.size;
+        getPreview().setSize(size.width,size.height);*/
     }
 
     private final String TAG = Camera1Fragment.class.getSimpleName();
     private boolean cameraIsOpen = false;
     View textureView;
     MyHistogram histogram;
-    private Size previewSize;
 
     public static Camera1Fragment getInstance()
     {
@@ -161,8 +143,6 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        //textureView = view.findViewById(id.autofitview);
-
         if (mainToCameraHandler != null)
             mainToCameraHandler.createCamera();
         Log.d(TAG, "Ctor done");
@@ -189,130 +169,6 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
             moduleHandler.getCurrentModule().DoWork();
         stopCameraAsync();
         stopListning();
-    }
-
-    private Runnable createPreviewRunner =new Runnable()
-    {
-        @Override
-        public void run() {
-            Log.d(TAG, "createPreviewRunner.run()");
-            if (textureView == null || !PreviewSurfaceRdy) {
-                Log.d(TAG, "FAILED TO GET SURFACE FROM TEXTUREVIEW ################");
-                return;
-            }
-            if(moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_picture))
-                    || moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_hdr))
-                    || moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_interval)))
-            {
-                Size sizefromCam = new Size(parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
-                List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
-                final Size size;
-                for (String s : stringsSizes) {
-                    sizes.add(new Size(s));
-                }
-                size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
-                if (size == previewSize)
-                    return;
-                previewSize = size;
-
-                Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
-                    if(size == null || getPreview().getSurfaceTexture() == null)
-                        return;
-                    cameraHolder.StopPreview();
-                    getPreview().stop();
-                    cameraHolder.setSurface((Surface) null);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-                        getPreview().getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
-                    }
-
-                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
-                    Surface surface = new Surface(getPreview().getSurfaceTexture());
-                    getPreview().setOutputSurface(surface);
-                    getPreview().setSize(size.width, size.height);
-                    cameraToMainHandler.post(() -> getPreview().setHistogram(false));
-
-                    cameraHolder.setSurface(getPreview().getInputSurface());
-                    CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
-                    cameraHolder.StartPreview();
-                    getPreview().start();
-                }
-                else
-                {
-                    cameraHolder.StopPreview();
-                    if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
-                        cameraHolder.setSurface((Surface)null);
-                        Surface surface = new Surface(getPreview().getSurfaceTexture());
-                        cameraHolder.setSurface(surface);
-                    }
-                    else
-                        ((CameraHolder)cameraHolder).setTextureView(getPreview().getSurfaceTexture());
-
-                    Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                    parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
-                    CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
-                    cameraHolder.StartPreview();
-                }
-
-            }
-            else if (moduleHandler.getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
-            {
-                Size sizefromCam = new Size("1920x1080");
-
-                List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
-                for (String s : stringsSizes) {
-                    sizes.add(new Size(s));
-                }
-                final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
-                if (size == previewSize)
-                    return;
-                previewSize = size;
-                if(size == null || getPreview().getSurfaceTexture() == null)
-                    return;
-                cameraHolder.StopPreview();
-                getPreview().stop();
-                
-                if (cameraHolder.canSetSurfaceDirect()) {
-                    cameraHolder.setSurface((Surface)null);
-                    Surface surface = new Surface(getPreview().getSurfaceTexture());
-                    cameraHolder.setSurface(surface);
-                }
-                else
-                    cameraHolder.setTextureView(getPreview().getSurfaceTexture());
-
-                Log.d(TAG, "set size to " + size.width + "x" + size.height);
-                parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
-                CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
-                cameraHolder.StartPreview();
-            }
-            Log.d(TAG, "createPreviewRunner.run() done");
-        }
-    };
-
-    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h,boolean FocusPeakClamp) {
-        double ASPECT_TOLERANCE = 0.2;
-        double targetRatio = (double) w / h;
-        if (sizes == null) return null;
-        Size optimalSize = null;
-        List<Size> aspectRatioMatches = new ArrayList<>();
-        double ratio;
-        for (Size s : sizes)
-        {
-            ratio = (double) s.width / s.height;
-            if (ratio <= targetRatio + ASPECT_TOLERANCE && ratio >= targetRatio - ASPECT_TOLERANCE) {
-                if (s.width <= 2560 && s.height <= 1440 && s.width >= 800 && s.height >= 600)
-                    aspectRatioMatches.add(s);
-            }
-        }
-
-        if (aspectRatioMatches.size() > 0)
-        {
-            return Collections.max(aspectRatioMatches, new SizeCompare());
-        }
-        else
-            return Collections.max(sizes,new SizeCompare());
     }
 
     @Override
@@ -358,7 +214,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void initCamera() {
         ((FocusHandler) focusHandler).startListning();
-        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
+        parametersHandler.LoadParametersFromCamera();
         CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
@@ -451,36 +307,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
 
     }
 
-    private class SizeCompare implements Comparator<Size>
-    {
-        @Override
-        public int compare(Size o1, Size o2) {
-            int calc = -1;
-            if (o1.width > o2.width)
-                calc++;
-            if (o1.height > o2.height)
-                calc++;
-            return calc;
-        }
-    }
-
-
-
     @Override
     public void onModuleChanged(String module)
     {
-        if (parametersHandler.get(SettingKeys.Focuspeak) == null)
-            return;
-        try {
-            Log.d(TAG, "onModuleChanged");
-            mainToCameraHandler.removeCallbacks(createPreviewRunner);
-            mainToCameraHandler.post(createPreviewRunner);
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
-        }
-
     }
 
     @Override
