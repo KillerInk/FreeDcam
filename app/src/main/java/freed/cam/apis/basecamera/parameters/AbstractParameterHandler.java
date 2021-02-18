@@ -40,6 +40,7 @@ import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -74,8 +75,9 @@ public abstract class AbstractParameterHandler
         add(SettingKeys.HorizontLvl, new Horizont());
         add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
         add(SettingKeys.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
-        if (RenderScriptManager.isSupported() && cameraUiWrapper.getPreview() != null) {
-            add(SettingKeys.PREVIEW_POST_PROCESSING_MODE, new EnableRenderScriptMode(SettingKeys.PREVIEW_POST_PROCESSING_MODE));
+        add(SettingKeys.PREVIEW_POST_PROCESSING_MODE, new EnableRenderScriptMode(SettingKeys.PREVIEW_POST_PROCESSING_MODE));
+        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+
             add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getPreview(), SettingKeys.FOCUSPEAK_COLOR));
             add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper));
             add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));

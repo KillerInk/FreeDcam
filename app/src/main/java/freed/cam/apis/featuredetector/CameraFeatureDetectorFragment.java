@@ -123,7 +123,7 @@ public class CameraFeatureDetectorFragment extends Fragment implements FeatureDe
     private void setGlobalDefaultSettings()
     {
         if (RenderScriptManager.isSupported()) {
-            SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setValues(new String[]{PreviewPostProcessingModes.off.name(),PreviewPostProcessingModes.RenderScript.name()/*,"OpenGL"*/});
+            SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setValues(new String[]{PreviewPostProcessingModes.off.name(),PreviewPostProcessingModes.RenderScript.name(),PreviewPostProcessingModes.OpenGL.name()});
             SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(PreviewPostProcessingModes.off.name());
             SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(true);
             SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));

@@ -174,7 +174,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
             //left cameraui items
 
-            if (parameterHandler.get(SettingKeys.HISTOGRAM) != null && cameraUiWrapper.getPreview().isSucessfullLoaded()) {
+            if (parameterHandler.get(SettingKeys.HISTOGRAM) != null) {
                 UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
                 focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HISTOGRAM));
                 focusPeak.SetCameraUiWrapper(cameraUiWrapper);
@@ -182,7 +182,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 focusPeak.setBackgroundResource(R.drawable.quck_set_histogram);
                 left_ui_items_holder.addView(focusPeak);
             }
-            if (parameterHandler.get(SettingKeys.CLIPPING) != null  && cameraUiWrapper.getPreview().isSucessfullLoaded()) {
+            if (parameterHandler.get(SettingKeys.CLIPPING) != null) {
                 UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
                 focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.CLIPPING));
                 focusPeak.SetCameraUiWrapper(cameraUiWrapper);
@@ -230,7 +230,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
                 right_ui_items_top.addView(moduleSwitch);
 
-                if (parameterHandler.get(SettingKeys.Focuspeak) != null && cameraUiWrapper.getPreview().isSucessfullLoaded()) {
+                if (parameterHandler.get(SettingKeys.Focuspeak) != null) {
                     UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
                     focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.Focuspeak));
                     focusPeak.SetCameraUiWrapper(cameraUiWrapper);

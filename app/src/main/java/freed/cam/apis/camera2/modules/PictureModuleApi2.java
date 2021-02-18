@@ -313,6 +313,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             }
             int finalW1 = w;
             int finalH1 = h;
+            cameraUiWrapper.getPreview().setSize(finalW1, finalH1);
             mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW1, finalH1, or));
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }

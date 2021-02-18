@@ -17,6 +17,7 @@ public class EnableRenderScriptMode extends AbstractParameter {
 
     public EnableRenderScriptMode(SettingKeys.Key cameraUiWrapper) {
         super(cameraUiWrapper);
+        setViewState(ViewState.Visible);
         fireStringValueChanged(SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get());
     }
 

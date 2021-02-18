@@ -332,7 +332,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             int finalW = w;
             int finalH = h;
             mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW, finalH, or));
-
+            cameraUiWrapper.getPreview().setSize(finalW, finalH);
             SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
             texture.setDefaultBufferSize(w, h);
             previewsurface = new Surface(texture);

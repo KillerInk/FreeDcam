@@ -130,6 +130,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
 
         if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
             getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
+        else if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogram);
         else
             getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogram);
         textureView = getPreview().getPreviewView();

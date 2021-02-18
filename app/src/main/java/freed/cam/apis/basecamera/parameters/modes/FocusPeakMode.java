@@ -42,11 +42,15 @@ public class FocusPeakMode extends AbstractParameter {
         super(cameraUiWrapper,SettingKeys.Focuspeak);
     }
 
+    public FocusPeakMode(CameraWrapperInterface cameraWrapperInterface, SettingKeys.Key key)
+    {
+        super(cameraWrapperInterface,key);
+    }
+
 
     @Override
     public ViewState getViewState() {
-        if (RenderScriptManager.isSupported() && cameraUiWrapper.getPreview().isSucessfullLoaded()
-                && !SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
+        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
             return ViewState.Visible;
         else
             return ViewState.Hidden;
@@ -55,15 +59,15 @@ public class FocusPeakMode extends AbstractParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+        currentString = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             cameraUiWrapper.getPreview().setFocusPeak(true);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
             cameraUiWrapper.getPreview().setFocusPeak(false);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
+        fireStringValueChanged(valueToSet);
 
     }
 

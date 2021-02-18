@@ -26,7 +26,7 @@ public class PreviewController implements PreviewControllerInterface
                 preview = new RenderScriptPreview(context,histogram);
                 break;
             case OpenGL:
-                preview = new NormalPreview(context);
+                preview = new OpenGLPreview(context,histogram);
                 break;
         }
     }

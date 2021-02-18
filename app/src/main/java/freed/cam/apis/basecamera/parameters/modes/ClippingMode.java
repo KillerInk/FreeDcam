@@ -4,17 +4,18 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.settings.SettingKeys;
 
 /**
  * Created by KillerInk on 23.01.2018.
  */
 
-public class ClippingMode extends HistogramParameter {
+public class ClippingMode extends FocusPeakMode {
 
     private String state = "off";
 
     public ClippingMode(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper);
+        super(cameraUiWrapper, SettingKeys.CLIPPING);
     }
 
     @Override
