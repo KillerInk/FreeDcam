@@ -9,8 +9,11 @@ import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
+import camera2_hidden_keys.qcom.CaptureResultQcom;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.histogram.HistogramChangedEvent;
+import freed.cam.histogram.HistogramFeed;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -22,7 +25,7 @@ import freed.utils.StringUtils;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback
+public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback implements HistogramFeed
 {
     private final boolean DO_LOG = false;
     private void log(String s)
@@ -30,6 +33,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (DO_LOG)
             Log.d(TAG,s);
     }
+
 
     public interface WaitForFirstFrameCallback
     {
@@ -41,10 +45,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         void on_Ae_Af_Lock(AeAfLocker aeAfLocker);
     }
 
-    public interface HistogramChangedEvent
-    {
-        void onHistogramChanged(int[] histogram_data);
-    }
+
 
     public class AeAfLocker
     {
@@ -105,9 +106,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         this.aeAfLocker = new AeAfLocker();
     }
 
-    public void setHistogramChangedEventListner(HistogramChangedEvent histogramChangedEventListner)
-    {
-        this.histogramChangedEventListner = histogramChangedEventListner;
+    @Override
+    public void setHistogramFeed(HistogramChangedEvent feed) {
+        this.histogramChangedEventListner = feed;
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -237,6 +238,14 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (waitForAe_af_lock != null) {
             Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
+        }
+        if (SettingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get() && result.get(CaptureResultQcom.HISTOGRAM_STATS) != null)
+        {
+            int[] histo = result.get(CaptureResultQcom.HISTOGRAM_STATS);
+            if (histogramChangedEventListner != null)
+            {
+                histogramChangedEventListner.onHistogramChanged(histo);
+            }
         }
     }
 

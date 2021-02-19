@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import freed.cam.histogram.HistogramController;
 import freed.gl.GLPreview;
 import freed.gl.PreviewModel;
 import freed.settings.SettingKeys;
@@ -21,8 +22,9 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
 
     private GLPreview glPreview;
     private PreviewEvent previewEventListner;
+    private HistogramController histogramController;
 
-    public OpenGLPreview(Context context, MyHistogram myHistogram)
+    public OpenGLPreview(Context context, HistogramController myHistogram)
     {
         glPreview = new GLPreview(context);
         glPreview.setSurfaceTextureListener(this);

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import freed.cam.apis.camera2.modules.AbstractModuleApi2;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
+import freed.cam.histogram.HistogramController;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingsManager;
@@ -28,6 +29,7 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     private RenderScriptProcessor mProcessor;
     private Surface outputsurface;
     private boolean renderScriptError5 = false;
+    private HistogramController histogramController;
 
     //use to workaround the problem with activated renderscript when switching back from a non renderscript session
     protected class MyRSErrorHandler extends RenderScript.RSErrorHandler
@@ -52,15 +54,16 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
         }
     }
 
-    public RenderScriptPreview(Context context, MyHistogram histogram)
+    public RenderScriptPreview(Context context, HistogramController histogram)
     {
         super(context);
+        this.histogramController = histogram;
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
         if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_2))
-            mProcessor = new RenderScriptProcessor(renderScriptManager,histogram, ImageFormat.YUV_420_888);
+            mProcessor = new RenderScriptProcessor(renderScriptManager, ImageFormat.YUV_420_888);
         else if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_1))
-            mProcessor = new RenderScriptProcessor(renderScriptManager, histogram, ImageFormat.NV21);
+            mProcessor = new RenderScriptProcessor(renderScriptManager, ImageFormat.NV21);
 
     }
 
@@ -137,6 +140,11 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     public void setHistogram(boolean on) {
         ishistogram = on;
         mProcessor.setHistogramEnable(on);
+        histogramController.enable(on);
+        if (on)
+            histogramController.setFeedToRegister(mProcessor);
+        else
+            histogramController.setFeedToRegister(null);
     }
 
     @Override

@@ -32,6 +32,8 @@ import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.View;
 
+import freed.cam.histogram.HistogramChangedEvent;
+import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
 
@@ -39,7 +41,7 @@ import freed.viewer.screenslide.views.MyHistogram;
  * Renderscript-based Focus peaking viewfinder
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class RenderScriptProcessor implements RenderScriptProcessorInterface
+public class RenderScriptProcessor implements RenderScriptProcessorInterface, HistogramFeed
 {
     private final String TAG = RenderScriptProcessor.class.getSimpleName();
     private final Handler mProcessingHandler;
@@ -49,7 +51,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
     private boolean processClipping;
     private final RenderScriptManager renderScriptManager;
     private final Object workLock = new Object();
-    private final MyHistogram histogram;
+    //private final MyHistogram histogram;
     private final Allocation histodataR;
 
     private ScriptGroup allScriptGroup;
@@ -69,14 +71,12 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
     private final static int HISTOGRAM_UPDATE_RATE = 10;
 
-    public RenderScriptProcessor(RenderScriptManager renderScriptManager, final MyHistogram histogram, int imageformat)
+    private HistogramChangedEvent histogramChangedEvent;
+
+    public RenderScriptProcessor(RenderScriptManager renderScriptManager, int imageformat)
     {
         Log.d(TAG, "Ctor");
         this.imageformat = imageformat;
-        this.histogram = histogram;
-        if (histogram != null) {
-            histogram.post(() -> histogram.setVisibility(View.GONE));
-        }
 
         this.renderScriptManager = renderScriptManager;
         histodataR = Allocation.createSized(renderScriptManager.GetRS(), Element.U32(renderScriptManager.GetRS()), 256);
@@ -104,19 +104,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
     @Override
     public void setHistogramEnable(boolean enable) {
-        if (histogram == null)
-            return;
         processHistogram = enable;
-        histogram.post(new Runnable() {
-            @Override
-            public void run() {
-                if (processHistogram)
-                    histogram.setVisibility(View.VISIBLE);
-                else
-                    histogram.setVisibility(View.GONE);
-            }
-        });
-
     }
 
     @Override
@@ -211,11 +199,6 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
             }
         }
         mProcessingTask = new ProcessingTask();
-        if (processHistogram && histogram.getVisibility() == View.GONE)
-            histogram.post(()-> {
-                histogram.setVisibility(View.VISIBLE);
-                histogram.bringToFront();
-            });
     }
 
     private void createScriptGroups(Builder rgbTypeBuilder) {
@@ -370,8 +353,11 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
         width = 0;
         height =0;
         Log.d(TAG,"kill()");
-        if (histogram.getVisibility() == View.VISIBLE)
-            histogram.post(()-> histogram.setVisibility(View.GONE));
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramChangedEvent feed) {
+        this.histogramChangedEvent = feed;
     }
 
     /**
@@ -431,10 +417,10 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
                         renderScriptManager.rgb_histogram.invoke_clear();
                         allScriptGroup.execute();
-                        histodataR.copyTo(histogram.getRedHistogram());
-                        histodataR.copyTo(histogram.getGreenHistogram());
-                        histodataR.copyTo(histogram.getBlueHistogram());
-                        histogram.redrawHistogram();
+                        histodataR.copyTo(histogramChangedEvent.getRedHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getGreenHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getBlueHistogram());
+                        histogramChangedEvent.updateHistogram();
                         framescount = 0;
                     }
                     else { // if no histogram process process only focuspeak
@@ -450,10 +436,11 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
                         renderScriptManager.rgb_histogram.invoke_clear();
                         histoPeakGroup.execute();
-                        histodataR.copyTo(histogram.getRedHistogram());
-                        histodataR.copyTo(histogram.getGreenHistogram());
-                        histodataR.copyTo(histogram.getBlueHistogram());
-                        histogram.redrawHistogram();
+
+                        histodataR.copyTo(histogramChangedEvent.getRedHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getGreenHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getBlueHistogram());
+                        histogramChangedEvent.updateHistogram();
                         framescount = 0;
                     }
                     else { // if no histogram process process only focuspeak
@@ -468,10 +455,10 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
 
                         renderScriptManager.rgb_histogram.invoke_clear();
                         clippingHistoGroup.execute();
-                        histodataR.copyTo(histogram.getRedHistogram());
-                        histodataR.copyTo(histogram.getGreenHistogram());
-                        histodataR.copyTo(histogram.getBlueHistogram());
-                        histogram.redrawHistogram();
+                        histodataR.copyTo(histogramChangedEvent.getRedHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getGreenHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getBlueHistogram());
+                        histogramChangedEvent.updateHistogram();
                         framescount = 0;
                     }
                     else { // if no histogram process process only focuspeak
@@ -493,10 +480,10 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface
                     if (framescount % HISTOGRAM_UPDATE_RATE == 0) {
                         renderScriptManager.rgb_histogram.invoke_clear();
                         histoGroup.execute();
-                        histodataR.copyTo(histogram.getRedHistogram());
-                        histodataR.copyTo(histogram.getGreenHistogram());
-                        histodataR.copyTo(histogram.getBlueHistogram());
-                        histogram.redrawHistogram();
+                        histodataR.copyTo(histogramChangedEvent.getRedHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getGreenHistogram());
+                        histodataR.copyTo(histogramChangedEvent.getBlueHistogram());
+                        histogramChangedEvent.updateHistogram();
                         framescount = 0;
                     }
                     else {

@@ -6,6 +6,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 
+import freed.cam.histogram.HistogramController;
 import freed.viewer.screenslide.views.MyHistogram;
 
 public class PreviewController implements PreviewControllerInterface
@@ -13,7 +14,7 @@ public class PreviewController implements PreviewControllerInterface
     private Preview preview;
 
     @Override
-    public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, MyHistogram histogram)
+    public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, HistogramController histogram)
     {
         if (preview != null)
             preview.close();
