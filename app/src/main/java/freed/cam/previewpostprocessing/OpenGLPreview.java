@@ -177,4 +177,9 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
         if (previewEventListner != null)
             previewEventListner.onPreviewUpdated(surface);
     }
+
+    @Override
+    public void clear() {
+        glPreview = null;
+    }
 }

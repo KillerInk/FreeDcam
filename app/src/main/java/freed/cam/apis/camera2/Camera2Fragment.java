@@ -158,6 +158,14 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         stopListning();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        FrameLayout frameLayout = view.findViewById(id.autofitview);
+        frameLayout.removeAllViews();
+        textureView = null;
+    }
+
     @Subscribe
     public void onCameraOpen(CameraStateEvents.CameraOpenEvent event)
     {

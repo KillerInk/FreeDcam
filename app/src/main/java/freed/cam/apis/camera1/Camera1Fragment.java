@@ -175,6 +175,14 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        FrameLayout frameLayout = view.findViewById(id.autofitview);
+        frameLayout.removeAllViews();
+        textureView = null;
+    }
+
+    @Override
     public void createCamera() {
         Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
 

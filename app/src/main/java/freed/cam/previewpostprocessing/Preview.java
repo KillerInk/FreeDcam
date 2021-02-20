@@ -42,4 +42,5 @@ public interface Preview
     int getPreviewHeight();
     void setRotation(int width, int height,int rotation);
     void setHistogramFeed(HistogramFeed feed);
+    void clear();
 }

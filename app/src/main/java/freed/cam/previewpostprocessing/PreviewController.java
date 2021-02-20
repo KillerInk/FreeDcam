@@ -38,6 +38,11 @@ public class PreviewController implements PreviewControllerInterface
         this.preview.setHistogramFeed(feed);
     }
 
+    @Override
+    public void clear() {
+        preview.clear();
+    }
+
     public Preview getPreview() {
         return preview;
     }

@@ -87,4 +87,9 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
     {
         return autoFitTextureView;
     }
+
+    @Override
+    public void clear() {
+        autoFitTextureView = null;
+    }
 }
