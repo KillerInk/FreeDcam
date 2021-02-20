@@ -157,6 +157,9 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
 
     public void unloadCameraFragment()
     {
+        try {
+
+
         Log.d(TAG, "unloadCameraFragment");
         if (cameraFragment != null) {
             //kill the cam befor the fragment gets removed to make sure when
@@ -169,6 +172,11 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
             transaction.commit();
             cameraFragment = null;
             mainToCameraHandler.setCameraInterface(null);
+        }
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
         }
     }
 

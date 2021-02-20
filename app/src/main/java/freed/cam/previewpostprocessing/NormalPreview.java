@@ -8,13 +8,19 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 
 import androidx.annotation.NonNull;
 
 import freed.FreedApplication;
+import freed.cam.histogram.HistogramFeed;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.DisplayUtil;
+import freed.utils.Log;
 import freed.utils.MatrixUtil;
 import freed.views.AutoFitTextureView;
 
@@ -42,7 +48,6 @@ public class NormalPreview extends AutoFitTexturviewPreview {
     public void setOutputSurface(Surface surface) {
 
     }
-
 
 
     @Override
@@ -120,6 +125,11 @@ public class NormalPreview extends AutoFitTexturviewPreview {
         }
         Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,false);
         getAutoFitTextureView().setTransform(matrix);
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramFeed feed) {
+
     }
 
 

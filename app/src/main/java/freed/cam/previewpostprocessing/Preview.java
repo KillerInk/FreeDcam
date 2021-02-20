@@ -6,6 +6,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 
+import freed.cam.histogram.HistogramFeed;
 import freed.views.AutoFitTextureView;
 
 public interface Preview
@@ -40,4 +41,5 @@ public interface Preview
     int getPreviewWidth();
     int getPreviewHeight();
     void setRotation(int width, int height,int rotation);
+    void setHistogramFeed(HistogramFeed feed);
 }

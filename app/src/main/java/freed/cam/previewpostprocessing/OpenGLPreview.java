@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.HistogramFeed;
 import freed.gl.GLPreview;
 import freed.gl.PreviewModel;
 import freed.settings.SettingKeys;
@@ -23,11 +24,13 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     private GLPreview glPreview;
     private PreviewEvent previewEventListner;
     private HistogramController histogramController;
+    private HistogramFeed feed;
 
     public OpenGLPreview(Context context, HistogramController myHistogram)
     {
         glPreview = new GLPreview(context);
         glPreview.setSurfaceTextureListener(this);
+        this.histogramController = myHistogram;
     }
 
     @Override
@@ -97,6 +100,11 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
 
     @Override
     public void setHistogram(boolean on) {
+        if (on)
+            histogramController.setFeedToRegister(feed);
+        else
+            histogramController.setFeedToRegister(null);
+        histogramController.enable(on);
 
     }
 
@@ -138,6 +146,11 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     @Override
     public void setRotation(int width, int height, int rotation) {
         glPreview.setOrientation(rotation);
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramFeed feed) {
+        this.feed = feed;
     }
 
     @Override

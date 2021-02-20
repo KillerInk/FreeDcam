@@ -7,6 +7,7 @@ import android.view.TextureView;
 import android.view.View;
 
 import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.HistogramFeed;
 import freed.viewer.screenslide.views.MyHistogram;
 
 public class PreviewController implements PreviewControllerInterface
@@ -30,6 +31,11 @@ public class PreviewController implements PreviewControllerInterface
                 preview = new OpenGLPreview(context,histogram);
                 break;
         }
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramFeed feed) {
+        this.preview.setHistogramFeed(feed);
     }
 
     public Preview getPreview() {

@@ -57,6 +57,7 @@ import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.events.ValueChangedEvent;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
@@ -127,13 +128,13 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
         histogram = view.findViewById(id.hisotview);
-
+        HistogramController histogramController = new HistogramController(histogram);
         if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
+            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
         else if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogram);
+            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
         else
-            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogram);
+            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
         textureView = getPreview().getPreviewView();
         FrameLayout frameLayout = view.findViewById(id.autofitview);
         frameLayout.addView(textureView);

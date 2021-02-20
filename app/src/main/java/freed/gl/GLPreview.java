@@ -138,7 +138,6 @@ public class GLPreview extends GLSurfaceView {
 
 
         this.post(()-> this.setLayoutParams(layout));
-       ;
     }
 
     private int getNewWidth(int input_height, float ratio)

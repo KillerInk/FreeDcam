@@ -15,6 +15,7 @@ import freed.cam.apis.camera2.modules.AbstractModuleApi2;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.HistogramFeed;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingsManager;
@@ -139,12 +140,13 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     @Override
     public void setHistogram(boolean on) {
         ishistogram = on;
-        mProcessor.setHistogramEnable(on);
-        histogramController.enable(on);
         if (on)
             histogramController.setFeedToRegister(mProcessor);
         else
             histogramController.setFeedToRegister(null);
+        mProcessor.setHistogramEnable(on);
+        histogramController.enable(on);
+
     }
 
     @Override
@@ -172,6 +174,11 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
         dispHeight = getPreviewHeight();
         Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,true);
         getAutoFitTextureView().setTransform(matrix);
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramFeed feed) {
+
     }
 
 }

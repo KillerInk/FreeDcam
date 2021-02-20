@@ -51,6 +51,7 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
@@ -103,12 +104,13 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.camerafragment, container, false);
         this.histogram = view.findViewById(id.hisotview);
+        HistogramController histogramController = new HistogramController(histogram);
         if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogram);
+            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
         else if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogram);
+            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
         else
-            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogram);
+            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
         textureView = getPreview().getPreviewView();
         FrameLayout frameLayout = view.findViewById(id.autofitview);
         frameLayout.addView(textureView);
@@ -311,6 +313,8 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         cameraHolder = new CameraHolderApi2(Camera2Fragment.this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
+        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && SettingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
+            getPreview().setHistogramFeed(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
     }
 

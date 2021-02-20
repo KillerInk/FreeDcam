@@ -12,7 +12,7 @@ import freed.views.AutoFitTextureView;
 
 public abstract class AutoFitTexturviewPreview implements Preview, TextureView.SurfaceTextureListener {
     private final String TAG = AutoFitTexturviewPreview.class.getSimpleName();
-    private AutoFitTextureView autoFitTextureView;
+    protected AutoFitTextureView autoFitTextureView;
     private PreviewEvent previewEventListner;
 
     public AutoFitTexturviewPreview(Context context)
@@ -79,8 +79,8 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
     @Override
     public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
         //Log.d(TAG, "onSurfaceTextureUpdated");
-        if (previewEventListner != null)
-            previewEventListner.onPreviewUpdated(surface);
+       /* if (previewEventListner != null)
+            previewEventListner.onPreviewUpdated(surface);*/
     }
 
     protected AutoFitTextureView getAutoFitTextureView()
