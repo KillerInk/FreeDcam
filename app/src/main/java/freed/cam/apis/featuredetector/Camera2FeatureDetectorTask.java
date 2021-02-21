@@ -272,7 +272,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
 
                 if (characteristics != null) {
-                    String pair = "";
+                    /*String pair = "";
                     float focal[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
                     float aperture[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
                     if (focal != null && focal.length>0)
@@ -284,7 +284,44 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     {
                         focap.add(pair);
                         cameraids.add(String.valueOf(i));
+                    }*/
+                    boolean raw = false;
+                    boolean yuv = false;
+                    boolean jpeg = false;
+                    boolean logical = false;
+                    StreamConfigurationMap smap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                    int outputformats[] =  smap.getOutputFormats();
+                    try {
+                        int logical_b = (int)characteristics.get(CameraCharacteristicsQcom.is_logical_camera);
+                        if (logical_b > 1)
+                            logical = true;
                     }
+                    catch (IllegalArgumentException ex)
+                    {
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+
+                    for(int outformat : outputformats)
+                    {
+                        switch (outformat)
+                        {
+                            case ImageFormat.RAW_SENSOR:
+                            case ImageFormat.RAW10:
+                            case ImageFormat.RAW12:
+                                raw = true;
+                                break;
+                            case ImageFormat.JPEG:
+                                jpeg =true;
+                                break;
+                                case ImageFormat.YUV_420_888:
+                                    yuv = true;
+                                    break;
+                        }
+                    }
+                    if (yuv && raw && jpeg && !logical)
+                        cameraids.add(String.valueOf(i));
                 }
             }
             catch (IllegalArgumentException ex)
