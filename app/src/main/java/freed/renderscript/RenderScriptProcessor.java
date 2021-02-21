@@ -480,11 +480,13 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface, Hi
                     if (framescount % HISTOGRAM_UPDATE_RATE == 0) {
                         renderScriptManager.rgb_histogram.invoke_clear();
                         histoGroup.execute();
-                        histodataR.copyTo(histogramChangedEvent.getRedHistogram());
-                        histodataR.copyTo(histogramChangedEvent.getGreenHistogram());
-                        histodataR.copyTo(histogramChangedEvent.getBlueHistogram());
-                        histogramChangedEvent.updateHistogram();
-                        framescount = 0;
+                        if (histogramChangedEvent != null) {
+                            histodataR.copyTo(histogramChangedEvent.getRedHistogram());
+                            histodataR.copyTo(histogramChangedEvent.getGreenHistogram());
+                            histodataR.copyTo(histogramChangedEvent.getBlueHistogram());
+                            histogramChangedEvent.updateHistogram();
+                            framescount = 0;
+                        }
                     }
                     else {
                         renderScriptManager.yuvToRgbIntrinsic.forEach(renderScriptManager.GetOut());

@@ -6,10 +6,12 @@ import android.view.View;
 import androidx.annotation.RequiresApi;
 
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
+import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
 
 public class HistogramController implements HistogramChangedEvent {
 
+    private static final String TAG = HistogramController.class.getSimpleName();
     private MyHistogram myHistogram;
     private HistogramFeed feedToRegister;
 
@@ -28,12 +30,18 @@ public class HistogramController implements HistogramChangedEvent {
         {
             myHistogram.setVisibility(View.VISIBLE);
             myHistogram.bringToFront();
-            feedToRegister.setHistogramFeed(this);
+            if (feedToRegister != null)
+                feedToRegister.setHistogramFeed(this);
+            else
+                Log.d(TAG, "histogram on feed to Register is null!");
         }
         else
         {
             myHistogram.setVisibility(View.GONE);
-            feedToRegister.setHistogramFeed(null);
+            if (feedToRegister != null)
+                feedToRegister.setHistogramFeed(null);
+            else
+                Log.d(TAG, "histogram off feed to Register is null!");
         }
     }
 
@@ -46,7 +54,7 @@ public class HistogramController implements HistogramChangedEvent {
 
     @Override
     public void updateHistogram() {
-        myHistogram.post(()->updateHistogram());
+        myHistogram.redrawHistogram();
     }
 
     private int counter = 0;
