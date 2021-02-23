@@ -15,21 +15,19 @@ import freed.cam.apis.basecamera.CameraToMainHandler;
 import freed.cam.apis.basecamera.MainToCameraHandler;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.apis.featuredetector.CameraFeatureDetectorFragment;
+import freed.cam.apis.featuredetector.CameraFeatureDetector;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
-import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
-public class CameraFragmentManager implements CameraFeatureDetectorFragment.FeatureDetectorEvents {
+public class CameraFragmentManager {
     private final String TAG = CameraFragmentManager.class.getSimpleName();
 
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
     private CameraFragmentAbstract cameraFragment;
 
-    private CameraFeatureDetectorFragment fd;
     private BackgroundHandlerThread backgroundHandlerThread;
     private MainToCameraHandler mainToCameraHandler;
     private CameraToMainHandler cameraToMainHandler;
@@ -70,29 +68,9 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     private void loadFeatureDetector() {
         Log.d(TAG, "Start FeatureDetector");
         SettingsManager.getInstance().setAreFeaturesDetected(false);
-        fd = new CameraFeatureDetectorFragment();
-        fd.setFeatureDetectorDoneListner(this);
-        replaceCameraFragment(fd, "FeatureDetector");
+        new CameraFeatureDetector().detectFeatures();
     }
 
-    @Override
-    public void featuredetectorDone() {
-        Log.d(TAG,"FD done, load cameraFragment");
-        try {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            if (fd != null) {
-                transaction.remove(fd);
-                transaction.commit();
-                fd = null;
-            }
-            switchCameraFragment();
-        }
-        catch (IllegalStateException ex)
-        {
-            Log.WriteEx(ex);
-        }
-    }
 
     public void onResume()
     {
@@ -122,14 +100,14 @@ public class CameraFragmentManager implements CameraFeatureDetectorFragment.Feat
     {
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null) +
                 " features detected: " + SettingsManager.getInstance().getAreFeaturesDetected() + " app version changed: " + SettingsManager.getInstance().appVersionHasChanged());
-        if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()) && fd == null)
+        if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()))
         {
             Log.d(TAG, "load featuredetector");
             if (cameraFragment != null)
                 unloadCameraFragment();
             loadFeatureDetector();
         }
-        else if (fd == null)
+        else
         {
             if (cameraFragment == null) {
                 String api = SettingsManager.getInstance().getCamApi();

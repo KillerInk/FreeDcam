@@ -292,15 +292,23 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     StreamConfigurationMap smap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                     int outputformats[] =  smap.getOutputFormats();
                     try {
-                        int logical_b = (int)characteristics.get(CameraCharacteristicsQcom.is_logical_camera);
-                        if (logical_b > 1)
-                            logical = true;
+                        if(characteristics.get(CameraCharacteristicsQcom.is_logical_camera) != null) {
+                            int logical_b = (int) characteristics.get(CameraCharacteristicsQcom.is_logical_camera);
+                            if (logical_b > 1)
+                                logical = true;
+                        }
                     }
                     catch (IllegalArgumentException ex)
                     {
+                        Log.d(TAG, "CameraCharacteristicsQcom.is_logical_camera not supported");
+                    }
+                    catch (NullPointerException ex)
+                    {
+                        Log.d(TAG, "CameraCharacteristicsQcom.is_logical_camera not supported");
                     }
                     catch (Exception ex)
                     {
+                        Log.d(TAG, "CameraCharacteristicsQcom.is_logical_camera not supported");
                     }
 
                     for(int outformat : outputformats)
