@@ -294,7 +294,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     try {
                         if(characteristics.get(CameraCharacteristicsQcom.is_logical_camera) != null) {
                             int logical_b = (int) characteristics.get(CameraCharacteristicsQcom.is_logical_camera);
-                            if (logical_b > 1)
+                            Log.d(TAG, "logical id = " + logical_b);
+                            if (logical_b > 5)
                                 logical = true;
                         }
                     }
