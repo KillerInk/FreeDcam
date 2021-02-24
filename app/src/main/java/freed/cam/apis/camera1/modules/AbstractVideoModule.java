@@ -137,6 +137,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1Fragment
         cameraUiWrapper.cameraHolder.StopPreview();
         cameraUiWrapper.getPreview().stop();
 
+        cameraUiWrapper.getPreview().setSize(size.width, size.height);
+        cameraUiWrapper.getPreview().setRotation(size.width, size.height, 0);
         if (cameraUiWrapper.cameraHolder.canSetSurfaceDirect()) {
             cameraUiWrapper. cameraHolder.setSurface((Surface)null);
             Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());

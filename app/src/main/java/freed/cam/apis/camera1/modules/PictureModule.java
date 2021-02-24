@@ -199,6 +199,8 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
 
             Log.d(TAG, "set size to " + size.width + "x" + size.height);
             cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getPreview().setSize(size.width, size.height);
+            cameraUiWrapper.getPreview().setRotation(size.width, size.height, 0);
             CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
             cameraHolder.StartPreview();
         }
