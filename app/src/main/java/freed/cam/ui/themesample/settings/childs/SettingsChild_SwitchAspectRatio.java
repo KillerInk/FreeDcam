@@ -3,6 +3,7 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.widget.CompoundButton;
 
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.mode.BooleanSettingModeInterface;
 
@@ -18,6 +19,6 @@ public class SettingsChild_SwitchAspectRatio extends SettingsChild_BooleanSettin
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         super.onCheckedChanged(buttonView, isChecked);
-        cameraWrapperInterface.restartPreviewAsync();
+        CameraThreadHandler.restartPreviewAsync();
     }
 }

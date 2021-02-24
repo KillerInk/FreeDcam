@@ -40,6 +40,7 @@ import java.util.Set;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
@@ -56,7 +57,6 @@ import freed.cam.events.EventBusLifeCycle;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.previewpostprocessing.RenderScriptPreview;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -130,7 +130,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         super.onResume();
         startListning();
         wifiHandler.onResume();
-        startCameraAsync();
+        CameraThreadHandler.startCameraAsync();
 
     }
 
@@ -139,7 +139,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         super.onPause();
         Log.d(TAG, "onPause.stopCamera");
         wifiHandler.onPause();
-        stopCameraAsync();
+        CameraThreadHandler.stopCameraAsync();
         stopListning();
     }
 
@@ -151,19 +151,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
 
     public Set<String> getAvailableApiSet(){return mAvailableCameraApiSet;}
 
-    @Override
-    public void startCameraAsync()
-    {
-        if (serverDevice == null)
-        {
-            wifiHandler.setEventsListner(this);
-            wifiHandler.StartLookUp();
-            return;
-        }
-        Log.d(TAG,"startCamera");
 
-        mainToCameraHandler.startCamera();
-    }
 
     private void startSonyCamera()
     {
@@ -370,17 +358,6 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         CameraStateEvents.fireCameraOpenFinishEvent();
     }
 
-    @Override
-    public void stopCameraAsync()
-    {
-        mainToCameraHandler.stopCamera();
-    }
-
-    @Override
-    public void restartCameraAsync() {
-        mainToCameraHandler.restartCamera();
-    }
-
     public void stopEventObserver()
     {
         mEventObserver.stop();
@@ -419,7 +396,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
     public void onDeviceFound(ServerDevice serverDevice) {
         this.serverDevice = serverDevice;
         wifiHandler.setEventsListner(null);
-        startCameraAsync();
+        CameraThreadHandler.startCameraAsync();
     }
 
     @Override
@@ -446,7 +423,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         mEventObserver.stop();
         previewStreamDrawer.stop();
         //setCameraEventListner(SonyCameraRemoteFragment.this);
-        mainToCameraHandler.postDelayed(() -> startCameraAsync(),5000);
+        CameraThreadHandler.startCameraAsync(5000);
 
     }
 
@@ -468,6 +445,13 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
 
     @Override
     public void startCamera() {
+        if (serverDevice == null)
+        {
+            wifiHandler.setEventsListner(this);
+            wifiHandler.StartLookUp();
+            return;
+        }
+        Log.d(TAG,"startCamera");
         startSonyCamera();
         Log.d(TAG, "onCameraOpen State:" + STATE);
         STATE = STATE_DEVICE_CONNECTED;
@@ -497,7 +481,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
         }
         Log.d(TAG,"startCamera");
 
-        startCameraAsync();
+        CameraThreadHandler.startCameraAsync();
         Log.d(TAG, "onCameraOpen State:" + STATE);
         STATE = STATE_DEVICE_CONNECTED;
     }
@@ -525,7 +509,7 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<ParameterHa
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
         cameraHolder.StopPreview();
-        stopCameraAsync();
+        CameraThreadHandler.stopCameraAsync();
         return false;
     }
 

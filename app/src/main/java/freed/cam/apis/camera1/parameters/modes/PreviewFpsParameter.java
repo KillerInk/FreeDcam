@@ -21,6 +21,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 
@@ -39,8 +40,7 @@ public class PreviewFpsParameter extends  BaseModeParameter
     {
         super.SetValue(valueToSet, setToCam);
         if (setToCam) {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         }
     }
 

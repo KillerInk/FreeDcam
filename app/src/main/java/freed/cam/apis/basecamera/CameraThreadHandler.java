@@ -12,7 +12,7 @@ import freed.utils.Log;
  * Created by KillerInk on 22.12.2017.
  */
 
-public class MainToCameraHandler extends Handler {
+public class CameraThreadHandler extends Handler {
 
     public static final int MSG_START_CAMERA = 10;
     public static final int MSG_STOP_CAMERA = 11;
@@ -23,6 +23,75 @@ public class MainToCameraHandler extends Handler {
     public static final int MSG_CREATE_CAMERA = 16;
     public static final int MSG_RESTART_PREVIEW = 17;
     public static final int MSG_SET_ASPECTRATIO = 1337;
+
+    private static CameraThreadHandler cameraThreadHandler;
+
+    public static void createCameraAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.createCamera();
+    }
+
+    public static void initCameraAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.initCamera();
+    }
+
+    public static void startCameraAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.startCamera();
+    }
+
+    public static void startCameraAsync(int delay)
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.startCamera();
+    }
+
+    public static void stopCameraAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.stopCamera();
+    }
+
+    public static void restartCameraAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.restartCamera();
+    }
+
+    public static void startPreviewAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.startPreview();
+    }
+
+    public static void stopPreviewAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.stopPreview();
+    }
+
+    public static void restartPreviewAsync()
+    {
+        if (cameraThreadHandler != null)
+            cameraThreadHandler.restartPreview();
+    }
+
+    public static void close()
+    {
+        cameraThreadHandler = null;
+    }
+
+    public static void setCameraInterface(CameraInterface cameraInterface)
+    {
+        if (cameraThreadHandler != null)
+        {
+            cameraThreadHandler.messageHandlerWeakReference = new WeakReference<>(cameraInterface);
+        }
+    }
 
     private WeakReference<CameraInterface> messageHandlerWeakReference;
 
@@ -39,6 +108,11 @@ public class MainToCameraHandler extends Handler {
     public void startCamera()
     {
         this.obtainMessage(MSG_START_CAMERA).sendToTarget();
+    }
+
+    public void startCamera(int delay)
+    {
+        this.sendMessageDelayed(this.obtainMessage(MSG_START_CAMERA),delay);
     }
 
     public void stopCamera()
@@ -67,19 +141,15 @@ public class MainToCameraHandler extends Handler {
     }
 
 
-    public MainToCameraHandler(Looper looper)
+    public CameraThreadHandler(Looper looper)
     {
         super(looper);
+        cameraThreadHandler = this;
     }
 
     public Looper getCameraLooper()
     {
         return getLooper();
-    }
-
-    public void setCameraInterface(CameraInterface cameraInterface)
-    {
-        messageHandlerWeakReference = new WeakReference<>(cameraInterface);
     }
 
     @Override
@@ -88,28 +158,28 @@ public class MainToCameraHandler extends Handler {
         if (cameraMessageEvent != null) {
             try {
                 switch (msg.what) {
-                    case MainToCameraHandler.MSG_START_CAMERA:
+                    case CameraThreadHandler.MSG_START_CAMERA:
                         cameraMessageEvent.startCamera();
                         break;
-                    case MainToCameraHandler.MSG_STOP_CAMERA:
+                    case CameraThreadHandler.MSG_STOP_CAMERA:
                         cameraMessageEvent.stopCamera();
                         break;
-                    case MainToCameraHandler.MSG_RESTART_CAMERA:
+                    case CameraThreadHandler.MSG_RESTART_CAMERA:
                         cameraMessageEvent.restartCamera();
                         break;
-                    case MainToCameraHandler.MSG_START_PREVIEW:
+                    case CameraThreadHandler.MSG_START_PREVIEW:
                         cameraMessageEvent.startPreview();
                         break;
-                    case MainToCameraHandler.MSG_STOP_PREVIEW:
+                    case CameraThreadHandler.MSG_STOP_PREVIEW:
                         cameraMessageEvent.stopPreview();
                         break;
-                    case MainToCameraHandler.MSG_INIT_CAMERA:
+                    case CameraThreadHandler.MSG_INIT_CAMERA:
                         cameraMessageEvent.initCamera();
                         break;
-                    case MainToCameraHandler.MSG_CREATE_CAMERA:
+                    case CameraThreadHandler.MSG_CREATE_CAMERA:
                         cameraMessageEvent.createCamera();
                         break;
-                    case MainToCameraHandler.MSG_RESTART_PREVIEW:
+                    case CameraThreadHandler.MSG_RESTART_PREVIEW:
                         cameraMessageEvent.stopPreview();
                         cameraMessageEvent.startPreview();
                     break;

@@ -19,13 +19,9 @@
 
 package freed.cam.apis.camera1;
 
-import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -37,14 +33,9 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.Size;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
@@ -55,20 +46,14 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.ModuleHasChangedEvent;
-import freed.cam.events.ValueChangedEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessor;
-import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
-import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 06.06.2015.
@@ -80,7 +65,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Subscribe
     public void onCameraOpen(CameraStateEvents.CameraOpenEvent openEvent)
     {
-        mainToCameraHandler.initCamera();
+        CameraThreadHandler.initCameraAsync();
     }
 
     @Subscribe
@@ -146,8 +131,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.createCamera();
+        CameraThreadHandler.createCameraAsync();
         Log.d(TAG, "Ctor done");
 
     }
@@ -157,7 +141,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         super.onResume();
         startListning();
         if (PreviewSurfaceRdy && !cameraIsOpen)
-            startCameraAsync();
+            CameraThreadHandler.startCameraAsync();
     }
 
     @Override
@@ -170,7 +154,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
                 && moduleHandler.getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))
                 && moduleHandler.getCurrentModule().IsWorking())
             moduleHandler.getCurrentModule().DoWork();
-        stopCameraAsync();
+        CameraThreadHandler.stopCameraAsync();
         stopListning();
     }
 
@@ -297,9 +281,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         Log.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
         if (!cameraIsOpen)
-            startCameraAsync();
+            CameraThreadHandler.startCameraAsync();
         else
-            mainToCameraHandler.initCamera();
+            CameraThreadHandler.initCameraAsync();
     }
 
     @Override

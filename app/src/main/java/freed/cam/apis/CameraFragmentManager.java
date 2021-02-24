@@ -11,8 +11,7 @@ import com.troop.freedcam.R;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.CameraToMainHandler;
-import freed.cam.apis.basecamera.MainToCameraHandler;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.featuredetector.CameraFeatureDetector;
@@ -29,8 +28,6 @@ public class CameraFragmentManager {
     private CameraFragmentAbstract cameraFragment;
 
     private BackgroundHandlerThread backgroundHandlerThread;
-    private MainToCameraHandler mainToCameraHandler;
-    private CameraToMainHandler cameraToMainHandler;
     private ActivityInterface activityInterface;
 
     public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
@@ -40,8 +37,7 @@ public class CameraFragmentManager {
         Log.d(TAG,"Create camera BackgroundHandler");
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
-        cameraToMainHandler = new CameraToMainHandler();
-        this.mainToCameraHandler = new MainToCameraHandler(backgroundHandlerThread.getThread().getLooper());
+        new CameraThreadHandler(backgroundHandlerThread.getThread().getLooper());
         this.activityInterface = activityInterface;
     }
 
@@ -49,6 +45,7 @@ public class CameraFragmentManager {
     {
         Log.d(TAG,"Destroy camera BackgroundHandler");
         backgroundHandlerThread.destroy();
+        CameraThreadHandler.close();
     }
 
     public CameraFragmentAbstract getCameraFragment()
@@ -77,8 +74,8 @@ public class CameraFragmentManager {
         Log.d(TAG, "onResume");
         if (cameraFragment != null) {
             Log.d(TAG, "Reuse CamaraFragment");
-            mainToCameraHandler.setCameraInterface(cameraFragment);
-            cameraFragment.init(mainToCameraHandler, cameraToMainHandler,activityInterface);
+            CameraThreadHandler.setCameraInterface(cameraFragment);
+            cameraFragment.init(activityInterface);
         }
         else {
             Log.d(TAG, "create new CameraFragment");
@@ -126,8 +123,8 @@ public class CameraFragmentManager {
                         break;
                 }
 
-                mainToCameraHandler.setCameraInterface(cameraFragment);
-                cameraFragment.init(mainToCameraHandler,cameraToMainHandler,activityInterface);
+                CameraThreadHandler.setCameraInterface(cameraFragment);
+                cameraFragment.init(activityInterface);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             }
         }
@@ -146,7 +143,7 @@ public class CameraFragmentManager {
             transaction.remove(cameraFragment);
             transaction.commit();
             cameraFragment = null;
-            mainToCameraHandler.setCameraInterface(null);
+            CameraThreadHandler.setCameraInterface(null);
         }
     }
 

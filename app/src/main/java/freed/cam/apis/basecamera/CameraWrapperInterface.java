@@ -22,22 +22,8 @@ package freed.cam.apis.basecamera;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface extends CameraObjects
+public interface CameraWrapperInterface extends CameraObjects, CameraInterface
 {
-    /**
-     * Start the Camera
-     */
-    void startCameraAsync();
-
-    /**
-     * Stop the Camera
-     */
-    void stopCameraAsync();
-    void restartCameraAsync();
-
-    void startPreviewAsync();
-    void stopPreviewAsync();
-    void restartPreviewAsync();
 
     /**
      * get the left margine between display and preview

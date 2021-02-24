@@ -28,6 +28,7 @@ import com.troop.freedcam.R;
 import java.util.Arrays;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
@@ -163,7 +164,7 @@ public class VideoModule extends AbstractVideoModule
 
 
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.stopPreviewAsync();
+        CameraThreadHandler.stopPreviewAsync();
         if (SettingsManager.get(SettingKeys.PreviewSize).isSupported()) {
             Log.d(TAG,"Set previewSize to:" + size);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size, false);
@@ -176,7 +177,7 @@ public class VideoModule extends AbstractVideoModule
             Log.d(TAG,"Set videoSize done");
         }
 
-        cameraUiWrapper.startPreviewAsync();
+        CameraThreadHandler.startPreviewAsync();
     }
 
     private void loadDefaultHighspeed() {
@@ -188,13 +189,13 @@ public class VideoModule extends AbstractVideoModule
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("nv12-venus", false);
 
 
-        cameraUiWrapper.stopPreviewAsync();
+        CameraThreadHandler.stopPreviewAsync();
         //set the profile defined frames per seconds
         if (SettingsManager.getInstance().get(SettingKeys.VideoHighFramerate).isSupported()) {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate).SetValue(currentProfile.videoFrameRate + "", false);
         }
         Log.d(TAG, "Load default highspeed done");
-        cameraUiWrapper.startPreviewAsync();
+        CameraThreadHandler.startPreviewAsync();
     }
 
     private void disable_mce_dis_vs_denoise()

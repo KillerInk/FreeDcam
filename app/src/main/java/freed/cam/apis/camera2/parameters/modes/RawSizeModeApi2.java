@@ -2,6 +2,7 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import android.hardware.camera2.CaptureRequest;
 
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -22,8 +23,7 @@ public class RawSizeModeApi2 extends BaseModeApi2 {
         SettingsManager.get(SettingKeys.RawSize).set(valueToSet);
         if (setToCamera)
         {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         }
     }
 

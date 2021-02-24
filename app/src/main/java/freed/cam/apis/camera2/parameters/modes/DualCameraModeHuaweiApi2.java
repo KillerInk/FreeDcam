@@ -6,6 +6,7 @@ import android.os.Build;
 
 import java.util.Map;
 
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -39,8 +40,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
         if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
         {
             if (setToCamera) {
-                cameraUiWrapper.stopPreviewAsync();
-                cameraUiWrapper.startPreviewAsync();
+                CameraThreadHandler.restartPreviewAsync();
             }
         }
 

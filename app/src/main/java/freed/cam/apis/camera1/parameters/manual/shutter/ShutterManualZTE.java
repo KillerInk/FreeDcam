@@ -25,6 +25,7 @@ import android.os.Handler;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
@@ -82,8 +83,7 @@ public class ShutterManualZTE extends AbstractParameter
             Handler handler = new Handler();
             Runnable r = () -> {
                 ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
-                cameraUiWrapper.stopPreviewAsync();
-                cameraUiWrapper.startPreviewAsync();
+                CameraThreadHandler.restartPreviewAsync();
             };
             //handler.postDelayed(r, 1);
             handler.post(r);
@@ -107,8 +107,7 @@ public class ShutterManualZTE extends AbstractParameter
                 ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
 
                 if(Double.parseDouble(shutterstring) < 1.0 ){
-                    cameraUiWrapper.stopPreviewAsync();
-                    cameraUiWrapper.startPreviewAsync();
+                    CameraThreadHandler.restartPreviewAsync();
                 }
             };
             handler.post(r);

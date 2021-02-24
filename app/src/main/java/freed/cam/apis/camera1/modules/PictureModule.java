@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
@@ -262,20 +263,16 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
 
         if(SettingsManager.getInstance().GetCurrentCamera() == 0) {
             SettingsManager.getInstance().SetCurrentCamera(1);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            CameraThreadHandler.restartCameraAsync();
 
             SettingsManager.getInstance().SetCurrentCamera(0);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            CameraThreadHandler.restartCameraAsync();
         }else {
             SettingsManager.getInstance().SetCurrentCamera(0);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            CameraThreadHandler.restartCameraAsync();
 
             SettingsManager.getInstance().SetCurrentCamera(1);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            CameraThreadHandler.restartCameraAsync();
         }
     }
 

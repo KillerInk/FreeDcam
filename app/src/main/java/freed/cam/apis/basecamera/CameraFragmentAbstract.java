@@ -38,7 +38,7 @@ import freed.utils.Log;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,C extends CameraHolderAbstract> extends Fragment implements CameraInterface ,CameraWrapperInterface {
+public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,C extends CameraHolderAbstract> extends Fragment implements CameraWrapperInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
@@ -61,12 +61,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     private ActivityInterface activityInterface;
     private PreviewControllerInterface preview;
 
-    /**
-     * holds handler to invoke stuff in ui or camera thread
-     */
-    protected MainToCameraHandler mainToCameraHandler;
-    protected CameraToMainHandler cameraToMainHandler;
-
     public static CameraFragmentAbstract getInstance()
     {
         return null;
@@ -82,11 +76,9 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
         return preview;
     }
 
-    public void init(MainToCameraHandler mainToCameraHandler, CameraToMainHandler cameraToMainHandler, ActivityInterface activityInterface)
+    public void init(ActivityInterface activityInterface)
     {
         Log.d(TAG, "init handler");
-        this.mainToCameraHandler = mainToCameraHandler;
-        this.cameraToMainHandler = cameraToMainHandler;
         this.activityInterface = activityInterface;
 
     }
@@ -112,54 +104,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
 
     }
 
-    @Override
-    public void startCameraAsync() {
-        Log.d(TAG, "startCameraAsync");
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.startCamera();
-        else
-            Log.d(TAG, "MainToCameraHandler is null");
-    }
-
-    @Override
-    public void stopCameraAsync() {
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.stopCamera();
-        else
-            Log.d(TAG, "MainToCameraHandler is null");
-    }
-
-    @Override
-    public void restartCameraAsync() {
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.restartCamera();
-        else
-            Log.d(TAG, "MainToCameraHandler is null");
-    }
-
-    @Override
-    public void startPreviewAsync() {
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.startPreview();
-        else
-            Log.d(TAG, "MainToCameraHandler is null");
-    }
-
-    @Override
-    public void stopPreviewAsync() {
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.stopPreview();
-        else
-            Log.d(TAG, "MainToCameraHandler is null");
-    }
-
-    @Override
-    public void restartPreviewAsync() {
-        if (mainToCameraHandler != null)
-            mainToCameraHandler.restartPreview();
-        else
-            Log.d(TAG, "MainToCameraHandler is null");
-    }
 
     public abstract int getMargineLeft();
     public abstract int getMargineRight();

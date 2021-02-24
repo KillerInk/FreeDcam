@@ -25,6 +25,7 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -48,8 +49,7 @@ public class YuvSizeModeApi2 extends BaseModeApi2
         size = valueToSet;
         if (setToCamera && SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
         {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         }
     }
 

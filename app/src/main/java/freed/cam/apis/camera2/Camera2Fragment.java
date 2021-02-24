@@ -20,7 +20,6 @@
 package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
-import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
@@ -28,7 +27,6 @@ import android.os.Bundle;
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -46,6 +44,7 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.events.CameraStateEvents;
@@ -54,14 +53,10 @@ import freed.cam.events.EventBusLifeCycle;
 import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessor;
-import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
-import freed.views.AutoFitTextureView;
 
 
 /**
@@ -124,9 +119,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mainToCameraHandler == null)
-            throw new NullPointerException("main to camera handler is null");
-        mainToCameraHandler.createCamera();
+        CameraThreadHandler.createCameraAsync();
         Log.d(TAG,"Create Camera");
     }
 
@@ -146,15 +139,15 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
         startListning();
         Log.d(TAG, "onResume");
         if (textureView.isAttachedToWindow() && PreviewSurfaceRdy && getPreview().getSurfaceTexture() != null)
-            startCameraAsync();
+            CameraThreadHandler.startCameraAsync();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        stopPreviewAsync();
-        stopCameraAsync();
+        CameraThreadHandler.stopPreviewAsync();
+        CameraThreadHandler.stopCameraAsync();
         stopListning();
     }
 
@@ -170,7 +163,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
     public void onCameraOpen(CameraStateEvents.CameraOpenEvent event)
     {
         Log.d(TAG, "onCameraOpen, initCamera");
-        mainToCameraHandler.initCamera();
+        CameraThreadHandler.initCameraAsync();
     }
 
     @Subscribe
@@ -206,12 +199,12 @@ public class Camera2Fragment extends CameraFragmentAbstract<ParameterHandlerApi2
             if (!cameraIsOpen && isResumed()) {
                 Log.d(TAG, "surface already ready start camera");
                 Camera2Fragment.this.surface = new Surface(surface);
-                startCameraAsync();
+                CameraThreadHandler.startCameraAsync();
             }
             else if (cameraIsOpen)
             {
                 Log.d(TAG, "Surface now ready camera already open");
-                startPreviewAsync();
+                CameraThreadHandler.startPreviewAsync();
                 //moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
             }
         }

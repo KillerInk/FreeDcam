@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -656,8 +657,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetZTE_RESET_AE_SETSHUTTER(String Shutter)
     {
         SetZTE_AE();
-        cameraUiWrapper.stopPreviewAsync();
-        cameraUiWrapper.startPreviewAsync();
+        CameraThreadHandler.restartPreviewAsync();
         cameraParameters.set("slow_shutter",Shutter);
         cameraParameters.set("slow_shutter_addition", "1");
         Log.d(TAG,"SetZTE_RESET_AE_SETSHUTTER");

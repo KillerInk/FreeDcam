@@ -23,6 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.settings.SettingsManager;
@@ -68,7 +69,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         String[] split = value.split(" ");
         currentCamera = Integer.parseInt(split[1]);
         SettingsManager.getInstance().SetCurrentCamera(currentCamera);
-        cameraUiWrapper.restartCameraAsync();
+        CameraThreadHandler.restartCameraAsync();
         valueText.setText(getCamera(currentCamera));
     }
 
@@ -81,7 +82,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
         SettingsManager.getInstance().SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
-        cameraUiWrapper.restartCameraAsync();
+        CameraThreadHandler.restartCameraAsync();
         valueText.setText(getCamera(currentCamera));
     }
 
