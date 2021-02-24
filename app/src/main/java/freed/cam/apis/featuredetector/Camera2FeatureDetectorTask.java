@@ -265,30 +265,19 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     }
 
     private void findCameraIds(CameraManager manager, List<String> cameraids) {
-        List<String> focap = new ArrayList<>();
+        List<String> allcameraids = new ArrayList<>();
+        List<String> nonlogicids = new ArrayList<>();
         for (int i = 0; i< 200; i++)
         {
             try {
                 CameraCharacteristics characteristics = manager.getCameraCharacteristics(String.valueOf(i));
 
                 if (characteristics != null) {
-                    /*String pair = "";
-                    float focal[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS);
-                    float aperture[] = characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES);
-                    if (focal != null && focal.length>0)
-                        pair += String.valueOf(focal[0]);
-                    if (aperture != null && aperture.length > 0)
-                        pair += String.valueOf(aperture[0]);
-
-                    if (!focap.contains(pair))
-                    {
-                        focap.add(pair);
-                        cameraids.add(String.valueOf(i));
-                    }*/
                     boolean raw = false;
                     boolean yuv = false;
                     boolean jpeg = false;
                     boolean logical = false;
+                    allcameraids.add(String.valueOf(i));
                     StreamConfigurationMap smap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                     int outputformats[] =  smap.getOutputFormats();
                     try {
@@ -330,7 +319,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                         }
                     }
                     if (yuv && raw && jpeg && !logical)
-                        cameraids.add(String.valueOf(i));
+                        nonlogicids.add(String.valueOf(i));
                 }
             }
             catch (IllegalArgumentException ex)
@@ -343,5 +332,9 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             {
             }
         }
+        if (nonlogicids.size() == 0)
+            cameraids.addAll(allcameraids);
+        else
+            cameraids.addAll(nonlogicids);
     }
 }
