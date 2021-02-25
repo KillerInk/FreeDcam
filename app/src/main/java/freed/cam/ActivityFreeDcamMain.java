@@ -34,6 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
@@ -115,7 +116,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (uiViewPagerAdapter == null)
             initScreenSlide();
         //note the ui that cameraFragment is loaded
-        uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCameraFragment());
+        uiViewPagerAdapter.setCameraFragment(cameraOpenFinishEvent.getCameraWrapperInterface());
 
         SetNightOverlay();
         if (!FileListController.needStorageAccessFrameWork) {
@@ -292,12 +293,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (activityIsResumed) {
+        if (activityIsResumed && (cameraFragmentManager.getCameraFragment() != null && cameraFragmentManager.getCameraFragment().getCamera() != null && cameraFragmentManager.getCameraFragment().getCamera().getParameterHandler() != null) ) {
             Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
             try {
-                String es = cameraFragmentManager.getCameraFragment().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).GetStringValue();
+                String es = cameraFragmentManager.getCameraFragment().getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).GetStringValue();
                 if(es == null)
                     super.onKeyDown(keyCode,event);
                 if (es.equals("Vol+"))
@@ -313,12 +314,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 Log.WriteEx(ex);
             }
 
-            if (keyCode == KeyEvent.KEYCODE_3D_MODE
+            if ((keyCode == KeyEvent.KEYCODE_3D_MODE
                     || keyCode == KeyEvent.KEYCODE_POWER
                     || keyCode == appSettingsKeyShutter
                     || keyCode == KeyEvent.KEYCODE_UNKNOWN
-                    || keyCode == KeyEvent.KEYCODE_CAMERA) {
-                cameraFragmentManager.getCameraFragment().getModuleHandler().startWork();
+                    || keyCode == KeyEvent.KEYCODE_CAMERA)
+            && (cameraFragmentManager.getCameraFragment() != null && cameraFragmentManager.getCameraFragment().getCamera() != null)) {
+                cameraFragmentManager.getCameraFragment().getCamera().getModuleHandler().startWork();
                 return true;
             }
             if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)

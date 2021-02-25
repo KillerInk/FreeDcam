@@ -33,6 +33,7 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraThreadHandler;
@@ -58,7 +59,7 @@ import freed.viewer.screenslide.views.MyHistogram;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, CameraHolder> implements ModuleChangedEvent, Preview.PreviewEvent, EventBusLifeCycle
+public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements ModuleChangedEvent, Preview.PreviewEvent, EventBusLifeCycle
 {
 
     //this gets called when the cameraholder has open the camera
@@ -71,22 +72,24 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Subscribe
     public void onCameraClose(CameraStateEvents.CameraCloseEvent cameraCloseEvent)
     {
-        if (focusHandler != null)
-            ((FocusHandler) focusHandler).stopListning();
-        if (parametersHandler != null)
-            parametersHandler.unregisterListners();
+        if (camera != null) {
+            if (camera.getFocusHandler() != null)
+                ((FocusHandler) camera.getFocusHandler()).stopListning();
+            if (camera.getParameterHandler() != null)
+                camera.getParameterHandler().unregisterListners();
+        }
         getPreview().close();
     }
 
     @Subscribe
     public void onPreviewOpen(CameraStateEvents.PreviewOpenEvent previewOpenEvent) {
 
-        parametersHandler.setManualSettingsToParameters();
+        camera.getParameterHandler().setManualSettingsToParameters();
     }
 
     @Subscribe
     public void onPreviewClose(CameraStateEvents.PreviewCloseEvent previewCloseEvent) {
-        cameraHolder.resetPreviewCallback();
+        camera.getCameraHolder().resetPreviewCallback();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -124,6 +127,10 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         FrameLayout frameLayout = view.findViewById(id.autofitview);
         frameLayout.addView(textureView);
         getPreview().setPreviewEventListner(this);
+        camera = new Camera1();
+        camera.setPreview(getPreview());
+        camera.init((ActivityInterface) getActivity());
+        CameraThreadHandler.setCameraInterface(camera);
         return view;
     }
 
@@ -148,12 +155,12 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     public void onPause() {
         super.onPause();
 
-        if(moduleHandler != null
-                && moduleHandler.getCurrentModule() != null
-                && moduleHandler.getCurrentModule().ModuleName() != null
-                && moduleHandler.getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))
-                && moduleHandler.getCurrentModule().IsWorking())
-            moduleHandler.getCurrentModule().DoWork();
+        if(camera.getModuleHandler() != null
+                && camera.getModuleHandler().getCurrentModule() != null
+                && camera.getModuleHandler().getCurrentModule().ModuleName() != null
+                && camera.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))
+                && camera.getModuleHandler().getCurrentModule().IsWorking())
+            camera.getModuleHandler().getCurrentModule().DoWork();
         CameraThreadHandler.stopCameraAsync();
         stopListning();
     }
@@ -166,114 +173,19 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
         textureView = null;
     }
 
-    @Override
-    public void createCamera() {
-        Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
-
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG) {
-            cameraHolder = new CameraHolderLG(Camera1Fragment.this, Frameworks.LG);
-            Log.d(TAG, "create LG camera");
-        }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.Moto_Ext) {
-            cameraHolder = new CameraHolderMotoX(Camera1Fragment.this, Frameworks.Moto_Ext);
-            Log.d(TAG, "create MotoExt camera");
-        }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
-            cameraHolder = new CameraHolderMTK(Camera1Fragment.this, Frameworks.MTK);
-            Log.d(TAG, "create Mtk camera");
-        }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.SonyCameraExtension)
-        {
-            cameraHolder = new CameraHolderSony(Camera1Fragment.this, Frameworks.SonyCameraExtension);
-        }
-        else if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
-            cameraHolder = new CameraHolderLegacy(Camera1Fragment.this, Frameworks.Default);
-            Log.d(TAG, "create Legacy camera");
-        }
-        else {
-            cameraHolder = new CameraHolder(Camera1Fragment.this, Frameworks.Default);
-            Log.d(TAG, "create Normal camera");
-        }
-        moduleHandler = new ModuleHandler(Camera1Fragment.this);
-
-        parametersHandler = new ParametersHandler(Camera1Fragment.this);
-
-        //moduleHandler.addListner(Camera1Fragment.this);
-        focusHandler = new FocusHandler(Camera1Fragment.this);
-
-        Log.d(TAG, "initModules");
-        moduleHandler.initModules();
-        Log.d(TAG, "Check Focuspeak");
-    }
-
-    @Override
-    public void initCamera() {
-        ((FocusHandler) focusHandler).startListning();
-        parametersHandler.LoadParametersFromCamera();
-        CameraStateEvents.fireCameraOpenFinishEvent();
-    }
-
-    @Override
-    public void startCamera() {
-        EventBusHelper.register(this);
-        if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
-        Log.d(TAG, "startCamera");
-    }
-
-    @Override
-    public void stopCamera() {
-        EventBusHelper.unregister(this);
-        Log.d(TAG, "Stop Camera");
-        getPreview().close();
-        if (cameraHolder != null)
-            cameraHolder.CloseCamera();
-        cameraIsOpen = false;
-    }
-
-    @Override
-    public void restartCamera() {
-        Log.d(TAG, "Stop Camera");
-        getPreview().close();
-        cameraHolder.CloseCamera();
-        cameraIsOpen = false;
-        if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
-        Log.d(TAG, "startCamera");
-    }
-
-    @Override
-    public void startPreview() {
-        Log.d(TAG, "Start Preview");
-        cameraHolder.StartPreview();
-    }
-
-    @Override
-    public void stopPreview() {
-        try {
-            Log.d(TAG, "Stop Preview");
-            if (cameraHolder != null)
-                cameraHolder.StopPreview();
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
-        }
-    }
-
 
     @Override
     public void startListning() {
         EventBusHelper.register(this);
-        if (focusHandler != null)
-            ((FocusHandler) focusHandler).startListning();
+        if (camera.getFocusHandler() != null)
+            ((FocusHandler) camera.getFocusHandler()).startListning();
     }
 
     @Override
     public void stopListning() {
         EventBusHelper.unregister(this);
-        if (focusHandler != null)
-            ((FocusHandler) focusHandler).stopListning();
+        if (camera.getFocusHandler() != null)
+            ((FocusHandler) camera.getFocusHandler()).stopListning();
     }
 
     @Override
@@ -305,31 +217,6 @@ public class Camera1Fragment extends CameraFragmentAbstract<ParametersHandler, C
     @Override
     public void onModuleChanged(String module)
     {
-    }
-
-    @Override
-    public int getMargineLeft() {
-        return textureView.getLeft();
-    }
-
-    @Override
-    public int getMargineRight() {
-        return textureView.getRight();
-    }
-
-    @Override
-    public int getMargineTop() {
-        return textureView.getTop();
-    }
-
-    @Override
-    public int getPreviewWidth() {
-        return textureView.getWidth();
-    }
-
-    @Override
-    public int getPreviewHeight() {
-        return textureView.getHeight();
     }
 
 }

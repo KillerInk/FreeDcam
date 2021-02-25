@@ -8,6 +8,7 @@ import java.util.Map;
 
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
@@ -22,7 +23,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     protected CaptureRequest.Key<Byte> parameterKey;
 
 
-    public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Byte> parameterKey) {
+    public DualCameraModeHuaweiApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Byte> parameterKey) {
         super(cameraUiWrapper, key, null);
         this.parameterKey = parameterKey;
         captureSessionHandler.SetParameterRepeating(parameterKey,(byte)0,true);

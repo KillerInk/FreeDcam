@@ -29,6 +29,7 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.settings.SettingKeys;
@@ -42,12 +43,12 @@ import freed.utils.StringUtils;
  */
 public class WbHandler
 {
-    private final CameraWrapperInterface cameraUiWrapper;
+    private final Camera2 cameraUiWrapper;
     public WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
     public ManualWbCtApi2 manualWbCt;
 
-    public WbHandler(CameraWrapperInterface cameraUiWrapper)
+    public WbHandler(Camera2 cameraUiWrapper)
     {
         this.cameraUiWrapper= cameraUiWrapper;
 
@@ -129,7 +130,7 @@ public class WbHandler
      * Created by troop on 01.05.2015.
      */
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public class ManualWbCtApi2  extends AbstractParameter
+    public class ManualWbCtApi2  extends AbstractParameter<Camera2>
     {
         private RggbChannelVector wbChannelVector;
         private boolean isSupported;
@@ -138,7 +139,7 @@ public class WbHandler
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
-        public ManualWbCtApi2(CameraWrapperInterface cameraUiWrapper) {
+        public ManualWbCtApi2(Camera2 cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_Whitebalance);
             lookupvalues = new StringIntArray(FreedApplication.getContext().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
@@ -200,7 +201,7 @@ public class WbHandler
             Log.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
             Log.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector,setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector,setToCamera);
 
         }
 
@@ -262,8 +263,8 @@ public class WbHandler
         @Override
         public void setValue(String valueToSet, boolean setToCamera)
         {
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, parameterValues.get(valueToSet),setToCamera);
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, null,setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, parameterValues.get(valueToSet),setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, null,setToCamera);
             fireStringValueChanged(valueToSet);
         }
 

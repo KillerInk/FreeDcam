@@ -1,5 +1,6 @@
 package freed.cam.events;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 
 public class CameraStateEvents {
@@ -9,6 +10,15 @@ public class CameraStateEvents {
 
     public static class CameraOpenFinishEvent
     {
+        private CameraWrapperInterface cameraWrapperInterface;
+        public CameraOpenFinishEvent(CameraWrapperInterface cameraWrapperInterface)
+        {
+            this.cameraWrapperInterface = cameraWrapperInterface;
+        }
+
+        public CameraWrapperInterface getCameraWrapperInterface() {
+            return cameraWrapperInterface;
+        }
     }
 
     public static class CameraCloseEvent
@@ -45,9 +55,9 @@ public class CameraStateEvents {
         EventBusHelper.post(new CameraOpenEvent());
     }
 
-    public static void fireCameraOpenFinishEvent()
+    public static void fireCameraOpenFinishEvent(CameraWrapperInterface cameraWrapperInterface)
     {
-        EventBusHelper.post(new CameraOpenFinishEvent());
+        EventBusHelper.post(new CameraOpenFinishEvent(cameraWrapperInterface));
     }
 
     public static void fireCameraCloseEvent()

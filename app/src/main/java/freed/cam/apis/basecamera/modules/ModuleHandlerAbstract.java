@@ -55,7 +55,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     }
 
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
-    public AbstractMap<String, ModuleInterface> moduleList;
+    protected AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
     protected CW cameraUiWrapper;
 
@@ -127,11 +127,14 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
      * Gets thrown when the module has changed
      * @param module the new module that gets loaded
      */
+    @Override
     public void ModuleHasChanged(final String module)
     {
         EventBusHelper.post(new ModuleHasChangedEvent(module));
     }
 
-
-
+    @Override
+    public AbstractMap<String, ModuleInterface> getModuleList() {
+        return moduleList;
+    }
 }

@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.previewpostprocessing.PreviewController;
@@ -39,28 +40,13 @@ import freed.utils.Log;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract<P extends ParameterHandler,C extends CameraHolderInterface> extends Fragment implements CameraWrapperInterface {
+public abstract class CameraFragmentAbstract<C extends CameraWrapperInterface> extends Fragment {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
-
-    public ModuleHandlerAbstract moduleHandler;
-    /**
-     * parameters for avail for the cameraHolder
-     */
-    protected P parametersHandler;
-    /**
-     * holds the current camera
-     */
-    protected C cameraHolder;
-    /**
-     * handels focus releated stuff for the current camera
-     */
-    public AbstractFocusHandler focusHandler;
-
+    private PreviewController preview;
     protected boolean PreviewSurfaceRdy;
-    private ActivityInterface activityInterface;
-    private PreviewControllerInterface preview;
+    protected C camera;
 
     public static CameraFragmentAbstract getInstance()
     {
@@ -72,16 +58,12 @@ public abstract class CameraFragmentAbstract<P extends ParameterHandler,C extend
         preview = new PreviewController();
     }
 
-    @Override
     public PreviewControllerInterface getPreview() {
         return preview;
     }
 
-    public void init(ActivityInterface activityInterface)
-    {
-        Log.d(TAG, "init handler");
-        this.activityInterface = activityInterface;
-
+    public C getCamera() {
+        return camera;
     }
 
     @Override
@@ -104,35 +86,4 @@ public abstract class CameraFragmentAbstract<P extends ParameterHandler,C extend
         super.onDestroyView();
 
     }
-
-    @Override
-    public ActivityInterface getActivityInterface() {
-        return activityInterface;
-    }
-
-    @Override
-    public boolean isAeMeteringSupported() {
-        return focusHandler.isAeMeteringSupported();
-    }
-
-    @Override
-    public AbstractFocusHandler getFocusHandler() {
-        return focusHandler;
-    }
-
-    @Override
-    public C getCameraHolder() {
-        return cameraHolder;
-    }
-
-    @Override
-    public P getParameterHandler() {
-        return parametersHandler;
-    }
-
-    @Override
-    public ModuleHandlerAbstract getModuleHandler() {
-        return moduleHandler;
-    }
-
 }

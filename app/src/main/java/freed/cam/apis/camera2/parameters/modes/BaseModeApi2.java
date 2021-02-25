@@ -30,6 +30,7 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.settings.SettingKeys;
@@ -40,20 +41,20 @@ import freed.utils.StringUtils;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class BaseModeApi2 extends AbstractParameter
+public class BaseModeApi2 extends AbstractParameter<Camera2>
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected HashMap<String, Integer> parameterValues;
     protected Key<Integer> parameterKey;
     protected CaptureSessionHandler captureSessionHandler;
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode)
+    public BaseModeApi2(Camera2 cameraUiWrapper,SettingKeys.Key settingMode)
     {
         super(cameraUiWrapper,settingMode);
-        this.captureSessionHandler = ((Camera2Fragment) cameraUiWrapper).captureSessionHandler;
+        this.captureSessionHandler = ((Camera2) cameraUiWrapper).captureSessionHandler;
     }
 
-    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, Key<Integer> parameterKey) {
+    public BaseModeApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, Key<Integer> parameterKey) {
         this(cameraUiWrapper,key);
         this.parameterKey = parameterKey;
 

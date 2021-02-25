@@ -34,7 +34,6 @@ import freed.settings.SettingsManager;
  */
 public class ModuleParameters extends AbstractParameter {
 
-    private final CameraWrapperInterface cameraUiWrapper;
     public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
         super(null);
         this.cameraUiWrapper = cameraUiWrapper;
@@ -45,7 +44,7 @@ public class ModuleParameters extends AbstractParameter {
     public String[] getStringValues() {
         List<String> mods = new ArrayList<>();
 
-        for (Object module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
+        for (Object module : cameraUiWrapper.getModuleHandler().getModuleList().entrySet()) {
 
             HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
             mods.add(mod.getValue().LongName());
@@ -62,7 +61,7 @@ public class ModuleParameters extends AbstractParameter {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        for (Object module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
+        for (Object module : cameraUiWrapper.getModuleHandler().getModuleList().entrySet()) {
             HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
             if (valueToSet.equals(mod.getValue().LongName())) {
                 SettingsManager.getInstance().SetCurrentModule(mod.getValue().ModuleName());

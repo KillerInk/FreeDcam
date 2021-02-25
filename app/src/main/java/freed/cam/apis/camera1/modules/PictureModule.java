@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
@@ -40,6 +41,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
@@ -58,7 +60,7 @@ import freed.utils.StringUtils.FileEnding;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Camera.PictureCallback
+public class PictureModule extends ModuleAbstract<Camera1> implements Camera.PictureCallback
 {
 
     private final String TAG = PictureModule.class.getSimpleName();
@@ -69,7 +71,7 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
     private boolean isBurstCapture = false;
 
 
-    public PictureModule(Camera1Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public PictureModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_picture);

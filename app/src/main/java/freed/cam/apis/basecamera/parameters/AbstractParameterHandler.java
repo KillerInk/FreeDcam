@@ -56,16 +56,16 @@ import freed.utils.Log;
  * Parameter can be null when unsupported.
  * Bevor accessing it, check if is not null or IsSupported
  */
-public abstract class AbstractParameterHandler implements ParameterHandler
+public abstract class AbstractParameterHandler<C extends CameraWrapperInterface> implements ParameterHandler
 {
     private final String TAG = AbstractParameterHandler.class.getSimpleName();
 
     private final HashMap<SettingKeys.Key, ParameterInterface> parameterHashMap = new HashMap<>();
 
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
 
 
-    protected AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
+    protected AbstractParameterHandler(C cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         add(SettingKeys.GuideList, new GuideList());
         add(SettingKeys.LOCATION_MODE, new GpsParameter(cameraUiWrapper));

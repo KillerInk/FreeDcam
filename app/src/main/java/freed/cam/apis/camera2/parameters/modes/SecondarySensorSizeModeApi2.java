@@ -5,13 +5,14 @@ import android.os.Build;
 
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
 
     private String size = "1920x1080";
-    public SecondarySensorSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public SecondarySensorSizeModeApi2(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.secondarySensorSize);
         setViewState(ViewState.Visible);
     }

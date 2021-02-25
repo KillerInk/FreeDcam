@@ -25,6 +25,7 @@ import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -34,7 +35,7 @@ import freed.settings.SettingsManager;
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
 
-    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
+    public PictureFormatParameterApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,key,parameterKey);
         if (SettingsManager.get(SettingKeys.PictureFormat).isSupported()) {

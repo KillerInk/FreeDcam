@@ -32,6 +32,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
@@ -50,7 +51,7 @@ public class BracketModule extends PictureModule {
     private int hdrCount;
     private BaseHolder[] files;
 
-    public BracketModule(Camera1Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public BracketModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_hdr);
     }

@@ -74,8 +74,6 @@ public class CameraFragmentManager {
         Log.d(TAG, "onResume");
         if (cameraFragment != null) {
             Log.d(TAG, "Reuse CamaraFragment");
-            CameraThreadHandler.setCameraInterface(cameraFragment);
-            cameraFragment.init(activityInterface);
         }
         else {
             Log.d(TAG, "create new CameraFragment");
@@ -123,8 +121,6 @@ public class CameraFragmentManager {
                         break;
                 }
 
-                CameraThreadHandler.setCameraInterface(cameraFragment);
-                cameraFragment.init(activityInterface);
                 replaceCameraFragment(cameraFragment, cameraFragment.getClass().getSimpleName());
             }
         }
@@ -137,7 +133,7 @@ public class CameraFragmentManager {
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            cameraFragment.stopCamera();
+            CameraThreadHandler.stopCameraAsync();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);

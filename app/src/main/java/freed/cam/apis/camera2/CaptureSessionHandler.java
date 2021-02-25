@@ -29,6 +29,7 @@ import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -51,7 +52,7 @@ public class CaptureSessionHandler
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CaptureRequest.Builder mImageCaptureRequestBuilder;
     private CameraCaptureSession mCaptureSession;
-    private Camera2Fragment cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
     private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
@@ -119,7 +120,7 @@ public class CaptureSessionHandler
         }
     };
 
-    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
+    public CaptureSessionHandler(Camera2 cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
@@ -248,7 +249,7 @@ public class CaptureSessionHandler
             return;
         isHighSpeedSession = false;
 
-        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
         } catch (Exception  ex) {
@@ -266,7 +267,7 @@ public class CaptureSessionHandler
             return;
         isHighSpeedSession = false;
 
-        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
             List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
             for (Surface surface : surfaces)

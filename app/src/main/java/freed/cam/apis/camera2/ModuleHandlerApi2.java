@@ -39,9 +39,9 @@ import freed.settings.SettingsManager;
  * Created by troop on 12.12.2014.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2Fragment>
+public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
 {
-    public  ModuleHandlerApi2 (Camera2Fragment cameraUiWrapper)
+    public  ModuleHandlerApi2 (Camera2 cameraUiWrapper)
     {
         super(cameraUiWrapper);
         initModules();

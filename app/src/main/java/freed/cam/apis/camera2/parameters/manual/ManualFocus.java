@@ -30,6 +30,7 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.FocusPositionChangedEvent;
@@ -42,13 +43,13 @@ import freed.utils.StringFloatArray;
  * Created by troop on 28.04.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ManualFocus extends AbstractParameter
+public class ManualFocus extends AbstractParameter<Camera2>
 {
     private final String TAG = ManualFocus.class.getSimpleName();
     protected StringFloatArray focusvalues;
     private Handler handler = new Handler(Looper.getMainLooper());
 
-    public ManualFocus(CameraWrapperInterface cameraUiWrapper)
+    public ManualFocus(Camera2 cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.M_Focus);
         if (stringvalues != null && stringvalues.length > 0) {
@@ -80,7 +81,7 @@ public class ManualFocus extends AbstractParameter
         {
             //apply last used focuse mode
             cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(SettingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+            cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
         }
         else // set to manual
         {
@@ -89,15 +90,15 @@ public class ManualFocus extends AbstractParameter
             {
                 //apply turn off direct to the capturesession, else it get stored in settings.
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off));
-                ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
-                ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
+                cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
+                cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }
             applyAutoZoom();
             if (currentInt > focusvalues.getSize())
                 currentInt = focusvalues.getSize() -1;
             float valtoset= focusvalues.getValue(currentInt);
             Log.d(TAG, "Set MF TO: " + valtoset+ " ValueTOSET: " + valueToSet);
-            ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset,setToCamera);
+            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset,setToCamera);
 
         }
     }

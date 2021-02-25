@@ -31,6 +31,7 @@ import android.view.WindowManager;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
@@ -41,7 +42,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 12.12.2014.
  */
-public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2Fragment> implements I_PreviewWrapper
+public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2> implements I_PreviewWrapper
 {
     ParameterHandlerApi2 parameterHandler;
 
@@ -50,10 +51,10 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2Fragment>
     private boolean renderScriptError5 = false;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    AbstractModuleApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    AbstractModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.getParameterHandler();
+        parameterHandler = cameraUiWrapper.getParameterHandler();
     }
 
     @Override

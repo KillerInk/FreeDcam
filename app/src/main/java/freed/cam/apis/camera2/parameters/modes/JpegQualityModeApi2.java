@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -18,7 +19,7 @@ import freed.settings.SettingsManager;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class JpegQualityModeApi2 extends BaseModeApi2 {
-    public JpegQualityModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public JpegQualityModeApi2(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.JpegQuality);
         parameterValues =new HashMap<>();
         settingMode.setIsSupported(true);
@@ -48,7 +49,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
         SettingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
         fireStringValueChanged(valueToSet);
     }
 }

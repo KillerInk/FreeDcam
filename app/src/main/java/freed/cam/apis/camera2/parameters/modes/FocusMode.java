@@ -6,6 +6,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -16,7 +17,7 @@ import freed.settings.SettingsManager;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class FocusMode extends BaseModeApi2 {
 
-    public FocusMode(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey) {
+    public FocusMode(Camera2 cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey) {
         super(cameraUiWrapper, key, parameterKey);
     }
 

@@ -54,6 +54,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
@@ -93,7 +94,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private OpcodeProcessor opcodeProcessor;
     private OpCodes active_op = OpCodes.off;
 
-    public VideoModuleApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public VideoModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());

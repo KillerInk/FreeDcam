@@ -10,6 +10,7 @@ import android.util.Pair;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.qcom.CaptureResultQcom;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.histogram.HistogramChangedEvent;
@@ -78,7 +79,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
 
     private final String TAG = CameraValuesChangedCaptureCallback.class.getSimpleName();
-    private Camera2Fragment camera2Fragment;
+    private CameraWrapperInterface camera2Fragment;
     public boolean flashRequired = false;
     int afState;
     int aeState;
@@ -100,7 +101,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private AeAfLocker aeAfLocker;
     private HistogramChangedEvent histogramChangedEventListner;
 
-    public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
+    public CameraValuesChangedCaptureCallback(CameraWrapperInterface camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
         this.aeAfLocker = new AeAfLocker();

@@ -39,6 +39,7 @@ import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.record.VideoRecorder;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
@@ -54,14 +55,14 @@ import freed.utils.PermissionManager;
 /**
  * Created by troop on 06.01.2016.
  */
-public abstract class AbstractVideoModule extends ModuleAbstract<Camera1Fragment> implements MediaRecorder.OnInfoListener
+public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implements MediaRecorder.OnInfoListener
 {
     VideoRecorder recorder;
     private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    AbstractVideoModule(Camera1Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    AbstractVideoModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_video);
     }

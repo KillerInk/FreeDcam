@@ -8,6 +8,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
+import freed.cam.apis.camera2.Camera2;
 
 /**
  * Created by KillerInk on 29.12.2017.
@@ -18,7 +19,7 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
     private boolean expotimeIsActive = false;
     private boolean isoIsActive = false;
 
-    public AeManagerHuaweiCamera2(CameraWrapperInterface cameraWrapperInterface) {
+    public AeManagerHuaweiCamera2(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
         manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
     }

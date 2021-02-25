@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.file.holder.BaseHolder;
@@ -22,7 +23,7 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
     private ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
     private CameraUiFragment cameraUiFragment = new CameraUiFragment();
 
-    private CameraFragmentAbstract cameraFragment;
+    private CameraWrapperInterface cameraFragment;
     ScreenSlideFragment.ButtonClick click;
 
     public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click, ScreenSlideFragmentModelView screenSlideFragmentModelView) {
@@ -31,7 +32,7 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
         screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
     }
 
-    public void setCameraFragment(CameraFragmentAbstract cameraFragment)
+    public void setCameraFragment(CameraWrapperInterface cameraFragment)
     {
         this.cameraFragment = cameraFragment;
         settingsMenuFragment.setCameraToUi(cameraFragment);

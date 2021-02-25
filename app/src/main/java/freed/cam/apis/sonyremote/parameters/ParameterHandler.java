@@ -40,6 +40,7 @@ import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
@@ -71,21 +72,20 @@ import freed.utils.Log;
 /**
  * Created by troop on 13.12.2014.
  */
-public class ParameterHandler extends AbstractParameterHandler implements SimpleCameraEventObserver.ChangeListener
+public class ParameterHandler extends AbstractParameterHandler<SonyRemoteCamera> implements SimpleCameraEventObserver.ChangeListener
 {
     private final String TAG = ParameterHandler.class.getSimpleName();
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
     private final List<I_SonyApi> parametersChangedList;
     private final PreviewStreamDrawer surfaceView;
-    private final CameraWrapperInterface cameraUiWrapper;
     private String cameraStatus = "IDLE";
 
     public I_CameraStatusChanged CameraStatusListner;
     public CameraHolderSony.I_CameraShotMode cameraShotMode;
 
 
-    public ParameterHandler(CameraWrapperInterface cameraUiWrapper, PreviewStreamDrawer surfaceView)
+    public ParameterHandler(SonyRemoteCamera cameraUiWrapper, PreviewStreamDrawer surfaceView)
     {
         super(cameraUiWrapper);
         parametersChangedList = new ArrayList<>();
@@ -269,7 +269,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     @Override
     public void onTimout() {
         CameraStateEvents.fireCameraErrorEvent("Camera connection timed out");
-        ((SonyCameraRemoteFragment)cameraUiWrapper).stopEventObserver();
+        cameraUiWrapper.stopEventObserver();
     }
 
     @Override

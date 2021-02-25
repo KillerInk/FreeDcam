@@ -44,6 +44,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
@@ -132,7 +133,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     }
 
-    public PictureModuleApi2(Camera2Fragment cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public PictureModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         filesSaved = new ArrayList<>();
