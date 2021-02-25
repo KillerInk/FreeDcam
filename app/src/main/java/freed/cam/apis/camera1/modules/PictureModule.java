@@ -155,9 +155,9 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
 
     private void createPreview()
     {
-        Size sizefromCam = new Size(cameraUiWrapper.parametersHandler.get(SettingKeys.PictureSize).GetStringValue());
+        Size sizefromCam = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize).GetStringValue());
         List<Size> sizes = new ArrayList<>();
-        String[] stringsSizes = cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
+        String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValues();
         final Size size;
         for (String s : stringsSizes) {
             sizes.add(new Size(s));
@@ -175,7 +175,7 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
                 cameraUiWrapper.getPreview().getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
             }
 
-            cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
             Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
             cameraUiWrapper.getPreview().setOutputSurface(surface);
             cameraUiWrapper.getPreview().setSize(size.width, size.height);
@@ -198,7 +198,7 @@ public class PictureModule extends ModuleAbstract<Camera1Fragment> implements Ca
                 ((CameraHolder)cameraHolder).setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
 
             Log.d(TAG, "set size to " + size.width + "x" + size.height);
-            cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
             cameraUiWrapper.getPreview().setSize(size.width, size.height);
             cameraUiWrapper.getPreview().setRotation(size.width, size.height, 0);
             CameraStateEvents.fireCameraAspectRatioChangedEvent(size);

@@ -126,7 +126,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1Fragment
         Size sizefromCam = new Size("1920x1080");
 
         List<Size> sizes = new ArrayList<>();
-        String[] stringsSizes = cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).getStringValues();
+        String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValues();
         for (String s : stringsSizes) {
             sizes.add(new Size(s));
         }
@@ -134,23 +134,23 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1Fragment
 
         if(size == null || cameraUiWrapper.getPreview().getSurfaceTexture() == null)
             return;
-        cameraUiWrapper.cameraHolder.StopPreview();
+        cameraUiWrapper.getCameraHolder().StopPreview();
         cameraUiWrapper.getPreview().stop();
 
         cameraUiWrapper.getPreview().setSize(size.width, size.height);
         cameraUiWrapper.getPreview().setRotation(size.width, size.height, 0);
-        if (cameraUiWrapper.cameraHolder.canSetSurfaceDirect()) {
-            cameraUiWrapper. cameraHolder.setSurface((Surface)null);
+        if (cameraUiWrapper.getCameraHolder().canSetSurfaceDirect()) {
+            cameraUiWrapper. getCameraHolder().setSurface((Surface)null);
             Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
-            cameraUiWrapper.cameraHolder.setSurface(surface);
+            cameraUiWrapper.getCameraHolder().setSurface(surface);
         }
         else
-            cameraUiWrapper.cameraHolder.setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
+            cameraUiWrapper.getCameraHolder().setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
-        cameraUiWrapper.parametersHandler.get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
         CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
-        cameraUiWrapper.cameraHolder.StartPreview();
+        cameraUiWrapper.getCameraHolder().StartPreview();
     }
 
     private void startRecording()

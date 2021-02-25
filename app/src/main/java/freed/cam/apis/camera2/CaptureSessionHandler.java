@@ -80,7 +80,7 @@ public class CaptureSessionHandler
                 // Finally, we start displaying the camera preview.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         cameraBackroundValuesChangedListner, handler);
-                cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
+                cameraUiWrapper.getParameterHandler().SetAppSettingsToParameters();
             } catch (CameraAccessException | IllegalStateException e) {
                 Log.WriteEx(e);
             }

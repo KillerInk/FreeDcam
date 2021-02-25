@@ -56,7 +56,7 @@ import freed.utils.Log;
  * Parameter can be null when unsupported.
  * Bevor accessing it, check if is not null or IsSupported
  */
-public abstract class AbstractParameterHandler
+public abstract class AbstractParameterHandler implements ParameterHandler
 {
     private final String TAG = AbstractParameterHandler.class.getSimpleName();
 
@@ -85,12 +85,14 @@ public abstract class AbstractParameterHandler
         }
     }
 
+    @Override
     public void add(SettingKeys.Key parameters, ParameterInterface parameterInterface)
     {
         Log.d(TAG, "add "+ FreedApplication.getStringFromRessources(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);
     }
 
+    @Override
     public void unregisterListners()
     {
         for (EventBusLifeCycle life : parameterHashMap.values()) {
@@ -98,6 +100,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
+    @Override
     public void registerListners()
     {
         for (EventBusLifeCycle life : parameterHashMap.values()) {
@@ -111,21 +114,13 @@ public abstract class AbstractParameterHandler
         }
     }
 
+    @Override
     public ParameterInterface get(SettingKeys.Key parameters)
     {
         return parameterHashMap.get(parameters);
     }
 
-    public abstract void SetFocusAREA(Rect focusAreas);
-
-    public abstract void SetPictureOrientation(int or);
-
-    public abstract float[] getFocusDistances();
-
-    public abstract float getCurrentExposuretime();
-
-    public abstract int getCurrentIso();
-
+    @Override
     public void SetAppSettingsToParameters()
     {
         setGlobalAppSettingsToCamera(SettingKeys.LOCATION_MODE,false);
@@ -185,6 +180,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
+    @Override
     public void setManualSettingsToParameters()
     {
         setManualMode(SettingKeys.M_Contrast,false);

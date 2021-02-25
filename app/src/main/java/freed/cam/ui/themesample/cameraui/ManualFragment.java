@@ -42,6 +42,7 @@ import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
+import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.events.DisableViewPagerTouchEvent;
@@ -127,7 +128,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         if (cameraUiWrapper != null)
         {
             SettingsManager aps = SettingsManager.getInstance();
-            AbstractParameterHandler parms = cameraUiWrapper.getParameterHandler();
+            ParameterHandler parms = cameraUiWrapper.getParameterHandler();
             if (parms.get(SettingKeys.M_Zoom) != null)
             {
                 ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_Zoom), R.drawable.manual_zoom);

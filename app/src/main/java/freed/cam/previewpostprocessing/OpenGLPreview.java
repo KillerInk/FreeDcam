@@ -16,11 +16,13 @@ import freed.gl.PreviewModel;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.DisplayUtil;
+import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
 
 public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListener
 {
 
+    private static final String TAG = OpenGLPreview.class.getSimpleName();
     private GLPreview glPreview;
     private PreviewEvent previewEventListner;
     private HistogramController histogramController;
@@ -55,6 +57,7 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     @Override
     public void setSize(int width, int height) {
         Point disp =DisplayUtil.getDisplaySize();
+        Log.d(TAG, "setSize width :" + width + " height:"+height+ " switch aspectRatio:" + SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
         glPreview.scale(width,height,disp.x,disp.y, SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
     }
 
@@ -98,19 +101,21 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
         return glPreview.isZebra_enabled();
     }
 
+    private boolean histogram = false;
     @Override
     public void setHistogram(boolean on) {
         if (on)
             histogramController.setFeedToRegister(feed);
         else
             histogramController.setFeedToRegister(null);
+        histogram = on;
         histogramController.enable(on);
 
     }
 
     @Override
     public boolean isHistogram() {
-        return false;
+        return histogram;
     }
 
     @Override

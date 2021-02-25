@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewControllerInterface;
 import freed.utils.Log;
@@ -38,7 +39,7 @@ import freed.utils.Log;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,C extends CameraHolderAbstract> extends Fragment implements CameraWrapperInterface {
+public abstract class CameraFragmentAbstract<P extends ParameterHandler,C extends CameraHolderInterface> extends Fragment implements CameraWrapperInterface {
     private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
@@ -47,11 +48,11 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
     /**
      * parameters for avail for the cameraHolder
      */
-    public P parametersHandler;
+    protected P parametersHandler;
     /**
      * holds the current camera
      */
-    public C cameraHolder;
+    protected C cameraHolder;
     /**
      * handels focus releated stuff for the current camera
      */
@@ -103,13 +104,6 @@ public abstract class CameraFragmentAbstract<P extends AbstractParameterHandler,
         super.onDestroyView();
 
     }
-
-
-    public abstract int getMargineLeft();
-    public abstract int getMargineRight();
-    public abstract int getMargineTop();
-    public abstract int getPreviewWidth();
-    public abstract int getPreviewHeight();
 
     @Override
     public ActivityInterface getActivityInterface() {

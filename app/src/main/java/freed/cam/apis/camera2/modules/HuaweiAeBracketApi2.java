@@ -30,8 +30,8 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
 
     @Override
     protected void onStartTakePicture() {
-        isoauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).GetValue();
-        shutterauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).GetValue();
+        isoauto = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ManualIso).GetValue();
+        shutterauto = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).GetValue();
         int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[isorange.length-1];
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
@@ -86,8 +86,8 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     @Override
     protected void finishCapture() {
         super.finishCapture();
-        cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).SetValue(isoauto,true);
-        cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).SetValue(shutterauto,true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ManualIso).SetValue(isoauto,true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).SetValue(shutterauto,true);
     }
 
 }

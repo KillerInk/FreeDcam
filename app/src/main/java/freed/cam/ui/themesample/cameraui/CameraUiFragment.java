@@ -47,6 +47,7 @@ import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.ui.I_swipe;
@@ -168,7 +169,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         }
         else {
 
-            AbstractParameterHandler parameterHandler = cameraUiWrapper.getParameterHandler();
+            ParameterHandler parameterHandler = cameraUiWrapper.getParameterHandler();
             if (parameterHandler == null)
                 return;
 

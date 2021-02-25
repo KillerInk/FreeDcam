@@ -10,6 +10,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2Fragment;
@@ -48,7 +49,7 @@ public class SettingsMenuItemFactory
         if (cameraUiWrapper != null) {
 
             SettingsManager apS = SettingsManager.getInstance();
-            AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
+            ParameterHandler params = cameraUiWrapper.getParameterHandler();
             if (params != null) {
         /*
             VIDEOGROUP
@@ -269,7 +270,7 @@ public class SettingsMenuItemFactory
     {
         if (cameraUiWrapper != null) {
             SettingsManager apS = SettingsManager.getInstance();
-            AbstractParameterHandler params = cameraUiWrapper.getParameterHandler();
+            ParameterHandler params = cameraUiWrapper.getParameterHandler();
 
 
             GroupChild settingsgroup = new GroupChild(context,  context.getResources().getString(R.string.setting_camera_));
