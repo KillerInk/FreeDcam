@@ -126,11 +126,12 @@ public class IntervalHandler
             long sleep = 0;
             while (!Thread.currentThread().isInterrupted() && !captureTimeOver && working)
             {
-
+                Log.d(TAG, "capturetimeover:"+captureTime + " startimeCapture:"+startTimeCapture + " captureTime:"+captureTime
+                        + " timeleftToNextCapture:"+ timeGoneTillNextCapture + " sleepTimeBetweenCapture:" + sleepTimeBetweenCaptures);
                 if (timeGoneTillNextCapture < sleepTimeBetweenCaptures /1000) {
 
                     timeGoneTillNextCapture++;
-
+                    sleep = 1000;
                 }
                 else {
                     Log.d(TAG, "Start ImageCapture");
@@ -151,7 +152,7 @@ public class IntervalHandler
                     else  sleep = 0;
                     timeGoneTillNextCapture = (int)(captureTime / 1000);
                 }
-                Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture );
+                Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture);
                 sendMsg();
 
                 if (!Thread.currentThread().isInterrupted() && sleepTimeBetweenCaptures > 0 && sleep > 0) {
