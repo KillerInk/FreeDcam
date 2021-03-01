@@ -48,6 +48,7 @@ import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
+import freed.cam.apis.camera2.ExtFlashTrigger;
 import freed.cam.apis.camera2.modules.capture.AbstractImageCapture;
 import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
 import freed.cam.apis.camera2.modules.capture.CaptureController;
@@ -100,6 +101,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     private boolean captureJpeg = false;*/
     protected CaptureType captureType;
     protected CaptureController captureController;
+    private ExtFlashTrigger extFlashTrigger;
+
 
     protected static class BurstCounter
     {
@@ -163,6 +166,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         changeCaptureState(CaptureStates.image_capture_stop);
         captureController = getCaptureController();
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
+        if (SettingsManager.getGlobal(SettingKeys.USE_EXTERNAL_FLASH).get())
+            extFlashTrigger = new ExtFlashTrigger();
         startPreview();
     }
 
@@ -173,7 +178,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         cameraUiWrapper.getPreview().close();
-        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
+        if (extFlashTrigger != null)
+            extFlashTrigger.close();
+        extFlashTrigger = null;
     }
 
     @Override
@@ -454,6 +461,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         }
     }
 
+
     private boolean isContAutoFocus()
     {
         return cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE ||
@@ -462,6 +470,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     private void startPreCapture() {
         PictureModuleApi2.this.setCaptureState(STATE_WAIT_FOR_PRECAPTURE);
+        if (extFlashTrigger != null)
+            extFlashTrigger.preCaptureFlash();
         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(new CameraValuesChangedCaptureCallback.WaitForAe_Af_Lock() {
             @Override
             public void on_Ae_Af_Lock(CameraValuesChangedCaptureCallback.AeAfLocker aeAfLocker) {
@@ -469,11 +479,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                 if (mState == STATE_WAIT_FOR_PRECAPTURE) {
                     if (isContAutoFocus()) {
                         if ((aeAfLocker.getAfLock() && aeAfLocker.getAeLock()) || hitTimeoutLocked()) {
+                            if (extFlashTrigger != null)
+                                extFlashTrigger.stopPreCapture();
                             cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                             setCaptureState(STATE_PICTURE_TAKEN);
                             captureStillPicture();
                         }
                     } else if (aeAfLocker.getAeLock() || hitTimeoutLocked()) {
+                        if (extFlashTrigger != null)
+                            extFlashTrigger.stopPreCapture();
                         cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
                         setCaptureState(STATE_PICTURE_TAKEN);
                         captureStillPicture();
@@ -484,7 +498,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG,"Start AE Precapture");
         startTimerLocked();
 
-        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) != CaptureRequest.CONTROL_AF_MODE_OFF)
+        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF)
             cameraUiWrapper.captureSessionHandler.StartAePrecapture();
         if (isContAutoFocus())
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START,false);
@@ -537,13 +551,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
         cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
 
-        //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController, mBackgroundHandler);
+        if (extFlashTrigger == null)
+            cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController, mBackgroundHandler);
+        else {
+            long flash_trigger_delay = Long.parseLong(SettingsManager.getGlobal(SettingKeys.FLASH_SIGNAL_TRIGGER_DELAY).get());
+            extFlashTrigger.triggerFlash();
+            mBackgroundHandler.postDelayed(()->cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController, mBackgroundHandler),flash_trigger_delay);
+        }
+
     }
 
     protected void prepareCaptureBuilder(int captureNum)

@@ -61,6 +61,19 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
         }
     }
 
+    public AbstractParameter(SettingMode  settingMode)
+    {
+        if (settingMode == null) {
+            setViewState(ViewState.Hidden);
+            return;
+        }
+        this.settingMode = settingMode;
+        stringvalues = settingMode.getValues();
+        if (settingMode.isSupported())
+            setViewState(ViewState.Visible);
+        currentString = settingMode.get();
+    }
+
     @Override
     public SettingKeys.Key getKey()
     {

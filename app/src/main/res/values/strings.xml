@@ -206,6 +206,12 @@
     <string name="setting_usecustomdngprofile_header">Enable to use customDngProfile</string>
     <string name="setting_usecustomdngprofile_description">If Enable and a custom dngprofile.xml exists it get used</string>
 
+    <string name="setting_use_external_flash_header">External Flash</string>
+    <string name="setting_use_external_flash_description">Enable to trigger a remote Flash using the audiojack</string>
+
+    <string name="setting_external_flash_trigger_delay_header">External Flash trigger delay</string>
+    <string name="setting_external_flash_trigger_delay_description">the time it takes to trigger the flash in ms</string>
+
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>

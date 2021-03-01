@@ -161,6 +161,9 @@ public class SettingKeys{
     public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
     public final static Key<SettingMode> PREVIEW_POST_PROCESSING_MODE = new Key(SettingMode.class, R.string.aps_preview_post_processing_mode);
 
+    public final static Key<GlobalBooleanSettingMode> USE_EXTERNAL_FLASH = new Key(GlobalBooleanSettingMode.class, R.string.aps_external_flash);
+    public final static Key<SettingMode> FLASH_SIGNAL_TRIGGER_DELAY = new Key(SettingMode.class, R.string.aps_flash_trigger_delay);
+
     /**
      *
      * @return a list with all statics keys in this class

@@ -13,6 +13,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -494,6 +495,17 @@ public class SettingsMenuItemFactory
                 SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION),R.string.setting_zoom_on_mf_duration_header, R.string.setting_zoom_on_mf_duration_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
+            }
+
+            if (cameraUiWrapper instanceof Camera2)
+            {
+                SettingsChild_BooleanSetting ton = new SettingsChild_BooleanSetting(context,apS.get(SettingKeys.USE_EXTERNAL_FLASH),R.string.setting_use_external_flash_header, R.string.setting_use_external_flash_description);
+                settingsgroup.addView(ton);
+
+                SettingModeParamter settingModeParamter = new SettingModeParamter(SettingsManager.getGlobal(SettingKeys.FLASH_SIGNAL_TRIGGER_DELAY));
+                SettingsChildMenu flashdelaytrigger = new SettingsChildMenu(context, settingModeParamter,R.string.setting_external_flash_trigger_delay_header, R.string.setting_external_flash_trigger_delay_description);
+                flashdelaytrigger.SetUiItemClickListner(click);
+                settingsgroup.addView(flashdelaytrigger);
             }
             return settingsgroup;
         }

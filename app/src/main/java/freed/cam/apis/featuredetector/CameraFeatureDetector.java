@@ -62,5 +62,16 @@ public class CameraFeatureDetector {
         SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
 
         SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
+
+        SettingsManager.getGlobal(SettingKeys.USE_EXTERNAL_FLASH).set(false);
+
+        String[] mslist = new String[250];
+        for (int i =0; i < 250; i++)
+            mslist[i] = String.valueOf(i);
+        SettingsManager.getGlobal(SettingKeys.FLASH_SIGNAL_TRIGGER_DELAY).setValues(mslist);
+        SettingsManager.getGlobal(SettingKeys.FLASH_SIGNAL_TRIGGER_DELAY).set(mslist[0]);
+        SettingsManager.getGlobal(SettingKeys.FLASH_SIGNAL_TRIGGER_DELAY).setIsSupported(true);
+
+
     }
 }

@@ -148,6 +148,9 @@
     <string name="aps_histogram_stats_qcom" translatable="false">histogram_stats_qcom</string>
     <string name="aps_preview_post_processing_mode" translatable="false">preview_post_processing_mode</string>
 
+    <string name="aps_external_flash" translatable="false">external_flash</string>
+    <string name="aps_flash_trigger_delay" translatable="false">flash_trigger_delay</string>
+
 
 
 </resources>

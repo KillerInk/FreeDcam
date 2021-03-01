@@ -27,6 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
@@ -35,7 +36,7 @@ import freed.settings.SettingsManager;
 public class ModuleParameters extends AbstractParameter {
 
     public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
-        super(null);
+        super((SettingKeys.Key) null);
         this.cameraUiWrapper = cameraUiWrapper;
         setViewState(ViewState.Visible);
     }
