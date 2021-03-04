@@ -349,6 +349,7 @@
     <string name="setting_rawsize_description">Size of the Raw</string>
     <string name="setting_yuvsize_header">Yuv Size</string>
     <string name="setting_yuvsize_description">Size of the Yuv</string>
+    <string name="update_available">A new Version is available to download</string>
 
 
 </resources>

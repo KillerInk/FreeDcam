@@ -182,7 +182,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG,"onDestory");
+        Log.d(TAG,"onDestroy");
         stopListning();
         cameraFragmentManager.destroy();
         userMessageHandler.stopListning();
@@ -203,6 +203,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     protected void onResume() {
         super.onResume();
+
         if (!FileListController.needStorageAccessFrameWork){
             if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard_Camera)) {
                 if (mSecureCamera !=  null)

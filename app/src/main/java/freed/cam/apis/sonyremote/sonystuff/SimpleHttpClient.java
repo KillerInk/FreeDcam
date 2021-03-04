@@ -20,7 +20,7 @@ import freed.utils.Log;
 /**
  * Simple HTTP Client for sample application.
  */
-final class SimpleHttpClient {
+public final class SimpleHttpClient {
 
     private static final String TAG = SimpleHttpClient.class.getSimpleName();
 

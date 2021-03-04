@@ -4,11 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/framelayout_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+    </FrameLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/guideHolder"></LinearLayout>
+        android:id="@+id/guideHolder">
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"

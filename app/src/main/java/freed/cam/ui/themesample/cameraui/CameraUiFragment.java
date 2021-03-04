@@ -20,7 +20,9 @@
 package freed.cam.ui.themesample.cameraui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -65,6 +67,8 @@ import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.update.ReleaseChecker;
+import freed.update.VersionView;
 import freed.utils.Log;
 
 /**
@@ -289,9 +293,11 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         return inflater.inflate(layout.cameraui_fragment, container, false);
     }
 
+    private FrameLayout versionView;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         //super.onViewCreated(view, savedInstanceState);
+        this.versionView = view.findViewById(id.framelayout_version);
         if ((getActivity() != null) && (((ActivityFreeDcamMain)getActivity()).getUserMessageHandler() != null))
             ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
         manualModes_holder = view.findViewById(id.manualModesHolder);
@@ -355,6 +361,29 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.commit();
         }
         setCameraToUi(cameraUiWrapper);
+        if (ReleaseChecker.isGithubRelease)
+            new ReleaseChecker(new ReleaseChecker.UpdateEvent() {
+                @Override
+                public void onUpdateAvailable() {
+                    versionView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            versionView.addView(new VersionView(getContext(), new VersionView.ButtonEvents() {
+                                @Override
+                                public void onDownloadClick() {
+                                    getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/KillerInk/FreeDcam/releases/latest")));
+                                    versionView.removeAllViews();
+                                }
+
+                                @Override
+                                public void onCloseClick() {
+                                    versionView.removeAllViews();
+                                }
+                            }));
+                        }
+                    });
+                }
+            }).isUpdateAvailable();
     }
 
     @Override
