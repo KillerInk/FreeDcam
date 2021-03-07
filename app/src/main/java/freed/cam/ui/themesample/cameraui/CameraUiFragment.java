@@ -102,8 +102,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private SampleInfoOverlayHandler infoOverlayHandler;
     //holds guide
     private GuideHandler guideHandler;
-    private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
-    private SharedPreferences sharedPref;
 
     private UiSettingsChild aelock;
 
@@ -265,7 +263,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
 
                 //restore view state for the manuals
-                if (manualsettingsIsOpen)
+                if (SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get())
                     showManualSettings();
                 //remove the values fragment from ui when a new api gets loaded and it was open.
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
@@ -288,8 +286,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         Log.d(TAG, "####################ONCREATEDVIEW####################");
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
-        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
+        manualsettingsIsOpen = SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get();
         return inflater.inflate(layout.cameraui_fragment, container, false);
     }
 
@@ -361,7 +358,11 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.commit();
         }
         setCameraToUi(cameraUiWrapper);
-        if (ReleaseChecker.isGithubRelease)
+        checkForUpdate();
+    }
+
+    private void checkForUpdate() {
+        if (ReleaseChecker.isGithubRelease && SettingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).get()) {
             new ReleaseChecker(new ReleaseChecker.UpdateEvent() {
                 @Override
                 public void onUpdateAvailable() {
@@ -371,7 +372,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                             versionView.addView(new VersionView(getContext(), new VersionView.ButtonEvents() {
                                 @Override
                                 public void onDownloadClick() {
-                                    getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/KillerInk/FreeDcam/releases/latest")));
+                                    startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/KillerInk/FreeDcam/releases/latest")), "Choose browser"));
                                     versionView.removeAllViews();
                                 }
 
@@ -384,6 +385,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                     });
                 }
             }).isUpdateAvailable();
+        }
     }
 
     @Override
@@ -402,10 +404,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     public void onPause()
     {
         infoOverlayHandler.StopUpdating();
-        sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN, manualsettingsIsOpen).commit();
-        boolean settingsOpen = false;
-        String KEY_SETTINGSOPEN = "key_settingsopen";
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
+        SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(manualsettingsIsOpen);
         super.onPause();
 
     }
@@ -415,7 +414,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         manualsettingsIsOpen = false;
         Log.d(TAG, "HideSettings");
         manualModes_holder.animate().translationY(manualModes_holder.getHeight()).setDuration(300);
-        //manualModes_holder.setVisibility(View.GONE);
     }
 
     private void showManualSettings()
@@ -430,7 +428,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
     {
-
         if (currentOpendChild == item)
         {
             removeHorizontalFragment();

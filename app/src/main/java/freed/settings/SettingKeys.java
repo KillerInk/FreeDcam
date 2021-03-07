@@ -154,6 +154,8 @@ public class SettingKeys{
 
 
     public final static Key<GlobalBooleanSettingMode> useCustomMatrixOnCamera2 = new Key(GlobalBooleanSettingMode.class, R.string.aps_usecustom_matrix_oncamera2);
+    public final static Key<GlobalBooleanSettingMode> CHECKFORUPDATES = new Key(GlobalBooleanSettingMode.class, R.string.aps_checkforupdates);
+    public final static Key<GlobalBooleanSettingMode> SHOWMANUALSETTINGS = new Key(GlobalBooleanSettingMode.class, R.string.aps_showmanualsettings);
 
     public final static Key<ApiBooleanSettingMode> ENABLE_VIDEO_OPMODE = new Key(ApiBooleanSettingMode.class, R.string.aps_enable_video_opmode);
     public final static Key<SettingMode> Focuspeak = new Key(SettingMode.class, R.string.aps_focuspeak);

@@ -13,6 +13,8 @@
     <string name="aps_xiaomi_pro_video_log" translatable="false">xiaomiProVideoLog</string>
     <string name="aps_qcom_video_hdr" translatable="false">qcomVideoHDR</string>
     <string name="aps_usecustom_matrix_oncamera2" translatable="false">useCustomMatrixOnCamera2</string>
+    <string name="aps_checkforupdates" translatable="false">checkforupdates</string>
+    <string name="aps_showmanualsettings" translatable="false">showmanualsettings</string>
     <string name="aps_api" translatable="false">activeapi</string>
     <string name="aps_app_version" translatable="false">app_version</string>
 

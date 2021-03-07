@@ -351,5 +351,8 @@
     <string name="setting_yuvsize_description">Size of the Yuv</string>
     <string name="update_available">A new Version is available to download</string>
 
+    <string name="setting_checkforupdate_description">When enabled it checks if a new version is available on Github</string>
+    <string name="setting_checkforupdate_header">Check for new updates</string>
+
 
 </resources>

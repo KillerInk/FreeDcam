@@ -37,6 +37,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChild_SwitchAspectRatio;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.BooleanSettingModeInterface;
+import freed.update.ReleaseChecker;
 import freed.utils.Log;
 
 public class SettingsMenuItemFactory
@@ -260,6 +261,11 @@ public class SettingsMenuItemFactory
                 SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description, cameraUiWrapper.getActivityInterface());
                 globalSettingGroup.addView(fd);
             }
+        }
+
+        if (ReleaseChecker.isGithubRelease) {
+            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, SettingsManager.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);
+            globalSettingGroup.addView(booleanSetting);
         }
 
         settingsChildHolder.addView(globalSettingGroup);

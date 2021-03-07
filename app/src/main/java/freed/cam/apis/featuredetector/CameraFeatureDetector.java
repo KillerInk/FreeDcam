@@ -13,6 +13,7 @@ import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.update.ReleaseChecker;
 import freed.utils.Log;
 
 public class CameraFeatureDetector {
@@ -60,6 +61,10 @@ public class CameraFeatureDetector {
 
         SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
         SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
+        if (ReleaseChecker.isGithubRelease)
+            SettingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).set(true);
+
+        SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(true);
 
         SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
     }
