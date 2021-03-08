@@ -27,8 +27,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 222
-        versionName '4.3.22'
+        versionCode 238
+        versionName '4.3.38'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
