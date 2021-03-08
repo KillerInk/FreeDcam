@@ -13,8 +13,10 @@ import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
@@ -78,7 +80,7 @@ public class SettingsMenuItemFactory
                     videoGroup.addView(videoHDR);
                 }
 
-                if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
+                if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyRemoteCamera)) {
 
                     SettingsChildMenu VideoSize = new SettingsChildMenu(context, params.get(SettingKeys.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
                     VideoSize.SetUiItemClickListner(click);
@@ -171,7 +173,7 @@ public class SettingsMenuItemFactory
                     matrixChooser.SetUiItemClickListner(click);
                     dngGroup.addView(matrixChooser);
                 }
-                if (cameraUiWrapper instanceof Camera2Fragment) {
+                if (cameraUiWrapper instanceof Camera2) {
                     SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(context, R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
                     rawToDng.SetUiItemClickListner(click);
                     dngGroup.addView(rawToDng);
@@ -256,7 +258,7 @@ public class SettingsMenuItemFactory
                 globalSettingGroup.addView(ers);
             }
 
-            if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment))
+            if (!(cameraUiWrapper instanceof SonyRemoteCamera))
             {
                 SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description, cameraUiWrapper.getActivityInterface());
                 globalSettingGroup.addView(fd);
