@@ -174,7 +174,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         EventBusHelper.register(this);
         try {
             if (SettingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
-                    || TextUtils.isEmpty(SettingsManager.get(SettingKeys.HorizontLvl).get()))
+                    || TextUtils.isEmpty(SettingsManager.getGlobal(SettingKeys.HorizontLvl).get()))
                 view.setVisibility(View.GONE);
             else
                 startSensorListing();

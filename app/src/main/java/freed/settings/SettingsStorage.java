@@ -36,7 +36,7 @@ public class SettingsStorage
         return settingInterface;
     }
 
-    public SettingInterface getGlobal(SettingKeys.Key key) {
+    public SettingInterface getGlobal(SettingKeys.GlobalKey key) {
         SettingInterface settingInterface = settings.global_settings.get(key);
         if (settingInterface == null) {
             settingInterface = getNewSetting(key);
