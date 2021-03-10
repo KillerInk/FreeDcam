@@ -28,7 +28,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -46,7 +45,6 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
-import freed.utils.StringUtils;
 
 /**
  * Created by Ingo on 06.09.2015.

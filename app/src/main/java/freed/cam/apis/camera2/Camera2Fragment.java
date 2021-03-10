@@ -20,11 +20,9 @@
 package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
-import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -39,15 +37,9 @@ import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.apis.camera2.modules.I_PreviewWrapper;
-import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;

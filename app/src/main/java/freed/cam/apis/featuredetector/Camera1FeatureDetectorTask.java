@@ -1,14 +1,12 @@
 package freed.cam.apis.featuredetector;
 
 import android.hardware.Camera;
-import android.text.TextUtils;
 
 import com.lge.hardware.LGCameraRef;
 import com.troop.freedcam.R;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,7 +16,6 @@ import freed.cam.apis.featuredetector.camera1.AeBracketDetector;
 import freed.cam.apis.featuredetector.camera1.AntibandingDetector;
 import freed.cam.apis.featuredetector.camera1.ApertureDetector;
 import freed.cam.apis.featuredetector.camera1.AutoHdrDetector;
-import freed.cam.apis.featuredetector.camera1.BaseParameter1Detector;
 import freed.cam.apis.featuredetector.camera1.ChromaFlashDetector;
 import freed.cam.apis.featuredetector.camera1.ColorModeDetector;
 import freed.cam.apis.featuredetector.camera1.CorrelatedDoubleSamplingDetector;
@@ -62,14 +59,10 @@ import freed.cam.apis.featuredetector.camera1.VideoSizeModeDetector;
 import freed.cam.apis.featuredetector.camera1.VideoStabDetector;
 import freed.cam.apis.featuredetector.camera1.WhiteBalanceModeDetector;
 import freed.cam.apis.featuredetector.camera1.ZeroShutterLagDetector;
-import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
-import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
-import freed.renderscript.RenderScriptManager;
 import freed.settings.FrameworkDetector;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.settings.mode.SettingMode;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 

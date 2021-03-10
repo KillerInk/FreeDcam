@@ -1,12 +1,8 @@
 package freed.cam.apis.camera2.modules.capture;
 
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureResult;
 import android.location.Location;
-import android.media.Image;
-import android.media.ImageReader;
 import android.os.Build;
-import android.util.Log;
 import android.util.Size;
 
 import androidx.annotation.RequiresApi;

@@ -2,10 +2,7 @@ package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
@@ -37,7 +34,6 @@ import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
-import freed.utils.MatrixUtil;
 
 /**
  * Created by troop on 16.03.2017.

@@ -7,9 +7,7 @@ import android.os.Build;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.camera2.Camera2Fragment;
 
 /**
  * Created by Ingo on 03.10.2016.

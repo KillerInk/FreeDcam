@@ -6,7 +6,6 @@ import com.troop.freedcam.BR;
 
 import java.util.List;
 
-import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
 
 public class EncoderModel extends ButtonModel

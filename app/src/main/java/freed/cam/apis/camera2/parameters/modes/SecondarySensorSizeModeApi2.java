@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

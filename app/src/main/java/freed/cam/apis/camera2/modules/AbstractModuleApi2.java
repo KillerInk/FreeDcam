@@ -20,19 +20,12 @@
 package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Point;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.renderscript.RenderScript;
-import android.view.Display;
-import android.view.WindowManager;
 
-import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.settings.SettingsManager;

@@ -2,18 +2,15 @@ package freed.viewer.screenslide;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.view.View;
 
 import com.ortiz.touch.TouchImageView;
 
 import java.lang.ref.WeakReference;
 
-import freed.ActivityInterface;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageTask;
 import freed.utils.Log;
 import freed.viewer.screenslide.models.ImageFragmentModel;
-import freed.viewer.screenslide.views.ImageFragment;
 
 public class BitmapLoader extends ImageTask
 {

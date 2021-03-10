@@ -4,7 +4,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.databinding.BindingAdapter;
-import androidx.databinding.InverseBindingAdapter;
 
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
 import freed.cam.ui.videoprofileeditor.enums.HdrModes;

@@ -2,12 +2,7 @@ package freed.gl.program;
 
 import android.opengl.GLES20;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
 import freed.gl.PreviewModel;
-import freed.gl.ShaderUtil;
 
 
 public class PreviewShape extends GLProgram

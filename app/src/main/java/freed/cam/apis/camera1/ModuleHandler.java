@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1;
 
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.modules.BracketModule;
 import freed.cam.apis.camera1.modules.IntervalModuleCamera1;

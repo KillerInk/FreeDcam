@@ -7,11 +7,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
-import java.util.HashMap;
-
-import freed.gl.program.GLProgamInterface;
 import freed.utils.Log;
 
 public class GLPreview extends GLSurfaceView {

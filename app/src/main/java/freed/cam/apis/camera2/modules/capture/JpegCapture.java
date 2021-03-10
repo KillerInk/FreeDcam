@@ -1,8 +1,6 @@
 package freed.cam.apis.camera2.modules.capture;
 
 import android.graphics.ImageFormat;
-import android.hardware.camera2.CaptureResult;
-import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.util.Size;
@@ -13,7 +11,6 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.image.EmptyTask;
-import freed.image.ImageTask;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

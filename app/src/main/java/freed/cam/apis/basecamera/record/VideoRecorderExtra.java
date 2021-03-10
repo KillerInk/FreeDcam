@@ -1,9 +1,5 @@
 package freed.cam.apis.basecamera.record;
 
-import android.media.MediaRecorder;
-
-import java.lang.reflect.Method;
-
 /*package com.miui.internal.os;
 
 import com.miui.internal.JniNames;

@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalHandler;
 import freed.cam.apis.camera1.Camera1;
-import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;

@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.util.Size;
 
 import androidx.documentfile.provider.DocumentFile;

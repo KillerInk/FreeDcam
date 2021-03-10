@@ -1,11 +1,7 @@
 package freed.cam.histogram;
 
-import android.os.Build;
 import android.view.View;
 
-import androidx.annotation.RequiresApi;
-
-import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
 

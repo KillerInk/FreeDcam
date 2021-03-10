@@ -1,7 +1,5 @@
 package freed.cam.apis.camera2.modules.capture;
 
-import android.hardware.camera2.CaptureResult;
-import android.media.Image;
 import android.os.Build;
 import android.util.Size;
 

@@ -30,36 +30,18 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 
 import freed.ActivityInterface;
-import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
-import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
-import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
-import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
-import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
-import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
 import freed.cam.events.CameraStateEvents;
-import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.previewpostprocessing.RenderScriptPreview;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.views.AutoFitTextureView;
 

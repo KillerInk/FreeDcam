@@ -42,10 +42,8 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.VideoProfileEditorFragmentBinding;
 
-import java.util.HashMap;
 import java.util.List;
 
-import freed.cam.ui.videoprofileeditor.MyMediaCodec;
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
 import freed.cam.ui.videoprofileeditor.enums.HdrModes;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
@@ -55,13 +53,11 @@ import freed.cam.ui.videoprofileeditor.models.EncoderModel;
 import freed.cam.ui.videoprofileeditor.models.HdrModel;
 import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
-import freed.cam.ui.videoprofileeditor.models.PreviewOpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileLevelModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileModel;
 import freed.cam.ui.videoprofileeditor.models.RecordModel;
 import freed.cam.ui.videoprofileeditor.models.VideoCodecModel;
 import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;

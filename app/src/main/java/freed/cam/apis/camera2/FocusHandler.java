@@ -32,7 +32,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;

@@ -1,6 +1,5 @@
 package freed.cam.apis.camera2.modules.capture;
 
-import android.hardware.camera2.CaptureResult;
 import android.media.Image;
 import android.os.Build;
 import android.util.Size;
@@ -12,7 +11,6 @@ import java.nio.ByteBuffer;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
-import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
 import freed.utils.Log;

@@ -21,8 +21,6 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 
-import com.troop.freedcam.R;
-
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;

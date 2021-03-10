@@ -3,7 +3,6 @@ package freed.cam.ui.videoprofileeditor;
 import android.media.MediaCodecInfo;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class MyMediaCodec {
 

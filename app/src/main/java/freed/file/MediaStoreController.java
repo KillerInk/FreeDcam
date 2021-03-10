@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
-import android.provider.CalendarContract;
 import android.provider.MediaStore;
 
 import java.io.File;

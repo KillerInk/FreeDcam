@@ -1,9 +1,7 @@
 package freed.cam.apis.basecamera;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.previewpostprocessing.PreviewControllerInterface;
 

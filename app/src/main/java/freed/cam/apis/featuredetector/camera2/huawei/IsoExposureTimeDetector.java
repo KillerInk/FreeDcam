@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
-import freed.cam.apis.featuredetector.BaseParameterDetector;
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.cam.apis.featuredetector.camera2.ExposureTimeDetector;
 import freed.cam.apis.featuredetector.camera2.IsoDetector;

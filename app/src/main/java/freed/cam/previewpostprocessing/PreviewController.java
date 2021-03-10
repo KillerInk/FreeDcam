@@ -3,12 +3,10 @@ package freed.cam.previewpostprocessing;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
-import android.view.TextureView;
 import android.view.View;
 
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
-import freed.viewer.screenslide.views.MyHistogram;
 
 public class PreviewController implements PreviewControllerInterface
 {

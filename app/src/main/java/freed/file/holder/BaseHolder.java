@@ -33,8 +33,6 @@ import java.io.OutputStream;
 import freed.ActivityInterface;
 import freed.file.FileListController;
 import freed.utils.StringUtils;
-import freed.viewer.gridview.enums.ViewStates;
-import freed.viewer.gridview.views.GridViewFragment;
 
 /**
  * Created by Ingo on 27.12.2015.

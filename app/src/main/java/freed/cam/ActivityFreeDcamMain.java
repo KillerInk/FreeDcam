@@ -34,7 +34,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.CameraStateEvents;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;

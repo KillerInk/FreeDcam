@@ -29,11 +29,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
-import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.jni.RawToDng;

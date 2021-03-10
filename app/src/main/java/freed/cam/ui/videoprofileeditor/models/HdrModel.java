@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.ui.videoprofileeditor.enums.HdrModes;
-import freed.utils.VideoMediaProfile;
 
 public class HdrModel extends ButtonModel {
 

@@ -28,10 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.settings.SettingKeys;
 import freed.utils.Log;

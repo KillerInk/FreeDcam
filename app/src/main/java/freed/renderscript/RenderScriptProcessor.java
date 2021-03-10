@@ -30,12 +30,10 @@ import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.ScriptGroup;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
-import android.view.View;
 
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;
-import freed.viewer.screenslide.views.MyHistogram;
 
 /**
  * Renderscript-based Focus peaking viewfinder

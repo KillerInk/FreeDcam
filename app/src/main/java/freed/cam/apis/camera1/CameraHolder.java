@@ -27,7 +27,6 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.location.Location;
 import android.view.Surface;
-import android.view.TextureView;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

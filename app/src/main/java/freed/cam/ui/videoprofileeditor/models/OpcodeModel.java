@@ -3,7 +3,6 @@ package freed.cam.ui.videoprofileeditor.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 
 public class OpcodeModel extends ButtonModel {

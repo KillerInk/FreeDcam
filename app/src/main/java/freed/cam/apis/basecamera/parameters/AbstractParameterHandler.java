@@ -41,7 +41,6 @@ import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
-
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;

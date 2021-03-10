@@ -21,11 +21,8 @@ package freed.cam.apis.sonyremote;
 
 import com.troop.freedcam.R;
 
-import java.util.HashMap;
-
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;

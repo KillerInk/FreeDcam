@@ -4,17 +4,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.file.holder.BaseHolder;
 import freed.utils.Log;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.views.GridImageView;
-import freed.viewer.gridview.views.GridViewFragment;
 
 /**
  * Created by troop on 02.03.2017.

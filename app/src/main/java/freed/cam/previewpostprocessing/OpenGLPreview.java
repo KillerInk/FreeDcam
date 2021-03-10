@@ -12,12 +12,10 @@ import androidx.annotation.NonNull;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.gl.GLPreview;
-import freed.gl.PreviewModel;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.DisplayUtil;
 import freed.utils.Log;
-import freed.viewer.screenslide.views.MyHistogram;
 
 public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListener
 {

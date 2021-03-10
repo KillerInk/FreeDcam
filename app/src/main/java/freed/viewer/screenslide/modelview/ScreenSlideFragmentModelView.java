@@ -1,25 +1,16 @@
 package freed.viewer.screenslide.modelview;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Build;
-import android.view.View;
-
-import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
-import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
-import freed.viewer.gridview.models.FilesHolderModel;
 import freed.viewer.gridview.models.VisibilityModel;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.ExifLoader;
 import freed.viewer.screenslide.models.ButtonModel;
-import freed.viewer.screenslide.models.ExifViewItemModel;
 import freed.viewer.screenslide.models.ExifViewModel;
 import freed.viewer.screenslide.models.InfoButtonModel;
 import freed.viewer.screenslide.models.ScreenSlideFilesHolderModel;

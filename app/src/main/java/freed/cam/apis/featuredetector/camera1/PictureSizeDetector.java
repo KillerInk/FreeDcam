@@ -4,7 +4,6 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.featuredetector.BaseParameterDetector;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 

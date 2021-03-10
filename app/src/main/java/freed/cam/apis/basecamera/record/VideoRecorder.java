@@ -1,6 +1,5 @@
 package freed.cam.apis.basecamera.record;
 
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.location.Location;
 import android.media.MediaRecorder;

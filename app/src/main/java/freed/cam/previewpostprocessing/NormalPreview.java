@@ -3,26 +3,11 @@ package freed.cam.previewpostprocessing;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.SurfaceTexture;
-import android.view.Display;
 import android.view.Surface;
-import android.view.TextureView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
 
-
-import androidx.annotation.NonNull;
-
-import freed.FreedApplication;
 import freed.cam.histogram.HistogramFeed;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.DisplayUtil;
-import freed.utils.Log;
 import freed.utils.MatrixUtil;
-import freed.views.AutoFitTextureView;
 
 public class NormalPreview extends AutoFitTexturviewPreview {
 

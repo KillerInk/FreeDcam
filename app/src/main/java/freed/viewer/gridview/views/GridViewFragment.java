@@ -26,10 +26,8 @@ import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
@@ -38,7 +36,6 @@ import androidx.fragment.app.Fragment;
 import com.troop.freedcam.BR;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
-import com.troop.freedcam.R.menu;
 import com.troop.freedcam.databinding.FreedviewerGridviewfragmentBinding;
 
 import java.util.ArrayList;
@@ -47,10 +44,8 @@ import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.image.ImageManager;
-import freed.renderscript.RenderScriptManager;
 import freed.utils.Log;
 import freed.viewer.dngconvert.DngConvertingFragment;
-
 import freed.viewer.gridview.adapter.ImageAdapter;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.gridview.modelview.GridViewFragmentModelView;

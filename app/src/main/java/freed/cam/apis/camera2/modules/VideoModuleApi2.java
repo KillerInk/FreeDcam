@@ -21,7 +21,6 @@ package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
@@ -50,12 +49,10 @@ import java.util.List;
 
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessorFactory;
@@ -65,7 +62,6 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
-import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;

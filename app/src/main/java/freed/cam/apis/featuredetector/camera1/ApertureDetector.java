@@ -3,7 +3,6 @@ package freed.cam.apis.featuredetector.camera1;
 
 import android.hardware.Camera;
 
-import freed.cam.apis.featuredetector.Camera1FeatureDetectorTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 

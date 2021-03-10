@@ -6,7 +6,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.lg.CaptureRequestLg;
-import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 

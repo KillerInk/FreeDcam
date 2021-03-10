@@ -1,16 +1,11 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
-import com.troop.freedcam.R;
-
-import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.settings.mode.BooleanSettingModeInterface;
 
 public class EnableRenderScriptMode extends AbstractParameter {
 

@@ -1,6 +1,5 @@
 package freed.cam.apis.featuredetector;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
@@ -10,24 +9,14 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Build;
-import android.util.Size;
 
-import com.troop.freedcam.R;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import camera2_hidden_keys.VendorKeyParser;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
-import camera2_hidden_keys.qcom.CaptureRequestQcom;
-import camera2_hidden_keys.qcom.CaptureResultQcom;
-import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
-import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.camera2.AeTargetFpsDetector;
 import freed.cam.apis.featuredetector.camera2.AntiBadindingModeDetector;
@@ -70,7 +59,6 @@ import freed.cam.apis.featuredetector.camera2.qcom.VideoHdr10Detector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ProVideoLogDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.VideoRecordControl;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
-import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;

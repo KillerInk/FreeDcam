@@ -26,7 +26,6 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

@@ -4,20 +4,11 @@ import com.troop.freedcam.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
-import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
-import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
-import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.settings.mode.SettingInterface;
-import freed.settings.mode.SettingMode;
-import freed.utils.Log;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 23.01.2017.

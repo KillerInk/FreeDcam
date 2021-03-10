@@ -21,31 +21,18 @@ package freed.viewer.screenslide.views;
 
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.RecoverableSecurityException;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Typeface;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.documentfile.provider.DocumentFile;
@@ -53,30 +40,19 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.troop.freedcam.BR;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
-import freed.image.ImageManager;
-import freed.image.ImageTask;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.screenslide.adapter.ScreenSlidePagerAdapter;
-import freed.viewer.screenslide.models.ImageFragmentModel;
 import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 
 

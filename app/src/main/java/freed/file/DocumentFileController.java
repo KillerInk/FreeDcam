@@ -2,12 +2,10 @@ package freed.file;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import java.io.File;
 import java.util.List;
 
 import freed.file.holder.BaseHolder;
 import freed.file.holder.DocumentHolder;
-import freed.file.holder.FileHolder;
 import freed.utils.StringUtils;
 
 public class DocumentFileController

@@ -13,7 +13,6 @@ import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
 
 public class VideoHdr10Detector extends BaseParameter2Detector implements VendorKeyDetector {
     @Override

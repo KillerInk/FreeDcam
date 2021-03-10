@@ -30,7 +30,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
-import android.view.TextureView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -43,7 +42,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.events.CameraStateEvents;
 import freed.utils.Log;
-import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 07.12.2014.

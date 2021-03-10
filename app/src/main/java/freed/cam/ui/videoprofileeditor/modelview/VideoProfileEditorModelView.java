@@ -2,11 +2,8 @@ package freed.cam.ui.videoprofileeditor.modelview;
 
 import android.media.MediaCodecInfo;
 import android.os.Build;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.databinding.BaseObservable;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
 
@@ -16,17 +13,13 @@ import java.util.List;
 
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.cam.ui.videoprofileeditor.MyMediaCodec;
-
 import freed.cam.ui.videoprofileeditor.binding.Converter;
-import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
-import freed.cam.ui.videoprofileeditor.enums.HdrModes;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 import freed.cam.ui.videoprofileeditor.models.AudioCodecModel;
 import freed.cam.ui.videoprofileeditor.models.EncoderModel;
 import freed.cam.ui.videoprofileeditor.models.HdrModel;
 import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
-import freed.cam.ui.videoprofileeditor.models.PreviewOpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileLevelModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileModel;
 import freed.cam.ui.videoprofileeditor.models.RecordModel;

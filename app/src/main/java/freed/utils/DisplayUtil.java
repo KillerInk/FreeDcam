@@ -2,7 +2,6 @@ package freed.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Picture;
 import android.graphics.Point;
 import android.os.Build;
 import android.util.DisplayMetrics;

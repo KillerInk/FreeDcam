@@ -6,7 +6,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
-import freed.cam.apis.featuredetector.BaseParameterDetector;
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

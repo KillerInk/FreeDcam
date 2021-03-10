@@ -3,7 +3,6 @@ package freed.gl.program;
 import android.opengl.GLES20;
 
 import freed.gl.PreviewModel;
-import freed.gl.ShaderUtil;
 
 public class FPShape extends PreviewShape {
 

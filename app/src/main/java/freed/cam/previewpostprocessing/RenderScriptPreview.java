@@ -3,15 +3,9 @@ package freed.cam.previewpostprocessing;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
-import android.graphics.SurfaceTexture;
 import android.renderscript.RenderScript;
 import android.view.Surface;
-import android.view.TextureView;
-import android.view.View;
 
-import androidx.annotation.NonNull;
-
-import freed.cam.apis.camera2.modules.AbstractModuleApi2;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.histogram.HistogramController;
@@ -21,8 +15,6 @@ import freed.renderscript.RenderScriptProcessor;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.MatrixUtil;
-import freed.viewer.screenslide.views.MyHistogram;
-import freed.views.AutoFitTextureView;
 
 public class RenderScriptPreview extends AutoFitTexturviewPreview {
 

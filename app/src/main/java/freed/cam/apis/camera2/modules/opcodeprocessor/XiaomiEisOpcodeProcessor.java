@@ -1,6 +1,5 @@
 package freed.cam.apis.camera2.modules.opcodeprocessor;
 
-import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 

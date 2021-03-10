@@ -21,7 +21,6 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.dng.opcode.OpCodeCreator;
-import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
 import freed.image.ImageTaskDngConverter;

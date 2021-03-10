@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;

@@ -2,25 +2,21 @@ package freed.viewer.gridview.modelview;
 
 import android.app.RecoverableSecurityException;
 import android.os.Build;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.PopupMenu;
 
 import androidx.lifecycle.ViewModel;
-
-import com.troop.freedcam.R;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
-import freed.utils.FreeDPool;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingActivity;
@@ -37,7 +33,6 @@ import freed.viewer.gridview.models.IntentModel;
 import freed.viewer.gridview.models.IntentSenderModel;
 import freed.viewer.gridview.models.PopupMenuModel;
 import freed.viewer.gridview.models.ViewStateModel;
-import freed.viewer.gridview.models.VisibilityModel;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;

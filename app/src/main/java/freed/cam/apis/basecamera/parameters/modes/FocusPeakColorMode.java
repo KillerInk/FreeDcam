@@ -8,8 +8,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.previewpostprocessing.Preview;
-import freed.cam.previewpostprocessing.PreviewController;
-import freed.renderscript.RenderScriptProcessorInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;

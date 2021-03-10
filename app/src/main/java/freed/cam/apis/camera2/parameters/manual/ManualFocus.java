@@ -28,10 +28,8 @@ import android.os.Looper;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.FocusPositionChangedEvent;
 import freed.settings.SettingKeys;

@@ -2,7 +2,6 @@ package freed.viewer.gridview.models;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.documentfile.provider.DocumentFile;
 
 import com.troop.freedcam.BR;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
-import freed.file.holder.DocumentHolder;
 import freed.utils.Log;
 import freed.viewer.helper.BitmapHelper;
 
