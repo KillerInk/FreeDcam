@@ -19,6 +19,7 @@
 
 package freed.cam.ui.themesample.cameraui;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -375,7 +376,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                                 @Override
                                 public void onCloseClick() {
-                                    versionView.removeAllViews();
+                                    try {
+                                        if (versionView != null)
+                                            versionView.removeAllViews();
+                                    }
+                                    catch (ActivityNotFoundException ex)
+                                    {
+                                        Log.WriteEx(ex);
+                                    }
+
                                 }
                             }));
                         }
