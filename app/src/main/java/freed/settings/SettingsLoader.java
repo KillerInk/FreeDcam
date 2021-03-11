@@ -134,6 +134,8 @@ public class SettingsLoader {
         String type  = profile.getAttribute("type","AbstractSettingMode");
         String key = profile.getAttribute("name","manualmf");
         SettingKeys.Key foundKey = findKey(key);
+        if (foundKey == null)
+            throw new NullPointerException("found key is null");
         if (type.equals(ApiBooleanSettingMode.class.getSimpleName()))
         {
             ApiBooleanSettingMode apiBooleanSettingMode = new ApiBooleanSettingMode(foundKey);

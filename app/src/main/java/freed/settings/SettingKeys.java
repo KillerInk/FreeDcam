@@ -187,7 +187,7 @@ public class SettingKeys{
             if (Modifier.isPublic(mod)
                     && Modifier.isStatic(mod)
                     && Modifier.isFinal(mod)
-                    && f.getType() == Key.class)
+                    && (f.getType() == Key.class || f.getType() == GlobalKey.class))
                 try {
                     keys.add((Key)f.get(null));
                 } catch (IllegalAccessException e) {
