@@ -44,6 +44,9 @@ import com.troop.freedcam.databinding.VideoProfileEditorFragmentBinding;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
 import freed.cam.ui.videoprofileeditor.enums.HdrModes;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
@@ -65,11 +68,14 @@ import freed.utils.VideoMediaProfile.VideoMode;
 /**
  * Created by troop on 15.02.2016.
  */
+@AndroidEntryPoint
 public class VideoProfileEditorFragment extends Fragment {
     final String TAG = VideoProfileEditorFragment.class.getSimpleName();
 
     private VideoProfileEditorFragmentBinding videoProfileEditorFragmentBinding;
     private VideoProfileEditorModelView videoProfileEditorModelView;
+    @Inject
+    SettingsManager settingsManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -140,7 +146,7 @@ public class VideoProfileEditorFragment extends Fragment {
                 case DialogInterface.BUTTON_POSITIVE:
                     videoProfileEditorModelView.getVideoMediaProfiles().remove(videoProfileEditorModelView.getProfile().ProfileName);
                     //videoProfileEditorModelView.setProfile(null);
-                    SettingsManager.getInstance().saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
+                    settingsManager.saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -206,8 +212,8 @@ public class VideoProfileEditorFragment extends Fragment {
                 p.ProfileName = videoProfileEditorFragmentBinding.editTextProfileName.getText().toString().replace(" ","_");
                 videoProfileEditorModelView.getVideoMediaProfiles().put(p.ProfileName, p);
             }
-            SettingsManager.getInstance().saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
-            SettingsManager.getInstance().save();
+            settingsManager.saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
+            settingsManager.save();
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };

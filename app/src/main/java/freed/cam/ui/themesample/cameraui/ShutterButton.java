@@ -33,6 +33,9 @@ import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -46,6 +49,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 20.06.2015.
  */
+@AndroidEntryPoint
 public class ShutterButton extends AppCompatButton implements ModuleChangedEvent {
 
     @Subscribe
@@ -66,6 +70,9 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     protected HandlerThread mBackgroundThread;
     protected ShutterAnimationHandler animationHandler;
     private Handler uiHandler = new Handler();
+
+    @Inject
+    public SettingsManager settingsManager;
 
     /**
      * Starts a background thread and its {@link Handler}.
@@ -133,7 +140,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         setBackgroundResource(R.drawable.shutter5);
 
         this.setOnClickListener(v -> {
-            String sf = SettingsManager.get(SettingKeys.selfTimer).get();
+            String sf = settingsManager.get(SettingKeys.selfTimer).get();
             if (TextUtils.isEmpty(sf))
                 sf = "0";
             int selftimer = Integer.parseInt(sf);

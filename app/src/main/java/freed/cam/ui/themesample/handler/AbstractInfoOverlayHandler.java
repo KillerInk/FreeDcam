@@ -66,6 +66,7 @@ public abstract class AbstractInfoOverlayHandler
 
     String storageSpace;
     private DecimalFormat decimalFormat;
+    private SettingsManager settingsManager;
 
     private final String[] units = { "B", "KB", "MB", "GB", "TB" };
 
@@ -75,6 +76,7 @@ public abstract class AbstractInfoOverlayHandler
         handler = new Handler();
         batteryBroadCastListner = new BatteryBroadCastListner();
         decimalFormat = new DecimalFormat("#,##0.#");
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
@@ -223,9 +225,9 @@ public abstract class AbstractInfoOverlayHandler
     }
     private double Calc()
     {
-        String[] res = SettingsManager.get(SettingKeys.PictureSize).get().split("x");
+        String[] res = settingsManager.get(SettingKeys.PictureSize).get().split("x");
 
-        if(SettingsManager.get(SettingKeys.PictureFormat).get().contains(FreedApplication.getStringFromRessources(R.string.bayer_)))
+        if(settingsManager.get(SettingKeys.PictureFormat).get().contains(FreedApplication.getStringFromRessources(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
@@ -239,7 +241,7 @@ public abstract class AbstractInfoOverlayHandler
     private long SDspace()
     {
         long bytesAvailable = 0;
-        if (!SettingsManager.getInstance().GetWriteExternal()) {
+        if (!settingsManager.GetWriteExternal()) {
             bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         }
         else

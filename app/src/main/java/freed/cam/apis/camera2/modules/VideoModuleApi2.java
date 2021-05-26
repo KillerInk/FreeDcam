@@ -135,9 +135,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
-        currentVideoProfile = profilesApi2.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
+        currentVideoProfile = profilesApi2.GetCameraProfile(settingsManager.get(SettingKeys.VideoProfiles).get());
         if (currentVideoProfile == null) {
-            currentVideoProfile = SettingsManager.getInstance().getMediaProfiles().get(0);
+            currentVideoProfile = settingsManager.getMediaProfiles().get(0);
         }
         Log.d(TAG, "VideoMediaProfile: " + currentVideoProfile.getXmlString());
         parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
@@ -246,7 +246,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         int orientationToSet = (360 + sensorOrientation) % 360;
-        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
             Log.d(TAG, "RenderScriptPreview");
             int rotation = 0;
             switch (orientationToSet)
@@ -267,7 +267,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             Log.d(TAG, "rotation to set : " + or);
             int w = previewSize.getWidth();
             int h = previewSize.getHeight();
-            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
                 if (or == 90 || or == 270) {
                     w = previewSize.getHeight();
                     h = previewSize.getWidth();
@@ -313,7 +313,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             w = previewSize.getWidth();
             h = previewSize.getHeight();
             or = OrientationUtil.getOrientation(orientation);
-            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
                 if (or == 0 || or == 180) {
                     w = previewSize.getHeight();
                     h = previewSize.getWidth();
@@ -379,8 +379,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private void startPreviewVideo()
     {
-        String file = cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
-        recordingFile = new FileHolder(new File(file),SettingsManager.getInstance().GetWriteExternal());
+        String file = cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
+        recordingFile = new FileHolder(new File(file),settingsManager.GetWriteExternal());
         //TODO handel uri based holder
         videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {
@@ -399,7 +399,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
         });
 
-        if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
+        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
             Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
             if (location != null)
                 videoRecorder.setLocation(location);
@@ -545,7 +545,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private void setQcomVideoHdr()
     {
-        if (SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).isSupported())
+        if (settingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).isSupported())
         {
             switch (currentVideoProfile.videoHdr)
             {

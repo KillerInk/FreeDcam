@@ -49,7 +49,7 @@ public class FocusPeakMode extends AbstractParameter {
 
     @Override
     public ViewState getViewState() {
-        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
+        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
             return ViewState.Visible;
         else
             return ViewState.Hidden;

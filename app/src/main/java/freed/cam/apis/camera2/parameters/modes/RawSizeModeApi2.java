@@ -20,7 +20,7 @@ public class RawSizeModeApi2 extends BaseModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.RawSize).set(valueToSet);
+        settingsManager.get(SettingKeys.RawSize).set(valueToSet);
         if (setToCamera)
         {
             CameraThreadHandler.restartPreviewAsync();
@@ -30,12 +30,12 @@ public class RawSizeModeApi2 extends BaseModeApi2 {
     @Override
     public String GetStringValue()
     {
-        return  SettingsManager.get(SettingKeys.RawSize).get();
+        return  settingsManager.get(SettingKeys.RawSize).get();
     }
 
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.RawSize).getValues();
+        return settingsManager.get(SettingKeys.RawSize).getValues();
     }
 }

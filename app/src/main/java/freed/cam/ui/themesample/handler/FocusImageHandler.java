@@ -70,10 +70,12 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private boolean meteringIsSupported = false;
     private boolean waitForFocusEnd = false;
 
+    private SettingsManager settingsManager;
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(fragment);
+        settingsManager = FreedApplication.settingsManager();
         focusImageView = view.findViewById(R.id.imageView_Crosshair);
 
         cancelFocus = view.findViewById(R.id.imageViewFocusClose);
@@ -163,8 +165,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 focusImageView.post(() -> {
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                    Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + SettingsManager.getGlobal(SettingKeys.TouchToCapture).get());
-                    if (success && SettingsManager.getGlobal(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
+                    Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + settingsManager.getGlobal(SettingKeys.TouchToCapture).get());
+                    if (success && settingsManager.getGlobal(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                         Log.d(TAG,"start capture");
                         wrapper.getModuleHandler().startWork();
                     }

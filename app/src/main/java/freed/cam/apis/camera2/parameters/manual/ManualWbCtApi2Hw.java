@@ -18,7 +18,7 @@ public class ManualWbCtApi2Hw  extends AbstractParameter<Camera2>
 
     public ManualWbCtApi2Hw(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.M_Whitebalance);
-        stringvalues = SettingsManager.get(SettingKeys.M_Whitebalance).getValues();
+        stringvalues = settingsManager.get(SettingKeys.M_Whitebalance).getValues();
         currentInt = 0;
         setViewState(ViewState.Visible);
     }

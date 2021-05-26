@@ -25,10 +25,10 @@ public class VideoHdr10Detector extends BaseParameter2Detector implements Vendor
     public void checkIfVendorKeyIsSupported(HashSet<String> keys) {
         try {
             if (Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestQcom.HDR10_VIDEO))
-                SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).setIsSupported(true);
+                settingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).setIsSupported(true);
         }catch (IllegalArgumentException | NullPointerException ex)
         {
-            SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).setIsSupported(false);
+            settingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).setIsSupported(false);
         }
     }
 }

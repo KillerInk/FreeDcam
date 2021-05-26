@@ -17,7 +17,7 @@ public class AwbModesDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, SettingsManager.get(SettingKeys.WhiteBalanceMode), FreedApplication.getStringArrayFromRessource(R.array.whitebalancemodes));
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES, settingsManager.get(SettingKeys.WhiteBalanceMode), FreedApplication.getStringArrayFromRessource(R.array.whitebalancemodes),settingsManager);
 
     }
 }

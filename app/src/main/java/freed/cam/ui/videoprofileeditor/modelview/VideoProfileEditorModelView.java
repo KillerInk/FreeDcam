@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.cam.ui.videoprofileeditor.MyMediaCodec;
 import freed.cam.ui.videoprofileeditor.binding.Converter;
@@ -28,6 +31,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 
+@HiltViewModel
 public class VideoProfileEditorModelView extends ViewModel {
 
     public final ObservableField<VideoMediaProfile> currentProfile = new ObservableField<>();
@@ -48,14 +52,17 @@ public class VideoProfileEditorModelView extends ViewModel {
     private OpcodeModel opcodeModel;
     //private PreviewOpcodeModel preview_opcodeModel;
     private HdrModel hdrModes;
+    SettingsManager settingsManager;
 
-    public VideoProfileEditorModelView()
+    @Inject
+    public VideoProfileEditorModelView(SettingsManager settingsManager)
     {
-        if (!SettingsManager.getInstance().isInit()){
-            SettingsManager.getInstance().init();
+        this.settingsManager = settingsManager;
+        if (!settingsManager.isInit()){
+            settingsManager.init();
         }
-        SettingsManager.getInstance().getCamApi();
-        videoMediaProfiles = SettingsManager.getInstance().getMediaProfiles();
+        settingsManager.getCamApi();
+        videoMediaProfiles = settingsManager.getMediaProfiles();
         popupModel = new PopupModel();
         profileModel = new ProfileModel(this,popupModel);
         recordModel = new RecordModel(popupModel);
@@ -76,7 +83,7 @@ public class VideoProfileEditorModelView extends ViewModel {
             av1Codecs = mediaCodecInfoParser.getAv1Codecs();
         }
         if (videoMediaProfiles != null) {
-            setProfile(videoMediaProfiles.get(SettingsManager.get(SettingKeys.VideoProfiles).get()));
+            setProfile(videoMediaProfiles.get(settingsManager.get(SettingKeys.VideoProfiles).get()));
         }
     }
 
@@ -147,7 +154,7 @@ public class VideoProfileEditorModelView extends ViewModel {
             else
                 encoderModel.setTxt(currentProfile.get().encoderName);
             encoderModel.setValues();
-            if (SettingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).isSupported()) {
+            if (settingsManager.get(SettingKeys.QCOM_VIDEO_HDR10).isSupported()) {
                 hdrModes.setTxt(Converter.convertHdrModecIntToString(null, currentProfile.get().videoHdr));
                 hdrModes.setVisibility(true);
             }

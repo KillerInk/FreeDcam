@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.SystemClock;
 
+import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -47,6 +48,7 @@ public class IntervalHandler
     private Thread intervalBackgroundThread;
 
     private final Object waitForCaptureEnd = new Object();
+    private SettingsManager settingsManager;
 
     public interface SuperDoWork
     {
@@ -61,6 +63,7 @@ public class IntervalHandler
     public IntervalHandler(SuperDoWork picmodule)
     {
         this.picmodule = picmodule;
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public void Init()
@@ -90,13 +93,13 @@ public class IntervalHandler
         working = true;
 
         startTime = SystemClock.uptimeMillis();
-        String sleep = SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
+        String sleep = settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = SettingsManager.get(SettingKeys.INTERVAL_DURATION).get();
+        String duration = settingsManager.get(SettingKeys.INTERVAL_DURATION).get();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))

@@ -16,14 +16,14 @@ public class ChromaFlashDetector extends BaseParameter1Detector {
 
     private void detectChromaFlash(Camera.Parameters parameters)
     {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            SettingsManager.get(SettingKeys.ChromaFlash).setIsSupported(false);
+            settingsManager.get(SettingKeys.ChromaFlash).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.chroma,R.string.chroma_mode, SettingsManager.get(SettingKeys.ChromaFlash));
+            detectMode(parameters, R.string.chroma,R.string.chroma_mode, settingsManager.get(SettingKeys.ChromaFlash));
         }
 
     }

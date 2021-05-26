@@ -16,14 +16,14 @@ public class PdafDetector extends BaseParameter1Detector{
 
     private void detectPDAF(Camera.Parameters parameters)
     {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            SettingsManager.get(SettingKeys.PDAF).setIsSupported(false);
+            settingsManager.get(SettingKeys.PDAF).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.pdaf,R.string.pdaf_mode, SettingsManager.get(SettingKeys.PDAF));
+            detectMode(parameters, R.string.pdaf,R.string.pdaf_mode, settingsManager.get(SettingKeys.PDAF));
         }
 
     }

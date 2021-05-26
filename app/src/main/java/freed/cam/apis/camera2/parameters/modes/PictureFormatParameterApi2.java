@@ -37,9 +37,9 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public PictureFormatParameterApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,key,parameterKey);
-        if (SettingsManager.get(SettingKeys.PictureFormat).isSupported()) {
+        if (settingsManager.get(SettingKeys.PictureFormat).isSupported()) {
             setViewState(ViewState.Visible);
-            currentString = SettingsManager.get(SettingKeys.PictureFormat).get();
+            currentString = settingsManager.get(SettingKeys.PictureFormat).get();
         }
     }
 
@@ -65,6 +65,6 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public String GetStringValue() {
-        return SettingsManager.get(SettingKeys.PictureFormat).get();
+        return settingsManager.get(SettingKeys.PictureFormat).get();
     }
 }

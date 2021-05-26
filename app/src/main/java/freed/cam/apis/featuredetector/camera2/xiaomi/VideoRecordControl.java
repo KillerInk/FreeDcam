@@ -24,6 +24,6 @@ public class VideoRecordControl extends BaseParameter2Detector implements Vendor
     @Override
     public void checkIfVendorKeyIsSupported(HashSet<String> keys) {
         if (Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestXiaomi.VIDEO_RECORD_CONTROL))
-            SettingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).setIsSupported(true);
+            settingsManager.get(SettingKeys.XIAOMI_VIDEO_RECORD_CONTROL).setIsSupported(true);
     }
 }

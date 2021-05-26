@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 import freed.FreedApplication;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
@@ -45,6 +48,12 @@ import freed.views.VideoToneCurveProfile;
  * Created by troop on 19.08.2014.
  */
 public class SettingsManager extends SettingKeys implements SettingsManagerInterface {
+
+    @EntryPoint
+    @InstallIn(SingletonComponent.class)
+    public interface SettingsManagerEntryPoint {
+        SettingsManager settingsManager();
+    }
 
     public static final int JPEG= 0;
     public static final int RAW = 1;
@@ -93,19 +102,19 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
     private static volatile boolean isInit =false;
     private SettingsStorage settingsStorage;
 
-    private static SettingsManager settingsManager = new SettingsManager();
+    //private static SettingsManager settingsManager = new SettingsManager();
 
 
 
-    private SettingsManager()
+    public SettingsManager()
     {
 
     }
 
-    public static SettingsManager getInstance()
+    /*public static SettingsManager getInstance()
     {
         return settingsManager;
-    }
+    }*/
 
     public void save()
     {
@@ -114,21 +123,21 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
         new XmlParserWriter().saveToneCurveProfiles(videoToneCurveProfiles, getAppDataFolder());
     }
 
-    public static <T> T get(Key<T> key)
+    public <T> T get(Key<T> key)
     {
-        return key.getType().cast(getInstance().settingsStorage.get(key));
+        return key.getType().cast(settingsStorage.get(key));
     }
 
-    public static <T> T getGlobal(GlobalKey<T> key)
+    public <T> T getGlobal(GlobalKey<T> key)
     {
-        SettingInterface settingInterface =  getInstance().settingsStorage.getGlobal(key);
+        SettingInterface settingInterface =  settingsStorage.getGlobal(key);
         T ret = key.getType().cast(settingInterface);
         return ret;
     }
 
-    public static <T> T getApi(Key<T> key)
+    public <T> T getApi(Key<T> key)
     {
-        return key.getType().cast(getInstance().settingsStorage.getApiSetting(key));
+        return key.getType().cast(settingsStorage.getApiSetting(key));
     }
 
     public void init()

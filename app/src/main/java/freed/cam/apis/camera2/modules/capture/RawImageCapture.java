@@ -92,8 +92,8 @@ public class RawImageCapture extends StillImageCapture {
         ImageSaveTask saveTask = new ImageSaveTask(activityInterface,moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
-
-        if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        SettingsManager settingsManager = FreedApplication.settingsManager();
+        if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {
@@ -153,8 +153,8 @@ public class RawImageCapture extends StillImageCapture {
 
 
         DngProfile prof = null;
-        if (SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && SettingsManager.getInstance().getDngProfilesMap().get(bytes.length) != null)
-            prof = SettingsManager.getInstance().getDngProfilesMap().get(bytes.length);
+        if (settingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && settingsManager.getDngProfilesMap().get(bytes.length) != null)
+            prof = settingsManager.getDngProfilesMap().get(bytes.length);
         else
             prof = DngProfileCreator.getDngProfile(rawFormat, width,height,characteristics,customMatrix,captureResult);
         prof.toneMapProfile = toneMapProfile;

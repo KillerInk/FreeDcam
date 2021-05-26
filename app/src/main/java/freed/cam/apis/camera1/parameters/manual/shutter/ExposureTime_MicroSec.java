@@ -23,7 +23,7 @@ public class ExposureTime_MicroSec extends AbstractParameter {
 
     public ExposureTime_MicroSec(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters) {
         super(cameraUiWrapper,SettingKeys.M_ExposureTime);
-        stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
+        stringvalues = settingsManager.get(SettingKeys.M_ExposureTime).getValues();
        setViewState(ViewState.Visible);
         this.parameters = parameters;
     }
@@ -46,12 +46,12 @@ public class ExposureTime_MicroSec extends AbstractParameter {
             float b =  Float.parseFloat(shutterstring);
             float c = b * 1000000;
             shutterstring = Math.round(c)+"";
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
+            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
 
         }
         else
         {
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), "0");
+            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), "0");
             Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

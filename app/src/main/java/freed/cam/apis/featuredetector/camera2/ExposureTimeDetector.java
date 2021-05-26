@@ -26,15 +26,15 @@ public class ExposureTimeDetector extends BaseParameter2Detector {
         long max = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper() / 1000;
         long min = characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower() / 1000;
 
-        if (SettingsManager.getInstance().getCamera2MaxExposureTime() >0)
-            max = SettingsManager.getInstance().getCamera2MaxExposureTime();
-        if (SettingsManager.getInstance().getCamera2MinExposureTime() >0)
-            min = SettingsManager.getInstance().getCamera2MinExposureTime();
+        if (settingsManager.getCamera2MaxExposureTime() >0)
+            max = settingsManager.getCamera2MaxExposureTime();
+        if (settingsManager.getCamera2MinExposureTime() >0)
+            min = settingsManager.getCamera2MinExposureTime();
 
         ArrayList<String> tmp = getShutterStrings(max, min,false);
-        SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
+        settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
         if (tmp.size() > 0)
-            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
+            settingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
 
     }
 

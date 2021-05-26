@@ -10,6 +10,6 @@ import freed.settings.SettingsManager;
 public class ImagePostProcessingDetector extends BaseParameter1Detector{
     @Override
     protected void findAndFillSettings(Camera.Parameters cameraCharacteristics) {
-        detectMode(cameraCharacteristics, R.string.ipp,R.string.ipp_values, SettingsManager.get(SettingKeys.ImagePostProcessing));
+        detectMode(cameraCharacteristics, R.string.ipp,R.string.ipp_values, settingsManager.get(SettingKeys.ImagePostProcessing));
     }
 }

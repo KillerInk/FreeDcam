@@ -22,7 +22,7 @@ public class EvDetector extends BaseParameter2Detector {
 
     private void detectManualExposure(CameraCharacteristics characteristics)
     {
-        SettingMode exposure = SettingsManager.get(SettingKeys.M_ExposureCompensation);
+        SettingMode exposure = settingsManager.get(SettingKeys.M_ExposureCompensation);
         int max = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
         int min = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
         float step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();

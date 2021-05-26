@@ -24,11 +24,11 @@ public class CameraControlModeDetector  extends BaseParameter2Detector {
 
 
     private void detectControlMode(CameraCharacteristics characteristics) {
-        if (SettingsManager.getInstance().hasCamera2Features()) {
+        if (settingsManager.hasCamera2Features()) {
             //flash mode
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
-                Camera2Util.detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES, SettingsManager.get(SettingKeys.CONTROL_MODE), FreedApplication.getStringArrayFromRessource(R.array.controlModes));
+                Camera2Util.detectIntMode(characteristics,CameraCharacteristics.CONTROL_AVAILABLE_MODES, settingsManager.get(SettingKeys.CONTROL_MODE), FreedApplication.getStringArrayFromRessource(R.array.controlModes),settingsManager);
                 return;
             }
             else {
@@ -42,15 +42,15 @@ public class CameraControlModeDetector  extends BaseParameter2Detector {
                 }
                 else if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
                     full = new int[] {1,2,};
-                SettingsManager.get(SettingKeys.CONTROL_MODE).setIsSupported(true);
-                if (SettingsManager.get(SettingKeys.CONTROL_MODE).isSupported()) {
+                settingsManager.get(SettingKeys.CONTROL_MODE).setIsSupported(true);
+                if (settingsManager.get(SettingKeys.CONTROL_MODE).isSupported()) {
                     HashMap<String, Integer> map = new HashMap<>();
                     for (int i = 0; i < full.length; i++) {
                         map.put(lookupar[i], full[i]);
                     }
                     lookupar = StringUtils.IntHashmapToStringArray(map);
-                    SettingsManager.get(SettingKeys.CONTROL_MODE).setValues(lookupar);
-                    SettingsManager.get(SettingKeys.CONTROL_MODE).set(FreedApplication.getStringFromRessources(R.string.auto));
+                    settingsManager.get(SettingKeys.CONTROL_MODE).setValues(lookupar);
+                    settingsManager.get(SettingKeys.CONTROL_MODE).set(FreedApplication.getStringFromRessources(R.string.auto));
                 }
             }
         }

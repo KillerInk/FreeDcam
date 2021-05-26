@@ -29,10 +29,10 @@ public class ManualFocusDetector extends BaseParameter2Detector
 
     private void detectManualFocus(CameraCharacteristics cameraCharacteristics)
     {
-        SettingMode mf = SettingsManager.get(SettingKeys.M_Focus);
+        SettingMode mf = settingsManager.get(SettingKeys.M_Focus);
         float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
-        if (SettingsManager.getInstance().getCamera2MinFocusPosition() > 0)
-            maxfocusrange = SettingsManager.getInstance().getCamera2MinFocusPosition();
+        if (settingsManager.getCamera2MinFocusPosition() > 0)
+            maxfocusrange = settingsManager.getCamera2MinFocusPosition();
         if (maxfocusrange == 0)
         {
             mf.setIsSupported(false);
@@ -68,7 +68,7 @@ public class ManualFocusDetector extends BaseParameter2Detector
         }
         else {
             mf.setIsSupported(false);
-            SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(false);
+            settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(false);
         }
     }
 }

@@ -5,6 +5,8 @@ tasks.whenTaskAdded { task ->
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'dagger.hilt.android.plugin'
+
 
 android {
     signingConfigs {
@@ -79,6 +81,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    annotationProcessor "com.google.dagger:hilt-compiler:$hilt_version"
 }
 
 android.applicationVariants.all { variant ->

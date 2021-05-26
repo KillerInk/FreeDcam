@@ -25,9 +25,9 @@ public class SceneModeDetector extends BaseParameter2Detector {
         String[] lookupar = FreedApplication.getContext().getResources().getStringArray(R.array.sceneModes);
         int[]  scenes = characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         if (scenes.length > 1)
-            SettingsManager.get(SettingKeys.SceneMode).setIsSupported(true);
+            settingsManager.get(SettingKeys.SceneMode).setIsSupported(true);
         else
-            SettingsManager.get(SettingKeys.SceneMode).setIsSupported(false);
+            settingsManager.get(SettingKeys.SceneMode).setIsSupported(false);
 
         HashMap<String,Integer> map = new HashMap<>();
         for (int i = 0; i< scenes.length; i++)
@@ -94,6 +94,6 @@ public class SceneModeDetector extends BaseParameter2Detector {
             }
         }
         lookupar = StringUtils.IntHashmapToStringArray(map);
-        SettingsManager.get(SettingKeys.SceneMode).setValues(lookupar);
+        settingsManager.get(SettingKeys.SceneMode).setValues(lookupar);
     }
 }

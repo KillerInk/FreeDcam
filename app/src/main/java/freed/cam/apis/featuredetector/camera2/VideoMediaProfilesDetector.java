@@ -12,7 +12,7 @@ import freed.utils.VideoMediaProfile;
 public class VideoMediaProfilesDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        int camid = SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()];
+        int camid = settingsManager.getCameraIds()[settingsManager.GetCurrentCamera()];
         detectVideoMediaProfiles(camid);
     }
 
@@ -24,14 +24,14 @@ public class VideoMediaProfilesDetector extends BaseParameter2Detector {
             supportedProfiles.put("2160p", new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p Normal true"));
             supportedProfiles.put("2160p_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p_TimeLapse Timelapse true"));
         }
-        SettingsManager.getInstance().saveMediaProfiles(supportedProfiles);
+        settingsManager.saveMediaProfiles(supportedProfiles);
 
         ////publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 
     private boolean has2160pSize()
     {
-        String[] size = SettingsManager.get(SettingKeys.PictureSize).getValues();
+        String[] size = settingsManager.get(SettingKeys.PictureSize).getValues();
         for (String s: size) {
             if (s.matches("3840x2160"))
                 return true;

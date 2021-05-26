@@ -60,6 +60,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
@@ -79,6 +82,7 @@ import freed.utils.StringUtils.FileEnding;
 /**
  * Created by troop on 22.12.2015.
  */
+@AndroidEntryPoint
 public class DngConvertingFragment extends Fragment
 {
     final String TAG = DngConvertingFragment.class.getSimpleName();
@@ -103,13 +107,15 @@ public class DngConvertingFragment extends Fragment
     private long filesize;
 
     private BaseHolder out;
+    @Inject
+    SettingsManager settingsManager;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        if (!SettingsManager.getInstance().isInit())
-            SettingsManager.getInstance().init();
+        if (!settingsManager.isInit())
+            settingsManager.init();
 
         return inflater.inflate(R.layout.dngconvertingfragment, container, false);
     }
@@ -123,15 +129,15 @@ public class DngConvertingFragment extends Fragment
         editTextblacklvl = view.findViewById(id.editText_blacklevel);
         editTextwhitelvl = view.findViewById(id.editText_whitelevel);
         spinnerMatrixProfile = view.findViewById(id.spinner_MatrixProfile);
-        matrixChooserParameter = new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap());
+        matrixChooserParameter = new MatrixChooserParameter(settingsManager.getMatrixesMap());
         String[] items = matrixChooserParameter.getStringValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
         matrixadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
         toneMapProfile = view.findViewById(id.spinner_ToneMap);
-        tonemaps = new String[SettingsManager.getInstance().getToneMapProfiles().keySet().size()];
-        SettingsManager.getInstance().getToneMapProfiles().keySet().toArray(tonemaps);
+        tonemaps = new String[settingsManager.getToneMapProfiles().keySet().size()];
+        settingsManager.getToneMapProfiles().keySet().toArray(tonemaps);
         ArrayAdapter<String> toneadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, tonemaps);
         toneMapProfile.setAdapter(toneadapter);
 
@@ -176,14 +182,14 @@ public class DngConvertingFragment extends Fragment
         if (filesToConvert != null && filesToConvert.length > 0) {
 
             getFilesize(filesToConvert[0]);
-            if (SettingsManager.getInstance().getDngProfilesMap() == null)
+            if (settingsManager.getDngProfilesMap() == null)
             {
                 dngprofile = new DngProfile(0,0,0,0,0,"bggr",0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6),MatrixChooserParameter.NEXUS6);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             else {
-                dngprofile = SettingsManager.getInstance().getDngProfilesMap().get(filesize);
+                dngprofile = settingsManager.getDngProfilesMap().get(filesize);
             }
             if (dngprofile == null) {
                 dngprofile = new DngProfile(0,0,0,0,0,"bggr",0,
@@ -269,7 +275,7 @@ public class DngConvertingFragment extends Fragment
                 toneMapProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        dngprofile.toneMapProfile = SettingsManager.getInstance().getToneMapProfiles().get(toneMapProfile.getSelectedItem().toString());
+                        dngprofile.toneMapProfile = settingsManager.getToneMapProfiles().get(toneMapProfile.getSelectedItem().toString());
                     }
 
                     @Override
@@ -347,8 +353,8 @@ public class DngConvertingFragment extends Fragment
                     Integer.parseInt(editTextCusotmRowSize.getText().toString()),
                     matrixChooserParameter.GetCustomMatrixNotOverWritten(spinnerMatrixProfile.getSelectedItem().toString()),
                     spinnerMatrixProfile.getSelectedItem().toString());
-            SettingsManager.getInstance().getDngProfilesMap().append(filesize,dngprofile);
-            new XmlParserWriter().saveDngProfiles(SettingsManager.getInstance().getDngProfilesMap(), SettingsManager.getInstance().getDeviceString(), SettingsManager.getInstance().getAppDataFolder());
+            settingsManager.getDngProfilesMap().append(filesize,dngprofile);
+            new XmlParserWriter().saveDngProfiles(settingsManager.getDngProfilesMap(), settingsManager.getDeviceString(), settingsManager.getAppDataFolder());
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
@@ -461,8 +467,8 @@ public class DngConvertingFragment extends Fragment
         else file = new File(baseHolder.getName().replace(FileEnding.BAYER, FileEnding.DNG));
 
         RawToDng dng = RawToDng.GetInstance();
-        /*dng.setOpcode3(AppSettingsManager.getInstance().getOpcode3());
-        dng.setOpcode2(AppSettingsManager.getInstance().getOpcode2());*/
+        /*dng.setOpcode3(AppsettingsManager.getOpcode3());
+        dng.setOpcode2(AppsettingsManager.getOpcode2());*/
         String intsd = StringUtils.GetInternalSDCARD();
         if (out == null) {
             for (BaseHolder holder: activityInterface.getFileListController().getFiles())
@@ -475,7 +481,7 @@ public class DngConvertingFragment extends Fragment
         }
         dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
         if ((VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
-                || !SettingsManager.getInstance().GetWriteExternal()) && !FileListController.needStorageAccessFrameWork) {
+                || !settingsManager.GetWriteExternal()) && !FileListController.needStorageAccessFrameWork) {
 
             dng.setBayerData(data, file.getAbsolutePath());
             dng.WriteDngWithProfile(dngprofile);
@@ -483,7 +489,7 @@ public class DngConvertingFragment extends Fragment
         else
         {
             ParcelFileDescriptor pfd = null;
-            if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
+            if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder() != null && settingsManager.GetWriteExternal()) {
                 DocumentFile df = ((ActivityInterface) getActivity()).getFileListController().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/dng", out.getName());
                 try {

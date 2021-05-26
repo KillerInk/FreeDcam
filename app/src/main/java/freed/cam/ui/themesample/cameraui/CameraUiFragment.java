@@ -43,6 +43,9 @@ import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
@@ -72,6 +75,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 14.06.2015.
  */
+@AndroidEntryPoint
 public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
@@ -113,6 +117,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     private LinearLayout left_ui_items_holder;
     private LinearLayout right_ui_items_top;
+    @Inject
+    public SettingsManager settingsManager;
 
     public CameraUiFragment()
     {
@@ -261,7 +267,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
 
                 //restore view state for the manuals
-                if (SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get())
+                if (settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get())
                     showManualSettings();
                 //remove the values fragment from ui when a new api gets loaded and it was open.
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
@@ -270,7 +276,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
                 joyPad.setVisibility(View.GONE);
 
-                settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
+                settingsChildSelfTimer.SetStuff(settingsManager.get(SettingKeys.selfTimer));
             }
         }
     }
@@ -284,7 +290,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         Log.d(TAG, "####################ONCREATEDVIEW####################");
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
-        manualsettingsIsOpen = SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get();
+        manualsettingsIsOpen = settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get();
         return inflater.inflate(layout.cameraui_fragment, container, false);
     }
 
@@ -347,7 +353,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         transaction.addToBackStack(null);
         transaction.commit();
 
-        boolean showhelp = SettingsManager.getInstance().getShowHelpOverlay();
+        boolean showhelp = settingsManager.getShowHelpOverlay();
         if (showhelp) {
             transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.empty, anim.empty);
@@ -360,7 +366,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     }
 
     private void checkForUpdate() {
-        if (ReleaseChecker.isGithubRelease && SettingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).get()) {
+        if (ReleaseChecker.isGithubRelease && settingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).get()) {
             new ReleaseChecker(new ReleaseChecker.UpdateEvent() {
                 @Override
                 public void onUpdateAvailable() {
@@ -410,7 +416,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     public void onPause()
     {
         infoOverlayHandler.StopUpdating();
-        SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(manualsettingsIsOpen);
+        settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(manualsettingsIsOpen);
         super.onPause();
 
     }

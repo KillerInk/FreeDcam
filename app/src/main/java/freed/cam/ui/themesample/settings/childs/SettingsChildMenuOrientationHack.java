@@ -21,6 +21,9 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -32,9 +35,12 @@ import freed.settings.SettingsManager;
 /**
  * Created by troop on 21.07.2015.
  */
+@AndroidEntryPoint
 public class SettingsChildMenuOrientationHack extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraUiWrapper;
+    @Inject
+    SettingsManager settingsManager;
 
     public SettingsChildMenuOrientationHack(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
@@ -43,18 +49,18 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        onStringValueChanged(SettingsManager.get(SettingKeys.orientationHack).get());
+        onStringValueChanged(settingsManager.get(SettingKeys.orientationHack).get());
     }
 
     @Override
     public String[] GetValues() {
-        return SettingsManager.get(SettingKeys.orientationHack).getValues();
+        return settingsManager.get(SettingKeys.orientationHack).getValues();
     }
 
     @Override
     public void SetValue(String value)
     {
-        SettingsManager.get(SettingKeys.orientationHack).set(value);
+        settingsManager.get(SettingKeys.orientationHack).set(value);
         if (cameraUiWrapper instanceof Camera1Fragment) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);

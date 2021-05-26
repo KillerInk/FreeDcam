@@ -45,7 +45,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      */
     public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
-        stringvalues = SettingsManager.get(SettingKeys.M_ExposureTime).getValues();
+        stringvalues = settingsManager.get(SettingKeys.M_ExposureTime).getValues();
         setViewState(ViewState.Visible);
     }
 

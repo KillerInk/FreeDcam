@@ -44,8 +44,8 @@ public class ColorCorrectionModeDetector extends BaseParameter2Detector {
                 map.put(lookupar[i],colorcor[i]);
         }
         lookupar = StringUtils.IntHashmapToStringArray(map);
-        SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).setValues(lookupar);
-        SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).setIsSupported(true);
-        SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).set(FreedApplication.getStringFromRessources(R.string.fast));
+        settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).setValues(lookupar);
+        settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).setIsSupported(true);
+        settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).set(FreedApplication.getStringFromRessources(R.string.fast));
     }
 }

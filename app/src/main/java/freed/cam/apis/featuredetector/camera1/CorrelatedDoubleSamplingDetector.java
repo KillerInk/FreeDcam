@@ -10,6 +10,6 @@ import freed.settings.SettingsManager;
 public class CorrelatedDoubleSamplingDetector extends BaseParameter1Detector{
     @Override
     protected void findAndFillSettings(Camera.Parameters cameraCharacteristics) {
-        detectMode(cameraCharacteristics, R.string.cds_mode,R.string.cds_mode_values, SettingsManager.get(SettingKeys.CDS_Mode));
+        detectMode(cameraCharacteristics, R.string.cds_mode,R.string.cds_mode_values, settingsManager.get(SettingKeys.CDS_Mode));
     }
 }

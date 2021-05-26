@@ -23,11 +23,13 @@ package freed.cam.apis.basecamera.modules;
 import android.os.Handler;
 import android.os.Looper;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
 import freed.file.holder.BaseHolder;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -43,6 +45,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
     protected CW cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
+    protected SettingsManager settingsManager;
 
 
     public ModuleAbstract(CW cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -50,6 +53,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;
         this.mainHandler = new Handler(Looper.getMainLooper());
+        settingsManager = FreedApplication.settingsManager();
     }
 
     /**

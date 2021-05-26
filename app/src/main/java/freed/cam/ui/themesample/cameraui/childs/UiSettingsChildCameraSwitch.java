@@ -23,6 +23,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
@@ -31,10 +34,15 @@ import freed.settings.SettingsManager;
 /**
  * Created by troop on 13.06.2015.
  */
+@AndroidEntryPoint
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
     private CameraWrapperInterface cameraUiWrapper;
     private int currentCamera;
+
+    @Inject
+    SettingsManager settingsManager;
+
     public UiSettingsChildCameraSwitch(Context context) {
         super(context);
     }
@@ -59,7 +67,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         else {
             setVisibility(View.VISIBLE);
         }
-        currentCamera = SettingsManager.getInstance().GetCurrentCamera();
+        currentCamera = settingsManager.GetCurrentCamera();
         valueText.setText(getCamera(currentCamera));
     }
 
@@ -68,7 +76,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     {
         String[] split = value.split(" ");
         currentCamera = Integer.parseInt(split[1]);
-        SettingsManager.getInstance().SetCurrentCamera(currentCamera);
+        settingsManager.SetCurrentCamera(currentCamera);
         CameraThreadHandler.restartCameraAsync();
         valueText.setText(getCamera(currentCamera));
     }
@@ -76,11 +84,11 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private void switchCamera()
     {
-        int maxcams = SettingsManager.getInstance().getCameraIds().length;
+        int maxcams = settingsManager.getCameraIds().length;
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
-        SettingsManager.getInstance().SetCurrentCamera(currentCamera);
+        settingsManager.SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
         CameraThreadHandler.restartCameraAsync();
         valueText.setText(getCamera(currentCamera));
@@ -88,7 +96,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private String getCamera(int i)
     {
-        if (SettingsManager.getInstance().getIsFrontCamera())
+        if (settingsManager.getIsFrontCamera())
             return "Front " + i;
         else
             return "Back " + i;
@@ -96,11 +104,11 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     @Override
     public String[] GetValues() {
-        int[] camids = SettingsManager.getInstance().getCameraIds();
+        int[] camids = settingsManager.getCameraIds();
         String[] retarr = new String[camids.length];
         for (int i = 0; i < camids.length; i++)
         {
-            if (SettingsManager.getInstance().getCamIsFrontCamera(i))
+            if (settingsManager.getCamIsFrontCamera(i))
                 retarr[i] = "Front "+i;
             else
                 retarr[i] = "Back "+i;

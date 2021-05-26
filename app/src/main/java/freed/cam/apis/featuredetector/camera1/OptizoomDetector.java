@@ -16,14 +16,14 @@ public class OptizoomDetector extends BaseParameter1Detector {
 
     private void detectOptizoom(Camera.Parameters parameters)
     {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            SettingsManager.get(SettingKeys.OptiZoom).setIsSupported(false);
+            settingsManager.get(SettingKeys.OptiZoom).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.optizoom,R.string.optizoom_mode, SettingsManager.get(SettingKeys.OptiZoom));
+            detectMode(parameters, R.string.optizoom,R.string.optizoom_mode, settingsManager.get(SettingKeys.OptiZoom));
         }
 
     }

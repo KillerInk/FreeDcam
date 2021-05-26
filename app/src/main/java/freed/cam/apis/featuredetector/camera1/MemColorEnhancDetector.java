@@ -10,6 +10,6 @@ import freed.settings.SettingsManager;
 public class MemColorEnhancDetector extends BaseParameter1Detector {
     @Override
     protected void findAndFillSettings(Camera.Parameters cameraCharacteristics) {
-        detectMode(cameraCharacteristics, R.string.mce,R.string.mce_values, SettingsManager.get(SettingKeys.MemoryColorEnhancement));
+        detectMode(cameraCharacteristics, R.string.mce,R.string.mce_values, settingsManager.get(SettingKeys.MemoryColorEnhancement));
     }
 }

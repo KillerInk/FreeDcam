@@ -62,9 +62,9 @@ public class GpsParameter extends AbstractParameter
     {
         if (cameraUiWrapper == null)
             return FreedApplication.getStringFromRessources(R.string.off_);
-        if (TextUtils.isEmpty(SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get()))
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
-        return SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
+        if (TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get()))
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
+        return settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class GpsParameter extends AbstractParameter
         if (activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
                 valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.off_))) {
                 activityInterface.getLocationManager().stopLocationListining();
                 fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
@@ -94,7 +94,7 @@ public class GpsParameter extends AbstractParameter
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))
                     && !activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
                 activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             askedForPermission = false;
         }

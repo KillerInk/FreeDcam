@@ -26,27 +26,27 @@ public class IsoExposureTimeDetector extends BaseParameter2Detector {
 
             int min = shutterminmax[0];
             int max = shutterminmax[1];
-            long maxs = SettingsManager.getInstance().getCamera2MaxExposureTime();
-            if (SettingsManager.getInstance().getCamera2MaxExposureTime() > 0)
-                max = (int) SettingsManager.getInstance().getCamera2MaxExposureTime();
-            if (SettingsManager.getInstance().getCamera2MinExposureTime() >0)
-                min = (int) SettingsManager.getInstance().getCamera2MinExposureTime();
+            long maxs = settingsManager.getCamera2MaxExposureTime();
+            if (settingsManager.getCamera2MaxExposureTime() > 0)
+                max = (int) settingsManager.getCamera2MaxExposureTime();
+            if (settingsManager.getCamera2MinExposureTime() >0)
+                min = (int) settingsManager.getCamera2MinExposureTime();
             ArrayList<String> tmp = ExposureTimeDetector.getShutterStrings(max,min,true);
-            SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
-            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
+            settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
+            settingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
 
             int[] isominmax = characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_ISO_RANGE);
             min = isominmax[0];
             max = isominmax[1];
-            int maxiso = SettingsManager.getInstance().getCamera2MaxIso();
+            int maxiso = settingsManager.getCamera2MaxIso();
             if (maxiso > 0)
-                max = SettingsManager.getInstance().getCamera2MaxIso();
+                max = settingsManager.getCamera2MaxIso();
             ArrayList<String> ar = IsoDetector.getIsoStrings(max, min);
-            SettingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
-            SettingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
+            settingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
+            settingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
 
-            SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
-            SettingsManager.getInstance().setFramework(Frameworks.HuaweiCamera2Ex);
+            settingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
+            settingsManager.setFramework(Frameworks.HuaweiCamera2Ex);
         }
     }
 }

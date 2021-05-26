@@ -16,14 +16,14 @@ public class RdiDetector extends BaseParameter1Detector{
 
     private void detectRDI(Camera.Parameters parameters)
     {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            SettingsManager.get(SettingKeys.RDI).setIsSupported(false);
+            settingsManager.get(SettingKeys.RDI).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.rdi,R.string.rdi_mode, SettingsManager.get(SettingKeys.RDI));
+            detectMode(parameters, R.string.rdi,R.string.rdi_mode, settingsManager.get(SettingKeys.RDI));
         }
 
     }

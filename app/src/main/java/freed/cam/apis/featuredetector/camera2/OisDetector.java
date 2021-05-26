@@ -48,11 +48,11 @@ public class OisDetector extends BaseParameter2Detector {
             String values[] = new String[2];
             values[0] = FreedApplication.getStringFromRessources(R.string.off) + ",0";
             values[1] = FreedApplication.getStringFromRessources(R.string.on) + ",1";
-            SettingsManager.get(SettingKeys.OIS_MODE).setValues(values);
-            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(true);
-            SettingsManager.get(SettingKeys.OIS_MODE).set(FreedApplication.getStringFromRessources(R.string.on));
+            settingsManager.get(SettingKeys.OIS_MODE).setValues(values);
+            settingsManager.get(SettingKeys.OIS_MODE).setIsSupported(true);
+            settingsManager.get(SettingKeys.OIS_MODE).set(FreedApplication.getStringFromRessources(R.string.on));
         }
         else
-            SettingsManager.get(SettingKeys.OIS_MODE).setIsSupported(false);
+            settingsManager.get(SettingKeys.OIS_MODE).setIsSupported(false);
     }
 }

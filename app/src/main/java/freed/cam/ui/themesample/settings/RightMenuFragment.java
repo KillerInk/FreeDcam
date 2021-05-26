@@ -28,6 +28,9 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.AbstractFragment;
@@ -38,12 +41,15 @@ import freed.cam.ui.themesample.settings.childs.GroupChild;
 /**
  * Created by troop on 15.06.2015.
  */
+@AndroidEntryPoint
 public class RightMenuFragment extends AbstractFragment implements SettingsChildClick
 {
     private static final String TAG = RightMenuFragment.class.getSimpleName();
     private SettingsChildClick onMenuItemClick;
 
     private LinearLayout settingchildholder;
+    @Inject
+    public SettingsMenuItemFactory settingsMenuItemFactory;
 
 
     @Override
@@ -66,7 +72,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         super.setCameraToUi(wrapper);
         settingchildholder.removeAllViews();
-        GroupChild settingsgroup = new SettingsMenuItemFactory().fillRightSettingsMenu(cameraUiWrapper,getContext(),this);
+        GroupChild settingsgroup = settingsMenuItemFactory.fillRightSettingsMenu(cameraUiWrapper,getContext(),this);
         if (settingsgroup != null)
             settingchildholder.addView(settingsgroup);
     }

@@ -234,7 +234,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
 
-        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
             Log.d(TAG, "RenderScriptPreview");
             int rotation = 0;
             switch (orientationToSet)
@@ -251,7 +251,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                     break;
             }
             final int or = OrientationUtil.getOrientation(rotation);
-            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
                 if (or == 90 || or == 270) {
                     w = previewSize.getHeight();
                     h = previewSize.getWidth();
@@ -295,7 +295,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
             final int or = OrientationUtil.getOrientation(rotation);;
             Log.d(TAG, "rotation to set : " + or);
-            if (!SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
                 if (or == 0 || or == 180) {
                     w = previewSize.getHeight();
                     h = previewSize.getWidth();
@@ -318,19 +318,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     private void setOutputSizesAndCreateImageReader() {
 
-        picFormat = SettingsManager.get(SettingKeys.PictureFormat).get();
+        picFormat = settingsManager.get(SettingKeys.PictureFormat).get();
         if (TextUtils.isEmpty(picFormat)) {
             picFormat = FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg);
-            SettingsManager.get(SettingKeys.PictureFormat).set(picFormat);
+            settingsManager.get(SettingKeys.PictureFormat).set(picFormat);
             parameterHandler.get(SettingKeys.PictureFormat).fireStringValueChanged(picFormat);
         }
         FindOutputHelper findOutputHelper = new FindOutputHelper();
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+        if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
-            output = findOutputHelper.getHuaweiOutput(cameraHolder);
+            output = findOutputHelper.getHuaweiOutput(cameraHolder,settingsManager);
         }
         else {
-            output = findOutputHelper.getStockOutput(cameraHolder);
+            output = findOutputHelper.getStockOutput(cameraHolder,settingsManager);
         }
 
 
@@ -354,7 +354,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
-            String yuvsize = SettingsManager.get(SettingKeys.YuvSize).get();
+            String yuvsize = settingsManager.get(SettingKeys.YuvSize).get();
             String[] split = yuvsize.split("x");
             Size s = new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
             ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv",max_images);
@@ -430,7 +430,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     protected void takePicture()
     {
         isWorking = true;
-        Log.d(TAG, SettingsManager.get(SettingKeys.PictureFormat).get());
+        Log.d(TAG, settingsManager.get(SettingKeys.PictureFormat).get());
         BurstCounter.resetImagesCaptured();
         BurstCounter.setBurstCount(Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue()));
         if (BurstCounter.getBurstCount() > 1)
@@ -439,7 +439,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             isBurstCapture =false;
         onStartTakePicture();
 
-        if (SettingsManager.getInstance().hasCamera2Features() && (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF)
+        if (settingsManager.hasCamera2Features() && (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF)
                 || cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) != CaptureRequest.CONTROL_AF_MODE_OFF) {
             startPreCapture();
         }
@@ -514,18 +514,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             AbstractImageCapture currentCaptureHolder = captureController.getImageCaptures().get(i);
             if (currentCaptureHolder instanceof StillImageCapture) {
                 StillImageCapture stillImageCapture = (StillImageCapture) currentCaptureHolder;
-                stillImageCapture.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
-                stillImageCapture.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
+                stillImageCapture.setFilePath(getFileString(), settingsManager.GetWriteExternal());
+                stillImageCapture.setForceRawToDng(settingsManager.get(SettingKeys.forceRawToDng).get());
                 stillImageCapture.setToneMapProfile(((ToneMapChooser) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
-                stillImageCapture.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
+                stillImageCapture.setSupport12bitRaw(settingsManager.get(SettingKeys.support12bitRaw).get());
                 stillImageCapture.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
                 stillImageCapture.setCharacteristics(cameraUiWrapper.getCameraHolder().characteristics);
                 stillImageCapture.setCaptureType(captureType);
                 if (currentLocation != null)
                     stillImageCapture.setLocation(currentLocation);
-                String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+                String cmat = settingsManager.get(SettingKeys.MATRIX_SET).get();
                 if (cmat != null && !TextUtils.isEmpty(cmat) && !cmat.equals("off")) {
-                    stillImageCapture.setCustomMatrix(SettingsManager.getInstance().getMatrixesMap().get(cmat));
+                    stillImageCapture.setCustomMatrix(settingsManager.getMatrixesMap().get(cmat));
                 }
             }
         }
@@ -579,9 +579,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     protected String getFileString()
     {
         if (BurstCounter.getBurstCount() > 1)
-            return cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
+            return cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
         else
-            return cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(),"");
+            return cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(),"");
     }
 
     /**

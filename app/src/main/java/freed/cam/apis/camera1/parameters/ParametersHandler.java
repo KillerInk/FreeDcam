@@ -166,93 +166,93 @@ public class ParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         add(SettingKeys.PictureFormat, new PictureFormatHandler(cameraParameters, cameraUiWrapper, this));
 
-        if (SettingsManager.get(SettingKeys.PictureSize).isSupported())
+        if (settingsManager.get(SettingKeys.PictureSize).isSupported())
             add(SettingKeys.PictureSize ,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.PictureSize));
 
-        if (SettingsManager.get(SettingKeys.FocusMode).isSupported()) {
+        if (settingsManager.get(SettingKeys.FocusMode).isSupported()) {
             add(SettingKeys.FocusMode,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.FocusMode));
             ((FocusHandler) cameraUiWrapper.getFocusHandler()).startListning();
 
         }
 
-        if (SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
+        if (settingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
             add(SettingKeys.WhiteBalanceMode, new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.WhiteBalanceMode));
 
-        if (SettingsManager.get(SettingKeys.ExposureMode).isSupported()) {
+        if (settingsManager.get(SettingKeys.ExposureMode).isSupported()) {
             add(SettingKeys.ExposureMode,new BaseModeParameter(cameraParameters, cameraUiWrapper, SettingKeys.ExposureMode));
         }
 
-        if (SettingsManager.get(SettingKeys.ColorMode).isSupported())
+        if (settingsManager.get(SettingKeys.ColorMode).isSupported())
             add(SettingKeys.ColorMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.ColorMode));
 
-        if (SettingsManager.get(SettingKeys.FlashMode).isSupported())
+        if (settingsManager.get(SettingKeys.FlashMode).isSupported())
             add(SettingKeys.FlashMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.FlashMode));
 
-        if (SettingsManager.get(SettingKeys.IsoMode).isSupported())
+        if (settingsManager.get(SettingKeys.IsoMode).isSupported())
             add(SettingKeys.IsoMode ,new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.IsoMode));
 
-        if (SettingsManager.get(SettingKeys.AntiBandingMode).isSupported())
+        if (settingsManager.get(SettingKeys.AntiBandingMode).isSupported())
             add(SettingKeys.AntiBandingMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.AntiBandingMode));
 
-        if (SettingsManager.get(SettingKeys.ImagePostProcessing).isSupported())
+        if (settingsManager.get(SettingKeys.ImagePostProcessing).isSupported())
             add(SettingKeys.ImagePostProcessing, new BaseModeParameter(cameraParameters, cameraUiWrapper, SettingKeys.ImagePostProcessing));
 
-        if (SettingsManager.get(SettingKeys.JpegQuality).isSupported())
+        if (settingsManager.get(SettingKeys.JpegQuality).isSupported())
             add(SettingKeys.JpegQuality, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.JpegQuality));
 
-        if (SettingsManager.get(SettingKeys.AE_Bracket).isSupported())
+        if (settingsManager.get(SettingKeys.AE_Bracket).isSupported())
             add(SettingKeys.AE_Bracket, new BaseModeParameter(cameraParameters, cameraUiWrapper, SettingKeys.AE_Bracket));
 
-        if (SettingsManager.get(SettingKeys.PreviewSize).isSupported())
+        if (settingsManager.get(SettingKeys.PreviewSize).isSupported())
             add(SettingKeys.PreviewSize,  new PreviewSizeParameter(cameraParameters,cameraUiWrapper,SettingKeys.PreviewSize));
 
-        if (SettingsManager.get(SettingKeys.PreviewFPS).isSupported())
+        if (settingsManager.get(SettingKeys.PreviewFPS).isSupported())
             add(SettingKeys.PreviewFPS, new PreviewFpsParameter(cameraParameters,cameraUiWrapper,SettingKeys.PreviewFPS));
 
-        if (SettingsManager.get(SettingKeys.PreviewFpsRange).isSupported())
+        if (settingsManager.get(SettingKeys.PreviewFpsRange).isSupported())
             add(SettingKeys.PreviewFpsRange, new BaseModeParameter(cameraParameters, cameraUiWrapper, SettingKeys.PreviewFpsRange));
 
-        if (SettingsManager.get(SettingKeys.PreviewFormat).isSupported())
+        if (settingsManager.get(SettingKeys.PreviewFormat).isSupported())
             add(SettingKeys.PreviewFormat,  new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.PreviewFormat));
 
-        if (SettingsManager.get(SettingKeys.SceneMode).isSupported())
+        if (settingsManager.get(SettingKeys.SceneMode).isSupported())
             add(SettingKeys.SceneMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.SceneMode));
 
-        if (SettingsManager.get(SettingKeys.RedEye).isSupported())
+        if (settingsManager.get(SettingKeys.RedEye).isSupported())
             add(SettingKeys.RedEye, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.RedEye));
 
-        if (SettingsManager.get(SettingKeys.LensShade).isSupported())
+        if (settingsManager.get(SettingKeys.LensShade).isSupported())
             add(SettingKeys.LensShade, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.LensShade));
 
-        if (SettingsManager.get(SettingKeys.ZSL).isSupported())
+        if (settingsManager.get(SettingKeys.ZSL).isSupported())
             add(SettingKeys.ZSL, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.ZSL));
 
-        if (SettingsManager.get(SettingKeys.SceneDetect).isSupported())
+        if (settingsManager.get(SettingKeys.SceneDetect).isSupported())
             add(SettingKeys.SceneDetect, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.SceneDetect));
 
-        if (SettingsManager.get(SettingKeys.MemoryColorEnhancement).isSupported())
+        if (settingsManager.get(SettingKeys.MemoryColorEnhancement).isSupported())
             add(SettingKeys.MemoryColorEnhancement, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.MemoryColorEnhancement));
 
-        if (SettingsManager.get(SettingKeys.VideoSize).isSupported())
+        if (settingsManager.get(SettingKeys.VideoSize).isSupported())
             add(SettingKeys.VideoSize, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.VideoSize));
 
-        if (SettingsManager.get(SettingKeys.CDS_Mode).isSupported())
+        if (settingsManager.get(SettingKeys.CDS_Mode).isSupported())
             add(SettingKeys.CDS_Mode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.CDS_Mode));
 
-        if (SettingsManager.get(SettingKeys.OIS_MODE).isSupported())
+        if (settingsManager.get(SettingKeys.OIS_MODE).isSupported())
             add(SettingKeys.OIS_MODE, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.OIS_MODE));
 
-        if (SettingsManager.get(SettingKeys.VideoHDR).isSupported())
+        if (settingsManager.get(SettingKeys.VideoHDR).isSupported())
             add(SettingKeys.VideoHDR, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.VideoHDR));
 
-        if (SettingsManager.get(SettingKeys.VideoHighFramerate).isSupported())
+        if (settingsManager.get(SettingKeys.VideoHighFramerate).isSupported())
             add(SettingKeys.VideoHighFramerate, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.VideoHighFramerate));
 
-        if(SettingsManager.get(SettingKeys.VideoStabilization).isSupported())
+        if(settingsManager.get(SettingKeys.VideoStabilization).isSupported())
             add(SettingKeys.VideoStabilization, new VideoStabilizationParameter(cameraParameters,cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.NightMode).isSupported()) {
-            switch (SettingsManager.get(SettingKeys.NightMode).getType()) {
+        if (settingsManager.get(SettingKeys.NightMode).isSupported()) {
+            switch (settingsManager.get(SettingKeys.NightMode).getType()) {
                 case SettingsManager.NIGHTMODE_XIAOMI:
                     //NightMode = new NightModeXiaomi(cameraParameters, cameraUiWrapper);
                     break;
@@ -262,8 +262,8 @@ public class ParametersHandler extends AbstractParameterHandler
             }
         }
         
-        if (SettingsManager.get(SettingKeys.HDRMode).isSupported()){
-            switch (SettingsManager.get(SettingKeys.HDRMode).getType())
+        if (settingsManager.get(SettingKeys.HDRMode).isSupported()){
+            switch (settingsManager.get(SettingKeys.HDRMode).getType())
             {
                 case SettingsManager.HDR_MORPHO:
                     //HDRMode = new MorphoHdrModeParameters(cameraParameters,cameraUiWrapper,appS.hdrMode);
@@ -283,35 +283,35 @@ public class ParametersHandler extends AbstractParameterHandler
             }
         }
 
-        if (SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0 && SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported())
-            add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
+        if (settingsManager.getDngProfilesMap() != null && settingsManager.getDngProfilesMap().size() > 0 && settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported())
+            add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(settingsManager.getMatrixesMap()));
 
-        if(SettingsManager.get(SettingKeys.Denoise).isSupported())
+        if(settingsManager.get(SettingKeys.Denoise).isSupported())
             add(SettingKeys.Denoise, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.Denoise));
 
-        if(SettingsManager.get(SettingKeys.NonZslManualMode).isSupported())
+        if(settingsManager.get(SettingKeys.NonZslManualMode).isSupported())
             add(SettingKeys.NonZslManualMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.NonZslManualMode));
 
-        if (SettingsManager.get(SettingKeys.DigitalImageStabilization).isSupported())
+        if (settingsManager.get(SettingKeys.DigitalImageStabilization).isSupported())
             add(SettingKeys.DigitalImageStabilization, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.DigitalImageStabilization));
 
-        if (SettingsManager.get(SettingKeys.TNR).isSupported())
+        if (settingsManager.get(SettingKeys.TNR).isSupported())
             add(SettingKeys.TNR, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.TNR));
-        if (SettingsManager.get(SettingKeys.TNR_V).isSupported())
+        if (settingsManager.get(SettingKeys.TNR_V).isSupported())
             add(SettingKeys.TNR_V, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.TNR_V));
-        if (SettingsManager.get(SettingKeys.PDAF).isSupported())
+        if (settingsManager.get(SettingKeys.PDAF).isSupported())
             add(SettingKeys.PDAF, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.PDAF));
-        if (SettingsManager.get(SettingKeys.SeeMore).isSupported())
+        if (settingsManager.get(SettingKeys.SeeMore).isSupported())
             add(SettingKeys.SeeMore, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.SeeMore));
-        if (SettingsManager.get(SettingKeys.TruePotrait).isSupported())
+        if (settingsManager.get(SettingKeys.TruePotrait).isSupported())
             add(SettingKeys.TruePotrait, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.TruePotrait));
-        if (SettingsManager.get(SettingKeys.ReFocus).isSupported())
+        if (settingsManager.get(SettingKeys.ReFocus).isSupported())
             add(SettingKeys.ReFocus, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.ReFocus));
-        if (SettingsManager.get(SettingKeys.OptiZoom).isSupported())
+        if (settingsManager.get(SettingKeys.OptiZoom).isSupported())
             add(SettingKeys.OptiZoom, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.OptiZoom));
-        if (SettingsManager.get(SettingKeys.RDI).isSupported())
+        if (settingsManager.get(SettingKeys.RDI).isSupported())
             add(SettingKeys.RDI, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.RDI));
-        if (SettingsManager.get(SettingKeys.ChromaFlash).isSupported())
+        if (settingsManager.get(SettingKeys.ChromaFlash).isSupported())
             add(SettingKeys.ChromaFlash, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.ChromaFlash));
 
         add(SettingKeys.VideoProfiles, new VideoProfilesParameter(cameraUiWrapper));
@@ -331,19 +331,19 @@ public class ParametersHandler extends AbstractParameterHandler
         MANUALSTUFF
          */
 
-        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
+        if (settingsManager.get(SettingKeys.M_Focus).isSupported())
         {
-            if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+            if (settingsManager.getFrameWork() == Frameworks.MTK)
             {
                 add(SettingKeys.M_Focus, new FocusManualMTK(cameraParameters, cameraUiWrapper,SettingKeys.M_Focus));
             }
             else
             {
                 //htc mf
-                if (SettingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(FreedApplication.getStringFromRessources(R.string.focus)))
+                if (settingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(FreedApplication.getStringFromRessources(R.string.focus)))
                      add(SettingKeys.M_Focus, new FocusManualParameterHTC(cameraParameters,cameraUiWrapper,SettingKeys.M_Focus));
                     //huawai mf
-                else if (SettingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_step_value)))
+                else if (settingsManager.get(SettingKeys.M_Focus).getCamera1ParameterKEY().equals(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_step_value)))
                     add(SettingKeys.M_Focus, new FocusManualHuawei(cameraParameters, cameraUiWrapper, SettingKeys.M_Focus));
                     //qcom
                 else
@@ -352,35 +352,35 @@ public class ParametersHandler extends AbstractParameterHandler
 
         }
 
-        if (SettingsManager.get(SettingKeys.M_Saturation).isSupported()) {
+        if (settingsManager.get(SettingKeys.M_Saturation).isSupported()) {
             add(SettingKeys.M_Saturation, new BaseManualParameter(cameraParameters, cameraUiWrapper, SettingKeys.M_Saturation));
         }
 
-        if (SettingsManager.get(SettingKeys.M_Sharpness).isSupported())
+        if (settingsManager.get(SettingKeys.M_Sharpness).isSupported())
             add(SettingKeys.M_Sharpness, new BaseManualParameter(cameraParameters,cameraUiWrapper,SettingKeys.M_Sharpness));
 
-        if (SettingsManager.get(SettingKeys.M_Brightness).isSupported())
+        if (settingsManager.get(SettingKeys.M_Brightness).isSupported())
             add(SettingKeys.M_Brightness, new BaseManualParameter(cameraParameters,cameraUiWrapper,SettingKeys.M_Brightness));
 
-        if(SettingsManager.get(SettingKeys.M_Contrast).isSupported())
+        if(settingsManager.get(SettingKeys.M_Contrast).isSupported())
             add(SettingKeys.M_Contrast, new BaseManualParameter(cameraParameters,cameraUiWrapper,SettingKeys.M_Contrast));
 
 
-        if (SettingsManager.get(SettingKeys.LensFilter).isSupported())
+        if (settingsManager.get(SettingKeys.LensFilter).isSupported())
             add(SettingKeys.LensFilter, new VirtualLensFilter(cameraParameters,cameraUiWrapper));
 
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG)//its needed else cam ignores manuals like shutter and iso
+        if (settingsManager.getFrameWork() == Frameworks.LG)//its needed else cam ignores manuals like shutter and iso
             cameraParameters.set("lge-camera","1");
-        else  if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK){
+        else  if (settingsManager.getFrameWork() == Frameworks.MTK){
             cameraParameters.set("afeng_raw_dump_flag", "1");
             cameraParameters.set("rawsave-mode", "2");
             cameraParameters.set("isp-mode", "1");
             cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
         }
 
-        if (SettingsManager.get(SettingKeys.M_ExposureTime).isSupported())
+        if (settingsManager.get(SettingKeys.M_ExposureTime).isSupported())
         {
-            int type = SettingsManager.get(SettingKeys.M_ExposureTime).getType();
+            int type = settingsManager.get(SettingKeys.M_ExposureTime).getType();
             switch (type)
             {
                 case SHUTTER_HTC:
@@ -422,13 +422,13 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         //mtk and g4 aehandler set it already
-        Log.d(TAG, "manual Iso supported:" + SettingsManager.get(SettingKeys.M_ManualIso).isSupported());
-        if (SettingsManager.get(SettingKeys.M_ManualIso).isSupported()
-                && SettingsManager.get(SettingKeys.M_ManualIso).getValues() != null
-                && SettingsManager.get(SettingKeys.M_ManualIso).getValues().length > 0
+        Log.d(TAG, "manual Iso supported:" + settingsManager.get(SettingKeys.M_ManualIso).isSupported());
+        if (settingsManager.get(SettingKeys.M_ManualIso).isSupported()
+                && settingsManager.get(SettingKeys.M_ManualIso).getValues() != null
+                && settingsManager.get(SettingKeys.M_ManualIso).getValues().length > 0
                 && get(SettingKeys.M_ManualIso) == null)
         {
-            switch (SettingsManager.get(SettingKeys.M_ManualIso).getType())
+            switch (settingsManager.get(SettingKeys.M_ManualIso).getType())
             {
                 case ISOMANUAL_QCOM:
                     add(SettingKeys.M_ManualIso, new BaseISOManual(cameraParameters,cameraUiWrapper,SettingKeys.M_ManualIso));
@@ -448,42 +448,42 @@ public class ParametersHandler extends AbstractParameterHandler
             }
         }
 
-        if (SettingsManager.get(SettingKeys.M_Aperture).isSupported())
+        if (settingsManager.get(SettingKeys.M_Aperture).isSupported())
             add(SettingKeys.M_Fnumber, new ManualAperture(cameraUiWrapper,cameraParameters));
 
-        if (SettingsManager.get(SettingKeys.M_Whitebalance).isSupported())
+        if (settingsManager.get(SettingKeys.M_Whitebalance).isSupported())
             add(SettingKeys.M_Whitebalance, new BaseCCTManual(cameraParameters,cameraUiWrapper,SettingKeys.M_Whitebalance));
 
         add(SettingKeys.M_ExposureCompensation, new ExposureManualParameter(cameraParameters, cameraUiWrapper,SettingKeys.M_ExposureCompensation));
 
-        if (SettingsManager.get(SettingKeys.M_FX).isSupported()) {
+        if (settingsManager.get(SettingKeys.M_FX).isSupported()) {
             add(SettingKeys.M_FX, new FXManualParameter(cameraParameters, cameraUiWrapper,SettingKeys.M_FX));
         }
 
-        if (SettingsManager.get(SettingKeys.M_Burst).isSupported()){
+        if (settingsManager.get(SettingKeys.M_Burst).isSupported()){
             add(SettingKeys.M_Burst, new BurstManualParam(cameraParameters, cameraUiWrapper,SettingKeys.M_Burst));
         }
 
         add(SettingKeys.M_Zoom, new ZoomManualParameter(cameraParameters, cameraUiWrapper,SettingKeys.M_Zoom));
 
-        if (SettingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported())
+        if (settingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported())
             add(SettingKeys.dualPrimaryCameraMode, new BaseModeParameter(cameraParameters,cameraUiWrapper,SettingKeys.dualPrimaryCameraMode));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            add(SettingKeys.openCamera1Legacy, new LegacyMode(cameraUiWrapper,SettingsManager.get(SettingKeys.openCamera1Legacy)));
+            add(SettingKeys.openCamera1Legacy, new LegacyMode(cameraUiWrapper,settingsManager.get(SettingKeys.openCamera1Legacy)));
 
 
         registerListners();
         //set last used settings
         SetAppSettingsToParameters();
 
-        cameraUiWrapper.getModuleHandler().setModule(SettingsManager.getInstance().GetCurrentModule());
+        cameraUiWrapper.getModuleHandler().setModule(settingsManager.GetCurrentModule());
     }
 
     @Override
     public void SetFocusAREA(Rect focusAreas)
     {
-        if (SettingsManager.get(SettingKeys.useQcomFocus).get())
+        if (settingsManager.get(SettingKeys.useQcomFocus).get())
             setQcomFocus(focusAreas);
         else
             setAndroidFocus(focusAreas);
@@ -514,9 +514,9 @@ public class ParametersHandler extends AbstractParameterHandler
     {
         if (cameraParameters == null)
             return;
-        if (!SettingsManager.get(SettingKeys.orientationHack).get().equals("0") || SettingsManager.getInstance().getIsFrontCamera())
+        if (!settingsManager.get(SettingKeys.orientationHack).get().equals("0") || settingsManager.getIsFrontCamera())
         {
-            int or = orientation +Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get());
+            int or = orientation +Integer.parseInt(settingsManager.get(SettingKeys.orientationHack).get());
             if (or >360)
                 or = or - 360;
             orientation = or;
@@ -540,7 +540,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public float getCurrentExposuretime()
     {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
+        if (settingsManager.getFrameWork() == Frameworks.MTK) {
             if (parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_shutter_speed)) != null) {
                 if (Float.parseFloat(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_shutter_speed))) == 0) {
                     return 0;
@@ -565,7 +565,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public int getCurrentIso() {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             if(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_sensor_gain))!= null) {
                 if (Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.eng_capture_sensor_gain))) == 0) {
@@ -617,7 +617,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetCameraRotation()
     {
 
-        int or = Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get());
+        int or = Integer.parseInt(settingsManager.get(SettingKeys.orientationHack).get());
         ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetCameraRotation(or);
     }
 

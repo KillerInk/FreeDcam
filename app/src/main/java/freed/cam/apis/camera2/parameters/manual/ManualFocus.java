@@ -78,7 +78,7 @@ public class ManualFocus extends AbstractParameter<Camera2>
         if(valueToSet == 0)
         {
             //apply last used focuse mode
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(SettingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(settingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
             cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
         }
         else // set to manual
@@ -103,12 +103,12 @@ public class ManualFocus extends AbstractParameter<Camera2>
 
     private void applyAutoZoom()
     {
-        if (SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
+        if (settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
         {
-            int factor = Integer.parseInt(SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
+            int factor = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
             cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).SetValue(factor,true);
             handler.removeCallbacks(resetzoomRunner);
-            int delay = Integer.parseInt(SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
+            int delay = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
             handler.postDelayed(resetzoomRunner,delay*1000);
         }
     }

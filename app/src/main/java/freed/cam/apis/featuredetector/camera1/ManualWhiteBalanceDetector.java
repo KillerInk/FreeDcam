@@ -32,11 +32,11 @@ public class ManualWhiteBalanceDetector extends BaseParameter1Detector{
     }
 
     private void detectManualWhiteBalance(Camera.Parameters parameters) {
-        if (SettingsManager.get(SettingKeys.M_Whitebalance).isPresetted())
+        if (settingsManager.get(SettingKeys.M_Whitebalance).isPresetted())
             return;
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
-            SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
-        else if (SettingsManager.get(SettingKeys.M_Whitebalance).isSupported()) // happens when its already set due supportedevices.xml
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
+            settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
+        else if (settingsManager.get(SettingKeys.M_Whitebalance).isSupported()) // happens when its already set due supportedevices.xml
             return;
         else
         {
@@ -54,34 +54,34 @@ public class ManualWhiteBalanceDetector extends BaseParameter1Detector{
             } else if (parameters.get(FreedApplication.getStringFromRessources(R.string.min_wb_ct))!= null)
                 wbmin = FreedApplication.getStringFromRessources(R.string.min_wb_ct);
 
-            if (arrayContainsString(SettingsManager.get(SettingKeys.WhiteBalanceMode).getValues(), FreedApplication.getStringFromRessources(R.string.manual)))
+            if (arrayContainsString(settingsManager.get(SettingKeys.WhiteBalanceMode).getValues(), FreedApplication.getStringFromRessources(R.string.manual)))
                 wbModeval = FreedApplication.getStringFromRessources(R.string.manual);
-            else if (arrayContainsString(SettingsManager.get(SettingKeys.WhiteBalanceMode).getValues(), FreedApplication.getStringFromRessources(R.string.manual_cct)))
+            else if (arrayContainsString(settingsManager.get(SettingKeys.WhiteBalanceMode).getValues(), FreedApplication.getStringFromRessources(R.string.manual_cct)))
                 wbModeval = FreedApplication.getStringFromRessources(R.string.manual_cct);
 
             try {
                 if (!TextUtils.isEmpty(wbmax) && !TextUtils.isEmpty(wbmin) && !TextUtils.isEmpty(wbModeval)) {
                     Log.d(TAG, "Found all wbct values:" +wbmax + " " + wbmin + " " +wbModeval);
-                    SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_Whitebalance).setMode(wbModeval);
+                    settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_Whitebalance).setMode(wbModeval);
                     int min = Integer.parseInt(parameters.get(wbmin));
                     int max = Integer.parseInt(parameters.get(wbmax));
-                    SettingsManager.get(SettingKeys.M_Whitebalance).setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,100));
+                    settingsManager.get(SettingKeys.M_Whitebalance).setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,100));
                 }
                 else {
                     Log.d(TAG, "Failed to lookup wbct:" + " " +wbmax + " " + wbmin + " " +wbModeval);
-                    SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
+                    settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
                 }
             }
             catch (NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(false);
             }
 
         }

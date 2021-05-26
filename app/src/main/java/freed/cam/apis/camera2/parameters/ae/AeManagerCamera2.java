@@ -31,10 +31,12 @@ public class AeManagerCamera2 extends AeManager {
 
     protected Camera2 cameraUiWrapper;
     private AeModeApi2 aeModeApi2;
+    private SettingsManager settingsManager;
     public AeManagerCamera2(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
         this.cameraUiWrapper = cameraWrapperInterface;
         aeModeApi2 = new AeModeApi2(cameraWrapperInterface);
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public ParameterInterface getAeMode()
@@ -48,7 +50,7 @@ public class AeManagerCamera2 extends AeManager {
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet]) * 1000;
             Log.d(manualExposureTime.TAG, "ExposureTimeToSet:" + val);
             cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
-            if (val > MAX_PREVIEW_EXPOSURETIME && !SettingsManager.getInstance().GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
+            if (val > MAX_PREVIEW_EXPOSURETIME && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                 Log.d(manualExposureTime.TAG, "ExposureTime Exceed 100000000 for preview, set it to 100000000");
                 val = MAX_PREVIEW_EXPOSURETIME;
             }
@@ -101,7 +103,7 @@ public class AeManagerCamera2 extends AeManager {
     {
         //back in auto mode
         //set flash back to its old state
-        if (SettingsManager.get(SettingKeys.FlashMode).isSupported()) {
+        if (settingsManager.get(SettingKeys.FlashMode).isSupported()) {
             cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).SetValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).GetStringValue(), true);
             //show flashmode ui item
             cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);

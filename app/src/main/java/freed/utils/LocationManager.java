@@ -47,6 +47,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
     private Lifecycle lifecycle;
     private Location currentLocation;
     private boolean isStarted = false;
+    private SettingsManager settingsManager;
 
     public LocationManager(ActivityInterface activityInterface, Lifecycle lifecycle)
     {
@@ -54,6 +55,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
         this.lifecycle = lifecycle;
         locationManager = (android.location.LocationManager) FreedApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
         lifecycle.addObserver(this);
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public Location getCurrentLocation()
@@ -84,7 +86,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
 
     public void startListing()
     {
-        boolean isON = SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
+        boolean isON = settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
         boolean permissiongranted = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
         if (isON && permissiongranted)
             startLocationListing();

@@ -90,8 +90,8 @@ public class AfBracketApi2 extends PictureModuleApi2
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,true);
         int max  = 0;
         try {
-            min = Integer.parseInt(SettingsManager.get(SettingKeys.AF_BRACKET_MIN).get());
-            max = Integer.parseInt(SettingsManager.get(SettingKeys.AF_BRACKET_MAX).get());
+            min = Integer.parseInt(settingsManager.get(SettingKeys.AF_BRACKET_MIN).get());
+            max = Integer.parseInt(settingsManager.get(SettingKeys.AF_BRACKET_MAX).get());
         }
         catch (NumberFormatException ex)
         {
@@ -101,7 +101,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 
         if (min == 0 && max == 0)
         {
-            focusCaptureRange = SettingsManager.get(SettingKeys.M_Focus).getValues().length -1;
+            focusCaptureRange = settingsManager.get(SettingKeys.M_Focus).getValues().length -1;
             focusStep = focusCaptureRange /PICSTOTAKE;
             currentFocusPos = 1;
         }

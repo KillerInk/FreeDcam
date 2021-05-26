@@ -33,6 +33,8 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.inject.Inject;
+
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
@@ -96,6 +98,8 @@ public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements 
     private boolean cameraIsOpen = false;
     View textureView;
     MyHistogram histogram;
+    @Inject
+    SettingsManager settingsManager;
 
     public static Camera1Fragment getInstance()
     {
@@ -110,9 +114,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements 
         view = inflater.inflate(layout.camerafragment, container, false);
         histogram = view.findViewById(id.hisotview);
         HistogramController histogramController = new HistogramController(histogram);
-        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
             getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
-        else if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+        else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
             getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
         else
             getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);

@@ -50,11 +50,11 @@ public class BaseCCTManual extends BaseManualParameter
 
     public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper, settingMode);
-        manual_WbMode = SettingsManager.get(SettingKeys.M_Whitebalance).getMode();
+        manual_WbMode = settingsManager.get(SettingKeys.M_Whitebalance).getMode();
         setViewState(ViewState.Hidden);
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY()))
+        if (TextUtils.isEmpty(settingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY()))
             new Handler().postDelayed(() -> {
                 try {
                     //get fresh parameters from camera
@@ -84,7 +84,7 @@ public class BaseCCTManual extends BaseManualParameter
                 }
             }, 800);
         else
-            key_value = SettingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY();
+            key_value = settingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY();
     }
     
     @Override

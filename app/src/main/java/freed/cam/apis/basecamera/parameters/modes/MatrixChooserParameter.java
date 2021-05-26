@@ -45,7 +45,7 @@ public class MatrixChooserParameter extends AbstractParameter
         super(SettingKeys.MATRIX_SET);
         this.custommatrixes = matrixHashMap;
         setViewState(ViewState.Visible);
-        currentval = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+        currentval = settingsManager.get(SettingKeys.MATRIX_SET).get();
         if (TextUtils.isEmpty(currentval))
             currentval = "off";
         fireStringValueChanged(currentval);
@@ -58,7 +58,7 @@ public class MatrixChooserParameter extends AbstractParameter
             return;
         currentval = valueToSet;
         fireStringValueChanged(currentval);
-        SettingsManager.get(SettingKeys.MATRIX_SET).set(valueToSet);
+        settingsManager.get(SettingKeys.MATRIX_SET).set(valueToSet);
     }
 
     @Override

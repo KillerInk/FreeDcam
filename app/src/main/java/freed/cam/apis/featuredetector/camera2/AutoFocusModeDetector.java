@@ -16,7 +16,7 @@ import freed.settings.SettingsManager;
 public class AutoFocusModeDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, SettingsManager.get(SettingKeys.FocusMode), FreedApplication.getStringArrayFromRessource(R.array.focusModes));
-        SettingsManager.get(SettingKeys.FocusMode).set(FreedApplication.getStringFromRessources(R.string.focus_mode_continousepicture));
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES, settingsManager.get(SettingKeys.FocusMode), FreedApplication.getStringArrayFromRessource(R.array.focusModes),settingsManager);
+        settingsManager.get(SettingKeys.FocusMode).set(FreedApplication.getStringFromRessources(R.string.focus_mode_continousepicture));
     }
 }

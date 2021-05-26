@@ -15,6 +15,6 @@ public class FocusModeDetector extends BaseParameter1Detector {
 
     private void detectFocusModes(Camera.Parameters parameters)
     {
-        detectMode(parameters, R.string.focus_mode,R.string.focus_mode_values, SettingsManager.get(SettingKeys.FocusMode));
+        detectMode(parameters, R.string.focus_mode,R.string.focus_mode_values, settingsManager.get(SettingKeys.FocusMode));
     }
 }

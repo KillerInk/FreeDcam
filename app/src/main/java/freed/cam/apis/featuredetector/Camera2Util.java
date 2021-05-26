@@ -33,9 +33,9 @@ public class Camera2Util
         return sizes.toArray(new Size[sizes.size()]);
     }
 
-    public static void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, SettingMode settingMode, String[] lookupar)
+    public static void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, SettingMode settingMode, String[] lookupar,SettingsManager settingsManager)
     {
-        if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
+        if (settingsManager.hasCamera2Features() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
             if (scenes.length >1)
                 settingMode.setIsSupported(true);
@@ -56,9 +56,9 @@ public class Camera2Util
         }
     }
 
-    public static void detectByteMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<byte[]> requestKey, SettingMode settingMode, String[] lookupar)
+    public static void detectByteMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<byte[]> requestKey, SettingMode settingMode, String[] lookupar,SettingsManager settingsManager)
     {
-        if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
+        if (settingsManager.hasCamera2Features() && characteristics.get(requestKey) != null) {
 
             byte[] scenes = characteristics.get(requestKey);
             if (scenes == null ||scenes.length == 0) {

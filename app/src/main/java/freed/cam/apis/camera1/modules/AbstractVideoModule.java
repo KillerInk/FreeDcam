@@ -154,7 +154,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     private void startRecording()
     {
         if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
-            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }
@@ -170,7 +170,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {
@@ -185,8 +185,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
 
             recorder.setInfoListener(this);
 
-            if (!SettingsManager.get(SettingKeys.orientationHack).get().equals("0"))
-                recorder.setOrientation(Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get()));
+            if (!settingsManager.get(SettingKeys.orientationHack).get().equals("0"))
+                recorder.setOrientation(Integer.parseInt(settingsManager.get(SettingKeys.orientationHack).get()));
             else
                 recorder.setOrientation(0);
 
@@ -269,7 +269,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
                 Log.WriteEx(e1);
             }
             File file = new File(mediaSavePath);
-            fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
+            fireOnWorkFinish(new FileHolder(file,settingsManager.GetWriteExternal()));
             sendStopToUi();
         }
     }

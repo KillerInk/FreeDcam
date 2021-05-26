@@ -17,13 +17,13 @@ public class ManualContrastDetector  extends BaseParameter1Detector{
     }
 
     private void detectManualContrast(Camera.Parameters parameters) {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             if (parameters.get(camstring(R.string.contrast))!= null && parameters.get(camstring(R.string.contrast_values))!= null) {
-                SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get(camstring(R.string.contrast_values)).split(","));
-                SettingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY(camstring(R.string.contrast));
-                SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
+                settingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get(camstring(R.string.contrast_values)).split(","));
+                settingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY(camstring(R.string.contrast));
+                settingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
             }
         }
         else {
@@ -39,28 +39,28 @@ public class ManualContrastDetector  extends BaseParameter1Detector{
                 }
                 else if (parameters.get("contrast-values") != null)
                 {
-                    SettingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get("contrast-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY("contrast"); // constrast is not a typo. on huawei side it is
-                    SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_Contrast).set("2");
+                    settingsManager.get(SettingKeys.M_Contrast).setValues(parameters.get("contrast-values").split(","));
+                    settingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY("contrast"); // constrast is not a typo. on huawei side it is
+                    settingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_Contrast).set("2");
                 }
                 Log.d(TAG, "Contrast Max:" +max);
                 if (max > 0) {
-                    SettingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY(camstring(R.string.contrast));
-                    SettingsManager.get(SettingKeys.M_Contrast).setValues(createStringArray(min, max, 1));
-                    SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
+                    settingsManager.get(SettingKeys.M_Contrast).setCamera1ParameterKEY(camstring(R.string.contrast));
+                    settingsManager.get(SettingKeys.M_Contrast).setValues(createStringArray(min, max, 1));
+                    settingsManager.get(SettingKeys.M_Contrast).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_Contrast).set(parameters.get(camstring(R.string.contrast)));
                 }
             }
             catch (NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_Contrast).setIsSupported(false);
             }
         }
     }

@@ -29,9 +29,9 @@ public class SecondarySensorSizeDetector extends BaseParameter2Detector {
                 ls.add(t);
             }
             if (ls.size() > 0) {
-                SettingsManager.get(SettingKeys.secondarySensorSize).setValues(ls.toArray(new String[ls.size()]));
-                SettingsManager.get(SettingKeys.secondarySensorSize).setIsSupported(true);
-                SettingsManager.get(SettingKeys.secondarySensorSize).set(ls.get(0));
+                settingsManager.get(SettingKeys.secondarySensorSize).setValues(ls.toArray(new String[ls.size()]));
+                settingsManager.get(SettingKeys.secondarySensorSize).setIsSupported(true);
+                settingsManager.get(SettingKeys.secondarySensorSize).set(ls.get(0));
                 Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE " + ls.toString());
             } else
                 Log.d(TAG, "HUAWEI_SENCONDARY_SENSOR_SUPPORTED_SIZE not supported ");

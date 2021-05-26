@@ -49,7 +49,7 @@ public class ModuleHandler extends ModuleHandlerAbstract<Camera1>
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
         String TAG = "cam.ModuleHandler";
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(cameraUiWrapper,mBackgroundHandler,mainHandler);
@@ -64,7 +64,7 @@ public class ModuleHandler extends ModuleHandlerAbstract<Camera1>
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG)
+        if (settingsManager.getFrameWork() == Frameworks.LG)
         {
             Log.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraUiWrapper,mBackgroundHandler,mainHandler);
@@ -78,7 +78,7 @@ public class ModuleHandler extends ModuleHandlerAbstract<Camera1>
         }
 
         Log.d(TAG, "load hdr module");
-        if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
+        if (settingsManager.getFrameWork() != Frameworks.MTK)
         {
             BracketModule bracketModule = new BracketModule(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(bracketModule.ModuleName(), bracketModule);

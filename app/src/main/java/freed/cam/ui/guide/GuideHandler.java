@@ -16,6 +16,9 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
@@ -28,11 +31,14 @@ import freed.utils.Log;
 /**
  * Created by George on 1/19/2015.
  */
+@AndroidEntryPoint
 public class GuideHandler extends Fragment implements ParameterEvents {
     private ImageView img;
     private CameraWrapperInterface cameraUiWrapper;
     private float quckRationMath;
     private final String TAG = GuideHandler.class.getSimpleName();
+    @Inject
+    SettingsManager settingsManager;
 
 
     public static GuideHandler getInstance()
@@ -78,7 +84,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(SettingsManager.getGlobal(SettingKeys.GuideList).get());
+            SetViewG(settingsManager.getGlobal(SettingKeys.GuideList).get());
     }
 
     private void SetViewG(final String str)
@@ -241,7 +247,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         @Override
         public void onStringValueChanged(String val) {
             Log.d(TAG, "I_ModeParameterEvent SetViewG()");
-            String img = SettingsManager.getGlobal(SettingKeys.GuideList).get();
+            String img = settingsManager.getGlobal(SettingKeys.GuideList).get();
             if (val != null
                     && !TextUtils.isEmpty(val)
                     && img != null

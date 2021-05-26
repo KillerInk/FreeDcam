@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
@@ -43,13 +44,14 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported;
     private boolean isTouchSupported;
-
+    private SettingsManager settingsManager;
 
 
 
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
+        settingsManager = FreedApplication.settingsManager();
     }
 
     @Override
@@ -67,7 +69,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     {
         if (valueChangedEvent.key == SettingKeys.FocusMode && valueChangedEvent.type == String.class)
         {
-            if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK) {
+            if (settingsManager.getFrameWork() != Frameworks.MTK) {
                 isTouchSupported = valueChangedEvent.newValue.equals("auto") || valueChangedEvent.newValue.equals("macro") || valueChangedEvent.newValue.equals("touch");
                 if (focusEvent != null)
                     focusEvent.TouchToFocusSupported(isTouchSupported);
@@ -81,7 +83,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
         }
         else if (valueChangedEvent.key == SettingKeys.ExposureMode && valueChangedEvent.type == String.class)
         {
-            if(SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
+            if(settingsManager.getFrameWork() != Frameworks.MTK)
             {
                 if (valueChangedEvent.newValue.contains("spot")) {
                     if (focusEvent != null) {

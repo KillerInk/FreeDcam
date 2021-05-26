@@ -19,14 +19,14 @@ public class ManualBrightnessDetector extends BaseParameter1Detector{
     }
 
     private void detectManualBrightness(Camera.Parameters parameters) {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             Log.d(TAG, "Brightness: MTK");
             if (parameters.get(camstring(R.string.brightness))!= null && parameters.get(camstring(R.string.brightness_values))!= null) {
-                SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get(camstring(R.string.brightness_values)).split(","));
-                SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.brightness));
-                SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(camstring(R.string.brightness)));
+                settingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get(camstring(R.string.brightness_values)).split(","));
+                settingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.brightness));
+                settingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_Brightness).set(parameters.get(camstring(R.string.brightness)));
             }
         }
         else {
@@ -43,31 +43,31 @@ public class ManualBrightnessDetector extends BaseParameter1Detector{
                 }
                 else if (parameters.get("brightness-values") != null)
                 {
-                    SettingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get("brightness-values").split(","));
-                    SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY("brightness");
-                    SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
-                    SettingsManager.get(SettingKeys.M_Brightness).set("2");
+                    settingsManager.get(SettingKeys.M_Brightness).setValues(parameters.get("brightness-values").split(","));
+                    settingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY("brightness");
+                    settingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_Brightness).set("2");
                 }
                 Log.d(TAG, "Brightness Max:" + max);
                 if (max > 0) {
                     if (parameters.get(camstring(R.string.brightness)) != null)
-                        SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.brightness));
+                        settingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.brightness));
                     else if (parameters.get(camstring(R.string.luma_adaptation)) != null)
-                        SettingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.luma_adaptation));
-                    SettingsManager.get(SettingKeys.M_Brightness).setValues(createStringArray(min, max, 1));
-                    SettingsManager.get(SettingKeys.M_Brightness).set(parameters.get(SettingsManager.get(SettingKeys.M_Brightness).getCamera1ParameterKEY()));
-                    SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
+                        settingsManager.get(SettingKeys.M_Brightness).setCamera1ParameterKEY(camstring(R.string.luma_adaptation));
+                    settingsManager.get(SettingKeys.M_Brightness).setValues(createStringArray(min, max, 1));
+                    settingsManager.get(SettingKeys.M_Brightness).set(parameters.get(settingsManager.get(SettingKeys.M_Brightness).getCamera1ParameterKEY()));
+                    settingsManager.get(SettingKeys.M_Brightness).setIsSupported(true);
                 }
             }
             catch (NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_Brightness).setIsSupported(false);
             }
         }
     }

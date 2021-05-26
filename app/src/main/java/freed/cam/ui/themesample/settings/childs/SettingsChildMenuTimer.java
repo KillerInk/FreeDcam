@@ -22,6 +22,9 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -29,9 +32,12 @@ import freed.settings.SettingsManager;
 /**
  * Created by GeorgeKiarie on 10/4/2015.
  */
+@AndroidEntryPoint
 public class SettingsChildMenuTimer extends SettingsChildMenu
 {
 
+    @Inject
+    SettingsManager settingsManager;
     public SettingsChildMenuTimer(Context context) {
         super(context);
     }
@@ -53,7 +59,7 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        SettingsManager.get(SettingKeys.selfTimer).set(value);
+        settingsManager.get(SettingKeys.selfTimer).set(value);
         onStringValueChanged(value);
     }
 }

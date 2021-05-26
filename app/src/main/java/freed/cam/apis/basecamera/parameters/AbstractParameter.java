@@ -2,6 +2,8 @@ package freed.cam.apis.basecamera.parameters;
 
 import java.util.ArrayList;
 
+import dagger.hilt.android.EntryPointAccessors;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ValueChangedEvent;
@@ -44,16 +46,18 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
 
     protected SettingKeys.Key key;
     protected SettingMode settingMode;
+    protected SettingsManager settingsManager;
 
     public AbstractParameter(SettingKeys.Key  key)
     {
+        settingsManager = FreedApplication.settingsManager();
         this.key = key;
-        if (key == null || SettingsManager.get(key) == null) {
+        if (key == null || settingsManager.get(key) == null) {
             setViewState(ViewState.Hidden);
             return;
         }
-        if (SettingsManager.get(key) instanceof  SettingMode) {
-            this.settingMode = (SettingMode) SettingsManager.get(key);
+        if (settingsManager.get(key) instanceof  SettingMode) {
+            this.settingMode = (SettingMode) settingsManager.get(key);
             stringvalues = settingMode.getValues();
             if (settingMode.isSupported())
                 setViewState(ViewState.Visible);

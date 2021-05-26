@@ -23,32 +23,32 @@ public class VideoHfrDetector extends BaseParameter1Detector{
             {
                 if (TextUtils.isEmpty(hfrvals)) {
                     try {
-                        SettingsManager.get(SettingKeys.VideoHighFramerate).setValues("off,60,120".split(","));
-                        SettingsManager.get(SettingKeys.VideoHighFramerate).setCamera1ParameterKEY("video-hfr");
-                        SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("video-hfr"));
+                        settingsManager.get(SettingKeys.VideoHighFramerate).setValues("off,60,120".split(","));
+                        settingsManager.get(SettingKeys.VideoHighFramerate).setCamera1ParameterKEY("video-hfr");
+                        settingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
+                        settingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("video-hfr"));
                     }
                     catch(ArrayIndexOutOfBoundsException ex)
                     {
                         Log.WriteEx(ex);
-                        SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
+                        settingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
                     }
                 }
                 else
-                    SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
+                    settingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
             }
         }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        else if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             if (parameters.get("hsvr-prv-fps-values") != null)
             {
-                SettingsManager.get(SettingKeys.VideoHighFramerate).setValues(parameters.get("hsvr-prv-fps-values").split(","));
-                SettingsManager.get(SettingKeys.VideoHighFramerate).setCamera1ParameterKEY("hsvr-prv-fps");
-                SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
-                SettingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("hsvr-prv-fps"));
+                settingsManager.get(SettingKeys.VideoHighFramerate).setValues(parameters.get("hsvr-prv-fps-values").split(","));
+                settingsManager.get(SettingKeys.VideoHighFramerate).setCamera1ParameterKEY("hsvr-prv-fps");
+                settingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(true);
+                settingsManager.get(SettingKeys.VideoHighFramerate).set(parameters.get("hsvr-prv-fps"));
             }
             else
-                SettingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
+                settingsManager.get(SettingKeys.VideoHighFramerate).setIsSupported(false);
         }
     }
 }

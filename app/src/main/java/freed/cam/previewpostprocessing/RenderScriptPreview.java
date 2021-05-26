@@ -6,6 +6,7 @@ import android.graphics.Matrix;
 import android.renderscript.RenderScript;
 import android.view.Surface;
 
+import freed.FreedApplication;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.histogram.HistogramController;
@@ -23,6 +24,7 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     private Surface outputsurface;
     private boolean renderScriptError5 = false;
     private HistogramController histogramController;
+    private SettingsManager settingsManager;
 
     //use to workaround the problem with activated renderscript when switching back from a non renderscript session
     protected class MyRSErrorHandler extends RenderScript.RSErrorHandler
@@ -50,12 +52,13 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     public RenderScriptPreview(Context context, HistogramController histogram)
     {
         super(context);
+        settingsManager = FreedApplication.settingsManager();
         this.histogramController = histogram;
         if (RenderScriptManager.isSupported())
             renderScriptManager = new RenderScriptManager(context);
-        if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_2))
+        if (settingsManager.getCamApi().equals(SettingsManager.API_2))
             mProcessor = new RenderScriptProcessor(renderScriptManager, ImageFormat.YUV_420_888);
-        else if (SettingsManager.getInstance().getCamApi().equals(SettingsManager.API_1))
+        else if (settingsManager.getCamApi().equals(SettingsManager.API_1))
             mProcessor = new RenderScriptProcessor(renderScriptManager, ImageFormat.NV21);
 
     }

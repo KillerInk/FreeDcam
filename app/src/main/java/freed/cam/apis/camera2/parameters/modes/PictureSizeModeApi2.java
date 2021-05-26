@@ -45,11 +45,11 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        settingsManager.get(SettingKeys.PictureSize).set(valueToSet);
         size = valueToSet;
         if (setToCamera &&
-                (SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
-                    || SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
+                (settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
+                    || settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
                 )
         {
             CameraThreadHandler.restartPreviewAsync();
@@ -66,6 +66,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.PictureSize).getValues();
+        return settingsManager.get(SettingKeys.PictureSize).getValues();
     }
 }

@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.troop.freedcam.R;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -11,11 +14,15 @@ import freed.settings.SettingsManager;
  * Created by troop on 26.06.2017.
  */
 
+@AndroidEntryPoint
 public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
+
+    @Inject
+    SettingsManager settingsManager;
 
     public SettingsChildMenuForceRawToDng(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
-        if (SettingsManager.get(SettingKeys.forceRawToDng).get())
+        if (settingsManager.get(SettingKeys.forceRawToDng).get())
             SetValue(getContext().getResources().getString(R.string.on));
         else
             SetValue(getContext().getResources().getString(R.string.off));
@@ -29,9 +36,9 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
     @Override
     public void SetValue(String value) {
         if (value.equals(getContext().getResources().getString(R.string.off)))
-            SettingsManager.get(SettingKeys.forceRawToDng).set(false);
+            settingsManager.get(SettingKeys.forceRawToDng).set(false);
         else
-            SettingsManager.get(SettingKeys.forceRawToDng).set(true);
+            settingsManager.get(SettingKeys.forceRawToDng).set(true);
         valueText.setText(value);
     }
 

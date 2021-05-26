@@ -17,7 +17,7 @@ public class HotPixelModeDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, SettingsManager.get(SettingKeys.HOT_PIXEL_MODE), FreedApplication.getStringArrayFromRessource(R.array.hotpixelmodes));
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES, settingsManager.get(SettingKeys.HOT_PIXEL_MODE), FreedApplication.getStringArrayFromRessource(R.array.hotpixelmodes),settingsManager);
 
     }
 }

@@ -10,6 +10,6 @@ import freed.settings.SettingsManager;
 public class LensShadeModeDetector extends BaseParameter1Detector {
     @Override
     protected void findAndFillSettings(Camera.Parameters cameraCharacteristics) {
-        detectMode(cameraCharacteristics, R.string.lensshade,R.string.lensshade_values, SettingsManager.get(SettingKeys.LensShade));
+        detectMode(cameraCharacteristics, R.string.lensshade,R.string.lensshade_values, settingsManager.get(SettingKeys.LensShade));
     }
 }

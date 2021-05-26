@@ -46,11 +46,13 @@ public class VideoRecorder {
     CameraWrapperInterface cameraWrapperInterface;
     private Surface previewSurface;
     private Surface inputSurface;
+    private SettingsManager settingsManager;
 
     public VideoRecorder(CameraWrapperInterface cameraWrapperInterface,MediaRecorder recorder)
     {
         mediaRecorder = recorder;
         this.cameraWrapperInterface = cameraWrapperInterface;
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public void setErrorListener(MediaRecorder.OnErrorListener errorListener) {
@@ -260,10 +262,10 @@ public class VideoRecorder {
                 break;
             case Timelapse:
                 float frame = 30;
-                if (!TextUtils.isEmpty(SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get()))
-                    frame = Float.parseFloat(SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get().replace(",", "."));
+                if (!TextUtils.isEmpty(settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get()))
+                    frame = Float.parseFloat(settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get().replace(",", "."));
                 else
-                    SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(frame));
+                    settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(frame));
                 mediaRecorder.setCaptureRate(frame);
                 break;
         }
@@ -303,7 +305,7 @@ public class VideoRecorder {
 
     public int getAudioSource()
     {
-        String as = SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).get();
+        String as = settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).get();
         if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_mic)))
             return MediaRecorder.AudioSource.MIC;
         if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_camcorder)))

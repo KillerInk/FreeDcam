@@ -25,6 +25,9 @@ import android.view.View;
 
 import com.troop.freedcam.R;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -35,8 +38,11 @@ import freed.settings.SettingsManager;
 /**
  * Created by troop on 09.09.2015.
  */
+@AndroidEntryPoint
 public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChildClick
 {
+    @Inject
+    SettingsManager settingsManager;
     public UiSettingsFocusPeak(Context context) {
         super(context);
     }
@@ -53,7 +59,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
-        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
+        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
             onViewStateChanged(AbstractParameter.ViewState.Visible);
 
     }

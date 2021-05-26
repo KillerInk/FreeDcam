@@ -51,7 +51,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
         }
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
+        ((SettingMode)settingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 

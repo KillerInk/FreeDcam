@@ -28,6 +28,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
@@ -59,13 +60,13 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
     public  ColorParameter whitep;
 
     public ToneCurveParameter toneCurveParameter;
-    private CameraWrapperInterface cameraWrapperInterface;
+    private Camera2 cameraWrapperInterface;
 
     private float[] toneCurve;
 
 
 
-    public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
+    public ManualToneMapCurveApi2(Camera2 cameraUiWrapper)
     {
         this.cameraWrapperInterface = cameraUiWrapper;
         /*contrast = new Contrast(cameraUiWrapper);
@@ -341,7 +342,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
         TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
         Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-        ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+        cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
     }
 
     public class ToneCurveParameter extends AbstractParameter
@@ -353,7 +354,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
         @Override
         public String GetStringValue() {
-            return SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get();
+            return settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get();
         }
 
         public void setCurveToCamera(float[] curve)
@@ -361,16 +362,16 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             toneCurve = curve;
             TonemapCurve tonemapCurve = new TonemapCurve(curve,curve,curve);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-            ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
-            fireStringValueChanged(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            fireStringValueChanged(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
 
         public void setCurveToCamera(float[] r, float[] g,float[] b)
         {
             TonemapCurve tonemapCurve = new TonemapCurve(r,g,b);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-            ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
-            fireStringValueChanged(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            fireStringValueChanged(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
 
         public float[] getToneCurve()

@@ -17,6 +17,6 @@ public class ColorModeDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, SettingsManager.get(SettingKeys.ColorMode), FreedApplication.getStringArrayFromRessource(R.array.colormodes));
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS, settingsManager.get(SettingKeys.ColorMode), FreedApplication.getStringArrayFromRessource(R.array.colormodes),settingsManager);
     }
 }

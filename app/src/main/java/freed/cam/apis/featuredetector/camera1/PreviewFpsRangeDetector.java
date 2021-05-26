@@ -18,20 +18,20 @@ public class PreviewFpsRangeDetector extends BaseParameter1Detector {
         if (parameters.get(camstring(R.string.preview_fps_range_values))!= null)
         {
             try {
-                SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(true);
-                SettingsManager.get(SettingKeys.PreviewFpsRange).setValues(parameters.get(camstring(R.string.preview_fps_range_values)).split(","));
-                SettingsManager.get(SettingKeys.PreviewFpsRange).setCamera1ParameterKEY(camstring(R.string.preview_fps_range));
-                SettingsManager.get(SettingKeys.PreviewFpsRange).set(parameters.get(camstring(R.string.preview_fps_range)));
+                settingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(true);
+                settingsManager.get(SettingKeys.PreviewFpsRange).setValues(parameters.get(camstring(R.string.preview_fps_range_values)).split(","));
+                settingsManager.get(SettingKeys.PreviewFpsRange).setCamera1ParameterKEY(camstring(R.string.preview_fps_range));
+                settingsManager.get(SettingKeys.PreviewFpsRange).set(parameters.get(camstring(R.string.preview_fps_range)));
             }
             catch (NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(false);
+                settingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(false);
+                settingsManager.get(SettingKeys.PreviewFpsRange).setIsSupported(false);
             }
         }
     }

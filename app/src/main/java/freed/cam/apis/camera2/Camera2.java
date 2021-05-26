@@ -42,7 +42,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         cameraHolder = new CameraHolderApi2(this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
-        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && SettingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
             getPreview().setHistogramFeed(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
     }
@@ -57,7 +57,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
 
         CameraStateEvents.fireCameraOpenFinishEvent(this);
-        moduleHandler.setModule(SettingsManager.getInstance().GetCurrentModule());
+        moduleHandler.setModule(settingsManager.GetCurrentModule());
         //parametersHandler.SetAppSettingsToParameters();
     }
 
@@ -65,7 +65,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void startCamera() {
         if (!cameraIsOpen && cameraHolder != null) {
             Log.d(TAG, "Start Camera");
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
+            cameraIsOpen = cameraHolder.OpenCamera(settingsManager.getCameraIds()[settingsManager.GetCurrentCamera()]);
         } else
             Log.d(TAG, "Camera is already open");
     }
@@ -119,7 +119,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void onFirstFrame() {
         Log.d(TAG,"onFirstFrame");
         //workaround, that seem to kill front camera when switching picformat
-        if (!SettingsManager.getInstance().getIsFrontCamera())
+        if (!settingsManager.getIsFrontCamera())
             parametersHandler.setManualSettingsToParameters();
     }
 

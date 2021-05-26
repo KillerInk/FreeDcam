@@ -16,14 +16,14 @@ public class SeeMoarDetector extends BaseParameter1Detector{
 
     private void detectSEEMoar(Camera.Parameters parameters)
     {
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            SettingsManager.get(SettingKeys.SeeMore).setIsSupported(false);
+            settingsManager.get(SettingKeys.SeeMore).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.seemore,R.string.seemore_mode, SettingsManager.get(SettingKeys.SeeMore));
+            detectMode(parameters, R.string.seemore,R.string.seemore_mode, settingsManager.get(SettingKeys.SeeMore));
         }
 
     }

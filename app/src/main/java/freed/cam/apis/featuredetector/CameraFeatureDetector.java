@@ -18,11 +18,17 @@ import freed.utils.Log;
 
 public class CameraFeatureDetector {
     private final String TAG = CameraFeatureDetector.class.getSimpleName();
+    private SettingsManager settingsManager;
+
+    public CameraFeatureDetector()
+    {
+        settingsManager = FreedApplication.settingsManager();
+    }
 
     public void detectFeatures()
     {
         Log.d(TAG, "CameraFeatureRunner process");
-        SettingsManager.getInstance().setCamApi(SettingsManager.API_SONY);
+        settingsManager.setCamApi(SettingsManager.API_SONY);
         Camera2FeatureDetectorTask task  = null;
         Camera1FeatureDetectorTask task1 = null;
 
@@ -32,40 +38,40 @@ public class CameraFeatureDetector {
         }
         task1 = new Camera1FeatureDetectorTask();
         task1.detect();
-        if (SettingsManager.getInstance().hasCamera2Features()) {
+        if (settingsManager.hasCamera2Features()) {
             if (task.hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
-                SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
+                settingsManager.setCamApi(SettingsManager.API_1);
             else
-                SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
+                settingsManager.setCamApi(SettingsManager.API_2);
         }
         setGlobalDefaultSettings();
-        SettingsManager.getInstance().setAppVersion(BuildConfig.VERSION_CODE);
-        SettingsManager.getInstance().setAreFeaturesDetected(true);
-        SettingsManager.getInstance().save();
-        Log.d(TAG, "Feature Detection done! Start FreeDcam Api: " + SettingsManager.getInstance().getCamApi() + " app version:" + SettingsManager.getInstance().getAppVersion());
+        settingsManager.setAppVersion(BuildConfig.VERSION_CODE);
+        settingsManager.setAreFeaturesDetected(true);
+        settingsManager.save();
+        Log.d(TAG, "Feature Detection done! Start FreeDcam Api: " + settingsManager.getCamApi() + " app version:" + settingsManager.getAppVersion());
         EventBusHelper.post(new SwichCameraFragmentEvent());
     }
 
     private void setGlobalDefaultSettings()
     {
         if (RenderScriptManager.isSupported()) {
-            SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setValues(new String[]{PreviewPostProcessingModes.off.name(),PreviewPostProcessingModes.RenderScript.name(),PreviewPostProcessingModes.OpenGL.name()});
-            SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(PreviewPostProcessingModes.off.name());
-            SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(true);
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setValues(new String[]{PreviewPostProcessingModes.off.name(),PreviewPostProcessingModes.RenderScript.name(),PreviewPostProcessingModes.OpenGL.name()});
+            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(PreviewPostProcessingModes.off.name());
+            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(true);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
         }
         else
-            SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(false);
+            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(false);
 
-        SettingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
-        SettingsManager.getGlobal(SettingKeys.GuideList).set(SettingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
+        settingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.guidelist));
+        settingsManager.getGlobal(SettingKeys.GuideList).set(settingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
         if (ReleaseChecker.isGithubRelease)
-            SettingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).set(true);
+            settingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).set(true);
 
-        SettingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(true);
+        settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(true);
 
-        SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
+        settingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
     }
 }

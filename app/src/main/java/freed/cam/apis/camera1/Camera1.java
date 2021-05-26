@@ -20,28 +20,27 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
     private boolean cameraIsOpen = false;
 
 
-
     @Override
     public void createCamera() {
-        Log.d(TAG,"FrameWork:" + SettingsManager.getInstance().getFrameWork() + " openlegacy:" + SettingsManager.get(SettingKeys.openCamera1Legacy).get());
+        Log.d(TAG,"FrameWork:" + settingsManager.getFrameWork() + " openlegacy:" + settingsManager.get(SettingKeys.openCamera1Legacy).get());
 
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG) {
+        if (settingsManager.getFrameWork() == Frameworks.LG) {
             cameraHolder = new CameraHolderLG(this, Frameworks.LG);
             Log.d(TAG, "create LG camera");
         }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.Moto_Ext) {
+        else if (settingsManager.getFrameWork() == Frameworks.Moto_Ext) {
             cameraHolder = new CameraHolderMotoX(this, Frameworks.Moto_Ext);
             Log.d(TAG, "create MotoExt camera");
         }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK) {
+        else if (settingsManager.getFrameWork() == Frameworks.MTK) {
             cameraHolder = new CameraHolderMTK(this, Frameworks.MTK);
             Log.d(TAG, "create Mtk camera");
         }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.SonyCameraExtension)
+        else if (settingsManager.getFrameWork() == Frameworks.SonyCameraExtension)
         {
             cameraHolder = new CameraHolderSony(this, Frameworks.SonyCameraExtension);
         }
-        else if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+        else if (settingsManager.get(SettingKeys.openCamera1Legacy).get()) {
             cameraHolder = new CameraHolderLegacy(this, Frameworks.Default);
             Log.d(TAG, "create Legacy camera");
         }
@@ -72,7 +71,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
     public void startCamera() {
         EventBusHelper.register(this);
         if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
+            cameraIsOpen = cameraHolder.OpenCamera(settingsManager.getCameraIds()[settingsManager.GetCurrentCamera()]);
         Log.d(TAG, "startCamera");
     }
 
@@ -93,7 +92,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
         cameraHolder.CloseCamera();
         cameraIsOpen = false;
         if (!cameraIsOpen)
-            cameraIsOpen = cameraHolder.OpenCamera(SettingsManager.getInstance().getCameraIds()[SettingsManager.getInstance().GetCurrentCamera()]);
+            cameraIsOpen = cameraHolder.OpenCamera(settingsManager.getCameraIds()[settingsManager.GetCurrentCamera()]);
         Log.d(TAG, "startCamera");
     }
 

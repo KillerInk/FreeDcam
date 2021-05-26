@@ -17,6 +17,6 @@ public class AntiBadindingModeDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, SettingsManager.get(SettingKeys.AntiBandingMode), FreedApplication.getStringArrayFromRessource(R.array.antibandingmodes));
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES, settingsManager.get(SettingKeys.AntiBandingMode), FreedApplication.getStringArrayFromRessource(R.array.antibandingmodes),settingsManager);
     }
 }

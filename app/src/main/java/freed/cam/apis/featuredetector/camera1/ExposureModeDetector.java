@@ -17,22 +17,22 @@ public class ExposureModeDetector extends BaseParameter1Detector {
     private void detectExposureModes(Camera.Parameters parameters)
     {
         if (parameters.get(camstring(R.string.exposure))!= null) {
-            detectMode(parameters,R.string.exposure,R.string.exposure_mode_values, SettingsManager.get(SettingKeys.ExposureMode));
+            detectMode(parameters,R.string.exposure,R.string.exposure_mode_values, settingsManager.get(SettingKeys.ExposureMode));
         }
         else if (parameters.get(camstring(R.string.auto_exposure_values))!= null) {
-            detectMode(parameters,R.string.auto_exposure,R.string.auto_exposure_values, SettingsManager.get(SettingKeys.ExposureMode));
+            detectMode(parameters,R.string.auto_exposure,R.string.auto_exposure_values, settingsManager.get(SettingKeys.ExposureMode));
         }
         else if(parameters.get(camstring(R.string.sony_metering_mode))!= null) {
-            detectMode(parameters,R.string.sony_metering_mode,R.string.sony_metering_mode_values, SettingsManager.get(SettingKeys.ExposureMode));
+            detectMode(parameters,R.string.sony_metering_mode,R.string.sony_metering_mode_values, settingsManager.get(SettingKeys.ExposureMode));
         }
         else if(parameters.get(camstring(R.string.exposure_meter))!= null) {
-            detectMode(parameters,R.string.exposure_meter,R.string.exposure_meter_values, SettingsManager.get(SettingKeys.ExposureMode));
+            detectMode(parameters,R.string.exposure_meter,R.string.exposure_meter_values, settingsManager.get(SettingKeys.ExposureMode));
         }
         else if (parameters.get(camstring(R.string.hw_exposure_mode_values)) != null)
-            detectMode(parameters, R.string.hw_exposure_mode,R.string.hw_exposure_mode_values, SettingsManager.get(SettingKeys.ExposureMode));
-        if (!TextUtils.isEmpty(SettingsManager.get(SettingKeys.ExposureMode).getCamera1ParameterKEY()))
-            SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(true);
+            detectMode(parameters, R.string.hw_exposure_mode,R.string.hw_exposure_mode_values, settingsManager.get(SettingKeys.ExposureMode));
+        if (!TextUtils.isEmpty(settingsManager.get(SettingKeys.ExposureMode).getCamera1ParameterKEY()))
+            settingsManager.get(SettingKeys.ExposureMode).setIsSupported(true);
         else
-            SettingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
+            settingsManager.get(SettingKeys.ExposureMode).setIsSupported(false);
     }
 }

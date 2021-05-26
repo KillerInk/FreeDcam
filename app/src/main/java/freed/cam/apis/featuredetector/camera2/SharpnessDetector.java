@@ -20,9 +20,9 @@ public class SharpnessDetector  extends BaseParameter2Detector {
         for (int i= 0; i < t.length; i++)
             t[i] = ""+(min+i);
         if (sharprange.length > 0) {
-            SettingsManager.get(SettingKeys.M_Sharpness).setValues(t);
-            SettingsManager.get(SettingKeys.M_Sharpness).set((max/2) + "");
-            SettingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_Sharpness).setValues(t);
+            settingsManager.get(SettingKeys.M_Sharpness).set((max/2) + "");
+            settingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
         }
     }
 }

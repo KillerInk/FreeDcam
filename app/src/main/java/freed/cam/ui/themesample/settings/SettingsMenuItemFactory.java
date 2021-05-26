@@ -6,7 +6,10 @@ import android.widget.LinearLayout;
 
 import com.troop.freedcam.R;
 
+import javax.inject.Inject;
+
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
@@ -44,11 +47,20 @@ public class SettingsMenuItemFactory
 
     private static final String TAG = SettingsMenuItemFactory.class.getSimpleName();
 
+    private ApiParameter apiParameter;
+
+    @Inject
+    public SettingsMenuItemFactory(ApiParameter apiParameter)
+    {
+        this.apiParameter = apiParameter;
+    }
+
     public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder, ActivityInterface activityInterface)
     {
+        SettingsManager apS = FreedApplication.settingsManager();
         if (cameraUiWrapper != null) {
 
-            SettingsManager apS = SettingsManager.getInstance();
+
             ParameterHandler params = cameraUiWrapper.getParameterHandler();
             if (params != null) {
         /*
@@ -175,7 +187,7 @@ public class SettingsMenuItemFactory
                     rawToDng.SetUiItemClickListner(click);
                     dngGroup.addView(rawToDng);
 
-                    SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context, SettingsManager.get(SettingKeys.useCustomMatrixOnCamera2), R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
+                    SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.useCustomMatrixOnCamera2), R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
                     dngGroup.addView(useCustomMatrix);
                     if (params.get(SettingKeys.RawSize) != null && params.get(SettingKeys.RawSize).getViewState() == AbstractParameter.ViewState.Visible) {
                         SettingsChildMenu rawsize = new SettingsChildMenu(context, params.get(SettingKeys.RawSize), R.string.setting_rawsize_header, R.string.setting_rawsize_description);
@@ -197,7 +209,7 @@ public class SettingsMenuItemFactory
 
 
         SettingsChildApi api = new SettingsChildApi(context,R.string.setting_api_header, R.string.setting_api_description);
-        api.SetParameter(new ApiParameter());
+        api.SetParameter(apiParameter);
         api.SetUiItemClickListner(click);
         globalSettingGroup.addView(api);
 
@@ -214,7 +226,7 @@ public class SettingsMenuItemFactory
             orientationHack.SetUiItemClickListner(click);
             globalSettingGroup.addView(orientationHack);
 
-            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,cameraUiWrapper,SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
+            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,cameraUiWrapper,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
             globalSettingGroup.addView(aspectRatio);
 
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
@@ -241,7 +253,7 @@ public class SettingsMenuItemFactory
             nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightOverlay));
             globalSettingGroup.addView(nightoverlay);
 
-            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,SettingsManager.getGlobal(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
+            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
             globalSettingGroup.addView(booleanSetting);
 
 
@@ -263,7 +275,7 @@ public class SettingsMenuItemFactory
         }
 
         if (ReleaseChecker.isGithubRelease) {
-            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, SettingsManager.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);
+            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, apS.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);
             globalSettingGroup.addView(booleanSetting);
         }
 
@@ -274,7 +286,7 @@ public class SettingsMenuItemFactory
     public GroupChild fillRightSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click)
     {
         if (cameraUiWrapper != null) {
-            SettingsManager apS = SettingsManager.getInstance();
+            SettingsManager apS = FreedApplication.settingsManager();
             ParameterHandler params = cameraUiWrapper.getParameterHandler();
 
 
@@ -295,7 +307,7 @@ public class SettingsMenuItemFactory
                 SettingsChildMenu fpc = new SettingsChildMenu(context, params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
                 fpc.SetUiItemClickListner(click);
                 settingsgroup.addView(fpc);
-                if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
+                if (!apS.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
                     fpc.setVisibility(View.VISIBLE);
                 else
                     fpc.setVisibility(View.GONE);

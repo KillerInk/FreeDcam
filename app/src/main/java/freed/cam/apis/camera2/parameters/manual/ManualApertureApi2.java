@@ -19,7 +19,7 @@ public class ManualApertureApi2 extends AbstractParameter<Camera2> {
 
     public ManualApertureApi2(Camera2 cameraUiWrapper, SettingKeys.Key settingMode) {
         super(cameraUiWrapper, settingMode);
-        String[] arr = SettingsManager.get(SettingKeys.M_Aperture).getValues();
+        String[] arr = settingsManager.get(SettingKeys.M_Aperture).getValues();
         if (arr != null && arr.length > 1)
         {
             apertureValues = new float[arr.length];
@@ -27,7 +27,7 @@ public class ManualApertureApi2 extends AbstractParameter<Camera2> {
             {
                 apertureValues[i] = Float.parseFloat(arr[i]);
             }
-            currentInt =  Integer.parseInt(SettingsManager.get(SettingKeys.M_Aperture).get());
+            currentInt =  Integer.parseInt(settingsManager.get(SettingKeys.M_Aperture).get());
             setViewState(ViewState.Visible);
         }
         else
@@ -45,7 +45,7 @@ public class ManualApertureApi2 extends AbstractParameter<Camera2> {
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(SettingKeys.M_Aperture).getValues();
+        return settingsManager.get(SettingKeys.M_Aperture).getValues();
     }
 
     @Override

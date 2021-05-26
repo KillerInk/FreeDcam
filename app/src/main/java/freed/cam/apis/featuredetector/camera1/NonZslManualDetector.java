@@ -17,9 +17,9 @@ public class NonZslManualDetector extends BaseParameter1Detector {
     private void detectNonZslmanual(Camera.Parameters parameters) {
         if(parameters.get("non-zsl-manual-mode")!=null)
         {
-            SettingsManager.get(SettingKeys.NonZslManualMode).setIsSupported(true);
-            SettingsManager.get(SettingKeys.NonZslManualMode).setCamera1ParameterKEY("non-zsl-manual-mode");
-            SettingsManager.get(SettingKeys.NonZslManualMode).setValues(new String[]{FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)});
+            settingsManager.get(SettingKeys.NonZslManualMode).setIsSupported(true);
+            settingsManager.get(SettingKeys.NonZslManualMode).setCamera1ParameterKEY("non-zsl-manual-mode");
+            settingsManager.get(SettingKeys.NonZslManualMode).setValues(new String[]{FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)});
         }
     }
 }

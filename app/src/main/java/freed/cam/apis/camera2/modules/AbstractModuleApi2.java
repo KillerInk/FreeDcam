@@ -91,7 +91,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2> impleme
                     mBackgroundHandler.post(() -> {
                         Log.e(MyRSErrorHandler.class.getSimpleName(), "RS5 ERROR; RELOAD MODULE");
                         try {
-                            cameraUiWrapper.getModuleHandler().setModule(SettingsManager.getInstance().GetCurrentModule());
+                            cameraUiWrapper.getModuleHandler().setModule(settingsManager.GetCurrentModule());
                         }
                         catch (NullPointerException ex)
                         {

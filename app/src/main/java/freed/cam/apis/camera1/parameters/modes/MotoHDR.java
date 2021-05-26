@@ -47,7 +47,7 @@ public class MotoHDR extends BaseModeParameter
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         fireStringValueChanged(valueToSet);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
+        ((SettingMode)settingsManager.get(key)).set(valueToSet);
     }
 
     @Override

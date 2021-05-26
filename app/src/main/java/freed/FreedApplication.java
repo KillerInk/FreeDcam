@@ -2,7 +2,13 @@ package freed;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.View;
 
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.android.HiltAndroidApp;
+import freed.settings.SettingsManager;
+
+@HiltAndroidApp
 public class FreedApplication extends Application {
 
     private static Context context;
@@ -20,6 +26,15 @@ public class FreedApplication extends Application {
     public static String[] getStringArrayFromRessource(int id)
     {
         return context.getResources().getStringArray(id);
+    }
+
+    public static SettingsManager settingsManager()
+    {
+        return getEntryPointFromApplication(SettingsManager.SettingsManagerEntryPoint.class).settingsManager();
+    }
+
+    public static <T> T getEntryPointFromApplication(Class<T> entryPoint) {
+        return EntryPointAccessors.fromApplication(context, entryPoint);
     }
 
     @Override

@@ -28,8 +28,12 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -37,6 +41,7 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 /**
  * Created by troop on 15.06.2015.
  */
+@AndroidEntryPoint
 public class LeftMenuFragment extends AbstractFragment  implements SettingsChildClick
 {
     private final String TAG = LeftMenuFragment.class.getSimpleName();
@@ -45,7 +50,8 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
     private LinearLayout settingsChildHolder;
 
-
+    @Inject
+    public SettingsMenuItemFactory settingsMenuItemFactory;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -64,7 +70,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         this.cameraUiWrapper = wrapper;
         settingsChildHolder.removeAllViews();
-        new SettingsMenuItemFactory().fillLeftSettingsMenu(cameraUiWrapper,getContext(),this,settingsChildHolder,(ActivityInterface) getActivity());
+        settingsMenuItemFactory.fillLeftSettingsMenu(cameraUiWrapper,getContext(),this,settingsChildHolder,(ActivityInterface) getActivity());
     }
 
 

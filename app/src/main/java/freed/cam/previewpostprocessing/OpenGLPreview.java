@@ -9,6 +9,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import freed.FreedApplication;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.gl.GLPreview;
@@ -25,12 +29,14 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     private PreviewEvent previewEventListner;
     private HistogramController histogramController;
     private HistogramFeed feed;
+    SettingsManager settingsManager;
 
     public OpenGLPreview(Context context, HistogramController myHistogram)
     {
         glPreview = new GLPreview(context);
         glPreview.setSurfaceTextureListener(this);
         this.histogramController = myHistogram;
+        settingsManager = FreedApplication.settingsManager();
     }
 
     @Override
@@ -55,8 +61,8 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     @Override
     public void setSize(int width, int height) {
         Point disp =DisplayUtil.getDisplaySize();
-        Log.d(TAG, "setSize width :" + width + " height:"+height+ " switch aspectRatio:" + SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
-        glPreview.scale(width,height,disp.x,disp.y, SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
+        Log.d(TAG, "setSize width :" + width + " height:"+height+ " switch aspectRatio:" + settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
+        glPreview.scale(width,height,disp.x,disp.y, settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
     }
 
     @Override

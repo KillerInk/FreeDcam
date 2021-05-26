@@ -42,10 +42,10 @@ public class IntervalDurationParameter extends AbstractParameter
     {
         super( SettingKeys.INTERVAL_DURATION);
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.INTERVAL_DURATION).get()))
-            SettingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
+        if (TextUtils.isEmpty(settingsManager.get(SettingKeys.INTERVAL_DURATION).get()))
+            settingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
         else
-            current = SettingsManager.get(SettingKeys.INTERVAL_DURATION).get();
+            current = settingsManager.get(SettingKeys.INTERVAL_DURATION).get();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class IntervalDurationParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         current = valueToSet;
-        SettingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
+        settingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
     }
 
     @Override

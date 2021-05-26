@@ -20,9 +20,9 @@ public class SaturationDetector extends BaseParameter2Detector {
         for (int i= 0; i < t.length; i++)
             t[i] = ""+(min+i);
         if (contrastrange.length > 0) {
-            SettingsManager.get(SettingKeys.M_Saturation).setValues(t);
-            SettingsManager.get(SettingKeys.M_Saturation).set((max/2) + "");
-            SettingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_Saturation).setValues(t);
+            settingsManager.get(SettingKeys.M_Saturation).set((max/2) + "");
+            settingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
         }
     }
 }

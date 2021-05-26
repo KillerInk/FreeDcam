@@ -21,10 +21,10 @@ public class AutoHdrDetector extends BaseParameter1Detector {
     }
 
     private void detectAutoHdr(Camera.Parameters parameters) {
-        if (SettingsManager.get(SettingKeys.HDRMode).isPresetted())
+        if (settingsManager.get(SettingKeys.HDRMode).isPresetted())
             return;
         if (parameters.get(camstring(R.string.auto_hdr_supported))!=null){
-            SettingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
+            settingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
             return;
         }
         try {
@@ -45,20 +45,20 @@ public class AutoHdrDetector extends BaseParameter1Detector {
                 if (Scenes.contains(camstring(R.string.scene_mode_asd))) {
                     hdrVals.add(camstring(R.string.auto_));
                 }
-                SettingsManager.get(SettingKeys.HDRMode).setValues(hdrVals.toArray(new String[hdrVals.size()]));
-                SettingsManager.get(SettingKeys.HDRMode).setIsSupported(true);
-                SettingsManager.get(SettingKeys.HDRMode).setType(1);
+                settingsManager.get(SettingKeys.HDRMode).setValues(hdrVals.toArray(new String[hdrVals.size()]));
+                settingsManager.get(SettingKeys.HDRMode).setIsSupported(true);
+                settingsManager.get(SettingKeys.HDRMode).setType(1);
             }
         }
         catch (NumberFormatException ex)
         {
             Log.WriteEx(ex);
-            SettingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
+            settingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
         }
         catch(ArrayIndexOutOfBoundsException ex)
         {
             Log.WriteEx(ex);
-            SettingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
+            settingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
         }
     }
 }

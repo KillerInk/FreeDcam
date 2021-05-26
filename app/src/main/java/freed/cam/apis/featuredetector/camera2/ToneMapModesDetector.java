@@ -17,7 +17,7 @@ public class ToneMapModesDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, SettingsManager.get(SettingKeys.TONE_MAP_MODE), FreedApplication.getStringArrayFromRessource(R.array.tonemapmodes));
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES, settingsManager.get(SettingKeys.TONE_MAP_MODE), FreedApplication.getStringArrayFromRessource(R.array.tonemapmodes),settingsManager);
 
     }
 }

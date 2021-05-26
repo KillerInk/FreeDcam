@@ -32,6 +32,9 @@ import com.troop.freedcam.R.layout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.events.CameraStateEvents;
@@ -61,6 +64,7 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 /**
  * Created by troop on 18.08.2014.
  */
+@AndroidEntryPoint
 public class ActivityFreeDcamMain extends ActivityAbstract
         implements OrientationEvent,
             SecureCamera.SecureCameraActivity, EventBusLifeCycle, FileListController.NotifyFilesChanged
@@ -153,9 +157,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private int currentorientation = 0;
     private SecureCamera mSecureCamera = new SecureCamera(this);
     private LinearLayout nightoverlay;
-    private CameraFragmentManager cameraFragmentManager;
+    @Inject
+    public CameraFragmentManager cameraFragmentManager;
     private UserMessageHandler userMessageHandler;
     private ScreenSlideFragmentModelView screenSlideFragmentModelView;
+    @Inject
+    public SettingsManager settingsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +173,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         userMessageHandler.setContext(getApplication());
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
-        cameraFragmentManager = new CameraFragmentManager(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
+        cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
         fileListController = new FileListController(getApplicationContext());
         fileListController.setNotifyFilesChanged(this);
         startListning();
@@ -226,11 +233,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks() ");
         activityIsResumed = true;
-        if (!SettingsManager.getInstance().isInit())
-            SettingsManager.getInstance().init();
+        if (!settingsManager.isInit())
+            settingsManager.init();
 
         cameraFragmentManager.onResume();
-        if (!SettingsManager.getInstance().appVersionHasChanged() && uiViewPagerAdapter == null)
+        if (!settingsManager.appVersionHasChanged() && uiViewPagerAdapter == null)
             initScreenSlide();
     }
 
@@ -247,7 +254,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onPauseTasks() {
         cameraFragmentManager.onPause();
-        SettingsManager.getInstance().save();
+        settingsManager.save();
         Log.d(TAG, "onPauseTasks() ");
         if(orientationManager != null)
             orientationManager.Stop();
@@ -379,8 +386,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = findViewById(id.nightoverlay);
-        Log.d(TAG, "NightOverlay:" + SettingsManager.getGlobal(SettingKeys.NightOverlay).get());
-        if (SettingsManager.getGlobal(SettingKeys.NightOverlay).get())
+        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NightOverlay).get());
+        if (settingsManager.getGlobal(SettingKeys.NightOverlay).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);
@@ -389,11 +396,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void runFeatureDetector() {
         unloadCameraFragment();
-        boolean legacy = SettingsManager.get(SettingKeys.openCamera1Legacy).get();
-        boolean showHelpOverlay = SettingsManager.getInstance().getShowHelpOverlay();
-        SettingsManager.getInstance().RESET();
-        SettingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
-        SettingsManager.getInstance().setshowHelpOverlay(showHelpOverlay);
+        boolean legacy = settingsManager.get(SettingKeys.openCamera1Legacy).get();
+        boolean showHelpOverlay = settingsManager.getShowHelpOverlay();
+        settingsManager.RESET();
+        settingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
+        settingsManager.setshowHelpOverlay(showHelpOverlay);
         cameraFragmentManager.switchCameraFragment();
     }
 

@@ -25,10 +25,10 @@ public class ProVideoLogDetector extends BaseParameter2Detector implements Vendo
     public void checkIfVendorKeyIsSupported(HashSet<String> keys) {
         try {
             if (Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestXiaomi.PRO_VIDEO_LOG_ENABLED))
-                SettingsManager.get(SettingKeys.XIAOMI_PRO_VIDEO_LOG).setIsSupported(true);
+                settingsManager.get(SettingKeys.XIAOMI_PRO_VIDEO_LOG).setIsSupported(true);
         }catch (IllegalArgumentException | NullPointerException ex)
         {
-            SettingsManager.get(SettingKeys.XIAOMI_PRO_VIDEO_LOG).setIsSupported(false);
+            settingsManager.get(SettingKeys.XIAOMI_PRO_VIDEO_LOG).setIsSupported(false);
         }
     }
 }

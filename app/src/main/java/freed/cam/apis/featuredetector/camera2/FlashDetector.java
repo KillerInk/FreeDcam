@@ -18,17 +18,17 @@ import freed.utils.StringUtils;
 public class FlashDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        if(!SettingsManager.getInstance().getIsFrontCamera())
+        if(!settingsManager.getIsFrontCamera())
             detectFlash(cameraCharacteristics);
     }
 
 
     private void detectFlash(CameraCharacteristics characteristics) {
-        if (SettingsManager.getInstance().hasCamera2Features()) {
+        if (settingsManager.hasCamera2Features()) {
             //flash mode
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-            SettingsManager.get(SettingKeys.FlashMode).setIsSupported(flashavail);
-            if (SettingsManager.get(SettingKeys.FlashMode).isSupported()) {
+            settingsManager.get(SettingKeys.FlashMode).setIsSupported(flashavail);
+            if (settingsManager.get(SettingKeys.FlashMode).isSupported()) {
                 String[] lookupar = FreedApplication.getContext().getResources().getStringArray(R.array.flashModes);
                 HashMap<String,Integer> map = new HashMap<>();
                 for (int i = 0; i< lookupar.length; i++)
@@ -36,7 +36,7 @@ public class FlashDetector extends BaseParameter2Detector {
                     map.put(lookupar[i], i);
                 }
                 lookupar = StringUtils.IntHashmapToStringArray(map);
-                SettingsManager.get(SettingKeys.FlashMode).setValues(lookupar);
+                settingsManager.get(SettingKeys.FlashMode).setValues(lookupar);
             }
         }
     }

@@ -137,7 +137,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     public void preDetect() {
         new MediaCodecInfoParser().logMediaCodecInfos();
 
-        SettingsManager.getInstance().setCamApi(SettingsManager.API_2);
+        settingsManager.setCamApi(SettingsManager.API_2);
         manager = (CameraManager) FreedApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
     }
 
@@ -162,7 +162,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             return;
         }
         boolean front = characteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
-        SettingsManager.getInstance().setIsFrontCamera(front);
+        settingsManager.setIsFrontCamera(front);
         VendorKeyParser vendorKeyParser = new VendorKeyParser();
         HashSet<String> vendorkeys = null;
         try {
@@ -180,18 +180,18 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //check first if a already checked cam have camera2features and if its now the front cam that dont have a camera2feature.
         //in that case set it to true
         //else it would override the already detected featureset from last cam and disable api2
-        if (SettingsManager.getInstance().hasCamera2Features() && front) {
+        if (settingsManager.hasCamera2Features() && front) {
             hasCamera2Features = true;
             Log.d(TAG,"Front cam has no camera2 featureset, try to find supported things anyway");
         }
         else
             hasCamera2Features = true;
-        SettingsManager.getInstance().setHasCamera2Features(hasCamera2Features);
+        settingsManager.setHasCamera2Features(hasCamera2Features);
 
-        if (!SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
-            SettingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);
-        if (!SettingsManager.get(SettingKeys.MFNR).isPresetted())
-            SettingsManager.get(SettingKeys.MFNR).setIsSupported(false);
+        if (!settingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
+            settingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);
+        if (!settingsManager.get(SettingKeys.MFNR).isPresetted())
+            settingsManager.get(SettingKeys.MFNR).setIsSupported(false);
 
 
         if (hasCamera2Features) {
@@ -214,26 +214,26 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
 
-            if (SettingsManager.get(SettingKeys.M_Focus).isSupported()) {
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(true);
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).set(true);
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setIsSupported(true);
+            if (settingsManager.get(SettingKeys.M_Focus).isSupported()) {
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(true);
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).set(true);
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setIsSupported(true);
                 String[] zoom = new String[]{"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"};
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setValues(zoom);
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).set("50");
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setIsSupported(true);
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setValues(zoom);
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).set("50");
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setIsSupported(true);
                 String[] duration = new String[]{"0", "1", "2", "3", "4", "5"};
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setValues(duration);
-                SettingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).set("1");
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setValues(duration);
+                settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).set("1");
             }
         }
     }
 
     @Override
     public void postDetect() {
-        SettingsManager.getInstance().SetCurrentCamera(0);
+        settingsManager.SetCurrentCamera(0);
         if (!hasCamera2Features || hwlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-            SettingsManager.getInstance().setCamApi(SettingsManager.API_1);
+            settingsManager.setCamApi(SettingsManager.API_1);
         }
     }
 

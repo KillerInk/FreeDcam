@@ -24,6 +24,6 @@ public class HistogramSupportedDetector extends BaseParameter2Detector implement
     @Override
     public void checkIfVendorKeyIsSupported(HashSet<String> keys) {
         if (Camera2FeatureDetectorTask.isKeySupported(keys, CaptureResultQcom.HISTOGRAM_STATS))
-            SettingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).set(true);
+            settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).set(true);
     }
 }

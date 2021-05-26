@@ -20,7 +20,7 @@ public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.secondarySensorSize).set(valueToSet);
+        settingsManager.get(SettingKeys.secondarySensorSize).set(valueToSet);
         size = valueToSet;
         if (setToCamera)
         {
@@ -38,6 +38,6 @@ public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.secondarySensorSize).getValues();
+        return settingsManager.get(SettingKeys.secondarySensorSize).getValues();
     }
 }

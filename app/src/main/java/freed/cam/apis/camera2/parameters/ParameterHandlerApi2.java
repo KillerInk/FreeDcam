@@ -93,46 +93,46 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             Log.d(TAG, keys.get(i).getName());
         }
         add(SettingKeys.Module, new ModuleParameters(cameraUiWrapper));
-        if (SettingsManager.get(SettingKeys.FlashMode).isSupported())
+        if (settingsManager.get(SettingKeys.FlashMode).isSupported())
             add(SettingKeys.FlashMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.FlashMode,CaptureRequest.FLASH_MODE));
-        if (SettingsManager.get(SettingKeys.SceneMode).isSupported())
+        if (settingsManager.get(SettingKeys.SceneMode).isSupported())
             add(SettingKeys.SceneMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.SceneMode,CaptureRequest.CONTROL_SCENE_MODE));
-        if (SettingsManager.get(SettingKeys.AntiBandingMode).isSupported())
+        if (settingsManager.get(SettingKeys.AntiBandingMode).isSupported())
             add(SettingKeys.AntiBandingMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.AntiBandingMode, CaptureRequest.CONTROL_AE_ANTIBANDING_MODE));
-        if (SettingsManager.get(SettingKeys.ColorMode).isSupported())
+        if (settingsManager.get(SettingKeys.ColorMode).isSupported())
             add(SettingKeys.ColorMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.ColorMode,CaptureRequest.CONTROL_EFFECT_MODE));
-        if (SettingsManager.get(SettingKeys.CONTROL_MODE).isSupported())
+        if (settingsManager.get(SettingKeys.CONTROL_MODE).isSupported())
             add(SettingKeys.CONTROL_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.CONTROL_MODE,CaptureRequest.CONTROL_MODE));
-        if (SettingsManager.get(SettingKeys.Denoise).isSupported())
+        if (settingsManager.get(SettingKeys.Denoise).isSupported())
             add(SettingKeys.Denoise, new BaseModeApi2(cameraUiWrapper, SettingKeys.Denoise,CaptureRequest.NOISE_REDUCTION_MODE));
-        if (SettingsManager.get(SettingKeys.EDGE_MODE).isSupported())
+        if (settingsManager.get(SettingKeys.EDGE_MODE).isSupported())
             add(SettingKeys.EDGE_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.EDGE_MODE,CaptureRequest.EDGE_MODE));
-        if (SettingsManager.get(SettingKeys.OIS_MODE).isSupported())
+        if (settingsManager.get(SettingKeys.OIS_MODE).isSupported())
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
-        if (SettingsManager.get(SettingKeys.FocusMode).isSupported()) {
+        if (settingsManager.get(SettingKeys.FocusMode).isSupported()) {
             add(SettingKeys.FocusMode, new FocusMode(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE));
         }
-        if (SettingsManager.get(SettingKeys.HOT_PIXEL_MODE).isSupported())
+        if (settingsManager.get(SettingKeys.HOT_PIXEL_MODE).isSupported())
             add(SettingKeys.HOT_PIXEL_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.HOT_PIXEL_MODE,CaptureRequest.HOT_PIXEL_MODE));
-        if (SettingsManager.get(SettingKeys.Ae_TargetFPS).isSupported())
+        if (settingsManager.get(SettingKeys.Ae_TargetFPS).isSupported())
             add(SettingKeys.Ae_TargetFPS, new AeTargetRangeApi2(cameraUiWrapper, SettingKeys.Ae_TargetFPS,CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE));
 
-        if (SettingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported() && !SettingsManager.getInstance().getIsFrontCamera())
+        if (settingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported() && !settingsManager.getIsFrontCamera())
         {
             add(SettingKeys.dualPrimaryCameraMode, new DualCameraModeHuaweiApi2(cameraUiWrapper, SettingKeys.dualPrimaryCameraMode, CaptureRequestHuawei.HUAWEI_DUAL_SENSOR_MODE));
         }
 
-        if (SettingsManager.get(SettingKeys.VideoStabilization).isSupported())
+        if (settingsManager.get(SettingKeys.VideoStabilization).isSupported())
             add(SettingKeys.VideoStabilization, new BaseModeApi2(cameraUiWrapper,SettingKeys.VideoStabilization, CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE));
 
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
-        if (SettingsManager.get(SettingKeys.MFNR).isSupported())
+        if (settingsManager.get(SettingKeys.MFNR).isSupported())
             add(SettingKeys.MFNR, new MFNR(cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
+        if (settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
             try {
                 WbHandler wbHandler = new WbHandler(cameraUiWrapper);
-                if (wbHandler.manualWbCt != null && !SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
+                if (wbHandler.manualWbCt != null && !settingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
                     add(SettingKeys.M_Whitebalance, wbHandler.manualWbCt);
                 else
                 {
@@ -151,7 +151,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         //COLOR_CORRECTION_MODE = colorCorrectionMode;
 
         //AE mode start
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex) {
+        if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex) {
             AeManagerHuaweiCamera2 aeManager = new AeManagerHuaweiCamera2(cameraUiWrapper);
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());
@@ -173,20 +173,20 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
 
 
         //MF
-        if (SettingsManager.get(SettingKeys.M_Focus).isSupported())
+        if (settingsManager.get(SettingKeys.M_Focus).isSupported())
             add(SettingKeys.M_Focus,new ManualFocus(cameraUiWrapper));
 
         //MF END
 
-        if (SettingsManager.get(SettingKeys.M_Aperture).isSupported())
+        if (settingsManager.get(SettingKeys.M_Aperture).isSupported())
         {
             add(SettingKeys.M_Aperture, new ManualApertureApi2(cameraUiWrapper, SettingKeys.M_Aperture));
         }
 
-        if (SettingsManager.get(SettingKeys.M_Sharpness).isSupported())
+        if (settingsManager.get(SettingKeys.M_Sharpness).isSupported())
             add(SettingKeys.M_Sharpness, new ManualSharpnessQcomApi2(cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.M_Saturation).isSupported())
+        if (settingsManager.get(SettingKeys.M_Saturation).isSupported())
             add(SettingKeys.M_Saturation, new ManualSaturationQcomApi2(cameraUiWrapper));
 
         manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
@@ -210,18 +210,18 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         add(SettingKeys.M_Burst, new BurstApi2(cameraUiWrapper));
         add(SettingKeys.VideoProfiles, new VideoProfilesApi2(cameraUiWrapper));
         add(SettingKeys.VIDEO_AUDIO_SOURCE, new VideoAudioSourceMode(cameraUiWrapper,SettingKeys.VIDEO_AUDIO_SOURCE));
-        add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(SettingsManager.getInstance().getMatrixesMap()));
-        add(SettingKeys.TONEMAP_SET, new ToneMapChooser(SettingsManager.getInstance().getToneMapProfiles()));
+        add(SettingKeys.MATRIX_SET, new MatrixChooserParameter(settingsManager.getMatrixesMap()));
+        add(SettingKeys.TONEMAP_SET, new ToneMapChooser(settingsManager.getToneMapProfiles()));
         add(SettingKeys.M_Zoom, new ZoomApi2(cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+        if (settingsManager.get(SettingKeys.secondarySensorSize).isSupported())
             add(SettingKeys.secondarySensorSize, new SecondarySensorSizeModeApi2(cameraUiWrapper));
 
-        if (SettingsManager.get(SettingKeys.RawSize).isSupported())
+        if (settingsManager.get(SettingKeys.RawSize).isSupported())
             add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
-        if (SettingsManager.get(SettingKeys.YuvSize).isSupported())
+        if (settingsManager.get(SettingKeys.YuvSize).isSupported())
             add(SettingKeys.YuvSize, new YuvSizeModeApi2(cameraUiWrapper));
-        if (SettingsManager.get(SettingKeys.LensShade).isSupported())
+        if (settingsManager.get(SettingKeys.LensShade).isSupported())
             add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
 
         registerListners();
@@ -278,10 +278,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
     @Override
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
-        if (SettingsManager.get(SettingKeys.TONE_MAP_MODE) != null
-                && SettingsManager.get(SettingKeys.TONE_MAP_MODE).get() != null
-                && SettingsManager.get(SettingKeys.TONE_MAP_MODE).get().equals("CONTRAST_CURVE")) {
-            VideoToneCurveProfile profile = SettingsManager.getInstance().getVideoToneCurveProfiles().get(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
+        if (settingsManager.get(SettingKeys.TONE_MAP_MODE) != null
+                && settingsManager.get(SettingKeys.TONE_MAP_MODE).get() != null
+                && settingsManager.get(SettingKeys.TONE_MAP_MODE).get().equals("CONTRAST_CURVE")) {
+            VideoToneCurveProfile profile = settingsManager.getVideoToneCurveProfiles().get(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
             if (profile != null)
                 ((ManualToneMapCurveApi2.ToneCurveParameter) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(pointFtoFloatArray(profile.rgb));
         }

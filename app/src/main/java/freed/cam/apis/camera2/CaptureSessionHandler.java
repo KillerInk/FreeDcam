@@ -54,6 +54,7 @@ public class CaptureSessionHandler
     private boolean isHighSpeedSession = false;
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
+    private SettingsManager settingsManager;
 
 
     private boolean captureSessionOpen = false;
@@ -120,6 +121,7 @@ public class CaptureSessionHandler
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
+        settingsManager = FreedApplication.settingsManager();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
         Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -157,7 +159,7 @@ public class CaptureSessionHandler
         try {
             mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             try {
-                if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+                if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
                     mPreviewRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG, (byte) 1);
             }
             catch (IllegalArgumentException ex)
@@ -175,7 +177,7 @@ public class CaptureSessionHandler
             return;
         try {
             mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-            if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+            if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
                 mImageCaptureRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG,(byte)1);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);

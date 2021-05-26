@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
 
+import javax.inject.Inject;
+
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraThreadHandler;
@@ -29,8 +31,15 @@ public class CameraFragmentManager {
 
     private BackgroundHandlerThread backgroundHandlerThread;
     private ActivityInterface activityInterface;
+    private SettingsManager settingsManager;
 
-    public CameraFragmentManager(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
+    @Inject
+    public CameraFragmentManager(SettingsManager settingsManager)
+    {
+        this.settingsManager = settingsManager;
+    }
+
+    public void init(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
@@ -40,6 +49,8 @@ public class CameraFragmentManager {
         new CameraThreadHandler(backgroundHandlerThread.getThread().getLooper());
         this.activityInterface = activityInterface;
     }
+
+
 
     public void destroy()
     {
@@ -64,7 +75,7 @@ public class CameraFragmentManager {
 
     private void loadFeatureDetector() {
         Log.d(TAG, "Start FeatureDetector");
-        SettingsManager.getInstance().setAreFeaturesDetected(false);
+        settingsManager.setAreFeaturesDetected(false);
         new CameraFeatureDetector().detectFeatures();
     }
 
@@ -94,8 +105,8 @@ public class CameraFragmentManager {
     public void switchCameraFragment()
     {
         Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null) +
-                " features detected: " + SettingsManager.getInstance().getAreFeaturesDetected() + " app version changed: " + SettingsManager.getInstance().appVersionHasChanged());
-        if ((!SettingsManager.getInstance().getAreFeaturesDetected() || SettingsManager.getInstance().appVersionHasChanged()))
+                " features detected: " + settingsManager.getAreFeaturesDetected() + " app version changed: " + settingsManager.appVersionHasChanged());
+        if ((!settingsManager.getAreFeaturesDetected() || settingsManager.appVersionHasChanged()))
         {
             Log.d(TAG, "load featuredetector");
             if (cameraFragment != null)
@@ -105,7 +116,7 @@ public class CameraFragmentManager {
         else
         {
             if (cameraFragment == null) {
-                String api = SettingsManager.getInstance().getCamApi();
+                String api = settingsManager.getCamApi();
                 switch (api) {
                     case SettingsManager.API_SONY:
                         Log.d(TAG, "load sony remote");

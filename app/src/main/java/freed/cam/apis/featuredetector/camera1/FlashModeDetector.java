@@ -15,6 +15,6 @@ public class FlashModeDetector extends BaseParameter1Detector{
 
     private void detectFlashModes(Camera.Parameters parameters)
     {
-        detectMode(parameters, R.string.flash_mode,R.string.flash_mode_values, SettingsManager.get(SettingKeys.FlashMode));
+        detectMode(parameters, R.string.flash_mode,R.string.flash_mode_values, settingsManager.get(SettingKeys.FlashMode));
     }
 }

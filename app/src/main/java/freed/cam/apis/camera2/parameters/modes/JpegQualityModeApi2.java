@@ -33,10 +33,10 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     @Override
     public String GetStringValue()
     {
-        if(TextUtils.isEmpty(SettingsManager.get(SettingKeys.JpegQuality).get()))
+        if(TextUtils.isEmpty(settingsManager.get(SettingKeys.JpegQuality).get()))
             return "100";
         else
-            return SettingsManager.get(SettingKeys.JpegQuality).get();
+            return settingsManager.get(SettingKeys.JpegQuality).get();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
-        SettingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
+        settingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
         fireStringValueChanged(valueToSet);
     }

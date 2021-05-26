@@ -35,7 +35,6 @@ import freed.cam.apis.camera1.Camera1;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 
@@ -63,7 +62,7 @@ public class BracketModule extends PictureModule {
     @Override
     public void DoWork() {
         mBackgroundHandler.post(() -> {
-            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             files = new BaseHolder[3];
             hdrCount = 0;
@@ -72,7 +71,7 @@ public class BracketModule extends PictureModule {
                 ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
                 if (zsl != null && zsl.getViewState() == AbstractParameter.ViewState.Visible
                         && zsl.GetStringValue().equals("on")
-                        && (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK))
+                        && (settingsManager.getFrameWork() != Frameworks.MTK))
                     zsl.SetValue("off", true);
             }
             changeCaptureState(CaptureStates.image_capture_start);
@@ -148,7 +147,7 @@ public class BracketModule extends PictureModule {
 
     @Override
     protected File getFile(String fileending) {
-        return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, hdrCount));
+        return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePathBurst(settingsManager.GetWriteExternal(), fileending, hdrCount));
     }
 
     private void sleep(int time) {

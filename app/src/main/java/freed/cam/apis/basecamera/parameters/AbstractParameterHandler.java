@@ -61,10 +61,12 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     private final HashMap<SettingsManager.Key, ParameterInterface> parameterHashMap = new HashMap<>();
 
     protected C cameraUiWrapper;
+    protected SettingsManager settingsManager;
 
 
     protected AbstractParameterHandler(C cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
+        settingsManager = FreedApplication.settingsManager();
         add(SettingsManager.GuideList, new GuideList());
         add(SettingsManager.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
         add(SettingsManager.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
@@ -74,12 +76,12 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         add(SettingsManager.SD_SAVE_LOCATION, new SDModeParameter());
         add(SettingsManager.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
         add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, new EnableRenderScriptMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE));
-        if (!SettingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+        if (!settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
 
-            add(SettingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getPreview(), SettingsManager.FOCUSPEAK_COLOR));
-            add(SettingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
-            add(SettingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-            add(SettingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
+            add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getPreview(), SettingsManager.FOCUSPEAK_COLOR));
+            add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
+            add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
+            add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
         }
     }
 
@@ -194,9 +196,9 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 
     private void setAppSettingsToCamera(SettingsManager.Key parametertolook, boolean setToCamera)
     {
-        if (SettingsManager.get(parametertolook) instanceof SettingMode){
+        if (settingsManager.get(parametertolook) instanceof SettingMode){
             ParameterInterface parameter = get(parametertolook);
-            SettingMode settingMode = (SettingMode) SettingsManager.get(parametertolook);
+            SettingMode settingMode = (SettingMode) settingsManager.get(parametertolook);
             Log.d(TAG, "setAppSettingsToCamera " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " isSupported:" + settingMode.isSupported());
             if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
             {
@@ -215,9 +217,9 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 
     private void setGlobalAppSettingsToCamera(SettingsManager.GlobalKey parametertolook, boolean setToCamera)
     {
-        if (SettingsManager.getGlobal(parametertolook) instanceof SettingMode){
+        if (settingsManager.getGlobal(parametertolook) instanceof SettingMode){
             ParameterInterface parameter = get(parametertolook);
-            SettingMode settingMode = (SettingMode) SettingsManager.getGlobal(parametertolook);
+            SettingMode settingMode = (SettingMode) settingsManager.getGlobal(parametertolook);
             if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
             {
                 if (TextUtils.isEmpty(settingMode.get()))
@@ -236,9 +238,9 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 
     private void setManualMode(SettingsManager.Key parametertolook, boolean setToCamera)
     {
-        if (SettingsManager.get(parametertolook) instanceof SettingMode) {
+        if (settingsManager.get(parametertolook) instanceof SettingMode) {
             ParameterInterface parameter = get(parametertolook);
-            SettingMode settingMode = (SettingMode) SettingsManager.get(parametertolook);
+            SettingMode settingMode = (SettingMode) settingsManager.get(parametertolook);
             if (parameter != null && settingMode != null && settingMode.isSupported()) {
                 Log.d(TAG, parameter.getClass().getSimpleName());
                 if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null) {

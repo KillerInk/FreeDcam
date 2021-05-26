@@ -55,51 +55,51 @@ public class ManualExposureDetector extends BaseParameter1Detector{
 
     private void detectManualExposureTime(Camera.Parameters parameters)
     {
-        Log.d(TAG, "ManualExposureTime is Presetted: "+ SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted());
-        if (SettingsManager.get(SettingKeys.M_ExposureTime).isPresetted())
+        Log.d(TAG, "ManualExposureTime is Presetted: "+ settingsManager.get(SettingKeys.M_ExposureTime).isPresetted());
+        if (settingsManager.get(SettingKeys.M_ExposureTime).isPresetted())
             return;
         //mtk shutter
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             Log.d(TAG, "ManualExposureTime MTK");
-            SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-            SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.mtk_shutter));
-            SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("m-ss");
-            SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MTK);
+            settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.mtk_shutter));
+            settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("m-ss");
+            settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_MTK);
         }
         else
         {
             //htc shutter
             if (parameters.get(FreedApplication.getStringFromRessources(R.string.shutter)) != null) {
                 Log.d(TAG, "ManualExposureTime HTC");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.htc));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.shutter));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_HTC);
+                settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.htc));
+                settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.shutter));
+                settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_HTC);
             }
             //lg shutter
             else if (parameters.get(FreedApplication.getStringFromRessources(R.string.lg_shutterspeed_values)) != null) {
                 Log.d(TAG, "ManualExposureTime LG");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_LG);
+                settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_LG);
                 ArrayList<String> l = new ArrayList(Arrays.asList(parameters.get(FreedApplication.getStringFromRessources(R.string.lg_shutterspeed_values)).replace(",0", "").split(",")));
                 l.remove(0);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(l.toArray(new String[l.size()]));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.lg_shutterspeed));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_ExposureTime).setValues(l.toArray(new String[l.size()]));
+                settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.lg_shutterspeed));
+                settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
             }
             //meizu shutter
             else if (parameters.get("shutter-value") != null) {
                 Log.d(TAG, "ManualExposureTime Meizu");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.shutter_values_meizu));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("shutter-value");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_MEIZU);
+                settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_ExposureTime).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.shutter_values_meizu));
+                settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("shutter-value");
+                settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_MEIZU);
             }
             //kirin shutter
             else if (parameters.get("hw-sensor-exposure-time-range") != null) {
                 try {
                     Log.d(TAG, "ManualExposureTime huawei");
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
                     String split[] = parameters.get("hw-sensor-exposure-time-range").split(",");//=1/4000,30"
                     String split2[] = split[0].split("/");
                     float a = (Float.parseFloat(split2[0]) / Float.parseFloat(split2[1])) * 1000000f;
@@ -113,31 +113,31 @@ public class ManualExposureDetector extends BaseParameter1Detector{
                         max = Long.parseLong(split[1]) * 1000000;
 
                     String values[] = getSupportedShutterValues(min, max, true);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("hw-sensor-exposure-time");
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_KRILLIN);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setValues(values);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("hw-sensor-exposure-time");
+                    settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_KRILLIN);
                 }
                 catch (NumberFormatException ex)
                 {
                     Log.WriteEx(ex);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
                 }
                 catch(ArrayIndexOutOfBoundsException ex)
                 {
                     Log.WriteEx(ex);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
                 }
             }
             //sony shutter
             else if (parameters.get("sony-max-shutter-speed") != null) {
                 Log.d(TAG, "ManualExposureTime Sony");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                SettingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(
+                settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(
                         Long.parseLong(parameters.get("sony-min-shutter-speed")),
                         Long.parseLong(parameters.get("sony-max-shutter-speed")),
                         true));
-                SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("sony-shutter-speed");
-                SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_SONY);
+                settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("sony-shutter-speed");
+                settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_SONY);
             }
             //qcom shutter
             else if (parameters.get(camstring(R.string.max_exposure_time)) != null && parameters.get(camstring(R.string.min_exposure_time)) != null) {
@@ -147,29 +147,29 @@ public class ManualExposureDetector extends BaseParameter1Detector{
                         Log.d(TAG, "ManualExposureTime Qcom Millisec");
                         min = (long) (Double.parseDouble(parameters.get(camstring(R.string.min_exposure_time))) * 1000);
                         max = (long) (Double.parseDouble(parameters.get(camstring(R.string.max_exposure_time))) * 1000);
-                        SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_QCOM_MILLISEC);
+                        settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_QCOM_MILLISEC);
                     } else {
                         Log.d(TAG, "ManualExposureTime Qcom MicroSec");
                         min = Integer.parseInt(parameters.get(camstring(R.string.min_exposure_time)));
                         max = Integer.parseInt(parameters.get(camstring(R.string.max_exposure_time)));
-                        SettingsManager.get(SettingKeys.M_ExposureTime).setType(SettingsManager.SHUTTER_QCOM_MICORSEC);
+                        settingsManager.get(SettingKeys.M_ExposureTime).setType(settingsManager.SHUTTER_QCOM_MICORSEC);
                     }
                     if (max > 0) {
 
-                        SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(camstring(R.string.exposure_time));
-                        SettingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(min, max, true));
+                        settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                        settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(camstring(R.string.exposure_time));
+                        settingsManager.get(SettingKeys.M_ExposureTime).setValues(getSupportedShutterValues(min, max, true));
                     }
                 }
                 catch (NumberFormatException ex)
                 {
                     Log.WriteEx(ex);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
                 }
                 catch(ArrayIndexOutOfBoundsException ex)
                 {
                     Log.WriteEx(ex);
-                    SettingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
+                    settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
                 }
             }
         }

@@ -45,9 +45,9 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.YuvSize).set(valueToSet);
+        settingsManager.get(SettingKeys.YuvSize).set(valueToSet);
         size = valueToSet;
-        if (setToCamera && SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+        if (setToCamera && settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
         {
             CameraThreadHandler.restartPreviewAsync();
         }
@@ -63,6 +63,6 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.YuvSize).getValues();
+        return settingsManager.get(SettingKeys.YuvSize).getValues();
     }
 }

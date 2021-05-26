@@ -39,6 +39,9 @@ import com.troop.freedcam.R.string;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -54,6 +57,7 @@ import freed.utils.Log;
 /**
  * Created by Ar4eR on 15.01.16.
  */
+@AndroidEntryPoint
 public class HorizontLineFragment extends AbstractFragment implements ParameterEvents {
 
     private View view;
@@ -76,6 +80,9 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     float yaw;
     float[] R = new float[9];
     float[] I = new float[9];
+
+    @Inject
+    SettingsManager settingsManager;
 
 
 
@@ -128,7 +135,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     @Override
     public void onStringValueChanged(String value) {
-        if(SettingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on)))
+        if(settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on)))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -150,7 +157,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     private void startSensorListing()
     {
-        if (SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on))) {
+        if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on))) {
             sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
@@ -173,8 +180,8 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         super.onResume();
         EventBusHelper.register(this);
         try {
-            if (SettingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
-                    || TextUtils.isEmpty(SettingsManager.getGlobal(SettingKeys.HorizontLvl).get()))
+            if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
+                    || TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.HorizontLvl).get()))
                 view.setVisibility(View.GONE);
             else
                 startSensorListing();

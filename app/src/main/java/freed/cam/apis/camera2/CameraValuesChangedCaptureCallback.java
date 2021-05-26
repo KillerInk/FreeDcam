@@ -10,6 +10,7 @@ import android.util.Pair;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.qcom.CaptureResultQcom;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -29,6 +30,9 @@ import freed.utils.StringUtils;
 public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback implements HistogramFeed
 {
     private final boolean DO_LOG = false;
+
+
+
     private void log(String s)
     {
         if (DO_LOG)
@@ -100,10 +104,12 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private int focusState;
     private AeAfLocker aeAfLocker;
     private HistogramChangedEvent histogramChangedEventListner;
+    private SettingsManager settingsManager;
 
     public CameraValuesChangedCaptureCallback(CameraWrapperInterface camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
+        settingsManager = FreedApplication.settingsManager();
         this.aeAfLocker = new AeAfLocker();
     }
 
@@ -170,7 +176,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+        if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             processHuaweiAEValues(result, expotime, iso);
         }
@@ -240,7 +246,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
-        if (SettingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get() && result.get(CaptureResultQcom.HISTOGRAM_STATS) != null)
+        if (settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get() && result.get(CaptureResultQcom.HISTOGRAM_STATS) != null)
         {
             int[] histo = result.get(CaptureResultQcom.HISTOGRAM_STATS);
             if (histogramChangedEventListner != null)

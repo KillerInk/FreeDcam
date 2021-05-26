@@ -45,16 +45,17 @@ public class WbHandler
     public WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
     public ManualWbCtApi2 manualWbCt;
+    private SettingsManager settingsManager;
 
     public WbHandler(Camera2 cameraUiWrapper)
     {
         this.cameraUiWrapper= cameraUiWrapper;
-
-        if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
+        settingsManager = FreedApplication.settingsManager();
+        if (settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
             colorCorrectionMode = new ColorCorrectionModeApi2();
-        if (SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
+        if (settingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
             whiteBalanceApi2 = new WhiteBalanceApi2();
-        if (!SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
+        if (!settingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
             manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
     }
 
@@ -101,10 +102,10 @@ public class WbHandler
         public WhiteBalanceApi2()
         {
             super(WbHandler.this.cameraUiWrapper,SettingKeys.WhiteBalanceMode);
-            isSupported = SettingsManager.get(SettingKeys.WhiteBalanceMode).isSupported();
-            settingMode = SettingsManager.get(SettingKeys.WhiteBalanceMode);
+            isSupported = settingsManager.get(SettingKeys.WhiteBalanceMode).isSupported();
+            settingMode = settingsManager.get(SettingKeys.WhiteBalanceMode);
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
-            parameterValues = StringUtils.StringArrayToIntHashmap(SettingsManager.get(SettingKeys.WhiteBalanceMode).getValues());
+            parameterValues = StringUtils.StringArrayToIntHashmap(settingsManager.get(SettingKeys.WhiteBalanceMode).getValues());
             if (parameterValues == null)
             {
                 isSupported = false;
@@ -251,9 +252,9 @@ public class WbHandler
         public ColorCorrectionModeApi2() {
             super(WbHandler.this.cameraUiWrapper, SettingKeys.COLOR_CORRECTION_MODE);
             parameterKey = CaptureRequest.COLOR_CORRECTION_MODE;
-            settingMode = SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE);
+            settingMode = settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE);
             parameterValues = StringUtils.StringArrayToIntHashmap(settingMode.getValues());
-            if (SettingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
+            if (settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
                 setViewState(ViewState.Visible);
         }
 

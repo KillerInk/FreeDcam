@@ -30,7 +30,7 @@ public class FocusPeakColorMode extends AbstractParameter {
         if (focuspeakProcessor == null)
             return;
         try {
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(valueToSet);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(valueToSet);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_red))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(false);
@@ -70,12 +70,12 @@ public class FocusPeakColorMode extends AbstractParameter {
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues();
+        return settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues();
     }
 
     @Override
     public String GetStringValue() {
-        return SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).get();
+        return settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).get();
     }
 
     @Subscribe

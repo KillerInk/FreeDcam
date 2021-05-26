@@ -90,9 +90,9 @@ public class ParameterHandler extends AbstractParameterHandler<SonyRemoteCamera>
         this.surfaceView = surfaceView;
         this.cameraUiWrapper =cameraUiWrapper;
         if (RenderScriptManager.isSupported()) {
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-            SettingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
         }
     }
 

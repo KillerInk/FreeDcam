@@ -52,7 +52,7 @@ public class FocusManualMTK extends BaseFocusManual {
         if (valueToSet == 0)
         {
             cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
-            ((SettingMode)SettingsManager.get(key)).set(FreedApplication.getStringFromRessources(R.string.auto_));
+            ((SettingMode)settingsManager.get(key)).set(FreedApplication.getStringFromRessources(R.string.auto_));
         }
         else
         {
@@ -65,7 +65,7 @@ public class FocusManualMTK extends BaseFocusManual {
 
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            ((SettingMode)SettingsManager.get(key)).set(stringvalues[currentInt]);
+            ((SettingMode)settingsManager.get(key)).set(stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         }
     }

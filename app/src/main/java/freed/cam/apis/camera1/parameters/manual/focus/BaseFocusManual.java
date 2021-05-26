@@ -45,7 +45,7 @@ public class BaseFocusManual extends BaseManualParameter
     public BaseFocusManual(Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key)
     {
         super(parameters,cameraUiWrapper,key);
-        TypedSettingMode settingMode1 =  (TypedSettingMode) SettingsManager.get(key);
+        TypedSettingMode settingMode1 =  (TypedSettingMode) settingsManager.get(key);
         settingMode = settingMode1;
         manualFocusType = settingMode1.getType();
         Log.d(TAG,"mf type:" +manualFocusType);
@@ -77,7 +77,7 @@ public class BaseFocusManual extends BaseManualParameter
             if (manualFocusType > -1)
                 parameters.set(FreedApplication.getStringFromRessources(R.string.manual_focus_pos_type), manualFocusType +"");
 
-            ((TypedSettingMode) SettingsManager.get(key)).set(stringvalues[currentInt]);
+            ((TypedSettingMode) settingsManager.get(key)).set(stringvalues[currentInt]);
             parameters.set(key_value, stringvalues[currentInt]);
             Log.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

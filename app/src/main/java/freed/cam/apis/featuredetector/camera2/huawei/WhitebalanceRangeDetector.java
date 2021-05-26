@@ -26,7 +26,7 @@ public class WhitebalanceRangeDetector extends BaseParameter2Detector {
         int[] hdc = cameraCharacteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_WB_RANGE);
         if (hdc != null && hdc.length >0) {
             Log.d(TAG, Arrays.toString(hdc));
-            SettingsManager.get(SettingKeys.useHuaweiWhiteBalance).set(true);
+            settingsManager.get(SettingKeys.useHuaweiWhiteBalance).set(true);
             int min= hdc[0];
             int max = hdc[1];
             List<String> wblist = new ArrayList<>();
@@ -35,9 +35,9 @@ public class WhitebalanceRangeDetector extends BaseParameter2Detector {
             {
                 wblist.add(i+"");
             }
-            SettingsManager.get(SettingKeys.M_Whitebalance).setValues(wblist.toArray(new String[wblist.size()]));
-            SettingsManager.get(SettingKeys.M_Whitebalance).set(0+"");
-            SettingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_Whitebalance).setValues(wblist.toArray(new String[wblist.size()]));
+            settingsManager.get(SettingKeys.M_Whitebalance).set(0+"");
+            settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
         }
     }
 }

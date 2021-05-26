@@ -35,7 +35,7 @@ public class FXManualParameter extends BaseManualParameter {
 
     public FXManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key key) {
         super(parameters,cameraUiWrapper,key);
-        if(SettingsManager.getInstance().isZteAe())
+        if(settingsManager.isZteAe())
         {
             setViewState(ViewState.Visible);
             stringvalues = createStringArray(0,38,1);
@@ -47,7 +47,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (SettingsManager.getInstance().isZteAe());
+            if (settingsManager.isZteAe());
                 i = 0;
         }
         catch (Exception ex)

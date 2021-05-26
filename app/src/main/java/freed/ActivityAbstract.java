@@ -31,6 +31,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
@@ -42,6 +45,7 @@ import freed.viewer.helper.BitmapHelper;
 /**
  * Created by troop on 28.03.2016.
  */
+@AndroidEntryPoint
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface {
 
     private final boolean forceLogging = false;
@@ -55,6 +59,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     public PermissionManager getPermissionManager() {
         return permissionManager;
     }
+    @Inject
+    public SettingsManager settingsManager;
 
 
     @Override
@@ -64,8 +70,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         Log.d(TAG,"onCreate");
         hideNavBarHelper = new HideNavBarHelper();
         permissionManager =new PermissionManager(this);
-        if (!SettingsManager.getInstance().isInit()) {
-            SettingsManager.getInstance().init();
+        if (!settingsManager.isInit()) {
+            settingsManager.init();
         }
         Log.d(TAG,"onCreatePermissionGranted");
         File log = new File(FreedApplication.getContext().getExternalFilesDir(null)+ "/log.txt");
@@ -94,7 +100,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onDestroy() {
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();
-        SettingsManager.getInstance().release();
+        settingsManager.release();
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/
@@ -161,7 +167,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
 
                 getContentResolver().takePersistableUriPermission(uri, takeFlags);
-                SettingsManager.getInstance().SetBaseFolder(uri.toString());
+                settingsManager.SetBaseFolder(uri.toString());
                 if (resultCallback != null) {
                     resultCallback.onActivityResultCallback(uri);
                     resultCallback = null;

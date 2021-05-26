@@ -106,7 +106,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             Log.d(TAG,"startWork:picformat:" + picformat);
             if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_)))
             {
-                if (SettingsManager.get(SettingKeys.ZSL).isSupported()
+                if (settingsManager.get(SettingKeys.ZSL).isSupported()
                         && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 {
                     Log.d(TAG,"ZSL is on turning it off");
@@ -125,7 +125,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             }
             else
                 burstcount = 1;
-            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
@@ -145,10 +145,10 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         createPreview();
 
         ParameterInterface videohdr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHDR);
-        if (SettingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        if (settingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             videohdr.SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
-        if(SettingsManager.getInstance().isZteAe()) {
-            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
+        if(settingsManager.isZteAe()) {
+            cameraUiWrapper.getParameterHandler().SetZTE_AE();
         }
     }
 
@@ -164,7 +164,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
-        if (!SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
             if(size == null || cameraUiWrapper.getPreview().getSurfaceTexture() == null)
                 return;
             cameraHolder.StopPreview();
@@ -250,7 +250,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.false_),true);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.true_),true);
         }
-        if(SettingsManager.get(SettingKeys.needRestartAfterCapture).get())
+        if(settingsManager.get(SettingKeys.needRestartAfterCapture).get())
         {
             MotoPreviewResetLogic();
 
@@ -262,17 +262,17 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     public void MotoPreviewResetLogic()
     {
 
-        if(SettingsManager.getInstance().GetCurrentCamera() == 0) {
-            SettingsManager.getInstance().SetCurrentCamera(1);
+        if(settingsManager.GetCurrentCamera() == 0) {
+            settingsManager.SetCurrentCamera(1);
             CameraThreadHandler.restartCameraAsync();
 
-            SettingsManager.getInstance().SetCurrentCamera(0);
+            settingsManager.SetCurrentCamera(0);
             CameraThreadHandler.restartCameraAsync();
         }else {
-            SettingsManager.getInstance().SetCurrentCamera(0);
+            settingsManager.SetCurrentCamera(0);
             CameraThreadHandler.restartCameraAsync();
 
-            SettingsManager.getInstance().SetCurrentCamera(1);
+            settingsManager.SetCurrentCamera(1);
             CameraThreadHandler.restartCameraAsync();
         }
     }
@@ -294,7 +294,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         else {
             saveJpeg(data,toSave);
         }
-        if(SettingsManager.getInstance().isZteAe())
+        if(settingsManager.isZteAe())
             ShutterResetLogic();
 
         //fireInternalOnWorkFinish(toSave);
@@ -321,16 +321,16 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     protected File getFile(String fileending)
     {
         if (isBurstCapture)
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
+            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePathBurst(settingsManager.GetWriteExternal(), fileending, burstcount));
         else
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
+            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), fileending));
     }
 
     protected void saveJpeg(byte[] data, File file)
     {
         ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
         task.setBytesTosave(data,ImageSaveTask.JPEG);
-        task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
+        task.setFilePath(file, settingsManager.GetWriteExternal());
         ImageManager.putImageSaveTask(task);
     }
 
@@ -365,20 +365,20 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
             task.setWhiteBalance(wb);
         }
-        DngProfile dngProfile = SettingsManager.getInstance().getDngProfilesMap().get((long)data.length);
-        String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+        DngProfile dngProfile = settingsManager.getDngProfilesMap().get((long)data.length);
+        String cmat = settingsManager.get(SettingKeys.MATRIX_SET).get();
         if (cmat != null && !TextUtils.isEmpty(cmat)&&!cmat.equals("off")) {
-            dngProfile.matrixes = SettingsManager.getInstance().getMatrixesMap().get(cmat);
+            dngProfile.matrixes = settingsManager.getMatrixesMap().get(cmat);
         }
         task.setDngProfile(dngProfile);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
-        if (SettingsManager.getInstance().getIsFrontCamera())
+        if (settingsManager.getIsFrontCamera())
             task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation()+180);
         else
             task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-        task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
+        task.setFilePath(file, settingsManager.GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }

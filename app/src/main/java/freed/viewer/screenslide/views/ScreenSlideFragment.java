@@ -47,6 +47,7 @@ import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
+import freed.FreedApplication;
 import freed.file.FileListController;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
@@ -225,7 +226,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private View.OnClickListener onDeleteButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal()) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !FreedApplication.settingsManager().GetWriteExternal()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteAlertButtonClick)
                         .setNegativeButton("No", onDeleteAlertButtonClick).show();

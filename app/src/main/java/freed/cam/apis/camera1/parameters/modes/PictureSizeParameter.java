@@ -43,7 +43,7 @@ public class PictureSizeParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         parameters.set("picture-size" , valueToSet);
-        SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        settingsManager.get(SettingKeys.PictureSize).set(valueToSet);
         currentString = valueToSet;
         Log.d(TAG, "SetValue : picture-size");
         if (setToCam)
@@ -54,11 +54,11 @@ public class PictureSizeParameter extends BaseModeParameter
 
     @Override
     public String GetStringValue() {
-        return SettingsManager.get(SettingKeys.PictureSize).get();
+        return settingsManager.get(SettingKeys.PictureSize).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(SettingKeys.PictureSize).getValues();
+        return settingsManager.get(SettingKeys.PictureSize).getValues();
     }
 }

@@ -30,6 +30,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
+import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
@@ -63,10 +64,12 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
 
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
+    protected SettingsManager settingsManager;
 
     public ModuleHandlerAbstract(CW cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        settingsManager = FreedApplication.settingsManager();
         moduleList = new HashMap<>();
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();

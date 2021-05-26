@@ -63,7 +63,7 @@ public class ModuleParameters extends AbstractParameter {
         for (Object module : cameraUiWrapper.getModuleHandler().getModuleList().entrySet()) {
             HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
             if (valueToSet.equals(mod.getValue().LongName())) {
-                SettingsManager.getInstance().SetCurrentModule(mod.getValue().ModuleName());
+                settingsManager.SetCurrentModule(mod.getValue().ModuleName());
                 cameraUiWrapper.getModuleHandler().setModule(mod.getValue().ModuleName());
                 break;
             }

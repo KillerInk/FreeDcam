@@ -47,7 +47,7 @@ public class BurstManualParam extends BaseManualParameter
 
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
-        currentInt = Integer.parseInt(SettingsManager.get(SettingKeys.M_Burst).get());
+        currentInt = Integer.parseInt(settingsManager.get(SettingKeys.M_Burst).get());
         setViewState(ViewState.Visible);
     }
 

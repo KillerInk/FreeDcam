@@ -37,7 +37,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.inject.Inject;
+
 import camera2_hidden_keys.ReflectionHelper;
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
@@ -49,9 +52,13 @@ import freed.utils.MediaScannerManager;
 /**
  * Created by Ingo on 06.09.2015.
  */
+
+@AndroidEntryPoint
 public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
 {
     private CameraWrapperInterface cameraUiWrapper;
+    @Inject
+    SettingsManager settingsManager;
 
     public SettingsChildMenuSaveCamParams(Context context, int headerid, int descriptionid, CameraWrapperInterface cameraUiWrapper) {
         super(context, headerid, descriptionid);
@@ -128,7 +135,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
         Arrays.sort(paras);
 
         FileOutputStream outputStream;
-        File freedcamdir = new File(SettingsManager.getInstance().getAppDataFolder().getAbsolutePath());
+        File freedcamdir = new File(settingsManager.getAppDataFolder().getAbsolutePath());
         if (!freedcamdir.exists())
             freedcamdir.mkdirs();
         File file = new File(freedcamdir.getAbsolutePath()+"/"+ Build.MODEL + "_CameraParameters.txt");

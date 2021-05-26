@@ -17,12 +17,12 @@ public class VideoHdrDetector  extends BaseParameter1Detector{
     {
         if (parameters.get(camstring(R.string.video_hdr_values)) != null)
         {
-            detectMode(parameters,R.string.video_hdr,R.string.video_hdr_values, SettingsManager.get(SettingKeys.VideoHDR));
+            detectMode(parameters,R.string.video_hdr,R.string.video_hdr_values, settingsManager.get(SettingKeys.VideoHDR));
         }
         else if (parameters.get(camstring(R.string.sony_video_hdr_values))!= null) {
-            detectMode(parameters,R.string.sony_video_hdr,R.string.sony_video_hdr_values, SettingsManager.get(SettingKeys.VideoHDR));
+            detectMode(parameters,R.string.sony_video_hdr,R.string.sony_video_hdr_values, settingsManager.get(SettingKeys.VideoHDR));
         }
         else
-            SettingsManager.get(SettingKeys.VideoHDR).setIsSupported(false);
+            settingsManager.get(SettingKeys.VideoHDR).setIsSupported(false);
     }
 }

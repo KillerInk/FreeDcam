@@ -37,6 +37,9 @@ import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraThreadHandler;
@@ -56,9 +59,9 @@ import freed.viewer.screenslide.views.MyHistogram;
  * Created by troop on 06.06.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@AndroidEntryPoint
 public class Camera2Fragment extends CameraFragmentAbstract<Camera2> implements Preview.PreviewEvent, EventBusLifeCycle
 {
-
 
     private View textureView;
     private MyHistogram histogram;
@@ -67,6 +70,9 @@ public class Camera2Fragment extends CameraFragmentAbstract<Camera2> implements 
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private Surface surface;
+
+    @Inject
+    SettingsManager settingsManager;
 
     public static Camera2Fragment getInstance()
     {
@@ -90,9 +96,9 @@ public class Camera2Fragment extends CameraFragmentAbstract<Camera2> implements 
         view = inflater.inflate(layout.camerafragment, container, false);
         this.histogram = view.findViewById(id.hisotview);
         HistogramController histogramController = new HistogramController(histogram);
-        if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
             getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
-        else if (SettingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+        else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
             getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
         else
             getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);

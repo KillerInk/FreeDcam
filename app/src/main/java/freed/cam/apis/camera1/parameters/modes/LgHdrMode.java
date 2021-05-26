@@ -46,7 +46,7 @@ public class LgHdrMode extends BaseModeParameter
             parameters.set(FreedApplication.getStringFromRessources(R.string.hdr_mode), 2);
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
+        ((SettingMode)settingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 

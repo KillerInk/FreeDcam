@@ -35,6 +35,8 @@ import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import javax.inject.Inject;
+
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -76,8 +78,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private LinearLayout manualItemsHolder;
 
     private final String TAG = ManualFragment.class.getSimpleName();
-
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -126,7 +126,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
         if (cameraUiWrapper != null)
         {
-            SettingsManager aps = SettingsManager.getInstance();
             ParameterHandler parms = cameraUiWrapper.getParameterHandler();
             if (parms.get(SettingKeys.M_Zoom) != null)
             {

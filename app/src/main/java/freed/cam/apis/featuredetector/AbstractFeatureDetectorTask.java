@@ -16,9 +16,11 @@ import freed.settings.SettingsManager;
 
 abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
     private List<Class> parametersToDetect;
+    protected SettingsManager settingsManager;
     AbstractFeatureDetectorTask()
     {
         parametersToDetect = createParametersToCheckList();
+        settingsManager = FreedApplication.settingsManager();
     }
 
     @Override
@@ -29,8 +31,8 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         int arr[] = new int[cameraIDs.size()];
         for (int i = 0; i<arr.length;i++)
             arr[i] = Integer.parseInt(cameraIDs.get(i));
-        SettingsManager.getInstance().setCameraIds(arr);
-        SettingsManager.getInstance().SetCurrentCamera(0);
+        settingsManager.setCameraIds(arr);
+        settingsManager.SetCurrentCamera(0);
         for (int i = 0; i < cameraIDs.size();i++)
             checkCameraID(i,cameraIDs,parametersToDetect);
         postDetect();
@@ -39,25 +41,25 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
     @Override
     public void checkCameraID(int id, List<String> cameraids, List<Class> parametersToDetect)
     {
-        SettingsManager.getInstance().SetCurrentCamera(id);
+        settingsManager.SetCurrentCamera(id);
 
-        SettingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
-        SettingsManager.get(SettingKeys.orientationHack).set("0");
-        SettingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
+        settingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
+        settingsManager.get(SettingKeys.orientationHack).set("0");
+        settingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
 
-        SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
-        SettingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
-
-
-        SettingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+        settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
+        settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
 
 
-        SettingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
-        SettingsManager.get(SettingKeys.selfTimer).set(SettingsManager.get(SettingKeys.selfTimer).getValues()[0]);
+        settingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
 
-        SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.getStringFromRessources(R.string.video_audio_source_default));
-        SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
-        SettingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
+        settingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
+        settingsManager.get(SettingKeys.selfTimer).set(settingsManager.get(SettingKeys.selfTimer).getValues()[0]);
+
+        settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.getStringFromRessources(R.string.video_audio_source_default));
+        settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
+        settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
 
     }

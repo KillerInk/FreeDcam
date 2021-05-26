@@ -23,7 +23,7 @@ public class ToneMapChooser extends AbstractParameter {
         super(SettingKeys.TONEMAP_SET);
         this.toneMapProfileHashMap = toneMapProfileHashMap;
         setViewState(ViewState.Visible);
-        currentString = SettingsManager.get(SettingKeys.TONEMAP_SET).get();
+        currentString = settingsManager.get(SettingKeys.TONEMAP_SET).get();
         if (TextUtils.isEmpty(currentString))
             currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
@@ -33,7 +33,7 @@ public class ToneMapChooser extends AbstractParameter {
     {
         currentString = valueToSet;
         fireStringValueChanged(currentString);
-        SettingsManager.get(SettingKeys.TONEMAP_SET).set(valueToSet);
+        settingsManager.get(SettingKeys.TONEMAP_SET).set(valueToSet);
     }
 
     @Override

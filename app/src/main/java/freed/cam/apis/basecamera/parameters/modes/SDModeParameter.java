@@ -69,7 +69,7 @@ public class SDModeParameter extends AbstractParameter
     @Override
     public String GetStringValue()
     {
-        if (SettingsManager.getInstance().GetWriteExternal())
+        if (settingsManager.GetWriteExternal())
             return external;
         else
             return internal;

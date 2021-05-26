@@ -41,7 +41,7 @@ public class PictureSizeDetector extends BaseParameter2Detector {
             if (highsize != null)
                 outputSizes.addAll(Arrays.asList(highsize));
         }
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.Xiaomi)
+        if (settingsManager.getFrameWork() == Frameworks.Xiaomi)
         {
             int[] highres = characteristics.get(CameraCharacteristicsXiaomi.availableSuperResolutionStreamConfigurations);
             if(highres != null)
@@ -61,9 +61,9 @@ public class PictureSizeDetector extends BaseParameter2Detector {
 
 
 
-        SettingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
-        SettingsManager.get(SettingKeys.PictureSize).set(ar[0]);
-        SettingsManager.get(SettingKeys.PictureSize).setValues(ar);
+        settingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
+        settingsManager.get(SettingKeys.PictureSize).set(ar[0]);
+        settingsManager.get(SettingKeys.PictureSize).setValues(ar);
     }
 
     private class SizeComparer implements Comparator<Size> {

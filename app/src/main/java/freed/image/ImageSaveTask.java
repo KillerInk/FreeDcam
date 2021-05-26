@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
 import freed.file.holder.BaseHolder;
@@ -58,12 +59,14 @@ public class ImageSaveTask extends ImageTask
     private OpCode opcode;
     private float baselineExposure = 0;
     private int greensplit = 0;
+    private SettingsManager settingsManager;
 
 
     public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
     {
         this.activityInterface = activityInterface;
         this.moduleInterface = moduleInterface;
+        settingsManager = FreedApplication.settingsManager();
     }
 
 
@@ -199,8 +202,8 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setExifData(info);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
-        if (SettingsManager.getInstance().getOpCode() != null)
-            rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
+        if (settingsManager.getOpCode() != null)
+            rawToDng.setOpCode(settingsManager.getOpCode());
         else if (opcode != null)
             rawToDng.setOpCode(opcode);
 

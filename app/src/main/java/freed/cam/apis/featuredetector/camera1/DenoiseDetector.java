@@ -18,34 +18,34 @@ public class DenoiseDetector extends BaseParameter1Detector {
 
     private void detectDenoise(Camera.Parameters parameters)
     {
-        Log.d(TAG, "Denoise is Presetted: "+ SettingsManager.get(SettingKeys.Denoise).isPresetted());
-        if (SettingsManager.get(SettingKeys.Denoise).isPresetted())
+        Log.d(TAG, "Denoise is Presetted: "+ settingsManager.get(SettingKeys.Denoise).isPresetted());
+        if (settingsManager.get(SettingKeys.Denoise).isPresetted())
             return;
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             try {
                 if (parameters.get(camstring(R.string.mtk_3dnr_mode)) != null) {
                     if (parameters.get(camstring(R.string.mtk_3dnr_mode_values)).equals("on,off")) {
-                        SettingsManager.get(SettingKeys.Denoise).setIsSupported(true);
-                        SettingsManager.get(SettingKeys.Denoise).setCamera1ParameterKEY(camstring(R.string.mtk_3dnr_mode));
-                        SettingsManager.get(SettingKeys.Denoise).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
+                        settingsManager.get(SettingKeys.Denoise).setIsSupported(true);
+                        settingsManager.get(SettingKeys.Denoise).setCamera1ParameterKEY(camstring(R.string.mtk_3dnr_mode));
+                        settingsManager.get(SettingKeys.Denoise).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
                     }
                 }
             }
             catch (NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.Denoise).setIsSupported(false);
+                settingsManager.get(SettingKeys.Denoise).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                SettingsManager.get(SettingKeys.Denoise).setIsSupported(false);
+                settingsManager.get(SettingKeys.Denoise).setIsSupported(false);
             }
         }
         else
         {
-            detectMode(parameters,R.string.denoise,R.string.denoise_values, SettingsManager.get(SettingKeys.Denoise));
+            detectMode(parameters,R.string.denoise,R.string.denoise_values, settingsManager.get(SettingKeys.Denoise));
         }
     }
 }
