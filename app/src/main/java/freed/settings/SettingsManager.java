@@ -49,12 +49,6 @@ import freed.views.VideoToneCurveProfile;
  */
 public class SettingsManager extends SettingKeys implements SettingsManagerInterface {
 
-    @EntryPoint
-    @InstallIn(SingletonComponent.class)
-    public interface SettingsManagerEntryPoint {
-        SettingsManager settingsManager();
-    }
-
     public static final int JPEG= 0;
     public static final int RAW = 1;
     public static final int DNG = 2;

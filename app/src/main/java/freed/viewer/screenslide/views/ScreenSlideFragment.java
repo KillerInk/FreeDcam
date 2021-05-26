@@ -37,6 +37,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.troop.freedcam.BR;
@@ -44,6 +45,7 @@ import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
@@ -60,6 +62,7 @@ import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 /**
  * Created by troop on 18.09.2015.
  */
+@AndroidEntryPoint
 public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_OnActivityResultCallback
 {
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
@@ -104,18 +107,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         activityInterface = (ActivityInterface) getActivity();
 
         // Instantiate a ViewPager and a PagerAdapter.
-
+        screenSlideFragmentModelView = new ViewModelProvider(this).get(ScreenSlideFragmentModelView.class);
 
 
 
         bind();
         return screenslideFragmentBinding.getRoot();
-    }
-
-    public void setScreenSlideFragmentModelView(ScreenSlideFragmentModelView screenSlideFragmentModelView)
-    {
-        this.screenSlideFragmentModelView = screenSlideFragmentModelView;
-        bind();
     }
 
     private void bind()

@@ -42,8 +42,6 @@ public interface ActivityInterface
 
     BitmapHelper getBitmapHelper();
 
-    FileListController getFileListController();
-
     LocationManager getLocationManager();
 
     int getOrientation();

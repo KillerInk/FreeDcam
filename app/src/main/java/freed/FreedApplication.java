@@ -6,7 +6,10 @@ import android.view.View;
 
 import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.HiltAndroidApp;
+import freed.file.FileListController;
 import freed.settings.SettingsManager;
+import hilt.FileListControllerEntryPoint;
+import hilt.SettingsManagerEntryPoint;
 
 @HiltAndroidApp
 public class FreedApplication extends Application {
@@ -30,7 +33,12 @@ public class FreedApplication extends Application {
 
     public static SettingsManager settingsManager()
     {
-        return getEntryPointFromApplication(SettingsManager.SettingsManagerEntryPoint.class).settingsManager();
+        return getEntryPointFromApplication(SettingsManagerEntryPoint.class).settingsManager();
+    }
+
+    public static FileListController fileListController()
+    {
+        return getEntryPointFromApplication(FileListControllerEntryPoint.class).fileListController();
     }
 
     public static <T> T getEntryPointFromApplication(Class<T> entryPoint) {

@@ -67,7 +67,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private AnimatorSet mCurrentAnimator;
     private int mShortAnimationDuration;
     private GridViewFragmentModelView gridViewFragmentModelView;
-    private ScreenSlideFragmentModelView screenSlideFragmentModelView;
 
 
     @Override
@@ -88,13 +87,10 @@ public class ActivityFreeDviewer extends ActivityAbstract
     {
         Log.d(TAG,"init");
         gridViewFragmentModelView =  new ViewModelProvider(this).get(GridViewFragmentModelView.class);
-        screenSlideFragmentModelView = new ViewModelProvider(this).get(ScreenSlideFragmentModelView.class);
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
         fileListController = new FileListController(getApplicationContext());
         gridViewFragmentModelView.setFileListController(fileListController);
         gridViewFragmentModelView.setBitmapHelper(bitmapHelper);
-        screenSlideFragmentModelView.setFileListController(fileListController);
-        screenSlideFragmentModelView.setBitmapHelper(bitmapHelper);
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         gridViewFragment = new GridViewFragment();
@@ -105,7 +101,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
         screenSlideFragment = new ScreenSlideFragment();
         screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
-        screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
         slideholder =  findViewById(R.id.freedviewer_screenslideholder);
         gridholder = findViewById(R.id.freedviewer_gridviewholder);
         slideholder.setVisibility(View.GONE);
@@ -118,7 +113,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if (BR.formatType == propertyId)
                 {
-                    screenSlideFragmentModelView.getFilesHolderModel().setFormatTypes(gridViewFragmentModelView.getFilesHolderModel().getFormatType());
+                    //TODO FIX this
+                    //screenSlideFragmentModelView.getFilesHolderModel().setFormatTypes(gridViewFragmentModelView.getFilesHolderModel().getFormatType());
                 }
             }
         });

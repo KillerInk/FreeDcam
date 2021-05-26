@@ -183,11 +183,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public FileListController getFileListController() {
-        return this.fileListController;
-    }
-
-    @Override
     public int getOrientation() {
         return 0;
     }

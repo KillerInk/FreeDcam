@@ -109,6 +109,8 @@ public class DngConvertingFragment extends Fragment
     private BaseHolder out;
     @Inject
     SettingsManager settingsManager;
+    @Inject
+    FileListController fileListController;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -320,8 +322,8 @@ public class DngConvertingFragment extends Fragment
         long size = 0;
         if (path.startsWith("uri") ||path.startsWith("content"))
         {
-            activityInterface.getFileListController().LoadFreeDcamDCIMDirsFiles();
-            List<BaseHolder> files = activityInterface.getFileListController().getFiles();
+            fileListController.LoadFreeDcamDCIMDirsFiles();
+            List<BaseHolder> files = fileListController.getFiles();
             for (BaseHolder b : files)
             {
                 if (((UriHolder) b).getMediaStoreUri().toString().equals(path)) {
@@ -375,8 +377,8 @@ public class DngConvertingFragment extends Fragment
             List<BaseHolder> convertFiles = new ArrayList<>();
             if (files[0].startsWith("uri"))
             {
-                activityInterface.getFileListController().LoadFreeDcamDCIMDirsFiles();
-                List<BaseHolder> baseHolders = activityInterface.getFileListController().getFiles();
+                fileListController.LoadFreeDcamDCIMDirsFiles();
+                List<BaseHolder> baseHolders = fileListController.getFiles();
                 for (String s : files)
                 {
                     for (BaseHolder b : baseHolders)
@@ -405,7 +407,7 @@ public class DngConvertingFragment extends Fragment
             {
                 for (String s : files)
                 {
-                    BaseHolder b = activityInterface.getFileListController().findFile(s);
+                    BaseHolder b = fileListController.findFile(s);
                     convertFiles.add(b);
                 }
             }
@@ -471,13 +473,13 @@ public class DngConvertingFragment extends Fragment
         dng.setOpcode2(AppsettingsManager.getOpcode2());*/
         String intsd = StringUtils.GetInternalSDCARD();
         if (out == null) {
-            for (BaseHolder holder: activityInterface.getFileListController().getFiles())
+            for (BaseHolder holder: fileListController.getFiles())
             {
                 if (holder.getName().equals(file.getName()))
                     out = holder;
             }
             if(out == null)
-                out = activityInterface.getFileListController().getNewImgFileHolder(file);
+                out = fileListController.getNewImgFileHolder(file);
         }
         dng.setExifData(new ExifInfo(100,0,0,0,0,0,"",""));
         if ((VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
@@ -489,8 +491,8 @@ public class DngConvertingFragment extends Fragment
         else
         {
             ParcelFileDescriptor pfd = null;
-            if (((ActivityInterface)getActivity()).getFileListController().getFreeDcamDocumentFolder() != null && settingsManager.GetWriteExternal()) {
-                DocumentFile df = ((ActivityInterface) getActivity()).getFileListController().getFreeDcamDocumentFolder();
+            if (fileListController.getFreeDcamDocumentFolder() != null && settingsManager.GetWriteExternal()) {
+                DocumentFile df = fileListController.getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/dng", out.getName());
                 try {
 

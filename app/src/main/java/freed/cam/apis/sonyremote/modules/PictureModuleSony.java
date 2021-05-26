@@ -157,7 +157,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), ".jpg"));
+        File file = new File(fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException ex) {
@@ -171,7 +171,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = cameraUiWrapper.getActivityInterface().getFileListController().getFreeDcamDocumentFolder();
+                DocumentFile df = fileListController.getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = FreedApplication.getContext().getContentResolver().openOutputStream(wr.getUri());
             }

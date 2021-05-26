@@ -25,10 +25,9 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
     private CameraWrapperInterface cameraFragment;
     ScreenSlideFragment.ButtonClick click;
 
-    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click, ScreenSlideFragmentModelView screenSlideFragmentModelView) {
+    public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click) {
         super(fm);
         this.click = click;
-        screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
     }
 
     public void setCameraFragment(CameraWrapperInterface cameraFragment)

@@ -170,7 +170,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
+            mediaSavePath = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {

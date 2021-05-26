@@ -18,6 +18,7 @@ import java.io.IOException;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -47,12 +48,14 @@ public class VideoRecorder {
     private Surface previewSurface;
     private Surface inputSurface;
     private SettingsManager settingsManager;
+    private FileListController fileListController;
 
     public VideoRecorder(CameraWrapperInterface cameraWrapperInterface,MediaRecorder recorder)
     {
         mediaRecorder = recorder;
         this.cameraWrapperInterface = cameraWrapperInterface;
         settingsManager = FreedApplication.settingsManager();
+        fileListController = FreedApplication.fileListController();
     }
 
     public void setErrorListener(MediaRecorder.OnErrorListener errorListener) {
@@ -286,7 +289,7 @@ public class VideoRecorder {
     }
 
     private void setRecorderFilePath() {
-        BaseHolder baseHolder = cameraWrapperInterface.getActivityInterface().getFileListController().getNewMovieFileHolder(recordingFile);
+        BaseHolder baseHolder = fileListController.getNewMovieFileHolder(recordingFile);
         try {
             baseHolder.setToMediaRecorder(mediaRecorder,cameraWrapperInterface.getActivityInterface());
         } catch (FileNotFoundException e) {

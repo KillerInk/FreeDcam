@@ -11,7 +11,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleHttpClient;
 
 public class ReleaseChecker {
 
-    public static final boolean isGithubRelease = false;
+    public static final boolean isGithubRelease = true;
 
     public interface UpdateEvent
     {

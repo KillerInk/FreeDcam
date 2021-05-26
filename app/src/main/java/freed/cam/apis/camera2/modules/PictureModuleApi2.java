@@ -579,9 +579,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     protected String getFileString()
     {
         if (BurstCounter.getBurstCount() > 1)
-            return cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
+            return fileListController.getNewFilePath(settingsManager.GetWriteExternal(), "_" + BurstCounter.getImageCaptured());
         else
-            return cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(settingsManager.GetWriteExternal(),"");
+            return fileListController.getNewFilePath(settingsManager.GetWriteExternal(),"");
     }
 
     /**

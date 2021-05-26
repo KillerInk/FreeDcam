@@ -160,9 +160,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Inject
     public CameraFragmentManager cameraFragmentManager;
     private UserMessageHandler userMessageHandler;
-    private ScreenSlideFragmentModelView screenSlideFragmentModelView;
     @Inject
     public SettingsManager settingsManager;
+    @Inject
+    BitmapHelper bitmapHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,10 +180,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         startListning();
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);
-        bitmapHelper = new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-        screenSlideFragmentModelView = new ScreenSlideFragmentModelView();
-        screenSlideFragmentModelView.setFileListController(fileListController);
-        screenSlideFragmentModelView.setBitmapHelper(bitmapHelper);
     }
 
     @Override
@@ -262,7 +259,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     private void initScreenSlide() {
-        uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager(),onThumbBackClick,screenSlideFragmentModelView);
+        uiViewPagerAdapter = new CameraUiSlidePagerAdapter(getSupportFragmentManager(),onThumbBackClick);
         if (uiViewPager == null)
             uiViewPager = findViewById(id.viewPager_fragmentHolder);
         uiViewPager.setOffscreenPageLimit(2);
