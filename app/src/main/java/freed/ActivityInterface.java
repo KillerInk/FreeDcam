@@ -38,8 +38,6 @@ public interface ActivityInterface
         void onActivityResultCallback(Uri uri);
     }
 
-    PermissionManager getPermissionManager();
-
     LocationManager getLocationManager();
 
     int getOrientation();

@@ -49,7 +49,7 @@ public class CameraFeatureDetector {
         settingsManager.setAreFeaturesDetected(true);
         settingsManager.save();
         Log.d(TAG, "Feature Detection done! Start FreeDcam Api: " + settingsManager.getCamApi() + " app version:" + settingsManager.getAppVersion());
-        EventBusHelper.post(new SwichCameraFragmentEvent());
+        FreedApplication.cameraFragmentManager().switchCameraFragment();
     }
 
     private void setGlobalDefaultSettings()

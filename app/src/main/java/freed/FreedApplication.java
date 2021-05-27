@@ -6,10 +6,12 @@ import android.view.View;
 
 import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.HiltAndroidApp;
+import freed.cam.apis.CameraFragmentManager;
 import freed.file.FileListController;
 import freed.settings.SettingsManager;
 import freed.viewer.helper.BitmapHelper;
 import hilt.BitmapHelperEntryPoint;
+import hilt.CameraFragmentManagerEntryPoint;
 import hilt.FileListControllerEntryPoint;
 import hilt.SettingsManagerEntryPoint;
 
@@ -46,6 +48,11 @@ public class FreedApplication extends Application {
     public static BitmapHelper bitmapHelper()
     {
         return getEntryPointFromApplication(BitmapHelperEntryPoint.class).bitmapHelper();
+    }
+
+    public static CameraFragmentManager cameraFragmentManager()
+    {
+        return getEntryPointFromApplication(CameraFragmentManagerEntryPoint.class).cameraFragmentManager();
     }
 
     public static <T> T getEntryPointFromApplication(Class<T> entryPoint) {

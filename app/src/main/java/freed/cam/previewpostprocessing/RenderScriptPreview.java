@@ -43,7 +43,7 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
                     mErrorNum = 0;
                     mErrorMessage = null;
                     //Restart the module
-                    EventBusHelper.post(new SwichCameraFragmentEvent());
+                    //FreedApplication.cameraFragmentManager().switchCameraFragment();
                 }
             }
         }

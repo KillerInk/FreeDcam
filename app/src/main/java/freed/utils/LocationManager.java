@@ -30,6 +30,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -87,7 +88,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
     public void startListing()
     {
         boolean isON = settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
-        boolean permissiongranted = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        boolean permissiongranted = ActivityAbstract.permissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
         if (isON && permissiongranted)
             startLocationListing();
     }

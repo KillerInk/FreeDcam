@@ -23,6 +23,7 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -43,13 +44,15 @@ public class GpsParameter extends AbstractParameter
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
     private ActivityInterface activityInterface;
+    private PermissionManager permissionManager;
 
     public GpsParameter(CameraWrapperInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
+        permissionManager = ActivityAbstract.permissionManager();
         this.cameraUiWrapper = cameraUiWrapper;
         this.activityInterface = cameraUiWrapper.getActivityInterface();
-        userAcceptedPermission = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        userAcceptedPermission = permissionManager.isPermissionGranted(PermissionManager.Permissions.Location);
     }
 
     @Override
@@ -75,7 +78,7 @@ public class GpsParameter extends AbstractParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Location) &&
                 valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
@@ -92,8 +95,8 @@ public class GpsParameter extends AbstractParameter
         {
             if (!userAcceptedPermission && !askedForPermission)
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))
-                    && !activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
-                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
+                    && !permissionManager.isPermissionGranted(PermissionManager.Permissions.Location))
+                permissionManager.requestPermission(PermissionManager.Permissions.Location);
             settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             askedForPermission = false;

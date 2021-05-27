@@ -134,7 +134,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void onResume() {
         super.onResume();
-        if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
+        if (permissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
             FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
     }
 

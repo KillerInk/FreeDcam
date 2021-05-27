@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
@@ -58,10 +59,12 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
+    private PermissionManager permissionManager;
 
     AbstractVideoModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_video);
+        permissionManager = ActivityAbstract.permissionManager();
     }
 
     @Override
@@ -153,13 +156,13 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
 
     private void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
             if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
             prepareRecorder();
         }
         else
-            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
+            permissionManager.requestPermission(PermissionManager.Permissions.RecordAudio);
 
     }
 

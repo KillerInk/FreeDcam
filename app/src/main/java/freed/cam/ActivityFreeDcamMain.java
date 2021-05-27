@@ -103,7 +103,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         SetNightOverlay();
         if (!FileListController.needStorageAccessFrameWork) {
-            if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
+            if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
                 ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
         }
         else
@@ -146,6 +146,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     BitmapHelper bitmapHelper;
     @Inject
     FileListController fileListController;
+    @Inject PermissionManager permissionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,21 +189,21 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         super.onResume();
 
         if (!FileListController.needStorageAccessFrameWork){
-            if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard_Camera)) {
+            if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard_Camera)) {
                 if (mSecureCamera !=  null)
                     mSecureCamera.onResume();
             }
             else
-                getPermissionManager().requestPermission(PermissionManager.Permissions.SdCard_Camera);
+                permissionManager.requestPermission(PermissionManager.Permissions.SdCard_Camera);
         }
         else
         {
-            if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Camera)) {
+            if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Camera)) {
                 if (mSecureCamera !=  null)
                     mSecureCamera.onResume();
             }
             else
-                getPermissionManager().requestPermission(PermissionManager.Permissions.Camera);
+                permissionManager.requestPermission(PermissionManager.Permissions.Camera);
         }
     }
 

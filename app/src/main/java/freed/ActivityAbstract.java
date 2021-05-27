@@ -22,6 +22,7 @@ package freed;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
@@ -34,6 +35,7 @@ import java.io.File;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.EntryPointAccessors;
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
@@ -41,6 +43,7 @@ import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
+import hilt.PermissionManagerEntryPoint;
 
 /**
  * Created by troop on 28.03.2016.
@@ -48,16 +51,25 @@ import freed.viewer.helper.BitmapHelper;
 @AndroidEntryPoint
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface {
 
+
+    private static Activity context;
+    private static <T> T getEntryPointFromActivity(Class<T> entryPoint) {
+        return EntryPointAccessors.fromActivity(context, entryPoint);
+    }
+
+    public static PermissionManager permissionManager()
+    {
+        return getEntryPointFromActivity(PermissionManagerEntryPoint.class).permissionManager();
+    }
+
     private final boolean forceLogging = false;
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
 
     private I_OnActivityResultCallback resultCallback;
     private HideNavBarHelper hideNavBarHelper;
-    private PermissionManager permissionManager;
-    public PermissionManager getPermissionManager() {
-        return permissionManager;
-    }
+    @Inject
+    PermissionManager permissionManager;
     @Inject
     public SettingsManager settingsManager;
 
@@ -66,9 +78,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentToView();
+        context = this;
         Log.d(TAG,"onCreate");
         hideNavBarHelper = new HideNavBarHelper();
-        permissionManager =new PermissionManager(this);
         if (!settingsManager.isInit()) {
             settingsManager.init();
         }
@@ -100,6 +112,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();
         settingsManager.release();
+        context = null;
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/

@@ -2,6 +2,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 
 import freed.FreedApplication;
+import freed.cam.apis.CameraFragmentManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.SwichCameraFragmentEvent;
@@ -21,10 +22,7 @@ public class EnableRenderScriptMode extends AbstractParameter {
     {
         settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(valueToSet);
         fireStringValueChanged(valueToSet);
-        EventBusHelper.post(new SwichCameraFragmentEvent());
-        //cameraUiWrapper.restartCameraAsync();
-        //cameraUiWrapper.getActivityInterface()..restartCameraAsync();
-
+        FreedApplication.cameraFragmentManager().switchCameraFragment();
     }
 
     @Override

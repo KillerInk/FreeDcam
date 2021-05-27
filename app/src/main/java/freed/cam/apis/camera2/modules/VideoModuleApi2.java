@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.List;
 
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
+import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -89,9 +90,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private OpcodeProcessor opcodeProcessor;
     private OpCodes active_op = OpCodes.off;
+    private PermissionManager permissionManager;
 
     public VideoModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
+        permissionManager = ActivityAbstract.permissionManager();
         name = FreedApplication.getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
@@ -103,10 +106,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     @Override
     public void DoWork() {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio))
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.RecordAudio))
             startStopRecording();
         else
-            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
+            permissionManager.requestPermission(PermissionManager.Permissions.RecordAudio);
     }
 
     private void startStopRecording() {

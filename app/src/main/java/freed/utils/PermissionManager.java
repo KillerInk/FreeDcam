@@ -2,6 +2,7 @@ package freed.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -24,9 +25,9 @@ public class PermissionManager
 
     private final String TAG = PermissionManager.class.getSimpleName();
 
-    Activity activity;
+    private Context activity;
 
-    public PermissionManager(Activity activity)
+    public PermissionManager(Context activity)
     {
         this.activity = activity;
     }
@@ -89,7 +90,7 @@ public class PermissionManager
     private void requestPermission(String[] permissions)
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity.requestPermissions(permissions, 1);
+            ((Activity)activity).requestPermissions(permissions, 1);
         }
     }
 

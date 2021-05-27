@@ -89,7 +89,6 @@ public class CaptureSessionHandler
         {
             Log.d(TAG, "onConfigureFailed()");
             mCaptureSession = null;
-            EventBusHelper.post(new SwichCameraFragmentEvent());
         }
 
         @Override
