@@ -269,7 +269,7 @@ public class SettingsMenuItemFactory
 
             if (!(cameraUiWrapper instanceof SonyRemoteCamera))
             {
-                SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description, cameraUiWrapper.getActivityInterface());
+                SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
                 globalSettingGroup.addView(fd);
             }
         }

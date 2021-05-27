@@ -251,7 +251,6 @@ public class CaptureSessionHandler
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
         } catch (Exception  ex) {
             Log.WriteEx(ex);
-            EventBusHelper.post(new SwichCameraFragmentEvent());
         }
         captureSessionOpen = true;
     }

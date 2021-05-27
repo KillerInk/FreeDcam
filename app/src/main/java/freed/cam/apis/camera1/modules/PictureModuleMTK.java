@@ -60,7 +60,7 @@ public class PictureModuleMTK extends PictureModule
             if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 cameraHolder.SetLocation(locationManager.getCurrentLocation());
 
-            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(orientationManager.getCurrentOrientation());
             Log.d(TAG, "Start Take Picture");
             waitForPicture = true;
             ParameterInterface picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);

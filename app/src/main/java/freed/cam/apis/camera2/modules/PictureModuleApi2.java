@@ -518,7 +518,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                 stillImageCapture.setForceRawToDng(settingsManager.get(SettingKeys.forceRawToDng).get());
                 stillImageCapture.setToneMapProfile(((ToneMapChooser) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
                 stillImageCapture.setSupport12bitRaw(settingsManager.get(SettingKeys.support12bitRaw).get());
-                stillImageCapture.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+                stillImageCapture.setOrientation(orientationManager.getCurrentOrientation());
                 stillImageCapture.setCharacteristics(cameraUiWrapper.getCameraHolder().characteristics);
                 stillImageCapture.setCaptureType(captureType);
                 if (currentLocation != null)
@@ -531,7 +531,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         }
 
 
-        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
+        cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_ORIENTATION, orientationManager.getCurrentOrientation());
 
         //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();

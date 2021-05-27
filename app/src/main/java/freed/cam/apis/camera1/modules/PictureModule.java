@@ -115,7 +115,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
                 }
 
             }
-            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(orientationManager.getCurrentOrientation());
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
@@ -373,9 +373,9 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         task.setDngProfile(dngProfile);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
         if (settingsManager.getIsFrontCamera())
-            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation()+180);
+            task.setOrientation(orientationManager.getCurrentOrientation()+180);
         else
-            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            task.setOrientation(orientationManager.getCurrentOrientation());
         task.setFilePath(file, settingsManager.GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))

@@ -38,11 +38,7 @@ public interface ActivityInterface
         void onActivityResultCallback(Uri uri);
     }
 
-    int getOrientation();
-
     void SetNightOverlay();
-
-    void runFeatureDetector();
 }
 
 

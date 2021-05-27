@@ -189,17 +189,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public int getOrientation() {
-        return 0;
-    }
-
-    @Override
     public void SetNightOverlay() {
 
     }
 
-    @Override
-    public void runFeatureDetector() {
-
-    }
 }

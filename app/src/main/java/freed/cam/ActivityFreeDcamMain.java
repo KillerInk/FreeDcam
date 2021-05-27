@@ -61,19 +61,30 @@ import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import hilt.LocationManagerEntryPoint;
+import hilt.OrientationMangerEntryPoint;
 
 /**
  * Created by troop on 18.08.2014.
  */
 @AndroidEntryPoint
 public class ActivityFreeDcamMain extends ActivityAbstract
-        implements OrientationEvent,
+        implements
             SecureCamera.SecureCameraActivity, EventBusLifeCycle
 {
 
+    /*
+        provide hilt instance to non ui classes
+     */
     public static LocationManager locationManager()
     {
         return getEntryPointFromActivity(LocationManagerEntryPoint.class).locationManager();
+    }
+    /*
+        provide hilt instance to non ui classes
+     */
+    public static OrientationManager orientationManager()
+    {
+        return getEntryPointFromActivity(OrientationMangerEntryPoint.class).orientationManager();
     }
 
     @Override
@@ -135,7 +146,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
-    private OrientationManager orientationManager;
+    @Inject
+    OrientationManager orientationManager;
     private PagingView uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
     private boolean activityIsResumed= false;
@@ -147,8 +159,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private UserMessageHandler userMessageHandler;
     @Inject
     public SettingsManager settingsManager;
-    @Inject
-    BitmapHelper bitmapHelper;
     @Inject
     FileListController fileListController;
     @Inject PermissionManager permissionManager;
@@ -166,7 +176,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
         startListning();
         //listen to phone orientation changes
-        orientationManager = new OrientationManager(this, this);
+        getLifecycle().addObserver(orientationManager);
     }
 
     @Override
@@ -178,6 +188,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         userMessageHandler.stopListning();
         userMessageHandler.setContext(null);
         getLifecycle().removeObserver(locationManager);
+        getLifecycle().removeObserver(orientationManager);
     }
 
     public UserMessageHandler getUserMessageHandler()
@@ -323,24 +334,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return super.onKeyDown(keyCode,event);
     }
 
-    /**
-     * Set the orientaion to the current camerafragment
-     * @param orientation the new phone orientation
-     */
-    @Override
-    public void onOrientationChanged(int orientation) {
-        if (orientation != currentorientation)
-        {
-            Log.d(TAG,"orientation changed to :" +orientation);
-            currentorientation = orientation;
-        }
-    }
-
-    @Override
-    public int getOrientation() {
-        return currentorientation;
-    }
-
     @Override
     public void closeActivity()
     {
@@ -370,17 +363,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void runFeatureDetector() {
-        unloadCameraFragment();
-        boolean legacy = settingsManager.get(SettingKeys.openCamera1Legacy).get();
-        boolean showHelpOverlay = settingsManager.getShowHelpOverlay();
-        settingsManager.RESET();
-        settingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
-        settingsManager.setshowHelpOverlay(showHelpOverlay);
-        cameraFragmentManager.switchCameraFragment();
     }
 
 }

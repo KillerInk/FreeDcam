@@ -34,6 +34,7 @@ import freed.file.holder.BaseHolder;
 import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 import freed.utils.Log;
+import freed.utils.OrientationManager;
 
 /**
  * Created by troop on 15.08.2014.
@@ -51,6 +52,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
     protected SettingsManager settingsManager;
     protected FileListController fileListController;
     protected LocationManager locationManager;
+    protected OrientationManager orientationManager;
 
 
     public ModuleAbstract(CW cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -61,6 +63,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
         settingsManager = FreedApplication.settingsManager();
         fileListController = FreedApplication.fileListController();
         locationManager = ActivityFreeDcamMain.locationManager();
+        orientationManager = ActivityFreeDcamMain.orientationManager();
     }
 
     /**
