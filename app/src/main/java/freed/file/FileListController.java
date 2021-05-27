@@ -32,14 +32,12 @@ public class FileListController {
 
     private final String TAG = FileListController.class.getSimpleName();
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFile(BaseHolder fileHolder)
     {
         MediaScannerManager.ScanMedia(context,fileHolder);
         AddFile(fileHolder);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFiles(BaseHolder[] fileHolder)
     {
         MediaScannerManager.ScanMedia(context,fileHolder);
@@ -95,12 +93,6 @@ public class FileListController {
         return files;
     }
 
-   /* public StorageFileManager getStorageFileManager()
-    {
-        return storageFileManager;
-    }
-    public MediaStoreController getMediaStoreController(){return mediaStoreController; }*/
-
     public void loadDefaultFiles()
     {
         try {
@@ -126,11 +118,6 @@ public class FileListController {
             Log.e(TAG, ex.getMessage());
             Log.WriteEx(ex);
         }
-    }
-
-    public void loadDocumentFile(String doc)
-    {
-
     }
 
     /**

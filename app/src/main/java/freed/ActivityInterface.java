@@ -40,8 +40,6 @@ public interface ActivityInterface
 
     PermissionManager getPermissionManager();
 
-    BitmapHelper getBitmapHelper();
-
     LocationManager getLocationManager();
 
     int getOrientation();

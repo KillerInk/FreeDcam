@@ -51,8 +51,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     private final boolean forceLogging = false;
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
-    protected BitmapHelper bitmapHelper;
-    protected FileListController fileListController;
+
     private I_OnActivityResultCallback resultCallback;
     private HideNavBarHelper hideNavBarHelper;
     private PermissionManager permissionManager;
@@ -174,12 +173,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
                 }
             }
         }
-    }
-
-
-    @Override
-    public BitmapHelper getBitmapHelper() {
-        return bitmapHelper;
     }
 
     @Override

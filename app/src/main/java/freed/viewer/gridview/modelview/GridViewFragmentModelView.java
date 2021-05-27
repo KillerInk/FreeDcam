@@ -11,6 +11,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.DocumentHolder;
@@ -38,6 +41,7 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;
 
+@HiltViewModel
 public class GridViewFragmentModelView extends ViewModel
 {
     private final String TAG = GridViewFragmentModelView.class.getSimpleName();
@@ -62,11 +66,15 @@ public class GridViewFragmentModelView extends ViewModel
     private PopupMenuModel popupMenuModel;
 
     private final IntentSenderModel intentSenderModel;
+    private FileListController fileListController;
 
-    public GridViewFragmentModelView()
+
+    @Inject
+    public GridViewFragmentModelView(FileListController fileListController)
     {
         viewStateModel = new ViewStateModel();
         filesHolderModel = new FilesHolderModel();
+        this.fileListController = fileListController;
         buttonFiletype = new ButtonFileTypeModel(this);
         buttonDoAction = new ButtonDoAction();
         buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onStackClick,onRawToDngClick,onDngStackClick,this);
@@ -83,19 +91,10 @@ public class GridViewFragmentModelView extends ViewModel
         popupMenuModel = new PopupMenuModel(buttonOptions);
     }
 
-    public void setFileListController(FileListController fileListController)
-    {
-        filesHolderModel.setFileListController(fileListController);
-    }
 
     public void setButtonClick(ScreenSlideFragment.ButtonClick onGridItemClick)
     {
         this.onGridItemClick = onGridItemClick;
-    }
-
-    public void setBitmapHelper(BitmapHelper bitmapHelper)
-    {
-        filesHolderModel.setBitmapHelper(bitmapHelper);
     }
 
     public List<GridImageViewModel> getGridImageViewModels()
@@ -452,7 +451,7 @@ public class GridViewFragmentModelView extends ViewModel
         urisToDelte.clear();
         if (filesSelectedList.get(0).getHolderType() == FileHolder.class)
         {
-            filesHolderModel.getFileListController().DeleteFiles(filesSelectedList);
+            fileListController.DeleteFiles(filesSelectedList);
         }
         else
         {
@@ -472,7 +471,7 @@ public class GridViewFragmentModelView extends ViewModel
         if (urisToDelte.size() > 0)
             try {
 
-                filesHolderModel.getFileListController().DeleteFile(urisToDelte.get(0));
+                fileListController.DeleteFile(urisToDelte.get(0));
                 urisToDelte.remove(0);
                 deleteUriFile();
             }

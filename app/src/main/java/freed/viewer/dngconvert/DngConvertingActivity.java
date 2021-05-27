@@ -38,7 +38,6 @@ public class DngConvertingActivity extends ActivityAbstract
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fileListController = new FileListController(getApplicationContext());
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(id.content, new DngConvertingFragment(), TAG);

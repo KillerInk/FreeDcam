@@ -8,6 +8,8 @@ import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.HiltAndroidApp;
 import freed.file.FileListController;
 import freed.settings.SettingsManager;
+import freed.viewer.helper.BitmapHelper;
+import hilt.BitmapHelperEntryPoint;
 import hilt.FileListControllerEntryPoint;
 import hilt.SettingsManagerEntryPoint;
 
@@ -39,6 +41,11 @@ public class FreedApplication extends Application {
     public static FileListController fileListController()
     {
         return getEntryPointFromApplication(FileListControllerEntryPoint.class).fileListController();
+    }
+
+    public static BitmapHelper bitmapHelper()
+    {
+        return getEntryPointFromApplication(BitmapHelperEntryPoint.class).bitmapHelper();
     }
 
     public static <T> T getEntryPointFromApplication(Class<T> entryPoint) {

@@ -41,6 +41,9 @@ import com.troop.freedcam.R;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
@@ -57,6 +60,7 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 /**
  * Created by troop on 11.12.2015.
  */
+@AndroidEntryPoint
 public class ActivityFreeDviewer extends ActivityAbstract
 {
     private final String TAG = ActivityFreeDviewer.class.getSimpleName();
@@ -67,6 +71,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private AnimatorSet mCurrentAnimator;
     private int mShortAnimationDuration;
     private GridViewFragmentModelView gridViewFragmentModelView;
+    @Inject FileListController fileListController;
 
 
     @Override
@@ -87,10 +92,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
     {
         Log.d(TAG,"init");
         gridViewFragmentModelView =  new ViewModelProvider(this).get(GridViewFragmentModelView.class);
-        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-        fileListController = new FileListController(getApplicationContext());
-        gridViewFragmentModelView.setFileListController(fileListController);
-        gridViewFragmentModelView.setBitmapHelper(bitmapHelper);
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         gridViewFragment = new GridViewFragment();

@@ -115,7 +115,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
      */
     @Override
     public void fireOnWorkFinish(BaseHolder file) {
-        EventBusHelper.post(file);
+        fileListController.addFromEventFile(file);
     }
 
 
@@ -128,7 +128,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
     @Override
     public void fireOnWorkFinish(BaseHolder[] files)
     {
-        EventBusHelper.post(files);
+        fileListController.addFromEventFiles(files);
     }
 
     @Override

@@ -67,31 +67,19 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 @AndroidEntryPoint
 public class ActivityFreeDcamMain extends ActivityAbstract
         implements OrientationEvent,
-            SecureCamera.SecureCameraActivity, EventBusLifeCycle, FileListController.NotifyFilesChanged
+            SecureCamera.SecureCameraActivity, EventBusLifeCycle
 {
 
     @Override
     public void startListning() {
         EventBusHelper.register(this);
-        EventBusHelper.register(fileListController);
     }
 
     @Override
     public void stopListning() {
         EventBusHelper.unregister(this);
-        EventBusHelper.unregister(fileListController);
     }
 
-    @Override
-    public void onFilesChanged() {
-        if (uiViewPagerAdapter != null)
-            uiViewPagerAdapter.updateScreenSlideFile(fileListController.getFiles());
-    }
-
-    @Override
-    public void onFileDeleted(int id) {
-
-    }
 
     private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
     {
@@ -102,14 +90,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
     }
 
-
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void updateScreenSlide(UpdateScreenSlide updateScreenSlide)
-    {
-       onFilesChanged();
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCameraOpenFinishEvent(CameraStateEvents.CameraOpenFinishEvent cameraOpenFinishEvent)
@@ -164,6 +144,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public SettingsManager settingsManager;
     @Inject
     BitmapHelper bitmapHelper;
+    @Inject
+    FileListController fileListController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,8 +157,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
         cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
-        fileListController = new FileListController(getApplicationContext());
-        fileListController.setNotifyFilesChanged(this);
         startListning();
         //listen to phone orientation changes
         orientationManager = new OrientationManager(this, this);

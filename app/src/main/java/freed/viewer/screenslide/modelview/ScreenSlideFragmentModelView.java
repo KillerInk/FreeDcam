@@ -39,6 +39,7 @@ public class ScreenSlideFragmentModelView extends ViewModel {
         this.fileListController = fileListController;
         filesHolderModel = new ScreenSlideFilesHolderModel();
         filesHolderModel.setBitmapHelper(bitmapHelper);
+        filesHolderModel.setFileListController(fileListController);
         exifViewModel = new ExifViewModel();
         infoButtonModel = new InfoButtonModel(exifViewModel);
         topBar = new VisibilityModel();
