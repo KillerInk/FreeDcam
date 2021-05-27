@@ -270,12 +270,6 @@ public class StackActivity extends ActivityAbstract
         MediaScannerManager.ScanMedia(getApplicationContext(), file);
     }
 
-
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
-    }
-
     @Override
     protected void setContentToView() {
 

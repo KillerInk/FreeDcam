@@ -45,11 +45,6 @@ public class DngStackActivity extends ActivityAbstract
     }
 
     @Override
-    public LocationManager getLocationManager() {
-        return null;
-    }
-
-    @Override
     protected void setContentToView() {
 
     }

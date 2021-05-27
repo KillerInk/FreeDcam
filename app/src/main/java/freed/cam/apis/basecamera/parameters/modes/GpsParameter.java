@@ -26,10 +26,12 @@ import com.troop.freedcam.R;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
 
 /**
@@ -45,11 +47,13 @@ public class GpsParameter extends AbstractParameter
     private boolean askedForPermission = false;
     private ActivityInterface activityInterface;
     private PermissionManager permissionManager;
+    private LocationManager locationManager;
 
     public GpsParameter(CameraWrapperInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
         permissionManager = ActivityAbstract.permissionManager();
+        locationManager = ActivityFreeDcamMain.locationManager();
         this.cameraUiWrapper = cameraUiWrapper;
         this.activityInterface = cameraUiWrapper.getActivityInterface();
         userAcceptedPermission = permissionManager.isPermissionGranted(PermissionManager.Permissions.Location);
@@ -83,11 +87,11 @@ public class GpsParameter extends AbstractParameter
         {
             settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.off_))) {
-                activityInterface.getLocationManager().stopLocationListining();
+                locationManager.stopLocationListining();
                 fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             }
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))) {
-                activityInterface.getLocationManager().startListing();
+                locationManager.startListing();
                 fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
             }
         }

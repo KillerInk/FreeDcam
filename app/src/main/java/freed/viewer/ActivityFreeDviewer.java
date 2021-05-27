@@ -138,11 +138,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
             FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
     }
 
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
-    }
-
     private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = this::loadGridView;
 
     private final ScreenSlideFragment.ButtonClick onGridItemClick = this::loadScreenSlide;

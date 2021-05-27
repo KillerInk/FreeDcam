@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
@@ -31,6 +32,7 @@ import freed.cam.events.EventBusHelper;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingsManager;
+import freed.utils.LocationManager;
 import freed.utils.Log;
 
 /**
@@ -48,6 +50,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
     protected Handler mainHandler;
     protected SettingsManager settingsManager;
     protected FileListController fileListController;
+    protected LocationManager locationManager;
 
 
     public ModuleAbstract(CW cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -57,6 +60,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
         this.mainHandler = new Handler(Looper.getMainLooper());
         settingsManager = FreedApplication.settingsManager();
         fileListController = FreedApplication.fileListController();
+        locationManager = ActivityFreeDcamMain.locationManager();
     }
 
     /**

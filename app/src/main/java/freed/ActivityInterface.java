@@ -38,8 +38,6 @@ public interface ActivityInterface
         void onActivityResultCallback(Uri uri);
     }
 
-    LocationManager getLocationManager();
-
     int getOrientation();
 
     void SetNightOverlay();

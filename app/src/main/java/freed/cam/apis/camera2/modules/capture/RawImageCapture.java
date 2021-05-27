@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 
 import freed.ActivityInterface;
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
@@ -94,7 +95,7 @@ public class RawImageCapture extends StillImageCapture {
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
         SettingsManager settingsManager = FreedApplication.settingsManager();
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
-            saveTask.setLocation(activityInterface.getLocationManager().getCurrentLocation());
+            saveTask.setLocation(ActivityFreeDcamMain.locationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {
             saveTask.setFocal(captureResult.get(CaptureResult.LENS_FOCAL_LENGTH));

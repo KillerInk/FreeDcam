@@ -50,13 +50,10 @@ public class LocationManager implements LocationListener, LifecycleObserver
     private boolean isStarted = false;
     private SettingsManager settingsManager;
 
-    public LocationManager(ActivityInterface activityInterface, Lifecycle lifecycle)
+    public LocationManager(Context context,SettingsManager settingsManager)
     {
-        this.activityInterface = activityInterface;
-        this.lifecycle = lifecycle;
-        locationManager = (android.location.LocationManager) FreedApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-        lifecycle.addObserver(this);
-        settingsManager = FreedApplication.settingsManager();
+        locationManager = (android.location.LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        this.settingsManager = settingsManager;
     }
 
     public Location getCurrentLocation()

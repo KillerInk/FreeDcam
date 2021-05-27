@@ -66,7 +66,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
         recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
         if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            Location location = locationManager.getCurrentLocation();
             if (location != null)
                 recorder.setLocation(location);
         }

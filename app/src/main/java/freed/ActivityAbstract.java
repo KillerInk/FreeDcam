@@ -53,7 +53,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
 
     private static Activity context;
-    private static <T> T getEntryPointFromActivity(Class<T> entryPoint) {
+    protected static <T> T getEntryPointFromActivity(Class<T> entryPoint) {
         return EntryPointAccessors.fromActivity(context, entryPoint);
     }
 

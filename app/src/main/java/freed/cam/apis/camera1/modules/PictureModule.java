@@ -126,7 +126,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             else
                 burstcount = 1;
             if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+                cameraHolder.SetLocation(locationManager.getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
             Log.d(TAG,"TakePicture");
@@ -379,7 +379,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         task.setFilePath(file, settingsManager.GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
-            task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            task.setLocation(locationManager.getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }
 }

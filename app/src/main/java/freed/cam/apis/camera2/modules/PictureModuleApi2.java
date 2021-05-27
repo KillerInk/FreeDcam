@@ -503,7 +503,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Location currentLocation = null;
         if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            currentLocation = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+            currentLocation = locationManager.getCurrentLocation();
             Log.d(TAG,"currentLocation null:" +(currentLocation == null));
             if (currentLocation != null)
                 cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_GPS_LOCATION,currentLocation);

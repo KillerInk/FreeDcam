@@ -60,6 +60,7 @@ import freed.utils.PermissionManager;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
+import hilt.LocationManagerEntryPoint;
 
 /**
  * Created by troop on 18.08.2014.
@@ -69,6 +70,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         implements OrientationEvent,
             SecureCamera.SecureCameraActivity, EventBusLifeCycle
 {
+
+    public static LocationManager locationManager()
+    {
+        return getEntryPointFromActivity(LocationManagerEntryPoint.class).locationManager();
+    }
 
     @Override
     public void startListning() {
@@ -132,7 +138,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private OrientationManager orientationManager;
     private PagingView uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
-    private LocationManager locationManager;
     private boolean activityIsResumed= false;
     private int currentorientation = 0;
     private SecureCamera mSecureCamera = new SecureCamera(this);
@@ -147,12 +152,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Inject
     FileListController fileListController;
     @Inject PermissionManager permissionManager;
+    @Inject LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
         Log.d(TAG,"onCreate: ");
-        locationManager = new LocationManager(this,getLifecycle());
+        getLifecycle().addObserver(locationManager);
         userMessageHandler = new UserMessageHandler();
         userMessageHandler.setContext(getApplication());
         userMessageHandler.startListning();
@@ -171,7 +177,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         cameraFragmentManager.destroy();
         userMessageHandler.stopListning();
         userMessageHandler.setContext(null);
-
+        getLifecycle().removeObserver(locationManager);
     }
 
     public UserMessageHandler getUserMessageHandler()
@@ -339,11 +345,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void closeActivity()
     {
         moveTaskToBack(true);
-    }
-
-    @Override
-    public LocationManager getLocationManager() {
-        return locationManager;
     }
 
 
