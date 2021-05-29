@@ -84,6 +84,7 @@ public class SettingsChildMenu extends SettingsChildAbstract
         init(context);
         binding.textviewMenuitemHeader.setText(getResources().getText(headerid));
         binding.textviewMenuitemDescription.setText(getResources().getText(descriptionid));
+        SetParameter(parameter);
     }
 
     public SettingsChildMenu(Context context, AttributeSet attrs) {

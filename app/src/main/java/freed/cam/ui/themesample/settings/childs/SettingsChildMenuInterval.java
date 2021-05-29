@@ -41,13 +41,6 @@ public class SettingsChildMenuInterval extends SettingsChildMenu
     @Override
     public void SetParameter(AbstractParameter parameter) {
         super.SetParameter(parameter);
-        parameter.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                if (propertyId == BR.stringValue)
-                    Log.d(TAG,"BR.stringValue changed");
-            }
-        });
     }
 
     @Override
