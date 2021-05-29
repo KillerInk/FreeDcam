@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
  * Created by troop on 20.07.2017.
@@ -31,7 +31,7 @@ public class SettingsChildFeatureDetect extends SettingsChildMenu
     }
 
     @Override
-    public void SetParameter(AbstractParameter parameter) {
+    public void SetParameter(ParameterInterface parameter) {
 
     }
 

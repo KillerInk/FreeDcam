@@ -29,7 +29,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
  */
 public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
 {
-    public SettingsChildMenuIntervalDuration(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuIntervalDuration(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
     }
 

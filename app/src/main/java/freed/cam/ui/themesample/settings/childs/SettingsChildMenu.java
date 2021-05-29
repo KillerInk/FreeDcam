@@ -34,7 +34,6 @@ import com.troop.freedcam.databinding.SettingsMenuItemBinding;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -72,13 +71,13 @@ public class SettingsChildMenu extends SettingsChildAbstract
         binding.textviewMenuitemDescription.setText(getResources().getText(descriptionid));
     }
 
-    public SettingsChildMenu(Context context, AbstractParameter parameter) {
+    public SettingsChildMenu(Context context, ParameterInterface parameter) {
         super(context, parameter);
         init(context);
         SetParameter(parameter);
     }
 
-    public SettingsChildMenu(Context context, AbstractParameter parameter, int headerid, int descriptionid)
+    public SettingsChildMenu(Context context, ParameterInterface parameter, int headerid, int descriptionid)
     {
         super(context,parameter);
         init(context);
@@ -150,7 +149,7 @@ public class SettingsChildMenu extends SettingsChildAbstract
     }
 
     @Override
-    public void SetParameter(AbstractParameter parameter) {
+    public void SetParameter(ParameterInterface parameter) {
         super.SetParameter(parameter);
         binding.setParameter(parameter);
         binding.notifyChange();

@@ -58,7 +58,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 {
     private final String TAG = AbstractParameterHandler.class.getSimpleName();
 
-    private final HashMap<SettingsManager.Key, AbstractParameter> parameterHashMap = new HashMap<>();
+    private final HashMap<SettingsManager.Key, ParameterInterface> parameterHashMap = new HashMap<>();
 
     protected C cameraUiWrapper;
     protected SettingsManager settingsManager;
@@ -86,7 +86,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     }
 
     @Override
-    public void add(SettingsManager.Key parameters, AbstractParameter parameterInterface)
+    public void add(SettingsManager.Key parameters, ParameterInterface parameterInterface)
     {
         Log.d(TAG, "add "+ FreedApplication.getStringFromRessources(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);
@@ -115,7 +115,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     }
 
     @Override
-    public AbstractParameter get(SettingsManager.Key parameters)
+    public ParameterInterface get(SettingsManager.Key parameters)
     {
         return parameterHashMap.get(parameters);
     }

@@ -44,7 +44,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
     @Inject
     SettingsManager settingsManager;
 
-    public SettingsChildMenuVideoHDR(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuVideoHDR(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
     }
 

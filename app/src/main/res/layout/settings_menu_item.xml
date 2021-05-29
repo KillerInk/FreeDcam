@@ -3,7 +3,7 @@
     <data>
         <variable
             name="parameter"
-            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
+            type="freed.cam.apis.basecamera.parameters.ParameterInterface" />
     </data>
 <LinearLayout
     android:id="@+id/menu_item_toplayout"

@@ -22,7 +22,6 @@ package freed.cam.ui.themesample;
 import android.view.View;
 
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
@@ -34,7 +33,7 @@ public interface SettingsChildInterface extends ModuleChangedEvent,View.OnClickL
      * Set the parameter to work with
      * @param parameter
      */
-    void SetParameter(AbstractParameter parameter);
+    void SetParameter(ParameterInterface parameter);
 
     /**
      *

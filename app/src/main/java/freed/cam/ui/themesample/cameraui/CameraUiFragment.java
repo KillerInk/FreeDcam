@@ -52,6 +52,7 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
@@ -131,7 +132,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
      * @param parameter to use
      * @param backgroundImg id that get used
      */
-    private UiSettingsChild setUiItem(LinearLayout layout, AbstractParameter parameter, int backgroundImg)
+    private UiSettingsChild setUiItem(LinearLayout layout, ParameterInterface parameter, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
         child.SetParameter(parameter);

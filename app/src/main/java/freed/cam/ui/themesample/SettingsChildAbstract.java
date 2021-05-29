@@ -24,7 +24,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.utils.Log;
 
@@ -83,7 +82,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         onItemClick = menuItemClick;
     }
 
-    public void SetParameter(AbstractParameter parameter) {
+    public void SetParameter(ParameterInterface parameter) {
         /*if (parameter == null) {
             onViewStateChanged(AbstractParameter.ViewState.Hidden);
             sendLog("Paramters is null or Unsupported");

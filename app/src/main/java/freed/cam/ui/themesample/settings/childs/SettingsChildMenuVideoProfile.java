@@ -29,7 +29,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
  */
 public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 {
-    public SettingsChildMenuVideoProfile(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuVideoProfile(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
     }
 

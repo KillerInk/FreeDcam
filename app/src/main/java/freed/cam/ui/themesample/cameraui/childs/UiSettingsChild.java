@@ -35,6 +35,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -132,7 +133,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     }
 
     @Override
-    public void SetParameter(AbstractParameter parameter)
+    public void SetParameter(ParameterInterface parameter)
     {
         super.SetParameter(parameter);
         binding.setParameter(parameter);
