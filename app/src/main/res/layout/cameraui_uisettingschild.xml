@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.ParameterInterface" />
+    </data>
+<LinearLayout
     android:id="@+id/uiSettingsTopLayout"
     android:layout_width="match_parent"
     android:layout_height="44dp"
-
+    setViewState="@{parameter.viewState}"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -31,10 +37,12 @@
             android:paddingRight="2dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="Small Text"
+            android:text="@{parameter.stringValue}"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/uiSettingsTextColor"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            />
     </LinearLayout>
 
 </LinearLayout>
+</layout>

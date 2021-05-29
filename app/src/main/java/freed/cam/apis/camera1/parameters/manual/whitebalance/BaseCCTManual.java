@@ -35,7 +35,6 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -115,22 +114,22 @@ public class BaseCCTManual extends BaseManualParameter
         try {
             if (parameters.get("whitebalance-values").contains("manual") && parameters.get("manual-wb-modes").contains("color-temperature")) {
 
-                wbm.SetValue(manual_WbMode, true);
+                wbm.setStringValue(manual_WbMode, true);
                 parameters.set(FreedApplication.getStringFromRessources(R.string.manual_wb_type), 0);
                 parameters.set(FreedApplication.getStringFromRessources(R.string.manual_wb_value), stringvalues[currentInt]);
                 Log.d(TAG, "NEW");
 
             } else {
-                if (!wbm.GetStringValue().equals(manual_WbMode) && !TextUtils.isEmpty(manual_WbMode))
-                    wbm.SetValue(manual_WbMode, true);
+                if (!wbm.getStringValue().equals(manual_WbMode) && !TextUtils.isEmpty(manual_WbMode))
+                    wbm.setStringValue(manual_WbMode, true);
                 parameters.set(key_value, stringvalues[currentInt]);
                 Log.d(TAG, "OLD");
             }
         }
         catch (Exception err )
         {
-            if (!wbm.GetStringValue().equals(manual_WbMode) && !TextUtils.isEmpty(manual_WbMode))
-                wbm.SetValue(manual_WbMode, true);
+            if (!wbm.getStringValue().equals(manual_WbMode) && !TextUtils.isEmpty(manual_WbMode))
+                wbm.setStringValue(manual_WbMode, true);
             parameters.set(key_value, stringvalues[currentInt]);
             err.printStackTrace();
         }
@@ -140,7 +139,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_to_auto()
     {
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).SetValue("auto", true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).setStringValue("auto", true);
         Log.d(TAG, "Set  to : auto");
     }
 

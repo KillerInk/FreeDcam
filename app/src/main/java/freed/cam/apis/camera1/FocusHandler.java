@@ -146,7 +146,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
             return;
 
         Log.d(TAG, "start Touch X:Y " + obj.x +":" + obj.y);
-        String focusmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue();
+        String focusmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).getStringValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
             Rect targetFocusRect = getFocusRect(obj.x,obj.y, obj.width, obj.height);

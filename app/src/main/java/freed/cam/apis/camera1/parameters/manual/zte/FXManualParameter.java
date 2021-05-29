@@ -43,7 +43,7 @@ public class FXManualParameter extends BaseManualParameter {
     }
 
     @Override
-    public int GetValue()
+    public int getIntValue()
     {
         int i = 0;
         try {

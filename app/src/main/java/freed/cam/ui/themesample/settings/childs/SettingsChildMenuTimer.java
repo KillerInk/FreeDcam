@@ -60,6 +60,6 @@ public class SettingsChildMenuTimer extends SettingsChildMenu
     public void SetValue(String value)
     {
         settingsManager.get(SettingKeys.selfTimer).set(value);
-        onStringValueChanged(value);
+        //onStringValueChanged(value);
     }
 }

@@ -45,7 +45,7 @@ public class NightModeSony extends BaseModeParameterSony
             setViewState(ViewState.Visible);
     }
 
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         if (valueToSet.equals(FreedApplication.getStringFromRessources((R.string.on_))))
             simpleStreamSurfaceView.nightmode = PreviewStreamDrawer.NightPreviewModes.on;
@@ -58,7 +58,7 @@ public class NightModeSony extends BaseModeParameterSony
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         switch (simpleStreamSurfaceView.nightmode)
         {

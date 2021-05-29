@@ -66,7 +66,7 @@ public class BurstManualParam extends BaseManualParameter
 
 
     @Override
-    public int GetValue()
+    public int getIntValue()
     {
         return currentInt;
     }
@@ -102,7 +102,7 @@ public class BurstManualParam extends BaseManualParameter
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return stringvalues[currentInt];
     }
 

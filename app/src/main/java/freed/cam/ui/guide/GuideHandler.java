@@ -69,7 +69,7 @@ public class GuideHandler extends Fragment implements ParameterEvents {
         super.onResume();
         EventBusHelper.register(this);
         if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize) != null)
-            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).GetStringValue());
+            previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValue());
     }
     @Override
     public void onPause(){

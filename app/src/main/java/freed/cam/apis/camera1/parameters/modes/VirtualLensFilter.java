@@ -27,7 +27,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 9/24/2015.
@@ -48,9 +47,9 @@ public class VirtualLensFilter extends  BaseModeParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
-        super.SetValue(valueToSet,setToCam);
+        super.setStringValue(valueToSet,setToCam);
         switch (valueToSet)
         {
             case "Off":
@@ -108,7 +107,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         return "Off";
     }

@@ -10,6 +10,7 @@ import com.troop.freedcam.R;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -25,7 +26,7 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
         super(context);
     }
 
-    public UiSettingsChildSelfTimer(Context context, SettingMode settingsMode, ParameterInterface parameter) {
+    public UiSettingsChildSelfTimer(Context context, SettingMode settingsMode, AbstractParameter parameter) {
         super(context, parameter);
     }
 
@@ -48,7 +49,7 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
 
     public void SetStuff(SettingMode settingMode) {
 
-        onStringValueChanged(settingMode.get());
+        //onStringValueChanged(settingMode.get());
     }
 
     @Override
@@ -59,6 +60,6 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
     @Override
     public void SetValue(String value) {
         settingsManager.get(SettingKeys.selfTimer).set(value);
-        onStringValueChanged(value);
+        //onStringValueChanged(value);
     }
 }

@@ -63,7 +63,6 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
@@ -343,7 +342,7 @@ public class ParameterHandler extends AbstractParameterHandler<SonyRemoteCamera>
     public void onWhiteBalanceValueChanged(String wb)
     {
         get(SettingKeys.WhiteBalanceMode).fireStringValueChanged(wb);
-        if (get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("Color Temperature") && get(SettingKeys.M_Whitebalance) != null)
+        if (get(SettingKeys.WhiteBalanceMode).getStringValue().equals("Color Temperature") && get(SettingKeys.M_Whitebalance) != null)
             get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Visible);
         else
             get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Hidden);
@@ -461,9 +460,9 @@ public class ParameterHandler extends AbstractParameterHandler<SonyRemoteCamera>
 
     @Override
     public void onExposureModeChanged(String expomode) {
-        if ((expomode == null && TextUtils.isEmpty(expomode)) || get(SettingKeys.ExposureMode).GetStringValue() == null)
+        if ((expomode == null && TextUtils.isEmpty(expomode)) || get(SettingKeys.ExposureMode).getStringValue() == null)
             return;
-        if (!get(SettingKeys.ExposureMode).GetStringValue().equals(expomode))
+        if (!get(SettingKeys.ExposureMode).getStringValue().equals(expomode))
             get(SettingKeys.ExposureMode).fireStringValueChanged(expomode);
         if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
             get(SettingKeys.WhiteBalanceMode).setViewState(AbstractParameter.ViewState.Hidden);

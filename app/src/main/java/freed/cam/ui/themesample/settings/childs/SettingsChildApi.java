@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.events.ValueChangedEvent;
@@ -28,11 +29,11 @@ public class SettingsChildApi extends  SettingsChildMenu {
         super(context, headerid, descriptionid);
     }
 
-    public SettingsChildApi(Context context, ParameterInterface parameter) {
+    public SettingsChildApi(Context context, AbstractParameter parameter) {
         super(context, parameter);
     }
 
-    public SettingsChildApi(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildApi(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
     }
 
@@ -42,7 +43,7 @@ public class SettingsChildApi extends  SettingsChildMenu {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStringValueChanged(SwichCameraFragmentEvent value) {
-        onStringValueChanged(settingsManager.getCamApi());
+        //onStringValueChanged(settingsManager.getCamApi());
     }
 
     @Override

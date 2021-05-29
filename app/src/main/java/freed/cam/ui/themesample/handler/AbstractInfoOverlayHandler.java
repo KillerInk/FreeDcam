@@ -157,7 +157,7 @@ public abstract class AbstractInfoOverlayHandler
         {
             ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
-                size = videoprofile.GetStringValue();
+                size = videoprofile.getStringValue();
             else
                 size = "";
         }
@@ -165,13 +165,13 @@ public abstract class AbstractInfoOverlayHandler
         {
             ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);
             if (pictureFormat != null)
-                format = pictureFormat.GetStringValue();
+                format = pictureFormat.getStringValue();
             else
                 format = "";
 
             ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize);
             if (pictureSize != null)
-                size = pictureSize.GetStringValue();
+                size = pictureSize.getStringValue();
             else
                 size = "";
         }

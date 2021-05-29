@@ -29,12 +29,10 @@ import org.greenrobot.eventbus.Subscribe;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -169,7 +167,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
 
         @Override
-        public int GetValue() {
+        public int getIntValue() {
             return currentInt;
         }
 
@@ -179,18 +177,18 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetValue());
-                if (cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetStringValue().equals("CONTRAST_CURVE"))
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getIntValue());
+                if (cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getStringValue().equals("CONTRAST_CURVE"))
                 {
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).SetValue("FAST", true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).setStringValue("FAST", true);
                     Log.d(TAG, "Disabled Contrast Curve");
                 }
             }
             else {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetValue());
-                if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetStringValue().equals("CONTRAST_CURVE") && !firststart)
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getIntValue());
+                if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getStringValue().equals("CONTRAST_CURVE") && !firststart)
                 {
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).SetValue("CONTRAST_CURVE", true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).setStringValue("CONTRAST_CURVE", true);
                     Log.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
@@ -223,8 +221,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public String GetStringValue() {
-            return super.GetStringValue();
+        public String getStringValue() {
+            return super.getStringValue();
         }
     }
 
@@ -239,7 +237,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public int GetValue() {
+        public int getIntValue() {
             return currentInt /4;
         }
 
@@ -274,8 +272,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public String GetStringValue() {
-            return super.GetStringValue();
+        public String getStringValue() {
+            return super.getStringValue();
         }
     }
 
@@ -297,7 +295,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public int GetValue() {
+        public int getIntValue() {
             return currentInt;
         }
 
@@ -327,7 +325,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
 
         @Override
-        public String GetStringValue() {
+        public String getStringValue() {
             return stringvalues[currentInt]+"";
         }
 
@@ -353,7 +351,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public String GetStringValue() {
+        public String getStringValue() {
             return settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get();
         }
 

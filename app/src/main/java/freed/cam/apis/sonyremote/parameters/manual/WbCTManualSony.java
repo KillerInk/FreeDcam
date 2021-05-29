@@ -53,7 +53,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
 
-    public int GetValue()
+    public int getIntValue()
     {
         if (currentInt == -200)
             FreeDPool.Execute(() -> {
@@ -82,7 +82,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera)
+    public void setIntValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         if (valueToSet > values.length)
@@ -111,7 +111,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     public void onViewStateChanged(ViewState value) {
         if (step != 0 && value == ViewState.Visible)
         {
-            GetStringValue();
+            getStringValue();
         }
     }
 
@@ -186,7 +186,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (values == null)
             return "";

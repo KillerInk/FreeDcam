@@ -25,8 +25,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.SettingsLeftmenufragmentBinding;
 
 import javax.inject.Inject;
 
@@ -35,6 +38,7 @@ import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 
@@ -53,16 +57,18 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     @Inject
     public SettingsMenuItemFactory settingsMenuItemFactory;
 
+    private SettingsLeftmenufragmentBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        View view = inflater.inflate(layout.settings_leftmenufragment, container, false);
+        binding = DataBindingUtil.inflate(inflater,layout.settings_leftmenufragment,container,false);
 
-        settingsChildHolder = view.findViewById(id.SettingChildHolder);
+        settingsChildHolder = binding.SettingChildHolder;
         setCameraToUi(cameraUiWrapper);
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -80,7 +86,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment) {
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment) {
         onMenuItemClick.onSettingsChildClick(item, true);
     }
 

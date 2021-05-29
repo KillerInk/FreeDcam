@@ -18,7 +18,7 @@ public class HistogramParameter extends FocusPeakMode {
         super(cameraUiWrapper, SettingKeys.HISTOGRAM);
     }
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         state = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
@@ -34,7 +34,7 @@ public class HistogramParameter extends FocusPeakMode {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return state;
     }
 }

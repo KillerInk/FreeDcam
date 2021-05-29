@@ -68,7 +68,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
             setVisibility(View.VISIBLE);
         }
         currentCamera = settingsManager.GetCurrentCamera();
-        valueText.setText(getCamera(currentCamera));
+        binding.textView2.setText(getCamera(currentCamera));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         currentCamera = Integer.parseInt(split[1]);
         settingsManager.SetCurrentCamera(currentCamera);
         CameraThreadHandler.restartCameraAsync();
-        valueText.setText(getCamera(currentCamera));
+        binding.textView2.setText(getCamera(currentCamera));
     }
 
 
@@ -91,7 +91,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         settingsManager.SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
         CameraThreadHandler.restartCameraAsync();
-        valueText.setText(getCamera(currentCamera));
+        binding.textView2.setText(getCamera(currentCamera));
     }
 
     private String getCamera(int i)

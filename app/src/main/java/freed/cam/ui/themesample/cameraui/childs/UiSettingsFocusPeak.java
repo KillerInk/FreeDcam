@@ -31,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -59,21 +60,21 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
-        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
-            onViewStateChanged(AbstractParameter.ViewState.Visible);
+        /*if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
+            onViewStateChanged(AbstractParameter.ViewState.Visible);*/
 
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment)
     {
         if (parameter == null)
             return;
-        if (parameter.GetStringValue().equals(getResources().getString(R.string.on_))) {
-            parameter.SetValue(getResources().getString(R.string.off_), false);
+        if (parameter.getStringValue().equals(getResources().getString(R.string.on_))) {
+            parameter.setStringValue(getResources().getString(R.string.off_), false);
         }
         else{
-            parameter.SetValue(getResources().getString(R.string.on_),false);}
+            parameter.setStringValue(getResources().getString(R.string.on_),false);}
 
     }
 

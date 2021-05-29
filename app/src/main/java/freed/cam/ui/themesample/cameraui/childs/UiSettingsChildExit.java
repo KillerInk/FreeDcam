@@ -25,6 +25,7 @@ import android.content.Context;
 import dagger.hilt.android.internal.managers.FragmentComponentManager;
 import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 13.06.2015.
@@ -38,10 +39,7 @@ public class UiSettingsChildExit extends UiSettingsChild
             ActivityFreeDcamMain activity = (ActivityFreeDcamMain) FragmentComponentManager.findActivity(context);
             activity.closeActivity();
         });
+
     }
 
-    @Override
-    public void onStringValueChanged(String value) {
-        valueText.setText("");
-    }
 }

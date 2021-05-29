@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -38,9 +37,9 @@ public class PreviewSizeParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
-        super.SetValue(valueToSet,setToCam);
+        super.setStringValue(valueToSet,setToCam);
         /*if (setToCam) {
             cameraUiWrapper.stopPreviewAsync();
         }*/

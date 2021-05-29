@@ -50,8 +50,8 @@ import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
@@ -83,7 +83,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     //button to switch between front and back cam
     private UiSettingsChildCameraSwitch cameraSwitch;
     //hold the button wich opened the horizontalValuesFragment
-    private UiSettingsChild currentOpendChild;
+    private SettingsChildAbstract currentOpendChild;
     //Shows the values when a uibutton got clicked
     private HorizontalValuesFragment horizontalValuesFragment;
     //there the horizontalValuesFragment gets inflated
@@ -131,12 +131,13 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
      * @param parameter to use
      * @param backgroundImg id that get used
      */
-    private UiSettingsChild setUiItem(LinearLayout layout, ParameterInterface parameter, int backgroundImg)
+    private UiSettingsChild setUiItem(LinearLayout layout, AbstractParameter parameter, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
         child.SetParameter(parameter);
         child.setBackgroundResource(backgroundImg);
         child.SetMenuItemClickListner(this,true);
+        child.setVisibility(View.VISIBLE);
         layout.addView(child);
         return child;
     }
@@ -147,7 +148,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private void addexit()
     {
         UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
-        exit.onStringValueChanged("");
+        //exit.onStringValueChanged("");
         exit.setBackgroundResource(R.drawable.quck_set_exit);
         right_ui_items_top.addView(exit);
     }
@@ -438,7 +439,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment)
     {
         if (currentOpendChild == item)
         {

@@ -31,7 +31,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -69,7 +68,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         manualFocus = (ManualFocus) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Focus);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(PICSTOTAKE-1, true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setIntValue(PICSTOTAKE-1, true);
         focusCaptureRange = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
         focusStep =  focusCaptureRange /PICSTOTAKE;
         currentFocusPos = 1;
@@ -85,7 +84,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void onStartTakePicture() {
         super.onStartTakePicture();
-        PICSTOTAKE = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).GetValue();
+        PICSTOTAKE = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).getIntValue();
         cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,true);
         int max  = 0;

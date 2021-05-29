@@ -63,7 +63,7 @@ public class ZoomManualSony extends BaseManualParameterSony
             return ViewState.Hidden;
     }
 
-    public int GetValue()
+    public int getIntValue()
     {
         /*if (currentInt == -1) {
             currentInt = -1;
@@ -94,7 +94,7 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera)
+    public void setIntValue(int valueToSet, boolean setToCamera)
     {
         zoomToSet = valueToSet;
         if (!isZooming)
@@ -127,7 +127,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         if (zoomToSet != currentInt && fromUser)
         {
             if (!checkIfIntIsInRange(zoomToSet, currentInt))
-                SetValue(zoomToSet, true);
+                setIntValue(zoomToSet, true);
             else {
                 zoomToSet = currentInt;
                 fromUser = false;
@@ -145,7 +145,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         return a == b || a - 5 <= b && a + 5 >= b;
     }
 
-    public String GetStringValue()
+    public String getStringValue()
     {
 
         return currentInt + "%";

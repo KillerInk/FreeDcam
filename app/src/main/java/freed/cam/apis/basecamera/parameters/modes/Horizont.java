@@ -46,7 +46,7 @@ public class Horizont extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
         settingsManager.getGlobal(SettingKeys.HorizontLvl).set(valueToSet);
@@ -54,7 +54,7 @@ public class Horizont extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (value == null || TextUtils.isEmpty(value))
             return FreedApplication.getStringFromRessources(R.string.off);

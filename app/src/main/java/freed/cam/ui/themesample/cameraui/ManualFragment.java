@@ -35,8 +35,6 @@ import com.troop.freedcam.R.layout;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import javax.inject.Inject;
-
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -55,7 +53,6 @@ import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonShutter;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.views.CurveView;
 import freed.views.CurveViewControl;

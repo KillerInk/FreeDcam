@@ -62,7 +62,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (stringvalues == null || stringvalues.length < currentInt)
             getminmax();
@@ -94,7 +94,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     String[] shut = shutter.getStringValues();
                     if (shut != null && r != null && shut.length == r.size())
                     {
-                        String s = shutter.GetStringValue();
+                        String s = shutter.getStringValue();
                         for (int i = 0; i < shut.length; i++)
                         {
                             if (s.equals(shut[i]))
@@ -125,7 +125,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(final int valueToSet, boolean setToCamera)
+    public void setIntValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
        FreeDPool.Execute(() -> {

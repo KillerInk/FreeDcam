@@ -80,7 +80,7 @@ public class VideoProfilesParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if ((profile == null || TextUtils.isEmpty(profile)) && supportedProfiles != null)
         {

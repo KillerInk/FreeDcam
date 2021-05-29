@@ -1,5 +1,10 @@
 package freed.cam.apis.basecamera.parameters;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
+import com.troop.freedcam.BR;
+
 import java.util.ArrayList;
 
 import dagger.hilt.android.EntryPointAccessors;
@@ -15,7 +20,7 @@ import freed.settings.mode.SettingMode;
  * Created by troop on 18.06.2017.
  */
 
-public abstract class AbstractParameter<C extends CameraWrapperInterface> implements ParameterInterface {
+public abstract class AbstractParameter<C extends CameraWrapperInterface> extends BaseObservable implements ParameterInterface {
 
     public enum ViewState{
         Visible,
@@ -63,6 +68,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
                 setViewState(ViewState.Visible);
             currentString = settingMode.get();
         }
+        notifyChange();
     }
 
     @Override
@@ -97,12 +103,14 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
     {
         currentInt = current;
         EventBusHelper.post(new ValueChangedEvent<>(key,current, Integer.class));
+        notifyPropertyChanged(BR.intValue);
     }
 
     public void fireStringValueChanged(String value)
     {
         currentString = value;
         EventBusHelper.post(new ValueChangedEvent<>(key,value, String.class));
+        notifyPropertyChanged(BR.stringValue);
     }
 
     @Override
@@ -110,6 +118,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
     {
         viewState = value;
         EventBusHelper.post(new ValueChangedEvent<>(key,value, ViewState.class));
+        notifyPropertyChanged(BR.viewState);
     }
 
     @Override
@@ -117,12 +126,14 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
     {
         stringvalues = value;
         EventBusHelper.post(new ValueChangedEvent<>(key,value, String[].class));
+        notifyPropertyChanged(BR.stringValues);
     }
 
     /**
      *
      * @return true if the parameter is supported
      */
+    @Bindable
     @Override
     public ViewState getViewState() {
         return viewState;
@@ -132,8 +143,9 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
      *
      * @return returns the current key_value as int
      */
+    @Bindable
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return currentInt;
     }
 
@@ -141,8 +153,9 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
      *
      * @return returns the current key_value as string
      */
+    @Bindable
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (currentString == null)
             return "";
@@ -153,6 +166,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
      *
      * @return returns all values as StringArray
      */
+    @Bindable
     @Override
     public String[] getStringValues() { return stringvalues;}
 
@@ -166,7 +180,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
      * @param setToCamera
      */
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera)
+    public void setIntValue(int valueToSet, boolean setToCamera)
     {
         setValue(valueToSet,setToCamera);
     }
@@ -179,10 +193,10 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
      */
     protected void setValue(int valueToSet, boolean setToCamera)
     {
-        fireIntValueChanged(valueToSet);
         currentInt = valueToSet;
         if (settingMode != null)
             settingMode.set(String.valueOf(valueToSet));
+        fireIntValueChanged(valueToSet);
     }
 
     /**
@@ -192,7 +206,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> implem
      * @param setToCamera not needed anymore?
      */
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         setValue(valueToSet,setToCamera);
     }
 

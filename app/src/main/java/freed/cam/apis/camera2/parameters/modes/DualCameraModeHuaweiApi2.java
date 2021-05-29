@@ -51,7 +51,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (parameterKey == null)
             return null;

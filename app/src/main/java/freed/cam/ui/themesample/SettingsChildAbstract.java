@@ -23,11 +23,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.utils.Log;
 
 /**
@@ -38,7 +36,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
 
     public interface SettingsChildClick
     {
-        void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment);
+        void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment);
     }
 
     public interface CloseChildClick
@@ -47,7 +45,6 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     }
 
     protected ParameterInterface parameter;
-    protected TextView valueText;
 
     protected SettingsChildClick onItemClick;
     protected boolean fromleft;
@@ -56,9 +53,9 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         super(context);
         this.parameter = parameter;
-        if (parameter == null || parameter.GetStringValue() == null)
+        if (parameter == null || parameter.getStringValue() == null)
             return;
-        String value = parameter.GetStringValue();
+        String value = parameter.getStringValue();
         parameter.fireStringValueChanged(value);
     }
 
@@ -86,8 +83,8 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         onItemClick = menuItemClick;
     }
 
-    public void SetParameter(ParameterInterface parameter) {
-        if (parameter == null) {
+    public void SetParameter(AbstractParameter parameter) {
+        /*if (parameter == null) {
             onViewStateChanged(AbstractParameter.ViewState.Hidden);
             sendLog("Paramters is null or Unsupported");
         }
@@ -96,8 +93,8 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
             //parameter.addEventListner(this);
             this.parameter = parameter;
             onViewStateChanged(parameter.getViewState());
-        }
-
+        }*/
+        this.parameter = parameter;
     }
 
     @Override
@@ -120,7 +117,7 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
         if (parameter != null)
         {
             try {
-                parameter.SetValue(value, true);
+                parameter.setStringValue(value, true);
             }
             catch (NullPointerException ex)
             {

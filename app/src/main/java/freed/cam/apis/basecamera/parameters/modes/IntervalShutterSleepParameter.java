@@ -53,14 +53,14 @@ public class IntervalShutterSleepParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         current = valueToSet;
         settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).set(current);
         fireStringValueChanged(current);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return current;
     }
 

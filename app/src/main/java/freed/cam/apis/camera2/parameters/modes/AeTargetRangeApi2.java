@@ -40,7 +40,7 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return currentString;
     }
 

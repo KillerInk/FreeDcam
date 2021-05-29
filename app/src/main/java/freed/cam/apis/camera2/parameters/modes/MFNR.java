@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class MFNR extends BaseModeApi2 {
     public MFNR(Camera2 cameraUiWrapper) {
@@ -19,7 +18,7 @@ public class MFNR extends BaseModeApi2 {
 
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return String.valueOf(settingsManager.get(SettingKeys.MFNR).get());
     }
 
@@ -38,7 +37,7 @@ public class MFNR extends BaseModeApi2 {
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.MFNR, (byte) 1, setToCamera);
         }
         else {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).SetValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).GetStringValue(),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).setStringValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).getStringValue(),true);
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.MFNR, (byte) 0, setToCamera);
         }
 

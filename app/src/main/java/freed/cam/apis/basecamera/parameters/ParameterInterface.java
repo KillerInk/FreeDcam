@@ -19,6 +19,8 @@
 
 package freed.cam.apis.basecamera.parameters;
 
+import androidx.databinding.Bindable;
+
 import freed.cam.events.EventBusLifeCycle;
 import freed.settings.SettingKeys;
 
@@ -39,13 +41,13 @@ public interface ParameterInterface extends EventBusLifeCycle
      * the current int value from the String array
      * @return
      */
-    int GetValue();
+    int getIntValue();
 
     /**
      *
      * @return the current String value from the array
      */
-    String GetStringValue();
+    String getStringValue();
 
     /**
      *
@@ -58,14 +60,14 @@ public interface ParameterInterface extends EventBusLifeCycle
      * @param valueToSet the int value to set
      * @param setToCamera
      */
-    void SetValue(int valueToSet, boolean setToCamera);
+    void setIntValue(int valueToSet, boolean setToCamera);
 
     /**
      *
      * @param valueToSet to the camera
      * @param setToCamera not needed anymore?
      */
-    void SetValue(String valueToSet, boolean setToCamera);
+    void setStringValue(String valueToSet, boolean setToCamera);
 
     /**
      * notify the listners that the int value has changed in background

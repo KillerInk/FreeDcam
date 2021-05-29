@@ -56,7 +56,7 @@ public class FocusPeakMode extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
@@ -71,7 +71,7 @@ public class FocusPeakMode extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         if (cameraUiWrapper.getPreview().isFocusPeak())
             return FreedApplication.getStringFromRessources(R.string.on_);
         else

@@ -43,7 +43,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         if (FreedApplication.getStringFromRessources(R.string.on_).equals(valueToSet))
             simpleStreamSurfaceView.ScalePreview(true);
         else
@@ -51,7 +51,7 @@ public class ScalePreviewModeSony extends BaseModeParameterSony {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         if (simpleStreamSurfaceView.isScalePreview())
             return FreedApplication.getStringFromRessources(R.string.on_);
         else

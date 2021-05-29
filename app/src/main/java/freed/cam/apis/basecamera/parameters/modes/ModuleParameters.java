@@ -52,14 +52,14 @@ public class ModuleParameters extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
             return cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName();
         else return "";
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         for (Object module : cameraUiWrapper.getModuleHandler().getModuleList().entrySet()) {
             HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
             if (valueToSet.equals(mod.getValue().LongName())) {

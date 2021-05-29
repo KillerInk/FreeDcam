@@ -351,14 +351,14 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processHuaweiAEValues(TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
-        if (expotime.GetValue() == 0) {
+        if (expotime.getIntValue() == 0) {
             Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
             if (expoTime != null) {
                 currentExposureTime = expoTime;
                 expotime.fireStringValueChanged(getShutterStringNS(expoTime));
             }
         }
-        if (iso.GetValue() == 0)
+        if (iso.getIntValue() == 0)
         {
             Integer isova = result.get(CaptureResult.SENSOR_SENSITIVITY);
             if(isova != null) {

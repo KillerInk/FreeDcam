@@ -50,7 +50,6 @@ import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 
@@ -102,16 +101,16 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
 
         mBackgroundHandler.post(() -> {
             isWorking = true;
-            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
             Log.d(TAG,"startWork:picformat:" + picformat);
             if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_)))
             {
                 if (settingsManager.get(SettingKeys.ZSL).isSupported()
-                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 {
                     Log.d(TAG,"ZSL is on turning it off");
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
-                    Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetValue());
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).setStringValue(FreedApplication.getStringFromRessources(R.string.off_), true);
+                    Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).getIntValue());
                 }
 
             }
@@ -119,8 +118,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
-            if (burst != null && burst.getViewState() == AbstractParameter.ViewState.Visible && burst.GetValue()+1 > 1) {
-                burstcount = burst.GetValue()+1;
+            if (burst != null && burst.getViewState() == AbstractParameter.ViewState.Visible && burst.getIntValue()+1 > 1) {
+                burstcount = burst.getIntValue()+1;
                 isBurstCapture = true;
             }
             else
@@ -145,8 +144,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         createPreview();
 
         ParameterInterface videohdr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHDR);
-        if (settingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
-            videohdr.SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
+        if (settingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+            videohdr.setStringValue(FreedApplication.getStringFromRessources(R.string.off_), true);
         if(settingsManager.isZteAe()) {
             cameraUiWrapper.getParameterHandler().SetZTE_AE();
         }
@@ -154,7 +153,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
 
     private void createPreview()
     {
-        Size sizefromCam = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize).GetStringValue());
+        Size sizefromCam = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize).getStringValue());
         List<Size> sizes = new ArrayList<>();
         String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValues();
         final Size size;
@@ -174,7 +173,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
                 cameraUiWrapper.getPreview().getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
             }
 
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
             Surface surface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
             cameraUiWrapper.getPreview().setOutputSurface(surface);
             cameraUiWrapper.getPreview().setSize(size.width, size.height);
@@ -197,7 +196,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
                 ((CameraHolder)cameraHolder).setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
 
             Log.d(TAG, "set size to " + size.width + "x" + size.height);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
             cameraUiWrapper.getPreview().setSize(size.width, size.height);
             cameraUiWrapper.getPreview().setRotation(size.width, size.height, 0);
             CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
@@ -228,7 +227,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             return;
         }
         burstcount--;
-        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
         saveImage(data,picFormat);
         //Handel Burst capture
         if (burstcount == 0)
@@ -247,8 +246,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         //workaround to keep ae locked
         if (cameraHolder.GetCameraParameters().getAutoExposureLock())
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.false_),true);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.true_),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).setStringValue(FreedApplication.getStringFromRessources(R.string.false_),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).setStringValue(FreedApplication.getStringFromRessources(R.string.true_),true);
         }
         if(settingsManager.get(SettingKeys.needRestartAfterCapture).get())
         {
@@ -280,8 +279,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     private void ShutterResetLogic()
     {
         ParameterInterface expotime = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime);
-        if(!expotime.GetStringValue().contains("/") && !expotime.GetStringValue().contains("auto"))
-            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(expotime.GetStringValue());
+        if(!expotime.getStringValue().contains("/") && !expotime.getStringValue().contains("auto"))
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(expotime.getStringValue());
     }
 
     protected void saveImage(byte[]data, String picFormat)
@@ -359,7 +358,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         ParameterInterface wbct = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Whitebalance);
         if (wbct != null && wbct.getViewState() == AbstractParameter.ViewState.Visible)
         {
-            wb = wbct.GetStringValue();
+            wb = wbct.getStringValue();
             if (wb.equals(FreedApplication.getStringFromRessources(R.string.auto_)))
                 wb = null;
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);

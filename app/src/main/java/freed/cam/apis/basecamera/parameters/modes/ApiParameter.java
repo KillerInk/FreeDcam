@@ -26,8 +26,6 @@ import javax.inject.Inject;
 
 import freed.cam.apis.CameraFragmentManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
 import freed.settings.SettingsManager;
 
 /**
@@ -43,7 +41,7 @@ public class ApiParameter extends AbstractParameter
         super(null);
         this.settingsManager = settingsManager;
         this.cameraFragmentManager = cameraFragmentManager;
-        fireStringValueChanged(GetStringValue());
+        fireStringValueChanged(getStringValue());
     }
 
     @Override
@@ -60,7 +58,7 @@ public class ApiParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         String ret = settingsManager.getCamApi();
         if (TextUtils.isEmpty(ret))
             ret = SettingsManager.API_1;
@@ -68,7 +66,7 @@ public class ApiParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         settingsManager.setCamApi(valueToSet);
         cameraFragmentManager.unloadCameraFragment();
         cameraFragmentManager.switchCameraFragment();

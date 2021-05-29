@@ -9,7 +9,6 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.previewpostprocessing.Preview;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -22,11 +21,11 @@ public class FocusPeakColorMode extends AbstractParameter {
     public FocusPeakColorMode(Preview renderScriptManager, SettingKeys.Key settingMode) {
         super(settingMode);
         this.focuspeakProcessor = renderScriptManager;
-        SetValue(GetStringValue(),false);
+        setStringValue(getStringValue(),false);
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         if (focuspeakProcessor == null)
             return;
         try {
@@ -74,7 +73,7 @@ public class FocusPeakColorMode extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).get();
     }
 

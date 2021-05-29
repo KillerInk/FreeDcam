@@ -49,7 +49,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        onStringValueChanged(settingsManager.get(SettingKeys.orientationHack).get());
+        //onStringValueChanged(settingsManager.get(SettingKeys.orientationHack).get());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SettingsChildMenuOrientationHack extends SettingsChildMenu
         {
             CameraThreadHandler.restartCameraAsync();
         }
-        onStringValueChanged(value);
+        //onStringValueChanged(value);
     }
 
 }

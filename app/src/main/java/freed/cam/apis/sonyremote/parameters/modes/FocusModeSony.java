@@ -37,8 +37,8 @@ public class FocusModeSony extends BaseModeParameterSony {
     }
 
     @Override
-    public void SetValue(final String valueToSet, boolean setToCamera) {
-        super.SetValue(valueToSet, setToCamera);
+    public void setStringValue(final String valueToSet, boolean setToCamera) {
+        super.setStringValue(valueToSet, setToCamera);
         if (JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
         {
             FreeDPool.Execute(() -> {

@@ -152,7 +152,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     {
         this.cameraUiWrapper = cameraUiWrapper;
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).addEventListner(this);
-        onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).GetStringValue());
+        onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
     }
 
     private void startSensorListing()

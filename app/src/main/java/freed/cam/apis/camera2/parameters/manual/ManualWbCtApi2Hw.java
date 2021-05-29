@@ -26,13 +26,13 @@ public class ManualWbCtApi2Hw  extends AbstractParameter<Camera2>
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public int GetValue()
+    public int getIntValue()
     {
         return currentInt;
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         return stringvalues[currentInt];
     }

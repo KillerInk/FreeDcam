@@ -69,7 +69,7 @@ public class WbHandler
         if (!wbMode.equals(FreedApplication.getStringFromRessources(R.string.off)))
         {
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb
-            colorCorrectionMode.SetValue(FreedApplication.getStringFromRessources(R.string.fast),true);
+            colorCorrectionMode.setStringValue(FreedApplication.getStringFromRessources(R.string.fast),true);
             //hide manual wbct manualitem in ui
             if (manualWbCt != null)
                 manualWbCt.setViewState(AbstractParameter.ViewState.Hidden);
@@ -77,10 +77,10 @@ public class WbHandler
         else //if OFF
         {
             //set colorcorrection to TRANSFORMATRIX to have full control
-            colorCorrectionMode.SetValue(FreedApplication.getStringFromRessources(R.string.colorcorrection_transform_matrix),true);
+            colorCorrectionMode.setStringValue(FreedApplication.getStringFromRessources(R.string.colorcorrection_transform_matrix),true);
             //show wbct manual item in ui
             if (manualWbCt != null) {
-                manualWbCt.fireStringValueChanged(manualWbCt.GetStringValue());
+                manualWbCt.fireStringValueChanged(manualWbCt.getStringValue());
                 manualWbCt.setViewState(AbstractParameter.ViewState.Visible);
             }
 
@@ -113,8 +113,8 @@ public class WbHandler
             }
             stringvalues = new String[parameterValues.size()];
             parameterValues.keySet().toArray(stringvalues);
-            if (colorCorrectionMode != null && colorCorrectionMode.GetStringValue() != null)
-                lastcctmode = colorCorrectionMode.GetStringValue();
+            if (colorCorrectionMode != null && colorCorrectionMode.getStringValue() != null)
+                lastcctmode = colorCorrectionMode.getStringValue();
         }
 
         @Override
@@ -147,13 +147,13 @@ public class WbHandler
 
         @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
-        public int GetValue()
+        public int getIntValue()
         {
             return currentInt;
         }
 
         @Override
-        public String GetStringValue()
+        public String getStringValue()
         {
             return lookupvalues.getKey(currentInt);
         }
@@ -227,7 +227,7 @@ public class WbHandler
             try {
                 if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
                     return ViewState.Hidden;
-                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
+                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
                     return ViewState.Visible;
             }
             catch (NullPointerException ex) {

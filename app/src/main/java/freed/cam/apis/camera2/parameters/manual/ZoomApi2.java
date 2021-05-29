@@ -69,12 +69,12 @@ public class ZoomApi2 extends AbstractParameter<Camera2>
     }
 
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return zoom;
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return String.valueOf(zoom);
     }
 

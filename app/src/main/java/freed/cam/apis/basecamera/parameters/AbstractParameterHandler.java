@@ -58,7 +58,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 {
     private final String TAG = AbstractParameterHandler.class.getSimpleName();
 
-    private final HashMap<SettingsManager.Key, ParameterInterface> parameterHashMap = new HashMap<>();
+    private final HashMap<SettingsManager.Key, AbstractParameter> parameterHashMap = new HashMap<>();
 
     protected C cameraUiWrapper;
     protected SettingsManager settingsManager;
@@ -86,7 +86,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     }
 
     @Override
-    public void add(SettingsManager.Key parameters, ParameterInterface parameterInterface)
+    public void add(SettingsManager.Key parameters, AbstractParameter parameterInterface)
     {
         Log.d(TAG, "add "+ FreedApplication.getStringFromRessources(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);
@@ -115,7 +115,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     }
 
     @Override
-    public ParameterInterface get(SettingsManager.Key parameters)
+    public AbstractParameter get(SettingsManager.Key parameters)
     {
         return parameterHashMap.get(parameters);
     }
@@ -200,16 +200,16 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
             ParameterInterface parameter = get(parametertolook);
             SettingMode settingMode = (SettingMode) settingsManager.get(parametertolook);
             Log.d(TAG, "setAppSettingsToCamera " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " isSupported:" + settingMode.isSupported());
-            if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
+            if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.getStringValue() != null)
             {
                 if (TextUtils.isEmpty(settingMode.get()))
                     return;
                 String toset = settingMode.get();
                 Log.d(TAG,"set " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID())+ " to :" + toset);
                 if (TextUtils.isEmpty(toset) || toset.equals("none"))
-                    settingMode.set(parameter.GetStringValue());
+                    settingMode.set(parameter.getStringValue());
                 else
-                    parameter.SetValue(toset,setToCamera);
+                    parameter.setStringValue(toset,setToCamera);
                 parameter.fireStringValueChanged(toset);
             }
         }
@@ -220,16 +220,16 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         if (settingsManager.getGlobal(parametertolook) instanceof SettingMode){
             ParameterInterface parameter = get(parametertolook);
             SettingMode settingMode = (SettingMode) settingsManager.getGlobal(parametertolook);
-            if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.GetStringValue() != null)
+            if (settingMode != null && settingMode.isSupported() && parameter != null && parameter.getStringValue() != null)
             {
                 if (TextUtils.isEmpty(settingMode.get()))
                     return;
                 String toset = settingMode.get();
                 Log.d(TAG,"set " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID())+ " to :" + toset);
                 if (TextUtils.isEmpty(toset) || toset.equals("none"))
-                    settingMode.set(parameter.GetStringValue());
+                    settingMode.set(parameter.getStringValue());
                 else
-                    parameter.SetValue(toset,setToCamera);
+                    parameter.setStringValue(toset,setToCamera);
                 parameter.fireStringValueChanged(toset);
             }
         }
@@ -244,14 +244,14 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
             if (parameter != null && settingMode != null && settingMode.isSupported()) {
                 Log.d(TAG, parameter.getClass().getSimpleName());
                 if (TextUtils.isEmpty(settingMode.get()) || settingMode.get() == null) {
-                    String tmp = parameter.GetValue() + "";
+                    String tmp = parameter.getIntValue() + "";
                     Log.d(TAG, "settingmode is empty: " + FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " get from parameter: " + tmp);
                     settingMode.set(tmp);
                 } else {
                     try {
                         int tmp = Integer.parseInt(settingMode.get());
                         Log.d(TAG, "settingmode : " +  FreedApplication.getStringFromRessources(parametertolook.getRessourcesStringID()) + " set from settings: " + tmp);
-                        parameter.SetValue(tmp, setToCamera);
+                        parameter.setIntValue(tmp, setToCamera);
                     } catch (NumberFormatException ex) {
                         Log.WriteEx(ex);
                     }

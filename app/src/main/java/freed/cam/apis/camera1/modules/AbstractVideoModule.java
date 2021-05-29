@@ -46,7 +46,6 @@ import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 
@@ -149,7 +148,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
             cameraUiWrapper.getCameraHolder().setTextureView(cameraUiWrapper.getPreview().getSurfaceTexture());
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size.width + "x" + size.height, false);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
         CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
         cameraUiWrapper.getCameraHolder().StartPreview();
     }

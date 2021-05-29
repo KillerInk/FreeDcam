@@ -21,6 +21,7 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
@@ -28,7 +29,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
  */
 public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
 {
-    public SettingsChildMenuIntervalDuration(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuIntervalDuration(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
     }
 
@@ -42,7 +43,7 @@ public class SettingsChildMenuIntervalDuration extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        onStringValueChanged(value);
-        parameter.SetValue(value,true);
+        //onStringValueChanged(value);
+        parameter.setStringValue(value,true);
     }
 }

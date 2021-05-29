@@ -84,7 +84,7 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
                 ((ActivityInterface)getContext()).ChooseSDCard(this::onActivityResultCallback);
             } else {
                 settingsManager.SetWriteExternal(false);
-                onStringValueChanged(value);
+                //onStringValueChanged(value);
             }
         }
     }
@@ -109,14 +109,14 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
             }
             if (canWriteExternal) {
                 settingsManager.SetWriteExternal(true);
-                onStringValueChanged(SDModeParameter.external);
+                //onStringValueChanged(SDModeParameter.external);
             } else {
                 Toast.makeText(getContext(), "Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
-                onStringValueChanged(SDModeParameter.internal);
+                //onStringValueChanged(SDModeParameter.internal);
             }
         } else {
             settingsManager.SetWriteExternal(false);
-            onStringValueChanged(value);
+            //onStringValueChanged(value);
         }
     }
 
@@ -133,12 +133,12 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
         if (f.canWrite() && lastval.equals(SDModeParameter.external))
         {
             settingsManager.SetWriteExternal(true);
-            onStringValueChanged(SDModeParameter.external);
+            //onStringValueChanged(SDModeParameter.external);
         }
         else
         {
             settingsManager.SetWriteExternal(false);
-            onStringValueChanged(SDModeParameter.internal);
+            //onStringValueChanged(SDModeParameter.internal);
         }
         lastval = "";
     }

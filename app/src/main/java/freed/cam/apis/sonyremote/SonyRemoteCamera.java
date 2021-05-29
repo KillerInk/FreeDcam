@@ -308,7 +308,7 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
             if(serverDevice != null &&(serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30"))
                     && JsonUtils.isApiSupported("setLiveviewFrameInfo", (mAvailableCameraApiSet)) && parametersHandler.get(SettingKeys.FocusMode) != null)
             {
-                if (!parametersHandler.get(SettingKeys.FocusMode).GetStringValue().equals("MF"))
+                if (!parametersHandler.get(SettingKeys.FocusMode).getStringValue().equals("MF"))
                     getCameraHolder().SetLiveViewFrameInfo(true);
                 else
                     getCameraHolder().SetLiveViewFrameInfo(false);

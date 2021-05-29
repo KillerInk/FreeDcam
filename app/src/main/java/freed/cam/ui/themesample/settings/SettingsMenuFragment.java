@@ -24,15 +24,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.SettingsFragmentBinding;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -53,16 +56,17 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     private final int VALUE_MENU_LEFT_OPEN = 2;
     private int value_menu_status = VALUE_MENU_CLOSED;
 
-    private UiSettingsChild currentOpendItem;
+    private SettingsChildAbstract currentOpendItem;
 
 
+    private SettingsFragmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-
-        return inflater.inflate(layout.settings_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, layout.settings_fragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -147,7 +151,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment)
     {
         if (currentOpendItem == item)
         {
@@ -158,7 +162,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
 
         ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
         if (item.GetValues() == null) {
-            item.onViewStateChanged(AbstractParameter.ViewState.Hidden);
+            item.GetParameter().setViewState(AbstractParameter.ViewState.Hidden);
             value_menu_status = VALUE_MENU_CLOSED;
             if (fromLeftFragment)
                 loadRightFragment();

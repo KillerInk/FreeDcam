@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import freed.settings.mode.SettingInterface;
+import freed.settings.mode.XmlSettingInterface;
 import freed.utils.Log;
 import freed.utils.XmlUtil;
 
@@ -78,7 +78,7 @@ public class SettingsSaver {
         XmlUtil.writeTagEnd(writer,XmlUtil.CAMERA_SETTINGS);
     }
 
-    private void writeCameraIdSettings(BufferedWriter writer, HashMap<SettingKeys.Key, SettingInterface> stringVideoMediaProfileHashMap) throws IOException {
+    private void writeCameraIdSettings(BufferedWriter writer, HashMap<SettingKeys.Key, XmlSettingInterface> stringVideoMediaProfileHashMap) throws IOException {
         Log.d(TAG, "write camera id settings");
         for (SettingKeys.Key s : stringVideoMediaProfileHashMap.keySet())
         {

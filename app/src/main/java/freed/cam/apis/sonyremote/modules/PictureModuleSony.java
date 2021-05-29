@@ -45,7 +45,6 @@ import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -84,7 +83,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         }
         else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode) != null
                 && cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).getViewState() == AbstractParameter.ViewState.Visible) {
-            String shootmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).GetStringValue();
+            String shootmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).getStringValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeCaptureState(CaptureStates.image_capture_start);
@@ -117,7 +116,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
         ((ParameterHandler)cameraUiWrapper.getParameterHandler()).CameraStatusListner = this;
 
         if(cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode) != null) {
-            String shootmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).GetStringValue();
+            String shootmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ContShootMode).getStringValue();
             if (shootmode == null)
                 return;
             if (shootmode.equals("Single"))

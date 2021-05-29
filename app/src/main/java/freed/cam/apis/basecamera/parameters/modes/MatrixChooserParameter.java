@@ -52,7 +52,7 @@ public class MatrixChooserParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         if (TextUtils.isEmpty(valueToSet))
             return;
@@ -62,7 +62,7 @@ public class MatrixChooserParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return currentval;
     }
 

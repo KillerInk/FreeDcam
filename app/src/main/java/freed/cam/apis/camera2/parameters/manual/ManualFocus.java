@@ -33,7 +33,6 @@ import freed.cam.apis.camera2.Camera2;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.FocusPositionChangedEvent;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
 
@@ -59,12 +58,12 @@ public class ManualFocus extends AbstractParameter<Camera2>
     }
 
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return currentInt;
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         return focusvalues.getKey(currentInt);
     }
@@ -78,13 +77,13 @@ public class ManualFocus extends AbstractParameter<Camera2>
         if(valueToSet == 0)
         {
             //apply last used focuse mode
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).SetValue(settingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).setStringValue(settingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
             cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
         }
         else // set to manual
         {
             //if focusmode is in any other mode, turn af off
-            if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
+            if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
             {
                 //apply turn off direct to the capturesession, else it get stored in settings.
                 cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off));
@@ -106,7 +105,7 @@ public class ManualFocus extends AbstractParameter<Camera2>
         if (settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
         {
             int factor = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).SetValue(factor,true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).setIntValue(factor,true);
             handler.removeCallbacks(resetzoomRunner);
             int delay = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
             handler.postDelayed(resetzoomRunner,delay*1000);
@@ -116,7 +115,7 @@ public class ManualFocus extends AbstractParameter<Camera2>
     private Runnable resetzoomRunner = new Runnable() {
         @Override
         public void run() {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).SetValue(0,true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).setIntValue(0,true);
         }
     };
 

@@ -75,12 +75,12 @@ public class ExposureManualParameter extends BaseManualParameter
     }
 
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return currentInt + stringvalues.length/2;
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return stringvalues[currentInt + stringvalues.length/2];
     }
 }

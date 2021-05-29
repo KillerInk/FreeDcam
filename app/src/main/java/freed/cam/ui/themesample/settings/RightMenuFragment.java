@@ -25,8 +25,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.SettingsRightmenufragmentBinding;
+
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -34,6 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
@@ -51,19 +57,21 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Inject
     public SettingsMenuItemFactory settingsMenuItemFactory;
 
+    private SettingsRightmenufragmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
+        binding = DataBindingUtil.inflate(inflater,layout.settings_rightmenufragment,container,false);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        return inflater.inflate(layout.settings_rightmenufragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        settingchildholder = view.findViewById(id.SettingChildHolder);
+        settingchildholder = binding.SettingChildHolder;
         setCameraToUi(cameraUiWrapper);
     }
 
@@ -83,7 +91,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment) {
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment) {
         onMenuItemClick.onSettingsChildClick(item, false);
     }
 }

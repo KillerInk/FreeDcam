@@ -44,7 +44,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
         super.setValue(valueToSet,setToCamera);
@@ -64,7 +64,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return settingsManager.get(SettingKeys.PictureFormat).get();
     }
 }

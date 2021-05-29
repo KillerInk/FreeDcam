@@ -86,12 +86,12 @@ public class AeManagerMtkCamera1 extends AeManager
 
     private void setToAuto()
     {
-        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
+        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).getStringValue();
         if (!t.equals(FreedApplication.getStringFromRessources(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).SetValue(t, true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(t, true);
         //back in auto mode
         //set exposure ui item to enable
         /*exposureCompensation.fireIsSupportedChanged(true);
@@ -106,12 +106,12 @@ public class AeManagerMtkCamera1 extends AeManager
         //hide manualexposuretime ui item
         /*exposureCompensation.fireIsSupportedChanged(false);*/
         //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
-        manualExposureTime.setValue(manualExposureTime.GetValue(),true);
+        manualExposureTime.setValue(manualExposureTime.getIntValue(),true);
         //enable manualiso item in ui
         manualIso.setViewState(AbstractParameter.ViewState.Enabled);
         //enable manual exposuretime in ui
-        manualExposureTime.setValue(manualExposureTime.GetValue(),true);
+        manualExposureTime.setValue(manualExposureTime.getIntValue(),true);
         manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
-        manualExposureTime.fireStringValueChanged(manualExposureTime.GetStringValue());
+        manualExposureTime.fireStringValueChanged(manualExposureTime.getStringValue());
     }
 }

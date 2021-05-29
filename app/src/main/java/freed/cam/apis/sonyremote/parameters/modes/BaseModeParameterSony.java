@@ -109,7 +109,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         /*if (key_value == null || key_value.equals("")) {
             jsonObject = null;

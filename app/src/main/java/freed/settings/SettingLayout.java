@@ -2,7 +2,7 @@ package freed.settings;
 
 import java.util.HashMap;
 
-import freed.settings.mode.SettingInterface;
+import freed.settings.mode.XmlSettingInterface;
 
 public class SettingLayout {
     public String device;
@@ -17,14 +17,14 @@ public class SettingLayout {
     public String extSdFolderUri;
     public boolean areFeaturesDetected;
 
-    public HashMap<SettingKeys.Key, SettingInterface> global_settings = new HashMap<>();
+    public HashMap<SettingKeys.Key, XmlSettingInterface> global_settings = new HashMap<>();
 
     public static class CameraId
     {
         public int active_camera;
         public int[] camera_ids;
         public HashMap<Integer, CameraSettings> cameraid_settings = new HashMap<>();
-        public HashMap<SettingKeys.Key, SettingInterface> api_settings = new HashMap<>();
+        public HashMap<SettingKeys.Key, XmlSettingInterface> api_settings = new HashMap<>();
         public boolean overrideDngProfile;
         public long maxCameraExposureTime;
         public long minCameraExposureTime;
@@ -34,7 +34,7 @@ public class SettingLayout {
         public static class CameraSettings
         {
             public boolean isFrontCamera;
-            public HashMap<SettingKeys.Key, SettingInterface> cameraid_settings = new HashMap<>();
+            public HashMap<SettingKeys.Key, XmlSettingInterface> cameraid_settings = new HashMap<>();
         }
     }
 

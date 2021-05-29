@@ -31,15 +31,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import dagger.hilt.EntryPoint;
-import dagger.hilt.InstallIn;
-import dagger.hilt.components.SingletonComponent;
 import freed.FreedApplication;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.jni.OpCode;
-import freed.settings.mode.SettingInterface;
+import freed.settings.mode.XmlSettingInterface;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 import freed.views.VideoToneCurveProfile;
@@ -124,8 +121,8 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
 
     public <T> T getGlobal(GlobalKey<T> key)
     {
-        SettingInterface settingInterface =  settingsStorage.getGlobal(key);
-        T ret = key.getType().cast(settingInterface);
+        XmlSettingInterface xmlSettingInterface =  settingsStorage.getGlobal(key);
+        T ret = key.getType().cast(xmlSettingInterface);
         return ret;
     }
 

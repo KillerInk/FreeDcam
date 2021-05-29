@@ -65,7 +65,7 @@ public class GpsParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (cameraUiWrapper == null)
             return FreedApplication.getStringFromRessources(R.string.off_);
@@ -80,7 +80,7 @@ public class GpsParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Location) &&
                 valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))

@@ -42,7 +42,7 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
         settingsManager.get(SettingKeys.YuvSize).set(valueToSet);
@@ -54,7 +54,7 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         return size;
     }

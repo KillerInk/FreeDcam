@@ -36,17 +36,17 @@ public class PreviewFpsParameter extends  BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
-        super.SetValue(valueToSet, setToCam);
+        super.setStringValue(valueToSet, setToCam);
         if (setToCam) {
             CameraThreadHandler.restartPreviewAsync();
         }
     }
 
     @Override
-    public String GetStringValue() {
-        return super.GetStringValue();
+    public String getStringValue() {
+        return super.getStringValue();
     }
 
 }

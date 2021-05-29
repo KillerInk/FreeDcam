@@ -54,13 +54,14 @@ public class IntervalDurationParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
+        super.setStringValue(valueToSet,setToCamera);
         current = valueToSet;
         settingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return current;
     }
 

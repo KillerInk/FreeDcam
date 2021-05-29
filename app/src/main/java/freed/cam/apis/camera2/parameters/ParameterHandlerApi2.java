@@ -61,7 +61,6 @@ import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.apis.camera2.parameters.modes.YuvSizeModeApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.OrientationUtil;
 import freed.views.VideoToneCurveProfile;

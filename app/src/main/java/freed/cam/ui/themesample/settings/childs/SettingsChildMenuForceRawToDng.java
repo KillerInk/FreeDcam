@@ -39,7 +39,7 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
             settingsManager.get(SettingKeys.forceRawToDng).set(false);
         else
             settingsManager.get(SettingKeys.forceRawToDng).set(true);
-        valueText.setText(value);
+        binding.textviewMenuitemHeaderValue.setText(value);
     }
 
 

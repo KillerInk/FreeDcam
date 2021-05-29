@@ -66,13 +66,13 @@ public class BracketModule extends PictureModule {
                 cameraHolder.SetLocation(locationManager.getCurrentLocation());
             files = new BaseHolder[3];
             hdrCount = 0;
-            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
             if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_))) {
                 ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
                 if (zsl != null && zsl.getViewState() == AbstractParameter.ViewState.Visible
-                        && zsl.GetStringValue().equals("on")
+                        && zsl.getStringValue().equals("on")
                         && (settingsManager.getFrameWork() != Frameworks.MTK))
-                    zsl.SetValue("off", true);
+                    zsl.setStringValue("off", true);
             }
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
@@ -113,7 +113,7 @@ public class BracketModule extends PictureModule {
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
         int toset = value + cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureCompensation).getStringValues().length / 2;
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureCompensation).SetValue(toset, true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureCompensation).setIntValue(toset, true);
         Log.d(TAG, "HDR Exposure SET");
     }
 
@@ -126,7 +126,7 @@ public class BracketModule extends PictureModule {
             return;
         }
         hdrCount++;
-        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
         saveImage(data, picFormat);
         startPreview();
         if (hdrCount == 3)//handel normal capture

@@ -33,7 +33,7 @@ public class SettingsChildMenu_VideoProfEditor extends SettingsChildMenu
 
     public SettingsChildMenu_VideoProfEditor(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
-        valueText.setText("");
+        binding.textviewMenuitemHeaderValue.setText("");
     }
 
     @Override

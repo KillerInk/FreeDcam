@@ -9,11 +9,8 @@ import freed.settings.mode.BooleanSettingModeInterface;
 
 public class SettingsChild_SwitchAspectRatio extends SettingsChild_BooleanSetting {
 
-    private CameraWrapperInterface cameraWrapperInterface;
-
-    public SettingsChild_SwitchAspectRatio(Context context, CameraWrapperInterface cameraWrapperInterface, BooleanSettingModeInterface booleanSettingMode, int headerid, int descriptionid) {
+    public SettingsChild_SwitchAspectRatio(Context context, BooleanSettingModeInterface booleanSettingMode, int headerid, int descriptionid) {
         super(context, booleanSettingMode, headerid, descriptionid);
-        this.cameraWrapperInterface = cameraWrapperInterface;
     }
 
     @Override

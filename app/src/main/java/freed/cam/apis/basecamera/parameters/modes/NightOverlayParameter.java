@@ -31,7 +31,7 @@ public class NightOverlayParameter extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         boolean enable = settingsManager.getGlobal(SettingKeys.NightOverlay).get();
         if (enable)
             return FreedApplication.getStringFromRessources(R.string.on_);
@@ -40,7 +40,7 @@ public class NightOverlayParameter extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         settingsManager.getGlobal(SettingKeys.NightOverlay).set(valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)));
         Log.d(TAG, "Nightoverlay :" +settingsManager.getGlobal(SettingKeys.NightOverlay).get());
         activityInterface.SetNightOverlay();

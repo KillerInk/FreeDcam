@@ -45,7 +45,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         parameters.set(FreedApplication.getStringFromRessources(R.string.night_key), valueToSet);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
@@ -54,7 +54,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
             return parameters.get(FreedApplication.getStringFromRessources(R.string.night_key));
     }
 

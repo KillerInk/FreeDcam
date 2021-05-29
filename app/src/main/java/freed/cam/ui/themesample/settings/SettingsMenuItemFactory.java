@@ -226,7 +226,7 @@ public class SettingsMenuItemFactory
             orientationHack.SetUiItemClickListner(click);
             globalSettingGroup.addView(orientationHack);
 
-            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,cameraUiWrapper,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
+            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
             globalSettingGroup.addView(aspectRatio);
 
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);

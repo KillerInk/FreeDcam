@@ -25,7 +25,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -42,7 +41,6 @@ import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.SwichCameraFragmentEvent;
-import freed.cam.events.UpdateScreenSlide;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
@@ -54,11 +52,8 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 import freed.utils.Log;
-import freed.utils.OrientationEvent;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
-import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
@@ -300,7 +295,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             int appSettingsKeyShutter = 0;
 
             try {
-                String es = cameraFragmentManager.getCameraFragment().getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).GetStringValue();
+                String es = cameraFragmentManager.getCameraFragment().getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).getStringValue();
                 if(es == null)
                     super.onKeyDown(keyCode,event);
                 if (es.equals("Vol+"))

@@ -42,12 +42,12 @@ public class ParameterExternalShutter extends AbstractParameter
         return ViewState.Visible;
     }
 
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(valueToSet);
     }
 
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null || settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
             return "Hook";

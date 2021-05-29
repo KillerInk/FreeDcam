@@ -29,7 +29,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -94,7 +93,7 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         Log.d(TAG, "SetValue:" + valueToSet);
         settingsManager.get(SettingKeys.PictureFormat).set(valueToSet);
@@ -125,7 +124,7 @@ public class PictureFormatHandler extends BaseModeParameter
 
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return captureMode;
     }
 
@@ -161,7 +160,7 @@ public class PictureFormatHandler extends BaseModeParameter
         }
 
         @Override
-        public String GetStringValue()
+        public String getStringValue()
         {
             return rawFormat;
         }
@@ -180,11 +179,11 @@ public class PictureFormatHandler extends BaseModeParameter
         }
 
         @Override
-        public void SetValue(String valueToSet, boolean setToCam)
+        public void setStringValue(String valueToSet, boolean setToCam)
         {
             rawFormat = valueToSet;
             if (captureMode.equals(FreedApplication.getStringFromRessources(R.string.bayer_))|| captureMode.equals(FreedApplication.getStringFromRessources(R.string.dng_))) {
-                PictureFormatHandler.this.SetValue(captureMode, true);
+                PictureFormatHandler.this.setStringValue(captureMode, true);
             }
         }
     }

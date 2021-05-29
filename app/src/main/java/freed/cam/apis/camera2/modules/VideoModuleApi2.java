@@ -64,7 +64,6 @@ import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.OrientationUtil;
 import freed.utils.PermissionManager;

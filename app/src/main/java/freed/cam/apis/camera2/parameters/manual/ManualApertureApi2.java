@@ -36,7 +36,7 @@ public class ManualApertureApi2 extends AbstractParameter<Camera2> {
 
 
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera) {
+    public void setIntValue(int valueToSet, boolean setToCamera) {
         currentInt = valueToSet;
         float valtoset= apertureValues[currentInt];
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.LENS_APERTURE, valtoset,setToCamera);
@@ -49,7 +49,7 @@ public class ManualApertureApi2 extends AbstractParameter<Camera2> {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return String.valueOf(apertureValues[currentInt]);
     }
 }

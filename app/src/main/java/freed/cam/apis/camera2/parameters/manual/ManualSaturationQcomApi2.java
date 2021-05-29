@@ -17,14 +17,14 @@ public class ManualSaturationQcomApi2 extends AbstractParameter<Camera2> {
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera) {
+    public void setIntValue(int valueToSet, boolean setToCamera) {
         super.setValue(valueToSet,setToCamera);
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.saturation, currentInt,setToCamera);
     }
 
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return stringvalues[currentInt];
     }
 }

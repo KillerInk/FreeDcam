@@ -31,7 +31,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if(TextUtils.isEmpty(settingsManager.get(SettingKeys.JpegQuality).get()))
             return "100";

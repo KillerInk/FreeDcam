@@ -29,7 +29,7 @@ public class ToneMapChooser extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
         fireStringValueChanged(currentString);

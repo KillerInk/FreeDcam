@@ -78,13 +78,13 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public int GetValue()
+        public int getIntValue()
         {
             return currentInt;
         }
 
         @Override
-        public String GetStringValue()
+        public String getStringValue()
         {
             if (stringvalues == null || stringvalues.length == 0 || currentInt > stringvalues.length)
                 return "error";
@@ -164,12 +164,12 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public int GetValue() {
-            return super.GetValue();
+        public int getIntValue() {
+            return super.getIntValue();
         }
 
         @Override
-        public String GetStringValue() {
+        public String getStringValue() {
             try {
                 return stringvalues[currentInt];
             }

@@ -10,7 +10,7 @@ import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.XmlElement;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.GlobalBooleanSettingMode;
-import freed.settings.mode.SettingInterface;
+import freed.settings.mode.XmlSettingInterface;
 import freed.settings.mode.SettingMode;
 import freed.settings.mode.TypedSettingMode;
 import freed.utils.Log;
@@ -130,7 +130,7 @@ public class SettingsLoader {
         }
     }
 
-    private void addSettingElement(HashMap<SettingKeys.Key, SettingInterface> hashMap, XmlElement profile) {
+    private void addSettingElement(HashMap<SettingKeys.Key, XmlSettingInterface> hashMap, XmlElement profile) {
         String type  = profile.getAttribute("type","AbstractSettingMode");
         String key = profile.getAttribute("name","manualmf");
         SettingKeys.Key foundKey = findKey(key);

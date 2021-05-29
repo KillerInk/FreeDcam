@@ -18,7 +18,7 @@ public class EnableRenderScriptMode extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(valueToSet);
         fireStringValueChanged(valueToSet);
@@ -26,7 +26,7 @@ public class EnableRenderScriptMode extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get();
     }
 

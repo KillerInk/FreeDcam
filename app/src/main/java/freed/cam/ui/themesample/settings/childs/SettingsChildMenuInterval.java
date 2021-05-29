@@ -21,16 +21,33 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 
+import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
+
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.utils.Log;
 
 /**
  * Created by GeorgeKiarie on 10/4/2015.
  */
 public class SettingsChildMenuInterval extends SettingsChildMenu
 {
-
-    public SettingsChildMenuInterval(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+    private final String TAG = SettingsChildMenuInterval.class.getSimpleName();
+    public SettingsChildMenuInterval(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
+    }
+
+    @Override
+    public void SetParameter(AbstractParameter parameter) {
+        super.SetParameter(parameter);
+        parameter.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (propertyId == BR.stringValue)
+                    Log.d(TAG,"BR.stringValue changed");
+            }
+        });
     }
 
     @Override
@@ -41,7 +58,7 @@ public class SettingsChildMenuInterval extends SettingsChildMenu
     @Override
     public void SetValue(String value)
     {
-        onStringValueChanged(value);
-        parameter.SetValue(value,true);
+        //onStringValueChanged(value);
+        parameter.setStringValue(value,true);
     }
 }

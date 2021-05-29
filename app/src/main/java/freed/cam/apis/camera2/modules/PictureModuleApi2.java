@@ -61,7 +61,6 @@ import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.OrientationUtil;
 
@@ -158,7 +157,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG, "InitModule");
         changeCaptureState(CaptureStates.image_capture_stop);
         captureController = getCaptureController();
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(0, true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setIntValue(0, true);
         startPreview();
     }
 
@@ -217,7 +216,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         for (AbstractImageCapture s : captureController.getImageCaptures())
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(s.getSurface());
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
-            parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
+            parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).getStringValue());
         CameraStateEvents.firePreviewOpenEvent();
 
     }
@@ -432,7 +431,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         isWorking = true;
         Log.d(TAG, settingsManager.get(SettingKeys.PictureFormat).get());
         BurstCounter.resetImagesCaptured();
-        BurstCounter.setBurstCount(Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).GetStringValue()));
+        BurstCounter.setBurstCount(Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).getStringValue()));
         if (BurstCounter.getBurstCount() > 1)
             isBurstCapture = true;
         else
@@ -501,7 +500,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG,"########### captureStillPicture ###########");
 
         Location currentLocation = null;
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             currentLocation = locationManager.getCurrentLocation();
             Log.d(TAG,"currentLocation null:" +(currentLocation == null));

@@ -72,7 +72,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(2, true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setIntValue(2, true);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
@@ -89,7 +89,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        String aemode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).GetStringValue();
+        String aemode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).getStringValue();
         aeWasOn = !aemode.equals(FreedApplication.getContext().getString(R.string.off));
     }
 
@@ -123,7 +123,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         Log.d(TAG,"imagecount:" +BurstCounter.getImageCaptured());
         if (BurstCounter.getImageCaptured() == 3) {
             if (aeWasOn && parameterHandler.get(SettingKeys.ExposureMode) != null)
-                parameterHandler.get(SettingKeys.ExposureMode).SetValue(FreedApplication.getContext().getString(R.string.on),true);
+                parameterHandler.get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.on),true);
 
         }
     }

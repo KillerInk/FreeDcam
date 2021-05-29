@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -43,7 +44,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
     @Inject
     SettingsManager settingsManager;
 
-    public SettingsChildMenuVideoHDR(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
+    public SettingsChildMenuVideoHDR(Context context, AbstractParameter parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
     }
 
@@ -67,8 +68,8 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         {
             settingsManager.get(SettingKeys.VideoHDR).set(value);
             if (cameraWrapperInterface.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
-                parameter.SetValue(value, true);
-            onStringValueChanged(value);
+                parameter.setStringValue(value, true);
+            //onStringValueChanged(value);
         }
     }
 

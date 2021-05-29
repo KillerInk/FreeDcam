@@ -40,7 +40,7 @@ public class PreviewZoomSony extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         zoomFactor = Integer.parseInt(valueToSet);
         surfaceView.PreviewZOOMFactor = zoomFactor;
@@ -48,7 +48,7 @@ public class PreviewZoomSony extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return zoomFactor +"";
     }
 

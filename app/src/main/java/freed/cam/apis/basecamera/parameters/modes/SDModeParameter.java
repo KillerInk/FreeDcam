@@ -61,13 +61,13 @@ public class SDModeParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
 
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (settingsManager.GetWriteExternal())
             return external;

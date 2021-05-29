@@ -49,7 +49,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(final int valueToSet, boolean setToCamera)
+    public void setIntValue(final int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
         FreeDPool.Execute(() -> {
@@ -104,7 +104,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
     }
 
-    public int GetValue()
+    public int getIntValue()
     {
         if (currentInt == -100) {
             FreeDPool.Execute(() -> {
@@ -138,7 +138,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (stringvalues != null && currentInt != -100 && stringvalues.length > currentInt)
             return stringvalues[currentInt];

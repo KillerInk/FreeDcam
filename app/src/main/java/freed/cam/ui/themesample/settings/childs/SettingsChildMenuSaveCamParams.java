@@ -42,7 +42,7 @@ import javax.inject.Inject;
 import camera2_hidden_keys.ReflectionHelper;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.settings.SettingsManager;
@@ -63,7 +63,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     public SettingsChildMenuSaveCamParams(Context context, int headerid, int descriptionid, CameraWrapperInterface cameraUiWrapper) {
         super(context, headerid, descriptionid);
         this.cameraUiWrapper = cameraUiWrapper;
-        this.valueText.setText("");
+        binding.textviewMenuitemHeaderValue.setText("");
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void SetParameter(ParameterInterface parameter) {
+    public void SetParameter(AbstractParameter parameter) {
 
     }
 

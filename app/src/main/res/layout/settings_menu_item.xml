@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
+    </data>
+<LinearLayout
     android:id="@+id/menu_item_toplayout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -8,6 +14,7 @@
     android:layout_marginLeft="1dp"
     android:layout_marginRight="1dp"
     android:background="@color/uiSettingsBackground"
+    setViewState="@{parameter.viewState}"
     android:orientation="vertical">
 
     <LinearLayout
@@ -38,7 +45,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="value"
+            android:text="@{parameter.stringValue}"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/uiSettingsTextColor"
             android:textSize="@dimen/settings_menu_item_header_value"
@@ -64,3 +71,5 @@
             android:typeface="monospace" />
     </LinearLayout>
 </LinearLayout>
+
+</layout>

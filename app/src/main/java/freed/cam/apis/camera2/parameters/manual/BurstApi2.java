@@ -40,12 +40,12 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
 
 
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return current;
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return stringvalues[current];
     }
 
@@ -55,7 +55,7 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
     }
 
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera)
+    public void setIntValue(int valueToSet, boolean setToCamera)
     {
         current = valueToSet;
         fireIntValueChanged(current);

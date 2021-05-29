@@ -168,12 +168,12 @@ public class ManualButton extends LinearLayout
         this.parameter = parameter;
         if (parameter != null) {
 
-            String txt = parameter.GetStringValue();
+            String txt = parameter.getStringValue();
             if (valueTextView != null) {
                 if (txt != null && !TextUtils.isEmpty(txt))
                     valueTextView.setText(txt);
                 else
-                    valueTextView.setText(parameter.GetValue() + "");
+                    valueTextView.setText(parameter.getIntValue() + "");
             }
             createStringParametersStrings(parameter);
 
@@ -232,12 +232,12 @@ public class ManualButton extends LinearLayout
 
     public int getCurrentItem()
     {
-        return parameter.GetValue();
+        return parameter.getIntValue();
     }
 
     public void setValueToParameters(final int value)
     {
-        parameter.SetValue(value, true);
+        parameter.setIntValue(value, true);
 
     }
 

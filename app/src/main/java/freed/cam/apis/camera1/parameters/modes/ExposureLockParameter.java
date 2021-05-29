@@ -59,7 +59,7 @@ public class ExposureLockParameter extends BaseModeParameter
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
 
         return parameters.getAutoExposureLock()+"";
