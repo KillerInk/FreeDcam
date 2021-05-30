@@ -157,8 +157,6 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     @Override
     public String getStringValue()
     {
-        if (currentString == null)
-            return "";
         return currentString;
     }
 

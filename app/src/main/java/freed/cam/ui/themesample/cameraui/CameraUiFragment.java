@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -42,6 +43,8 @@ import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.CamerauiFragmentBinding;
+import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
 
 import javax.inject.Inject;
 
@@ -80,6 +83,8 @@ import freed.utils.Log;
 public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
+
+    private CamerauiFragmentBinding binding;
 
     //button to switch between front and back cam
     private UiSettingsChildCameraSwitch cameraSwitch;
@@ -209,6 +214,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.FlashMode), R.drawable.quck_set_flash);
             if (parameterHandler.get(SettingKeys.FocusMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.FocusMode), R.drawable.quck_set_focus);
+            /*UiSettingsChild focus = left_ui_items_holder.findViewById(id.focusmode);
+            focus.SetParameter(parameterHandler.get(SettingKeys.FocusMode));*/
             if (parameterHandler.get(SettingKeys.ExposureMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.ExposureMode), R.drawable.quck_set_ae);
             if (parameterHandler.get(SettingKeys.AE_PriorityMode) != null)
@@ -288,27 +295,28 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        //super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
+        binding = CamerauiFragmentBinding.inflate(inflater);
         Log.d(TAG, "####################ONCREATEDVIEW####################");
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
         manualsettingsIsOpen = settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get();
-        return inflater.inflate(layout.cameraui_fragment, container, false);
+        return binding.getRoot();
     }
 
     private FrameLayout versionView;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        //super.onViewCreated(view, savedInstanceState);
-        this.versionView = view.findViewById(id.framelayout_version);
+        super.onViewCreated(view, savedInstanceState);
+        this.versionView =binding.framelayoutVersion;
         if ((getActivity() != null) && (((ActivityFreeDcamMain)getActivity()).getUserMessageHandler() != null))
             ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
-        manualModes_holder = view.findViewById(id.manualModesHolder);
-        left_ui_items_holder = view.findViewById(id.left_ui_holder);
-        right_ui_items_top = view.findViewById(id.right_ui_holder_top);
+        manualModes_holder = binding.manualModesHolder;
+        left_ui_items_holder = binding.leftUiHolder;
+        right_ui_items_top = binding.rightUiHolderTop;
         addexit();
 
-        cameraSwitch = view.findViewById(id.camera_switch);
+        cameraSwitch = binding.cameraSwitch;
 
 
         infoOverlayHandler = new SampleInfoOverlayHandler(view);
@@ -316,15 +324,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
-        shutterButton = view.findViewById(id.shutter_button);
+        shutterButton = binding.shutterButton;
 
         view.setOnTouchListener(onTouchListener);
 
-        aelock = view.findViewById(id.ae_lock);
+        aelock = binding.aeLock;
         aelock.SetUiItemClickListner(this);
 
 
-        settingsChildSelfTimer = view.findViewById(id.selftimer);
+        settingsChildSelfTimer = binding.selftimer;
         settingsChildSelfTimer.SetUiItemClickListner(this);
 
 
@@ -336,7 +344,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         guideHandler =GuideHandler.getInstance();
 
         manualModes_holder.setVisibility(View.GONE);
-        camerauiValuesFragmentHolder =  view.findViewById(id.cameraui_values_fragment_holder);
+        camerauiValuesFragmentHolder = binding.camerauiValuesFragmentHolder;
         joyPad = view.findViewById(id.joypad);
         joyPad.setVisibility(View.GONE);
 

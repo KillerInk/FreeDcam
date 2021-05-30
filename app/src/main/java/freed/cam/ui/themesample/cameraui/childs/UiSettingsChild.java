@@ -26,10 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
+import com.troop.freedcam.databinding.CamerauiUisettingschildBindingImpl;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -114,11 +116,22 @@ public class UiSettingsChild extends SettingsChildAbstract
     @Override
     protected void init(Context context)
     {
+        bind(context);
+    }
 
+    private void bind(Context context)
+    {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflateTheme(inflater);
+        binding = DataBindingUtil.inflate(inflater, layout.cameraui_uisettingschild, this, false);
         binding.textView2.setSelected(true);
-        setOnClickListener(this);
+        binding.getRoot().setOnClickListener(this::onClick);
+        addView(binding.getRoot());
+    }
+
+
+    public void setLifeCycleOwner(LifecycleOwner owner)
+    {
+        binding.setLifecycleOwner(owner);
     }
 
     @Override
@@ -130,6 +143,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     protected void inflateTheme(LayoutInflater inflater)
     {
         binding = DataBindingUtil.inflate(inflater,layout.cameraui_uisettingschild,this,true);
+        //this.addView(binding.getRoot());
     }
 
     @Override

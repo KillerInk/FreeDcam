@@ -52,10 +52,10 @@ public abstract class SettingsChildAbstract extends LinearLayout implements Sett
     {
         super(context);
         this.parameter = parameter;
-        if (parameter == null || parameter.getStringValue() == null)
+        /*if (parameter == null || parameter.getStringValue() == null)
             return;
         String value = parameter.getStringValue();
-        parameter.fireStringValueChanged(value);
+        parameter.fireStringValueChanged(value);*/
     }
 
     public SettingsChildAbstract(Context context) {

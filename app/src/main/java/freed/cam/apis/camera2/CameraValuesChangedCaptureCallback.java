@@ -238,7 +238,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
         if (camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
             String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
-            if (expolock != null)
+            if (expolock != null && !expolock.equals(camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).getStringValue()))
                 camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
         }
 
