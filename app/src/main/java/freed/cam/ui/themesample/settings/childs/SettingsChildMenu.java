@@ -24,16 +24,19 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
+import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
 import com.troop.freedcam.databinding.SettingsMenuItemBinding;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -122,11 +125,18 @@ public class SettingsChildMenu extends SettingsChildAbstract
 
     @Override
     protected void init(Context context) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        /*LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
         binding.textviewMenuitemHeaderValue.setSelected(true);
         binding.textviewMenuitemHeaderValue.setText("Binding....");
-        setOnClickListener(this);
+        setOnClickListener(this);*/
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(layout.settings_menu_item, null);
+        binding = SettingsMenuItemBinding.bind(view);
+        binding.getRoot().setOnClickListener(this);
+        this.addView(binding.getRoot());
+        binding.menuItemToplayout.getLayoutParams().width= ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     @Override
@@ -151,7 +161,7 @@ public class SettingsChildMenu extends SettingsChildAbstract
     @Override
     public void SetParameter(ParameterInterface parameter) {
         super.SetParameter(parameter);
-        binding.setParameter(parameter);
+        binding.setParameter((AbstractParameter) parameter);
         binding.notifyChange();
     }
 

@@ -140,6 +140,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UiSettingsChild setUiItem(LinearLayout layout, ParameterInterface parameter, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
+        child.setLifeCycleOwner(getViewLifecycleOwner());
         child.SetParameter(parameter);
         child.setBackgroundResource(backgroundImg);
         child.SetMenuItemClickListner(this,true);

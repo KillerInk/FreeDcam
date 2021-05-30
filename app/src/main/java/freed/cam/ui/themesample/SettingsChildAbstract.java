@@ -24,6 +24,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import androidx.databinding.Bindable;
+
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.utils.Log;
 

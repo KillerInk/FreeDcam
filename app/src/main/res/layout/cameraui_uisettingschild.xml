@@ -3,7 +3,7 @@
     <data>
         <variable
             name="parameter"
-            type="freed.cam.apis.basecamera.parameters.ParameterInterface" />
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
     </data>
 <LinearLayout
     android:id="@+id/uiSettingsTopLayout"

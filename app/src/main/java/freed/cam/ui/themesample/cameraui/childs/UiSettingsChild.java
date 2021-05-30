@@ -121,13 +121,19 @@ public class UiSettingsChild extends SettingsChildAbstract
 
     private void bind(Context context)
     {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        binding = DataBindingUtil.inflate(inflater, layout.cameraui_uisettingschild, this, false);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(layout.cameraui_uisettingschild, null);
+        binding = CamerauiUisettingschildBinding.bind(view);
         binding.textView2.setSelected(true);
         binding.getRoot().setOnClickListener(this::onClick);
-        addView(binding.getRoot());
+        this.addView(binding.getRoot());
     }
 
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+    }
 
     public void setLifeCycleOwner(LifecycleOwner owner)
     {
@@ -150,8 +156,8 @@ public class UiSettingsChild extends SettingsChildAbstract
     public void SetParameter(ParameterInterface parameter)
     {
         super.SetParameter(parameter);
-        binding.setParameter(parameter);
-        binding.executePendingBindings();
+        binding.setParameter((AbstractParameter) parameter);
+        //binding.executePendingBindings();
     }
 
     @Override

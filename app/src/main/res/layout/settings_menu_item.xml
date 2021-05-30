@@ -5,11 +5,11 @@
     <data>
         <variable
             name="parameter"
-            type="freed.cam.apis.basecamera.parameters.ParameterInterface" />
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
     </data>
 <LinearLayout
     android:id="@+id/menu_item_toplayout"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
     android:layout_marginTop="1dp"
@@ -20,7 +20,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="3dp"
@@ -55,7 +55,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"

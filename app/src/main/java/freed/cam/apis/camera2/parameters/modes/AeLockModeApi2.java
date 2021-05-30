@@ -24,10 +24,17 @@ public class AeLockModeApi2 extends BaseModeApi2 {
     public String getStringValue() {
         if (cameraUiWrapper == null || cameraUiWrapper.captureSessionHandler == null)
             return FreedApplication.getStringFromRessources(R.string.false_);
-        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
-            return FreedApplication.getStringFromRessources(R.string.true_);
-        else
+        try {
+            if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
+                return FreedApplication.getStringFromRessources(R.string.true_);
+            else
+                return FreedApplication.getStringFromRessources(R.string.false_);
+        }
+        catch (NullPointerException ex)
+        {
             return FreedApplication.getStringFromRessources(R.string.false_);
+        }
+
     }
 
     @Override
