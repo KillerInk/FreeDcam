@@ -32,6 +32,7 @@ import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
+import freed.cam.apis.basecamera.parameters.modes.OrientationHackParameter;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera2.Camera2;
@@ -222,6 +223,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.YuvSize, new YuvSizeModeApi2(cameraUiWrapper));
         if (settingsManager.get(SettingKeys.LensShade).isSupported())
             add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
+
+        add(SettingKeys.orientationHack,new OrientationHackParameter(cameraUiWrapper,SettingKeys.orientationHack));
 
         registerListners();
 

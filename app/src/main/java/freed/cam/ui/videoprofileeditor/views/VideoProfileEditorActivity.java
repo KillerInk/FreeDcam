@@ -26,9 +26,12 @@ import android.os.PersistableBundle;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Created by troop on 15.02.2016.
  */
+@AndroidEntryPoint
 public class VideoProfileEditorActivity extends FragmentActivity
 {
     private final String TAG = VideoProfileEditorActivity.class.getSimpleName();

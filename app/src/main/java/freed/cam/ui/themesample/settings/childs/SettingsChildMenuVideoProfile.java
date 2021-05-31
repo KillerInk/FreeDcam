@@ -31,6 +31,7 @@ public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 {
     public SettingsChildMenuVideoProfile(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
+        parameter.setViewState(AbstractParameter.ViewState.Visible);
     }
 
     @Override

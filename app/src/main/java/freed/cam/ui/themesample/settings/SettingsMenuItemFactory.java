@@ -27,7 +27,6 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuInterval;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuIntervalDuration;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuOrientationHack;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSDSave;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSaveCamParams;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
@@ -183,8 +182,7 @@ public class SettingsMenuItemFactory
                     dngGroup.addView(matrixChooser);
                 }
                 if (cameraUiWrapper instanceof Camera2) {
-                    SettingsChildMenuForceRawToDng rawToDng = new SettingsChildMenuForceRawToDng(context, R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
-                    rawToDng.SetUiItemClickListner(click);
+                    SettingsChild_BooleanSetting rawToDng = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.forceRawToDng),R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
                     dngGroup.addView(rawToDng);
 
                     SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.useCustomMatrixOnCamera2), R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
@@ -221,10 +219,11 @@ public class SettingsMenuItemFactory
             externalShutter.SetUiItemClickListner(click);
             globalSettingGroup.addView(externalShutter);
 
-            SettingsChildMenuOrientationHack orientationHack = new SettingsChildMenuOrientationHack(context,R.string.setting_orientation_header, R.string.setting_orientation_description);
-            orientationHack.SetCameraUIWrapper(cameraUiWrapper);
-            orientationHack.SetUiItemClickListner(click);
-            globalSettingGroup.addView(orientationHack);
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack) != null) {
+                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack), R.string.setting_orientation_header, R.string.setting_orientation_description);
+                orientationHack.SetUiItemClickListner(click);
+                globalSettingGroup.addView(orientationHack);
+            }
 
             SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
             globalSettingGroup.addView(aspectRatio);

@@ -35,6 +35,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
+import freed.cam.apis.basecamera.parameters.modes.OrientationHackParameter;
 import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.FocusHandler;
@@ -318,6 +319,7 @@ public class ParametersHandler extends AbstractParameterHandler
         add(SettingKeys.VIDEO_AUDIO_SOURCE, new VideoAudioSourceMode(cameraUiWrapper,SettingKeys.VIDEO_AUDIO_SOURCE));
 
         add(SettingKeys.ExposureLock, new ExposureLockParameter(cameraParameters, cameraUiWrapper));
+        add(SettingKeys.orientationHack,new OrientationHackParameter(cameraUiWrapper,SettingKeys.orientationHack));
 
 
 
