@@ -83,13 +83,6 @@ public abstract class AeManager implements AeManagerInterface
             return currentInt;
         }
 
-        @Override
-        public String getStringValue()
-        {
-            if (stringvalues == null || stringvalues.length == 0 || currentInt > stringvalues.length)
-                return "error";
-            return stringvalues[currentInt];
-        }
 
 
         @Override
@@ -110,11 +103,6 @@ public abstract class AeManager implements AeManagerInterface
                 return ViewState.Enabled;
             else
                 return ViewState.Disabled;
-        }
-
-        @Override
-        public void fireStringValueChanged(String value) {
-            EventBusHelper.post(new ShutterSpeedChangedEvent(key,value,String.class));
         }
 
     }
@@ -146,11 +134,6 @@ public abstract class AeManager implements AeManagerInterface
                 return ViewState.Enabled;
             else
                 return ViewState.Disabled;
-        }
-
-        @Override
-        public void fireStringValueChanged(String value) {
-            EventBusHelper.post(new IsoChangedEvent(key,value,String.class));
         }
     }
 

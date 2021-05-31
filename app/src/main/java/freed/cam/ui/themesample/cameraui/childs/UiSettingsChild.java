@@ -50,27 +50,8 @@ public class UiSettingsChild extends SettingsChildAbstract
 {
     private final String TAG = UiSettingsChild.class.getSimpleName();
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
-
     CamerauiUisettingschildBinding binding;
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        EventBusHelper.register(this);
-        /*if (parameter != null)
-            parameter.fireStringValueChanged(parameter.getStringValue());*/
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        EventBusHelper.unregister(this);
-    }
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -149,7 +130,6 @@ public class UiSettingsChild extends SettingsChildAbstract
     protected void inflateTheme(LayoutInflater inflater)
     {
         binding = DataBindingUtil.inflate(inflater,layout.cameraui_uisettingschild,this,true);
-        //this.addView(binding.getRoot());
     }
 
     @Override
@@ -157,7 +137,6 @@ public class UiSettingsChild extends SettingsChildAbstract
     {
         super.SetParameter(parameter);
         binding.setParameter((AbstractParameter) parameter);
-        //binding.executePendingBindings();
     }
 
     @Override

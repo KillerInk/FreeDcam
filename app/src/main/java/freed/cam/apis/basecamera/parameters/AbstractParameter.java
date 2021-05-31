@@ -102,14 +102,15 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireIntValueChanged(int current)
     {
         currentInt = current;
-        EventBusHelper.post(new ValueChangedEvent<>(key,current, Integer.class));
+        //EventBusHelper.post(new ValueChangedEvent<>(key,current, Integer.class));
         notifyPropertyChanged(BR.intValue);
+        notifyPropertyChanged(BR.stringValue);
     }
 
     public void fireStringValueChanged(String value)
     {
         currentString = value;
-        EventBusHelper.post(new ValueChangedEvent<>(key,value, String.class));
+        //EventBusHelper.post(new ValueChangedEvent<>(key,value, String.class));
         notifyPropertyChanged(BR.stringValue);
     }
 
@@ -117,7 +118,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireViewStateChanged(ViewState value)
     {
         viewState = value;
-        EventBusHelper.post(new ValueChangedEvent<>(key,value, ViewState.class));
+        //EventBusHelper.post(new ValueChangedEvent<>(key,value, ViewState.class));
         notifyPropertyChanged(BR.viewState);
     }
 
@@ -125,7 +126,7 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireStringValuesChanged(String[] value)
     {
         stringvalues = value;
-        EventBusHelper.post(new ValueChangedEvent<>(key,value, String[].class));
+        //EventBusHelper.post(new ValueChangedEvent<>(key,value, String[].class));
         notifyPropertyChanged(BR.stringValues);
     }
 
@@ -192,6 +193,8 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     protected void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
+        if (stringvalues != null && valueToSet < stringvalues.length)
+            currentString = stringvalues[valueToSet];
         if (settingMode != null)
             settingMode.set(String.valueOf(valueToSet));
         fireIntValueChanged(valueToSet);

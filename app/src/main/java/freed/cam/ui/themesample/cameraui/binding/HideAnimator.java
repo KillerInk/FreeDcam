@@ -6,9 +6,9 @@ import android.widget.LinearLayout;
 
 public class HideAnimator implements Animator.AnimatorListener {
 
-    private LinearLayout linearLayout;
+    private View linearLayout;
 
-    public HideAnimator(LinearLayout linearLayout)
+    public HideAnimator(View linearLayout)
     {
         this.linearLayout = linearLayout;
     }

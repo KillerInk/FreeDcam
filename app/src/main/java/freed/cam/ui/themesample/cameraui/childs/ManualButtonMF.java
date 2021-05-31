@@ -24,6 +24,6 @@ public class ManualButtonMF extends ManualButton {
         if (focusPositionChangedEvent.type != String.class)
             return;
         if (focusPositionChangedEvent.key == parameter.getKey())
-            valueTextView.setText(focusPositionChangedEvent.newValue);
+            binding.manualbuttonValuetext.setText(focusPositionChangedEvent.newValue);
     }
 }

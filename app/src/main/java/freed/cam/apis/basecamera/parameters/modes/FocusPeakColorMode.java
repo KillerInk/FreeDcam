@@ -1,5 +1,7 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
+import androidx.databinding.Observable;
+
 import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -88,4 +90,5 @@ public class FocusPeakColorMode extends AbstractParameter {
                 setViewState(ViewState.Visible);
         }
     }
+
 }

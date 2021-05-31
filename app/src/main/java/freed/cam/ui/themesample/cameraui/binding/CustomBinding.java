@@ -11,7 +11,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 public class CustomBinding {
     @BindingAdapter("setViewState")
-    public static void setViewState(LinearLayout view, AbstractParameter.ViewState value)
+    public static void setViewState(View view, AbstractParameter.ViewState value)
     {
         if (view == null || value == null)
             return;
@@ -20,20 +20,17 @@ public class CustomBinding {
             case Enabled:
                 if (view.getVisibility() == View.GONE)
                     view.setVisibility(View.VISIBLE);
-                view.setEnabled(true);
                 if (view.getBackground() != null)
                     view.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
                 break;
             case Disabled:
                 if (view.getVisibility() == View.GONE)
                     view.setVisibility(View.VISIBLE);
-                view.setEnabled(false);
                 if (view.getBackground() != null)
                     view.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 break;
             case Visible:
                 view.setVisibility(View.VISIBLE);
-                view.setEnabled(true);
                 view.animate().setListener(null).scaleY(1f).setDuration(300);
                 break;
             case Hidden:

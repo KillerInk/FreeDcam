@@ -48,9 +48,7 @@ import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
-import freed.cam.ui.themesample.cameraui.childs.ManualButtonIso;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
-import freed.cam.ui.themesample.cameraui.childs.ManualButtonShutter;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -137,12 +135,12 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 manualItemsHolder.addView(btn);
             }
             if (parms.get(SettingKeys.M_ManualIso) != null) {
-                ManualButton btn = new ManualButtonIso(getContext(), parms.get(SettingKeys.M_ManualIso), R.drawable.manual_iso);
+                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_ManualIso), R.drawable.manual_iso);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
             if (parms.get(SettingKeys.M_ExposureTime) != null) {
-                ManualButton btn = new ManualButtonShutter(getContext(), parms.get(SettingKeys.M_ExposureTime), R.drawable.manual_shutter);
+                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_ExposureTime), R.drawable.manual_shutter);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
             }
@@ -259,6 +257,8 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         @Override
         public void onClick(View v)
         {
+            if (v instanceof ManualButton && ((ManualButton)v).parameter.getViewState() == AbstractParameter.ViewState.Disabled)
+                return;
             //when same button gets clicked second time
             if(v == currentButton && seekbar.getVisibility() == View.VISIBLE)
             {

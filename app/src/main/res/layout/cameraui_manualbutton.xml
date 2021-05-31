@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
+    </data>
+
+<LinearLayout
+    android:id="@+id/toplayoutmanualbutton"
     android:orientation="vertical"
     android:layout_width="@dimen/cameraui_settingschild_width"
     android:layout_height="@dimen/cameraui_settingschild_height"
-    android:background="#00000000"
-    android:gravity="center_horizontal">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageView_ManualButton" />
+    android:gravity="center_horizontal"
+    setViewState="@{parameter.viewState}"
+    >
 
     <LinearLayout
+        android:id="@+id/imageView_ManualButton"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="bottom|center_horizontal">
+        android:layout_width="35dp"
+        android:layout_height="44dp"
+        android:gravity="center_horizontal"
+        setViewState="@{parameter.viewState}"
+        >
 
-        <FrameLayout
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/manualbutton_valuetext"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:id="@+id/manualbutton_valuetext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="4dp"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:freezesText="true"
-                android:gravity="center_vertical"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="1234565"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#ffffff"
-                android:textSize="10sp" />
-        </FrameLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="29dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="0dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:gravity="center_vertical"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@{parameter.stringValue}"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:textSize="8sp" />
     </LinearLayout>
 
-</AbsoluteLayout>
+</LinearLayout>
+
+</layout>

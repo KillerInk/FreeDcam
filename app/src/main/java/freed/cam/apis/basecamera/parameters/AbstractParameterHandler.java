@@ -21,6 +21,10 @@ package freed.cam.apis.basecamera.parameters;
 
 import android.text.TextUtils;
 
+import androidx.databinding.Observable;
+
+import com.troop.freedcam.R;
+
 import java.util.HashMap;
 
 import freed.FreedApplication;
@@ -74,14 +78,37 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         add(SettingsManager.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
         add(SettingsManager.HorizontLvl, new Horizont());
         add(SettingsManager.SD_SAVE_LOCATION, new SDModeParameter());
+        EnableRenderScriptMode enableRenderScriptMode = new EnableRenderScriptMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
         add(SettingsManager.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
-        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, new EnableRenderScriptMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE));
-        if (!settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, enableRenderScriptMode);
+        add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getPreview(), SettingsManager.FOCUSPEAK_COLOR));
+        add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
+        add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
+        add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
+        applyPreviewPostprocessingVisibility();
+        enableRenderScriptMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                applyPreviewPostprocessingVisibility();
+            }
+        });
 
-            add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getPreview(), SettingsManager.FOCUSPEAK_COLOR));
-            add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
-            add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-            add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
+    }
+
+    private void applyPreviewPostprocessingVisibility()
+    {
+        if (!settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Visible);
+        }
+        else
+        {
+            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Visible);
         }
     }
 

@@ -33,6 +33,8 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.CamerauiManualbuttonBinding;
+import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -50,7 +52,7 @@ import freed.utils.Log;
  */
 public class ManualButton extends LinearLayout
 {
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
     public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
     {
         if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class)
@@ -60,9 +62,9 @@ public class ManualButton extends LinearLayout
             AbstractParameter.ViewState state = viewStateValueChangedEvent.newValue;
             applyViewState(state);
         }
-    }
+    }*/
 
-    private void applyViewState(AbstractParameter.ViewState state) {
+    /*private void applyViewState(AbstractParameter.ViewState state) {
         Log.d(TAG, "applyViewState for " +parameter.getKey().toString() + " " + state.toString() );
         switch (state)
         {
@@ -88,9 +90,9 @@ public class ManualButton extends LinearLayout
                 ManualButton.this.setVisibility(View.GONE);
                 break;
         }
-    }
+    }*/
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
     public void onIntValueChanged(ValueChangedEvent<Integer> current)
     {
         if (current.type != Integer.class)
@@ -104,9 +106,9 @@ public class ManualButton extends LinearLayout
             else
                 valueTextView.setText(String.valueOf(current.newValue));
         }
-    }
+    }*/
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
     public void onValuesChanged(ValueChangedEvent<String[]> values) {
         if (values.type != String[].class)
             return;
@@ -121,33 +123,28 @@ public class ManualButton extends LinearLayout
             return;
         if (value.key == parameter.getKey())
             valueTextView.setText(value.newValue);
-    }
+    }*/
 
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
     protected ParameterInterface parameter;
-    protected TextView valueTextView;
-    private ImageView imageView;
     private final int backgroundColorActive = Color.parseColor("#46FFFFFF");
     private final int backgroundColor = Color.parseColor("#00000000");
     private int pos;
-    protected ActivityInterface fragment_activityInterface;
+    protected CamerauiManualbuttonBinding binding;
 
     public ManualButton(Context context, ParameterInterface parameter, int drawableImg)
     {
         super(context);
         init(context);
         SetManualParameter(parameter);
-        imageView.setImageDrawable(getResources().getDrawable(drawableImg));
+        binding.imageViewManualButton.setBackgroundResource(drawableImg);
     }
 
     private void init(Context context)
     {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout.cameraui_manualbutton, this);
-        valueTextView = findViewById(id.manualbutton_valuetext);
-        valueTextView.setSelected(true);
-        imageView = findViewById(id.imageView_ManualButton);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        binding = CamerauiManualbuttonBinding.inflate(inflater,this,true);
     }
 
     @Override
@@ -166,49 +163,13 @@ public class ManualButton extends LinearLayout
     public void SetManualParameter(ParameterInterface parameter)
     {
         this.parameter = parameter;
+        binding.setParameter((AbstractParameter) parameter);
         if (parameter != null) {
-
-            String txt = parameter.getStringValue();
-            if (valueTextView != null) {
-                if (txt != null && !TextUtils.isEmpty(txt))
-                    valueTextView.setText(txt);
-                else
-                    valueTextView.setText(parameter.getIntValue() + "");
-            }
-            createStringParametersStrings(parameter);
-
+            parameterValues = parameter.getStringValues();
         }
-        applyViewState(parameter.getViewState());
-
     }
 
-    private void createStringParametersStrings(ParameterInterface parameter) {
-        parameterValues = parameter.getStringValues();
-    }
-
-    private final AnimatorListener hideListner = new AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animation) {
-            setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animation) {
-
-        }
-    };
-
-    private String getStringValue(int pos)
+    /*private String getStringValue(int pos)
     {
         if (parameterValues != null && parameterValues.length > 0)
         {
@@ -221,12 +182,12 @@ public class ManualButton extends LinearLayout
         }
 
         return null;
-    }
+    }*/
 
     public String[] getStringValues()
     {
         if (parameterValues == null || parameterValues.length ==0)
-            createStringParametersStrings(parameter);
+            parameterValues = parameter.getStringValues();
         return parameterValues;
     }
 
