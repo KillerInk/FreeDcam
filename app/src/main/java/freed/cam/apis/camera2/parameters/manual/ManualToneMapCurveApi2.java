@@ -40,7 +40,7 @@ import freed.utils.Log;
  */
 //http://www.cambridgeincolour.com/tutorials/photoshop-curves.htm
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ManualToneMapCurveApi2 implements EventBusLifeCycle
+public class ManualToneMapCurveApi2
 {
     final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
@@ -130,29 +130,11 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }*/
     }
 
-    @Subscribe
-    public void onToneMapModeChanged(ValueChangedEvent<String> valueChangedEvent)
+    public void onToneMapModeChanged(String tonemap)
     {
-
-        if (valueChangedEvent.type != String.class)
-            return;
-        if (valueChangedEvent.key == SettingKeys.TONE_MAP_MODE)
-        {
-            Log.d(TAG, "onToneMapModeChanged");
-            if (valueChangedEvent.newValue != null)
-                onStringValueChanged(valueChangedEvent.newValue);
-        }
+        onStringValueChanged(tonemap);
     }
 
-    @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
-    }
 
     public class Contrast extends AbstractParameter
     {

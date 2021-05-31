@@ -26,9 +26,14 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
+import androidx.databinding.Observable;
+
+import com.troop.freedcam.R;
+
 import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -190,7 +195,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_Saturation, new ManualSaturationQcomApi2(cameraUiWrapper));
 
         manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
-        manualToneMapCurveApi2.startListning();
         /*ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
         black = manualToneMapCurveApi2.black;
@@ -200,7 +204,14 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         white = manualToneMapCurveApi2.whitep;*/
         add(SettingKeys.TONE_CURVE_PARAMETER, manualToneMapCurveApi2.toneCurveParameter);
 
-        add(SettingKeys.TONE_MAP_MODE,new BaseModeApi2(cameraUiWrapper, SettingKeys.TONE_MAP_MODE,CaptureRequest.TONEMAP_MODE));
+        BaseModeApi2 tonemapmode = new BaseModeApi2(cameraUiWrapper, SettingKeys.TONE_MAP_MODE,CaptureRequest.TONEMAP_MODE);
+        add(SettingKeys.TONE_MAP_MODE,tonemapmode);
+        tonemapmode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                    manualToneMapCurveApi2.onToneMapModeChanged(tonemapmode.getStringValue());
+            }
+        });
 
 
         add(SettingKeys.PictureFormat, new PictureFormatParameterApi2(cameraUiWrapper, SettingKeys.PictureFormat, null));
@@ -233,8 +244,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
     @Override
     public void unregisterListners() {
         super.unregisterListners();
-        if (manualToneMapCurveApi2 != null)
-            manualToneMapCurveApi2.stopListning();
+        
     }
 
     @Override
