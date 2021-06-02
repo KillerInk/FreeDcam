@@ -21,13 +21,6 @@ FreeDcam
 Build
 =====
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
-Use NDK 12b!
-
-All needed libs are included
-
-For ndk build set in your *local.properties*  
-`ndk.dir=C\:\\Android\\android-ndk-r10b`  
-Yes you need `\\` that for the folderpath
 
 
 Supported Apis:
