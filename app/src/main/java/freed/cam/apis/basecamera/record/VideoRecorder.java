@@ -291,7 +291,7 @@ public class VideoRecorder {
     private void setRecorderFilePath() {
         BaseHolder baseHolder = fileListController.getNewMovieFileHolder(recordingFile);
         try {
-            baseHolder.setToMediaRecorder(mediaRecorder,cameraWrapperInterface.getActivityInterface());
+            baseHolder.setToMediaRecorder(mediaRecorder);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

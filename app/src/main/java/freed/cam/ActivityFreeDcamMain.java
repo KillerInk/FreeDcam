@@ -168,7 +168,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         userMessageHandler.setContext(getApplication());
         userMessageHandler.startListning();
         mSecureCamera.onCreate();
-        cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder, getApplicationContext(),this);
+        cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder);
         startListning();
         //listen to phone orientation changes
         getLifecycle().addObserver(orientationManager);
@@ -329,7 +329,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return super.onKeyDown(keyCode,event);
     }
 
-    @Override
     public void closeActivity()
     {
         moveTaskToBack(true);
@@ -348,8 +347,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     };
 
-
-    @Override
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = findViewById(id.nightoverlay);

@@ -327,7 +327,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
 
     protected void saveJpeg(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        ImageSaveTask task = new ImageSaveTask(this);
         task.setBytesTosave(data,ImageSaveTask.JPEG);
         task.setFilePath(file, settingsManager.GetWriteExternal());
         ImageManager.putImageSaveTask(task);
@@ -335,7 +335,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
 
     protected void saveDng(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        ImageSaveTask task = new ImageSaveTask(this);
         task.setFnum(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFnumber());
         task.setFocal(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFocal());
         float exposuretime = cameraUiWrapper.getParameterHandler().getCurrentExposuretime();

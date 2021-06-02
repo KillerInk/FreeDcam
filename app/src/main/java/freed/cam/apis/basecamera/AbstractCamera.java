@@ -51,11 +51,6 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
     }
 
     @Override
-    public ActivityInterface getActivityInterface() {
-        return activityInterface;
-    }
-
-    @Override
     public boolean isAeMeteringSupported() {
         return focusHandler.isAeMeteringSupported();
     }

@@ -35,14 +35,12 @@ public abstract class StillImageCapture extends AbstractImageCapture {
     protected boolean forceRawToDng = false;
     protected boolean support12bitRaw = false;
 
-    protected ActivityInterface activityInterface;
     protected ModuleInterface moduleInterface;
     protected final String file_ending;
 
 
-    public StillImageCapture(Size size, int format, boolean setToPreview,ActivityInterface activityInterface,ModuleInterface moduleInterface, String file_ending, int max_images) {
+    public StillImageCapture(Size size, int format, boolean setToPreview,ModuleInterface moduleInterface, String file_ending, int max_images) {
         super(size, format, setToPreview,max_images);
-        this.activityInterface = activityInterface;
         this.moduleInterface = moduleInterface;
         this.file_ending = file_ending;
     }

@@ -34,7 +34,7 @@ public class ImageTaskDngConverter extends ImageTask {
 
     private final String TAG = ImageTaskDngConverter.class.getSimpleName();
 
-    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, ActivityInterface activityInterface, int orientation, Location location, ModuleInterface moduleInterface)
+    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, int orientation, Location location, ModuleInterface moduleInterface)
     {
         this.captureResult = captureResult;
         this.image = image;

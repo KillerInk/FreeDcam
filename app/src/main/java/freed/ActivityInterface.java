@@ -31,14 +31,10 @@ import freed.viewer.helper.BitmapHelper;
  */
 public interface ActivityInterface
 {
-    void closeActivity();
-    void ChooseSDCard(I_OnActivityResultCallback callback);
     interface I_OnActivityResultCallback
     {
         void onActivityResultCallback(Uri uri);
     }
-
-    void SetNightOverlay();
 }
 
 

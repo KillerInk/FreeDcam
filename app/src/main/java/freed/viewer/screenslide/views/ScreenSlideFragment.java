@@ -46,10 +46,12 @@ import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.internal.managers.FragmentComponentManager;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.file.FileListController;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
@@ -230,8 +232,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             } else {
                 DocumentFile sdDir = FileListController.getExternalSdDocumentFile(getContext());
                 if (sdDir == null) {
-
-                    activityInterface.ChooseSDCard(ScreenSlideFragment.this);
+                    ActivityFreeDcamMain activity = (ActivityFreeDcamMain) FragmentComponentManager.findActivity(getContext());
+                    activity.ChooseSDCard(ScreenSlideFragment.this);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteAlertButtonClick)

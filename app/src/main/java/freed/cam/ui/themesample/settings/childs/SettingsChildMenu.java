@@ -49,18 +49,6 @@ public class SettingsChildMenu extends SettingsChildAbstract
 
     protected SettingsMenuItemBinding binding;
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        /*if (parameter != null)
-            parameter.fireStringValueChanged(parameter.getStringValue());*/
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-    }
-
     public SettingsChildMenu(Context context) {
         super(context);
         init(context);
@@ -125,17 +113,9 @@ public class SettingsChildMenu extends SettingsChildAbstract
 
     @Override
     protected void init(Context context) {
-        /*LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflateTheme(inflater);
-        binding.textviewMenuitemHeaderValue.setSelected(true);
-        binding.textviewMenuitemHeaderValue.setText("Binding....");
-        setOnClickListener(this);*/
-
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(layout.settings_menu_item, null);
-        binding = SettingsMenuItemBinding.bind(view);
+        binding = SettingsMenuItemBinding.inflate(inflater,this,true);
         binding.getRoot().setOnClickListener(this);
-        this.addView(binding.getRoot());
         binding.menuItemToplayout.getLayoutParams().width= ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
@@ -148,14 +128,6 @@ public class SettingsChildMenu extends SettingsChildAbstract
     public void onClick(View v) {
         if (onItemClick != null)
             onItemClick.onSettingsChildClick(this, false);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onStringValueChanged(ValueChangedEvent<String> value) {
-        /*if (value.type != String.class || parameter == null)
-            return;
-        if (value.key == parameter.getKey())
-            onStringValueChanged(value.newValue);*/
     }
 
     @Override

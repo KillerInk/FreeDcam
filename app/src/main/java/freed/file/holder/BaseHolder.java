@@ -94,7 +94,7 @@ public abstract class BaseHolder
     public abstract OutputStream getOutputStream() throws FileNotFoundException;
     public abstract InputStream getInputStream() throws FileNotFoundException;
 
-    public void setToMediaRecorder(MediaRecorder recorder, ActivityInterface activityInterface) throws FileNotFoundException {
+    public void setToMediaRecorder(MediaRecorder recorder) throws FileNotFoundException {
         if (this instanceof FileHolder)
         {
             recorder.setOutputFile(((FileHolder)this).getFile().getAbsolutePath());

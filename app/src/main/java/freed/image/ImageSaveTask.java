@@ -53,7 +53,6 @@ public class ImageSaveTask extends ImageTask
     private int flash = 0;
     private float expoindex;
     private String whitebalance;
-    private ActivityInterface activityInterface;
     private ModuleInterface moduleInterface;
 
     private Thread currentThread;
@@ -64,9 +63,8 @@ public class ImageSaveTask extends ImageTask
     private FileListController fileListController;
 
 
-    public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
+    public ImageSaveTask(ModuleInterface moduleInterface)
     {
-        this.activityInterface = activityInterface;
         this.moduleInterface = moduleInterface;
         settingsManager = FreedApplication.settingsManager();
         fileListController = FreedApplication.fileListController();
@@ -75,7 +73,6 @@ public class ImageSaveTask extends ImageTask
 
     private void clear()
     {
-        this.activityInterface = null;
         this.whitebalance = null;
         this.location =null;
         this.filename = null;

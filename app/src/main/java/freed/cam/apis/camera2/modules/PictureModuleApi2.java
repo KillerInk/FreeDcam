@@ -343,32 +343,32 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     protected void createImageCaptureListners() {
         ByteImageCapture byteImageCapture;
         if (captureType == CaptureType.Jpeg || captureType == CaptureType.JpegDng16 || captureType == CaptureType.JpegDng10)
-            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,cameraUiWrapper.getActivityInterface(),this,".jpg",max_images);
+            byteImageCapture = new JpegCapture(new Size(output.jpeg_width,output.jpeg_height),false,this,".jpg",max_images);
         else
         {
             Size smallestImageSize = Collections.min(
                     Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                     new CameraHolderApi2.CompareSizesByArea());
-            byteImageCapture = new JpegCapture(smallestImageSize,false,cameraUiWrapper.getActivityInterface(),this,".jpg",max_images);
+            byteImageCapture = new JpegCapture(smallestImageSize,false,this,".jpg",max_images);
         }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
             String yuvsize = settingsManager.get(SettingKeys.YuvSize).get();
             String[] split = yuvsize.split("x");
             Size s = new Size(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv",max_images);
+            ByteImageCapture yuvimgcapture = new ByteImageCapture(s, ImageFormat.YUV_420_888,false,this,".yuv",max_images);
             captureController.add(yuvimgcapture);
         }
 
         if (output.raw_format != 0 && isDngCapture())
         {
-            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".dng",max_images);
+            RawImageCapture rawImageCapture = new RawImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,this,".dng",max_images);
             captureController.add(rawImageCapture);
             //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
         }
         else if (output.raw_format != 0 &&  isBayerCapture())
         {
-            ByteImageCapture byteImageCapture1 = new ByteImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,cameraUiWrapper.getActivityInterface(),this,".bayer",max_images);
+            ByteImageCapture byteImageCapture1 = new ByteImageCapture(new Size(output.raw_width,output.raw_height),output.raw_format,false,this,".bayer",max_images);
             captureController.add(byteImageCapture1);
         }
     }

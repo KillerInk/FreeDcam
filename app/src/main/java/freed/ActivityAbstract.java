@@ -131,10 +131,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public void closeActivity() {
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
@@ -143,7 +139,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             hideNavBarHelper.showNavbar(getWindow());
     }
 
-    @Override
     public void ChooseSDCard(I_OnActivityResultCallback callback)
     {
         try {
@@ -186,11 +181,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
                 }
             }
         }
-    }
-
-    @Override
-    public void SetNightOverlay() {
-
     }
 
 }

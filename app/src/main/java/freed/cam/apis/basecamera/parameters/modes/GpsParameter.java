@@ -45,7 +45,6 @@ public class GpsParameter extends AbstractParameter
 
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
-    private ActivityInterface activityInterface;
     private PermissionManager permissionManager;
     private LocationManager locationManager;
 
@@ -55,7 +54,6 @@ public class GpsParameter extends AbstractParameter
         permissionManager = ActivityAbstract.permissionManager();
         locationManager = ActivityFreeDcamMain.locationManager();
         this.cameraUiWrapper = cameraUiWrapper;
-        this.activityInterface = cameraUiWrapper.getActivityInterface();
         userAcceptedPermission = permissionManager.isPermissionGranted(PermissionManager.Permissions.Location);
     }
 

@@ -19,8 +19,8 @@ import freed.utils.Log;
 public class ByteImageCapture extends StillImageCapture {
 
     private final String TAG = ByteImageCapture.class.getSimpleName();
-    public ByteImageCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending,int max_images) {
-        super(size, format, setToPreview,activityInterface,moduleInterface,file_ending,max_images);
+    public ByteImageCapture(Size size, int format, boolean setToPreview, ModuleInterface moduleInterface, String file_ending,int max_images) {
+        super(size, format, setToPreview,moduleInterface,file_ending,max_images);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ByteImageCapture extends StillImageCapture {
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
-        ImageSaveTask task = new ImageSaveTask(activityInterface,moduleInterface);
+        ImageSaveTask task = new ImageSaveTask(moduleInterface);
         task.setBytesTosave(bytes, ImageSaveTask.JPEG);
         task.setFilePath(file,externalSD);
         buffer.clear();

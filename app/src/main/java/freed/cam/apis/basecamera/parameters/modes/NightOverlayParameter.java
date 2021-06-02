@@ -16,12 +16,10 @@ import freed.utils.Log;
 public class NightOverlayParameter extends AbstractParameter {
 
     private final String TAG = NightOverlayParameter.class.getSimpleName();
-    private ActivityInterface activityInterface;
 
     public NightOverlayParameter(CameraWrapperInterface cameraWrapperInterface)
     {
         super(SettingKeys.NightOverlay);
-        this.activityInterface = cameraWrapperInterface.getActivityInterface();
         setViewState(ViewState.Visible);
     }
 
@@ -43,7 +41,6 @@ public class NightOverlayParameter extends AbstractParameter {
     public void setStringValue(String valueToSet, boolean setToCamera) {
         settingsManager.getGlobal(SettingKeys.NightOverlay).set(valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)));
         Log.d(TAG, "Nightoverlay :" +settingsManager.getGlobal(SettingKeys.NightOverlay).get());
-        activityInterface.SetNightOverlay();
         fireStringValueChanged(valueToSet);
 
     }

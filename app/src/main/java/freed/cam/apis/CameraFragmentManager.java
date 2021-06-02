@@ -31,7 +31,6 @@ public class CameraFragmentManager {
     private CameraFragmentAbstract cameraFragment;
 
     private BackgroundHandlerThread backgroundHandlerThread;
-    private ActivityInterface activityInterface;
     private SettingsManager settingsManager;
 
     @Inject
@@ -40,7 +39,7 @@ public class CameraFragmentManager {
         this.settingsManager = settingsManager;
     }
 
-    public void init(FragmentManager fragmentManager, int fragmentHolderId, Context context, ActivityInterface activityInterface)
+    public void init(FragmentManager fragmentManager, int fragmentHolderId)
     {
         this.fragmentManager = fragmentManager;
         this.fragmentHolderId = fragmentHolderId;
@@ -48,7 +47,6 @@ public class CameraFragmentManager {
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
         new CameraThreadHandler(backgroundHandlerThread.getThread().getLooper());
-        this.activityInterface = activityInterface;
     }
 
 

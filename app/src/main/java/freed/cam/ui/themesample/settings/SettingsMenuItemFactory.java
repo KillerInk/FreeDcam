@@ -17,16 +17,10 @@ import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
-import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
-import freed.cam.ui.themesample.settings.childs.SettingsChildApi;
 import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuForceRawToDng;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuGPS;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuInterval;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuIntervalDuration;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSDSave;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSaveCamParams;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
@@ -148,11 +142,11 @@ public class SettingsMenuItemFactory
 
                 GroupChild intervalGroup = new GroupChild(context, context.getResources().getString(R.string.setting_Automation));
 
-                SettingsChildMenuInterval menuInterval = new SettingsChildMenuInterval(context, params.get(SettingKeys.INTERVAL_SHUTTER_SLEEP), R.string.setting_interval_header, R.string.setting_interval_texter);
+                SettingsChildMenu menuInterval = new SettingsChildMenu(context, params.get(SettingKeys.INTERVAL_SHUTTER_SLEEP), R.string.setting_interval_header, R.string.setting_interval_texter);
                 menuInterval.SetUiItemClickListner(click);
                 intervalGroup.addView(menuInterval);
 
-                SettingsChildMenuIntervalDuration menuIntervalDuration = new SettingsChildMenuIntervalDuration(context, params.get(SettingKeys.INTERVAL_DURATION), R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
+                SettingsChildMenu menuIntervalDuration = new SettingsChildMenu(context, params.get(SettingKeys.INTERVAL_DURATION), R.string.setting_interval_duration_header, R.string.setting_interval_duration_text);
                 menuIntervalDuration.SetUiItemClickListner(click);
                 intervalGroup.addView(menuIntervalDuration);
 
@@ -206,7 +200,7 @@ public class SettingsMenuItemFactory
         GroupChild globalSettingGroup = new GroupChild(context,context.getResources().getString(R.string.setting_freedcam_));
 
 
-        SettingsChildApi api = new SettingsChildApi(context,R.string.setting_api_header, R.string.setting_api_description);
+        SettingsChildMenu api = new SettingsChildMenu(context,R.string.setting_api_header, R.string.setting_api_description);
         api.SetParameter(apiParameter);
         api.SetUiItemClickListner(click);
         globalSettingGroup.addView(api);
@@ -233,8 +227,7 @@ public class SettingsMenuItemFactory
             sdSave.SetUiItemClickListner(click);
             globalSettingGroup.addView(sdSave);
 
-            SettingsChildMenuGPS menuItemGPS = new SettingsChildMenuGPS(context,R.string.setting_location_header, R.string.setting_location_description );
-            menuItemGPS.SetCameraUIWrapper(cameraUiWrapper);
+            SettingsChildMenu menuItemGPS = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );
             menuItemGPS.SetUiItemClickListner(click);
             globalSettingGroup.addView(menuItemGPS);
 

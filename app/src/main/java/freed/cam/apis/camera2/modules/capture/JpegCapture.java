@@ -18,8 +18,8 @@ public class JpegCapture extends ByteImageCapture {
 
     private final String TAG = JpegCapture.class.getSimpleName();
 
-    public JpegCapture(Size size, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending, int max_images) {
-        super(size, ImageFormat.JPEG, setToPreview, activityInterface, moduleInterface, file_ending,max_images);
+    public JpegCapture(Size size, boolean setToPreview, ModuleInterface moduleInterface, String file_ending, int max_images) {
+        super(size, ImageFormat.JPEG, setToPreview, moduleInterface, file_ending,max_images);
     }
 
     @Override
