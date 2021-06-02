@@ -20,8 +20,10 @@ public class HideAnimator implements Animator.AnimatorListener {
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        linearLayout.setVisibility(View.GONE);
-        linearLayout = null;
+        if (linearLayout != null) {
+            linearLayout.setVisibility(View.GONE);
+            linearLayout = null;
+        }
     }
 
     @Override
