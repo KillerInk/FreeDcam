@@ -28,6 +28,7 @@ import com.troop.freedcam.R;
 import java.util.HashMap;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
 import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
@@ -43,6 +44,7 @@ import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.events.EventBusLifeCycle;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingsManager;
@@ -66,11 +68,13 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 
     protected C cameraUiWrapper;
     protected SettingsManager settingsManager;
+    protected PreviewController previewController;
 
 
     protected AbstractParameterHandler(C cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         settingsManager = FreedApplication.settingsManager();
+        previewController = CameraFragmentAbstract.getPreviewController();
         add(SettingsManager.GuideList, new GuideList());
         add(SettingsManager.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
         add(SettingsManager.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
@@ -81,7 +85,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         EnableRenderScriptMode enableRenderScriptMode = new EnableRenderScriptMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
         add(SettingsManager.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
         add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, enableRenderScriptMode);
-        add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(cameraUiWrapper.getPreview(), SettingsManager.FOCUSPEAK_COLOR));
+        add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(previewController, SettingsManager.FOCUSPEAK_COLOR));
         add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
         add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
         add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
@@ -196,7 +200,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setAppSettingsToCamera(SettingsManager.Ae_TargetFPS,false);
         setAppSettingsToCamera(SettingsManager.secondarySensorSize, false);
         setAppSettingsToCamera(SettingsManager.ExposureMode,false);
-        if (RenderScriptManager.isSupported() && cameraUiWrapper.getPreview() != null) {
+        if (RenderScriptManager.isSupported() && previewController != null) {
             setAppSettingsToCamera(SettingsManager.FOCUSPEAK_COLOR, true);
             setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
             setAppSettingsToCamera(SettingsManager.CLIPPING, true);

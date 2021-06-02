@@ -97,20 +97,18 @@ public class Camera2Fragment extends CameraFragmentAbstract<Camera2> implements 
         this.histogram = view.findViewById(id.hisotview);
         HistogramController histogramController = new HistogramController(histogram);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
+            preview.initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
         else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
+            preview.initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
         else
-            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
-        textureView = getPreview().getPreviewView();
+            preview.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
+        textureView = preview.getPreviewView();
         FrameLayout frameLayout = view.findViewById(id.autofitview);
         frameLayout.addView(textureView);
         camera = new Camera2();
-        camera.setPreview(getPreview());
-        camera.init((ActivityInterface) getActivity());
         CameraThreadHandler.setCameraInterface(camera);
 
-        getPreview().setPreviewEventListner(this);
+        preview.setPreviewEventListner(this);
 
         Log.d(TAG, "Constructor done");
         return view;
@@ -138,7 +136,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<Camera2> implements 
         super.onResume();
         startListning();
         Log.d(TAG, "onResume");
-        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy && getPreview().getSurfaceTexture() != null)
+        if (textureView.isAttachedToWindow() && PreviewSurfaceRdy && preview.getSurfaceTexture() != null)
             CameraThreadHandler.startCameraAsync();
     }
 
@@ -172,7 +170,7 @@ public class Camera2Fragment extends CameraFragmentAbstract<Camera2> implements 
         try {
             Log.d(TAG, "onCameraClose");
             cameraIsOpen = false;
-            getPreview().close();
+            preview.close();
         }
         catch (NullPointerException ex)
         {

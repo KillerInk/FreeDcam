@@ -79,7 +79,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
     public void stopCamera() {
         EventBusHelper.unregister(this);
         Log.d(TAG, "Stop Camera");
-        getPreview().close();
+        preview.close();
         if (cameraHolder != null)
             cameraHolder.CloseCamera();
         cameraIsOpen = false;
@@ -88,7 +88,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
     @Override
     public void restartCamera() {
         Log.d(TAG, "Stop Camera");
-        getPreview().close();
+        preview.close();
         cameraHolder.CloseCamera();
         cameraIsOpen = false;
         if (!cameraIsOpen)

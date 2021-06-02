@@ -187,7 +187,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader = null;
         }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.getPreview().close();
+        previewController.close();
         //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
         videoRecorder = null;
         previewsurface = null;
@@ -284,17 +284,17 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
             int finalW = w;
             int finalH = h;
-            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW, finalH,or));
-            SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
+            mainHandler.post(() -> previewController.setRotation(finalW, finalH,or));
+            SurfaceTexture texture = previewController.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
 
-            cameraUiWrapper.getPreview().setOutputSurface(previewsurface);
-            cameraUiWrapper.getPreview().setSize(previewSize.getWidth(),previewSize.getHeight());
+            previewController.setOutputSurface(previewsurface);
+            previewController.setSize(previewSize.getWidth(),previewSize.getHeight());
 
-            Surface camerasurface = cameraUiWrapper.getPreview().getInputSurface();
+            Surface camerasurface = previewController.getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
-            cameraUiWrapper.getPreview().start();
+            previewController.start();
         }
         else {
             switch (orientationToSet) {
@@ -330,9 +330,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
             int finalW = w;
             int finalH = h;
-            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW, finalH, or));
-            cameraUiWrapper.getPreview().setSize(finalW, finalH);
-            SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
+            mainHandler.post(() -> previewController.setRotation(finalW, finalH, or));
+            previewController.setSize(finalW, finalH);
+            SurfaceTexture texture = previewController.getSurfaceTexture();
             texture.setDefaultBufferSize(w, h);
             previewsurface = new Surface(texture);
 

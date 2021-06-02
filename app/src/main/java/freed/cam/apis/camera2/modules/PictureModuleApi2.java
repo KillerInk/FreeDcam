@@ -167,7 +167,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         captureController.clear();
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.getPreview().close();
+        previewController.close();
         //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
     }
 
@@ -222,11 +222,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     }
 
     private void preparePreviewTextureView(int orientationToSet, Size previewSize) {
-        SurfaceTexture texture = cameraUiWrapper.getPreview().getSurfaceTexture();
+        SurfaceTexture texture = previewController.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
        /* if (cameraUiWrapper.getPreviewSurface() != null)
             cameraUiWrapper.getPreviewSurface().release();*/
-        Surface previewsurface = new Surface(cameraUiWrapper.getPreview().getSurfaceTexture());
+        Surface previewsurface = new Surface(previewController.getSurfaceTexture());
         int w = previewSize.getWidth();
         int h = previewSize.getHeight();
 
@@ -265,14 +265,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             Log.d(TAG, "rotation to set : " + or);
             int finalW = w;
             int finalH = h;
-            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW,finalH,or));
+            mainHandler.post(() -> previewController.setRotation(finalW,finalH,or));
 
-            cameraUiWrapper.getPreview().setOutputSurface(previewsurface);
-            cameraUiWrapper.getPreview().setSize(previewSize.getWidth(),previewSize.getHeight());
+            previewController.setOutputSurface(previewsurface);
+            previewController.setSize(previewSize.getWidth(),previewSize.getHeight());
 
-            Surface camerasurface = cameraUiWrapper.getPreview().getInputSurface();
+            Surface camerasurface = previewController.getInputSurface();
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
-            cameraUiWrapper.getPreview().start();
+            previewController.start();
         }
         else
         {
@@ -309,8 +309,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             }
             int finalW1 = w;
             int finalH1 = h;
-            cameraUiWrapper.getPreview().setSize(finalW1, finalH1);
-            mainHandler.post(() -> cameraUiWrapper.getPreview().setRotation(finalW1, finalH1, or));
+            previewController.setSize(finalW1, finalH1);
+            mainHandler.post(() -> previewController.setRotation(finalW1, finalH1, or));
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
     }

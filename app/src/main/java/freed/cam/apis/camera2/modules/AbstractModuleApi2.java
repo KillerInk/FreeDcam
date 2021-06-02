@@ -24,10 +24,12 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.renderscript.RenderScript;
 
+import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -42,12 +44,14 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2> impleme
     boolean isWorking;
     CameraHolderApi2 cameraHolder;
     private boolean renderScriptError5 = false;
+    protected PreviewController previewController;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     AbstractModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = cameraUiWrapper.getParameterHandler();
+        previewController = CameraFragmentAbstract.getPreviewController();
     }
 
     @Override

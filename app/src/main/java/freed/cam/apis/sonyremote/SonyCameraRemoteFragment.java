@@ -72,14 +72,12 @@ public class SonyCameraRemoteFragment extends CameraFragmentAbstract<SonyRemoteC
         view = inflater.inflate(layout.camerafragment, container, false);
         surfaceView =  view.findViewById(id.autofitview);
         //getPreview().setTextureView(surfaceView);
-        getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),null);
-        RenderScriptPreview rsPrev = (RenderScriptPreview)getPreview();
+        preview.initPreview(PreviewPostProcessingModes.RenderScript,getContext(),null);
+        RenderScriptPreview rsPrev = (RenderScriptPreview)preview.getPreview();
         previewStreamDrawer = new PreviewStreamDrawer(surfaceView,rsPrev.getRenderScriptManager());
 
         //textView_wifi = view.findViewById(id.textView_wificonnect);
         camera = new SonyRemoteCamera(previewStreamDrawer);
-        camera.setPreview(getPreview());
-        camera.init((ActivityInterface) getActivity());
         CameraThreadHandler.setCameraInterface(camera);
 
         //this.onCameraOpenFinish("");

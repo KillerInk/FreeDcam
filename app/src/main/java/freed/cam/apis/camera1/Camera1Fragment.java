@@ -75,7 +75,7 @@ public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements 
             if (camera.getParameterHandler() != null)
                 camera.getParameterHandler().unregisterListners();
         }
-        getPreview().close();
+        preview.close();
     }
 
     @Subscribe
@@ -117,18 +117,17 @@ public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements 
         histogram = view.findViewById(id.hisotview);
         HistogramController histogramController = new HistogramController(histogram);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.RenderScript, getContext(), histogramController);
+            preview.initPreview(PreviewPostProcessingModes.RenderScript, getContext(), histogramController);
         else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
+            preview.initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
         else
-            getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
-        textureView = getPreview().getPreviewView();
+            preview.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
+        textureView = preview.getPreviewView();
         FrameLayout frameLayout = view.findViewById(id.autofitview);
         frameLayout.addView(textureView);
-        getPreview().setPreviewEventListner(this);
+        preview.setPreviewEventListner(this);
         camera = new Camera1();
-        camera.setPreview(getPreview());
-        camera.init((ActivityInterface) getActivity());
+        camera.init();
         CameraThreadHandler.setCameraInterface(camera);
         return view;
     }

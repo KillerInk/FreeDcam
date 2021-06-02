@@ -1,5 +1,7 @@
 package freed.cam.apis.basecamera;
 
+import javax.inject.Inject;
+
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
@@ -25,9 +27,7 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
      */
     public AbstractFocusHandler focusHandler;
 
-
-    private ActivityInterface activityInterface;
-    private PreviewControllerInterface preview;
+    protected PreviewControllerInterface preview;
     protected SettingsManager settingsManager;
 
     public AbstractCamera()
@@ -35,19 +35,10 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
         settingsManager = FreedApplication.settingsManager();
     }
 
-    public void setPreview(PreviewControllerInterface preview) {
-        this.preview = preview;
-    }
-
-    @Override
-    public PreviewControllerInterface getPreview() {
-        return preview;
-    }
-
-    public void init(ActivityInterface activityInterface)
+    public void init()
     {
         Log.d(TAG, "init handler");
-        this.activityInterface = activityInterface;
+        preview = CameraFragmentAbstract.getPreviewController();
     }
 
     @Override
@@ -77,26 +68,26 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
 
     @Override
     public int getMargineLeft() {
-        return getPreview().getPreviewView().getLeft();
+        return preview.getPreviewView().getLeft();
     }
 
     @Override
     public int getMargineRight() {
-        return getPreview().getPreviewView().getRight();
+        return preview.getPreviewView().getRight();
     }
 
     @Override
     public int getMargineTop() {
-        return getPreview().getPreviewView().getTop();
+        return preview.getPreviewView().getTop();
     }
 
     @Override
     public int getPreviewWidth() {
-        return getPreview().getPreviewView().getWidth();
+        return preview.getPreviewView().getWidth();
     }
 
     @Override
     public int getPreviewHeight() {
-        return getPreview().getPreviewView().getHeight();
+        return preview.getPreviewView().getHeight();
     }
 }

@@ -19,5 +19,4 @@ public interface CameraObjects<C extends CameraHolderInterface, P extends Parame
     P getParameterHandler();
     M getModuleHandler();
     AbstractFocusHandler getFocusHandler();
-    PreviewControllerInterface getPreview();
 }

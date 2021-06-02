@@ -98,6 +98,8 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public boolean isFocusPeak() {
+        if (preview == null)
+            return false;
         return preview.isFocusPeak();
     }
 

@@ -25,9 +25,11 @@ import com.troop.freedcam.R;
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.ValueChangedEvent;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -36,14 +38,17 @@ import freed.settings.SettingsManager;
  * Created by troop on 10.09.2015.
  */
 public class FocusPeakMode extends AbstractParameter {
+    protected PreviewController previewController;
     public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.Focuspeak);
+        previewController = CameraFragmentAbstract.getPreviewController();
     }
 
     public FocusPeakMode(CameraWrapperInterface cameraWrapperInterface, SettingKeys.Key key)
     {
         super(cameraWrapperInterface,key);
+        previewController = CameraFragmentAbstract.getPreviewController();
     }
 
 
@@ -61,10 +66,10 @@ public class FocusPeakMode extends AbstractParameter {
         currentString = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            cameraUiWrapper.getPreview().setFocusPeak(true);
+            previewController.setFocusPeak(true);
         }
         else {
-            cameraUiWrapper.getPreview().setFocusPeak(false);
+            previewController.setFocusPeak(false);
         }
         fireStringValueChanged(valueToSet);
 
@@ -72,7 +77,7 @@ public class FocusPeakMode extends AbstractParameter {
 
     @Override
     public String getStringValue() {
-        if (cameraUiWrapper.getPreview().isFocusPeak())
+        if (previewController.isFocusPeak())
             return FreedApplication.getStringFromRessources(R.string.on_);
         else
             return FreedApplication.getStringFromRessources(R.string.off_);

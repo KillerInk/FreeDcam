@@ -24,11 +24,11 @@ public class ClippingMode extends FocusPeakMode {
         state = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            cameraUiWrapper.getPreview().setClipping(true);
+            previewController.setClipping(true);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
         }
         else {
-            cameraUiWrapper.getPreview().setClipping(false);
+            previewController.setClipping(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 
