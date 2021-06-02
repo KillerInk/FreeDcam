@@ -35,6 +35,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
@@ -54,6 +55,7 @@ import freed.viewer.screenslide.views.MyHistogram;
 /**
  * Created by troop on 06.06.2015.
  */
+@AndroidEntryPoint
 public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements ModuleChangedEvent, Preview.PreviewEvent, EventBusLifeCycle
 {
 
@@ -115,9 +117,9 @@ public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements 
         histogram = view.findViewById(id.hisotview);
         HistogramController histogramController = new HistogramController(histogram);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.RenderScript,getContext(),histogramController);
+            getPreview().initPreview(PreviewPostProcessingModes.RenderScript, getContext(), histogramController);
         else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
-            getPreview().initPreview(PreviewPostProcessingModes.OpenGL,getContext(),histogramController);
+            getPreview().initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
         else
             getPreview().initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
         textureView = getPreview().getPreviewView();
