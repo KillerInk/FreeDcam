@@ -33,6 +33,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.databinding.Observable;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
@@ -83,17 +85,6 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     @Inject
     SettingsManager settingsManager;
-
-
-
-    @Subscribe
-    public void onHorizontModeChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.HorizontLvl)
-        {
-            onStringValueChanged(valueChangedEvent.newValue);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -151,6 +142,12 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
+            }
+        });
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).addEventListner(this);
         onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
     }
@@ -173,12 +170,10 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     public void onPause(){
         super.onPause();
         stopSensorListing();
-        EventBusHelper.unregister(this);
     }
     @Override
     public void onResume(){
         super.onResume();
-        EventBusHelper.register(this);
         try {
             if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
                     || TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.HorizontLvl).get()))

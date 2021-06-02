@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
 
 import com.troop.freedcam.R.drawable;
@@ -67,20 +68,23 @@ public class GuideHandler extends Fragment implements ParameterEvents {
     @Override
     public void onResume() {
         super.onResume();
-        EventBusHelper.register(this);
         if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize) != null)
             previewSizeChanged.onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValue());
     }
     @Override
     public void onPause(){
         super.onPause();
-        EventBusHelper.unregister(this);
-
     }
 
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                SetViewG(settingsManager.getGlobal(SettingKeys.GuideList).get());
+            }
+        });
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
