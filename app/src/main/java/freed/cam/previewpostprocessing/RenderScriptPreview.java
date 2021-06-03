@@ -7,8 +7,6 @@ import android.renderscript.RenderScript;
 import android.view.Surface;
 
 import freed.FreedApplication;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.renderscript.RenderScriptManager;

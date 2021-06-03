@@ -2,9 +2,6 @@ package freed.cam.apis.basecamera.parameters.ae;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.IsoChangedEvent;
-import freed.cam.events.ShutterSpeedChangedEvent;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 

@@ -7,8 +7,6 @@ import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;

@@ -40,7 +40,6 @@ import freed.cam.events.CameraStateEvents;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
@@ -123,14 +122,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             if (fileListController.getFiles() == null || fileListController.getFiles().size() == 0)
                 ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
         }
-    }
-
-    @Subscribe
-    public void onSwitchCameraApiEvent(SwichCameraFragmentEvent event)
-    {
-        Log.d(TAG, "onSwitchCameraApiEvent");
-        unloadCameraFragment();
-        loadCameraFragment();
     }
 
     @Subscribe

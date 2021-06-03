@@ -27,8 +27,6 @@ import java.util.List;
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
