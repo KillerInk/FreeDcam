@@ -10,7 +10,7 @@ import freed.cam.previewpostprocessing.PreviewControllerInterface;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
-public abstract class AbstractCamera<P extends ParameterHandler,C extends CameraHolderInterface, M extends ModuleHandlerInterface> implements CameraWrapperInterface
+public abstract class AbstractCamera<P extends ParameterHandler,C extends CameraHolderInterface, M extends ModuleHandlerInterface,F extends AbstractFocusHandler> implements CameraWrapperInterface
 {
     private static final String TAG = AbstractCamera.class.getSimpleName();
     public M moduleHandler;
@@ -25,7 +25,7 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
     /**
      * handels focus releated stuff for the current camera
      */
-    public AbstractFocusHandler focusHandler;
+    public F focusHandler;
 
     protected PreviewControllerInterface preview;
     protected SettingsManager settingsManager;
@@ -33,11 +33,6 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
     public AbstractCamera()
     {
         settingsManager = FreedApplication.settingsManager();
-    }
-
-    public void init()
-    {
-        Log.d(TAG, "init handler");
         preview = CameraFragmentAbstract.getPreviewController();
     }
 
@@ -47,7 +42,7 @@ public abstract class AbstractCamera<P extends ParameterHandler,C extends Camera
     }
 
     @Override
-    public AbstractFocusHandler getFocusHandler() {
+    public F getFocusHandler() {
         return focusHandler;
     }
 

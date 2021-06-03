@@ -10,6 +10,7 @@ import java.util.Set;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractCamera;
+import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
@@ -27,7 +28,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
-public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHolderSony,ModuleHandlerSony> implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents {
+public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHolderSony,ModuleHandlerSony, FocusHandler> implements WifiHandler.WifiEvents, CameraHolderSony.CameraRemoteEvents {
 
     private static final String TAG = SonyRemoteCamera.class.getSimpleName();
     private ServerDevice serverDevice;

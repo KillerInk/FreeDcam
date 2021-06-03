@@ -21,6 +21,10 @@ package freed.cam.apis.camera1;
 
 import android.graphics.Rect;
 
+import androidx.databinding.Observable;
+
+import com.troop.freedcam.R;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -28,6 +32,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
@@ -63,6 +68,24 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
     public void stopListning() {
         EventBusHelper.unregister(this);
     }
+
+    public Observable.OnPropertyChangedCallback focusmodeObserver =  new Observable.OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable sender, int propertyId) {
+            String val = ((AbstractParameter)sender).getStringValue();
+            if (settingsManager.getFrameWork() != Frameworks.MTK) {
+                isTouchSupported = val.equals("auto") || val.equals("macro") || val.equals("touch");
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(isTouchSupported);
+            }
+            else {
+                if (focusEvent != null) {
+                    aeMeteringSupported = true;
+                    focusEvent.TouchToFocusSupported(true);
+                }
+            }
+        }
+    };
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStringValueChanged(ValueChangedEvent<String> valueChangedEvent)

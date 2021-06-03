@@ -14,7 +14,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
-public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,ModuleHandler> {
+public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,ModuleHandler,FocusHandler> {
     private static final String TAG = Camera1.class.getSimpleName();
 
     private boolean cameraIsOpen = false;

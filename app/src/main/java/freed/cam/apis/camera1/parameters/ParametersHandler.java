@@ -37,6 +37,7 @@ import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.basecamera.parameters.modes.OrientationHackParameter;
 import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.apis.camera1.parameters.ae.AeManagerLgCamera1;
@@ -103,7 +104,7 @@ import static freed.settings.SettingsManager.SHUTTER_ZTE;
  * Created by troop on 17.08.2014.
  * this class handels all camera1 releated parameters.
  */
-public class ParametersHandler extends AbstractParameterHandler
+public class ParametersHandler extends AbstractParameterHandler<Camera1>
 {
 
     private final String TAG = ParametersHandler.class.getSimpleName();
@@ -111,7 +112,7 @@ public class ParametersHandler extends AbstractParameterHandler
     private Parameters cameraParameters;
     public Parameters getParameters(){return cameraParameters;}
 
-    public ParametersHandler(CameraWrapperInterface cameraUiWrapper)
+    public ParametersHandler(Camera1 cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
@@ -171,8 +172,9 @@ public class ParametersHandler extends AbstractParameterHandler
             add(SettingKeys.PictureSize ,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.PictureSize));
 
         if (settingsManager.get(SettingKeys.FocusMode).isSupported()) {
-            add(SettingKeys.FocusMode,new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.FocusMode));
-            ((FocusHandler) cameraUiWrapper.getFocusHandler()).startListning();
+            BaseModeParameter focusmode = new BaseModeParameter(cameraParameters, cameraUiWrapper,SettingKeys.FocusMode);
+            add(SettingKeys.FocusMode,focusmode);
+            focusmode.addOnPropertyChangedCallback(cameraUiWrapper.focusHandler.focusmodeObserver);
 
         }
 

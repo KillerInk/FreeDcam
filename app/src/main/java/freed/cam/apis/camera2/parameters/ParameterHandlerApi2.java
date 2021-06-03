@@ -34,6 +34,7 @@ import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -115,7 +116,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         if (settingsManager.get(SettingKeys.OIS_MODE).isSupported())
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
         if (settingsManager.get(SettingKeys.FocusMode).isSupported()) {
-            add(SettingKeys.FocusMode, new FocusMode(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE));
+            FocusMode focusMode = new FocusMode(cameraUiWrapper, SettingKeys.FocusMode, CaptureRequest.CONTROL_AF_MODE);
+            add(SettingKeys.FocusMode, focusMode);
+            focusMode.addOnPropertyChangedCallback(cameraUiWrapper.focusHandler.focusmodeObserver);
         }
         if (settingsManager.get(SettingKeys.HOT_PIXEL_MODE).isSupported())
             add(SettingKeys.HOT_PIXEL_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.HOT_PIXEL_MODE,CaptureRequest.HOT_PIXEL_MODE));

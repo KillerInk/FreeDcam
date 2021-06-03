@@ -79,16 +79,4 @@ public class FocusPeakColorMode extends AbstractParameter {
         return settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).get();
     }
 
-    @Subscribe
-    public void onStringValueChanged(ValueChangedEvent<String> valueob)
-    {
-        if (valueob.key == SettingKeys.PREVIEW_POST_PROCESSING_MODE) {
-            String value = valueob.newValue;
-            if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
-                setViewState(ViewState.Hidden);
-            else
-                setViewState(ViewState.Visible);
-        }
-    }
-
 }

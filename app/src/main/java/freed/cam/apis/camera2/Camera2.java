@@ -20,7 +20,7 @@ import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi2,ModuleHandlerApi2> implements CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback {
+public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi2,ModuleHandlerApi2,FocusHandler> implements CameraValuesChangedCaptureCallback.WaitForFirstFrameCallback {
     private static final String TAG = Camera2.class.getSimpleName();
 
     //limits the preview to use maximal that size for preview

@@ -26,12 +26,15 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build.VERSION_CODES;
 
+import androidx.databinding.Observable;
+
 import com.troop.freedcam.R;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.ValueChangedEvent;
@@ -55,6 +58,22 @@ public class FocusHandler extends AbstractFocusHandler<Camera2> implements Event
     {
         super(cameraUiWrapper);
     }
+
+    public Observable.OnPropertyChangedCallback focusmodeObserver =  new Observable.OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable sender, int propertyId) {
+            String val = ((AbstractParameter)sender).getStringValue();
+            if (val.contains("Continous") || val.equals(FreedApplication.getStringFromRessources(R.string.off))) {
+                focusenabled = false;
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(false);
+            } else {
+                focusenabled = true;
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(true);
+            }
+        }
+    };
 
 
     @Subscribe

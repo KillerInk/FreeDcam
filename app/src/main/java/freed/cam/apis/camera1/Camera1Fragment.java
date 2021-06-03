@@ -127,7 +127,6 @@ public class Camera1Fragment extends CameraFragmentAbstract<Camera1> implements 
         frameLayout.addView(textureView);
         preview.setPreviewEventListner(this);
         camera = new Camera1();
-        camera.init();
         CameraThreadHandler.setCameraInterface(camera);
         return view;
     }
