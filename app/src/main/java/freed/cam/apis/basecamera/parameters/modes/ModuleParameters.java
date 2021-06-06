@@ -69,6 +69,7 @@ public class ModuleParameters extends AbstractParameter {
             }
 
         }
+        fireStringValueChanged(valueToSet);
     }
 
 }

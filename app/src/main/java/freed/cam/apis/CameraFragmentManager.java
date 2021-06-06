@@ -114,7 +114,7 @@ public class CameraFragmentManager {
         }
         else
         {
-            if (cameraFragment == null) {
+            if (/*cameraFragment == null*/true) {
                 String api = settingsManager.getCamApi();
                 switch (api) {
                     case SettingsManager.API_SONY:

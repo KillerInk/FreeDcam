@@ -112,7 +112,7 @@ public class BaseModeApi2 extends AbstractParameter<Camera2>
         }
     }
 
-    @Override
+    /*@Override
     public String getStringValue()
     {
         if (parameterValues == null && captureSessionHandler == null)
@@ -134,6 +134,6 @@ public class BaseModeApi2 extends AbstractParameter<Camera2>
         }
 
         return null;
-    }
+    }*/
 
 }

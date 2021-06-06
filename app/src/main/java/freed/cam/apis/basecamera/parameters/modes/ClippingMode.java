@@ -12,7 +12,6 @@ import freed.settings.SettingKeys;
 
 public class ClippingMode extends FocusPeakMode {
 
-    private String state = "off";
 
     public ClippingMode(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.CLIPPING);
@@ -21,7 +20,7 @@ public class ClippingMode extends FocusPeakMode {
     @Override
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
-        state = valueToSet;
+        currentString = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
             previewController.setClipping(true);
@@ -32,10 +31,5 @@ public class ClippingMode extends FocusPeakMode {
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         }
 
-    }
-
-    @Override
-    public String getStringValue() {
-        return state;
     }
 }

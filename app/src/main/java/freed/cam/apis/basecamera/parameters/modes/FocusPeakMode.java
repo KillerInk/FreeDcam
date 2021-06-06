@@ -43,12 +43,14 @@ public class FocusPeakMode extends AbstractParameter {
     {
         super(cameraUiWrapper,SettingKeys.Focuspeak);
         previewController = CameraFragmentAbstract.getPreviewController();
+        currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     public FocusPeakMode(CameraWrapperInterface cameraWrapperInterface, SettingKeys.Key key)
     {
         super(cameraWrapperInterface,key);
         previewController = CameraFragmentAbstract.getPreviewController();
+        currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 
 
@@ -76,29 +78,8 @@ public class FocusPeakMode extends AbstractParameter {
     }
 
     @Override
-    public String getStringValue() {
-        if (previewController.isFocusPeak())
-            return FreedApplication.getStringFromRessources(R.string.on_);
-        else
-            return FreedApplication.getStringFromRessources(R.string.off_);
-    }
-
-    @Override
     public String[] getStringValues() {
         return new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
     }
 
-
-
-    @Subscribe
-    public void onStringValueChanged(ValueChangedEvent<String> valueob)
-    {
-        if (valueob.key == SettingKeys.PREVIEW_POST_PROCESSING_MODE) {
-            String value = valueob.newValue;
-            if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
-                setViewState(ViewState.Hidden);
-            else
-                setViewState(ViewState.Visible);
-        }
-    }
 }
