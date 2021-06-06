@@ -88,7 +88,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         cameraInputTextureHolder = new GLTex(0);
         cameraInputTextureHolder.setActive();
-        int glesv = getGlesVersion();
+        int glesv = GlVersion.getGlesVersion();
         Log.d(TAG, "GlesVersion:" + glesv);
 
         DefaultVertexShader vertexShader = new DefaultVertexShader(glesv);
@@ -154,15 +154,4 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         mView.requestRender();
     }
 
-    private int getGlesVersion()
-    {
-        final ActivityManager activityManager = (ActivityManager) FreedApplication.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-        if (configurationInfo.reqGlEsVersion >= 0x20000 && configurationInfo.reqGlEsVersion <= 0x30000)
-            return 2;
-        if (configurationInfo.reqGlEsVersion >= 0x30000)
-            return 3;
-        else
-            return 1;
-    }
 }

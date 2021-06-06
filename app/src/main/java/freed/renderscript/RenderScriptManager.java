@@ -47,7 +47,7 @@ public class RenderScriptManager
 
     public static boolean isSupported()
     {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < VERSION_CODES.R;
     }
 
     private Allocation mAllocationOut;

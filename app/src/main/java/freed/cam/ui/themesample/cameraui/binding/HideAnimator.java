@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import freed.utils.Log;
+
 public class HideAnimator implements Animator.AnimatorListener {
 
     private View linearLayout;
@@ -20,10 +22,17 @@ public class HideAnimator implements Animator.AnimatorListener {
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        if (linearLayout != null) {
-            linearLayout.setVisibility(View.GONE);
-            linearLayout = null;
+        try {
+            if (linearLayout != null) {
+                linearLayout.setVisibility(View.GONE);
+                linearLayout = null;
+            }
         }
+        catch (NullPointerException e)
+        {
+            Log.WriteEx(e);
+        }
+
     }
 
     @Override

@@ -165,7 +165,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface, Hi
         //create the input and out allocations
         renderScriptManager.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
 
-        if (outSurface != null)
+        if (outputSurface != null)
             renderScriptManager.GetOut().setSurface(outSurface);
 
         //scriptintrinsic need to  set the input else it returns no input set ex
@@ -179,10 +179,14 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface, Hi
 
     @Override
     public void start() {
-        if (renderScriptManager.GetOut() == null || renderScriptManager.GetOut() == null)
-            Log.d(TAG, "OutputSurface is null");
-        if (renderScriptManager.GetIn() == null || renderScriptManager.GetIn().getSurface() == null)
-            Log.d(TAG, "InputSurface is null");
+        if (renderScriptManager.GetOut() == null) {
+            Log.e(TAG, "OutputSurface is null, failed to start");
+            return;
+        }
+        if (renderScriptManager.GetIn() == null || renderScriptManager.GetIn().getSurface() == null) {
+            Log.e(TAG, "InputSurface is null, failed to start");
+            return;
+        }
         if (mProcessingTask != null) {
 
             synchronized (workLock) {
@@ -387,7 +391,7 @@ public class RenderScriptProcessor implements RenderScriptProcessorInterface, Hi
                     pendingFrames = mPendingFrames;
                     mPendingFrames = 0;
                     // Discard extra messages in case processing is slower than frame rate
-                    mProcessingHandler.removeCallbacks(this);
+                    //mProcessingHandler.removeCallbacks(this);
                 }
                 // Get to newest input
                 try {

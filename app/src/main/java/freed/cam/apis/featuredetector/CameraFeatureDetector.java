@@ -6,8 +6,12 @@ import android.os.Build;
 import com.troop.freedcam.BuildConfig;
 import com.troop.freedcam.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import freed.FreedApplication;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
+import freed.gl.GlVersion;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -52,8 +56,16 @@ public class CameraFeatureDetector {
 
     private void setGlobalDefaultSettings()
     {
+        List<String> previewPostProcessingValues = new ArrayList();
+        previewPostProcessingValues.add(PreviewPostProcessingModes.off.name());
         if (RenderScriptManager.isSupported()) {
-            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setValues(new String[]{PreviewPostProcessingModes.off.name(),PreviewPostProcessingModes.RenderScript.name(),PreviewPostProcessingModes.OpenGL.name()});
+            previewPostProcessingValues.add(PreviewPostProcessingModes.RenderScript.name());
+        }
+        if (GlVersion.isMinGlVersion())
+            previewPostProcessingValues.add(PreviewPostProcessingModes.OpenGL.name());
+
+        if (previewPostProcessingValues.size() > 1) {
+            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setValues(previewPostProcessingValues.toArray(new String[previewPostProcessingValues.size()]));
             settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(PreviewPostProcessingModes.off.name());
             settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(true);
             settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
