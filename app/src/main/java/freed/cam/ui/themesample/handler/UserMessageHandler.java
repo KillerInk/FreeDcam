@@ -38,27 +38,18 @@ import freed.cam.events.UserMessageEvent;
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements Runnable, EventBusLifeCycle, CameraHolderEvent
+public class UserMessageHandler implements Runnable, CameraHolderEvent
 {
 
     private Context context;
     private TextView messageTextView1;
     private LinearLayout messageHolder1;
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUserMessageEvent(UserMessageEvent event)
-    {
-        setUserMessage(event.msg,event.asToast);
-    }
-
-    public UserMessageHandler()
-    {
-    }
-
-    public void setContext(Context contextt)
+    public UserMessageHandler(Context contextt)
     {
         this.context = contextt;
     }
+
 
     public void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
     {
@@ -66,9 +57,9 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle, CameraHo
         this.messageHolder1 = messageHolder1;
     }
 
-    public static void sendMSG(String msg,boolean asToast)
+    public void sendMSG(String msg,boolean asToast)
     {
-        EventBusHelper.post(new UserMessageEvent(msg,asToast));
+        setUserMessage(msg,asToast);
     }
 
     private void setUserMessage(String msg,boolean asToast)
@@ -78,7 +69,6 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle, CameraHo
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         else {
-
             if (messageHolder1 != null) {
                 messageHolder1.removeCallbacks(this);
                 messageHolder1.setVisibility(View.VISIBLE);
@@ -96,16 +86,6 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle, CameraHo
             messageTextView1.setText("");
             messageHolder1.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
     }
 
     @Override

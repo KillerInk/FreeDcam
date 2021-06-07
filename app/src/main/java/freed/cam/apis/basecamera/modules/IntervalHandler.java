@@ -22,6 +22,7 @@ package freed.cam.apis.basecamera.modules;
 import android.os.SystemClock;
 
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -49,6 +50,7 @@ public class IntervalHandler
 
     private final Object waitForCaptureEnd = new Object();
     private SettingsManager settingsManager;
+    private UserMessageHandler userMessageHandler;
 
     public interface SuperDoWork
     {
@@ -64,6 +66,7 @@ public class IntervalHandler
     {
         this.picmodule = picmodule;
         settingsManager = FreedApplication.settingsManager();
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     public void Init()
@@ -192,7 +195,7 @@ public class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ", (double) (SystemClock.uptimeMillis() - startTime) /1000 );
         t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + ((sleepTimeBetweenCaptures /1000) - timeGoneTillNextCapture);
-        UserMessageHandler.sendMSG(t,false);
+        userMessageHandler.sendMSG(t,false);
 
     }
 

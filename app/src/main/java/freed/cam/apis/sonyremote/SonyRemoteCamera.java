@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.Size;
@@ -43,9 +44,11 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
     private SimpleCameraEventObserver mEventObserver;
     private final Set<String> mAvailableCameraApiSet = new HashSet<>();
     PreviewStreamDrawer previewStreamDrawer;
+    private UserMessageHandler userMessageHandler;
 
     public SonyRemoteCamera()
     {
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         RenderScriptPreview rsPrev = (RenderScriptPreview)preview;
         previewStreamDrawer = new PreviewStreamDrawer((TextureView) rsPrev.getPreviewView(),rsPrev.getRenderScriptManager());
         parametersHandler = new ParameterHandler(this, previewStreamDrawer);
@@ -134,7 +137,7 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
 
     private void setTextFromWifi(final String txt)
     {
-        UserMessageHandler.sendMSG(txt,false);
+        userMessageHandler.sendMSG(txt,false);
     }
 
     public Set<String> getAvailableApiSet(){return mAvailableCameraApiSet;}

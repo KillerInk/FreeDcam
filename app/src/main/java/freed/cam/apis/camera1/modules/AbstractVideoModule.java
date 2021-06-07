@@ -61,12 +61,14 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     private ParcelFileDescriptor fileDescriptor;
     private PermissionManager permissionManager;
     private PreviewController preview;
+    private UserMessageHandler userMessageHandler;
 
     AbstractVideoModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_video);
         permissionManager = ActivityAbstract.permissionManager();
         preview = ActivityFreeDcamMain.previewController();
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     @Override
@@ -109,7 +111,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
             stopRecording();
         }
         if( isLowStorage ) {
-            UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+            userMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
         }
     }
 
@@ -214,7 +216,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
                 else
                 {
                     Log.e(TAG,"Recording failed");
-                    UserMessageHandler.sendMSG("Start Recording failed ",false);
+                    userMessageHandler.sendMSG("Start Recording failed ",false);
                     isWorking = false;
                     ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
                     recorder.reset();
@@ -225,7 +227,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Start Recording failed",false);
+            userMessageHandler.sendMSG("Start Recording failed",false);
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.reset();
@@ -256,7 +258,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         catch (Exception ex)
         {
             Log.e(TAG, "Stop Recording failed, was called bevor start");
-            UserMessageHandler.sendMSG("Stop Recording failed, was called bevor start",false);
+            userMessageHandler.sendMSG("Stop Recording failed, was called bevor start",false);
             Log.e(TAG,ex.getMessage());
             isWorking = false;
         }

@@ -66,6 +66,7 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.update.ReleaseChecker;
@@ -121,6 +122,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private LinearLayout right_ui_items_top;
     @Inject
     public SettingsManager settingsManager;
+    @Inject
+    UserMessageHandler userMessageHandler;
 
     public CameraUiFragment()
     {
@@ -306,8 +309,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.versionView =binding.framelayoutVersion;
-        if ((getActivity() != null) && (((ActivityFreeDcamMain)getActivity()).getUserMessageHandler() != null))
-            ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+        userMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
         manualModes_holder = binding.manualModesHolder;
         left_ui_items_holder = binding.leftUiHolder;
         right_ui_items_top = binding.rightUiHolderTop;
@@ -410,7 +412,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(null,null);
+        userMessageHandler.setMessageTextView(null,null);
     }
 
     @Override

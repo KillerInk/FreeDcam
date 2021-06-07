@@ -34,6 +34,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
@@ -56,11 +57,13 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     public int Orientation;
 
     private Method setPreviewSurfaceMethod;
+    private UserMessageHandler userMessageHandler;
 
 
     public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)
     {
         super(cameraUiWrapper);
+        this.userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         DeviceFrameWork = frameworks;
         try {
             setPreviewSurfaceMethod = Camera.class.getMethod("setPreviewSurface",Surface.class);
@@ -182,7 +185,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     {
         if (mCamera == null)
         {
-            UserMessageHandler.sendMSG("Failed to Start Preview, Camera is null",false);
+            userMessageHandler.sendMSG("Failed to Start Preview, Camera is null",false);
             return;
         }
         try
@@ -192,7 +195,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             //fireOnPreviewOpen();
         } catch (Exception ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Failed to Start Preview",false);
+            userMessageHandler.sendMSG("Failed to Start Preview",false);
         }
     }
 
@@ -233,7 +236,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         }
         catch (RuntimeException ex)
         {
-            UserMessageHandler.sendMSG("Picture Taking failed, What a Terrible Failure!!",false);
+            userMessageHandler.sendMSG("Picture Taking failed, What a Terrible Failure!!",false);
             Log.WriteEx(ex);
         }
     }
@@ -323,7 +326,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             }
             catch (RuntimeException ex)
             {
-                UserMessageHandler.sendMSG("Set Location failed",false);
+                userMessageHandler.sendMSG("Set Location failed",false);
 
             }
         }

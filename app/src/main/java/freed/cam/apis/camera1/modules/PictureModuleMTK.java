@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
@@ -47,9 +48,11 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile;
+    private UserMessageHandler userMessageHandler;
     public PictureModuleMTK(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper, mBackgroundHandler,mainHandler);
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     @Override
@@ -127,7 +130,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 else {
                     Log.d(TAG,"############ Failed to read Raw #########" );
-                    UserMessageHandler.sendMSG("Timout:Failed to read Raw",false);
+                    userMessageHandler.sendMSG("Timout:Failed to read Raw",false);
                     return;
                 }
             }

@@ -26,6 +26,7 @@ import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
@@ -53,6 +54,7 @@ public class CaptureSessionHandler
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
     private SettingsManager settingsManager;
+    private UserMessageHandler userMessageHandler;
 
 
     private boolean captureSessionOpen = false;
@@ -118,7 +120,8 @@ public class CaptureSessionHandler
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
-        settingsManager = FreedApplication.settingsManager();
+        this.settingsManager = FreedApplication.settingsManager();
+        this.userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
         Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -439,7 +442,7 @@ public class CaptureSessionHandler
             mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+            userMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
         }catch (IllegalArgumentException ex)
         {
             Log.WriteEx(ex);
@@ -700,7 +703,7 @@ public class CaptureSessionHandler
                 mCaptureSession.captureBurst(capList, cameraBackroundValuesChangedListner, handler);
             } catch (CameraAccessException ex) {
                 Log.WriteEx(ex);
-                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+                userMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
             }catch (IllegalArgumentException ex)
             {
                 Log.WriteEx(ex);

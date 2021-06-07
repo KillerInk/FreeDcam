@@ -50,6 +50,7 @@ import java.util.List;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.ActivityAbstract;
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
@@ -90,10 +91,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private OpcodeProcessor opcodeProcessor;
     private OpCodes active_op = OpCodes.off;
     private PermissionManager permissionManager;
+    private UserMessageHandler userMessageHandler;
 
     public VideoModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         permissionManager = ActivityAbstract.permissionManager();
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         name = FreedApplication.getStringFromRessources(R.string.module_video);
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
@@ -119,7 +122,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 stopRecording();
             }
             if (isLowStorage) {
-                UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+                userMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
             }
         });
 
@@ -509,7 +512,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
             Log.d(TAG, "Failed to Config RecordingSession");
-            UserMessageHandler.sendMSG("Failed to Config CaptureSession",false);
+            userMessageHandler.sendMSG("Failed to Config CaptureSession",false);
             stopRecording();
         }
 

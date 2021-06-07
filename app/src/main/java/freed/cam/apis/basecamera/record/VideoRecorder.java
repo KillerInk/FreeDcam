@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.FileListController;
@@ -49,6 +50,7 @@ public class VideoRecorder {
     private Surface inputSurface;
     private SettingsManager settingsManager;
     private FileListController fileListController;
+    private UserMessageHandler userMessageHandler;
 
     public VideoRecorder(CameraWrapperInterface cameraWrapperInterface,MediaRecorder recorder)
     {
@@ -56,6 +58,7 @@ public class VideoRecorder {
         this.cameraWrapperInterface = cameraWrapperInterface;
         settingsManager = FreedApplication.settingsManager();
         fileListController = FreedApplication.fileListController();
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     public void setErrorListener(MediaRecorder.OnErrorListener errorListener) {
@@ -129,7 +132,7 @@ public class VideoRecorder {
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Failed to set Max Recording size",true);
+            userMessageHandler.sendMSG("Failed to set Max Recording size",true);
             //return false;
         }
         try {
@@ -140,7 +143,7 @@ public class VideoRecorder {
         {
             Log.WriteEx(ex);
             Log.e(TAG,"Failed to set Duration");
-            UserMessageHandler.sendMSG("Failed to set Duration",true);
+            userMessageHandler.sendMSG("Failed to set Duration",true);
         }
 
         if (errorListener != null)
@@ -168,13 +171,13 @@ public class VideoRecorder {
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioSource not Supported",true);
+                        userMessageHandler.sendMSG("AudioSource not Supported",true);
                         return false;
                     }
                     catch (IllegalStateException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioSource not Supported",true);
+                        userMessageHandler.sendMSG("AudioSource not Supported",true);
                         return false;
                     }
                 }
@@ -194,11 +197,11 @@ public class VideoRecorder {
         }
         catch (IllegalArgumentException ex)
         {
-            UserMessageHandler.sendMSG("Failed to set Bitrate",true);
+            userMessageHandler.sendMSG("Failed to set Bitrate",true);
         }
         catch (IllegalStateException ex)
         {
-            UserMessageHandler.sendMSG("Failed to set Bitrate",true);
+            userMessageHandler.sendMSG("Failed to set Bitrate",true);
         }
 
         try {
@@ -206,11 +209,11 @@ public class VideoRecorder {
         }
         catch (IllegalArgumentException ex)
         {
-            UserMessageHandler.sendMSG("Failed to set Framerate",true);
+            userMessageHandler.sendMSG("Failed to set Framerate",true);
         }
         catch (IllegalStateException ex)
         {
-            UserMessageHandler.sendMSG("Failed to set Framerate",true);
+            userMessageHandler.sendMSG("Failed to set Framerate",true);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && this.currentVideoProfile.level != -1 && this.currentVideoProfile.profile != -1)
@@ -236,7 +239,7 @@ public class VideoRecorder {
         catch (IllegalArgumentException ex)
         {
             mediaRecorder.reset();
-            UserMessageHandler.sendMSG("VideoCodec not Supported",false);
+            userMessageHandler.sendMSG("VideoCodec not Supported",false);
         }
 
         if (inputSurface != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -255,7 +258,7 @@ public class VideoRecorder {
                     catch (IllegalArgumentException ex)
                     {
                         mediaRecorder.reset();
-                        UserMessageHandler.sendMSG("AudioCodec not Supported",false);
+                        userMessageHandler.sendMSG("AudioCodec not Supported",false);
                         return false;
                     }
                     mediaRecorder.setAudioChannels(this.currentVideoProfile.audioChannels);
@@ -276,13 +279,13 @@ public class VideoRecorder {
             mediaRecorder.prepare();
         } catch (IOException ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Prepare failed: " + ex.getMessage(),false);
+            userMessageHandler.sendMSG("Prepare failed: " + ex.getMessage(),false);
             return false;
         }
         catch (IllegalStateException ex)
         {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Prepare failed: " + ex.getMessage(),false);
+            userMessageHandler.sendMSG("Prepare failed: " + ex.getMessage(),false);
             return false;
         }
         return true;

@@ -49,11 +49,13 @@ public class LocationManager implements LocationListener, LifecycleObserver
     private Location currentLocation;
     private boolean isStarted = false;
     private SettingsManager settingsManager;
+    private UserMessageHandler userMessageHandler;
 
-    public LocationManager(Context context,SettingsManager settingsManager)
+    public LocationManager(Context context,SettingsManager settingsManager,UserMessageHandler userMessageHandler)
     {
         locationManager = (android.location.LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         this.settingsManager = settingsManager;
+        this.userMessageHandler = userMessageHandler;
     }
 
     public Location getCurrentLocation()
@@ -128,7 +130,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
         }
         else
         {
-            UserMessageHandler.sendMSG("Gps and Network are deactivated",true);
+            userMessageHandler.sendMSG("Gps and Network are deactivated",true);
             Log.d(TAG, "Gps and Network are deactivated");
         }
     }

@@ -57,6 +57,7 @@ import hilt.CameraFragmentManagerEntryPoint;
 import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
 import hilt.PreviewControllerEntryPoint;
+import hilt.UserMessageHandlerEntryPoint;
 
 /**
  * Created by troop on 18.08.2014.
@@ -90,6 +91,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public static CameraFragmentManager cameraFragmentManager()
     {
         return getEntryPointFromActivity(CameraFragmentManagerEntryPoint.class).cameraFragmentManager();
+    }
+
+    public static UserMessageHandler userMessageHandler()
+    {
+        return getEntryPointFromActivity(UserMessageHandlerEntryPoint.class).userMessageHandler();
     }
 
     @Override
@@ -164,12 +170,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private PagingView uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
     private boolean activityIsResumed= false;
-    private int currentorientation = 0;
     private SecureCamera mSecureCamera = new SecureCamera(this);
     private LinearLayout nightoverlay;
     @Inject
     public CameraFragmentManager cameraFragmentManager;
-    private UserMessageHandler userMessageHandler;
     @Inject
     public SettingsManager settingsManager;
     @Inject
@@ -182,9 +186,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         super.onCreate(null);
         Log.d(TAG,"onCreate: ");
         getLifecycle().addObserver(locationManager);
-        userMessageHandler = new UserMessageHandler();
-        userMessageHandler.setContext(getApplication());
-        userMessageHandler.startListning();
         mSecureCamera.onCreate();
         cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder);
         cameraFragmentManager.addEventListner(this);
@@ -197,15 +198,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         super.onDestroy();
         Log.d(TAG,"onDestroy");
         cameraFragmentManager.destroy();
-        userMessageHandler.stopListning();
-        userMessageHandler.setContext(null);
         getLifecycle().removeObserver(locationManager);
         getLifecycle().removeObserver(orientationManager);
-    }
-
-    public UserMessageHandler getUserMessageHandler()
-    {
-        return userMessageHandler;
     }
 
     @Override
