@@ -8,15 +8,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.events.JoypadActionEvent;
 
 /**
  * Created by troop on 12.12.2016.
  */
 
-public class JoyPad extends View implements ParameterEvents
+public class JoyPad extends View
 {
     private Paint backgroundDrawer;
     private Paint joypadDrawer;
@@ -26,7 +24,7 @@ public class JoyPad extends View implements ParameterEvents
     //private NavigationClick navigationClickListner;
 
 
-    @Override
+/*    @Override
     public void onViewStateChanged(AbstractParameter.ViewState value) {
 
     }
@@ -47,7 +45,7 @@ public class JoyPad extends View implements ParameterEvents
     @Override
     public void onStringValueChanged(String value) {
 
-    }
+    }*/
 
     public interface NavigationClick
     {

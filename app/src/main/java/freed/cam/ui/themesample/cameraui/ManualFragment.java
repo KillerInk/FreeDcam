@@ -29,6 +29,9 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import androidx.databinding.Observable;
+
+import com.troop.freedcam.BR;
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -40,7 +43,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
@@ -58,7 +60,7 @@ import freed.views.CurveViewControl;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, ParameterEvents, ModuleChangedEvent, CurveView.CurveChangedEvent
+public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, ModuleChangedEvent, CurveView.CurveChangedEvent
 {
     private int currentValuePos;
 
@@ -273,11 +275,14 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 if (seekbar.getVisibility() == View.GONE)
                     seekbar.setVisibility(View.VISIBLE);
                 //when already a button is active disable it
-                if (currentButton != null)
+                if (currentButton != null) {
+                    ((AbstractParameter)currentButton.parameter).removeOnPropertyChangedCallback(selectedParameterObserver);
                     currentButton.SetActive(false);
+                }
                 //set the returned view as active and fill seekbar
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
+                ((AbstractParameter)currentButton.parameter).addOnPropertyChangedCallback(selectedParameterObserver);
 
                 if (currentButton instanceof ManualButtonMF && cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket)))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
@@ -342,8 +347,19 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         }
     }
 
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
+    Observable.OnPropertyChangedCallback selectedParameterObserver = new Observable.OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable sender, int propertyId) {
+            if (propertyId == BR.viewState)
+                onViewStateChanged(((AbstractParameter)sender).getViewState());
+            if (propertyId == BR.intValue)
+                onIntValueChanged(((AbstractParameter)sender).getIntValue());
+            if (propertyId == BR.stringValues)
+                onValuesChanged(((AbstractParameter)sender).getStringValues());
+        }
+    };
+
+    private void onViewStateChanged(AbstractParameter.ViewState value) {
         switch (value)
         {
             case Visible:
@@ -365,8 +381,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         }
     }
 
-    @Override
-    public void onIntValueChanged(int current)
+    private void onIntValueChanged(int current)
     {
         if(!seekbar.IsAutoScrolling()&& !seekbar.IsMoving())
         {
@@ -374,15 +389,9 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         }
     }
 
-    @Override
-    public void onValuesChanged(String[] values)
+    private void onValuesChanged(String[] values)
     {
         seekbar.SetStringValues(values);
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-
     }
 
     @Subscribe

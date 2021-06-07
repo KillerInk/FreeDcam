@@ -106,7 +106,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     }
                     r.toArray(stringvalues);
                     fireStringValuesChanged(stringvalues);
-                    onIntValueChanged(currentInt);
+                    fireIntValueChanged(currentInt);
 
 
                 } catch (IOException | JSONException ex) {
@@ -139,12 +139,4 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
            }
        });
     }
-
-
-
-    @Override
-    public void onIntValueChanged(int current) {
-        currentInt = current;
-    }
-
 }

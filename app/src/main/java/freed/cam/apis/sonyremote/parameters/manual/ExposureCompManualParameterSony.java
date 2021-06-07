@@ -124,12 +124,6 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
         return currentInt;
     }
 
-
-    @Override
-    public void onIntValueChanged(int current) {
-        currentInt = current;
-    }
-
     public String[] getStringValues()
     {
         if (stringvalues == null || stringvalues.length == 0)

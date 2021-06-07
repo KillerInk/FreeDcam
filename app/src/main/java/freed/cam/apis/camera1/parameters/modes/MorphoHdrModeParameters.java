@@ -9,7 +9,6 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 import freed.settings.mode.SettingMode;
@@ -19,7 +18,7 @@ import freed.utils.Log;
  * Created by troop on 24.02.2017.
  */
 
-public class MorphoHdrModeParameters extends BaseModeParameter implements ParameterEvents {
+public class MorphoHdrModeParameters extends BaseModeParameter {
 
     final String TAG = MorphoHdrModeParameters.class.getSimpleName();
     private boolean visible = true;
@@ -117,7 +116,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
         }
     }
 
-    @Override
+    /*@Override
     public void onViewStateChanged(ViewState value) {
 
     }
@@ -141,7 +140,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
         else if (!val.contains(FreedApplication.getStringFromRessources(R.string.jpeg_))&& visible) {
             Hide();
         }
-    }
+    }*/
 
     private void Hide()
     {

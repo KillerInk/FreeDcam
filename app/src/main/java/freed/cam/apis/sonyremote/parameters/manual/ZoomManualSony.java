@@ -151,10 +151,4 @@ public class ZoomManualSony extends BaseManualParameterSony
         return currentInt + "%";
 
     }
-
-    @Override
-    public void onIntValueChanged(int current)
-    {
-
-    }
 }

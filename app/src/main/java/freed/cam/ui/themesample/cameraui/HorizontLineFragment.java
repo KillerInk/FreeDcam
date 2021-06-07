@@ -46,7 +46,6 @@ import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -56,7 +55,7 @@ import freed.utils.Log;
  * Created by Ar4eR on 15.01.16.
  */
 @AndroidEntryPoint
-public class HorizontLineFragment extends AbstractFragment implements ParameterEvents {
+public class HorizontLineFragment extends AbstractFragment {
 
     private View view;
 
@@ -105,23 +104,7 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         return view;
     }
 
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
+    public void startStopListen(String value) {
         if(settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on)))
         {
             startSensorListing();
@@ -141,11 +124,11 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
+                startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
             }
         });
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).addEventListner(this);
-        onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
+        startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
     }
 
     private void startSensorListing()

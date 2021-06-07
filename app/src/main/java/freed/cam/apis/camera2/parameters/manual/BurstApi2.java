@@ -21,13 +21,12 @@ package freed.cam.apis.camera2.parameters.manual;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 10.09.2015.
  */
-public class BurstApi2 extends AbstractParameter implements ParameterEvents
+public class BurstApi2 extends AbstractParameter
 {
     int current = 1;
 
@@ -59,27 +58,5 @@ public class BurstApi2 extends AbstractParameter implements ParameterEvents
     {
         current = valueToSet;
         fireIntValueChanged(current);
-    }
-
-
-
-    @Override
-    public void onViewStateChanged(ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-
     }
 }

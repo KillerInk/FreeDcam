@@ -25,14 +25,13 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 10.06.2016.
  */
-public class NightModeXiaomi extends BaseModeParameter implements ParameterEvents
+public class NightModeXiaomi extends BaseModeParameter
 {
     final String TAG = NightModeZTE.class.getSimpleName();
     private boolean visible = true;
@@ -98,7 +97,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
         }
     }
 
-    @Override
+    /*@Override
     public void onViewStateChanged(ViewState value) {
 
     }
@@ -122,7 +121,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
         else if (!val.contains(FreedApplication.getStringFromRessources(R.string.jpeg_))&& visible) {
             Hide();
         }
-    }
+    }*/
 
     private void Hide()
     {

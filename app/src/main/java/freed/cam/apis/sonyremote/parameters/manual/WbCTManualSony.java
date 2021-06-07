@@ -107,14 +107,6 @@ public class WbCTManualSony extends BaseManualParameterSony
         });
     }
 
-    @Override
-    public void onViewStateChanged(ViewState value) {
-        if (step != 0 && value == ViewState.Visible)
-        {
-            getStringValue();
-        }
-    }
-
     public void SetMinMAx(JSONObject ob) throws JSONException {
         if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
         {
