@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.AbstractCamera;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -30,8 +31,9 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean cameraIsOpen = false;
 
-    @Override
-    public void createCamera() {
+    public Camera2()
+    {
+        super();
         Log.d(TAG, "createCamera");
         parametersHandler = new ParameterHandlerApi2(this);
         moduleHandler = new ModuleHandlerApi2(this);
@@ -45,6 +47,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
             preview.setHistogramFeed(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
     }
+
 
     @Override
     public void initCamera() {
@@ -154,8 +157,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     @Override
     public void onCameraOpen() {
         Log.d(TAG, "onCameraOpen, initCamera");
-        initCamera();
-        //CameraThreadHandler.initCameraAsync();
+        CameraThreadHandler.initCameraAsync();
     }
 
     @Override

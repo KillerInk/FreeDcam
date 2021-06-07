@@ -5,7 +5,6 @@ package freed.cam.apis.basecamera;
  */
 
 public interface CameraInterface {
-    void createCamera();
     void initCamera();
     void startCamera();
     void stopCamera();

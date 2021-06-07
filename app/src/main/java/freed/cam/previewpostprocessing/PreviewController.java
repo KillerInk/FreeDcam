@@ -7,15 +7,18 @@ import android.view.View;
 
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
+import freed.utils.Log;
 
 public class PreviewController implements PreviewControllerInterface
 {
+    private static final String TAG = PreviewController.class.getSimpleName();
     private Preview preview;
     PreviewEvent eventListner;
 
     @Override
     public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, HistogramController histogram)
     {
+        Log.d(TAG, "init preview " +previewPostProcessingModes.name());
         if (preview != null)
             preview.close();
         switch (previewPostProcessingModes)
@@ -35,7 +38,8 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
-        this.preview.setHistogramFeed(feed);
+        if (preview != null)
+            this.preview.setHistogramFeed(feed);
     }
 
     @Override
@@ -85,12 +89,14 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setRed(boolean red) {
-        preview.setRed(red);
+        if (preview != null)
+            preview.setRed(red);
     }
 
     @Override
     public void setGreen(boolean green) {
-        preview.setGreen(green);
+        if (preview != null)
+            preview.setGreen(green);
     }
 
     @Override
@@ -107,21 +113,27 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setClipping(boolean on) {
-        preview.setClipping(on);
+        if (preview != null)
+            preview.setClipping(on);
     }
 
     @Override
     public boolean isClipping() {
+        if (preview == null)
+            return false;
         return preview.isClipping();
     }
 
     @Override
     public void setHistogram(boolean on) {
-        preview.setHistogram(on);
+        if (preview != null)
+            preview.setHistogram(on);
     }
 
     @Override
     public boolean isHistogram() {
+        if (preview == null)
+            return false;
         return preview.isHistogram();
     }
 

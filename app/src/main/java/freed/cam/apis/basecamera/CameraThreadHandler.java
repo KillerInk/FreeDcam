@@ -20,17 +20,10 @@ public class CameraThreadHandler extends Handler {
     public static final int MSG_START_PREVIEW = 13;
     public static final int MSG_STOP_PREVIEW = 14;
     public static final int MSG_INIT_CAMERA = 15;
-    public static final int MSG_CREATE_CAMERA = 16;
     public static final int MSG_RESTART_PREVIEW = 17;
     public static final int MSG_SET_ASPECTRATIO = 1337;
 
     private static CameraThreadHandler cameraThreadHandler;
-
-    public static void createCameraAsync()
-    {
-        if (cameraThreadHandler != null)
-            cameraThreadHandler.createCamera();
-    }
 
     public static void initCameraAsync()
     {
@@ -95,10 +88,6 @@ public class CameraThreadHandler extends Handler {
 
     private WeakReference<CameraInterface> messageHandlerWeakReference;
 
-    public void createCamera()
-    {
-        this.obtainMessage(MSG_CREATE_CAMERA).sendToTarget();
-    }
 
     public void initCamera()
     {
@@ -177,9 +166,6 @@ public class CameraThreadHandler extends Handler {
                         break;
                     case CameraThreadHandler.MSG_INIT_CAMERA:
                         cameraMessageEvent.initCamera();
-                        break;
-                    case CameraThreadHandler.MSG_CREATE_CAMERA:
-                        cameraMessageEvent.createCamera();
                         break;
                     case CameraThreadHandler.MSG_RESTART_PREVIEW:
                         cameraMessageEvent.stopPreview();

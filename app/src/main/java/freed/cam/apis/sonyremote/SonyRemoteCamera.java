@@ -73,11 +73,6 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
 
 
     @Override
-    public void createCamera() {
-
-    }
-
-    @Override
     public void initCamera() {
 
     }
