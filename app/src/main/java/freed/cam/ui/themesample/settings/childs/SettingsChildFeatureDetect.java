@@ -3,7 +3,6 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.view.View;
 
-import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 

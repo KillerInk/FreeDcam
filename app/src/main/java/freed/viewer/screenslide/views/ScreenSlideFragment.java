@@ -55,7 +55,6 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.file.FileListController;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
-import freed.settings.SettingsManager;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.screenslide.adapter.ScreenSlidePagerAdapter;
 import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;

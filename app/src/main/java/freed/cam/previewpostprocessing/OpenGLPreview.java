@@ -9,9 +9,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;

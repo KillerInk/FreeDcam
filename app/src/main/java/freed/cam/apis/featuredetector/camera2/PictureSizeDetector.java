@@ -17,7 +17,6 @@ import camera2_hidden_keys.xiaomi.CameraCharacteristicsXiaomi;
 import freed.cam.apis.featuredetector.Camera2Util;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class PictureSizeDetector extends BaseParameter2Detector {

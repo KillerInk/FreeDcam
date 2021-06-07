@@ -4,7 +4,6 @@ package freed.cam.apis.featuredetector.camera1;
 import android.hardware.Camera;
 
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class ApertureDetector extends BaseParameter1Detector {
 

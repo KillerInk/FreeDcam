@@ -1,7 +1,6 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
-import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;

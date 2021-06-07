@@ -21,7 +21,6 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.07.2015.

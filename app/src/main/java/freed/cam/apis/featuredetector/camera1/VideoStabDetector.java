@@ -6,7 +6,6 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class VideoStabDetector extends BaseParameter1Detector {

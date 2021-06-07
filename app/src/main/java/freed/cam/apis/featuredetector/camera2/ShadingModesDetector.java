@@ -8,7 +8,6 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera2Util;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class ShadingModesDetector extends BaseParameter2Detector {
     @Override

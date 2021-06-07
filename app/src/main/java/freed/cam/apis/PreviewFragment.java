@@ -13,7 +13,6 @@ import com.troop.freedcam.R;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import dagger.hilt.android.EntryPointAccessors;
 import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -21,7 +20,6 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.views.MyHistogram;
-import hilt.PreviewControllerEntryPoint;
 
 @AndroidEntryPoint
 public class PreviewFragment  extends Fragment {

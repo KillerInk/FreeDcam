@@ -1,14 +1,9 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
-import androidx.databinding.Observable;
-
 import com.troop.freedcam.R;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.ValueChangedEvent;
 import freed.cam.previewpostprocessing.Preview;
 import freed.settings.SettingKeys;
 import freed.utils.Log;

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ExposureTimeDetector extends BaseParameter2Detector {

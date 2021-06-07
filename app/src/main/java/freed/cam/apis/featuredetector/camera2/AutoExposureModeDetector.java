@@ -10,7 +10,6 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera2Util;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class AutoExposureModeDetector extends BaseParameter2Detector {

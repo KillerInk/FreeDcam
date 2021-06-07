@@ -14,7 +14,6 @@ import freed.cam.apis.featuredetector.camera2.ExposureTimeDetector;
 import freed.cam.apis.featuredetector.camera2.IsoDetector;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class IsoExposureTimeDetector extends BaseParameter2Detector {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

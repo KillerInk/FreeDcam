@@ -19,32 +19,15 @@
 
 package freed.cam.ui.themesample.cameraui;
 
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.troop.freedcam.R.id;
-import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.CamerauiManualbuttonBinding;
-import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ValueChangedEvent;
-import freed.utils.Log;
 
 
 /**

@@ -7,7 +7,6 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class ManualSaturationDetector extends BaseParameter1Detector{

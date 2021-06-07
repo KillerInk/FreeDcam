@@ -8,7 +8,6 @@ import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera1FeatureDetectorTask;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class ManualFocusDetector extends BaseParameter1Detector{

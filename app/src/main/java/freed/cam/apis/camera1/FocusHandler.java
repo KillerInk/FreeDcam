@@ -23,8 +23,6 @@ import android.graphics.Rect;
 
 import androidx.databinding.Observable;
 
-import com.troop.freedcam.R;
-
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 

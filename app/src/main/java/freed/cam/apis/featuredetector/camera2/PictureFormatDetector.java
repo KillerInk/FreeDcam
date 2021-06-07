@@ -16,7 +16,6 @@ import java.util.HashMap;
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 

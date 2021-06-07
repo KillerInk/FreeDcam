@@ -48,13 +48,10 @@ import freed.ActivityAbstract;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.FreeDPool;
-import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.gridview.modelview.GridViewFragmentModelView;
 import freed.viewer.gridview.views.GridViewFragment;
-import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**

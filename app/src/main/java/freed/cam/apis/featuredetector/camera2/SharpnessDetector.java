@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class SharpnessDetector  extends BaseParameter2Detector {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

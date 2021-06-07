@@ -14,7 +14,6 @@ import android.renderscript.Element;
 import android.renderscript.Type;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;

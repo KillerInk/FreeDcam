@@ -20,7 +20,6 @@
 package freed.cam;
 
 
-import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;

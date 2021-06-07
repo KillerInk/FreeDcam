@@ -1,7 +1,5 @@
 package freed.cam.apis.camera1;
 
-import android.graphics.SurfaceTexture;
-
 import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.Size;

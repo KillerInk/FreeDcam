@@ -20,7 +20,6 @@
 package freed.cam.ui.themesample.handler;
 
 import android.content.Context;
-import android.graphics.SurfaceTexture;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;

@@ -19,14 +19,11 @@
 
 package freed.cam.ui.themesample.cameraui.childs;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
 import dagger.hilt.android.internal.managers.FragmentComponentManager;
-import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 /**
  * Created by troop on 13.06.2015.

@@ -9,7 +9,6 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class OisDetector extends BaseParameter2Detector {

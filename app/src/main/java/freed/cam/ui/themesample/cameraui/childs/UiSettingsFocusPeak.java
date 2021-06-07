@@ -21,7 +21,6 @@ package freed.cam.ui.themesample.cameraui.childs;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.troop.freedcam.R;
 
@@ -29,11 +28,8 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**

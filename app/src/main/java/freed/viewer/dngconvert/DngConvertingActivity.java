@@ -25,8 +25,6 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
-import freed.file.FileListController;
-import freed.utils.LocationManager;
 
 /**
  * Created by troop on 22.12.2015.

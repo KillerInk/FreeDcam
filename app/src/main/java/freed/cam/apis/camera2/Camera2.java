@@ -1,7 +1,6 @@
 package freed.cam.apis.camera2;
 
 import android.graphics.Point;
-import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.util.Size;
 
@@ -12,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.AbstractCamera;
-import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;

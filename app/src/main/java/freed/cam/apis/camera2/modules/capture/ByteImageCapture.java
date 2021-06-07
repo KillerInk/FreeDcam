@@ -9,7 +9,6 @@ import androidx.annotation.RequiresApi;
 import java.io.File;
 import java.nio.ByteBuffer;
 
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;

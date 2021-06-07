@@ -26,7 +26,6 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 04.01.2016.

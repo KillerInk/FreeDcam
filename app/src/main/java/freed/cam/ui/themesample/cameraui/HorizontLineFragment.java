@@ -39,8 +39,6 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -49,8 +47,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

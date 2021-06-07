@@ -21,11 +21,6 @@ package freed;
 
 import android.net.Uri;
 
-import freed.file.FileListController;
-import freed.utils.LocationManager;
-import freed.utils.PermissionManager;
-import freed.viewer.helper.BitmapHelper;
-
 /**
  * Created by troop on 22.03.2015.
  */

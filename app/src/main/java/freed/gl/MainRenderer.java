@@ -1,7 +1,5 @@
 package freed.gl;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.pm.ConfigurationInfo;
+
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
@@ -9,7 +7,6 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import freed.FreedApplication;
 import freed.gl.program.FPShape;
 import freed.gl.program.FocuspeakZebraShape;
 import freed.gl.program.GLProgram;

@@ -6,7 +6,6 @@ import com.troop.freedcam.R;
 
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class ReFocusDetector extends BaseParameter1Detector{
     @Override

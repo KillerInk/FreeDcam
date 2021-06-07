@@ -31,15 +31,9 @@ import androidx.lifecycle.LifecycleOwner;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
-import com.troop.freedcam.databinding.CamerauiUisettingschildBindingImpl;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.Log;
 

@@ -1,6 +1,5 @@
 package freed.cam.apis.sonyremote;
 
-import android.graphics.SurfaceTexture;
 import android.view.TextureView;
 
 import org.json.JSONArray;

@@ -2,16 +2,13 @@ package freed;
 
 import android.app.Application;
 import android.content.Context;
-import android.view.View;
 
 import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.HiltAndroidApp;
-import freed.cam.apis.CameraFragmentManager;
 import freed.file.FileListController;
 import freed.settings.SettingsManager;
 import freed.viewer.helper.BitmapHelper;
 import hilt.BitmapHelperEntryPoint;
-import hilt.CameraFragmentManagerEntryPoint;
 import hilt.FileListControllerEntryPoint;
 import hilt.SettingsManagerEntryPoint;
 

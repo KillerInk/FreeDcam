@@ -37,7 +37,6 @@ import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.utils.VideoMediaProfile;

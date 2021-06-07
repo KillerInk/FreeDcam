@@ -2,7 +2,6 @@ package freed.cam.ui.themesample.cameraui.binding;
 
 import android.animation.Animator;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import freed.utils.Log;
 

@@ -27,11 +27,8 @@ import android.widget.LinearLayout;
 
 import androidx.databinding.DataBindingUtil;
 
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.SettingsRightmenufragmentBinding;
-
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -41,7 +38,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 
 /**

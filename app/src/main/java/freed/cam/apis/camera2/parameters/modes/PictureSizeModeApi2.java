@@ -28,7 +28,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 13.12.2014.

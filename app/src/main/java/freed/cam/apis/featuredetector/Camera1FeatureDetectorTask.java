@@ -62,7 +62,6 @@ import freed.cam.apis.featuredetector.camera1.ZeroShutterLagDetector;
 import freed.settings.FrameworkDetector;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 

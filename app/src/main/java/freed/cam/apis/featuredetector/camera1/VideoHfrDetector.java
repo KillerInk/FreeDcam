@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class VideoHfrDetector extends BaseParameter1Detector{

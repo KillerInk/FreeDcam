@@ -7,7 +7,6 @@ import androidx.annotation.RequiresApi;
 
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 19.06.2017.

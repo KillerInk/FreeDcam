@@ -12,7 +12,6 @@ import java.util.HashMap;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera2Util;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

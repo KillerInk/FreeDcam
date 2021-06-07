@@ -7,7 +7,6 @@ import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.image.EmptyTask;

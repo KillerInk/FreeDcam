@@ -34,7 +34,6 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;

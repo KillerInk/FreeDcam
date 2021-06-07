@@ -5,7 +5,6 @@ import android.hardware.camera2.CaptureRequest;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class RawSizeModeApi2 extends BaseModeApi2 {
     public RawSizeModeApi2(Camera2 cameraUiWrapper, SettingKeys.Key settingMode) {

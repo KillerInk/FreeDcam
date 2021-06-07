@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import freed.cam.apis.featuredetector.SupportedVideoProfilesDetector;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 
 public class VideoMediaProfilesDetector extends BaseParameter2Detector {

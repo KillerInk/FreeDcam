@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.databinding.SettingsmenuGroupchildBinding;
-import com.troop.freedcam.databinding.SettingsmenuGroupchildBindingImpl;
 
 /**
  * Created by troop on 01.02.2017.

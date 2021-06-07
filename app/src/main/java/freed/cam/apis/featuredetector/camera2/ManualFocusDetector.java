@@ -12,7 +12,6 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.StringFloatArray;
 import freed.utils.StringUtils;

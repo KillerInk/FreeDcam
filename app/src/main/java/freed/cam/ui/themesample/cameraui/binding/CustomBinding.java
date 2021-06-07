@@ -3,7 +3,6 @@ package freed.cam.ui.themesample.cameraui.binding;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.databinding.BindingAdapter;
 

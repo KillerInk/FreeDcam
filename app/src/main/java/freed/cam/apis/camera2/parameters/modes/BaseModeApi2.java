@@ -25,16 +25,11 @@ import android.os.Build.VERSION_CODES;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-import dagger.hilt.android.EntryPointAccessors;
-import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CaptureSessionHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 

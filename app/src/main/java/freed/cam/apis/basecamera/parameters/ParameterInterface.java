@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera.parameters;
 
-import androidx.databinding.Bindable;
-
 import freed.cam.events.EventBusLifeCycle;
 import freed.settings.SettingKeys;
 

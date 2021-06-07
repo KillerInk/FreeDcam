@@ -12,7 +12,6 @@ import freed.FreedApplication;
 import freed.cam.apis.featuredetector.Camera2Util;
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class DualPrimaryCameraDetector extends BaseParameter2Detector {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

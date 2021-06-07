@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

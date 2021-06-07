@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import freed.ActivityInterface;
 import freed.file.FileListController;
 import freed.utils.StringUtils;
 

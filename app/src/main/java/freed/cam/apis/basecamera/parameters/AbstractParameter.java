@@ -7,11 +7,9 @@ import com.troop.freedcam.BR;
 
 import java.util.ArrayList;
 
-import dagger.hilt.android.EntryPointAccessors;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
-import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;

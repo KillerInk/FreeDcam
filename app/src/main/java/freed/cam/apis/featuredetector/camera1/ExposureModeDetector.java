@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 public class ExposureModeDetector extends BaseParameter1Detector {
     @Override

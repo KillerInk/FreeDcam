@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import freed.FreedApplication;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class PictureFormatDetector extends BaseParameter1Detector {

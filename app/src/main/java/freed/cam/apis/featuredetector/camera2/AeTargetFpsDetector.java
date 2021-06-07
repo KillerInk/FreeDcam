@@ -7,7 +7,6 @@ import android.util.Range;
 import androidx.annotation.RequiresApi;
 
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class AeTargetFpsDetector extends BaseParameter2Detector {

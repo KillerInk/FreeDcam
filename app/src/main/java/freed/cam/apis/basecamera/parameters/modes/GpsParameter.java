@@ -24,13 +24,11 @@ import android.text.TextUtils;
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
 

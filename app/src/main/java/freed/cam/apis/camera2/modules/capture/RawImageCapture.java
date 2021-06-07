@@ -14,7 +14,6 @@ import com.troop.freedcam.R;
 import java.io.File;
 import java.nio.ByteBuffer;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleInterface;

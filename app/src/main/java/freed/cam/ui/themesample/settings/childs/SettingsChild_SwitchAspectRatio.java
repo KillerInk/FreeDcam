@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.CompoundButton;
 
 import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.mode.BooleanSettingModeInterface;
 
 public class SettingsChild_SwitchAspectRatio extends SettingsChild_BooleanSetting {

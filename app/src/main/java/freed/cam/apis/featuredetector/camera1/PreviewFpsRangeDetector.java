@@ -5,7 +5,6 @@ import android.hardware.Camera;
 import com.troop.freedcam.R;
 
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class PreviewFpsRangeDetector extends BaseParameter1Detector {

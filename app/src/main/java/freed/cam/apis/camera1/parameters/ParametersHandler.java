@@ -31,7 +31,6 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -39,7 +38,6 @@ import freed.cam.apis.basecamera.parameters.modes.OrientationHackParameter;
 import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.apis.camera1.parameters.ae.AeManagerLgCamera1;
 import freed.cam.apis.camera1.parameters.ae.AeManagerMtkCamera1;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;

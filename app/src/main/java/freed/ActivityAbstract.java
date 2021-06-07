@@ -22,7 +22,6 @@ package freed;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
@@ -36,13 +35,11 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import dagger.hilt.android.EntryPointAccessors;
-import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
-import freed.viewer.helper.BitmapHelper;
 import hilt.PermissionManagerEntryPoint;
 
 /**

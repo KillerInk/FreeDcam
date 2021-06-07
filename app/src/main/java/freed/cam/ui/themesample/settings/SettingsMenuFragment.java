@@ -38,7 +38,6 @@ import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.utils.Log;
 
 /**

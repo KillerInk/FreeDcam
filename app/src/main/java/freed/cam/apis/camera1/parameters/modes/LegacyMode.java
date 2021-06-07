@@ -2,7 +2,6 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.os.Build;
 
-import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;

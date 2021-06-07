@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by Ingo on 03.10.2016.

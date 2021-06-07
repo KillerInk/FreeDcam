@@ -1,16 +1,11 @@
 package freed.cam.apis.basecamera;
 
-import javax.inject.Inject;
-
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.previewpostprocessing.PreviewControllerInterface;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
 
 public abstract class AbstractCamera<
         P extends ParameterHandler,

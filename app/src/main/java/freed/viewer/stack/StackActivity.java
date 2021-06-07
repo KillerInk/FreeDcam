@@ -56,7 +56,6 @@ import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
-import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;

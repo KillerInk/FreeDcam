@@ -36,7 +36,6 @@ import freed.viewer.gridview.models.IntentModel;
 import freed.viewer.gridview.models.IntentSenderModel;
 import freed.viewer.gridview.models.PopupMenuModel;
 import freed.viewer.gridview.models.ViewStateModel;
-import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;

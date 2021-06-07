@@ -11,7 +11,6 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class AutoHdrDetector extends BaseParameter1Detector {
