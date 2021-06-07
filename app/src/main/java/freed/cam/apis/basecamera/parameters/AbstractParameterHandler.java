@@ -23,12 +23,10 @@ import android.text.TextUtils;
 
 import androidx.databinding.Observable;
 
-import com.troop.freedcam.R;
-
 import java.util.HashMap;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
 import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
@@ -43,7 +41,6 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
-import freed.cam.events.EventBusLifeCycle;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
@@ -74,7 +71,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     protected AbstractParameterHandler(C cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
         settingsManager = FreedApplication.settingsManager();
-        previewController = CameraFragmentAbstract.getPreviewController();
+        previewController = ActivityFreeDcamMain.previewController();
         add(SettingsManager.GuideList, new GuideList());
         add(SettingsManager.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
         add(SettingsManager.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
@@ -123,27 +120,6 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         parameterHashMap.put(parameters, parameterInterface);
     }
 
-    @Override
-    public void unregisterListners()
-    {
-        for (EventBusLifeCycle life : parameterHashMap.values()) {
-            life.stopListning();
-        }
-    }
-
-    @Override
-    public void registerListners()
-    {
-        for (EventBusLifeCycle life : parameterHashMap.values()) {
-            try {
-                life.startListning();
-            }
-            catch(org.greenrobot.eventbus.EventBusException ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public ParameterInterface get(SettingsManager.Key parameters)

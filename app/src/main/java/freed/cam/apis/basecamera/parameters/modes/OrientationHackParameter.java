@@ -3,9 +3,9 @@ package freed.cam.apis.basecamera.parameters.modes;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 
 public class OrientationHackParameter extends AbstractParameter {
@@ -21,11 +21,11 @@ public class OrientationHackParameter extends AbstractParameter {
     protected void setValue(String valueToSet, boolean setToCamera) {
         super.setValue(valueToSet,setToCamera);
         settingsManager.get(SettingKeys.orientationHack).set(valueToSet);
-        if (cameraUiWrapper instanceof Camera1Fragment) {
+        if (cameraUiWrapper instanceof Camera1) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);
         }
-        else if(cameraUiWrapper instanceof Camera2Fragment)
+        else if(cameraUiWrapper instanceof Camera2)
         {
             CameraThreadHandler.restartCameraAsync();
         }

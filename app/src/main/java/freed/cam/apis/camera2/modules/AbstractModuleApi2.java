@@ -24,13 +24,12 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.renderscript.RenderScript;
 
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.previewpostprocessing.PreviewController;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 
@@ -51,7 +50,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2> impleme
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         parameterHandler = cameraUiWrapper.getParameterHandler();
-        previewController = CameraFragmentAbstract.getPreviewController();
+        previewController = ActivityFreeDcamMain.previewController();
     }
 
     @Override

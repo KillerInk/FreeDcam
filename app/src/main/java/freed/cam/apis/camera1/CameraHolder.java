@@ -37,7 +37,6 @@ import java.util.List;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.utils.Log;
@@ -95,7 +94,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
             mCamera.setErrorCallback((error, camera1) -> Log.e(TAG, "Error:" + error));
-            CameraStateEvents.fireCameraOpenEvent();
+            fireCameraOpen();
             return true;
 
         } catch (Exception ex) {
@@ -123,7 +122,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             mCamera = null;
             Log.d(TAG, "Camera closed");
         }
-        CameraStateEvents.fireCameraCloseEvent();
+        fireCameraClose();
     }
 
     public void SetCameraParameters(Parameters parameters)
@@ -190,7 +189,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         {
             mCamera.startPreview();
             Log.d(TAG, "PreviewStarted");
-            CameraStateEvents.firePreviewOpenEvent();
+            //fireOnPreviewOpen();
         } catch (Exception ex) {
             Log.WriteEx(ex);
             UserMessageHandler.sendMSG("Failed to Start Preview",false);
@@ -207,7 +206,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             Log.d(TAG, "Preview Stopped");
-            CameraStateEvents.firePreviewCloseEvent();
+            //fireOnPreviewClose();
         } catch (Exception ex)
         {
             Log.d(TAG, "Camera was released");

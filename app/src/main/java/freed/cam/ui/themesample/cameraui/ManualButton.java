@@ -150,13 +150,13 @@ public class ManualButton extends LinearLayout
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        EventBusHelper.register(this);
+        //EventBusHelper.register(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        EventBusHelper.unregister(this);
+        //EventBusHelper.unregister(this);
     }
 
 

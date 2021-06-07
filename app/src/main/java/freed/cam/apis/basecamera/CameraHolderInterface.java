@@ -37,6 +37,8 @@ public interface CameraHolderInterface
 
     void SetLocation(Location location);
     void CancelFocus();
+    void addEventListner(CameraHolderEvent event);
+    void removeEventListner(CameraHolderEvent event);
 
 
 }

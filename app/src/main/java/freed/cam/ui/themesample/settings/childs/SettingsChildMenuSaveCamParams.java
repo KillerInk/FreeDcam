@@ -43,7 +43,7 @@ import camera2_hidden_keys.ReflectionHelper;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -119,7 +119,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof Camera1Fragment)
+        if (cameraUiWrapper instanceof Camera1)
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);

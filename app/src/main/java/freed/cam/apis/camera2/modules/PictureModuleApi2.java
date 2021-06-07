@@ -56,7 +56,6 @@ import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
@@ -217,8 +216,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(s.getSurface());
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).getStringValue());
-        CameraStateEvents.firePreviewOpenEvent();
-
+        //cameraHolder.fireOnPreviewOpen();
     }
 
     private void preparePreviewTextureView(int orientationToSet, Size previewSize) {

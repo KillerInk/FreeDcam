@@ -14,6 +14,7 @@ import android.renderscript.Element;
 import android.renderscript.Type;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -61,7 +62,6 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
     private int zoomPreviewMagineLeft;
     private int zoomPreviewMargineTop;
     private RenderScriptManager renderScriptManager;
-    private ActivityInterface activityInterface;
 
     //Tells the drawing Thread that it can draw
     private boolean DODRAW = false;
@@ -96,7 +96,7 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
         zoomPreviewMargineTop += (y);
     }
 
-    public PreviewStreamDrawer(TextureView textureView,RenderScriptManager renderScriptManager)
+    public PreviewStreamDrawer(TextureView textureView, RenderScriptManager renderScriptManager)
     {
         this.textureView = textureView;
         this.mFramePaint = new Paint();

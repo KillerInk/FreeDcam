@@ -1,6 +1,7 @@
 package freed.cam.apis.camera2;
 
 import android.graphics.Point;
+import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.util.Size;
 
@@ -11,12 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.basecamera.AbstractCamera;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -40,6 +40,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         focusHandler = new FocusHandler(this);
 
         cameraHolder = new CameraHolderApi2(this);
+        cameraHolder.addEventListner(this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
@@ -55,8 +56,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         parametersHandler.Init();
         //cameraHolder.SetSurface(getPreview().getSurfaceTexture());
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
-
-        CameraStateEvents.fireCameraOpenFinishEvent(this);
+        cameraHolder.fireCameraOpenFinished();
         moduleHandler.setModule(settingsManager.GetCurrentModule());
         //parametersHandler.SetAppSettingsToParameters();
     }
@@ -79,8 +79,6 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
             cameraIsOpen = false;
             if (focusHandler != null)
                 ((FocusHandler) focusHandler).stopListning();
-            if (parametersHandler != null)
-                parametersHandler.unregisterListners();
         }
         catch (NullPointerException ex)
         {
@@ -153,5 +151,40 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
             return true;
         else
             return false;
+    }
+
+    @Override
+    public void onCameraOpen() {
+        Log.d(TAG, "onCameraOpen, initCamera");
+        initCamera();
+        //CameraThreadHandler.initCameraAsync();
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+        Log.d(TAG, "onCameraOpenFinished");
+    }
+
+    @Override
+    public void onCameraClose() {
+        try {
+            Log.d(TAG, "onCameraClose");
+            cameraIsOpen = false;
+            preview.close();
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        Log.d(TAG, "onCameraError " +error);
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(freed.cam.apis.basecamera.Size size) {
+
     }
 }

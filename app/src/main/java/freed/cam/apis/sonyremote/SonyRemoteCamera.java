@@ -1,5 +1,8 @@
 package freed.cam.apis.sonyremote;
 
+import android.graphics.SurfaceTexture;
+import android.view.TextureView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +13,8 @@ import java.util.Set;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractCamera;
-import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
@@ -21,9 +24,9 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
+import freed.cam.previewpostprocessing.RenderScriptPreview;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -40,16 +43,19 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
     private SimpleRemoteApi mRemoteApi;
     private SimpleCameraEventObserver mEventObserver;
     private final Set<String> mAvailableCameraApiSet = new HashSet<>();
+    PreviewStreamDrawer previewStreamDrawer;
 
-
-    public SonyRemoteCamera(PreviewStreamDrawer previewStreamDrawer)
+    public SonyRemoteCamera()
     {
+        RenderScriptPreview rsPrev = (RenderScriptPreview)preview;
+        previewStreamDrawer = new PreviewStreamDrawer((TextureView) rsPrev.getPreviewView(),rsPrev.getRenderScriptManager());
         parametersHandler = new ParameterHandler(this, previewStreamDrawer);
 
         moduleHandler = new ModuleHandlerSony(this);
         focusHandler = new FocusHandler(this);
         parametersHandler.addApiChangedListner((I_SonyApi) focusHandler);
         cameraHolder = new CameraHolderSony(FreedApplication.getContext(), previewStreamDrawer, this);
+        cameraHolder.addEventListner(this);
         moduleHandler.initModules();
     }
 
@@ -338,7 +344,7 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        CameraStateEvents.fireCameraOpenFinishEvent(this);
+        cameraHolder.fireCameraOpenFinished();
     }
 
     public void stopEventObserver()
@@ -377,4 +383,41 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
             mEventObserver.release();
     }
 
+
+   /* @Override
+    public void onPreviewClose() {
+        stopPreview();
+        CameraThreadHandler.stopCameraAsync();
+    }*/
+
+    @Override
+    public void onCameraOpen() {
+
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+
+    }
+
+    @Override
+    public void onCameraClose() {
+        release();
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        Log.d(TAG, "###################### onCamerError:"+ error + " ################################");
+        setTextFromWifi(error);
+        STATE = STATE_IDEL;
+        stop();
+        previewStreamDrawer.stop();
+        //setCameraEventListner(SonyCameraRemoteFragment.this);
+        CameraThreadHandler.startCameraAsync(5000);
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
+    }
 }

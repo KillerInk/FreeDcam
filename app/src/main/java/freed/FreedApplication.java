@@ -50,11 +50,6 @@ public class FreedApplication extends Application {
         return getEntryPointFromApplication(BitmapHelperEntryPoint.class).bitmapHelper();
     }
 
-    public static CameraFragmentManager cameraFragmentManager()
-    {
-        return getEntryPointFromApplication(CameraFragmentManagerEntryPoint.class).cameraFragmentManager();
-    }
-
     public static <T> T getEntryPointFromApplication(Class<T> entryPoint) {
         return EntryPointAccessors.fromApplication(context, entryPoint);
     }

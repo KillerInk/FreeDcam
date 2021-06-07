@@ -43,7 +43,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
-import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
@@ -323,7 +323,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     {
         Log.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
-        if (!(cameraUiWrapper instanceof SonyCameraRemoteFragment)) {
+        if (!(cameraUiWrapper instanceof SonyRemoteCamera)) {
             currentButton.setValueToParameters(progress);
 
         }
@@ -336,7 +336,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (cameraUiWrapper instanceof SonyCameraRemoteFragment) {
+        if (cameraUiWrapper instanceof SonyRemoteCamera) {
             currentButton.setValueToParameters(currentValuePos);
 
         }

@@ -8,7 +8,7 @@ import dagger.hilt.android.scopes.FragmentScoped;
 import freed.cam.previewpostprocessing.PreviewController;
 
 @EntryPoint
-@InstallIn(FragmentComponent.class)
+@InstallIn(ActivityComponent.class)
 public interface PreviewControllerEntryPoint {
     PreviewController previewController();
 }

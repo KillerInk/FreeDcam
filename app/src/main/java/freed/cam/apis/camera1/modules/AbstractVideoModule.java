@@ -35,7 +35,8 @@ import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
@@ -43,7 +44,6 @@ import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.FileHolder;
@@ -67,7 +67,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_video);
         permissionManager = ActivityAbstract.permissionManager();
-        preview = CameraFragmentAbstract.getPreviewController();
+        preview = ActivityFreeDcamMain.previewController();
     }
 
     @Override
@@ -153,7 +153,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
         cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
-        CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
+        cameraUiWrapper.getCameraHolder().fireOnCameraChangedAspectRatioEvent(size);
         cameraUiWrapper.getCameraHolder().StartPreview();
     }
 

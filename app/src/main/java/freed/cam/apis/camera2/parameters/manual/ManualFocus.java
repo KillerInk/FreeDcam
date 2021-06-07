@@ -30,8 +30,6 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.FocusPositionChangedEvent;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 import freed.utils.StringFloatArray;
@@ -137,8 +135,7 @@ public class ManualFocus extends AbstractParameter<Camera2>
     @Override
     public void fireStringValueChanged(String value)
     {
-        currentString = value;
-        EventBusHelper.post(new FocusPositionChangedEvent(key,value, String.class));
+        super.fireStringValueChanged(value);
     }
 
 

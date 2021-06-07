@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.handler;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import freed.cam.apis.basecamera.CameraHolderEvent;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.EventBusLifeCycle;
 import freed.cam.events.UserMessageEvent;
@@ -36,18 +39,12 @@ import freed.cam.events.UserMessageEvent;
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements Runnable, EventBusLifeCycle
+public class UserMessageHandler implements Runnable, EventBusLifeCycle, CameraHolderEvent
 {
 
     private Context context;
     private TextView messageTextView1;
     private LinearLayout messageHolder1;
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCameraErrorEvent(freed.cam.events.CameraStateEvents.CameraErrorEvent cameraErrorEvent)
-    {
-        setUserMessage(cameraErrorEvent.msg,true);
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserMessageEvent(UserMessageEvent event)
@@ -110,5 +107,30 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle
     @Override
     public void stopListning() {
         EventBusHelper.unregister(this);
+    }
+
+    @Override
+    public void onCameraOpen() {
+
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+
+    }
+
+    @Override
+    public void onCameraClose() {
+
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        setUserMessage(error,true);
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
     }
 }

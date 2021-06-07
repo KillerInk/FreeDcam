@@ -21,6 +21,9 @@ package freed.cam.apis.basecamera;
 
 import android.location.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by troop on 12.12.2014.
  * holds the instance for the camera to work with
@@ -28,6 +31,7 @@ import android.location.Location;
 public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
     protected CameraWrapperInterface cameraUiWrapper;
+    private List<CameraHolderEvent> eventList = new ArrayList<>();
 
     /**
      *
@@ -49,4 +53,57 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
 
     public abstract void SetLocation(Location loc);
 
+    @Override
+    public void addEventListner(CameraHolderEvent event)
+    {
+        eventList.add(event);
+    }
+
+    @Override
+    public void removeEventListner(CameraHolderEvent event)
+    {
+        eventList.remove(event);
+    }
+
+    public void fireCameraOpen()
+    {
+        for (CameraHolderEvent cameraHolderEvent : eventList)
+        {
+            cameraHolderEvent.onCameraOpen();
+        }
+    }
+
+    public void fireCameraOpenFinished()
+    {
+        for (CameraHolderEvent cameraHolderEvent : eventList)
+        {
+            cameraHolderEvent.onCameraOpenFinished();
+        }
+    }
+
+    public void fireCameraClose()
+    {
+        for (CameraHolderEvent cameraHolderEvent : eventList)
+        {
+            cameraHolderEvent.onCameraClose();
+        }
+    }
+
+    public void fireOnCameraChangedAspectRatioEvent(Size sie)
+    {
+        for (CameraHolderEvent cameraHolderEvent : eventList)
+        {
+            cameraHolderEvent.onCameraChangedAspectRatioEvent(sie);
+        }
+    }
+
+
+    public void fireOCameraError(String error)
+    {
+        for (CameraHolderEvent cameraHolderEvent : eventList)
+        {
+            cameraHolderEvent.onCameraError(error);
+        }
+        eventList.clear();
+    }
 }

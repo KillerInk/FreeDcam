@@ -60,7 +60,6 @@ import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.utils.FreeDPool;
@@ -265,7 +264,7 @@ public class ParameterHandler extends AbstractParameterHandler<SonyRemoteCamera>
 
     @Override
     public void onTimout() {
-        CameraStateEvents.fireCameraErrorEvent("Camera connection timed out");
+        cameraUiWrapper.getCameraHolder().fireOCameraError("Camera connection timed out");
         cameraUiWrapper.stopEventObserver();
     }
 

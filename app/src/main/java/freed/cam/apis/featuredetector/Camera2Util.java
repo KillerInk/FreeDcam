@@ -52,7 +52,16 @@ public class Camera2Util
             }
             lookupar = StringUtils.IntHashmapToStringArray(map);
             settingMode.setValues(lookupar);
-
+            if (map.get("off") != null)
+                settingMode.set("off");
+            else if (map.get("Fast") != null)
+                settingMode.set("Fast");
+            else if (map.get("Off") != null)
+                settingMode.set("Off");
+            else if (map.get("Auto") != null)
+                settingMode.set("Auto");
+            else if (map.get("Disable") != null)
+                settingMode.set("Disable");
         }
     }
 

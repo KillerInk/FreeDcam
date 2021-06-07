@@ -40,12 +40,6 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
             cameraFragment.getModuleHandler().ModuleHasChanged(cameraFragment.getModuleHandler().getCurrentModuleName());
     }
 
-    public void updateScreenSlideFile(List<BaseHolder> files)
-    {
-        //TODO
-        //screenSlideFragment.NotifyDATAhasChanged(files);
-    }
-
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
@@ -56,7 +50,6 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
         }
         else if (position == 2) {
             if (screenSlideFragment != null) {
-
                 screenSlideFragment.setOnBackClickListner(click);
             }
             return screenSlideFragment;

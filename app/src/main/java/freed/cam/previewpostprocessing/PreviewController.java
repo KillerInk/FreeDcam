@@ -11,6 +11,7 @@ import freed.cam.histogram.HistogramFeed;
 public class PreviewController implements PreviewControllerInterface
 {
     private Preview preview;
+    PreviewEvent eventListner;
 
     @Override
     public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, HistogramController histogram)
@@ -29,6 +30,7 @@ public class PreviewController implements PreviewControllerInterface
                 preview = new OpenGLPreview(context,histogram);
                 break;
         }
+        preview.setPreviewEventListner(eventListner);
     }
 
     @Override
@@ -140,7 +142,9 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setPreviewEventListner(PreviewEvent eventListner) {
-        preview.setPreviewEventListner(eventListner);
+        this.eventListner = eventListner;
+        if (preview != null)
+            preview.setPreviewEventListner(eventListner);
     }
 
     @Override
@@ -157,5 +161,23 @@ public class PreviewController implements PreviewControllerInterface
     public void setRotation(int width, int height, int rotation) {
         preview.setRotation(width,height,rotation);
     }
+
+    @Override
+    public int getMargineLeft() {
+        if (preview.getPreviewView() == null)
+            return 0;
+        return preview.getPreviewView().getLeft();
+    }
+
+    @Override
+    public int getMargineRight() {
+        return preview.getPreviewView().getRight();
+    }
+
+    @Override
+    public int getMargineTop() {
+        return preview.getPreviewView().getTop();
+    }
+
 
 }

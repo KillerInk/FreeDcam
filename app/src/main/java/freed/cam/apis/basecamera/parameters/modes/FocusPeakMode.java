@@ -22,17 +22,13 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.ValueChangedEvent;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 10.09.2015.
@@ -42,14 +38,14 @@ public class FocusPeakMode extends AbstractParameter {
     public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.Focuspeak);
-        previewController = CameraFragmentAbstract.getPreviewController();
+        previewController = ActivityFreeDcamMain.previewController();
         currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     public FocusPeakMode(CameraWrapperInterface cameraWrapperInterface, SettingKeys.Key key)
     {
         super(cameraWrapperInterface,key);
-        previewController = CameraFragmentAbstract.getPreviewController();
+        previewController = ActivityFreeDcamMain.previewController();
         currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 

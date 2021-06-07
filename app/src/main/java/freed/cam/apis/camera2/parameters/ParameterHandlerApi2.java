@@ -240,14 +240,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
 
         add(SettingKeys.orientationHack,new OrientationHackParameter(cameraUiWrapper,SettingKeys.orientationHack));
 
-        registerListners();
 
-    }
-
-    @Override
-    public void unregisterListners() {
-        super.unregisterListners();
-        
     }
 
     @Override

@@ -154,6 +154,8 @@ public class CameraThreadHandler extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
+        if (messageHandlerWeakReference == null)
+            return;
         CameraInterface cameraMessageEvent = messageHandlerWeakReference.get();
         if (cameraMessageEvent != null) {
             try {

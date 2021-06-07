@@ -477,7 +477,6 @@ public class ParametersHandler extends AbstractParameterHandler<Camera1>
             add(SettingKeys.openCamera1Legacy, new LegacyMode(cameraUiWrapper,settingsManager.get(SettingKeys.openCamera1Legacy)));
 
 
-        registerListners();
         //set last used settings
         SetAppSettingsToParameters();
 

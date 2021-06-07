@@ -33,7 +33,8 @@ import java.util.Date;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
@@ -44,7 +45,6 @@ import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.dng.DngProfile;
@@ -75,7 +75,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         this.cameraHolder = cameraUiWrapper.getCameraHolder();
-        previewController = CameraFragmentAbstract.getPreviewController();
+        previewController = ActivityFreeDcamMain.previewController();
     }
 
     @Override
@@ -184,7 +184,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             previewController.setHistogram(false);
 
             cameraHolder.setSurface(previewController.getInputSurface());
-            CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
+            cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
             cameraHolder.StartPreview();
             previewController.start();
         }
@@ -203,7 +203,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
             previewController.setSize(size.width, size.height);
             previewController.setRotation(size.width, size.height, 0);
-            CameraStateEvents.fireCameraAspectRatioChangedEvent(size);
+            cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
             cameraHolder.StartPreview();
         }
 

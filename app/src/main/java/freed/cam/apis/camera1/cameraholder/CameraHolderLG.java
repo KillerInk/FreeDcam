@@ -24,7 +24,6 @@ import com.lge.hardware.LGCameraRef;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.events.CameraStateEvents;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -67,13 +66,13 @@ public class CameraHolderLG extends CameraHolder
                 super.OpenCamera(camera);
             }
             catch (RuntimeException  | NoClassDefFoundError e) {
-                CameraStateEvents.fireCameraErrorEvent("Fail to connect to camera service");
+                fireOCameraError("Fail to connect to camera service");
                 isRdy = false;
                 Log.WriteEx(e);
             }
         }
 
-        CameraStateEvents.fireCameraOpenEvent();
+        fireCameraOpen();
         return isRdy;
     }
 

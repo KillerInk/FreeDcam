@@ -1,17 +1,19 @@
 package freed.cam.apis.camera1;
 
+import android.graphics.SurfaceTexture;
+
 import freed.cam.apis.basecamera.AbstractCamera;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.events.EventBusHelper;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,ModuleHandler,FocusHandler> {
@@ -48,6 +50,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
             cameraHolder = new CameraHolder(this, Frameworks.Default);
             Log.d(TAG, "create Normal camera");
         }
+        cameraHolder.addEventListner(this);
         moduleHandler = new ModuleHandler(this);
 
         parametersHandler = new ParametersHandler(this);
@@ -64,7 +67,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
     public void initCamera() {
         ((FocusHandler) focusHandler).startListning();
         parametersHandler.LoadParametersFromCamera();
-        CameraStateEvents.fireCameraOpenFinishEvent(this);
+        cameraHolder.fireCameraOpenFinished();
     }
 
     @Override
@@ -113,5 +116,30 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
         {
             Log.WriteEx(ex);
         }
+    }
+
+    @Override
+    public void onCameraOpen() {
+        CameraThreadHandler.initCameraAsync();
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+
+    }
+
+    @Override
+    public void onCameraClose() {
+        preview.close();
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
     }
 }

@@ -2,6 +2,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 
@@ -18,7 +19,7 @@ public class EnableRenderScriptMode extends AbstractParameter {
     {
         settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(valueToSet);
         fireStringValueChanged(valueToSet);
-        FreedApplication.cameraFragmentManager().switchCameraFragment();
+        ActivityFreeDcamMain.cameraFragmentManager().switchCamera();
     }
 
     @Override

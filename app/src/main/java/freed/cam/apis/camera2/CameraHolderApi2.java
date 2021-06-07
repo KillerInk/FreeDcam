@@ -40,7 +40,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.events.CameraStateEvents;
 import freed.utils.Log;
 
 /**
@@ -171,8 +170,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
         finally
         {
-//            mCameraOpenCloseLock.release();
-            CameraStateEvents.fireCameraCloseEvent();
+            fireCameraClose();
             Log.d(TAG, "camera closed");
         }
     }
@@ -220,7 +218,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
 
             Log.d(TAG, "Camera open");
-            CameraStateEvents.fireCameraOpenEvent();
+            fireCameraOpen();
         }
 
         @Override
@@ -231,7 +229,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            CameraStateEvents.fireCameraCloseEvent();
+            fireCameraClose();
         }
 
         @Override
@@ -244,8 +242,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
             }
             errorRecieved = true;
-            CameraStateEvents.fireCameraCloseEvent();
-
+            fireCameraClose();
         }
     };
 }
