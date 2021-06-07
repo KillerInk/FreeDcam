@@ -143,6 +143,8 @@ public class CameraFragmentManager implements Preview.PreviewEvent, CameraHolder
                 }
                 CameraThreadHandler.setCameraInterface(camera);
                 camera.getCameraHolder().addEventListner(this);
+                if (!cameraIsOpen && PreviewSurfaceRdy)
+                    CameraThreadHandler.startCameraAsync();
             }
         }
     }
