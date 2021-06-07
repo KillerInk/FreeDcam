@@ -35,13 +35,6 @@ public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
     protected C cameraUiWrapper;
 
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onFocusCoordinates(FocusCoordinates focusCoordinates)
-    {
-        startTouchFocus(focusCoordinates);
-    }
-
     public class FocusCoordinates
     {
         public int x;
@@ -64,7 +57,9 @@ public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
         focusCoordinates.y = y1;
         focusCoordinates.width = width1;
         focusCoordinates.height = height1;
-        EventBusHelper.post(focusCoordinates);
+        startTouchFocus(focusCoordinates);
+        if (focusEvent != null)
+            focusEvent.FocusStarted(x1,y1);
         //backgroundHandler.sendMessage(backgroundHandler.obtainMessage(MSG_SET_TOUCHTOFOCUS,focusCoordinates));
     }
 

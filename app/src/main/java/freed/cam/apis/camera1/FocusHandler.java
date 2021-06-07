@@ -85,7 +85,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
         }
     };
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
     public void onStringValueChanged(ValueChangedEvent<String> valueChangedEvent)
     {
         if (valueChangedEvent.key == SettingKeys.FocusMode && valueChangedEvent.type == String.class)
@@ -126,7 +126,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
                 }
             }
         }
-    }
+    }*/
 
 
     @Override
@@ -149,15 +149,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
 
     @Override
     public void onFocusLock(boolean locked) {
-
-    }
-
-    @Override
-    public void StartTouchToFocus(int x_input, int y_input,int width, int height)
-    {
-        super.StartTouchToFocus(x_input,y_input,width,height);
-        if (focusEvent != null)
-            focusEvent.FocusStarted(x_input,y_input);
 
     }
 

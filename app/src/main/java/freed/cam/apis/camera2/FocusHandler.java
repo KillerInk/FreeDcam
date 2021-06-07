@@ -76,34 +76,6 @@ public class FocusHandler extends AbstractFocusHandler<Camera2> implements Event
     };
 
 
-    @Subscribe
-    public void onFocusModeValueChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.type != String.class || cameraUiWrapper == null)
-            return;
-        if (valueChangedEvent.key == SettingKeys.FocusMode) {
-            Log.d(TAG, "onFocusModeValueChanged");
-            String val = valueChangedEvent.newValue;
-            if (val.contains("Continous") || val.equals(FreedApplication.getStringFromRessources(R.string.off))) {
-                focusenabled = false;
-                if (focusEvent != null)
-                    focusEvent.TouchToFocusSupported(false);
-            } else {
-                focusenabled = true;
-                if (focusEvent != null)
-                    focusEvent.TouchToFocusSupported(true);
-            }
-        }
-    }
-
-    @Override
-    public void StartTouchToFocus(int x, int y, int width, int height)
-    {
-       super.StartTouchToFocus(x,y,width,height);
-        if (focusEvent != null)
-            focusEvent.FocusStarted(x,y);
-    }
-
     @Override
     protected void startTouchFocus(AbstractFocusHandler.FocusCoordinates viewCoordinates) {
         //logFocusRect(rect);
