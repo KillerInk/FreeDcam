@@ -33,10 +33,7 @@ import freed.utils.Log;
 public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent {
     private final String TAG = CameraApiManager.class.getSimpleName();
 
-    private int fragmentHolderId;
-    private FragmentManager fragmentManager;
-    //private CameraFragmentAbstract cameraFragment;
-    private PreviewFragment previewFragment;
+
 
     private BackgroundHandlerThread backgroundHandlerThread;
     private SettingsManager settingsManager;
@@ -54,10 +51,8 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
         eventList = new ArrayList<>();
     }
 
-    public void init(FragmentManager fragmentManager, int fragmentHolderId)
+    public void init()
     {
-        this.fragmentManager = fragmentManager;
-        this.fragmentHolderId = fragmentHolderId;
         Log.d(TAG,"Create camera BackgroundHandler");
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
@@ -85,7 +80,7 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
         Log.d(TAG, "onResume");
         if (camera == null)
             switchCamera();
-        if (previewFragment != null) {
+        if (previewController.isPreviewInit()) {
             Log.d(TAG, "Reuse CamaraFragment");
         }
         else {
@@ -179,26 +174,10 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
 
     public void changePreviewPostProcessing()
     {
-        if (previewFragment != null) {
-            Log.d(TAG, "unload old Preview");
-            //kill the cam befor the fragment gets removed to make sure when
-            //new cameraFragment gets created and its texture view is created the cam get started
-            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            CameraThreadHandler.stopCameraAsync();
-            FragmentTransaction transaction  = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.remove(previewFragment);
-            transaction.commit();
-            previewFragment = null;
-            previewController.setPreviewEventListner(null);
-        }
-        Log.d(TAG, "load new Preview");
-        previewFragment = new PreviewFragment();
+        CameraThreadHandler.stopCameraAsync();
+        previewController.setPreviewEventListner(null);
+        previewController.changePreviewPostProcessing();
         previewController.setPreviewEventListner(this);
-        FragmentTransaction transaction  = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(fragmentHolderId, previewFragment, previewFragment.getClass().getSimpleName());
-        transaction.commit();
     }
 
     @Override

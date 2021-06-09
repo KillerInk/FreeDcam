@@ -5,6 +5,13 @@ import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.View;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.troop.freedcam.R;
+
+import freed.cam.apis.PreviewFragment;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;
@@ -14,6 +21,21 @@ public class PreviewController implements PreviewControllerInterface
     private static final String TAG = PreviewController.class.getSimpleName();
     private Preview preview;
     PreviewEvent eventListner;
+
+    private int fragmentHolderId;
+    private FragmentManager fragmentManager;
+    //private CameraFragmentAbstract cameraFragment;
+    private PreviewFragment previewFragment;
+
+    public void init(FragmentManager fragmentManager, int fragmentHolderId) {
+        this.fragmentManager = fragmentManager;
+        this.fragmentHolderId = fragmentHolderId;
+    }
+
+    public boolean isPreviewInit()
+    {
+        return previewFragment != null;
+    }
 
     @Override
     public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, HistogramController histogram)
@@ -189,6 +211,27 @@ public class PreviewController implements PreviewControllerInterface
     @Override
     public int getMargineTop() {
         return preview.getPreviewView().getTop();
+    }
+
+    public void changePreviewPostProcessing()
+    {
+        if (previewFragment != null) {
+            Log.d(TAG, "unload old Preview");
+            //kill the cam befor the fragment gets removed to make sure when
+            //new cameraFragment gets created and its texture view is created the cam get started
+            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
+            FragmentTransaction transaction  = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.remove(previewFragment);
+            transaction.commit();
+            previewFragment = null;
+        }
+        Log.d(TAG, "load new Preview");
+        previewFragment = new PreviewFragment();
+        FragmentTransaction transaction  = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        transaction.replace(fragmentHolderId, previewFragment, previewFragment.getClass().getSimpleName());
+        transaction.commit();
     }
 
 

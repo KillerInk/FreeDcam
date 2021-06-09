@@ -184,7 +184,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG,"onCreate: ");
         getLifecycle().addObserver(locationManager);
         mSecureCamera.onCreate();
-        cameraApiManager.init(getSupportFragmentManager(), id.cameraFragmentHolder);
+        cameraApiManager.init();
+        previewController().init(getSupportFragmentManager(), id.cameraFragmentHolder);
         cameraApiManager.addEventListner(this);
         //listen to phone orientation changes
         getLifecycle().addObserver(orientationManager);
