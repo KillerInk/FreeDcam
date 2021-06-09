@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +34,10 @@ import com.troop.freedcam.databinding.SettingsRightmenufragmentBinding;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import freed.ActivityInterface;
+import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
@@ -44,7 +47,7 @@ import freed.cam.ui.themesample.settings.childs.GroupChild;
  * Created by troop on 15.06.2015.
  */
 @AndroidEntryPoint
-public class RightMenuFragment extends AbstractFragment implements SettingsChildClick
+public class RightMenuFragment extends AbstractFragment implements SettingsChildClick, CameraHolderEvent
 {
     private static final String TAG = RightMenuFragment.class.getSimpleName();
     private SettingsChildClick onMenuItemClick;
@@ -55,28 +58,36 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 
     private SettingsRightmenufragmentBinding binding;
 
+    @Inject
+    CameraFragmentManager cameraFragmentManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
         binding = DataBindingUtil.inflate(inflater,layout.settings_rightmenufragment,container,false);
-        fragment_activityInterface = (ActivityInterface)getActivity();
+        cameraFragmentManager.addEventListner(this);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cameraFragmentManager.removeEventListner(this);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         settingchildholder = binding.SettingChildHolder;
-        setCameraToUi(cameraUiWrapper);
     }
 
-    @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper)
+    private void setCameraToUi(CameraWrapperInterface wrapper)
     {
-        super.setCameraToUi(wrapper);
+        if (settingchildholder == null)
+            return;
         settingchildholder.removeAllViews();
-        GroupChild settingsgroup = settingsMenuItemFactory.fillRightSettingsMenu(cameraUiWrapper,getContext(),this);
+        GroupChild settingsgroup = settingsMenuItemFactory.fillRightSettingsMenu(wrapper,getContext(),RightMenuFragment.this);
         if (settingsgroup != null)
             settingchildholder.addView(settingsgroup);
     }
@@ -89,5 +100,31 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment) {
         onMenuItemClick.onSettingsChildClick(item, false);
+    }
+
+    @Override
+    public void onCameraOpen() {
+
+    }
+
+    private Handler handler = new Handler();
+    @Override
+    public void onCameraOpenFinished() {
+        handler.post(() -> setCameraToUi(cameraFragmentManager.getCamera()));
+    }
+
+    @Override
+    public void onCameraClose() {
+        handler.post(() -> setCameraToUi(null));
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
     }
 }

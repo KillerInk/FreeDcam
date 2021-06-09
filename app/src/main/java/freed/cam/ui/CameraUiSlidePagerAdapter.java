@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
@@ -18,7 +17,6 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
     private ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
     private CameraUiFragment cameraUiFragment = new CameraUiFragment();
 
-    private CameraWrapperInterface cameraFragment;
     ScreenSlideFragment.ButtonClick click;
 
     public CameraUiSlidePagerAdapter(FragmentManager fm, ScreenSlideFragment.ButtonClick click) {
@@ -26,22 +24,9 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
         this.click = click;
     }
 
-    public void setCameraFragment(CameraWrapperInterface cameraFragment)
-    {
-        this.cameraFragment = cameraFragment;
-        settingsMenuFragment.setCameraToUi(cameraFragment);
-        cameraUiFragment.setCameraToUi(cameraFragment);
-
-        if (cameraFragment != null)
-            cameraFragment.getModuleHandler().ModuleHasChanged(cameraFragment.getModuleHandler().getCurrentModuleName());
-    }
-
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            if (settingsMenuFragment != null) {
-                settingsMenuFragment.setCameraToUi(cameraFragment);
-            }
             return settingsMenuFragment;
         }
         else if (position == 2) {
@@ -51,8 +36,6 @@ public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
             return screenSlideFragment;
         }
         else {
-            if (cameraUiFragment != null)
-                cameraUiFragment.setCameraToUi(cameraFragment);
             return cameraUiFragment;
         }
     }

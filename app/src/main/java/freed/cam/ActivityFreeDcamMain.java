@@ -112,9 +112,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 //thats the correct behavior because we dont want that the helpview overlay the featuredetector on first start
                 if (uiViewPagerAdapter == null)
                     initScreenSlide();
-                //note the ui that cameraFragment is loaded
-                uiViewPagerAdapter.setCameraFragment(cameraFragmentManager.getCamera());
-
                 SetNightOverlay();
                 if (!FileListController.needStorageAccessFrameWork) {
                     if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))

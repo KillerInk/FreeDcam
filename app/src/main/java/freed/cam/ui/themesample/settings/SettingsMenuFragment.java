@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,10 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.SettingsFragmentBinding;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.CameraFragmentManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -43,6 +47,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 14.06.2015.
  */
+@AndroidEntryPoint
 public class SettingsMenuFragment extends AbstractFragment implements CloseChildClick, SettingsChildClick
 {
     private final String TAG = SettingsMenuFragment.class.getSimpleName();
@@ -56,9 +61,12 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     private int value_menu_status = VALUE_MENU_CLOSED;
 
     private SettingsChildAbstract currentOpendItem;
+    private Handler handler = new Handler();
 
 
     private SettingsFragmentBinding binding;
+    @Inject
+    CameraFragmentManager cameraFragmentManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -78,20 +86,13 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     @Override
     public void onResume() {
         super.onResume();
-        setCameraToUi(cameraUiWrapper);
     }
 
-    @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper)
+    private void setCameraToUi()
     {
-        super.setCameraToUi(wrapper);
         Log.d(TAG, "SetCameraUiWrapper");
         if (value_menu_status != VALUE_MENU_CLOSED)
             closeValueMenu();
-        if (rightMenuFragment != null)
-            rightMenuFragment.setCameraToUi(cameraUiWrapper);
-        if (leftMenuFragment != null)
-            leftMenuFragment.setCameraToUi(cameraUiWrapper);
         value_menu_status = VALUE_MENU_CLOSED;
     }
 

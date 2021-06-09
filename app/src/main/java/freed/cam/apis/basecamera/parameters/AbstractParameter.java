@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.events.EventBusHelper;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
@@ -76,16 +75,6 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     }
 
     @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
-    }
-
-    @Override
     public void setViewState(ViewState viewState) {
         this.viewState = viewState;
         fireViewStateChanged(viewState);
@@ -100,7 +89,6 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireIntValueChanged(int current)
     {
         currentInt = current;
-        //EventBusHelper.post(new ValueChangedEvent<>(key,current, Integer.class));
         notifyPropertyChanged(BR.intValue);
         notifyPropertyChanged(BR.stringValue);
     }
@@ -108,7 +96,6 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireStringValueChanged(String value)
     {
         currentString = value;
-        //EventBusHelper.post(new ValueChangedEvent<>(key,value, String.class));
         notifyPropertyChanged(BR.stringValue);
     }
 
@@ -116,7 +103,6 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireViewStateChanged(ViewState value)
     {
         viewState = value;
-        //EventBusHelper.post(new ValueChangedEvent<>(key,value, ViewState.class));
         notifyPropertyChanged(BR.viewState);
     }
 
@@ -124,7 +110,6 @@ public abstract class AbstractParameter<C extends CameraWrapperInterface> extend
     public void fireStringValuesChanged(String[] value)
     {
         stringvalues = value;
-        //EventBusHelper.post(new ValueChangedEvent<>(key,value, String[].class));
         notifyPropertyChanged(BR.stringValues);
     }
 

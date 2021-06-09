@@ -42,7 +42,6 @@ import com.troop.freedcam.R.string;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -85,7 +84,6 @@ public class HorizontLineFragment extends AbstractFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-        fragment_activityInterface = (ActivityInterface)getActivity();
         view = inflater.inflate(layout.cameraui_horizontline, container, false);
         lineImage = view.findViewById(id.horizontlevelline);
         upImage = view.findViewById(id.horizontlevelup);
@@ -105,7 +103,9 @@ public class HorizontLineFragment extends AbstractFragment {
     }
 
     public void startStopListen(String value) {
-        if(settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on)))
+        if (view == null)
+            return;
+        if(value.equals(FreedApplication.getStringFromRessources(string.on)))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -120,7 +120,6 @@ public class HorizontLineFragment extends AbstractFragment {
 
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
         ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {

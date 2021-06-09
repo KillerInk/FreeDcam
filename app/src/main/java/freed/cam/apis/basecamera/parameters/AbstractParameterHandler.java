@@ -41,6 +41,7 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
+import freed.cam.apis.basecamera.parameters.modes.SelfTimerParameter;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
@@ -86,6 +87,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
         add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
         add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
+        add(SettingsManager.selfTimer, new SelfTimerParameter(SettingsManager.selfTimer));
         applyPreviewPostprocessingVisibility();
         enableRenderScriptMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override

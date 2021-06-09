@@ -21,10 +21,6 @@ package freed.cam.apis.basecamera;
 
 import android.graphics.Rect;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import freed.cam.events.EventBusHelper;
 import freed.utils.Log;
 
 /**

@@ -19,14 +19,13 @@
 
 package freed.cam.apis.basecamera.parameters;
 
-import freed.cam.events.EventBusLifeCycle;
 import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 01.09.2014.
  * This class represent the basic ManualPrameter that get used in ManualcameraFragment
  */
-public interface ParameterInterface extends EventBusLifeCycle
+public interface ParameterInterface
 {
 
     AbstractParameter.ViewState getViewState();
