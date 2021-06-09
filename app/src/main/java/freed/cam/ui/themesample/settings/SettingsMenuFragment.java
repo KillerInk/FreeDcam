@@ -36,7 +36,7 @@ import com.troop.freedcam.databinding.SettingsFragmentBinding;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
@@ -66,7 +66,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
 
     private SettingsFragmentBinding binding;
     @Inject
-    CameraFragmentManager cameraFragmentManager;
+    CameraApiManager cameraApiManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

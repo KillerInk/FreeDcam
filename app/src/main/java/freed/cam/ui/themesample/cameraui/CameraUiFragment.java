@@ -48,7 +48,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
@@ -132,7 +132,7 @@ public class CameraUiFragment extends AbstractFragment implements
     @Inject
     UserMessageHandler userMessageHandler;
     @Inject
-    CameraFragmentManager cameraFragmentManager;
+    CameraApiManager cameraApiManager;
 
     private Handler handler = new Handler();
 
@@ -318,7 +318,7 @@ public class CameraUiFragment extends AbstractFragment implements
         left_ui_items_holder = binding.leftUiHolder;
         right_ui_items_top = binding.rightUiHolderTop;
         addexit();
-        cameraFragmentManager.addEventListner(this);
+        cameraApiManager.addEventListner(this);
         cameraSwitch = binding.cameraSwitch;
 
 
@@ -374,7 +374,7 @@ public class CameraUiFragment extends AbstractFragment implements
             transaction.addToBackStack(null);
             transaction.commit();
         }
-        setCameraToUi(cameraFragmentManager.getCamera());
+        setCameraToUi(cameraApiManager.getCamera());
         checkForUpdate();
 
     }
@@ -418,7 +418,7 @@ public class CameraUiFragment extends AbstractFragment implements
     public void onDestroy() {
         super.onDestroy();
         userMessageHandler.setMessageTextView(null,null);
-        cameraFragmentManager.removeEventListner(this);
+        cameraApiManager.removeEventListner(this);
     }
 
     @Override
@@ -570,7 +570,7 @@ public class CameraUiFragment extends AbstractFragment implements
 
     @Override
     public void onCameraOpenFinished() {
-        handler.post(() -> setCameraToUi(cameraFragmentManager.getCamera()));
+        handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));
     }
 
     @Override

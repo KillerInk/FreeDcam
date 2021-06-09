@@ -34,7 +34,7 @@ import com.troop.freedcam.databinding.SettingsRightmenufragmentBinding;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
@@ -59,21 +59,21 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     private SettingsRightmenufragmentBinding binding;
 
     @Inject
-    CameraFragmentManager cameraFragmentManager;
+    CameraApiManager cameraApiManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
         binding = DataBindingUtil.inflate(inflater,layout.settings_rightmenufragment,container,false);
-        cameraFragmentManager.addEventListner(this);
+        cameraApiManager.addEventListner(this);
         return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        cameraFragmentManager.removeEventListner(this);
+        cameraApiManager.removeEventListner(this);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     private Handler handler = new Handler();
     @Override
     public void onCameraOpenFinished() {
-        handler.post(() -> setCameraToUi(cameraFragmentManager.getCamera()));
+        handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));
     }
 
     @Override

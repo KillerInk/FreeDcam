@@ -21,7 +21,7 @@ public class SettingsChildFeatureDetect extends SettingsChildMenu
     @Override
     public void onClick(View v)
     {
-        ActivityFreeDcamMain.cameraFragmentManager().runFeatureDetector();
+        ActivityFreeDcamMain.cameraApiManager().runFeatureDetector();
     }
 
 

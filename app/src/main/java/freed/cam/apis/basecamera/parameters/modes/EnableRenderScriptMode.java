@@ -18,7 +18,7 @@ public class EnableRenderScriptMode extends AbstractParameter {
     {
         settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(valueToSet);
         fireStringValueChanged(valueToSet);
-        ActivityFreeDcamMain.cameraFragmentManager().changePreviewPostProcessing();
+        ActivityFreeDcamMain.cameraApiManager().changePreviewPostProcessing();
     }
 
     @Override

@@ -41,7 +41,7 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
                     mErrorNum = 0;
                     mErrorMessage = null;
                     //Restart the module
-                    //FreedApplication.cameraFragmentManager().switchCameraFragment();
+                    //FreedApplication.cameraApiManager().switchCameraFragment();
                 }
             }
         }

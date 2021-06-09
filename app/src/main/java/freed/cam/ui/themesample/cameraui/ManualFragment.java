@@ -43,7 +43,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
@@ -85,7 +85,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     private final String TAG = ManualFragment.class.getSimpleName();
     @Inject
-    CameraFragmentManager cameraFragmentManager;
+    CameraApiManager cameraApiManager;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -106,14 +106,14 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
         afBracketSettingsView = view.findViewById(id.manualFragment_afbsettings);
         afBracketSettingsView.setVisibility(View.GONE);
-        cameraFragmentManager.addEventListner(this);
+        cameraApiManager.addEventListner(this);
         onCameraOpenFinished();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        cameraFragmentManager.removeEventListner(this);
+        cameraApiManager.removeEventListner(this);
     }
 
     private void setCameraToUi(CameraWrapperInterface cameraUiWrapper)
@@ -293,7 +293,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 currentButton.SetActive(true);
                 ((AbstractParameter)currentButton.parameter).addOnPropertyChangedCallback(selectedParameterObserver);
 
-                if (currentButton instanceof ManualButtonMF && cameraFragmentManager.getCamera().getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket)))
+                if (currentButton instanceof ManualButtonMF && cameraApiManager.getCamera().getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket)))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
                 else
                     afBracketSettingsView.setVisibility(View.GONE);
@@ -337,7 +337,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     {
         Log.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
-        if (!(cameraFragmentManager.getCamera() instanceof SonyRemoteCamera)) {
+        if (!(cameraApiManager.getCamera() instanceof SonyRemoteCamera)) {
             currentButton.setValueToParameters(progress);
 
         }
@@ -350,7 +350,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (cameraFragmentManager.getCamera() instanceof SonyRemoteCamera) {
+        if (cameraApiManager.getCamera() instanceof SonyRemoteCamera) {
             currentButton.setValueToParameters(currentValuePos);
 
         }
@@ -417,7 +417,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onModuleChanged(String module)
     {
-        if (cameraFragmentManager.getCamera() == null || FreedApplication.getContext() == null)
+        if (cameraApiManager.getCamera() == null || FreedApplication.getContext() == null)
             return;
         if (module.equals(FreedApplication.getStringFromRessources(R.string.module_afbracket)) && seekbar.getVisibility() == View.VISIBLE)
             afBracketSettingsView.setVisibility(View.VISIBLE);
@@ -434,7 +434,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 ar[count++] = pointFs[i].x;
                 ar[count++] = pointFs[i].y;
         }
-        ((ManualToneMapCurveApi2.ToneCurveParameter)cameraFragmentManager.getCamera().getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(ar);
+        ((ManualToneMapCurveApi2.ToneCurveParameter) cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(ar);
     }
 
     public static float[] pointFtoFloatArray(PointF[] pointFs)
@@ -451,7 +451,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onCurveChanged(PointF[] r, PointF[] g, PointF[] b) {
-        ((ManualToneMapCurveApi2.ToneCurveParameter)cameraFragmentManager.getCamera().getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(pointFtoFloatArray(r),pointFtoFloatArray(g),pointFtoFloatArray(b));
+        ((ManualToneMapCurveApi2.ToneCurveParameter) cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.TONE_CURVE_PARAMETER)).setCurveToCamera(pointFtoFloatArray(r),pointFtoFloatArray(g),pointFtoFloatArray(b));
     }
 
     @Override
@@ -476,7 +476,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onCameraOpenFinished() {
-        handler.post(() -> setCameraToUi(cameraFragmentManager.getCamera()));
+        handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));
     }
 
     @Override

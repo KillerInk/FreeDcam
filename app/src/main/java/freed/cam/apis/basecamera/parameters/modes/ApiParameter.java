@@ -24,7 +24,7 @@ import android.text.TextUtils;
 
 import javax.inject.Inject;
 
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingsManager;
 
@@ -35,12 +35,12 @@ public class ApiParameter extends AbstractParameter
 {
 
     private SettingsManager settingsManager;
-    private CameraFragmentManager cameraFragmentManager;
+    private CameraApiManager cameraApiManager;
     @Inject
-    public ApiParameter(SettingsManager settingsManager,CameraFragmentManager cameraFragmentManager) {
+    public ApiParameter(SettingsManager settingsManager, CameraApiManager cameraApiManager) {
         super(null);
         this.settingsManager = settingsManager;
-        this.cameraFragmentManager = cameraFragmentManager;
+        this.cameraApiManager = cameraApiManager;
         fireStringValueChanged(getStringValue());
     }
 
@@ -68,8 +68,8 @@ public class ApiParameter extends AbstractParameter
     @Override
     public void setStringValue(String valueToSet, boolean setToCamera) {
         settingsManager.setCamApi(valueToSet);
-        cameraFragmentManager.unloadCamera();
-        cameraFragmentManager.switchCamera();
+        cameraApiManager.unloadCamera();
+        cameraApiManager.switchCamera();
         fireStringValueChanged(valueToSet);
     }
 

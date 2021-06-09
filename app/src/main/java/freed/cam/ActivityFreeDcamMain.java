@@ -34,7 +34,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.events.DisableViewPagerTouchEvent;
@@ -53,7 +53,7 @@ import freed.utils.Log;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
-import hilt.CameraFragmentManagerEntryPoint;
+import hilt.CameraApiManagerEntryPoint;
 import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
 import hilt.PreviewControllerEntryPoint;
@@ -88,9 +88,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return getEntryPointFromActivity(PreviewControllerEntryPoint.class).previewController();
     }
 
-    public static CameraFragmentManager cameraFragmentManager()
+    public static CameraApiManager cameraApiManager()
     {
-        return getEntryPointFromActivity(CameraFragmentManagerEntryPoint.class).cameraFragmentManager();
+        return getEntryPointFromActivity(CameraApiManagerEntryPoint.class).cameraApiManager();
     }
 
     public static UserMessageHandler userMessageHandler()
@@ -170,7 +170,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private SecureCamera mSecureCamera = new SecureCamera(this);
     private LinearLayout nightoverlay;
     @Inject
-    public CameraFragmentManager cameraFragmentManager;
+    public CameraApiManager cameraApiManager;
     @Inject
     public SettingsManager settingsManager;
     @Inject
@@ -184,8 +184,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG,"onCreate: ");
         getLifecycle().addObserver(locationManager);
         mSecureCamera.onCreate();
-        cameraFragmentManager.init(getSupportFragmentManager(), id.cameraFragmentHolder);
-        cameraFragmentManager.addEventListner(this);
+        cameraApiManager.init(getSupportFragmentManager(), id.cameraFragmentHolder);
+        cameraApiManager.addEventListner(this);
         //listen to phone orientation changes
         getLifecycle().addObserver(orientationManager);
     }
@@ -194,7 +194,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy");
-        cameraFragmentManager.destroy();
+        cameraApiManager.destroy();
         getLifecycle().removeObserver(locationManager);
         getLifecycle().removeObserver(orientationManager);
     }
@@ -234,7 +234,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (!settingsManager.isInit())
             settingsManager.init();
 
-        cameraFragmentManager.onResume();
+        cameraApiManager.onResume();
         if (!settingsManager.appVersionHasChanged() && uiViewPagerAdapter == null)
             initScreenSlide();
     }
@@ -251,7 +251,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onPauseTasks() {
-        cameraFragmentManager.onPause();
+        cameraApiManager.onPause();
         settingsManager.save();
         Log.d(TAG, "onPauseTasks() ");
         if(orientationManager != null)
@@ -271,12 +271,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (activityIsResumed && (cameraFragmentManager != null && cameraFragmentManager.getCamera() != null && cameraFragmentManager.getCamera().getParameterHandler() != null) ) {
+        if (activityIsResumed && (cameraApiManager != null && cameraApiManager.getCamera() != null && cameraApiManager.getCamera().getParameterHandler() != null) ) {
             Log.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
             try {
-                String es = cameraFragmentManager.getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).getStringValue();
+                String es = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).getStringValue();
                 if(es == null)
                     super.onKeyDown(keyCode,event);
                 if (es.equals("Vol+"))
@@ -297,8 +297,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     || keyCode == appSettingsKeyShutter
                     || keyCode == KeyEvent.KEYCODE_UNKNOWN
                     || keyCode == KeyEvent.KEYCODE_CAMERA)
-            && (cameraFragmentManager != null && cameraFragmentManager.getCamera() != null)) {
-                cameraFragmentManager.getCamera().getModuleHandler().startWork();
+            && (cameraApiManager != null && cameraApiManager.getCamera() != null)) {
+                cameraApiManager.getCamera().getModuleHandler().startWork();
                 return true;
             }
             if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)

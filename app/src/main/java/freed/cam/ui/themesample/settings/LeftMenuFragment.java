@@ -35,7 +35,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
@@ -59,7 +59,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     public SettingsMenuItemFactory settingsMenuItemFactory;
 
     @Inject
-    CameraFragmentManager cameraFragmentManager;
+    CameraApiManager cameraApiManager;
 
     private SettingsLeftmenufragmentBinding binding;
 
@@ -70,7 +70,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         binding = DataBindingUtil.inflate(inflater,layout.settings_leftmenufragment,container,false);
 
         settingsChildHolder = binding.SettingChildHolder;
-        cameraFragmentManager.addEventListner(this);
+        cameraApiManager.addEventListner(this);
         return binding.getRoot();
     }
 
@@ -78,7 +78,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        cameraFragmentManager.removeEventListner(this);
+        cameraApiManager.removeEventListner(this);
     }
 
     private void setCameraToUi(CameraWrapperInterface wrapper) {
@@ -113,7 +113,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
     @Override
     public void onCameraOpenFinished() {
-        handler.post(() -> setCameraToUi(cameraFragmentManager.getCamera()));
+        handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));
     }
 
     @Override

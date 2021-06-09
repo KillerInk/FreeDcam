@@ -30,8 +30,8 @@ import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
-public class CameraFragmentManager implements Preview.PreviewEvent, CameraHolderEvent {
-    private final String TAG = CameraFragmentManager.class.getSimpleName();
+public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent {
+    private final String TAG = CameraApiManager.class.getSimpleName();
 
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
@@ -47,7 +47,7 @@ public class CameraFragmentManager implements Preview.PreviewEvent, CameraHolder
     private List<CameraHolderEvent> eventList;
 
     @Inject
-    public CameraFragmentManager(SettingsManager settingsManager, PreviewController previewController)
+    public CameraApiManager(SettingsManager settingsManager, PreviewController previewController)
     {
         this.settingsManager = settingsManager;
         this.previewController = previewController;

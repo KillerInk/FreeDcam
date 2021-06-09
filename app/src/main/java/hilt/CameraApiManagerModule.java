@@ -5,18 +5,18 @@ import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.android.scopes.ActivityScoped;
-import freed.cam.apis.CameraFragmentManager;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.settings.SettingsManager;
 
 @Module
 @InstallIn(ActivityComponent.class)
-public class CameraFragmentManagerModule {
+public class CameraApiManagerModule {
 
     @Provides
     @ActivityScoped
-    public static CameraFragmentManager cameraFragmentManager(SettingsManager settingsManager,PreviewController previewController)
+    public static CameraApiManager cameraApiManager(SettingsManager settingsManager, PreviewController previewController)
     {
-        return new CameraFragmentManager(settingsManager, previewController);
+        return new CameraApiManager(settingsManager, previewController);
     }
 }
