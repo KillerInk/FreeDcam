@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -166,6 +167,7 @@ public class CameraUiFragment extends AbstractFragment implements
         UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
         //exit.onStringValueChanged("");
         exit.setBackgroundResource(R.drawable.quck_set_exit);
+        exit.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         right_ui_items_top.addView(exit);
     }
 
@@ -254,6 +256,7 @@ public class CameraUiFragment extends AbstractFragment implements
                 moduleSwitch.SetCameraUiWrapper(wrapper);
                 moduleSwitch.SetMenuItemClickListner(this, false);
                 moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
+                moduleSwitch.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                 right_ui_items_top.addView(moduleSwitch);
 
                 if (parameterHandler.get(SettingKeys.Focuspeak) != null) {
@@ -262,12 +265,14 @@ public class CameraUiFragment extends AbstractFragment implements
                     focusPeak.SetCameraUiWrapper(wrapper);
                     focusPeak.SetUiItemClickListner(this);
                     focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
+                    focusPeak.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                     right_ui_items_top.addView(focusPeak);
                 }
 
                 cameraSwitch.setVisibility(View.VISIBLE);
                 cameraSwitch.SetCameraUiWrapper(wrapper);
                 cameraSwitch.SetUiItemClickListner(this);
+                cameraSwitch.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                 focusImageHandler.SetCamerUIWrapper(wrapper);
 
                 shutterButton.setVisibility(View.VISIBLE);

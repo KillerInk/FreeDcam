@@ -232,16 +232,17 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center|center_horizontal|bottom"
                 android:id="@+id/right_ui_holder_top">
 
-                <freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak
+                <!--<freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak
                     android:layout_width="@dimen/ui_settings_item_width"
                     android:layout_height="@dimen/ui_settings_item_height"
                     android:id="@+id/ui_focuspeak"
                     app:HeaderText="@string/setting_focuspeak_header"
                     android:background="@drawable/quck_set_zebra"
                     android:layout_marginTop="8dp"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal" />-->
 
             </LinearLayout>
 
