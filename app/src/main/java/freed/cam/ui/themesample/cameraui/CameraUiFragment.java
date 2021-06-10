@@ -38,6 +38,7 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
@@ -67,8 +68,8 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildExit;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildModuleSwitch;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
+import freed.cam.ui.themesample.cameraui.modelview.InfoOverlayModelView;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
-import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -112,7 +113,8 @@ public class CameraUiFragment extends AbstractFragment implements
     //Handel the animation/visibility for focus trigger, meteringarea, manualwbarea
     private FocusImageHandler focusImageHandler;
     //show the time,sdspace, pic/video size
-    private SampleInfoOverlayHandler infoOverlayHandler;
+    private InfoOverlayModelView infoOverlayModelView;
+    //private SampleInfoOverlayHandler infoOverlayHandler;
     //holds guide
     private GuideHandler guideHandler;
 
@@ -128,6 +130,7 @@ public class CameraUiFragment extends AbstractFragment implements
 
     private LinearLayout left_ui_items_holder;
     private LinearLayout right_ui_items_top;
+
     @Inject
     public SettingsManager settingsManager;
     @Inject
@@ -281,7 +284,7 @@ public class CameraUiFragment extends AbstractFragment implements
                 guideHandler.setCameraUiWrapper(wrapper);
 
                 horizontLineFragment.setCameraUiWrapper(wrapper);
-                infoOverlayHandler.setCameraUIWrapper(wrapper);
+                //infoOverlayHandler.setCameraUIWrapper(wrapper);
                 shutterButton.setVisibility(View.VISIBLE);
                 aelock.setVisibility(View.VISIBLE);
                 aelock.SetParameter(wrapper.getParameterHandler().get(SettingKeys.ExposureLock));
@@ -326,8 +329,12 @@ public class CameraUiFragment extends AbstractFragment implements
         cameraApiManager.addEventListner(this);
         cameraSwitch = binding.cameraSwitch;
 
-
-        infoOverlayHandler = new SampleInfoOverlayHandler(view);
+        infoOverlayModelView = new ViewModelProvider(this).get(InfoOverlayModelView.class);
+        getLifecycle().addObserver(infoOverlayModelView);
+        infoOverlayModelView.setCameraApiManager(cameraApiManager);
+        infoOverlayModelView.setSettingsManager(settingsManager);
+        binding.infoOverlay.setInfoOverlayModel(infoOverlayModelView.getInfoOverlayModel());
+        //infoOverlayHandler = new SampleInfoOverlayHandler(view);
 
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
@@ -429,13 +436,15 @@ public class CameraUiFragment extends AbstractFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        infoOverlayHandler.StartUpdating();
+        //infoOverlayModelView.start();
+        //infoOverlayHandler.StartUpdating();
     }
 
     @Override
     public void onPause()
     {
-        infoOverlayHandler.StopUpdating();
+        //infoOverlayModelView.stop();
+        //infoOverlayHandler.StopUpdating();
         settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(manualsettingsIsOpen);
         super.onPause();
 

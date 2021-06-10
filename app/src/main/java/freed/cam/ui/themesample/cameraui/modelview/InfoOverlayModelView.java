@@ -1,34 +1,14 @@
-/*
- *
- *     Copyright (C) 2015 Ingo Fuchs
- *     This program is free software; you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation; either version 2 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License along
- *     with this program; if not, write to the Free Software Foundation, Inc.,
- *     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * /
- */
+package freed.cam.ui.themesample.cameraui.modelview;
 
-package freed.cam.ui.themesample.handler;
-
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.StatFs;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ViewModel;
 
 import com.troop.freedcam.R;
 
@@ -36,28 +16,23 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import dagger.hilt.android.qualifiers.ActivityContext;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera1.FocusHandler;
+import freed.cam.ui.themesample.cameraui.model.InfoOverlayModel;
+import freed.cam.ui.themesample.cameraui.service.BatteryService;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.utils.Log;
+import freed.utils.BackgroundHandlerThread;
 
-/**
- * Created by troop on 14.06.2015.
- */
-public abstract class AbstractInfoOverlayHandler
-{
-    private final Handler handler;
-    private CameraWrapperInterface cameraUiWrapper;
-    private boolean started;
-    private boolean isStopped;
-    private final Context context;
-
-    String batteryLevel;
-    private final BatteryBroadCastListner batteryBroadCastListner;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    String timeString;
+@HiltViewModel
+public class InfoOverlayModelView extends ViewModel implements LifecycleObserver {
 
     //this holds the format for video or picture
     private String format;
@@ -66,65 +41,88 @@ public abstract class AbstractInfoOverlayHandler
 
     String storageSpace;
     private DecimalFormat decimalFormat;
-    private SettingsManager settingsManager;
 
     private final String[] units = { "B", "KB", "MB", "GB", "TB" };
+    private boolean started;
+    private boolean isStopped;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    AbstractInfoOverlayHandler(Context context)
+    private SettingsManager settingsManager;
+    private BatteryService batteryService;
+    private CameraApiManager cameraApiManager;
+    private InfoOverlayModel infoOverlayModel;
+    private BackgroundHandlerThread backgroundHandlerThread;
+
+    @Inject
+    public InfoOverlayModelView(@ApplicationContext Context context)
     {
-        this.context = context;
-        handler = new Handler();
-        batteryBroadCastListner = new BatteryBroadCastListner();
-        decimalFormat = new DecimalFormat("#,##0.#");
-        settingsManager = FreedApplication.settingsManager();
+        this.batteryService = new BatteryService(context);
+        setCameraApiManager(cameraApiManager);
+        infoOverlayModel = new InfoOverlayModel();
+        backgroundHandlerThread = new BackgroundHandlerThread("InfoOverlay");
     }
 
-    public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
+    public void setCameraApiManager(CameraApiManager cameraApiManager)
     {
-        cameraUiWrapper = cameraUIWrapper;
+        this.cameraApiManager = cameraApiManager;
+    }
 
+    public void setSettingsManager(SettingsManager settingsManager)
+    {
+        this.settingsManager = settingsManager;
+    }
+
+    public InfoOverlayModel getInfoOverlayModel() {
+        return infoOverlayModel;
+    }
+
+    public CameraApiManager getCameraApiManager() {
+        return cameraApiManager;
+    }
+
+    public SettingsManager getSettingsManager() {
+        return settingsManager;
+    }
+
+
+    BatteryService.BatteryEvent batteryEvent = new BatteryService.BatteryEvent() {
+        @Override
+        public void onBatteryChanged(String batterylvl) {
+            infoOverlayModel.setBatteryLvl(batterylvl);
+        }
+    };
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void start()
+    {
+        batteryService.setBatteryEventListner(batteryEvent);
+        batteryService.startListen();
+        backgroundHandlerThread.create();
+        started = true;
+        startLooperThread();
+    }
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void stop()
+    {
+        started = false;
+        batteryService.stopListen();
+        backgroundHandlerThread.destroy();
+        batteryService.setBatteryEventListner(null);
     }
 
     private void startLooperThread()
     {
         if (started)
-            handler.postDelayed(runner, 1000);
-    }
-
-    public void StartUpdating()
-    {
-        started = true;
-        context.registerReceiver(batteryBroadCastListner, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        startLooperThread();
-    }
-
-    public void StopUpdating()
-    {
-        started = false;
-        handler.removeCallbacks(runner);
-        try {
-            context.unregisterReceiver(batteryBroadCastListner);
-        }
-        catch (IllegalArgumentException ex) {
-            Log.WriteEx(ex);
-        }
-    }
-
-    class BatteryBroadCastListner extends BroadcastReceiver
-    {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            batteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)+"%";
-        }
+            backgroundHandlerThread.executeDelayed(runner, 1000);
     }
 
     private Runnable runner = new Runnable() {
         @Override
         public void run()
         {
-            timeString = dateFormat.format(new Date());
-            if (cameraUiWrapper != null){
+            infoOverlayModel.setTime(dateFormat.format(new Date()));
+            if (cameraApiManager.getCamera() != null){
                 try {
                     getFormat();
                 }
@@ -138,24 +136,17 @@ public abstract class AbstractInfoOverlayHandler
             {
                 format = "";
             }
-            UpdateViews();
+            infoOverlayModel.setStorageSpace(storageSpace);
+            infoOverlayModel.setSize(size);
             startLooperThread();
-
         }
     };
 
-
-
-    void UpdateViews()
-    {
-
-    }
-
     private void getFormat()
     {
-        if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
+        if (cameraApiManager.getCamera().getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
-            ParameterInterface videoprofile = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
+            ParameterInterface videoprofile = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.VideoProfiles);
             if (videoprofile != null)
                 size = videoprofile.getStringValue();
             else
@@ -163,13 +154,13 @@ public abstract class AbstractInfoOverlayHandler
         }
         else
         {
-            ParameterInterface pictureFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat);
+            ParameterInterface pictureFormat = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.PictureFormat);
             if (pictureFormat != null)
                 format = pictureFormat.getStringValue();
             else
                 format = "";
 
-            ParameterInterface pictureSize = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize);
+            ParameterInterface pictureSize = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.PictureSize);
             if (pictureSize != null)
                 size = pictureSize.getStringValue();
             else
@@ -182,7 +173,7 @@ public abstract class AbstractInfoOverlayHandler
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
+            if(!cameraApiManager.getCamera().getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
                 storageSpace = Avail4PIC();
             else
                 storageSpace = readableFileSize(SDspace());
@@ -198,16 +189,16 @@ public abstract class AbstractInfoOverlayHandler
     private String readableFileSize(long size) {
         if( size < 524288000 ){ //at least leave 500MB so that OS can work properly.
             //set not enough storage recording state
-            cameraUiWrapper.getModuleHandler().SetIsLowStorage(true);
+            cameraApiManager.getCamera().getModuleHandler().SetIsLowStorage(true);
             if( !isStopped ) {
                 //low storage reached; automatically stop the video.
-                cameraUiWrapper.getModuleHandler().startWork();
+                cameraApiManager.getCamera().getModuleHandler().startWork();
                 isStopped = true;
             }
         }
         else{
             isStopped = false;
-            cameraUiWrapper.getModuleHandler().SetIsLowStorage(false);
+            cameraApiManager.getCamera().getModuleHandler().SetIsLowStorage(false);
         }
 
         if(size <= 0) return "0";
@@ -247,7 +238,7 @@ public abstract class AbstractInfoOverlayHandler
         else
         {
             StatFs stat = new StatFs(System.getenv("SECONDARY_STORAGE"));
-            if(VERSION.SDK_INT > 17)
+            if(Build.VERSION.SDK_INT > 17)
                 bytesAvailable = stat.getFreeBytes();
             else
             {
@@ -257,8 +248,4 @@ public abstract class AbstractInfoOverlayHandler
         }
         return bytesAvailable;
     }
-
-
-
-
 }

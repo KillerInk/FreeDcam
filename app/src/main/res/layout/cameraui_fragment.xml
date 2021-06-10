@@ -54,7 +54,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/cameraui_settings_margin_right" />
 
-    <LinearLayout
+    <include layout="@layout/cameraui_info_overlay"
+        android:id="@+id/info_overlay"/>
+
+    <!--<LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -183,7 +186,7 @@
             android:paddingLeft="5dp"
             android:text=" "
             android:visibility="gone" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/userMessageHolder"
