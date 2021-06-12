@@ -77,8 +77,8 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
         if (!focusenabled)
             return;
 
-        Rect sensorSize =  ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        logRect(sensorSize);
+        Rect sensorSize =  cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        logFocusRect(sensorSize);
         int areasize = (sensorSize.width() /10);
         float xf = (float)viewCoordinates.x * sensorSize.width() / viewCoordinates.width;
         float yf = (float)viewCoordinates.y * sensorSize.height() /  viewCoordinates.height;
@@ -121,7 +121,7 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
     public void SetMeteringAreas(int x, int y, int width, int height)
     {
         int areasize = (width/8)/2;
-        Rect sensor_size = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        Rect sensor_size = cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
 
         int left = (x - areasize) * sensor_size.right /width;
 

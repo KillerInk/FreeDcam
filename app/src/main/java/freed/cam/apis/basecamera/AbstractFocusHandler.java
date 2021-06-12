@@ -56,7 +56,6 @@ public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
         startTouchFocus(focusCoordinates);
         if (focusEvent != null)
             focusEvent.FocusStarted(x1,y1);
-        //backgroundHandler.sendMessage(backgroundHandler.obtainMessage(MSG_SET_TOUCHTOFOCUS,focusCoordinates));
     }
 
     public abstract void SetMeteringAreas(int x, int y, int width, int height);
@@ -69,8 +68,4 @@ public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
         Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }
 
-    protected void logRect(Rect rect)
-    {
-        Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
-    }
 }
