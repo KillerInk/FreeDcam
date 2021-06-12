@@ -29,6 +29,7 @@ import freed.cam.apis.featuredetector.camera2.CameraControlModeDetector;
 import freed.cam.apis.featuredetector.camera2.ColorCorrectionModeDetector;
 import freed.cam.apis.featuredetector.camera2.ColorModeDetector;
 import freed.cam.apis.featuredetector.camera2.DenoisParameterDetector;
+import freed.cam.apis.featuredetector.camera2.DistortionCorrectionDetector;
 import freed.cam.apis.featuredetector.camera2.EdgeModeDetector;
 import freed.cam.apis.featuredetector.camera2.EvDetector;
 import freed.cam.apis.featuredetector.camera2.ExposureTimeDetector;
@@ -95,6 +96,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(VideoStabilizationModeDetector.class);
         parameter2Detectors.add(DenoisParameterDetector.class);
         parameter2Detectors.add(PictureFormatDetector.class);
+        parameter2Detectors.add(DistortionCorrectionDetector.class);
         parameter2Detectors.add(PictureSizeDetector.class);
         //call this after PictureSizes got detected. it depends on the picturesizes
         parameter2Detectors.add(VideoMediaProfilesDetector.class);

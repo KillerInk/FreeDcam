@@ -24,6 +24,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 
 import androidx.databinding.Observable;
@@ -109,6 +110,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.Denoise, new BaseModeApi2(cameraUiWrapper, SettingKeys.Denoise,CaptureRequest.NOISE_REDUCTION_MODE));
         if (settingsManager.get(SettingKeys.EDGE_MODE).isSupported())
             add(SettingKeys.EDGE_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.EDGE_MODE,CaptureRequest.EDGE_MODE));
+        if (settingsManager.get(SettingKeys.DISTORTION_CORRECTION_MODE).isSupported() && Build.VERSION.SDK_INT >= VERSION_CODES.P)
+            add(SettingKeys.DISTORTION_CORRECTION_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.DISTORTION_CORRECTION_MODE,CaptureRequest.DISTORTION_CORRECTION_MODE));
+
         if (settingsManager.get(SettingKeys.OIS_MODE).isSupported())
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
         if (settingsManager.get(SettingKeys.FocusMode).isSupported()) {

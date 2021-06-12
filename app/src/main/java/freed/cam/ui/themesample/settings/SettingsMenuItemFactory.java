@@ -458,6 +458,13 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
+            if (params.get(SettingKeys.DISTORTION_CORRECTION_MODE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.DISTORTION_CORRECTION_MODE), R.string.setting_distortion_header, R.string.setting_distortion_description);
+                ton.SetUiItemClickListner(click);
+                settingsgroup.addView(ton);
+            }
+
+
             if (params.get(SettingKeys.OIS_MODE) != null) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.OIS_MODE), R.string.setting_ois_header, R.string.setting_ois_description);
                 ton.SetUiItemClickListner(click);

@@ -101,6 +101,7 @@ public class SettingKeys{
     public final static Key<SettingMode> thirdSensorSize = new Key(SettingMode.class, R.string.aps_thirdSensorSize);
 
     public final static Key<SettingMode> EDGE_MODE = new Key(SettingMode.class, R.string.aps_edgemode);
+    public final static Key<SettingMode> DISTORTION_CORRECTION_MODE = new Key(SettingMode.class, R.string.aps_distortionmode);
     public final static Key<SettingMode> COLOR_CORRECTION_MODE = new Key(SettingMode.class, R.string.aps_colorcorrectionmode);
     public final static Key<SettingMode> HOT_PIXEL_MODE = new Key(SettingMode.class, R.string.aps_hotpixel);
     public final static Key<SettingMode> TONE_MAP_MODE = new Key(SettingMode.class, R.string.aps_tonemapmode);
