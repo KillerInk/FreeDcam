@@ -58,6 +58,7 @@ import freed.cam.apis.featuredetector.camera2.huawei.SecondarySensorSizeDetector
 import freed.cam.apis.featuredetector.camera2.huawei.WhitebalanceRangeDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.HistogramSupportedDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.VideoHdr10Detector;
+import freed.cam.apis.featuredetector.camera2.xiaomi.ArcDistortionDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ProVideoLogDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.VideoRecordControl;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
@@ -99,6 +100,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(PictureFormatDetector.class);
         parameter2Detectors.add(DistortionCorrectionDetector.class);
         parameter2Detectors.add(FaceModeDetector.class);
+        parameter2Detectors.add(ArcDistortionDetector.class);
         parameter2Detectors.add(PictureSizeDetector.class);
         //call this after PictureSizes got detected. it depends on the picturesizes
         parameter2Detectors.add(VideoMediaProfilesDetector.class);
