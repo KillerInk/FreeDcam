@@ -112,6 +112,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.EDGE_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.EDGE_MODE,CaptureRequest.EDGE_MODE));
         if (settingsManager.get(SettingKeys.DISTORTION_CORRECTION_MODE).isSupported() && Build.VERSION.SDK_INT >= VERSION_CODES.P)
             add(SettingKeys.DISTORTION_CORRECTION_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.DISTORTION_CORRECTION_MODE,CaptureRequest.DISTORTION_CORRECTION_MODE));
+        if (settingsManager.get(SettingKeys.FACE_DETECTOR_MODE).isSupported())
+            add(SettingKeys.FACE_DETECTOR_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.FACE_DETECTOR_MODE,CaptureRequest.STATISTICS_FACE_DETECT_MODE));
+
 
         if (settingsManager.get(SettingKeys.OIS_MODE).isSupported())
             add(SettingKeys.OIS_MODE, new BaseModeApi2(cameraUiWrapper, SettingKeys.OIS_MODE,CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));

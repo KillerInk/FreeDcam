@@ -464,6 +464,12 @@ public class SettingsMenuItemFactory
                 settingsgroup.addView(ton);
             }
 
+            if (params.get(SettingKeys.FACE_DETECTOR_MODE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.FACE_DETECTOR_MODE), R.string.setting_facemode_header, R.string.setting_facemode_description);
+                ton.SetUiItemClickListner(click);
+                settingsgroup.addView(ton);
+            }
+
 
             if (params.get(SettingKeys.OIS_MODE) != null) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.OIS_MODE), R.string.setting_ois_header, R.string.setting_ois_description);

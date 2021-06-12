@@ -168,6 +168,9 @@
     <string name="setting_distortion_header">Distortion Correction: </string>
     <string name="setting_distortion_description"></string>
 
+    <string name="setting_facemode_header">Face Dectection: </string>
+    <string name="setting_facemode_description"></string>
+
     <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
     <string name="setting_objecttrack_header">Object Tracking: </string>
     <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>

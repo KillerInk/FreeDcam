@@ -53,6 +53,7 @@
     <string name="aps_controlmode" translatable="false">controlmode</string>
     <string name="aps_edgemode" translatable="false">edgemode</string>
     <string name="aps_distortionmode" translatable="false">distortionmode</string>
+    <string name="aps_facemode" translatable="false">facemode</string>
     <string name="aps_digitalimagestabmode" translatable="false">digitalimagestabmode</string>
     <string name="aps_hotpixel" translatable="false">hotpixel</string>
     <string name="aps_ae_priortiy" translatable="false">aepritority</string>

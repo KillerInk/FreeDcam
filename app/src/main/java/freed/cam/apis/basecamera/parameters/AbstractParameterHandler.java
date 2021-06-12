@@ -168,6 +168,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setAppSettingsToCamera(SettingsManager.EDGE_MODE,false);
         setAppSettingsToCamera(SettingsManager.HOT_PIXEL_MODE,false);
         setAppSettingsToCamera(SettingsManager.DISTORTION_CORRECTION_MODE,false);
+        setAppSettingsToCamera(SettingsManager.FACE_DETECTOR_MODE,false);
         setAppSettingsToCamera(SettingsManager.TONE_MAP_MODE,false);
         setAppSettingsToCamera(SettingsManager.CONTROL_MODE,false);
         setAppSettingsToCamera(SettingsManager.INTERVAL_DURATION,false);
