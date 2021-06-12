@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.UpdateScreenSlide;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
@@ -143,7 +141,6 @@ public class FileListController {
             }
             SortFileHolder(files);
             fireNotifyFilesChanged();
-            EventBusHelper.post(new UpdateScreenSlide());
         }
     }
 

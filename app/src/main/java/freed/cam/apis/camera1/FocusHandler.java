@@ -28,8 +28,6 @@ import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -38,7 +36,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusHandler extends AbstractFocusHandler implements FocusEvents, EventBusLifeCycle
+public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 {
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported;
@@ -53,15 +51,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
         settingsManager = FreedApplication.settingsManager();
     }
 
-    @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
-    }
 
     public Observable.OnPropertyChangedCallback focusmodeObserver =  new Observable.OnPropertyChangedCallback() {
         @Override
@@ -80,49 +69,6 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, E
             }
         }
     };
-
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onStringValueChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.FocusMode && valueChangedEvent.type == String.class)
-        {
-            if (settingsManager.getFrameWork() != Frameworks.MTK) {
-                isTouchSupported = valueChangedEvent.newValue.equals("auto") || valueChangedEvent.newValue.equals("macro") || valueChangedEvent.newValue.equals("touch");
-                if (focusEvent != null)
-                    focusEvent.TouchToFocusSupported(isTouchSupported);
-            }
-            else {
-                if (focusEvent != null) {
-                    aeMeteringSupported = true;
-                    focusEvent.TouchToFocusSupported(true);
-                }
-            }
-        }
-        else if (valueChangedEvent.key == SettingKeys.ExposureMode && valueChangedEvent.type == String.class)
-        {
-            if(settingsManager.getFrameWork() != Frameworks.MTK)
-            {
-                if (valueChangedEvent.newValue.contains("spot")) {
-                    if (focusEvent != null) {
-                        aeMeteringSupported = true;
-                        focusEvent.AEMeteringSupported(true);
-                    }
-                } else {
-                    if (focusEvent != null) {
-                        aeMeteringSupported = false;
-                        focusEvent.AEMeteringSupported(false);
-                    }
-                }
-            }
-            else
-            {
-                if (focusEvent != null) {
-                    aeMeteringSupported = true;
-                    focusEvent.AEMeteringSupported(true);
-                }
-            }
-        }
-    }*/
 
 
     @Override

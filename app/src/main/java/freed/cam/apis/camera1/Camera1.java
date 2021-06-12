@@ -67,7 +67,6 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
 
     @Override
     public void initCamera() {
-        ((FocusHandler) focusHandler).startListning();
         parametersHandler.LoadParametersFromCamera();
         cameraHolder.fireCameraOpenFinished();
     }

@@ -33,15 +33,13 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
 import freed.utils.Log;
 
 /**
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class FocusHandler extends AbstractFocusHandler<Camera2> implements EventBusLifeCycle
+public class FocusHandler extends AbstractFocusHandler<Camera2>
 {
     private int mState;
     private boolean focusenabled;
@@ -158,13 +156,4 @@ public class FocusHandler extends AbstractFocusHandler<Camera2> implements Event
         return focusenabled;
     }
 
-    @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
-    }
 }

@@ -53,7 +53,6 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void initCamera() {
         Log.d(TAG,"initCamera");
         captureSessionHandler.CreatePreviewRequestBuilder();
-        ((FocusHandler) focusHandler).startListning();
         parametersHandler.Init();
         //cameraHolder.SetSurface(getPreview().getSurfaceTexture());
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
@@ -78,8 +77,6 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
             if (cameraHolder != null)
                 cameraHolder.CloseCamera();
             cameraIsOpen = false;
-            if (focusHandler != null)
-                ((FocusHandler) focusHandler).stopListning();
         }
         catch (NullPointerException ex)
         {
