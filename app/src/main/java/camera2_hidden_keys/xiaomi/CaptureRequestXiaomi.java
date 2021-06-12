@@ -74,6 +74,7 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
     public static final CaptureRequest.Key<Integer> VIDEO_RECORD_CONTROL;
     public static final CaptureRequest.Key<Byte> RECORDING_END_STREAM;
     public static final CaptureRequest.Key<Byte> DISTORTION_CURRENTMODE;
+    public static final CaptureRequest.Key<Byte> SUPERLOWLIGHTRAW_CURRENTMODE;
 
 
 
@@ -109,6 +110,7 @@ public class CaptureRequestXiaomi extends AbstractCaptureRequest {
         VIDEO_RECORD_CONTROL = getKeyType("xiaomi.video.recordControl", Integer.class);
         RECORDING_END_STREAM = getKeyType("org.quic.camera.recording.endOfStream", Byte.class);
         DISTORTION_CURRENTMODE = getKeyType("com.arcsoft.node.distortioncorrection.CurrentMode", Byte.class);
+        SUPERLOWLIGHTRAW_CURRENTMODE = getKeyType("com.arcsoft.node.superlowlightraw.CurrentMode", Byte.class);
         AUTOZOOM_SCALE_OFFSET = getKeyType("com.vidhance.autozoom.scale_offset", Float.class);
 
 
