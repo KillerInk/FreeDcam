@@ -8,9 +8,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.dng.DngProfile;
+import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
@@ -51,25 +52,26 @@ public class ImageSaveTask extends ImageTask
     private int flash = 0;
     private float expoindex;
     private String whitebalance;
-    private ActivityInterface activityInterface;
     private ModuleInterface moduleInterface;
 
     private Thread currentThread;
     private OpCode opcode;
     private float baselineExposure = 0;
     private int greensplit = 0;
+    private SettingsManager settingsManager;
+    private FileListController fileListController;
 
 
-    public ImageSaveTask(ActivityInterface activityInterface, ModuleInterface moduleInterface)
+    public ImageSaveTask(ModuleInterface moduleInterface)
     {
-        this.activityInterface = activityInterface;
         this.moduleInterface = moduleInterface;
+        settingsManager = FreedApplication.settingsManager();
+        fileListController = FreedApplication.fileListController();
     }
 
 
     private void clear()
     {
-        this.activityInterface = null;
         this.whitebalance = null;
         this.location =null;
         this.filename = null;
@@ -204,14 +206,14 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setExifData(info);
 //        if (whitebalance != null)
 //            rawToDng.SetWBCT(whitebalance);
-        if (SettingsManager.getInstance().getOpCode() != null)
-            rawToDng.setOpCode(SettingsManager.getInstance().getOpCode());
+        if (settingsManager.getOpCode() != null)
+            rawToDng.setOpCode(settingsManager.getOpCode());
         else if (opcode != null)
             rawToDng.setOpCode(opcode);
 
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBayerGreenSplit(greensplit);
-        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename);
+        BaseHolder fileholder = fileListController.getNewImgFileHolder(filename);
         if (fileholder instanceof FileHolder)
             rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
         else if(fileholder instanceof UriHolder) {
@@ -224,19 +226,19 @@ public class ImageSaveTask extends ImageTask
         }
 
         rawToDng.WriteDngWithProfile(profile);
-        if (pfd != null)
+        /*if (pfd != null)
             try {
                 pfd.close();
             } catch (IOException e) {
                 Log.WriteEx(e);
-            }
+            }*/
         moduleInterface.internalFireOnWorkDone(fileholder);
     }
 
     private void saveJpeg()
     {
         Log.d(TAG, "Start Saving Bytes");
-        BaseHolder fileholder = activityInterface.getFileListController().getNewImgFileHolder(filename);
+        BaseHolder fileholder = fileListController.getNewImgFileHolder(filename);
         try {
             BufferedOutputStream outStream = new BufferedOutputStream(fileholder.getOutputStream());
             outStream.write(bytesTosave);

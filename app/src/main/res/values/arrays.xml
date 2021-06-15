@@ -37,6 +37,8 @@
         <item>Plain16bit</item>
         <item>Mipi16bit</item>
         <item>Pure16bit_To_12bit</item>
+        <item>Pure16bit_To_16bit</item>
+        <item>QuadBayer_To_16bit</item>
     </string-array>
     <string-array name="interval_shutter_sleep" translatable="false">
         <item>0 sec</item>
@@ -204,6 +206,18 @@
         <item>@string/fast</item>
         <item>@string/highquality</item>
         <item>@string/zeroshutterlag</item>
+    </string-array>
+
+    <string-array name="distortionmodes"  translatable="false">
+        <item>@string/off</item>
+        <item>@string/fast</item>
+        <item>@string/highquality</item>
+    </string-array>
+
+    <string-array name="facemodes"  translatable="false">
+        <item>@string/off</item>
+        <item>Simple</item>
+        <item>Full</item>
     </string-array>
 
     <string-array name="digitalImageStabModes"  translatable="false">

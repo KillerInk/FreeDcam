@@ -8,7 +8,6 @@ import com.troop.freedcam.BR;
 import freed.file.holder.BaseHolder;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.enums.ViewStates;
-import freed.viewer.gridview.views.GridViewFragment;
 import freed.viewer.helper.BitmapHelper;
 
 public class GridImageViewModel extends BaseObservable

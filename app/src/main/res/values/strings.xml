@@ -165,6 +165,12 @@
     <string name="setting_tonemap_header">Tonemap: </string>
     <string name="setting_tonemap_description"></string>
 
+    <string name="setting_distortion_header">Distortion Correction: </string>
+    <string name="setting_distortion_description"></string>
+
+    <string name="setting_facemode_header">Face Dectection: </string>
+    <string name="setting_facemode_description"></string>
+
     <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
     <string name="setting_objecttrack_header">Object Tracking: </string>
     <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
@@ -184,6 +190,13 @@
     <string name="setting_htc_">HTC Settings</string>
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
+
+    <string name="setting_zoom_on_mf_header">Auto Zoom on ManualFocus</string>
+    <string name="setting_zoom_on_mf_description">Auto Zoom when using ManualFocus</string>
+    <string name="setting_zoom_on_mf_factor_header">Zoom Factor</string>
+    <string name="setting_zoom_on_mf_factor_description">Zoom Factor that get applied</string>
+    <string name="setting_zoom_on_mf_duration_header">Zoom Duration</string>
+    <string name="setting_zoom_on_mf_duration_description">Duration after the zoom get reseted</string>
 
     <string name="setting_scalepreview_header">Scale Preview</string>
     <string name="setting_scalepreview_description">Turn on to Scale the preview x2</string>
@@ -342,6 +355,10 @@
     <string name="setting_rawsize_description">Size of the Raw</string>
     <string name="setting_yuvsize_header">Yuv Size</string>
     <string name="setting_yuvsize_description">Size of the Yuv</string>
+    <string name="update_available">A new Version is available to download</string>
+
+    <string name="setting_checkforupdate_description">When enabled it checks if a new version is available on Github</string>
+    <string name="setting_checkforupdate_header">Check for new updates</string>
 
 
 </resources>

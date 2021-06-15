@@ -150,8 +150,7 @@ public class CamcorderProfileExRef {
                     -1,
                     -1,
                     "Default",
-                    false,
-                    -1,
+                    0,
                     -1
             );
         } catch (IllegalAccessException e) {

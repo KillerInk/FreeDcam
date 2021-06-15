@@ -27,7 +27,6 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by Ar4eR on 14.01.16.
@@ -46,15 +45,15 @@ public class Horizont extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
-        SettingsManager.getGlobal(SettingKeys.HorizontLvl).set(valueToSet);
+        settingsManager.getGlobal(SettingKeys.HorizontLvl).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (value == null || TextUtils.isEmpty(value))
             return FreedApplication.getStringFromRessources(R.string.off);

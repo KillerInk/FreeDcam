@@ -2,24 +2,24 @@ package freed.viewer.gridview.modelview;
 
 import android.app.RecoverableSecurityException;
 import android.os.Build;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.PopupMenu;
 
 import androidx.lifecycle.ViewModel;
-
-import com.troop.freedcam.R;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.image.ImageManager;
-import freed.utils.FreeDPool;
 import freed.utils.Log;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingActivity;
@@ -36,12 +36,11 @@ import freed.viewer.gridview.models.IntentModel;
 import freed.viewer.gridview.models.IntentSenderModel;
 import freed.viewer.gridview.models.PopupMenuModel;
 import freed.viewer.gridview.models.ViewStateModel;
-import freed.viewer.gridview.models.VisibilityModel;
-import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
 import freed.viewer.stack.StackActivity;
 
+@HiltViewModel
 public class GridViewFragmentModelView extends ViewModel
 {
     private final String TAG = GridViewFragmentModelView.class.getSimpleName();
@@ -66,11 +65,15 @@ public class GridViewFragmentModelView extends ViewModel
     private PopupMenuModel popupMenuModel;
 
     private final IntentSenderModel intentSenderModel;
+    private FileListController fileListController;
 
-    public GridViewFragmentModelView()
+
+    @Inject
+    public GridViewFragmentModelView(FileListController fileListController)
     {
         viewStateModel = new ViewStateModel();
         filesHolderModel = new FilesHolderModel();
+        this.fileListController = fileListController;
         buttonFiletype = new ButtonFileTypeModel(this);
         buttonDoAction = new ButtonDoAction();
         buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onStackClick,onRawToDngClick,onDngStackClick,this);
@@ -87,19 +90,10 @@ public class GridViewFragmentModelView extends ViewModel
         popupMenuModel = new PopupMenuModel(buttonOptions);
     }
 
-    public void setFileListController(FileListController fileListController)
-    {
-        filesHolderModel.setFileListController(fileListController);
-    }
 
     public void setButtonClick(ScreenSlideFragment.ButtonClick onGridItemClick)
     {
         this.onGridItemClick = onGridItemClick;
-    }
-
-    public void setBitmapHelper(BitmapHelper bitmapHelper)
-    {
-        filesHolderModel.setBitmapHelper(bitmapHelper);
     }
 
     public List<GridImageViewModel> getGridImageViewModels()
@@ -344,7 +338,7 @@ public class GridViewFragmentModelView extends ViewModel
                         setViewMode(viewStateModel.getCurrentViewState());
                     }
                 }
-                else if (filesHolderModel.getFiles().size() > 0 && filesHolderModel.getFiles().get(0) instanceof UriHolder) {
+                else if (filesHolderModel.getFiles() != null && filesHolderModel.getFiles().size() > 0 && (filesHolderModel.getFiles().get(0) instanceof UriHolder|| filesHolderModel.getFiles().get(0) instanceof DocumentHolder)) {
                     if (filesHolderModel.getFiles().get(0).IsFolder())
                         finishActivityModel.setOb(null);
                     else {
@@ -396,6 +390,8 @@ public class GridViewFragmentModelView extends ViewModel
                             ar.add(((FileHolder) f.getImagePath()).getFile().getAbsolutePath());
                         else if (f.getImagePath() instanceof UriHolder)
                             ar.add(((UriHolder) f.getImagePath()).getMediaStoreUri().toString());
+                        else if (f.getImagePath() instanceof DocumentHolder)
+                            ar.add(((DocumentHolder)f.getImagePath()).getDocumentFile().getUri().toString());
                     }
 
                 }
@@ -454,7 +450,7 @@ public class GridViewFragmentModelView extends ViewModel
         urisToDelte.clear();
         if (filesSelectedList.get(0).getHolderType() == FileHolder.class)
         {
-            filesHolderModel.getFileListController().DeleteFiles(filesSelectedList);
+            fileListController.DeleteFiles(filesSelectedList);
         }
         else
         {
@@ -474,7 +470,7 @@ public class GridViewFragmentModelView extends ViewModel
         if (urisToDelte.size() > 0)
             try {
 
-                filesHolderModel.getFileListController().DeleteFile(urisToDelte.get(0));
+                fileListController.DeleteFile(urisToDelte.get(0));
                 urisToDelte.remove(0);
                 deleteUriFile();
             }

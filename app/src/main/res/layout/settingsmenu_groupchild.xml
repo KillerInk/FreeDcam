@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data></data>
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/settingsmenu_groupchild_margin_left"
-    android:layout_marginRight="@dimen/settingsmenu_groupchild_margin_left">
+    android:layout_marginRight="@dimen/settingsmenu_groupchild_margin_left"
+    android:background="@color/uiSettingsBackground"
+    android:orientation="vertical">
 
     <TextView
-        android:text="groupchild_header"
+        android:id="@+id/groupchild_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/groupchild_header"
-        android:textColor="?android:attr/textColorHintInverse" />
+        android:text="groupchild_header"
+        android:textColor="@color/uiSettingsTextColor" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/groupchild_childholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/groupchild_childholder"></LinearLayout>
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/button_notclicked"
+        android:orientation="vertical"></LinearLayout>
 </LinearLayout>
+</layout>

@@ -44,7 +44,6 @@ import freed.cam.apis.sonyremote.runner.StopPreviewRunner;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.events.CameraStateEvents;
 import freed.image.ImageManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
@@ -106,7 +105,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
     {
         try {
             JSONObject replyJson = null;
-            if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("startLiveviewWithSize"))
+            if (((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet().contains("startLiveviewWithSize"))
                 replyJson = mRemoteApi.startLiveviewWithSize("L");
             else
                 replyJson = mRemoteApi.startLiveview();
@@ -145,7 +144,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
     private void closeConnection() {
 
         // getEvent stop
-        CameraStateEvents.fireCameraCloseEvent();
+        fireCameraClose();
         Log.d(TAG, "closeConnection(): EventObserver.release()");
 
         Log.d(TAG, "closeConnection(): exec.");
@@ -155,7 +154,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
         {
             if(serverDevice != null
                     &&( serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30"))
-                    && JsonUtils.isApiSupported("setLiveviewFrameInfo", ((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet()))
+                    && JsonUtils.isApiSupported("setLiveviewFrameInfo", ((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet()))
             {
                 SetLiveViewFrameInfo(false);
             }
@@ -166,7 +165,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
 
         // stopRecMode if necessary.
-        if (JsonUtils.isCameraApiAvailable("stopRecMode", ((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet()))
+        if (JsonUtils.isCameraApiAvailable("stopRecMode", ((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet()))
         {
             Log.d(TAG, "closeConnection(): stopRecMode()");
             try {
@@ -258,7 +257,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
     @Override
     public void CancelFocus()
     {
-        if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition"))
+        if (((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition"))
         {
             Log.d(TAG, "Cancel Focus");
             FreeDPool.Execute(() -> {
@@ -272,7 +271,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
             });
 
         }
-        else if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))
+        else if (((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))
         {
             Log.d(TAG, "Cancel Focus");
             FreeDPool.Execute(() -> {
@@ -294,7 +293,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     public boolean canCancelFocus()
     {
-        if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition") || ((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))
+        if (((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet().contains("cancelTouchAFPosition") || ((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet().contains("cancelTrackingFocus"))
         {
             Log.d(TAG, "Throw Focus LOCKED true");
             return true;
@@ -314,7 +313,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     public void SetTouchFocus(double x, double y)
     {
-        if (((SonyCameraRemoteFragment)cameraUiWrapper).getAvailableApiSet().contains("setTouchAFPosition"))
+        if (((SonyRemoteCamera)cameraUiWrapper).getAvailableApiSet().contains("setTouchAFPosition"))
             runSetTouch(x, y);
         else
             runActObjectTracking(x,y);

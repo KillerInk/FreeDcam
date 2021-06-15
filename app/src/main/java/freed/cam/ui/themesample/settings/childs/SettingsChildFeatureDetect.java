@@ -3,7 +3,7 @@ package freed.cam.ui.themesample.settings.childs;
 import android.content.Context;
 import android.view.View;
 
-import freed.ActivityInterface;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
@@ -13,18 +13,15 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 public class SettingsChildFeatureDetect extends SettingsChildMenu
 {
 
-    private ActivityInterface activityInterface;
-
-    public SettingsChildFeatureDetect(Context context, int headerid, int descriptionid, ActivityInterface activityInterface) {
+    public SettingsChildFeatureDetect(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
-        this.activityInterface = activityInterface;
-        this.valueText.setText("");
+        binding.textviewMenuitemHeaderValue.setText("");
     }
 
     @Override
     public void onClick(View v)
     {
-        activityInterface.runFeatureDetector();
+        ActivityFreeDcamMain.cameraApiManager().runFeatureDetector();
     }
 
 

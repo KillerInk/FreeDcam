@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.IOException;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
 
@@ -28,10 +30,11 @@ public class ImageTaskDngConverter extends ImageTask {
     private int orientation;
     private Location location;
     private ModuleInterface moduleInterface;
+    private FileListController fileListController;
 
     private final String TAG = ImageTaskDngConverter.class.getSimpleName();
 
-    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, ActivityInterface activityInterface, int orientation, Location location, ModuleInterface moduleInterface)
+    public ImageTaskDngConverter(CaptureResult captureResult, Image image, CameraCharacteristics characteristics, File file, int orientation, Location location, ModuleInterface moduleInterface)
     {
         this.captureResult = captureResult;
         this.image = image;
@@ -41,6 +44,7 @@ public class ImageTaskDngConverter extends ImageTask {
         this.orientation = orientation;
         this.location = location;
         this.moduleInterface = moduleInterface;
+        fileListController = FreedApplication.fileListController();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -64,7 +68,7 @@ public class ImageTaskDngConverter extends ImageTask {
             dngCreator.setLocation(location);
         try
         {
-            fileholder = activityInterface.getFileListController().getNewImgFileHolder(file);
+            fileholder = fileListController.getNewImgFileHolder(file);
             dngCreator.writeImage(fileholder.getOutputStream(), image);
             dngCreator.close();
             image.close();

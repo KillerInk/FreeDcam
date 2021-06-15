@@ -22,13 +22,12 @@ package freed.cam.ui.themesample;
 import android.view.View;
 
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
  * Created by troop on 16.06.2016.
  */
-public interface SettingsChildInterface extends ModuleChangedEvent, ParameterEvents,View.OnClickListener
+public interface SettingsChildInterface extends ModuleChangedEvent,View.OnClickListener
 {
     /**
      * Set the parameter to work with

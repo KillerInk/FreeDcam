@@ -33,19 +33,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.databinding.Observable;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 
-import org.greenrobot.eventbus.Subscribe;
+import javax.inject.Inject;
 
-import freed.ActivityInterface;
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ValueChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -54,7 +53,8 @@ import freed.utils.Log;
 /**
  * Created by Ar4eR on 15.01.16.
  */
-public class HorizontLineFragment extends AbstractFragment implements ParameterEvents {
+@AndroidEntryPoint
+public class HorizontLineFragment extends AbstractFragment {
 
     private View view;
 
@@ -77,22 +77,13 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     float[] R = new float[9];
     float[] I = new float[9];
 
-
-
-    @Subscribe
-    public void onHorizontModeChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.HorizontLvl)
-        {
-            onStringValueChanged(valueChangedEvent.newValue);
-        }
-    }
+    @Inject
+    SettingsManager settingsManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-        fragment_activityInterface = (ActivityInterface)getActivity();
         view = inflater.inflate(layout.cameraui_horizontline, container, false);
         lineImage = view.findViewById(id.horizontlevelline);
         upImage = view.findViewById(id.horizontlevelup);
@@ -111,24 +102,10 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
         return view;
     }
 
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-        if(SettingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on)))
+    public void startStopListen(String value) {
+        if (view == null)
+            return;
+        if(value.equals(FreedApplication.getStringFromRessources(string.on)))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -143,14 +120,19 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
 
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
+        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
+            }
+        });
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).addEventListner(this);
-        onStringValueChanged(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).GetStringValue());
+        startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
     }
 
     private void startSensorListing()
     {
-        if (SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on))) {
+        if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on))) {
             sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
@@ -166,15 +148,13 @@ public class HorizontLineFragment extends AbstractFragment implements ParameterE
     public void onPause(){
         super.onPause();
         stopSensorListing();
-        EventBusHelper.unregister(this);
     }
     @Override
     public void onResume(){
         super.onResume();
-        EventBusHelper.register(this);
         try {
-            if (SettingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && SettingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
-                    || TextUtils.isEmpty(SettingsManager.get(SettingKeys.HorizontLvl).get()))
+            if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
+                    || TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.HorizontLvl).get()))
                 view.setVisibility(View.GONE);
             else
                 startSensorListing();

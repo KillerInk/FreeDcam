@@ -25,9 +25,9 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 13.12.2014.
@@ -35,26 +35,25 @@ import freed.settings.SettingsManager;
 public class YuvSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public YuvSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public YuvSizeModeApi2(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.YuvSize);
         setViewState(ViewState.Visible);
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.YuvSize).set(valueToSet);
+        settingsManager.get(SettingKeys.YuvSize).set(valueToSet);
         size = valueToSet;
-        if (setToCamera && SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+        if (setToCamera && settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
         {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         }
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         return size;
     }
@@ -63,6 +62,6 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.YuvSize).getValues();
+        return settingsManager.get(SettingKeys.YuvSize).getValues();
     }
 }

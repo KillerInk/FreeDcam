@@ -3,13 +3,11 @@ package freed.viewer.gridview.models;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.databinding.BaseObservable;
-
 import freed.viewer.gridview.modelview.GridViewFragmentModelView;
 
 public class ButtonOptionsModel extends VisibilityModel implements  Popup, View.OnClickListener
 {
-    private final String values[] = { "Delete File","StackJpeg","Raw to Dng","DngStack"};
+    private final String values[] = { "Delete File","StackJpeg","Raw to Dng"/*,"DngStack"*/};
     private final View.OnClickListener clickListeners[];
     private GridViewFragmentModelView gridViewFragmentModelView;
 

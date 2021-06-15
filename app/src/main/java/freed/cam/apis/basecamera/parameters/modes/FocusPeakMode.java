@@ -22,55 +22,55 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.ValueChangedEvent;
-import freed.renderscript.RenderScriptManager;
+import freed.cam.previewpostprocessing.PreviewController;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 10.09.2015.
  */
 public class FocusPeakMode extends AbstractParameter {
+    protected PreviewController previewController;
     public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.Focuspeak);
+        previewController = ActivityFreeDcamMain.previewController();
+        currentString = FreedApplication.getStringFromRessources(R.string.off_);
+    }
+
+    public FocusPeakMode(CameraWrapperInterface cameraWrapperInterface, SettingKeys.Key key)
+    {
+        super(cameraWrapperInterface,key);
+        previewController = ActivityFreeDcamMain.previewController();
+        currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 
 
     @Override
     public ViewState getViewState() {
-        if (RenderScriptManager.isSupported() && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded() && SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
+        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
             return ViewState.Visible;
         else
             return ViewState.Hidden;
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
+        currentString = valueToSet;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(true);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
+            previewController.setFocusPeak(true);
         }
         else {
-            cameraUiWrapper.getFocusPeakProcessor().setFocusPeakEnable(false);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
+            previewController.setFocusPeak(false);
         }
+        fireStringValueChanged(valueToSet);
 
-    }
-
-    @Override
-    public String GetStringValue() {
-        if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
-            return FreedApplication.getStringFromRessources(R.string.on_);
-        else
-            return FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     @Override
@@ -78,17 +78,4 @@ public class FocusPeakMode extends AbstractParameter {
         return new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
     }
 
-
-
-    @Subscribe
-    public void onStringValueChanged(ValueChangedEvent<String> valueob)
-    {
-        if (valueob.key == SettingKeys.EnableRenderScript) {
-            String value = valueob.newValue;
-            if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
-                setViewState(ViewState.Hidden);
-            else
-                setViewState(ViewState.Visible);
-        }
-    }
 }

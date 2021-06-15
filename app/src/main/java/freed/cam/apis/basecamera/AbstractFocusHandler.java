@@ -21,26 +21,15 @@ package freed.cam.apis.basecamera;
 
 import android.graphics.Rect;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import freed.cam.events.EventBusHelper;
 import freed.utils.Log;
 
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class AbstractFocusHandler
+public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
 {
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
-    protected CameraWrapperInterface cameraUiWrapper;
-
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onFocusCoordinates(FocusCoordinates focusCoordinates)
-    {
-        startTouchFocus(focusCoordinates);
-    }
+    protected C cameraUiWrapper;
 
     public class FocusCoordinates
     {
@@ -52,7 +41,7 @@ public abstract class AbstractFocusHandler
 
     protected abstract void startTouchFocus(FocusCoordinates obj);
 
-    protected AbstractFocusHandler(CameraWrapperInterface cameraUiWrapper)
+    protected AbstractFocusHandler(C cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -64,8 +53,9 @@ public abstract class AbstractFocusHandler
         focusCoordinates.y = y1;
         focusCoordinates.width = width1;
         focusCoordinates.height = height1;
-        EventBusHelper.post(focusCoordinates);
-        //backgroundHandler.sendMessage(backgroundHandler.obtainMessage(MSG_SET_TOUCHTOFOCUS,focusCoordinates));
+        startTouchFocus(focusCoordinates);
+        if (focusEvent != null)
+            focusEvent.FocusStarted(x1,y1);
     }
 
     public abstract void SetMeteringAreas(int x, int y, int width, int height);
@@ -78,8 +68,4 @@ public abstract class AbstractFocusHandler
         Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }
 
-    protected void logRect(Rect rect)
-    {
-        Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
-    }
 }

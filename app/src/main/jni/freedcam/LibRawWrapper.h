@@ -14,6 +14,8 @@ class LibRawWrapper {
 
 private:
     LibRaw raw;
+    char *buffer;
+    bool isFP = false;
 public:
     int width;
     int height;

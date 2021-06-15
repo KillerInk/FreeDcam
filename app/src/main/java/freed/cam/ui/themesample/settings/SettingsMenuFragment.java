@@ -20,29 +20,34 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.SettingsFragmentBinding;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.CloseChildClick;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.cam.ui.themesample.settings.opcode.OpCodeFragment;
 import freed.utils.Log;
 
 /**
  * Created by troop on 14.06.2015.
  */
+@AndroidEntryPoint
 public class SettingsMenuFragment extends AbstractFragment implements CloseChildClick, SettingsChildClick
 {
     private final String TAG = SettingsMenuFragment.class.getSimpleName();
@@ -55,16 +60,20 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     private final int VALUE_MENU_LEFT_OPEN = 2;
     private int value_menu_status = VALUE_MENU_CLOSED;
 
-    private UiSettingsChild currentOpendItem;
+    private SettingsChildAbstract currentOpendItem;
+    private Handler handler = new Handler();
 
 
+    private SettingsFragmentBinding binding;
+    @Inject
+    CameraApiManager cameraApiManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-
-        return inflater.inflate(layout.settings_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, layout.settings_fragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -77,20 +86,13 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     @Override
     public void onResume() {
         super.onResume();
-        setCameraToUi(cameraUiWrapper);
     }
 
-    @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper)
+    private void setCameraToUi()
     {
-        super.setCameraToUi(wrapper);
         Log.d(TAG, "SetCameraUiWrapper");
         if (value_menu_status != VALUE_MENU_CLOSED)
             closeValueMenu();
-        if (rightMenuFragment != null)
-            rightMenuFragment.setCameraToUi(cameraUiWrapper);
-        if (leftMenuFragment != null)
-            leftMenuFragment.setCameraToUi(cameraUiWrapper);
         value_menu_status = VALUE_MENU_CLOSED;
     }
 
@@ -149,7 +151,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment)
     {
         if (currentOpendItem == item)
         {
@@ -158,46 +160,33 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         currentOpendItem = item;
 
+        ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
+        if (item.GetValues() == null) {
+            item.GetParameter().setViewState(AbstractParameter.ViewState.Hidden);
+            value_menu_status = VALUE_MENU_CLOSED;
+            if (fromLeftFragment)
+                loadRightFragment();
+            else
+                loadLeftFragment();
+            return;
+        }
+        valuesMenuFragment.SetMenuItem(item.GetValues(), this);
 
-        boolean loadopCodeFragment = item.GetParameter() instanceof OpCodeParameter;
-        if (loadopCodeFragment){
+        if (fromLeftFragment) {
             value_menu_status = VALUE_MENU_RIGHT_OPEN;
-            OpCodeFragment opCodeFragment = new OpCodeFragment();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+            transaction.replace(id.right_holder, valuesMenuFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            value_menu_status = VALUE_MENU_LEFT_OPEN;
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
-            transaction.replace(id.right_holder, opCodeFragment);
+            transaction.replace(id.left_holder, valuesMenuFragment);
             transaction.addToBackStack(null);
             transaction.commit();
         }
-        else {
 
-            ValuesMenuFragment valuesMenuFragment = new ValuesMenuFragment();
-            if (item.GetValues() == null) {
-                item.onViewStateChanged(AbstractParameter.ViewState.Hidden);
-                value_menu_status = VALUE_MENU_CLOSED;
-                if (fromLeftFragment)
-                    loadRightFragment();
-                else
-                    loadLeftFragment();
-                return;
-            }
-            valuesMenuFragment.SetMenuItem(item.GetValues(), this);
-
-            if (fromLeftFragment) {
-                value_menu_status = VALUE_MENU_RIGHT_OPEN;
-                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
-                transaction.replace(id.right_holder, valuesMenuFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            } else {
-                value_menu_status = VALUE_MENU_LEFT_OPEN;
-                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
-                transaction.replace(id.left_holder, valuesMenuFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        }
     }
 }

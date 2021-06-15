@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.settings.mode.BooleanSettingModeInterface" />
+    </data>
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
     android:background="@color/uiSettingsBackground"
     android:orientation="vertical">
 
@@ -26,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="" />
+            android:text=""
+            android:checked="@{parameter.get()}"/>
 
     </LinearLayout>
 
@@ -40,3 +51,4 @@
         android:textSize="@dimen/settings_menu_item_header_value" />
 
 </LinearLayout>
+</layout>

@@ -10,7 +10,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.ToneMapProfile;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 10.07.2017.
@@ -23,17 +22,17 @@ public class ToneMapChooser extends AbstractParameter {
         super(SettingKeys.TONEMAP_SET);
         this.toneMapProfileHashMap = toneMapProfileHashMap;
         setViewState(ViewState.Visible);
-        currentString = SettingsManager.get(SettingKeys.TONEMAP_SET).get();
+        currentString = settingsManager.get(SettingKeys.TONEMAP_SET).get();
         if (TextUtils.isEmpty(currentString))
             currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
         fireStringValueChanged(currentString);
-        SettingsManager.get(SettingKeys.TONEMAP_SET).set(valueToSet);
+        settingsManager.get(SettingKeys.TONEMAP_SET).set(valueToSet);
     }
 
     @Override

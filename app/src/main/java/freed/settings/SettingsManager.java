@@ -36,6 +36,7 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.jni.OpCode;
+import freed.settings.mode.XmlSettingInterface;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 import freed.views.VideoToneCurveProfile;
@@ -43,7 +44,7 @@ import freed.views.VideoToneCurveProfile;
 /**
  * Created by troop on 19.08.2014.
  */
-public class SettingsManager implements SettingsManagerInterface {
+public class SettingsManager extends SettingKeys implements SettingsManagerInterface {
 
     public static final int JPEG= 0;
     public static final int RAW = 1;
@@ -75,12 +76,7 @@ public class SettingsManager implements SettingsManagerInterface {
     public static final int ISOMANUAL_LG =4;
     public static final int ISOMANUAL_Xiaomi =5;
 
-    public static final String CURRENTCAMERA = "currentcamera";
-    public static final String NIGHTMODE = "nightmode";
     public static final String TIMELAPSEFRAME = "timelapseframe";
-    public static final String SETTING_LOCATION = "location";
-    public static final String SETTING_FOCUSPEAK = "focuspeak";
-    public static final String SETTING_EXTERNALSD = "extSD";
     public static final String API_SONY = "playmemories";
     public static final String API_1 = "camera1";
     public static final String API_2 = "camera2";
@@ -97,19 +93,19 @@ public class SettingsManager implements SettingsManagerInterface {
     private static volatile boolean isInit =false;
     private SettingsStorage settingsStorage;
 
-    private static SettingsManager settingsManager = new SettingsManager();
+    //private static SettingsManager settingsManager = new SettingsManager();
 
 
 
-    private SettingsManager()
+    public SettingsManager()
     {
 
     }
 
-    public static SettingsManager getInstance()
+    /*public static SettingsManager getInstance()
     {
         return settingsManager;
-    }
+    }*/
 
     public void save()
     {
@@ -118,19 +114,21 @@ public class SettingsManager implements SettingsManagerInterface {
         new XmlParserWriter().saveToneCurveProfiles(videoToneCurveProfiles, getAppDataFolder());
     }
 
-    public static <T> T get(SettingKeys.Key<T> key)
+    public <T> T get(Key<T> key)
     {
-        return key.getType().cast(getInstance().settingsStorage.get(key));
+        return key.getType().cast(settingsStorage.get(key));
     }
 
-    public static <T> T getGlobal(SettingKeys.Key<T> key)
+    public <T> T getGlobal(GlobalKey<T> key)
     {
-        return key.getType().cast(getInstance().settingsStorage.getGlobal(key));
+        XmlSettingInterface xmlSettingInterface =  settingsStorage.getGlobal(key);
+        T ret = key.getType().cast(xmlSettingInterface);
+        return ret;
     }
 
-    public static <T> T getApi(SettingKeys.Key<T> key)
+    public <T> T getApi(Key<T> key)
     {
-        return key.getType().cast(getInstance().settingsStorage.getApiSetting(key));
+        return key.getType().cast(settingsStorage.getApiSetting(key));
     }
 
     public void init()

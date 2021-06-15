@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_width="fill_parent"
     android:layout_height="50dp"
-    android:background="@drawable/tap_ng"
-    android:clickable="true"
-    android:layout_marginBottom="1dp"
     android:layout_marginRight="1dp"
-    android:alpha="0.8">
+    android:layout_marginBottom="1dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginTop="1dp"
+    android:background="@color/uiSettingsBackground"
+    android:clickable="true"
+    android:orientation="horizontal">
 
     <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:text="+"
         android:id="@+id/button_plus"
-        android:textSize="8dp"
-        android:clickable="true"
-        android:layout_weight="0"
-        android:background="@drawable/tap_plus" />
-
-    <Button
         android:layout_width="@android:dimen/app_icon_size"
         android:layout_height="@android:dimen/app_icon_size"
-        android:text="-"
-        android:id="@+id/button_minus"
-        android:textSize="8dp"
-        android:clickable="true"
         android:layout_weight="0"
-        android:background="@drawable/tap_min"
+        android:background="@drawable/tap_plus"
+        android:clickable="true"
+        android:text="+"
+        android:textSize="8dp" />
+
+    <Button
+        android:id="@+id/button_minus"
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
         android:layout_marginLeft="15dp"
-        android:alpha="0.9" />
+        android:layout_weight="0"
+        android:alpha="0.9"
+        android:background="@drawable/tap_min"
+        android:clickable="true"
+        android:text="-"
+        android:textSize="8dp" />
 
     <EditText
+        android:id="@+id/editText_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/editText_number"
-        android:clickable="false"
-        android:enabled="false"
-        android:digits="1"
-        android:text="0.00"
-        android:textSize="18dp"
+        android:layout_marginLeft="60dp"
         android:layout_weight="1"
-        android:textColor="#ffffff"
-        android:textAlignment="center"
+        android:clickable="false"
+        android:digits="1"
+        android:ems="10"
+        android:enabled="false"
         android:gravity="center|center_vertical|center_horizontal|top"
-        android:layout_marginLeft="60dp" />
+        android:inputType="numberDecimal"
+        android:text="0.00"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="18dp" />
 </LinearLayout>

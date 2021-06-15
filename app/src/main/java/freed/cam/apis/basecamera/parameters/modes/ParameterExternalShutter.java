@@ -21,7 +21,6 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 21.07.2015.
@@ -33,8 +32,8 @@ public class ParameterExternalShutter extends AbstractParameter
     public ParameterExternalShutter()
     {
         super(SettingKeys.EXTERNAL_SHUTTER);
-        if (SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null)
-            SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(values[2]);
+        if (settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null)
+            settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(values[2]);
     }
 
     @Override
@@ -42,17 +41,17 @@ public class ParameterExternalShutter extends AbstractParameter
         return ViewState.Visible;
     }
 
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
-        SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(valueToSet);
+        settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).set(valueToSet);
     }
 
-    public String GetStringValue()
+    public String getStringValue()
     {
-        if (SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null || SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
+        if (settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get() == null || settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get().isEmpty())
             return "Hook";
         else
-            return SettingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get();
+            return settingsManager.getGlobal(SettingKeys.EXTERNAL_SHUTTER).get();
     }
 
     public String[] getStringValues() {

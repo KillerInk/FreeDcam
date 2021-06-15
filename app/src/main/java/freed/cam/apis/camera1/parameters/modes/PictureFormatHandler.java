@@ -29,7 +29,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -51,29 +50,29 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper,SettingKeys.PictureFormat);
-        SettingsManager.get(SettingKeys.PictureFormat).isSupported();
+        settingsManager.get(SettingKeys.PictureFormat).isSupported();
         setViewState(ViewState.Visible);
-        boolean rawpicformatsupported = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported();
+        boolean rawpicformatsupported = settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported();
         boolean dngprofilessupported = false;
-        if(SettingsManager.getInstance().getDngProfilesMap() != null && SettingsManager.getInstance().getDngProfilesMap().size() > 0)
+        if(settingsManager.getDngProfilesMap() != null && settingsManager.getDngProfilesMap().size() > 0)
             dngprofilessupported = true;
         boolean rawSupported = rawpicformatsupported || dngprofilessupported;
         if (rawSupported) {
-            rawFormat = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get();
-            rawFormats = SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues();
+            rawFormat = settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).get();
+            rawFormats = settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues();
             BayerFormat bayerFormats = new BayerFormat(parameters, cameraUiWrapper, "");
             if (bayerFormats.getStringValues() != null && bayerFormats.getStringValues().length > 0)
                 bayerFormats.setViewState(ViewState.Visible);
             if (TextUtils.isEmpty(rawFormat) && rawFormats != null && rawFormats.length >0)
                 rawFormat = rawFormats[0];
             parametersHandler.add(SettingKeys.BAYERFORMAT, bayerFormats);
-            if ((rawFormats != null && rawFormats.length  > 0) || SettingsManager.getInstance().getFrameWork() == freed.settings.Frameworks.MTK)
-                SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
+            if ((rawFormats != null && rawFormats.length  > 0) || settingsManager.getFrameWork() == freed.settings.Frameworks.MTK)
+                settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             else
-                SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
-            if (!contains(SettingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues(), FreedApplication.getStringFromRessources(R.string.dng_))
+                settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
+            if (!contains(settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).getValues(), FreedApplication.getStringFromRessources(R.string.dng_))
                     && dngprofilessupported)
-            SettingsManager.get(SettingKeys.PictureFormat).setValues(new String[]
+            settingsManager.get(SettingKeys.PictureFormat).setValues(new String[]
                         {
                                 FreedApplication.getStringFromRessources(R.string.jpeg_),
                                 FreedApplication.getStringFromRessources(R.string.dng_),
@@ -94,12 +93,12 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         Log.d(TAG, "SetValue:" + valueToSet);
-        SettingsManager.get(SettingKeys.PictureFormat).set(valueToSet);
+        settingsManager.get(SettingKeys.PictureFormat).set(valueToSet);
         captureMode = valueToSet;
-        if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
+        if (settingsManager.getFrameWork() != Frameworks.MTK)
         {
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.jpeg_)))
                 setString(valueToSet,setToCam);
@@ -125,14 +124,14 @@ public class PictureFormatHandler extends BaseModeParameter
 
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return captureMode;
     }
 
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.PictureFormat).getValues();
+        return settingsManager.get(SettingKeys.PictureFormat).getValues();
     }
 
     @Override
@@ -161,7 +160,7 @@ public class PictureFormatHandler extends BaseModeParameter
         }
 
         @Override
-        public String GetStringValue()
+        public String getStringValue()
         {
             return rawFormat;
         }
@@ -180,11 +179,11 @@ public class PictureFormatHandler extends BaseModeParameter
         }
 
         @Override
-        public void SetValue(String valueToSet, boolean setToCam)
+        public void setStringValue(String valueToSet, boolean setToCam)
         {
             rawFormat = valueToSet;
             if (captureMode.equals(FreedApplication.getStringFromRessources(R.string.bayer_))|| captureMode.equals(FreedApplication.getStringFromRessources(R.string.dng_))) {
-                PictureFormatHandler.this.SetValue(captureMode, true);
+                PictureFormatHandler.this.setStringValue(captureMode, true);
             }
         }
     }

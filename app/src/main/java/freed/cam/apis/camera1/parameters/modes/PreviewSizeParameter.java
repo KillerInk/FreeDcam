@@ -22,9 +22,7 @@ package freed.cam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -39,12 +37,12 @@ public class PreviewSizeParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
-        super.SetValue(valueToSet,setToCam);
-        if (setToCam) {
+        super.setStringValue(valueToSet,setToCam);
+        /*if (setToCam) {
             cameraUiWrapper.stopPreviewAsync();
-        }
+        }*/
         parameters.set(key_value, valueToSet);
 
 
@@ -52,14 +50,14 @@ public class PreviewSizeParameter extends BaseModeParameter
 
 
 
-        if (setToCam) {
+        /*if (setToCam) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
             cameraUiWrapper.startPreviewAsync();
-        }
+        }*/
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(SettingKeys.PreviewSize).getValues();
+        return settingsManager.get(SettingKeys.PreviewSize).getValues();
     }
 }

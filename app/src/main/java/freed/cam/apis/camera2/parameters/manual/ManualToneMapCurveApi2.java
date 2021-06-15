@@ -24,16 +24,10 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera2.Camera2Fragment;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.ValueChangedEvent;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -41,7 +35,7 @@ import freed.utils.Log;
  */
 //http://www.cambridgeincolour.com/tutorials/photoshop-curves.htm
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ManualToneMapCurveApi2 implements EventBusLifeCycle
+public class ManualToneMapCurveApi2
 {
     final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
@@ -59,13 +53,13 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
     public  ColorParameter whitep;
 
     public ToneCurveParameter toneCurveParameter;
-    private CameraWrapperInterface cameraWrapperInterface;
+    private Camera2 cameraWrapperInterface;
 
     private float[] toneCurve;
 
 
 
-    public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
+    public ManualToneMapCurveApi2(Camera2 cameraUiWrapper)
     {
         this.cameraWrapperInterface = cameraUiWrapper;
         /*contrast = new Contrast(cameraUiWrapper);
@@ -131,29 +125,11 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }*/
     }
 
-    @Subscribe
-    public void onToneMapModeChanged(ValueChangedEvent<String> valueChangedEvent)
+    public void onToneMapModeChanged(String tonemap)
     {
-
-        if (valueChangedEvent.type != String.class)
-            return;
-        if (valueChangedEvent.key == SettingKeys.TONE_MAP_MODE)
-        {
-            Log.d(TAG, "onToneMapModeChanged");
-            if (valueChangedEvent.newValue != null)
-                onStringValueChanged(valueChangedEvent.newValue);
-        }
+        onStringValueChanged(tonemap);
     }
 
-    @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
-    }
 
     public class Contrast extends AbstractParameter
     {
@@ -168,7 +144,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
 
         @Override
-        public int GetValue() {
+        public int getIntValue() {
             return currentInt;
         }
 
@@ -178,18 +154,18 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetValue());
-                if (cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetStringValue().equals("CONTRAST_CURVE"))
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getIntValue());
+                if (cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getStringValue().equals("CONTRAST_CURVE"))
                 {
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).SetValue("FAST", true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).setStringValue("FAST", true);
                     Log.d(TAG, "Disabled Contrast Curve");
                 }
             }
             else {
-                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetValue());
-                if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).GetStringValue().equals("CONTRAST_CURVE") && !firststart)
+                Log.d(TAG, "Current TonemapMode:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getIntValue());
+                if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).getStringValue().equals("CONTRAST_CURVE") && !firststart)
                 {
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).SetValue("CONTRAST_CURVE", true);
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.TONE_MAP_MODE).setStringValue("CONTRAST_CURVE", true);
                     Log.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
@@ -222,8 +198,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public String GetStringValue() {
-            return super.GetStringValue();
+        public String getStringValue() {
+            return super.getStringValue();
         }
     }
 
@@ -238,7 +214,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public int GetValue() {
+        public int getIntValue() {
             return currentInt /4;
         }
 
@@ -273,8 +249,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public String GetStringValue() {
-            return super.GetStringValue();
+        public String getStringValue() {
+            return super.getStringValue();
         }
     }
 
@@ -296,7 +272,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public int GetValue() {
+        public int getIntValue() {
             return currentInt;
         }
 
@@ -326,7 +302,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
 
 
         @Override
-        public String GetStringValue() {
+        public String getStringValue() {
             return stringvalues[currentInt]+"";
         }
 
@@ -341,7 +317,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
         TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
         Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-        ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+        cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
     }
 
     public class ToneCurveParameter extends AbstractParameter
@@ -352,8 +328,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         }
 
         @Override
-        public String GetStringValue() {
-            return SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get();
+        public String getStringValue() {
+            return settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get();
         }
 
         public void setCurveToCamera(float[] curve)
@@ -361,16 +337,16 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             toneCurve = curve;
             TonemapCurve tonemapCurve = new TonemapCurve(curve,curve,curve);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-            ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
-            fireStringValueChanged(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            fireStringValueChanged(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
 
         public void setCurveToCamera(float[] r, float[] g,float[] b)
         {
             TonemapCurve tonemapCurve = new TonemapCurve(r,g,b);
             Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
-            ((Camera2Fragment) cameraWrapperInterface).captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
-            fireStringValueChanged(SettingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
+            fireStringValueChanged(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
 
         public float[] getToneCurve()

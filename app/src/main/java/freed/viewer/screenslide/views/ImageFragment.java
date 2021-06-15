@@ -20,31 +20,19 @@
 package freed.viewer.screenslide.views;
 
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R.dimen;
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideImageframentBinding;
 
-import java.lang.ref.WeakReference;
-
-import freed.ActivityInterface;
-import freed.file.holder.BaseHolder;
-import freed.image.ImageManager;
-import freed.image.ImageTask;
-import freed.utils.Log;
 import freed.viewer.screenslide.models.ImageFragmentModel;
 import freed.viewer.screenslide.views.ScreenSlideFragment.FragmentClickClistner;
 

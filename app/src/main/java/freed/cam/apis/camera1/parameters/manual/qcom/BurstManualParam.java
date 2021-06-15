@@ -37,7 +37,6 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class BurstManualParam extends BaseManualParameter
@@ -47,7 +46,7 @@ public class BurstManualParam extends BaseManualParameter
 
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
-        currentInt = Integer.parseInt(SettingsManager.get(SettingKeys.M_Burst).get());
+        currentInt = Integer.parseInt(settingsManager.get(SettingKeys.M_Burst).get());
         setViewState(ViewState.Visible);
     }
 
@@ -66,7 +65,7 @@ public class BurstManualParam extends BaseManualParameter
 
 
     @Override
-    public int GetValue()
+    public int getIntValue()
     {
         return currentInt;
     }
@@ -102,7 +101,7 @@ public class BurstManualParam extends BaseManualParameter
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return stringvalues[currentInt];
     }
 

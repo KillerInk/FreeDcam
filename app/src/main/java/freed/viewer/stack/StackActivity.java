@@ -46,6 +46,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
@@ -53,7 +56,6 @@ import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.renderscript.RenderScriptManager;
 import freed.utils.FreeDPool;
-import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.MediaScannerManager;
 import freed.utils.StringUtils;
@@ -63,6 +65,7 @@ import freed.viewer.dngconvert.DngConvertingFragment;
 /**
  * Created by troop on 06.07.2016.
  */
+@AndroidEntryPoint
 public class StackActivity extends ActivityAbstract
 {
     private BaseHolder[] filesToStack = null;
@@ -83,6 +86,8 @@ public class StackActivity extends ActivityAbstract
 
     private Allocation maxValues;
     private Allocation minValues;
+    @Inject
+    FileListController fileListController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +116,6 @@ public class StackActivity extends ActivityAbstract
 
 
         renderScriptManager = new RenderScriptManager(getApplicationContext());
-        fileListController = new FileListController(getApplicationContext());
 
         stackvaluesButton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -263,12 +267,6 @@ public class StackActivity extends ActivityAbstract
             }
         }
         MediaScannerManager.ScanMedia(getApplicationContext(), file);
-    }
-
-
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
     }
 
     @Override

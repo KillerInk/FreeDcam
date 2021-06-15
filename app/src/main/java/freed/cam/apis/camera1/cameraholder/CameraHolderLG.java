@@ -21,9 +21,9 @@ package freed.cam.apis.camera1.cameraholder;
 
 import com.lge.hardware.LGCameraRef;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.events.CameraStateEvents;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -35,8 +35,10 @@ import freed.utils.Log;
 public class CameraHolderLG extends CameraHolder
 {
     private LGCameraRef lgCamera;
+    private SettingsManager settingsManager;
     public CameraHolderLG(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
+        settingsManager = FreedApplication.settingsManager();
     }
 
     @Override
@@ -44,7 +46,7 @@ public class CameraHolderLG extends CameraHolder
     {
         boolean isRdy = false;
         try {
-            if (SettingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+            if (settingsManager.get(SettingKeys.openCamera1Legacy).get()) {
                 lgCamera = new LGCameraRef(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
             }
@@ -64,13 +66,13 @@ public class CameraHolderLG extends CameraHolder
                 super.OpenCamera(camera);
             }
             catch (RuntimeException  | NoClassDefFoundError e) {
-                CameraStateEvents.fireCameraErrorEvent("Fail to connect to camera service");
+                fireOCameraError("Fail to connect to camera service");
                 isRdy = false;
                 Log.WriteEx(e);
             }
         }
 
-        CameraStateEvents.fireCameraOpenEvent();
+        fireCameraOpen();
         return isRdy;
     }
 

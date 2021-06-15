@@ -5,7 +5,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import freed.settings.mode.SettingInterface;
+import freed.settings.mode.XmlSettingInterface;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -27,36 +27,36 @@ public class SettingsStorage
         settings.api_hashmap.put(SettingsManager.API_SONY,new SettingLayout.CameraId());
     }
 
-    public SettingInterface get(SettingKeys.Key key) {
-        SettingInterface settingInterface = getActiveSettings().get(key);
-        if (settingInterface == null) {
-            settingInterface = getNewSetting(key);
-            getActiveSettings().put(key, settingInterface);
+    public XmlSettingInterface get(SettingKeys.Key key) {
+        XmlSettingInterface xmlSettingInterface = getActiveSettings().get(key);
+        if (xmlSettingInterface == null) {
+            xmlSettingInterface = getNewSetting(key);
+            getActiveSettings().put(key, xmlSettingInterface);
         }
-        return settingInterface;
+        return xmlSettingInterface;
     }
 
-    public SettingInterface getGlobal(SettingKeys.Key key) {
-        SettingInterface settingInterface = settings.global_settings.get(key);
-        if (settingInterface == null) {
-            settingInterface = getNewSetting(key);
-            settings.global_settings.put(key, settingInterface);
+    public XmlSettingInterface getGlobal(SettingKeys.GlobalKey key) {
+        XmlSettingInterface xmlSettingInterface = settings.global_settings.get(key);
+        if (xmlSettingInterface == null) {
+            xmlSettingInterface = getNewSetting(key);
+            settings.global_settings.put(key, xmlSettingInterface);
         }
-        return settingInterface;
+        return xmlSettingInterface;
     }
 
-    public SettingInterface getApiSetting(SettingKeys.Key key) {
-        SettingInterface settingInterface = getApiSettings().get(key);
-        if (settingInterface == null) {
-            settingInterface = getNewSetting(key);
-            getApiSettings().put(key, settingInterface);
+    public XmlSettingInterface getApiSetting(SettingKeys.Key key) {
+        XmlSettingInterface xmlSettingInterface = getApiSettings().get(key);
+        if (xmlSettingInterface == null) {
+            xmlSettingInterface = getNewSetting(key);
+            getApiSettings().put(key, xmlSettingInterface);
         }
-        return settingInterface;
+        return xmlSettingInterface;
     }
 
 
 
-    private <T extends SettingInterface> T getNewSetting(SettingKeys.Key key)
+    private <T extends XmlSettingInterface> T getNewSetting(SettingKeys.Key key)
     {
         Constructor ctr = key.getType().getConstructors()[0];
         T settingInterface = null;
@@ -212,12 +212,12 @@ public class SettingsStorage
         settings.api_hashmap.get(getActiveCamera()).overrideDngProfile = supported;
     }
 
-    public HashMap<SettingKeys.Key, SettingInterface> getActiveSettings()
+    public HashMap<SettingKeys.Key, XmlSettingInterface> getActiveSettings()
     {
         return settings.api_hashmap.get(settings.active_api).cameraid_settings.get(getActiveCamera()).cameraid_settings;
     }
 
-    public HashMap<SettingKeys.Key, SettingInterface> getApiSettings()
+    public HashMap<SettingKeys.Key, XmlSettingInterface> getApiSettings()
     {
         return settings.api_hashmap.get(settings.active_api).api_settings;
     }

@@ -30,7 +30,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
-import android.view.TextureView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,9 +40,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.events.CameraStateEvents;
 import freed.utils.Log;
-import freed.views.AutoFitTextureView;
 
 /**
  * Created by troop on 07.12.2014.
@@ -58,7 +55,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
-    public AutoFitTextureView textureView;
 
     public StreamConfigurationMap map;
     public int CurrentCamera;
@@ -174,16 +170,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
         finally
         {
-//            mCameraOpenCloseLock.release();
-            CameraStateEvents.fireCameraCloseEvent();
+            fireCameraClose();
             Log.d(TAG, "camera closed");
         }
     }
 
-    public void SetSurface(TextureView surfaceHolder)
-    {
-        textureView = (AutoFitTextureView) surfaceHolder;
-    }
 
     @Override
     public void StartFocus(FocusEvents autoFocusCallback) {
@@ -215,7 +206,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
                     (long) rhs.getWidth() * rhs.getHeight());
         }
-
     }
 
     //###########################  CALLBACKS
@@ -228,7 +218,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             CameraHolderApi2.this.mCameraDevice = cameraDevice;
 
             Log.d(TAG, "Camera open");
-            CameraStateEvents.fireCameraOpenEvent();
+            fireCameraOpen();
         }
 
         @Override
@@ -239,7 +229,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
-            CameraStateEvents.fireCameraCloseEvent();
+            fireCameraClose();
         }
 
         @Override
@@ -252,14 +242,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
             }
             errorRecieved = true;
-            CameraStateEvents.fireCameraCloseEvent();
-
+            fireCameraClose();
         }
     };
-
-
-
-
-
-
 }

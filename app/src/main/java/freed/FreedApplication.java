@@ -3,6 +3,16 @@ package freed;
 import android.app.Application;
 import android.content.Context;
 
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.android.HiltAndroidApp;
+import freed.file.FileListController;
+import freed.settings.SettingsManager;
+import freed.viewer.helper.BitmapHelper;
+import hilt.BitmapHelperEntryPoint;
+import hilt.FileListControllerEntryPoint;
+import hilt.SettingsManagerEntryPoint;
+
+@HiltAndroidApp
 public class FreedApplication extends Application {
 
     private static Context context;
@@ -20,6 +30,25 @@ public class FreedApplication extends Application {
     public static String[] getStringArrayFromRessource(int id)
     {
         return context.getResources().getStringArray(id);
+    }
+
+    public static SettingsManager settingsManager()
+    {
+        return getEntryPointFromApplication(SettingsManagerEntryPoint.class).settingsManager();
+    }
+
+    public static FileListController fileListController()
+    {
+        return getEntryPointFromApplication(FileListControllerEntryPoint.class).fileListController();
+    }
+
+    public static BitmapHelper bitmapHelper()
+    {
+        return getEntryPointFromApplication(BitmapHelperEntryPoint.class).bitmapHelper();
+    }
+
+    public static <T> T getEntryPointFromApplication(Class<T> entryPoint) {
+        return EntryPointAccessors.fromApplication(context, entryPoint);
     }
 
     @Override

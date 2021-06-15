@@ -23,7 +23,6 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.modules.AeBracketApi2;
 import freed.cam.apis.camera2.modules.AfBracketApi2;
@@ -36,15 +35,14 @@ import freed.cam.apis.camera2.modules.RawStackPipeAllAtOnce;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 12.12.2014.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ModuleHandlerApi2 extends ModuleHandlerAbstract
+public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
 {
-    public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper)
+    public  ModuleHandlerApi2 (Camera2 cameraUiWrapper)
     {
         super(cameraUiWrapper);
         initModules();
@@ -60,16 +58,16 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        if (SettingsManager.getInstance().getFrameWork() != Frameworks.HuaweiCamera2Ex && SettingsManager.get(SettingKeys.M_ExposureTime).isSupported()){
+        if (settingsManager.getFrameWork() != Frameworks.HuaweiCamera2Ex && settingsManager.get(SettingKeys.M_ExposureTime).isSupported()){
             AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
-        else if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+        else if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             AeBracketApi2 aeBracketApi2 = new HuaweiAeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
-        if (SettingsManager.get(SettingKeys.M_Focus).isSupported() && SettingsManager.get(SettingKeys.M_Focus).getValues().length > 0) {
+        if (settingsManager.get(SettingKeys.M_Focus).isSupported() && settingsManager.get(SettingKeys.M_Focus).getValues().length > 0) {
             AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
             moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
         }

@@ -25,7 +25,6 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
@@ -53,7 +52,7 @@ public class ShutterManualKirin extends AbstractParameter {
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-professional-mode", "on");
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), stringvalues[currentInt]);
+            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
     }

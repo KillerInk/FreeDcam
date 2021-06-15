@@ -41,22 +41,23 @@ import com.troop.freedcam.R;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.FreeDPool;
-import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.gridview.modelview.GridViewFragmentModelView;
 import freed.viewer.gridview.views.GridViewFragment;
-import freed.viewer.helper.BitmapHelper;
-import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 /**
  * Created by troop on 11.12.2015.
  */
+@AndroidEntryPoint
 public class ActivityFreeDviewer extends ActivityAbstract
 {
     private final String TAG = ActivityFreeDviewer.class.getSimpleName();
@@ -67,7 +68,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     private AnimatorSet mCurrentAnimator;
     private int mShortAnimationDuration;
     private GridViewFragmentModelView gridViewFragmentModelView;
-    private ScreenSlideFragmentModelView screenSlideFragmentModelView;
+    @Inject FileListController fileListController;
 
 
     @Override
@@ -88,13 +89,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
     {
         Log.d(TAG,"init");
         gridViewFragmentModelView =  new ViewModelProvider(this).get(GridViewFragmentModelView.class);
-        screenSlideFragmentModelView = new ViewModelProvider(this).get(ScreenSlideFragmentModelView.class);
-        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size));
-        fileListController = new FileListController(getApplicationContext());
-        gridViewFragmentModelView.setFileListController(fileListController);
-        gridViewFragmentModelView.setBitmapHelper(bitmapHelper);
-        screenSlideFragmentModelView.setFileListController(fileListController);
-        screenSlideFragmentModelView.setBitmapHelper(bitmapHelper);
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         gridViewFragment = new GridViewFragment();
@@ -105,7 +99,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
         screenSlideFragment = new ScreenSlideFragment();
         screenSlideFragment.setOnBackClickListner(onScreenSlideBackClick);
-        screenSlideFragment.setScreenSlideFragmentModelView(screenSlideFragmentModelView);
         slideholder =  findViewById(R.id.freedviewer_screenslideholder);
         gridholder = findViewById(R.id.freedviewer_gridviewholder);
         slideholder.setVisibility(View.GONE);
@@ -118,7 +111,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if (BR.formatType == propertyId)
                 {
-                    screenSlideFragmentModelView.getFilesHolderModel().setFormatTypes(gridViewFragmentModelView.getFilesHolderModel().getFormatType());
+                    //TODO FIX this
+                    //screenSlideFragmentModelView.getFilesHolderModel().setFormatTypes(gridViewFragmentModelView.getFilesHolderModel().getFormatType());
                 }
             }
         });
@@ -137,13 +131,8 @@ public class ActivityFreeDviewer extends ActivityAbstract
     @Override
     protected void onResume() {
         super.onResume();
-        if (getPermissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
+        if (permissionManager().isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
             FreeDPool.Execute(() -> fileListController.loadDefaultFiles());
-    }
-
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
     }
 
     private final ScreenSlideFragment.ButtonClick onScreenSlideBackClick = this::loadGridView;

@@ -21,36 +21,15 @@ package freed;
 
 import android.net.Uri;
 
-import freed.file.FileListController;
-import freed.utils.LocationManager;
-import freed.utils.PermissionManager;
-import freed.viewer.helper.BitmapHelper;
-
 /**
  * Created by troop on 22.03.2015.
  */
 public interface ActivityInterface
 {
-    void closeActivity();
-    void ChooseSDCard(I_OnActivityResultCallback callback);
     interface I_OnActivityResultCallback
     {
         void onActivityResultCallback(Uri uri);
     }
-
-    PermissionManager getPermissionManager();
-
-    BitmapHelper getBitmapHelper();
-
-    FileListController getFileListController();
-
-    LocationManager getLocationManager();
-
-    int getOrientation();
-
-    void SetNightOverlay();
-
-    void runFeatureDetector();
 }
 
 

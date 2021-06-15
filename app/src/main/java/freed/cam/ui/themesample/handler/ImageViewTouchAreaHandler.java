@@ -29,7 +29,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.previewpostprocessing.PreviewController;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them
@@ -43,6 +45,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
     private float x;
     private float y;
     private final Handler longClickHandler;
+    private PreviewController previewController;
 
     public interface I_TouchListnerEvent
     {
@@ -64,6 +67,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
         this.touchListnerEvent = touchListnerEvent;
         allowDrag = true;
         longClickHandler = new Handler();
+        previewController = ActivityFreeDcamMain.previewController();
     }
 
 
@@ -125,9 +129,9 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                 int yd = getDistance(startY, (int) dify);
 
                 if (allowDrag) {
-                    if (event.getX() - difx > cameraUiWrapper.getMargineLeft() && event.getX() - difx + imageView.getWidth() < cameraUiWrapper.getMargineLeft() + cameraUiWrapper.getPreviewWidth())
+                    if (event.getX() - difx > previewController.getMargineLeft() && event.getX() - difx + imageView.getWidth() < previewController.getMargineLeft() + previewController.getPreviewWidth())
                         imageView.setX(event.getX() - difx);
-                    if (event.getY() - dify > cameraUiWrapper.getMargineTop() && event.getY() - dify + imageView.getHeight() < cameraUiWrapper.getMargineTop() + cameraUiWrapper.getPreviewHeight())
+                    if (event.getY() - dify > previewController.getMargineTop() && event.getY() - dify + imageView.getHeight() < previewController.getMargineTop() + previewController.getPreviewHeight())
                         imageView.setY(event.getY() - dify);
                     /*
       distance in pixel? to move bevor it gets detected as move
@@ -148,11 +152,11 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                 recthalf = imageView.getWidth() /2;
                 x = imageView.getX() + recthalf;
                 y = imageView.getY() + recthalf;
-                if (x < cameraUiWrapper.getMargineLeft() || x > cameraUiWrapper.getMargineRight()
-                        || y < cameraUiWrapper.getMargineTop())
+                if (x < previewController.getMargineLeft() || x > previewController.getMargineRight()
+                        || y < previewController.getMargineTop())
                     return true;
-                x -= cameraUiWrapper.getMargineLeft();
-                y -= cameraUiWrapper.getMargineTop();
+                x -= previewController.getMargineLeft();
+                y -= previewController.getMargineTop();
                 if (moving)
                 {
                     longClickHandler.removeCallbacks(longClickRunnable);
@@ -164,7 +168,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                     FocusRect imageRect = new FocusRect((int) imageView.getX(), (int) imageView.getX() + imageView.getWidth(), (int) imageView.getY(), (int) imageView.getY() + imageView.getWidth(), (int) imageView.getX(), (int) imageView.getY());
 */
                     if (touchListnerEvent != null) {
-                        touchListnerEvent.onAreaCHanged((int)x,(int)y, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
+                        touchListnerEvent.onAreaCHanged((int)x,(int)y, previewController.getPreviewWidth(), previewController.getPreviewHeight());
                         touchListnerEvent.IsMoving(false);
                     }
                 }

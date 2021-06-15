@@ -1,67 +1,71 @@
 package freed.cam.apis.featuredetector;
 
-import java.util.Arrays;
+import com.troop.freedcam.R;
 
-import freed.settings.mode.SettingInterface;
-import freed.settings.mode.SettingMode;
-import freed.utils.Log;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import freed.FreedApplication;
+import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 23.01.2017.
  */
 
-abstract class AbstractFeatureDetectorTask {
-
-    private final  String TAG = AbstractFeatureDetectorTask.class.getSimpleName();
-    private ProgressUpdate progressUpdateListner;
-    AbstractFeatureDetectorTask(ProgressUpdate progressUpdate)
+abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
+    private List<Class> parametersToDetect;
+    protected SettingsManager settingsManager;
+    AbstractFeatureDetectorTask()
     {
-        this.progressUpdateListner = progressUpdate;
+        parametersToDetect = createParametersToCheckList();
+        settingsManager = FreedApplication.settingsManager();
     }
 
-    public interface ProgressUpdate
+    @Override
+    public void detect()
     {
-        void onProgessUpdate(String msg);
-        void onTaskEnd(String msg);
+        preDetect();
+        List<String> cameraIDs = findCameraIDs();
+        int arr[] = new int[cameraIDs.size()];
+        for (int i = 0; i<arr.length;i++)
+            arr[i] = Integer.parseInt(cameraIDs.get(i));
+        settingsManager.setCameraIds(arr);
+        settingsManager.SetCurrentCamera(0);
+        for (int i = 0; i < cameraIDs.size();i++)
+            checkCameraID(i,cameraIDs,parametersToDetect);
+        postDetect();
     }
 
-    void sendProgress(SettingInterface settingMode, String name)
+    @Override
+    public void checkCameraID(int id, List<String> cameraids, List<Class> parametersToDetect)
     {
-        if (settingMode instanceof SettingMode) {
-            SettingMode ts = (SettingMode) settingMode;
-            if (ts.isSupported()) {
-                String[]ar = ts.getValues();
-                String t = getStringFromArray(ar);
-                Log.d(TAG, name+" Values:" +t);
-                Log.d(TAG, name+":" + ts.get());
-                //publishProgress(name+" Values:" +t);
-                //publishProgress(name+":" + ts.get());
-            }
-            else
-                Log.d(TAG,name+" not supported");
-                //publishProgress(name+" not supported");
-        }
+        settingsManager.SetCurrentCamera(id);
+
+        settingsManager.get(SettingKeys.orientationHack).setValues(new String[]{"0","90","180","270"});
+        settingsManager.get(SettingKeys.orientationHack).set("0");
+        settingsManager.get(SettingKeys.orientationHack).setIsSupported(true);
+
+        settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).set(false);
+        settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
+
+
+        settingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+
+
+        settingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
+        settingsManager.get(SettingKeys.selfTimer).set(settingsManager.get(SettingKeys.selfTimer).getValues()[0]);
+
+        settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).set(FreedApplication.getStringFromRessources(R.string.video_audio_source_default));
+        settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
+        settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
+
 
     }
 
-    public abstract void detect();
-
-    void publishProgress(String value) {
-        if (progressUpdateListner != null)
-            progressUpdateListner.onProgessUpdate(value);
+    protected  <T> T getInstance(Class classtype) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<?> constructor =  classtype.getConstructor();
+        return (T) constructor.newInstance();
     }
-
-    public void onPostExecute(String s) {
-        if (progressUpdateListner != null)
-            progressUpdateListner.onTaskEnd(s);
-    }
-
-    String getStringFromArray(String[] arr)
-    {
-        if (arr == null)
-            return "";
-        return Arrays.toString(arr);
-    }
-
-
 }

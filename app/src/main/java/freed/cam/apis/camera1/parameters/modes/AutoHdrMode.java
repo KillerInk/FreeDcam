@@ -16,7 +16,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
 
@@ -75,12 +74,12 @@ public class AutoHdrMode extends BaseModeParameter {
         Log.d(TAG, "set auto hdr");
         if(setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
+        ((SettingMode)settingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         if(parameters.get(FreedApplication.getStringFromRessources(R.string.auto_hdr_enable))!= null)
         {
             if (parameters.get(FreedApplication.getStringFromRessources(R.string.auto_hdr_enable)).equals(FreedApplication.getStringFromRessources(R.string.enable_))
@@ -103,7 +102,7 @@ public class AutoHdrMode extends BaseModeParameter {
         if (curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_video))|| curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
             hide();
-            SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+            setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         }
         else
         {
@@ -114,7 +113,7 @@ public class AutoHdrMode extends BaseModeParameter {
             else
             {
                 hide();
-                SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+                setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
             }
         }
     }
@@ -135,16 +134,16 @@ public class AutoHdrMode extends BaseModeParameter {
 
     private void hide()
     {
-        state = GetStringValue();
+        state = getStringValue();
         visible = false;
-        SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+        setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         setViewState(ViewState.Hidden);
     }
     private void show()
     {
         visible = true;
-        SetValue(state,true);
+        setStringValue(state,true);
         fireStringValueChanged(state);
         setViewState(ViewState.Visible);
     }

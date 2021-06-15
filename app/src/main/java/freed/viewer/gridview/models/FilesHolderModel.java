@@ -8,6 +8,7 @@ import com.troop.freedcam.BR;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.FreedApplication;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
@@ -27,6 +28,9 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
     {
         gridImageViewModels = new ArrayList<>();
         visibleGridImageViewModels = new ArrayList<>();
+        fileListController = FreedApplication.fileListController();
+        fileListController.setNotifyFilesChanged(this);
+        bitmapHelper = FreedApplication.bitmapHelper();
     }
 
     public void setFiles(List<BaseHolder> files) {
@@ -99,16 +103,6 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         fileListController.DeleteFile(baseHolders);
     }
 
-    public void setFileListController(FileListController fileListController) {
-        this.fileListController = fileListController;
-        if (fileListController.getFiles() != null && fileListController.getFiles().size() > 0)
-            setFiles(fileListController.getFiles());
-        fileListController.setNotifyFilesChanged(this);
-    }
-
-    public FileListController getFileListController() {
-        return fileListController;
-    }
 
     @Override
     public void onFilesChanged() {
@@ -123,10 +117,5 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
         if (id < gridImageViewModels.size())
             gridImageViewModels.remove(id);
         notifyPropertyChanged(BR.files);
-    }
-
-    public void setBitmapHelper(BitmapHelper bitmapHelper)
-    {
-        this.bitmapHelper = bitmapHelper;
     }
 }

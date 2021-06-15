@@ -25,44 +25,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.EventBusLifeCycle;
-import freed.cam.events.UserMessageEvent;
+import freed.cam.apis.basecamera.CameraHolderEvent;
+import freed.cam.apis.basecamera.Size;
 
 
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements Runnable, EventBusLifeCycle
+public class UserMessageHandler implements Runnable, CameraHolderEvent
 {
 
     private Context context;
     private TextView messageTextView1;
     private LinearLayout messageHolder1;
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCameraErrorEvent(freed.cam.events.CameraStateEvents.CameraErrorEvent cameraErrorEvent)
-    {
-        setUserMessage(cameraErrorEvent.msg,true);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUserMessageEvent(UserMessageEvent event)
-    {
-        setUserMessage(event.msg,event.asToast);
-    }
-
-    public UserMessageHandler()
-    {
-    }
-
-    public void setContext(Context contextt)
+    public UserMessageHandler(Context contextt)
     {
         this.context = contextt;
     }
+
 
     public void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
     {
@@ -70,9 +51,9 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle
         this.messageHolder1 = messageHolder1;
     }
 
-    public static void sendMSG(String msg,boolean asToast)
+    public void sendMSG(String msg,boolean asToast)
     {
-        EventBusHelper.post(new UserMessageEvent(msg,asToast));
+        setUserMessage(msg,asToast);
     }
 
     private void setUserMessage(String msg,boolean asToast)
@@ -82,7 +63,6 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         else {
-
             if (messageHolder1 != null) {
                 messageHolder1.removeCallbacks(this);
                 messageHolder1.setVisibility(View.VISIBLE);
@@ -103,12 +83,27 @@ public class UserMessageHandler implements Runnable, EventBusLifeCycle
     }
 
     @Override
-    public void startListning() {
-        EventBusHelper.register(this);
+    public void onCameraOpen() {
+
     }
 
     @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
+    public void onCameraOpenFinished() {
+
+    }
+
+    @Override
+    public void onCameraClose() {
+
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        setUserMessage(error,true);
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
     }
 }

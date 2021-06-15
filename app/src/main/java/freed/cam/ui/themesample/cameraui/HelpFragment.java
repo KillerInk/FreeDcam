@@ -36,12 +36,16 @@ import androidx.fragment.app.Fragment;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment.i_HelpFragment;
 import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 29.02.2016.
  */
+@AndroidEntryPoint
 public class HelpFragment extends Fragment
 {
     private ImageView finger;
@@ -50,6 +54,8 @@ public class HelpFragment extends Fragment
     private int helpState;
     private i_HelpFragment closer;
     private CheckBox dontshowagain;
+    @Inject
+    SettingsManager settingsManager;
 
     public static HelpFragment getFragment(i_HelpFragment closer)
     {
@@ -83,11 +89,11 @@ public class HelpFragment extends Fragment
                 case 4:
                     if (dontshowagain.isChecked())
                     {
-                        SettingsManager.getInstance().setshowHelpOverlay(false);
+                        settingsManager.setshowHelpOverlay(false);
                     }
                     else
                     {
-                        SettingsManager.getInstance().setshowHelpOverlay(true);
+                        settingsManager.setshowHelpOverlay(true);
                     }
                     closer.Close(HelpFragment.this);
             }

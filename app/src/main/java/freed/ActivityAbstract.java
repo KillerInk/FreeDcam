@@ -26,47 +26,60 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Environment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 
-import freed.file.FileListController;
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.EntryPointAccessors;
 import freed.image.ImageManager;
 import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
-import freed.viewer.helper.BitmapHelper;
+import hilt.PermissionManagerEntryPoint;
 
 /**
  * Created by troop on 28.03.2016.
  */
+@AndroidEntryPoint
 public abstract class ActivityAbstract extends AppCompatActivity implements ActivityInterface {
+
+
+    private static Activity context;
+    protected static <T> T getEntryPointFromActivity(Class<T> entryPoint) {
+        return EntryPointAccessors.fromActivity(context, entryPoint);
+    }
+
+    public static PermissionManager permissionManager()
+    {
+        return getEntryPointFromActivity(PermissionManagerEntryPoint.class).permissionManager();
+    }
 
     private final boolean forceLogging = false;
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
-    protected BitmapHelper bitmapHelper;
-    protected FileListController fileListController;
+
     private I_OnActivityResultCallback resultCallback;
     private HideNavBarHelper hideNavBarHelper;
-    private PermissionManager permissionManager;
-    public PermissionManager getPermissionManager() {
-        return permissionManager;
-    }
+    @Inject
+    PermissionManager permissionManager;
+    @Inject
+    public SettingsManager settingsManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentToView();
+        context = this;
         Log.d(TAG,"onCreate");
         hideNavBarHelper = new HideNavBarHelper();
-        permissionManager =new PermissionManager(this);
-        if (!SettingsManager.getInstance().isInit()) {
-            SettingsManager.getInstance().init();
+        if (!settingsManager.isInit()) {
+            settingsManager.init();
         }
         Log.d(TAG,"onCreatePermissionGranted");
         File log = new File(FreedApplication.getContext().getExternalFilesDir(null)+ "/log.txt");
@@ -95,7 +108,8 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     protected void onDestroy() {
         ImageManager.cancelImageSaveTasks();
         ImageManager.cancelImageLoadTasks();
-        SettingsManager.getInstance().release();
+        settingsManager.release();
+        context = null;
         super.onDestroy();
         /*if (Log.isLogToFileEnable())
             Log.destroy();*/
@@ -114,10 +128,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     }
 
     @Override
-    public void closeActivity() {
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
@@ -126,7 +136,6 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             hideNavBarHelper.showNavbar(getWindow());
     }
 
-    @Override
     public void ChooseSDCard(I_OnActivityResultCallback callback)
     {
         try {
@@ -162,7 +171,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
 
 
                 getContentResolver().takePersistableUriPermission(uri, takeFlags);
-                SettingsManager.getInstance().SetBaseFolder(uri.toString());
+                settingsManager.SetBaseFolder(uri.toString());
                 if (resultCallback != null) {
                     resultCallback.onActivityResultCallback(uri);
                     resultCallback = null;
@@ -171,29 +180,4 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
         }
     }
 
-
-    @Override
-    public BitmapHelper getBitmapHelper() {
-        return bitmapHelper;
-    }
-
-    @Override
-    public FileListController getFileListController() {
-        return this.fileListController;
-    }
-
-    @Override
-    public int getOrientation() {
-        return 0;
-    }
-
-    @Override
-    public void SetNightOverlay() {
-
-    }
-
-    @Override
-    public void runFeatureDetector() {
-
-    }
 }

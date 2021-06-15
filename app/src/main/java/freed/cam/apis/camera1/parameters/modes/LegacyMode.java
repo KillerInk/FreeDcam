@@ -2,6 +2,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.os.Build;
 
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.mode.ApiBooleanSettingMode;
@@ -30,6 +31,6 @@ public class LegacyMode extends AbstractParameter implements BooleanSettingModeI
     @Override
     public void set(boolean bool) {
         settingMode.set(bool);
-        cameraUiWrapper.getActivityInterface().runFeatureDetector();
+        ActivityFreeDcamMain.cameraApiManager().runFeatureDetector();
     }
 }

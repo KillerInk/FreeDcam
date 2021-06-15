@@ -14,7 +14,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 
 /**
@@ -46,12 +45,12 @@ public class LgHdrMode extends BaseModeParameter
             parameters.set(FreedApplication.getStringFromRessources(R.string.hdr_mode), 2);
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
+        ((SettingMode)settingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
             if (parameters.get(FreedApplication.getStringFromRessources(R.string.hdr_mode))== null)
                 parameters.set(FreedApplication.getStringFromRessources(R.string.hdr_mode), "0");
             if (parameters.get(FreedApplication.getStringFromRessources(R.string.hdr_mode)).equals("0"))
@@ -79,7 +78,7 @@ public class LgHdrMode extends BaseModeParameter
         if (curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_video))|| curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
             Hide();
-            SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+            setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         }
         else
         {
@@ -90,7 +89,7 @@ public class LgHdrMode extends BaseModeParameter
             else
             {
                 Hide();
-                SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+                setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
             }
         }
     }
@@ -111,16 +110,16 @@ public class LgHdrMode extends BaseModeParameter
 
     private void Hide()
     {
-        state = GetStringValue();
+        state = getStringValue();
         visible = false;
-        SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+        setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         setViewState(ViewState.Hidden);
     }
     private void Show()
     {
         visible = true;
-        SetValue(state,true);
+        setStringValue(state,true);
         fireStringValueChanged(state);
         setViewState(ViewState.Visible);
     }

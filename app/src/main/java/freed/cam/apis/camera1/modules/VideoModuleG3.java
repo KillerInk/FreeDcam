@@ -27,16 +27,15 @@ import com.lge.media.MediaRecorderExRef;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.record.VideoRecorder;
+import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.modes.VideoProfilesParameter;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;
 
@@ -50,7 +49,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public VideoModuleG3(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
     }
 
@@ -60,13 +59,13 @@ public class VideoModuleG3 extends AbstractVideoModule
         if (currentProfile == null)
         {
             VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
-            currentProfile = videoProfilesG3Parameter.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
+            currentProfile = videoProfilesG3Parameter.GetCameraProfile(settingsManager.get(SettingKeys.VideoProfiles).get());
         }
         recorder.setCurrentVideoProfile(currentProfile);
 
         recorder.setCamera(((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera());
-        if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
-            Location location = cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation();
+        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
+            Location location = locationManager.getCurrentLocation();
             if (location != null)
                 recorder.setLocation(location);
         }
@@ -90,7 +89,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private void loadProfileSpecificParameters()
     {
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoProfiles);
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(SettingsManager.get(SettingKeys.VideoProfiles).get());
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(settingsManager.get(SettingKeys.VideoProfiles).get());
         if (((ParametersHandler)cameraUiWrapper.getParameterHandler()).getParameters().get("preview-fps-range") != null) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).getParameters().set("preview-fps-range", "30000,30000");
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(((ParametersHandler) cameraUiWrapper.getParameterHandler()).getParameters());
@@ -99,31 +98,31 @@ public class VideoModuleG3 extends AbstractVideoModule
         {
             ParameterInterface mce = cameraUiWrapper.getParameterHandler().get(SettingKeys.MemoryColorEnhancement);
             if(mce != null && mce.getViewState() == AbstractParameter.ViewState.Visible)
-                mce.SetValue(FreedApplication.getStringFromRessources(R.string.disable_),false);
+                mce.setStringValue(FreedApplication.getStringFromRessources(R.string.disable_),false);
             ParameterInterface dis = cameraUiWrapper.getParameterHandler().get(SettingKeys.DigitalImageStabilization);
             if (dis!= null && dis.getViewState() == AbstractParameter.ViewState.Visible)
-                dis.SetValue(FreedApplication.getStringFromRessources(R.string.disable_), false);
+                dis.setStringValue(FreedApplication.getStringFromRessources(R.string.disable_), false);
             ParameterInterface denoise = cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise);
             if (denoise != null && denoise.getViewState() == AbstractParameter.ViewState.Visible)
-                denoise.SetValue("denoise-off", false);
-            if(!SettingsManager.getInstance().hasCamera2Features())
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("nv12-venus",false);
+                denoise.setStringValue("denoise-off", false);
+            if(!settingsManager.hasCamera2Features())
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).setStringValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
                 ParameterInterface hfr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHighFramerate);
                 if (hfr != null && hfr.getViewState() == AbstractParameter.ViewState.Visible)
                 {
-                    hfr.SetValue(currentProfile.videoFrameRate+"", false);
+                    hfr.setStringValue(currentProfile.videoFrameRate+"", false);
                 }
             }
         }
         else
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("yuv420sp", false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).setStringValue("yuv420sp", false);
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).SetValue(size,false);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoSize).SetValue(size,true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size,false);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoSize).setStringValue(size,true);
         /*cameraUiWrapper.stopPreview();
         cameraUiWrapper.startPreview();*/
     }

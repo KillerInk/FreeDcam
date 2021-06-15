@@ -25,8 +25,6 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
-import freed.file.FileListController;
-import freed.utils.LocationManager;
 
 /**
  * Created by troop on 22.12.2015.
@@ -38,19 +36,12 @@ public class DngConvertingActivity extends ActivityAbstract
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fileListController = new FileListController(getApplicationContext());
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(id.content, new DngConvertingFragment(), TAG);
             ft.commit();
         }
 
-    }
-
-
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
     }
 
     @Override

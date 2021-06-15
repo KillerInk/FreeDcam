@@ -21,10 +21,7 @@ import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.DataExtractor;
 import freed.cam.apis.sonyremote.sonystuff.SimpleLiveviewSlicer;
 import freed.cam.events.DisableViewPagerTouchEvent;
@@ -34,7 +31,7 @@ import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
-public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcessorInterface {
+public class PreviewStreamDrawer implements RenderScriptProcessorInterface {
     private final String TAG = PreviewStreamDrawer.class.getSimpleName();
 
     private TextureView textureView;
@@ -61,7 +58,6 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
     private int zoomPreviewMagineLeft;
     private int zoomPreviewMargineTop;
     private RenderScriptManager renderScriptManager;
-    private ActivityInterface activityInterface;
 
     //Tells the drawing Thread that it can draw
     private boolean DODRAW = false;
@@ -96,33 +92,13 @@ public class PreviewStreamDrawer implements ParameterEvents, RenderScriptProcess
         zoomPreviewMargineTop += (y);
     }
 
-    public PreviewStreamDrawer(TextureView textureView,RenderScriptManager renderScriptManager)
+    public PreviewStreamDrawer(TextureView textureView, RenderScriptManager renderScriptManager)
     {
         this.textureView = textureView;
         this.mFramePaint = new Paint();
         this.mFramePaint.setDither(true);
         this.initPaint(FreedApplication.getContext());
         this.renderScriptManager = renderScriptManager;
-    }
-
-    @Override
-    public void onViewStateChanged(AbstractParameter.ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-
     }
 
     public enum NightPreviewModes

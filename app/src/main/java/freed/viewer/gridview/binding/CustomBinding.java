@@ -14,7 +14,6 @@ import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.models.PopupMenuModel;
-import freed.viewer.screenslide.models.ImageFragmentModel;
 import freed.viewer.screenslide.views.MyHistogram;
 
 public class CustomBinding {

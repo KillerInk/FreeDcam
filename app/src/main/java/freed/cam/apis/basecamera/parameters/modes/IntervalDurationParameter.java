@@ -27,7 +27,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 08.01.2016.
@@ -42,10 +41,10 @@ public class IntervalDurationParameter extends AbstractParameter
     {
         super( SettingKeys.INTERVAL_DURATION);
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.INTERVAL_DURATION).get()))
-            SettingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
+        if (TextUtils.isEmpty(settingsManager.get(SettingKeys.INTERVAL_DURATION).get()))
+            settingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
         else
-            current = SettingsManager.get(SettingKeys.INTERVAL_DURATION).get();
+            current = settingsManager.get(SettingKeys.INTERVAL_DURATION).get();
     }
 
     @Override
@@ -54,13 +53,14 @@ public class IntervalDurationParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
+        super.setStringValue(valueToSet,setToCamera);
         current = valueToSet;
-        SettingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
+        settingsManager.get(SettingKeys.INTERVAL_DURATION).set(current);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return current;
     }
 

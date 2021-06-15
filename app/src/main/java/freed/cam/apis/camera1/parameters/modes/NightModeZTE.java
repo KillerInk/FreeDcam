@@ -25,14 +25,13 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 26.09.2014.
  */
-public class NightModeZTE extends BaseModeParameter implements ParameterEvents
+public class NightModeZTE extends BaseModeParameter
 {
     final String TAG = NightModeZTE.class.getSimpleName();
     private final boolean visible = true;
@@ -45,7 +44,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         parameters.set(FreedApplication.getStringFromRessources(R.string.night_key), valueToSet);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
@@ -54,7 +53,7 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
             return parameters.get(FreedApplication.getStringFromRessources(R.string.night_key));
     }
 
@@ -64,24 +63,5 @@ public class NightModeZTE extends BaseModeParameter implements ParameterEvents
                 FreedApplication.getStringFromRessources(R.string.off_),
                 FreedApplication.getStringFromRessources(R.string.on_),
                 FreedApplication.getStringFromRessources(R.string.night_mode_tripod)};
-    }
-
-    @Override
-    public void onViewStateChanged(ViewState value) {
-
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
     }
 }

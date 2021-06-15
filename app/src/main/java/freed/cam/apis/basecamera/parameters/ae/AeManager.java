@@ -2,9 +2,6 @@ package freed.cam.apis.basecamera.parameters.ae;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.IsoChangedEvent;
-import freed.cam.events.ShutterSpeedChangedEvent;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -78,18 +75,11 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public int GetValue()
+        public int getIntValue()
         {
             return currentInt;
         }
 
-        @Override
-        public String GetStringValue()
-        {
-            if (stringvalues == null || stringvalues.length == 0 || currentInt > stringvalues.length)
-                return "error";
-            return stringvalues[currentInt];
-        }
 
 
         @Override
@@ -110,11 +100,6 @@ public abstract class AeManager implements AeManagerInterface
                 return ViewState.Enabled;
             else
                 return ViewState.Disabled;
-        }
-
-        @Override
-        public void fireStringValueChanged(String value) {
-            EventBusHelper.post(new ShutterSpeedChangedEvent(key,value,String.class));
         }
 
     }
@@ -147,11 +132,6 @@ public abstract class AeManager implements AeManagerInterface
             else
                 return ViewState.Disabled;
         }
-
-        @Override
-        public void fireStringValueChanged(String value) {
-            EventBusHelper.post(new IsoChangedEvent(key,value,String.class));
-        }
     }
 
     public class ExposureCompensation extends AbstractParameter
@@ -164,12 +144,12 @@ public abstract class AeManager implements AeManagerInterface
         }
 
         @Override
-        public int GetValue() {
-            return super.GetValue();
+        public int getIntValue() {
+            return super.getIntValue();
         }
 
         @Override
-        public String GetStringValue() {
+        public String getStringValue() {
             try {
                 return stringvalues[currentInt];
             }

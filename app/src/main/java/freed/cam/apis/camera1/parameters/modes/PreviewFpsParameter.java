@@ -21,6 +21,7 @@ package freed.cam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 
@@ -35,18 +36,17 @@ public class PreviewFpsParameter extends  BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
-        super.SetValue(valueToSet, setToCam);
+        super.setStringValue(valueToSet, setToCam);
         if (setToCam) {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         }
     }
 
     @Override
-    public String GetStringValue() {
-        return super.GetStringValue();
+    public String getStringValue() {
+        return super.getStringValue();
     }
 
 }

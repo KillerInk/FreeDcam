@@ -26,7 +26,6 @@ import java.io.File;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 /**
@@ -61,15 +60,15 @@ public class SDModeParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
 
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
-        if (SettingsManager.getInstance().GetWriteExternal())
+        if (settingsManager.GetWriteExternal())
             return external;
         else
             return internal;

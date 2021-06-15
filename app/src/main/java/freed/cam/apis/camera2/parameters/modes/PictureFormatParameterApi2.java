@@ -23,9 +23,9 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 12.12.2014.
@@ -33,23 +33,23 @@ import freed.settings.SettingsManager;
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
 
-    public PictureFormatParameterApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
+    public PictureFormatParameterApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Integer> parameterKey)
     {
         super(cameraUiWrapper,key,parameterKey);
-        if (SettingsManager.get(SettingKeys.PictureFormat).isSupported()) {
+        if (settingsManager.get(SettingKeys.PictureFormat).isSupported()) {
             setViewState(ViewState.Visible);
-            currentString = SettingsManager.get(SettingKeys.PictureFormat).get();
+            currentString = settingsManager.get(SettingKeys.PictureFormat).get();
         }
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
         super.setValue(valueToSet,setToCamera);
         if (setToCamera)
         {
-            cameraUiWrapper.restartPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
             /*cameraUiWrapper.stopPreviewAsync();
             cameraUiWrapper.startPreviewAsync();*/
         }
@@ -63,7 +63,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetStringValue() {
-        return SettingsManager.get(SettingKeys.PictureFormat).get();
+    public String getStringValue() {
+        return settingsManager.get(SettingKeys.PictureFormat).get();
     }
 }

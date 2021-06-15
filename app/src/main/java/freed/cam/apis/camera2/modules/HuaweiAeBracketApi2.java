@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.huawei.CameraCharacteristicsHuawei;
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -23,14 +23,14 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     private int isoauto = 0;
     private int shutterauto = 0;
 
-    public HuaweiAeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public HuaweiAeBracketApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
     }
 
     @Override
     protected void onStartTakePicture() {
-        isoauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).GetValue();
-        shutterauto = cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).GetValue();
+        isoauto = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ManualIso).getIntValue();
+        shutterauto = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).getIntValue();
         int isorange[] = cameraHolder.characteristics.get(CameraCharacteristicsHuawei.HUAWEI_SENSOR_ISO_RANGE);
         maxiso = isorange[isorange.length-1];
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
@@ -85,8 +85,8 @@ public class HuaweiAeBracketApi2 extends AeBracketApi2 {
     @Override
     protected void finishCapture() {
         super.finishCapture();
-        cameraUiWrapper.parametersHandler.get(SettingKeys.M_ManualIso).SetValue(isoauto,true);
-        cameraUiWrapper.parametersHandler.get(SettingKeys.M_ExposureTime).SetValue(shutterauto,true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ManualIso).setIntValue(isoauto,true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).setIntValue(shutterauto,true);
     }
 
 }

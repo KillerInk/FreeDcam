@@ -42,24 +42,25 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.VideoProfileEditorFragmentBinding;
 
-import java.util.HashMap;
 import java.util.List;
 
-import freed.cam.ui.videoprofileeditor.MyMediaCodec;
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
+import freed.cam.ui.videoprofileeditor.enums.HdrModes;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 import freed.cam.ui.videoprofileeditor.models.AudioCodecModel;
 import freed.cam.ui.videoprofileeditor.models.EncoderModel;
+import freed.cam.ui.videoprofileeditor.models.HdrModel;
 import freed.cam.ui.videoprofileeditor.models.OpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.PopupModel;
-import freed.cam.ui.videoprofileeditor.models.PreviewOpcodeModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileLevelModel;
 import freed.cam.ui.videoprofileeditor.models.ProfileModel;
 import freed.cam.ui.videoprofileeditor.models.RecordModel;
 import freed.cam.ui.videoprofileeditor.models.VideoCodecModel;
 import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.VideoMediaProfile;
 import freed.utils.VideoMediaProfile.VideoMode;
@@ -67,11 +68,14 @@ import freed.utils.VideoMediaProfile.VideoMode;
 /**
  * Created by troop on 15.02.2016.
  */
+@AndroidEntryPoint
 public class VideoProfileEditorFragment extends Fragment {
     final String TAG = VideoProfileEditorFragment.class.getSimpleName();
 
     private VideoProfileEditorFragmentBinding videoProfileEditorFragmentBinding;
     private VideoProfileEditorModelView videoProfileEditorModelView;
+    @Inject
+    SettingsManager settingsManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -104,10 +108,10 @@ public class VideoProfileEditorFragment extends Fragment {
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonVideoEnCoder);
                 if (((PopupModel)sender).getPopUpItemClick() instanceof ProfileLevelModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonProfileLevel);
-                if (((PopupModel)sender).getPopUpItemClick() instanceof PreviewOpcodeModel)
-                    menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonPreviewOpcode);
                 else if (((PopupModel)sender).getPopUpItemClick() instanceof OpcodeModel)
                     menu = new PopupMenu(context, videoProfileEditorFragmentBinding.buttonOpcode);
+                else if (((PopupModel)sender).getPopUpItemClick() instanceof HdrModel)
+                    menu = new PopupMenu(context, videoProfileEditorFragmentBinding.videoHDR);
                 menu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -142,7 +146,7 @@ public class VideoProfileEditorFragment extends Fragment {
                 case DialogInterface.BUTTON_POSITIVE:
                     videoProfileEditorModelView.getVideoMediaProfiles().remove(videoProfileEditorModelView.getProfile().ProfileName);
                     //videoProfileEditorModelView.setProfile(null);
-                    SettingsManager.getInstance().saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
+                    settingsManager.saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -194,10 +198,8 @@ public class VideoProfileEditorFragment extends Fragment {
             OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
             videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
 
-            OpCodes opcodes2 = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonPreviewOpcode.getText());
-            videoProfileEditorModelView.getProfile().preview_opcode = opcodes2.GetInt();
-
-            videoProfileEditorModelView.getProfile().videoHdr = videoProfileEditorFragmentBinding.videoHDR.isChecked();
+            HdrModes hdrmode = HdrModes.valueOf((String)videoProfileEditorFragmentBinding.videoHDR.getText());
+            videoProfileEditorModelView.getProfile().videoHdr = hdrmode.GetInt();
 
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoProfileEditorModelView.getVideoMediaProfiles().containsKey(videoProfileEditorFragmentBinding.editTextProfileName.getText().toString()))
@@ -210,8 +212,8 @@ public class VideoProfileEditorFragment extends Fragment {
                 p.ProfileName = videoProfileEditorFragmentBinding.editTextProfileName.getText().toString().replace(" ","_");
                 videoProfileEditorModelView.getVideoMediaProfiles().put(p.ProfileName, p);
             }
-            SettingsManager.getInstance().saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
-            SettingsManager.getInstance().save();
+            settingsManager.saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
+            settingsManager.save();
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };

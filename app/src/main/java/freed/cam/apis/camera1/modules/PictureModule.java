@@ -20,35 +20,44 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.Surface;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera1.Camera1;
+import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.previewpostprocessing.PreviewController;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.dng.DngProfile;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends ModuleAbstract implements Camera.PictureCallback
+public class PictureModule extends ModuleAbstract<Camera1> implements Camera.PictureCallback
 {
 
     private final String TAG = PictureModule.class.getSimpleName();
@@ -57,13 +66,15 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     protected boolean waitForPicture;
     protected long startcapturetime;
     private boolean isBurstCapture = false;
+    protected PreviewController previewController;
 
 
-    public PictureModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public PictureModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
-        this.cameraHolder = (CameraHolder)cameraUiWrapper.getCameraHolder();
+        this.cameraHolder = cameraUiWrapper.getCameraHolder();
+        previewController = ActivityFreeDcamMain.previewController();
     }
 
     @Override
@@ -93,31 +104,31 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
         mBackgroundHandler.post(() -> {
             isWorking = true;
-            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
             Log.d(TAG,"startWork:picformat:" + picformat);
             if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_)))
             {
-                if (SettingsManager.get(SettingKeys.ZSL).isSupported()
-                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+                if (settingsManager.get(SettingKeys.ZSL).isSupported()
+                        && cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.on_)))
                 {
                     Log.d(TAG,"ZSL is on turning it off");
-                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
-                    Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).GetValue());
+                    cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).setStringValue(FreedApplication.getStringFromRessources(R.string.off_), true);
+                    Log.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL).getIntValue());
                 }
 
             }
-            cameraUiWrapper.getParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(orientationManager.getCurrentOrientation());
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);
-            if (burst != null && burst.getViewState() == AbstractParameter.ViewState.Visible && burst.GetValue()+1 > 1) {
-                burstcount = burst.GetValue()+1;
+            if (burst != null && burst.getViewState() == AbstractParameter.ViewState.Visible && burst.getIntValue()+1 > 1) {
+                burstcount = burst.getIntValue()+1;
                 isBurstCapture = true;
             }
             else
                 burstcount = 1;
-            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+                cameraHolder.SetLocation(locationManager.getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
             Log.d(TAG,"TakePicture");
@@ -132,13 +143,69 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         changeCaptureState(CaptureStates.image_capture_stop);
         if (cameraUiWrapper.getParameterHandler() == null)
             return;
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("yuv420sp",true);
+        //cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewFormat).SetValue("yuv420sp",true);
+        createPreview();
+
         ParameterInterface videohdr = cameraUiWrapper.getParameterHandler().get(SettingKeys.VideoHDR);
-        if (SettingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
-            videohdr.SetValue(FreedApplication.getStringFromRessources(R.string.off_), true);
-        if(SettingsManager.getInstance().isZteAe()) {
-            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_AE();
+        if (settingsManager.get(SettingKeys.VideoHDR).isSupported() && !videohdr.getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+            videohdr.setStringValue(FreedApplication.getStringFromRessources(R.string.off_), true);
+        if(settingsManager.isZteAe()) {
+            cameraUiWrapper.getParameterHandler().SetZTE_AE();
         }
+    }
+
+    private void createPreview()
+    {
+        Size sizefromCam = new Size(cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureSize).getStringValue());
+        List<Size> sizes = new ArrayList<>();
+        String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValues();
+        final Size size;
+        for (String s : stringsSizes) {
+            sizes.add(new Size(s));
+        }
+        size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
+
+        Log.d(TAG, "set size to " + size.width + "x" + size.height);
+        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+            if(size == null || previewController.getSurfaceTexture() == null)
+                return;
+            cameraHolder.StopPreview();
+            previewController.stop();
+            cameraHolder.setSurface((Surface) null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                previewController.getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
+            }
+
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
+            Surface surface = new Surface(previewController.getSurfaceTexture());
+            previewController.setOutputSurface(surface);
+            previewController.setSize(size.width, size.height);
+            previewController.setHistogram(false);
+
+            cameraHolder.setSurface(previewController.getInputSurface());
+            cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
+            cameraHolder.StartPreview();
+            previewController.start();
+        }
+        else
+        {
+            cameraHolder.StopPreview();
+            if (((CameraHolder)cameraHolder).canSetSurfaceDirect()) {
+                cameraHolder.setSurface((Surface)null);
+                Surface surface = new Surface(previewController.getSurfaceTexture());
+                cameraHolder.setSurface(surface);
+            }
+            else
+                ((CameraHolder)cameraHolder).setTextureView(previewController.getSurfaceTexture());
+
+            Log.d(TAG, "set size to " + size.width + "x" + size.height);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
+            previewController.setSize(size.width, size.height);
+            previewController.setRotation(size.width, size.height, 0);
+            cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
+            cameraHolder.StartPreview();
+        }
+
     }
 
     @Override
@@ -163,7 +230,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             return;
         }
         burstcount--;
-        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).GetStringValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
         saveImage(data,picFormat);
         //Handel Burst capture
         if (burstcount == 0)
@@ -182,10 +249,10 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         //workaround to keep ae locked
         if (cameraHolder.GetCameraParameters().getAutoExposureLock())
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.false_),true);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).SetValue(FreedApplication.getStringFromRessources(R.string.true_),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).setStringValue(FreedApplication.getStringFromRessources(R.string.false_),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock).setStringValue(FreedApplication.getStringFromRessources(R.string.true_),true);
         }
-        if(SettingsManager.get(SettingKeys.needRestartAfterCapture).get())
+        if(settingsManager.get(SettingKeys.needRestartAfterCapture).get())
         {
             MotoPreviewResetLogic();
 
@@ -197,30 +264,26 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     public void MotoPreviewResetLogic()
     {
 
-        if(SettingsManager.getInstance().GetCurrentCamera() == 0) {
-            SettingsManager.getInstance().SetCurrentCamera(1);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+        if(settingsManager.GetCurrentCamera() == 0) {
+            settingsManager.SetCurrentCamera(1);
+            CameraThreadHandler.restartCameraAsync();
 
-            SettingsManager.getInstance().SetCurrentCamera(0);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            settingsManager.SetCurrentCamera(0);
+            CameraThreadHandler.restartCameraAsync();
         }else {
-            SettingsManager.getInstance().SetCurrentCamera(0);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            settingsManager.SetCurrentCamera(0);
+            CameraThreadHandler.restartCameraAsync();
 
-            SettingsManager.getInstance().SetCurrentCamera(1);
-            cameraUiWrapper.stopCameraAsync();
-            cameraUiWrapper.startCameraAsync();
+            settingsManager.SetCurrentCamera(1);
+            CameraThreadHandler.restartCameraAsync();
         }
     }
 
     private void ShutterResetLogic()
     {
         ParameterInterface expotime = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime);
-        if(!expotime.GetStringValue().contains("/") && !expotime.GetStringValue().contains("auto"))
-            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(expotime.GetStringValue());
+        if(!expotime.getStringValue().contains("/") && !expotime.getStringValue().contains("auto"))
+            ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetZTE_RESET_AE_SETSHUTTER(expotime.getStringValue());
     }
 
     protected void saveImage(byte[]data, String picFormat)
@@ -233,7 +296,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         else {
             saveJpeg(data,toSave);
         }
-        if(SettingsManager.getInstance().isZteAe())
+        if(settingsManager.isZteAe())
             ShutterResetLogic();
 
         //fireInternalOnWorkFinish(toSave);
@@ -260,22 +323,22 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     protected File getFile(String fileending)
     {
         if (isBurstCapture)
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePathBurst(SettingsManager.getInstance().GetWriteExternal(), fileending, burstcount));
+            return new File(fileListController.getNewFilePathBurst(settingsManager.GetWriteExternal(), fileending, burstcount));
         else
-            return new File(cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), fileending));
+            return new File(fileListController.getNewFilePath(settingsManager.GetWriteExternal(), fileending));
     }
 
     protected void saveJpeg(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        ImageSaveTask task = new ImageSaveTask(this);
         task.setBytesTosave(data,ImageSaveTask.JPEG);
-        task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
+        task.setFilePath(file, settingsManager.GetWriteExternal());
         ImageManager.putImageSaveTask(task);
     }
 
     protected void saveDng(byte[] data, File file)
     {
-        ImageSaveTask task = new ImageSaveTask(cameraUiWrapper.getActivityInterface(),this);
+        ImageSaveTask task = new ImageSaveTask(this);
         task.setFnum(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFnumber());
         task.setFocal(((ParametersHandler)cameraUiWrapper.getParameterHandler()).getFocal());
         float exposuretime = cameraUiWrapper.getParameterHandler().getCurrentExposuretime();
@@ -298,27 +361,27 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         ParameterInterface wbct = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Whitebalance);
         if (wbct != null && wbct.getViewState() == AbstractParameter.ViewState.Visible)
         {
-            wb = wbct.GetStringValue();
+            wb = wbct.getStringValue();
             if (wb.equals(FreedApplication.getStringFromRessources(R.string.auto_)))
                 wb = null;
             Log.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
             task.setWhiteBalance(wb);
         }
-        DngProfile dngProfile = SettingsManager.getInstance().getDngProfilesMap().get((long)data.length);
-        String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+        DngProfile dngProfile = settingsManager.getDngProfilesMap().get((long)data.length);
+        String cmat = settingsManager.get(SettingKeys.MATRIX_SET).get();
         if (cmat != null && !TextUtils.isEmpty(cmat)&&!cmat.equals("off")) {
-            dngProfile.matrixes = SettingsManager.getInstance().getMatrixesMap().get(cmat);
+            dngProfile.matrixes = settingsManager.getMatrixesMap().get(cmat);
         }
         task.setDngProfile(dngProfile);
         Log.d(TAG, "found dngProfile:" + (dngProfile != null));
-        if (SettingsManager.getInstance().getIsFrontCamera())
-            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation()+180);
+        if (settingsManager.getIsFrontCamera())
+            task.setOrientation(orientationManager.getCurrentOrientation()+180);
         else
-            task.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-        task.setFilePath(file, SettingsManager.getInstance().GetWriteExternal());
+            task.setOrientation(orientationManager.getCurrentOrientation());
+        task.setFilePath(file, settingsManager.GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        if (!SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
-            task.setLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+        if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+            task.setLocation(locationManager.getCurrentLocation());
         ImageManager.putImageSaveTask(task);
     }
 }

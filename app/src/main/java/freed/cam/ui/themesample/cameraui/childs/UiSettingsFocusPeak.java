@@ -21,21 +21,25 @@ package freed.cam.ui.themesample.cameraui.childs;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.troop.freedcam.R;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 09.09.2015.
  */
+@AndroidEntryPoint
 public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChildClick
 {
+    @Inject
+    SettingsManager settingsManager;
     public UiSettingsFocusPeak(Context context) {
         super(context);
     }
@@ -52,21 +56,21 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         onModuleChanged(cameraUiWrapper.getModuleHandler().getCurrentModuleName());
-        if (SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get())
-            onViewStateChanged(AbstractParameter.ViewState.Visible);
+        /*if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
+            onViewStateChanged(AbstractParameter.ViewState.Visible);*/
 
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment)
     {
         if (parameter == null)
             return;
-        if (parameter.GetStringValue().equals(getResources().getString(R.string.on_))) {
-            parameter.SetValue(getResources().getString(R.string.off_), false);
+        if (parameter.getStringValue().equals(getResources().getString(R.string.on_))) {
+            parameter.setStringValue(getResources().getString(R.string.off_), false);
         }
         else{
-            parameter.SetValue(getResources().getString(R.string.on_),false);}
+            parameter.setStringValue(getResources().getString(R.string.on_),false);}
 
     }
 
@@ -74,13 +78,13 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     @Override
     public void onModuleChanged(String module)
     {
-        if (/*(module.equals(getResources().getString(R.string.module_picture))
+       /* if (*//*(module.equals(getResources().getString(R.string.module_picture))
                 || module.equals(getResources().getString(R.string.module_hdr))
                 || module.equals(getResources().getString(R.string.module_interval))
         || module.equals(getResources().getString(R.string.module_afbracket)))
-                &&*/ parameter != null && parameter.getViewState() == AbstractParameter.ViewState.Visible)
+                &&*//* parameter != null && parameter.getViewState() == AbstractParameter.ViewState.Visible)
             setVisibility(View.VISIBLE);
         else
-            setVisibility(View.GONE);
+            setVisibility(View.GONE);*/
     }
 }

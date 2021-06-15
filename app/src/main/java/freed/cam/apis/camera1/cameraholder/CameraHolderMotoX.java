@@ -22,7 +22,6 @@ package freed.cam.apis.camera1.cameraholder;
 import android.hardware.Camera;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.events.CameraStateEvents;
 import freed.settings.Frameworks;
 import freed.utils.Log;
 
@@ -48,7 +47,7 @@ public class CameraHolderMotoX extends CameraHolderLegacy {
         }
         catch (RuntimeException ex)
         {
-            CameraStateEvents.fireCameraErrorEvent("Fail to connect to camera service");
+            fireOCameraError("Fail to connect to camera service");
             isRdy = false;
         }
         return isRdy;

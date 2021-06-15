@@ -11,7 +11,6 @@ import java.util.List;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.utils.Log;
-import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.helper.BitmapHelper;
 
 public class ScreenSlideFilesHolderModel extends BaseObservable implements FileListController.NotifyFilesChanged {

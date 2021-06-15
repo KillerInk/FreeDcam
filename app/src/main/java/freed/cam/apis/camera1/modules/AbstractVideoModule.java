@@ -24,45 +24,58 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.view.Surface;
 
 import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import freed.ActivityAbstract;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.record.VideoRecorder;
+import freed.cam.apis.camera1.Camera1;
+import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.FileHolder;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.utils.OrientationUtil;
 import freed.utils.PermissionManager;
 
 /**
  * Created by troop on 06.01.2016.
  */
-public abstract class AbstractVideoModule extends ModuleAbstract implements MediaRecorder.OnInfoListener
+public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implements MediaRecorder.OnInfoListener
 {
     VideoRecorder recorder;
     private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
+    private PermissionManager permissionManager;
+    private PreviewController preview;
+    private UserMessageHandler userMessageHandler;
 
-    AbstractVideoModule(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    AbstractVideoModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_video);
+        permissionManager = ActivityAbstract.permissionManager();
+        preview = ActivityFreeDcamMain.previewController();
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     @Override
     public void InitModule() {
         super.InitModule();
         changeCaptureState(CaptureStates.video_recording_stop);
+        createPreview();
         initRecorder();
     }
 
@@ -98,7 +111,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             stopRecording();
         }
         if( isLowStorage ) {
-            UserMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
+            userMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
         }
     }
 
@@ -113,16 +126,47 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
     }
 //ModuleInterface END
 
+    private void createPreview()
+    {
+        Size sizefromCam = new Size("1920x1080");
+
+        List<Size> sizes = new ArrayList<>();
+        String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValues();
+        for (String s : stringsSizes) {
+            sizes.add(new Size(s));
+        }
+        final Size size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
+
+        if(size == null || preview.getSurfaceTexture() == null)
+            return;
+        cameraUiWrapper.getCameraHolder().StopPreview();
+        preview.stop();
+
+        preview.setSize(size.width, size.height);
+        preview.setRotation(size.width, size.height, 0);
+        if (cameraUiWrapper.getCameraHolder().canSetSurfaceDirect()) {
+            cameraUiWrapper. getCameraHolder().setSurface((Surface)null);
+            Surface surface = new Surface(preview.getSurfaceTexture());
+            cameraUiWrapper.getCameraHolder().setSurface(surface);
+        }
+        else
+            cameraUiWrapper.getCameraHolder().setTextureView(preview.getSurfaceTexture());
+
+        Log.d(TAG, "set size to " + size.width + "x" + size.height);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
+        cameraUiWrapper.getCameraHolder().fireOnCameraChangedAspectRatioEvent(size);
+        cameraUiWrapper.getCameraHolder().StartPreview();
+    }
 
     private void startRecording()
     {
-        if (cameraUiWrapper.getActivityInterface().getPermissionManager().isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
-            if (SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
-                cameraUiWrapper.getCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationManager().getCurrentLocation());
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+                cameraUiWrapper.getCameraHolder().SetLocation(locationManager.getCurrentLocation());
             prepareRecorder();
         }
         else
-            cameraUiWrapper.getActivityInterface().getPermissionManager().requestPermission(PermissionManager.Permissions.RecordAudio);
+            permissionManager.requestPermission(PermissionManager.Permissions.RecordAudio);
 
     }
 
@@ -133,7 +177,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
             Log.d(TAG, "InitMediaRecorder");
             isWorking = true;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().unlock();
-            mediaSavePath = cameraUiWrapper.getActivityInterface().getFileListController().getNewFilePath(SettingsManager.getInstance().GetWriteExternal(), ".mp4");
+            mediaSavePath = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
             File tosave = new File(mediaSavePath);
             recorder.setRecordingFile(tosave);
             recorder.setErrorListener((mr, what, extra) -> {
@@ -148,8 +192,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
 
             recorder.setInfoListener(this);
 
-            if (!SettingsManager.get(SettingKeys.orientationHack).get().equals("0"))
-                recorder.setOrientation(Integer.parseInt(SettingsManager.get(SettingKeys.orientationHack).get()));
+            if (!settingsManager.get(SettingKeys.orientationHack).get().equals("0"))
+                recorder.setOrientation(Integer.parseInt(settingsManager.get(SettingKeys.orientationHack).get()));
             else
                 recorder.setOrientation(0);
 
@@ -172,7 +216,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 else
                 {
                     Log.e(TAG,"Recording failed");
-                    UserMessageHandler.sendMSG("Start Recording failed ",false);
+                    userMessageHandler.sendMSG("Start Recording failed ",false);
                     isWorking = false;
                     ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
                     recorder.reset();
@@ -183,7 +227,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Start Recording failed",false);
+            userMessageHandler.sendMSG("Start Recording failed",false);
             isWorking = false;
             ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
             recorder.reset();
@@ -214,7 +258,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
         catch (Exception ex)
         {
             Log.e(TAG, "Stop Recording failed, was called bevor start");
-            UserMessageHandler.sendMSG("Stop Recording failed, was called bevor start",false);
+            userMessageHandler.sendMSG("Stop Recording failed, was called bevor start",false);
             Log.e(TAG,ex.getMessage());
             isWorking = false;
         }
@@ -232,7 +276,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract implements Medi
                 Log.WriteEx(e1);
             }
             File file = new File(mediaSavePath);
-            fireOnWorkFinish(new FileHolder(file,SettingsManager.getInstance().GetWriteExternal()));
+            fireOnWorkFinish(new FileHolder(file,settingsManager.GetWriteExternal()));
             sendStopToUi();
         }
     }

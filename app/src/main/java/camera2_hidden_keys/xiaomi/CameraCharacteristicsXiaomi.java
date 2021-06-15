@@ -19,6 +19,11 @@ public class CameraCharacteristicsXiaomi extends AbstractCameraCharacteristics {
     public final static CameraCharacteristics.Key<Integer> camera_role_id;
     public final static CameraCharacteristics.Key<Integer[]> EIS_QUALITY_SUPPORTED;
     public final static CameraCharacteristics.Key<Integer> SUPPORT_VIDEO_HDR10;
+    public static final CameraCharacteristics.Key<Boolean> LOG_FORMAT;
+    public static final CameraCharacteristics.Key<Integer> distortioncorrection;
+    public static final CameraCharacteristics.Key<Integer> superlowlightraw;
+
+
 
 
 
@@ -33,5 +38,8 @@ public class CameraCharacteristicsXiaomi extends AbstractCameraCharacteristics {
         camera_role_id = getKeyClass("com.xiaomi.cameraid.role.cameraId", Integer.class);
         EIS_QUALITY_SUPPORTED = getKeyClass("xiaomi.capabilities.videoStabilization.quality", int[].class);
         SUPPORT_VIDEO_HDR10 = getKeyClass("xiaomi.videohdrmode.value", Integer.class);
+        LOG_FORMAT = getKeyClass("com.xiaomi.camera.supportedfeatures.videologformat", Boolean.class);
+        distortioncorrection = getKeyClass("com.arcsoft.node.distortioncorrection.SupportedFeature", Integer.class);
+        superlowlightraw = getKeyClass("com.arcsoft.node.superlowlightraw.SupportedFeature", Integer.class);
     }
 }

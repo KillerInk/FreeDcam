@@ -24,16 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleInterface;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 04.01.2016.
  */
 public class ModuleParameters extends AbstractParameter {
 
-    private final CameraWrapperInterface cameraUiWrapper;
     public ModuleParameters(CameraWrapperInterface cameraUiWrapper) {
         super(null);
         this.cameraUiWrapper = cameraUiWrapper;
@@ -43,29 +41,34 @@ public class ModuleParameters extends AbstractParameter {
     @Override
     public String[] getStringValues() {
         List<String> mods = new ArrayList<>();
-        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
-            mods.add(module.getValue().LongName());
+
+        for (Object module : cameraUiWrapper.getModuleHandler().getModuleList().entrySet()) {
+
+            HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
+            mods.add(mod.getValue().LongName());
         }
         return mods.toArray(new String[mods.size()]);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
             return cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName();
         else return "";
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.getModuleHandler().moduleList.entrySet()) {
-            if (valueToSet.equals(module.getValue().LongName())) {
-                SettingsManager.getInstance().SetCurrentModule(module.getValue().ModuleName());
-                cameraUiWrapper.getModuleHandler().setModule(module.getValue().ModuleName());
+    public void setStringValue(String valueToSet, boolean setToCamera) {
+        for (Object module : cameraUiWrapper.getModuleHandler().getModuleList().entrySet()) {
+            HashMap.Entry<String, ModuleAbstract> mod = (HashMap.Entry<String, ModuleAbstract>)module;
+            if (valueToSet.equals(mod.getValue().LongName())) {
+                settingsManager.SetCurrentModule(mod.getValue().ModuleName());
+                cameraUiWrapper.getModuleHandler().setModule(mod.getValue().ModuleName());
                 break;
             }
 
         }
+        fireStringValueChanged(valueToSet);
     }
 
 }

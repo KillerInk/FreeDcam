@@ -20,24 +20,34 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.R.id;
-import com.troop.freedcam.R.layout;
+import androidx.databinding.DataBindingUtil;
 
+import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.SettingsLeftmenufragmentBinding;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityInterface;
+import freed.cam.apis.CameraApiManager;
+import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.Size;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 
 /**
  * Created by troop on 15.06.2015.
  */
-public class LeftMenuFragment extends AbstractFragment  implements SettingsChildClick
+@AndroidEntryPoint
+public class LeftMenuFragment extends AbstractFragment  implements SettingsChildClick, CameraHolderEvent
 {
     private final String TAG = LeftMenuFragment.class.getSimpleName();
 
@@ -45,26 +55,37 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
     private LinearLayout settingsChildHolder;
 
+    @Inject
+    public SettingsMenuItemFactory settingsMenuItemFactory;
 
+    @Inject
+    CameraApiManager cameraApiManager;
+
+    private SettingsLeftmenufragmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        fragment_activityInterface = (ActivityInterface)getActivity();
-        View view = inflater.inflate(layout.settings_leftmenufragment, container, false);
+        binding = DataBindingUtil.inflate(inflater,layout.settings_leftmenufragment,container,false);
 
-        settingsChildHolder = view.findViewById(id.SettingChildHolder);
-        setCameraToUi(cameraUiWrapper);
-        return view;
+        settingsChildHolder = binding.SettingChildHolder;
+        cameraApiManager.addEventListner(this);
+        return binding.getRoot();
     }
 
-    @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper) {
 
-        this.cameraUiWrapper = wrapper;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        cameraApiManager.removeEventListner(this);
+    }
+
+    private void setCameraToUi(CameraWrapperInterface wrapper) {
+        if (settingsChildHolder == null)
+            return;
         settingsChildHolder.removeAllViews();
-        new SettingsMenuItemFactory().fillLeftSettingsMenu(cameraUiWrapper,getContext(),this,settingsChildHolder,(ActivityInterface) getActivity());
+        settingsMenuItemFactory.fillLeftSettingsMenu(wrapper,getContext(),LeftMenuFragment.this,settingsChildHolder,(ActivityInterface) getActivity());
     }
 
 
@@ -74,8 +95,39 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment) {
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment) {
         onMenuItemClick.onSettingsChildClick(item, true);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        onCameraOpenFinished();
+    }
+
+    private Handler handler = new Handler();
+    @Override
+    public void onCameraOpen() {
+
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+        handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));
+    }
+
+    @Override
+    public void onCameraClose() {
+        handler.post(() -> setCameraToUi(null));
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
+    }
 }

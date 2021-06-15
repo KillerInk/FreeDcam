@@ -19,9 +19,12 @@
 
 package freed.cam.ui.themesample.cameraui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,18 +38,23 @@ import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
-import com.troop.freedcam.R.layout;
+import com.troop.freedcam.databinding.CamerauiFragmentBinding;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
-import freed.ActivityInterface;
-import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.CameraApiManager;
+import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
+import freed.cam.apis.basecamera.Size;
+import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.ui.I_swipe;
@@ -60,23 +68,34 @@ import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildExit;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildModuleSwitch;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
+import freed.cam.ui.themesample.cameraui.modelview.InfoOverlayModelView;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
-import freed.cam.ui.themesample.handler.SampleInfoOverlayHandler;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.update.ReleaseChecker;
+import freed.update.VersionView;
 import freed.utils.Log;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
+@AndroidEntryPoint
+public class CameraUiFragment extends AbstractFragment implements
+        SettingsChildAbstract.SettingsChildClick,
+        SettingsChildAbstract.CloseChildClick,
+        I_swipe,
+        OnClickListener,
+        CameraHolderEvent
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
+
+    private CamerauiFragmentBinding binding;
 
     //button to switch between front and back cam
     private UiSettingsChildCameraSwitch cameraSwitch;
     //hold the button wich opened the horizontalValuesFragment
-    private UiSettingsChild currentOpendChild;
+    private SettingsChildAbstract currentOpendChild;
     //Shows the values when a uibutton got clicked
     private HorizontalValuesFragment horizontalValuesFragment;
     //there the horizontalValuesFragment gets inflated
@@ -94,11 +113,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     //Handel the animation/visibility for focus trigger, meteringarea, manualwbarea
     private FocusImageHandler focusImageHandler;
     //show the time,sdspace, pic/video size
-    private SampleInfoOverlayHandler infoOverlayHandler;
+    private InfoOverlayModelView infoOverlayModelView;
+    //private SampleInfoOverlayHandler infoOverlayHandler;
     //holds guide
     private GuideHandler guideHandler;
-    private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
-    private SharedPreferences sharedPref;
 
     private UiSettingsChild aelock;
 
@@ -113,9 +131,17 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private LinearLayout left_ui_items_holder;
     private LinearLayout right_ui_items_top;
 
+    @Inject
+    public SettingsManager settingsManager;
+    @Inject
+    UserMessageHandler userMessageHandler;
+    @Inject
+    CameraApiManager cameraApiManager;
+
+    private Handler handler = new Handler();
+
     public CameraUiFragment()
     {
-
     }
 
     /**
@@ -127,9 +153,11 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UiSettingsChild setUiItem(LinearLayout layout, ParameterInterface parameter, int backgroundImg)
     {
         UiSettingsChild child = new UiSettingsChild(getContext());
+        child.setLifeCycleOwner(getViewLifecycleOwner());
         child.SetParameter(parameter);
         child.setBackgroundResource(backgroundImg);
         child.SetMenuItemClickListner(this,true);
+        child.setVisibility(View.VISIBLE);
         layout.addView(child);
         return child;
     }
@@ -140,20 +168,19 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private void addexit()
     {
         UiSettingsChildExit exit = new UiSettingsChildExit(getContext());
-        exit.onStringValueChanged("");
+        //exit.onStringValueChanged("");
         exit.setBackgroundResource(R.drawable.quck_set_exit);
+        exit.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
         right_ui_items_top.addView(exit);
     }
 
-    @Override
-    public void setCameraToUi(CameraWrapperInterface wrapper) {
-        super.setCameraToUi(wrapper);
+    private void setCameraToUi(CameraWrapperInterface wrapper) {
         if (left_ui_items_holder != null) {
             left_ui_items_holder.removeAllViews();
             right_ui_items_top.removeAllViews();
             addexit();
         }
-        if (cameraUiWrapper == null) {
+        if (wrapper == null) {
             if (focusImageHandler != null) {
                 focusImageHandler.AEMeteringSupported(false);
                 focusImageHandler.TouchToFocusSupported(false);
@@ -161,31 +188,31 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 cameraSwitch.setVisibility(View.GONE);
                 aelock.setVisibility(View.GONE);
                 shutterButton.setVisibility(View.GONE);
-                settingsChildSelfTimer.setVisibility(View.GONE);
+                //settingsChildSelfTimer.setVisibility(View.GONE);
                 if (isAdded())
                     hide_ManualSettings();
             }
         }
         else {
 
-            AbstractParameterHandler parameterHandler = cameraUiWrapper.getParameterHandler();
+            ParameterHandler parameterHandler = wrapper.getParameterHandler();
             if (parameterHandler == null)
                 return;
 
             //left cameraui items
 
-            if (parameterHandler.get(SettingKeys.HISTOGRAM) != null && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded()) {
+            if (parameterHandler.get(SettingKeys.HISTOGRAM) != null) {
                 UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HISTOGRAM));
-                focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+                focusPeak.SetParameter(wrapper.getParameterHandler().get(SettingKeys.HISTOGRAM));
+                focusPeak.SetCameraUiWrapper(wrapper);
                 focusPeak.SetUiItemClickListner(this);
                 focusPeak.setBackgroundResource(R.drawable.quck_set_histogram);
                 left_ui_items_holder.addView(focusPeak);
             }
-            if (parameterHandler.get(SettingKeys.CLIPPING) != null  && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded()) {
+            if (parameterHandler.get(SettingKeys.CLIPPING) != null) {
                 UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.CLIPPING));
-                focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+                focusPeak.SetParameter(wrapper.getParameterHandler().get(SettingKeys.CLIPPING));
+                focusPeak.SetCameraUiWrapper(wrapper);
                 focusPeak.SetUiItemClickListner(this);
                 focusPeak.setBackgroundResource(R.drawable.clipping);
                 left_ui_items_holder.addView(focusPeak);
@@ -200,6 +227,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.FlashMode), R.drawable.quck_set_flash);
             if (parameterHandler.get(SettingKeys.FocusMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.FocusMode), R.drawable.quck_set_focus);
+            /*UiSettingsChild focus = left_ui_items_holder.findViewById(id.focusmode);
+            focus.SetParameter(parameterHandler.get(SettingKeys.FocusMode));*/
             if (parameterHandler.get(SettingKeys.ExposureMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.ExposureMode), R.drawable.quck_set_ae);
             if (parameterHandler.get(SettingKeys.AE_PriorityMode) != null)
@@ -209,15 +238,17 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             if (parameterHandler.get(SettingKeys.HDRMode) != null)
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.HDRMode), R.drawable.quck_set_hdr);
 
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode) != null) {
+            if (wrapper.getParameterHandler().get(SettingKeys.NightMode) != null) {
                 UiSettingsChild night = new UiSettingsChild(getContext());
                 night.SetMenuItemClickListner(this, true);
-                night.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode));
+                night.SetParameter(wrapper.getParameterHandler().get(SettingKeys.NightMode));
                 night.setBackgroundResource(R.drawable.quck_set_night);
                 left_ui_items_holder.addView(night);
             }
+            if (wrapper.getParameterHandler().get(SettingKeys.selfTimer) != null)
+                settingsChildSelfTimer.SetParameter(wrapper.getParameterHandler().get(SettingKeys.selfTimer));
 
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat) != null) {
+            if (wrapper.getParameterHandler().get(SettingKeys.PictureFormat) != null) {
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.PictureFormat), R.drawable.quck_set_format2);
             }
 
@@ -225,42 +256,42 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
             if (isAdded()) {
                 UiSettingsChildModuleSwitch moduleSwitch = new UiSettingsChildModuleSwitch(getContext());
-                moduleSwitch.SetCameraUiWrapper(cameraUiWrapper);
+                moduleSwitch.SetCameraUiWrapper(wrapper);
                 moduleSwitch.SetMenuItemClickListner(this, false);
                 moduleSwitch.setBackgroundResource(R.drawable.quck_set_mode);
+                moduleSwitch.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                 right_ui_items_top.addView(moduleSwitch);
 
-                if (parameterHandler.get(SettingKeys.Focuspeak) != null && cameraUiWrapper.getRenderScriptManager().isSucessfullLoaded()) {
+                if (parameterHandler.get(SettingKeys.Focuspeak) != null) {
                     UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                    focusPeak.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.Focuspeak));
-                    focusPeak.SetCameraUiWrapper(cameraUiWrapper);
+                    focusPeak.SetParameter(wrapper.getParameterHandler().get(SettingKeys.Focuspeak));
+                    focusPeak.SetCameraUiWrapper(wrapper);
                     focusPeak.SetUiItemClickListner(this);
                     focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
+                    focusPeak.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                     right_ui_items_top.addView(focusPeak);
                 }
 
                 cameraSwitch.setVisibility(View.VISIBLE);
-                cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
+                cameraSwitch.SetCameraUiWrapper(wrapper);
                 cameraSwitch.SetUiItemClickListner(this);
-                focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
+                cameraSwitch.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                focusImageHandler.SetCamerUIWrapper(wrapper);
 
                 shutterButton.setVisibility(View.VISIBLE);
-                shutterButton.SetCameraUIWrapper(cameraUiWrapper);
+                shutterButton.SetCameraUIWrapper(wrapper);
 
-                if (manualModesFragment != null)
-                    manualModesFragment.setCameraToUi(cameraUiWrapper);
+                guideHandler.setCameraUiWrapper(wrapper);
 
-                guideHandler.setCameraUiWrapper(cameraUiWrapper);
-
-                horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
-                infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
+                horizontLineFragment.setCameraUiWrapper(wrapper);
+                //infoOverlayHandler.setCameraUIWrapper(wrapper);
                 shutterButton.setVisibility(View.VISIBLE);
                 aelock.setVisibility(View.VISIBLE);
-                aelock.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureLock));
+                aelock.SetParameter(wrapper.getParameterHandler().get(SettingKeys.ExposureLock));
 
 
                 //restore view state for the manuals
-                if (manualsettingsIsOpen)
+                if (settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get())
                     showManualSettings();
                 //remove the values fragment from ui when a new api gets loaded and it was open.
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
@@ -268,8 +299,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
 
                 joyPad.setVisibility(View.GONE);
-
-                settingsChildSelfTimer.SetStuff(SettingsManager.get(SettingKeys.selfTimer));
             }
         }
     }
@@ -279,43 +308,47 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        //super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
+        binding = CamerauiFragmentBinding.inflate(inflater);
         Log.d(TAG, "####################ONCREATEDVIEW####################");
-        fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
-        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
-        return inflater.inflate(layout.cameraui_fragment, container, false);
+        manualsettingsIsOpen = settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get();
+        return binding.getRoot();
     }
 
+    private FrameLayout versionView;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        //super.onViewCreated(view, savedInstanceState);
-        if ((getActivity() != null) && (((ActivityFreeDcamMain)getActivity()).getUserMessageHandler() != null))
-            ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
-        manualModes_holder = view.findViewById(id.manualModesHolder);
-        left_ui_items_holder = view.findViewById(id.left_ui_holder);
-        right_ui_items_top = view.findViewById(id.right_ui_holder_top);
+        super.onViewCreated(view, savedInstanceState);
+        this.versionView =binding.framelayoutVersion;
+        userMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+        manualModes_holder = binding.manualModesHolder;
+        left_ui_items_holder = binding.leftUiHolder;
+        right_ui_items_top = binding.rightUiHolderTop;
         addexit();
+        cameraApiManager.addEventListner(this);
+        cameraSwitch = binding.cameraSwitch;
 
-        cameraSwitch = view.findViewById(id.camera_switch);
-
-
-        infoOverlayHandler = new SampleInfoOverlayHandler(view);
-        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
+        infoOverlayModelView = new ViewModelProvider(this).get(InfoOverlayModelView.class);
+        getLifecycle().addObserver(infoOverlayModelView);
+        infoOverlayModelView.setCameraApiManager(cameraApiManager);
+        infoOverlayModelView.setSettingsManager(settingsManager);
+        binding.infoOverlay.setInfoOverlayModel(infoOverlayModelView.getInfoOverlayModel());
+        //infoOverlayHandler = new SampleInfoOverlayHandler(view);
 
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
-        shutterButton = view.findViewById(id.shutter_button);
+        shutterButton = binding.shutterButton;
 
         view.setOnTouchListener(onTouchListener);
 
-        aelock = view.findViewById(id.ae_lock);
+        aelock = binding.aeLock;
         aelock.SetUiItemClickListner(this);
 
 
-        settingsChildSelfTimer = view.findViewById(id.selftimer);
+        settingsChildSelfTimer = binding.selftimer;
         settingsChildSelfTimer.SetUiItemClickListner(this);
+
 
 
 
@@ -326,7 +359,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         guideHandler =GuideHandler.getInstance();
 
         manualModes_holder.setVisibility(View.GONE);
-        camerauiValuesFragmentHolder =  view.findViewById(id.cameraui_values_fragment_holder);
+        camerauiValuesFragmentHolder = binding.camerauiValuesFragmentHolder;
         joyPad = view.findViewById(id.joypad);
         joyPad.setVisibility(View.GONE);
 
@@ -345,7 +378,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         transaction.addToBackStack(null);
         transaction.commit();
 
-        boolean showhelp = SettingsManager.getInstance().getShowHelpOverlay();
+        boolean showhelp = settingsManager.getShowHelpOverlay();
         if (showhelp) {
             transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.empty, anim.empty);
@@ -353,29 +386,66 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.addToBackStack(null);
             transaction.commit();
         }
-        setCameraToUi(cameraUiWrapper);
+        setCameraToUi(cameraApiManager.getCamera());
+        checkForUpdate();
+
+    }
+
+    private void checkForUpdate() {
+        if (ReleaseChecker.isGithubRelease && settingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).get()) {
+            new ReleaseChecker(new ReleaseChecker.UpdateEvent() {
+                @Override
+                public void onUpdateAvailable() {
+                    versionView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            versionView.addView(new VersionView(getContext(), new VersionView.ButtonEvents() {
+                                @Override
+                                public void onDownloadClick() {
+                                    startActivity(Intent.createChooser(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/KillerInk/FreeDcam/releases/latest")), "Choose browser"));
+                                    versionView.removeAllViews();
+                                }
+
+                                @Override
+                                public void onCloseClick() {
+                                    try {
+                                        if (versionView != null)
+                                            versionView.removeAllViews();
+                                    }
+                                    catch (ActivityNotFoundException ex)
+                                    {
+                                        Log.WriteEx(ex);
+                                    }
+
+                                }
+                            }));
+                        }
+                    });
+                }
+            }).isUpdateAvailable();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((ActivityFreeDcamMain)getActivity()).getUserMessageHandler().setMessageTextView(null,null);
+        userMessageHandler.setMessageTextView(null,null);
+        cameraApiManager.removeEventListner(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        infoOverlayHandler.StartUpdating();
+        //infoOverlayModelView.start();
+        //infoOverlayHandler.StartUpdating();
     }
 
     @Override
     public void onPause()
     {
-        infoOverlayHandler.StopUpdating();
-        sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN, manualsettingsIsOpen).commit();
-        boolean settingsOpen = false;
-        String KEY_SETTINGSOPEN = "key_settingsopen";
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
+        //infoOverlayModelView.stop();
+        //infoOverlayHandler.StopUpdating();
+        settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(manualsettingsIsOpen);
         super.onPause();
 
     }
@@ -385,7 +455,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         manualsettingsIsOpen = false;
         Log.d(TAG, "HideSettings");
         manualModes_holder.animate().translationY(manualModes_holder.getHeight()).setDuration(300);
-        //manualModes_holder.setVisibility(View.GONE);
     }
 
     private void showManualSettings()
@@ -398,9 +467,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment)
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment)
     {
-
         if (currentOpendChild == item)
         {
             removeHorizontalFragment();
@@ -506,6 +574,31 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     //On Settings Menu Click
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onCameraOpen() {
+
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+        handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));
+    }
+
+    @Override
+    public void onCameraClose() {
+        handler.post(() -> setCameraToUi(null));
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
 
     }
 

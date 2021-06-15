@@ -30,6 +30,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -47,13 +48,14 @@ public class LocationManager implements LocationListener, LifecycleObserver
     private Lifecycle lifecycle;
     private Location currentLocation;
     private boolean isStarted = false;
+    private SettingsManager settingsManager;
+    private UserMessageHandler userMessageHandler;
 
-    public LocationManager(ActivityInterface activityInterface, Lifecycle lifecycle)
+    public LocationManager(Context context,SettingsManager settingsManager,UserMessageHandler userMessageHandler)
     {
-        this.activityInterface = activityInterface;
-        this.lifecycle = lifecycle;
-        locationManager = (android.location.LocationManager) FreedApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-        lifecycle.addObserver(this);
+        locationManager = (android.location.LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        this.settingsManager = settingsManager;
+        this.userMessageHandler = userMessageHandler;
     }
 
     public Location getCurrentLocation()
@@ -84,8 +86,8 @@ public class LocationManager implements LocationListener, LifecycleObserver
 
     public void startListing()
     {
-        boolean isON = SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
-        boolean permissiongranted = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        boolean isON = settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
+        boolean permissiongranted = ActivityAbstract.permissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
         if (isON && permissiongranted)
             startLocationListing();
     }
@@ -128,7 +130,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
         }
         else
         {
-            UserMessageHandler.sendMSG("Gps and Network are deactivated",true);
+            userMessageHandler.sendMSG("Gps and Network are deactivated",true);
             Log.d(TAG, "Gps and Network are deactivated");
         }
     }

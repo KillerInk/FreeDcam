@@ -28,9 +28,9 @@ import android.os.Handler;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -53,7 +53,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     int currentiso;
 
 
-    public AeBracketApi2(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public AeBracketApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
         name = FreedApplication.getStringFromRessources(R.string.module_hdr);
     }
@@ -72,7 +72,7 @@ public class AeBracketApi2 extends PictureModuleApi2
     public void InitModule() {
         super.InitModule();
         cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).SetValue(2, true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setIntValue(2, true);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_stop);
     }
 
@@ -89,7 +89,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        String aemode = cameraUiWrapper.parametersHandler.get(SettingKeys.ExposureMode).GetStringValue();
+        String aemode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).getStringValue();
         aeWasOn = !aemode.equals(FreedApplication.getContext().getString(R.string.off));
     }
 
@@ -123,7 +123,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         Log.d(TAG,"imagecount:" +BurstCounter.getImageCaptured());
         if (BurstCounter.getImageCaptured() == 3) {
             if (aeWasOn && parameterHandler.get(SettingKeys.ExposureMode) != null)
-                parameterHandler.get(SettingKeys.ExposureMode).SetValue(FreedApplication.getContext().getString(R.string.on),true);
+                parameterHandler.get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.on),true);
 
         }
     }

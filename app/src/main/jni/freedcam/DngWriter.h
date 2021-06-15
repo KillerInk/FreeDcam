@@ -38,6 +38,7 @@ private:
     void process16to10(TIFF *tif);
     void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
+    void quadBayer16bit(TIFF *tif);
 
 public:
     ExifInfo *exifInfo;
@@ -97,6 +98,8 @@ public:
 
     void WriteDNG();
     void clear();
+
+
 };
 
 

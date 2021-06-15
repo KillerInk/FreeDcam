@@ -9,8 +9,13 @@ import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
+import camera2_hidden_keys.qcom.CaptureResultQcom;
+import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.histogram.HistogramChangedEvent;
+import freed.cam.histogram.HistogramFeed;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -22,15 +27,18 @@ import freed.utils.StringUtils;
  */
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback
+public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.CaptureCallback implements HistogramFeed
 {
-
     private final boolean DO_LOG = false;
+
+
+
     private void log(String s)
     {
         if (DO_LOG)
             Log.d(TAG,s);
     }
+
 
     public interface WaitForFirstFrameCallback
     {
@@ -41,6 +49,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     {
         void on_Ae_Af_Lock(AeAfLocker aeAfLocker);
     }
+
+
 
     public class AeAfLocker
     {
@@ -73,7 +83,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
 
     private final String TAG = CameraValuesChangedCaptureCallback.class.getSimpleName();
-    private Camera2Fragment camera2Fragment;
+    private CameraWrapperInterface camera2Fragment;
     public boolean flashRequired = false;
     int afState;
     int aeState;
@@ -93,11 +103,19 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private final int WAITFORSCAN= 1;
     private int focusState;
     private AeAfLocker aeAfLocker;
+    private HistogramChangedEvent histogramChangedEventListner;
+    private SettingsManager settingsManager;
 
-    public CameraValuesChangedCaptureCallback(Camera2Fragment camera2Fragment)
+    public CameraValuesChangedCaptureCallback(CameraWrapperInterface camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
+        settingsManager = FreedApplication.settingsManager();
         this.aeAfLocker = new AeAfLocker();
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramChangedEvent feed) {
+        this.histogramChangedEventListner = feed;
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -158,7 +176,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+        if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             processHuaweiAEValues(result, expotime, iso);
         }
@@ -220,7 +238,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
         if (camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
             String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
-            if (expolock != null)
+            if (expolock != null && !expolock.equals(camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).getStringValue()))
                 camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
         }
 
@@ -228,6 +246,21 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
+        try {
+            if (settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM) != null && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get() && result.get(CaptureResultQcom.HISTOGRAM_STATS) != null)
+            {
+                int[] histo = result.get(CaptureResultQcom.HISTOGRAM_STATS);
+                if (histogramChangedEventListner != null)
+                {
+                    histogramChangedEventListner.onHistogramChanged(histo);
+                }
+            }
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     private void processDefaultFocus(TotalCaptureResult result) {
@@ -325,14 +358,14 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processHuaweiAEValues(TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
-        if (expotime.GetValue() == 0) {
+        if (expotime.getIntValue() == 0) {
             Long expoTime = result.get(CaptureResult.SENSOR_EXPOSURE_TIME);
             if (expoTime != null) {
                 currentExposureTime = expoTime;
                 expotime.fireStringValueChanged(getShutterStringNS(expoTime));
             }
         }
-        if (iso.GetValue() == 0)
+        if (iso.getIntValue() == 0)
         {
             Integer isova = result.get(CaptureResult.SENSOR_SENSITIVITY);
             if(isova != null) {

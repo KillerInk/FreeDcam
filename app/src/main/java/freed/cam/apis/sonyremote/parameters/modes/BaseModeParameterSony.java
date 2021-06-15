@@ -28,7 +28,6 @@ import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.settings.SettingKeys;
@@ -38,7 +37,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseModeParameterSony extends AbstractParameter implements I_SonyApi, ParameterEvents
+public class BaseModeParameterSony extends AbstractParameter implements I_SonyApi
 {
 
     protected String VALUE_TO_GET = "";
@@ -83,7 +82,6 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
     protected void setValue(String valueToSet, boolean setToCamera) {
         super.setValue(valueToSet, setToCamera);
         processValuesToSet(valueToSet);
-        onStringValueChanged(valueToSet);
     }
 
     protected void processValuesToSet(String valueToSet)
@@ -109,7 +107,7 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
 
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         /*if (key_value == null || key_value.equals("")) {
             jsonObject = null;
@@ -180,26 +178,6 @@ public class BaseModeParameterSony extends AbstractParameter implements I_SonyAp
             Log.WriteEx(ex);
         }
         return ret;
-    }
-
-    @Override
-    public void onViewStateChanged(ViewState value) {
-        setViewState(value);
-    }
-
-    @Override
-    public void onIntValueChanged(int current) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-        this.stringvalues = values;
-    }
-
-    @Override
-    public void onStringValueChanged(String value) {
-        this.currentString = value;
     }
 
 }

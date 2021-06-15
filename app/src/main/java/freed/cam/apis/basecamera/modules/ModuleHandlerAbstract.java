@@ -30,13 +30,14 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
+import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
+public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> implements ModuleHandlerInterface
 {
     public enum CaptureStates
     {
@@ -55,18 +56,20 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
-    public AbstractMap<String, ModuleInterface> moduleList;
+    protected AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CW cameraUiWrapper;
 
     private BackgroundHandlerThread backgroundHandlerThread;
 
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
+    protected SettingsManager settingsManager;
 
-    public ModuleHandlerAbstract(CameraWrapperInterface cameraUiWrapper)
+    public ModuleHandlerAbstract(CW cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        settingsManager = FreedApplication.settingsManager();
         moduleList = new HashMap<>();
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
@@ -127,11 +130,14 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
      * Gets thrown when the module has changed
      * @param module the new module that gets loaded
      */
+    @Override
     public void ModuleHasChanged(final String module)
     {
         EventBusHelper.post(new ModuleHasChangedEvent(module));
     }
 
-
-
+    @Override
+    public AbstractMap<String, ModuleInterface> getModuleList() {
+        return moduleList;
+    }
 }

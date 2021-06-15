@@ -20,8 +20,10 @@
 package freed.cam.ui.themesample.cameraui.childs;
 
 import android.content.Context;
+import android.view.View;
 
-import freed.ActivityInterface;
+import dagger.hilt.android.internal.managers.FragmentComponentManager;
+import freed.cam.ActivityFreeDcamMain;
 
 /**
  * Created by troop on 13.06.2015.
@@ -31,13 +33,11 @@ public class UiSettingsChildExit extends UiSettingsChild
 
     public UiSettingsChildExit(Context context) {
         super(context);
-        setOnClickListener(v -> {
-            ((ActivityInterface)getContext()).closeActivity();
-        });
     }
 
     @Override
-    public void onStringValueChanged(String value) {
-        valueText.setText("");
+    public void onClick(View v) {
+        ActivityFreeDcamMain activity = (ActivityFreeDcamMain) FragmentComponentManager.findActivity(getContext());
+        activity.closeActivity();
     }
 }

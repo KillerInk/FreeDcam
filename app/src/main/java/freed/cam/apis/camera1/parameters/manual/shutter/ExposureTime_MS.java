@@ -9,7 +9,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -40,11 +39,11 @@ public class ExposureTime_MS extends AbstractParameter {
             }
             shutterstring = Double.parseDouble(shutterstring) * 1000 +"";
             Log.d(TAG, "set exposure time to " + shutterstring);
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
+            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
         }
         else
         {
-            parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), "0");
+            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), "0");
             Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

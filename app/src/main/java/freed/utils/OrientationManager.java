@@ -1,19 +1,23 @@
 package freed.utils;
 
+import android.content.Context;
 import android.hardware.SensorManager;
 import android.view.OrientationEventListener;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
 /**
  * Created by troop on 17.09.2014.
  */
-public class OrientationManager
+public class OrientationManager implements LifecycleObserver
 {
     private int currentOrientation;
     private final OrientationEventListener orientationEventListener;
+    private OrientationEvent orientationListner;
 
-    public OrientationManager(FragmentActivity activity, final OrientationEvent orientationListner)
+    public OrientationManager(Context activity)
     {
         orientationEventListener = new OrientationEventListener(activity, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
@@ -37,13 +41,20 @@ public class OrientationManager
         };
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void Start()
     {
         orientationEventListener.enable();
     }
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void Stop()
     {
         orientationEventListener.disable();
+    }
+
+    public void setOrientationEventListener(OrientationEvent listener)
+    {
+        this.orientationListner = listener;
     }
 
 
@@ -57,6 +68,11 @@ public class OrientationManager
         else if (orientation >= 135 && orientation < 230)
             orientationToRet = 270;
         return orientationToRet;
+    }
+
+    public int getCurrentOrientation()
+    {
+        return currentOrientation;
     }
 
 }

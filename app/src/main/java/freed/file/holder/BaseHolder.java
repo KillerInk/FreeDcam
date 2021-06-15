@@ -30,11 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import freed.ActivityInterface;
 import freed.file.FileListController;
 import freed.utils.StringUtils;
-import freed.viewer.gridview.enums.ViewStates;
-import freed.viewer.gridview.views.GridViewFragment;
 
 /**
  * Created by Ingo on 27.12.2015.
@@ -96,7 +93,7 @@ public abstract class BaseHolder
     public abstract OutputStream getOutputStream() throws FileNotFoundException;
     public abstract InputStream getInputStream() throws FileNotFoundException;
 
-    public void setToMediaRecorder(MediaRecorder recorder, ActivityInterface activityInterface) throws FileNotFoundException {
+    public void setToMediaRecorder(MediaRecorder recorder) throws FileNotFoundException {
         if (this instanceof FileHolder)
         {
             recorder.setOutputFile(((FileHolder)this).getFile().getAbsolutePath());

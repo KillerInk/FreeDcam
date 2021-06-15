@@ -54,13 +54,13 @@ public class PreviewZoomManual extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera) {
+    public void setIntValue(int valueToSet, boolean setToCamera) {
         surfaceView.PreviewZOOMFactor = Integer.parseInt(stringvalues[valueToSet]);
         fireIntValueChanged(valueToSet);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return surfaceView.PreviewZOOMFactor+"";
     }
 }

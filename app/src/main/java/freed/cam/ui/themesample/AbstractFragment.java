@@ -20,24 +20,11 @@
 package freed.cam.ui.themesample;
 
 
-
 import androidx.fragment.app.Fragment;
-
-import freed.ActivityInterface;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
  * Created by troop on 25.03.2015.
  */
-public abstract class AbstractFragment extends Fragment implements I_Fragment
+public abstract class AbstractFragment extends Fragment
 {
-    protected CameraWrapperInterface cameraUiWrapper;
-    protected ActivityInterface fragment_activityInterface;
-
-    public void setCameraToUi(CameraWrapperInterface wrapper)
-    {
-        cameraUiWrapper = wrapper;
-    }
-
-
 }

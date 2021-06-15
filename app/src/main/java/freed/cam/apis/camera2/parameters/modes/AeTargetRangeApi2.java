@@ -6,7 +6,8 @@ import android.util.Range;
 
 import androidx.annotation.RequiresApi;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 
 /**
@@ -18,7 +19,7 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
 
     private CaptureRequest.Key<Range<Integer>> key;
 
-    public AeTargetRangeApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
+    public AeTargetRangeApi2(Camera2 cameraUiWrapper, SettingKeys.Key settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
         super(cameraUiWrapper, settingMode);
         this.key = parameterKey;
     }
@@ -32,14 +33,14 @@ public class AeTargetRangeApi2 extends BaseModeApi2 {
         String[] toset = valueToSet.split(",");
         Range t = new Range(Integer.parseInt(toset[0]), Integer.parseInt(toset[1]));
         if (setToCamera)
-            cameraUiWrapper.restartPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         //captureSessionHandler.SetParameterRepeating(key, t,setToCamera);
         if (settingMode != null)
             settingMode.set(valueToSet);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return currentString;
     }
 

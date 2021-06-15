@@ -7,26 +7,34 @@ import android.os.Build;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.Camera2;
 
 /**
  * Created by Ingo on 03.10.2016.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class AeLockModeApi2 extends BaseModeApi2 {
-    public AeLockModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public AeLockModeApi2(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper, null);
         setViewState(ViewState.Visible);
     }
 
 
     @Override
-    public String GetStringValue() {
-        if (((Camera2Fragment)cameraUiWrapper).captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
-            return FreedApplication.getStringFromRessources(R.string.true_);
-        else
+    public String getStringValue() {
+        if (cameraUiWrapper == null || cameraUiWrapper.captureSessionHandler == null)
             return FreedApplication.getStringFromRessources(R.string.false_);
+        try {
+            if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
+                return FreedApplication.getStringFromRessources(R.string.true_);
+            else
+                return FreedApplication.getStringFromRessources(R.string.false_);
+        }
+        catch (NullPointerException ex)
+        {
+            return FreedApplication.getStringFromRessources(R.string.false_);
+        }
+
     }
 
     @Override
@@ -36,7 +44,7 @@ public class AeLockModeApi2 extends BaseModeApi2 {
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
-
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK, valueToSet.equals(FreedApplication.getStringFromRessources(R.string.true_)), setToCamera);
+        fireStringValueChanged(valueToSet);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK, valueToSet.equals(FreedApplication.getStringFromRessources(R.string.true_)), setToCamera);
     }
 }

@@ -2,12 +2,9 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.ValueChangedEvent;
-import freed.renderscript.RenderScriptProcessorInterface;
+import freed.cam.previewpostprocessing.Preview;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -17,19 +14,19 @@ import freed.utils.Log;
 
 public class FocusPeakColorMode extends AbstractParameter {
 
-    private RenderScriptProcessorInterface focuspeakProcessor;
-    public FocusPeakColorMode(RenderScriptProcessorInterface renderScriptManager, SettingKeys.Key settingMode) {
+    private Preview focuspeakProcessor;
+    public FocusPeakColorMode(Preview renderScriptManager, SettingKeys.Key settingMode) {
         super(settingMode);
         this.focuspeakProcessor = renderScriptManager;
-
+        setStringValue(getStringValue(),false);
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         if (focuspeakProcessor == null)
             return;
         try {
-            settingMode.set(valueToSet);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(valueToSet);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.fcolor_red))) {
                 focuspeakProcessor.setRed(true);
                 focuspeakProcessor.setGreen(false);
@@ -67,15 +64,14 @@ public class FocusPeakColorMode extends AbstractParameter {
         fireStringValueChanged(valueToSet);
     }
 
-    @Subscribe
-    public void onStringValueChanged(ValueChangedEvent<String> valueob)
-    {
-        if (valueob.key == SettingKeys.EnableRenderScript) {
-            String value = valueob.newValue;
-            if (value.equals(FreedApplication.getStringFromRessources(R.string.off_)))
-                setViewState(ViewState.Hidden);
-            else
-                setViewState(ViewState.Visible);
-        }
+    @Override
+    public String[] getStringValues() {
+        return settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues();
     }
+
+    @Override
+    public String getStringValue() {
+        return settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).get();
+    }
+
 }

@@ -1,8 +1,5 @@
 package freed.viewer.screenslide.models;
 
-import android.graphics.Typeface;
-
-import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.troop.freedcam.BR;

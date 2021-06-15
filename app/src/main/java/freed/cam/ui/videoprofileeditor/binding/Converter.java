@@ -4,9 +4,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.databinding.BindingAdapter;
-import androidx.databinding.InverseBindingAdapter;
 
 import freed.cam.ui.videoprofileeditor.enums.AudioCodecs;
+import freed.cam.ui.videoprofileeditor.enums.HdrModes;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.cam.ui.videoprofileeditor.enums.VideoCodecs;
 
@@ -66,6 +66,20 @@ public class Converter
     {
         String ret = "";
         for (OpCodes audio : OpCodes.values())
+        {
+            if (audio.GetInt() == codec)
+                ret = audio.toString();
+        }
+        if (editText != null)
+            editText.setText(ret);
+        return ret;
+    }
+
+    @BindingAdapter("convertHdrModecIntToString")
+    public static String convertHdrModecIntToString(Button editText, int codec)
+    {
+        String ret = "";
+        for (HdrModes audio : HdrModes.values())
         {
             if (audio.GetInt() == codec)
                 ret = audio.toString();

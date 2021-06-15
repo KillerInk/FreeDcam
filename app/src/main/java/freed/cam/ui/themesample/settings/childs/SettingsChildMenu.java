@@ -24,63 +24,57 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
-import com.troop.freedcam.R.id;
+import androidx.databinding.DataBindingUtil;
+
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
+import com.troop.freedcam.databinding.SettingsMenuItemBinding;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.events.ValueChangedEvent;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.cam.ui.themesample.SettingsChildAbstract;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class SettingsChildMenu extends UiSettingsChild
+public class SettingsChildMenu extends SettingsChildAbstract
 {
-    private TextView description;
 
-    private TextView headerText;
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-    }
+    protected SettingsMenuItemBinding binding;
 
     public SettingsChildMenu(Context context) {
         super(context);
+        init(context);
     }
 
     public SettingsChildMenu(Context context,int headerid, int descriptionid)
     {
         super(context);
-        headerText.setText(getResources().getText(headerid));
-        description.setText(getResources().getText(descriptionid));
+        init(context);
+        binding.textviewMenuitemHeader.setText(getResources().getText(headerid));
+        binding.textviewMenuitemDescription.setText(getResources().getText(descriptionid));
     }
 
     public SettingsChildMenu(Context context, ParameterInterface parameter) {
         super(context, parameter);
+        init(context);
+        SetParameter(parameter);
     }
 
     public SettingsChildMenu(Context context, ParameterInterface parameter, int headerid, int descriptionid)
     {
         super(context,parameter);
-        headerText.setText(getResources().getText(headerid));
-        description.setText(getResources().getText(descriptionid));
+        init(context);
+        binding.textviewMenuitemHeader.setText(getResources().getText(headerid));
+        binding.textviewMenuitemDescription.setText(getResources().getText(descriptionid));
+        SetParameter(parameter);
     }
 
     public SettingsChildMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
         //get custom attributs
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
@@ -96,9 +90,10 @@ public class SettingsChildMenu extends UiSettingsChild
         try
         {
 
-            headerText.setText(b.getText(styleable.UiSettingsChild_HeaderText));
+            binding.textviewMenuitemHeader.setText(b.getText(styleable.UiSettingsChild_HeaderText));
 
-            description.setText(a.getText(styleable.SettingsChildMenu_Description));
+            binding.textviewMenuitemDescription.setText(a.getText(styleable.SettingsChildMenu_Description));
+            binding.textviewMenuitemHeaderValue.setText("binding....");
         }
         finally {
             a.recycle();
@@ -107,19 +102,21 @@ public class SettingsChildMenu extends UiSettingsChild
     }
 
     @Override
+    protected void sendLog(String log) {
+
+    }
+
+    @Override
     protected void init(Context context) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflateTheme(inflater);
-        headerText = findViewById(id.textview_menuitem_header);
-        valueText = findViewById(id.textview_menuitem_header_value);
-        description = findViewById(id.textview_menuitem_description);
-        LinearLayout toplayout = findViewById(id.menu_item_toplayout);
-        setOnClickListener(this);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        binding = SettingsMenuItemBinding.inflate(inflater,this,true);
+        binding.getRoot().setOnClickListener(this);
+        binding.menuItemToplayout.getLayoutParams().width= ViewGroup.LayoutParams.MATCH_PARENT;
     }
 
     @Override
     protected void inflateTheme(LayoutInflater inflater) {
-        inflater.inflate(layout.settings_menu_item, this);
+        binding = DataBindingUtil.inflate(inflater,layout.settings_menu_item,this,true);
     }
 
     @Override
@@ -128,11 +125,15 @@ public class SettingsChildMenu extends UiSettingsChild
             onItemClick.onSettingsChildClick(this, false);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onStringValueChanged(ValueChangedEvent<String> value) {
-        if (value.type != String.class || parameter == null)
-            return;
-        if (value.key == parameter.getKey())
-            onStringValueChanged(value.newValue);
+    @Override
+    public void SetParameter(ParameterInterface parameter) {
+        super.SetParameter(parameter);
+        binding.setParameter((AbstractParameter) parameter);
+        binding.notifyChange();
+    }
+
+    @Override
+    public void onModuleChanged(String module) {
+
     }
 }

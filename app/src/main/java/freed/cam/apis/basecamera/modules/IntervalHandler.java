@@ -21,6 +21,8 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.SystemClock;
 
+import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -47,6 +49,8 @@ public class IntervalHandler
     private Thread intervalBackgroundThread;
 
     private final Object waitForCaptureEnd = new Object();
+    private SettingsManager settingsManager;
+    private UserMessageHandler userMessageHandler;
 
     public interface SuperDoWork
     {
@@ -61,6 +65,8 @@ public class IntervalHandler
     public IntervalHandler(SuperDoWork picmodule)
     {
         this.picmodule = picmodule;
+        settingsManager = FreedApplication.settingsManager();
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     public void Init()
@@ -90,13 +96,13 @@ public class IntervalHandler
         working = true;
 
         startTime = SystemClock.uptimeMillis();
-        String sleep = SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
+        String sleep = settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
         if (sleep.contains(" sec"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" sec",""))*1000;
         if (sleep.contains(" min"))
             sleepTimeBetweenCaptures = Integer.parseInt(sleep.replace(" min",""))*60*1000;
 
-        String duration = SettingsManager.get(SettingKeys.INTERVAL_DURATION).get();
+        String duration = settingsManager.get(SettingKeys.INTERVAL_DURATION).get();
         if (duration.equals("∞"))
             fullIntervalCaptureDuration = 0;
         else if (duration.contains(" min"))
@@ -126,11 +132,12 @@ public class IntervalHandler
             long sleep = 0;
             while (!Thread.currentThread().isInterrupted() && !captureTimeOver && working)
             {
-
+                Log.d(TAG, "capturetimeover:"+captureTime + " startimeCapture:"+startTimeCapture + " captureTime:"+captureTime
+                        + " timeleftToNextCapture:"+ timeGoneTillNextCapture + " sleepTimeBetweenCapture:" + sleepTimeBetweenCaptures);
                 if (timeGoneTillNextCapture < sleepTimeBetweenCaptures /1000) {
 
                     timeGoneTillNextCapture++;
-
+                    sleep = 1000;
                 }
                 else {
                     Log.d(TAG, "Start ImageCapture");
@@ -151,7 +158,7 @@ public class IntervalHandler
                     else  sleep = 0;
                     timeGoneTillNextCapture = (int)(captureTime / 1000);
                 }
-                Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture );
+                Log.d(TAG,"IntervalDelayCounter:" + timeGoneTillNextCapture);
                 sendMsg();
 
                 if (!Thread.currentThread().isInterrupted() && sleepTimeBetweenCaptures > 0 && sleep > 0) {
@@ -188,7 +195,7 @@ public class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ", (double) (SystemClock.uptimeMillis() - startTime) /1000 );
         t+= "/"+ fullIntervalCaptureDuration + " NextIn:" + ((sleepTimeBetweenCaptures /1000) - timeGoneTillNextCapture);
-        UserMessageHandler.sendMSG(t,false);
+        userMessageHandler.sendMSG(t,false);
 
     }
 

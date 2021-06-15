@@ -44,7 +44,7 @@ public class BaseISOManual extends BaseManualParameter {
     }
 
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return currentInt;
     }
 
@@ -78,15 +78,15 @@ public class BaseISOManual extends BaseManualParameter {
             Log.e(TAG, "set_manual IsoMode is null");
             return;
         }
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue() == null)
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).getStringValue() == null)
         {
             Log.e(TAG, "set_manual IsoMode.GetStringValue is null");
             return;
         }
-        cur_iso_mode = cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue();
+        cur_iso_mode = cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).getStringValue();
 
-        if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.manual), true);
+        if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(FreedApplication.getStringFromRessources(R.string.manual), true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -108,14 +108,14 @@ public class BaseISOManual extends BaseManualParameter {
             Log.e(TAG, "set_to_auto IsoMode is null");
             return;
         }
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue() == null)
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).getStringValue() == null)
         {
             Log.e(TAG, "set_to_auto IsoMode.GetStringValue is null");
             return;
         }
-        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).GetStringValue().equals(FreedApplication.getStringFromRessources(R.string.manual)))
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).SetValue(cur_iso_mode, true);
+        if (cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.manual)))
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(cur_iso_mode, true);
 
     }
 

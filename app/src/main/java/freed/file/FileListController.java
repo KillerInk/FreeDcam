@@ -7,18 +7,15 @@ import android.text.TextUtils;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.UpdateScreenSlide;
+import freed.FreedApplication;
 import freed.file.holder.BaseHolder;
+import freed.file.holder.DocumentHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
 import freed.settings.SettingsManager;
@@ -30,14 +27,12 @@ public class FileListController {
 
     private final String TAG = FileListController.class.getSimpleName();
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFile(BaseHolder fileHolder)
     {
         MediaScannerManager.ScanMedia(context,fileHolder);
         AddFile(fileHolder);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void addFromEventFiles(BaseHolder[] fileHolder)
     {
         MediaScannerManager.ScanMedia(context,fileHolder);
@@ -70,6 +65,7 @@ public class FileListController {
     private Context context;
     private List<NotifyFilesChanged> notifyFilesChangedList;
     private final Object filesLock = new Object();
+    private SettingsManager settingsManager;
 
     public FileListController(Context context)
     {
@@ -78,6 +74,7 @@ public class FileListController {
         storageFileManager = new StorageFileManager();
         mediaStoreController = new MediaStoreController(context);
         notifyFilesChangedList = new ArrayList<>();
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public void setNotifyFilesChanged(NotifyFilesChanged notifyFilesChanged)
@@ -91,12 +88,6 @@ public class FileListController {
         return files;
     }
 
-   /* public StorageFileManager getStorageFileManager()
-    {
-        return storageFileManager;
-    }
-    public MediaStoreController getMediaStoreController(){return mediaStoreController; }*/
-
     public void loadDefaultFiles()
     {
         try {
@@ -105,6 +96,14 @@ public class FileListController {
                 LoadDCIMDirs();
             else
                 files = mediaStoreController.getFolders();
+
+            DocumentFile documentFile = getFreeDcamDocumentFolder();
+            if (documentFile != null)
+            {
+                DocumentHolder documentHolder = new DocumentHolder(documentFile.getName(),documentFile.lastModified(),documentFile.isDirectory(),true,documentFile);
+                files.add(documentHolder);
+            }
+
             SortFileHolder(files);
             Log.d(TAG, "loadDefaultFiles found Files:" + files.size());
             fireNotifyFilesChanged();
@@ -142,7 +141,6 @@ public class FileListController {
             }
             SortFileHolder(files);
             fireNotifyFilesChanged();
-            EventBusHelper.post(new UpdateScreenSlide());
         }
     }
 
@@ -150,34 +148,37 @@ public class FileListController {
     {
         Log.d(TAG, "LoadFolder needStorageAccessFrameWork" + needStorageAccessFrameWork);
         synchronized (filesLock) {
-            if (!needStorageAccessFrameWork) {
-                files.clear();
-                storageFileManager.readFilesFromFolder(((FileHolder)fileHolder).getFile(), files, types, fileHolder.isExternalSD());
-            }
-            else
+            if (fileHolder instanceof DocumentHolder)
             {
-                files.clear();
-                List<BaseHolder> tmplist =new ArrayList<>();
-                tmplist = mediaStoreController.getFilesFromFolder(fileHolder.getName());
-                if (types != FormatTypes.all) {
-                    for (BaseHolder fh : tmplist) {
-                        if (fh.getName() != null) {
-                            if (fh.getName().endsWith("jpg") && types == FormatTypes.jpg)
-                                files.add(fh);
-                            if (fh.getName().endsWith("jps") && types == FormatTypes.jps)
-                                files.add(fh);
-                            if (fh.getName().endsWith("dng") && types == FormatTypes.dng)
-                                files.add(fh);
-                            if (fh.getName().endsWith("bayer") && types == FormatTypes.raw)
-                                files.add(fh);
-                            if (fh.getName().endsWith("mp4") && types == FormatTypes.mp4)
-                                files.add(fh);
+                new DocumentFileController().readFilesFromFolder((DocumentHolder) fileHolder,files,types,fileHolder.isExternalSD());
+            }
+            else {
+                if (!needStorageAccessFrameWork) {
+                    files.clear();
+                    storageFileManager.readFilesFromFolder(((FileHolder) fileHolder).getFile(), files, types, fileHolder.isExternalSD());
+                } else {
+                    files.clear();
+                    List<BaseHolder> tmplist = new ArrayList<>();
+                    tmplist = mediaStoreController.getFilesFromFolder(fileHolder.getName());
+                    if (types != FormatTypes.all) {
+                        for (BaseHolder fh : tmplist) {
+                            if (fh.getName() != null) {
+                                if (fh.getName().endsWith("jpg") && types == FormatTypes.jpg)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("jps") && types == FormatTypes.jps)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("dng") && types == FormatTypes.dng)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("bayer") && types == FormatTypes.raw)
+                                    files.add(fh);
+                                if (fh.getName().endsWith("mp4") && types == FormatTypes.mp4)
+                                    files.add(fh);
+                            }
                         }
-                    }
+                    } else
+                        files = tmplist;
+                    SortFileHolder(files);
                 }
-                else
-                    files = tmplist;
-                SortFileHolder(files);
             }
             fireNotifyFilesChanged();
         }
@@ -202,7 +203,7 @@ public class FileListController {
     public static DocumentFile getExternalSdDocumentFile(Context context)
     {
         DocumentFile sdDir = null;
-        String extSdFolder =  SettingsManager.getInstance().GetBaseFolder();
+        String extSdFolder =  FreedApplication.settingsManager().GetBaseFolder();
         if (extSdFolder == null || TextUtils.isEmpty(extSdFolder))
             return null;
         Uri uri = Uri.parse(extSdFolder);
@@ -329,40 +330,40 @@ public class FileListController {
 
     public BaseHolder getNewImgFileHolder(File file)
     {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork)) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !settingsManager.GetWriteExternal() && !FileListController.needStorageAccessFrameWork)) {
             checkFileExists(file);
-            return new FileHolder(file, SettingsManager.getInstance().GetWriteExternal());
+            return new FileHolder(file, settingsManager.GetWriteExternal());
         }
-        else if (getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
+        else if (getFreeDcamDocumentFolder() != null && settingsManager.GetWriteExternal()) {
             DocumentFile df = getExternalSdDocumentFile(context); //getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/*", file.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
-            return new UriHolder(wr.getUri(), file.getName(), 0, wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+            return new UriHolder(wr.getUri(), file.getName(), 0, wr.lastModified(), wr.isDirectory(), settingsManager.GetWriteExternal());
         }
         else {
             Uri uri = mediaStoreController.addImg(file);
-            return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
+            return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,settingsManager.GetWriteExternal());
         }
     }
 
     public BaseHolder getNewMovieFileHolder(File file)
     {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !SettingsManager.getInstance().GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !settingsManager.GetWriteExternal() && !FileListController.needStorageAccessFrameWork) {
             checkFileExists(file);
-            return new FileHolder(file, SettingsManager.getInstance().GetWriteExternal());
+            return new FileHolder(file, settingsManager.GetWriteExternal());
         }
-        else if (getFreeDcamDocumentFolder() != null && SettingsManager.getInstance().GetWriteExternal()) {
+        else if (getFreeDcamDocumentFolder() != null && settingsManager.GetWriteExternal()) {
             DocumentFile df = getFreeDcamDocumentFolder();
             Log.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("*/*", file.getName());
             Log.d(TAG,"Filepath: " + wr.getUri());
             Uri uri = wr.getUri();
-            return new UriHolder(uri, file.getName(), 0, wr.lastModified(), wr.isDirectory(), SettingsManager.getInstance().GetWriteExternal());
+            return new UriHolder(uri, file.getName(), 0, wr.lastModified(), wr.isDirectory(), settingsManager.GetWriteExternal());
         }
         else {
             Uri uri = mediaStoreController.addMovie(file);
-            return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,SettingsManager.getInstance().GetWriteExternal());
+            return new UriHolder(uri,file.getName(),Long.valueOf(uri.getLastPathSegment()), System.currentTimeMillis(),false,settingsManager.GetWriteExternal());
         }
     }
 

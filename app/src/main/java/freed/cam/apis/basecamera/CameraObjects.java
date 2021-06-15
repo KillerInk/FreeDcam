@@ -1,26 +1,20 @@
 package freed.cam.apis.basecamera;
 
-import freed.ActivityInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.renderscript.RenderScriptManager;
-import freed.renderscript.RenderScriptProcessorInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
+import freed.cam.apis.basecamera.parameters.ParameterHandler;
 
-public interface CameraObjects {
+public interface CameraObjects<C extends CameraHolderInterface, P extends ParameterHandler, M extends ModuleHandlerInterface, F extends AbstractFocusHandler> {
     /**
      * Get the current active CameraHolder
      * @return
      */
-    CameraHolderInterface getCameraHolder();
+    C getCameraHolder();
 
     /**
      * get the active parameterhandler
      * @return
      */
-    AbstractParameterHandler getParameterHandler();
-    ModuleHandlerAbstract getModuleHandler();
-    AbstractFocusHandler getFocusHandler();
-    RenderScriptProcessorInterface getFocusPeakProcessor();
-    RenderScriptManager getRenderScriptManager();
-    ActivityInterface getActivityInterface();
+    P getParameterHandler();
+    M getModuleHandler();
+    F getFocusHandler();
 }

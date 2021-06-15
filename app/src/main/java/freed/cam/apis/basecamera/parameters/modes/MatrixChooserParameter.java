@@ -26,7 +26,6 @@ import java.util.HashMap;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.dng.CustomMatrix;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -45,24 +44,24 @@ public class MatrixChooserParameter extends AbstractParameter
         super(SettingKeys.MATRIX_SET);
         this.custommatrixes = matrixHashMap;
         setViewState(ViewState.Visible);
-        currentval = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+        currentval = settingsManager.get(SettingKeys.MATRIX_SET).get();
         if (TextUtils.isEmpty(currentval))
             currentval = "off";
         fireStringValueChanged(currentval);
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         if (TextUtils.isEmpty(valueToSet))
             return;
         currentval = valueToSet;
         fireStringValueChanged(currentval);
-        SettingsManager.get(SettingKeys.MATRIX_SET).set(valueToSet);
+        settingsManager.get(SettingKeys.MATRIX_SET).set(valueToSet);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return currentval;
     }
 

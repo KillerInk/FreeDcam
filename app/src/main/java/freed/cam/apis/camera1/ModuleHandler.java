@@ -20,7 +20,6 @@
 package freed.cam.apis.camera1;
 
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.modules.BracketModule;
 import freed.cam.apis.camera1.modules.IntervalModuleCamera1;
@@ -29,17 +28,16 @@ import freed.cam.apis.camera1.modules.PictureModuleMTK;
 import freed.cam.apis.camera1.modules.VideoModule;
 import freed.cam.apis.camera1.modules.VideoModuleG3;
 import freed.settings.Frameworks;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
  * Created by troop on 16.08.2014.
  */
-public class ModuleHandler extends ModuleHandlerAbstract
+public class ModuleHandler extends ModuleHandlerAbstract<Camera1>
 {
 
 
-    public  ModuleHandler (CameraWrapperInterface cameraUiWrapper)
+    public  ModuleHandler (Camera1 cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
@@ -50,7 +48,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
         String TAG = "cam.ModuleHandler";
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.MTK)
+        if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(cameraUiWrapper,mBackgroundHandler,mainHandler);
@@ -65,7 +63,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
-        if (SettingsManager.getInstance().getFrameWork() == Frameworks.LG)
+        if (settingsManager.getFrameWork() == Frameworks.LG)
         {
             Log.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraUiWrapper,mBackgroundHandler,mainHandler);
@@ -79,7 +77,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
         }
 
         Log.d(TAG, "load hdr module");
-        if (SettingsManager.getInstance().getFrameWork() != Frameworks.MTK)
+        if (settingsManager.getFrameWork() != Frameworks.MTK)
         {
             BracketModule bracketModule = new BracketModule(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(bracketModule.ModuleName(), bracketModule);

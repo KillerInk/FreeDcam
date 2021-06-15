@@ -51,7 +51,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         String vs = parameters.get(FreedApplication.getStringFromRessources(R.string.video_stabilization));
         if (vs != null && !TextUtils.isEmpty(vs))

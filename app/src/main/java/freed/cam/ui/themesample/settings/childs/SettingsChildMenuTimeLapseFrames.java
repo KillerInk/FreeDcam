@@ -30,6 +30,9 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -37,6 +40,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 29.08.2015.
  */
+@AndroidEntryPoint
 public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 {
     private final String TAG = SettingsChildMenuTimeLapseFrames.class.getSimpleName();
@@ -48,6 +52,8 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
     private final float mover = (float)1/60;
     private final float bigmover = 1;
     private String settingsname;
+    @Inject
+    SettingsManager settingsManager;
 
     public SettingsChildMenuTimeLapseFrames(Context context) {
         super(context);
@@ -89,7 +95,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 
         });
         settingsname = SettingsManager.TIMELAPSEFRAME;
-        String fps = SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get();
+        String fps = settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get();
         if (fps == null || TextUtils.isEmpty(fps) || fps.equals("null"))
             fps = "30";
 
@@ -112,7 +118,7 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         {
             Log.WriteEx(ex);
         }
-        SettingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(current));
+        settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(current));
         if (current >= 1)
             editText.setText(current + " fps");
         else

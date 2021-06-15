@@ -6,9 +6,9 @@ import android.os.Build;
 
 import java.util.Map;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.StringUtils;
 
 /**
@@ -21,7 +21,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     protected CaptureRequest.Key<Byte> parameterKey;
 
 
-    public DualCameraModeHuaweiApi2(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Byte> parameterKey) {
+    public DualCameraModeHuaweiApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, CaptureRequest.Key<Byte> parameterKey) {
         super(cameraUiWrapper, key, null);
         this.parameterKey = parameterKey;
         captureSessionHandler.SetParameterRepeating(parameterKey,(byte)0,true);
@@ -36,11 +36,10 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     public void setValue(String valueToSet, boolean setToCamera)
     {
         super.setValue(valueToSet,setToCamera);
-        if (SettingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+        if (settingsManager.get(SettingKeys.secondarySensorSize).isSupported())
         {
             if (setToCamera) {
-                cameraUiWrapper.stopPreviewAsync();
-                cameraUiWrapper.startPreviewAsync();
+                CameraThreadHandler.restartPreviewAsync();
             }
         }
 
@@ -51,7 +50,7 @@ public class DualCameraModeHuaweiApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (parameterKey == null)
             return null;

@@ -1,55 +1,33 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
-import com.troop.freedcam.R;
-
-import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.settings.mode.BooleanSettingModeInterface;
 
-public class EnableRenderScriptMode extends FocusPeakMode implements BooleanSettingModeInterface {
+public class EnableRenderScriptMode extends AbstractParameter {
 
-
-    public EnableRenderScriptMode(CameraWrapperInterface cameraUiWrapper) {
+    public EnableRenderScriptMode(SettingKeys.Key cameraUiWrapper) {
         super(cameraUiWrapper);
+        setViewState(ViewState.Visible);
+        fireStringValueChanged(settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get());
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
-        {
-            SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(true);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
-        }
-        else {
-            SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(false);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
-        }
-        //EventBusHelper.post(new SwichCameraFragmentEvent());
-        cameraUiWrapper.restartCameraAsync();
-        //cameraUiWrapper.getActivityInterface()..restartCameraAsync();
-
+        settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).set(valueToSet);
+        fireStringValueChanged(valueToSet);
+        ActivityFreeDcamMain.cameraApiManager().changePreviewPostProcessing();
     }
 
     @Override
-    public boolean get() {
-        return SettingsManager.getGlobal(SettingKeys.EnableRenderScript).get();
+    public String getStringValue() {
+        return settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get();
     }
 
     @Override
-    public void set(boolean bool) {
-        if (bool)
-        {
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
-        }
-        else
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
-        SettingsManager.getGlobal(SettingKeys.EnableRenderScript).set(bool);
-        EventBusHelper.post(new SwichCameraFragmentEvent());
+    public String[] getStringValues() {
+        return settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getValues();
     }
 }

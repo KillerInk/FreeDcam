@@ -2,12 +2,10 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -16,12 +14,10 @@ import freed.utils.Log;
 public class NightOverlayParameter extends AbstractParameter {
 
     private final String TAG = NightOverlayParameter.class.getSimpleName();
-    private ActivityInterface activityInterface;
 
     public NightOverlayParameter(CameraWrapperInterface cameraWrapperInterface)
     {
         super(SettingKeys.NightOverlay);
-        this.activityInterface = cameraWrapperInterface.getActivityInterface();
         setViewState(ViewState.Visible);
     }
 
@@ -31,8 +27,8 @@ public class NightOverlayParameter extends AbstractParameter {
     }
 
     @Override
-    public String GetStringValue() {
-        boolean enable = SettingsManager.getGlobal(SettingKeys.NightOverlay).get();
+    public String getStringValue() {
+        boolean enable = settingsManager.getGlobal(SettingKeys.NightOverlay).get();
         if (enable)
             return FreedApplication.getStringFromRessources(R.string.on_);
         else
@@ -40,10 +36,9 @@ public class NightOverlayParameter extends AbstractParameter {
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-        SettingsManager.getGlobal(SettingKeys.NightOverlay).set(valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)));
-        Log.d(TAG, "Nightoverlay :" +SettingsManager.getGlobal(SettingKeys.NightOverlay).get());
-        activityInterface.SetNightOverlay();
+    public void setStringValue(String valueToSet, boolean setToCamera) {
+        settingsManager.getGlobal(SettingKeys.NightOverlay).set(valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)));
+        Log.d(TAG, "Nightoverlay :" +settingsManager.getGlobal(SettingKeys.NightOverlay).get());
         fireStringValueChanged(valueToSet);
 
     }

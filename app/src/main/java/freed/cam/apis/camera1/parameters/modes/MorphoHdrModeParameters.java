@@ -9,10 +9,8 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
 
@@ -20,7 +18,7 @@ import freed.utils.Log;
  * Created by troop on 24.02.2017.
  */
 
-public class MorphoHdrModeParameters extends BaseModeParameter implements ParameterEvents {
+public class MorphoHdrModeParameters extends BaseModeParameter {
 
     final String TAG = MorphoHdrModeParameters.class.getSimpleName();
     private boolean visible = true;
@@ -43,20 +41,20 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hht), FreedApplication.getStringFromRessources(R.string.false_));
             cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).setStringValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket), true);
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hdr), FreedApplication.getStringFromRessources(R.string.true_));
         } else {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).SetValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_off), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).setStringValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_off), true);
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hdr), FreedApplication.getStringFromRessources(R.string.false_));
         }
         if (setToCam)
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        ((SettingMode)SettingsManager.get(key)).set(valueToSet);
+        ((SettingMode)settingsManager.get(key)).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
 
         if(cameraUiWrapper == null) {
             Log.d(TAG, "cameraUiWrapper null");
@@ -102,7 +100,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
         if (curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_video))|| curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
             Hide();
-            SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+            setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         }
         else
         {
@@ -113,12 +111,12 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
             else
             {
                 Hide();
-                SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+                setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
             }
         }
     }
 
-    @Override
+    /*@Override
     public void onViewStateChanged(ViewState value) {
 
     }
@@ -142,20 +140,20 @@ public class MorphoHdrModeParameters extends BaseModeParameter implements Parame
         else if (!val.contains(FreedApplication.getStringFromRessources(R.string.jpeg_))&& visible) {
             Hide();
         }
-    }
+    }*/
 
     private void Hide()
     {
-        state = GetStringValue();
+        state = getStringValue();
         visible = false;
-        SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+        setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         setViewState(ViewState.Hidden);
     }
     private void Show()
     {
         visible = true;
-        SetValue(state,true);
+        setStringValue(state,true);
         fireStringValueChanged(state);
         setViewState(ViewState.Visible);
     }

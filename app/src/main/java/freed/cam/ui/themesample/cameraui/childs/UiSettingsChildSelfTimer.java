@@ -3,21 +3,29 @@ package freed.cam.ui.themesample.cameraui.childs;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.settings.SettingKeys;
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 
+@AndroidEntryPoint
 public class UiSettingsChildSelfTimer extends UiSettingsChild {
+
+    @Inject
+    SettingsManager settingsManager;
+
     public UiSettingsChildSelfTimer(Context context) {
         super(context);
     }
 
-    public UiSettingsChildSelfTimer(Context context, SettingMode settingsMode, ParameterInterface parameter) {
+    public UiSettingsChildSelfTimer(Context context, SettingMode settingsMode, AbstractParameter parameter) {
         super(context, parameter);
     }
 
@@ -28,6 +36,7 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
     @Override
     public void onModuleChanged(String module)
     {
+        Log.v(UiSettingsChildSelfTimer.class.getSimpleName(), "onModuleChanged " + module);
         if ((module.equals(getResources().getString(R.string.module_picture))
                 || module.equals(getResources().getString(R.string.module_hdr))
                 || module.equals(getResources().getString(R.string.module_interval))
@@ -36,21 +45,5 @@ public class UiSettingsChildSelfTimer extends UiSettingsChild {
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);
-    }
-
-    public void SetStuff(SettingMode settingMode) {
-
-        onStringValueChanged(settingMode.get());
-    }
-
-    @Override
-    public String[] GetValues() {
-        return SettingsManager.get(SettingKeys.selfTimer).getValues();
-    }
-
-    @Override
-    public void SetValue(String value) {
-        SettingsManager.get(SettingKeys.selfTimer).set(value);
-        onStringValueChanged(value);
     }
 }

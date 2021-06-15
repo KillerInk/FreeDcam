@@ -20,6 +20,8 @@
 package freed.cam.apis.basecamera.modules;
 
 
+import java.util.AbstractMap;
+
 /**
  * Created by troop on 09.12.2014.
  */
@@ -55,4 +57,7 @@ public interface ModuleHandlerInterface
     void SetIsLowStorage(Boolean x);
 
     void initModules();
+
+    AbstractMap<String, ModuleInterface> getModuleList();
+    void ModuleHasChanged(final String module);
 }

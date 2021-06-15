@@ -21,68 +21,49 @@ package freed.viewer.screenslide.views;
 
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.RecoverableSecurityException;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Typeface;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.troop.freedcam.BR;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
-import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
+import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.internal.managers.FragmentComponentManager;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
+import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.file.FileListController;
-import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
-import freed.image.ImageManager;
-import freed.image.ImageTask;
-import freed.settings.SettingsManager;
-import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 import freed.viewer.screenslide.adapter.ScreenSlidePagerAdapter;
-import freed.viewer.screenslide.models.ImageFragmentModel;
 import freed.viewer.screenslide.modelview.ScreenSlideFragmentModelView;
 
 
 /**
  * Created by troop on 18.09.2015.
  */
+@AndroidEntryPoint
 public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_OnActivityResultCallback
 {
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
@@ -127,18 +108,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         activityInterface = (ActivityInterface) getActivity();
 
         // Instantiate a ViewPager and a PagerAdapter.
-
+        screenSlideFragmentModelView = new ViewModelProvider(this).get(ScreenSlideFragmentModelView.class);
 
 
 
         bind();
         return screenslideFragmentBinding.getRoot();
-    }
-
-    public void setScreenSlideFragmentModelView(ScreenSlideFragmentModelView screenSlideFragmentModelView)
-    {
-        this.screenSlideFragmentModelView = screenSlideFragmentModelView;
-        bind();
     }
 
     private void bind()
@@ -249,15 +224,15 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private View.OnClickListener onDeleteButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !SettingsManager.getInstance().GetWriteExternal()) {
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !FreedApplication.settingsManager().GetWriteExternal()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteAlertButtonClick)
                         .setNegativeButton("No", onDeleteAlertButtonClick).show();
             } else {
                 DocumentFile sdDir = FileListController.getExternalSdDocumentFile(getContext());
                 if (sdDir == null) {
-
-                    activityInterface.ChooseSDCard(ScreenSlideFragment.this);
+                    ActivityFreeDcamMain activity = (ActivityFreeDcamMain) FragmentComponentManager.findActivity(getContext());
+                    activity.ChooseSDCard(ScreenSlideFragment.this);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", onDeleteAlertButtonClick)

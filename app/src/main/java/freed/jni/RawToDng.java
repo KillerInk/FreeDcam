@@ -200,7 +200,7 @@ public class RawToDng
             throw new NullPointerException();
         }
         this.fileout = fileout;
-        SetBayerDataFD(fileBytes, fileout.getFd(), filename,byteBuffer);
+        SetBayerDataFD(fileBytes, fileout.detachFd(), filename,byteBuffer);
         if (opCode != null)
             SetOpCode(byteBuffer,opCode.getByteBuffer());
     }

@@ -23,11 +23,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.TextureView;
 
+import freed.utils.Log;
+
 /**
  * A {@link TextureView} that can be adjusted to a specified aspect ratio.
  */
 public class AutoFitTextureView extends TextureView /*implements  AbstractModeParameter.I_ModeParameterEvent*/ {
 
+    private static final String TAG = AutoFitTextureView.class.getSimpleName();
     private int mRatioWidth;
     private int mRatioHeight;
     Context context;
@@ -59,6 +62,7 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
         if (width < 0 || height < 0) {
             throw new IllegalArgumentException("Size cannot be negative.");
         }
+        Log.d(TAG, "setAspectRatio to " + width + "/"+height);
         mRatioWidth = width;
         mRatioHeight = height;
         this.post(() -> requestLayout());
@@ -75,10 +79,11 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-
-        if (mRatioWidth == 0 || mRatioHeight == 0) {
+        setMeasuredDimension(width, height);
+        /*if (mRatioWidth == 0 || mRatioHeight == 0) {
             setMeasuredDimension(width, height);
         } else {
             if (width > height * mRatioWidth / mRatioHeight) {
@@ -86,8 +91,7 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
             } else {
                 setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
             }
-           setMeasuredDimension(mRatioWidth,mRatioHeight);
-        }
+        }*/
     }
 
 }

@@ -14,9 +14,6 @@ FreeDcam
 
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=troop.com.freedcam)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/troop.com.freedcam/)
@@ -24,13 +21,6 @@ FreeDcam
 Build
 =====
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
-Use NDK 12b!
-
-All needed libs are included
-
-For ndk build set in your *local.properties*  
-`ndk.dir=C\:\\Android\\android-ndk-r10b`  
-Yes you need `\\` that for the folderpath
 
 
 Supported Apis:

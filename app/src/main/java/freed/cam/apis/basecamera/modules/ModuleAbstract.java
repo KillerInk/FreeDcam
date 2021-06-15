@@ -23,33 +23,47 @@ package freed.cam.apis.basecamera.modules;
 import android.os.Handler;
 import android.os.Looper;
 
+import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.events.CaptureStateChangedEvent;
 import freed.cam.events.EventBusHelper;
+import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
+import freed.settings.SettingsManager;
+import freed.utils.LocationManager;
 import freed.utils.Log;
+import freed.utils.OrientationManager;
 
 /**
  * Created by troop on 15.08.2014.
  */
-public abstract class ModuleAbstract implements ModuleInterface
+public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implements ModuleInterface
 {
     protected boolean isWorking;
     protected boolean isLowStorage;
     public String name;
     private final String TAG = ModuleAbstract.class.getSimpleName();
     protected CaptureStates currentWorkState;
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected CW cameraUiWrapper;
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
+    protected SettingsManager settingsManager;
+    protected FileListController fileListController;
+    protected LocationManager locationManager;
+    protected OrientationManager orientationManager;
 
 
-    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
+    public ModuleAbstract(CW cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.mBackgroundHandler = mBackgroundHandler;
         this.mainHandler = new Handler(Looper.getMainLooper());
+        settingsManager = FreedApplication.settingsManager();
+        fileListController = FreedApplication.fileListController();
+        locationManager = ActivityFreeDcamMain.locationManager();
+        orientationManager = ActivityFreeDcamMain.orientationManager();
     }
 
     /**
@@ -108,7 +122,7 @@ public abstract class ModuleAbstract implements ModuleInterface
      */
     @Override
     public void fireOnWorkFinish(BaseHolder file) {
-        EventBusHelper.post(file);
+        fileListController.addFromEventFile(file);
     }
 
 
@@ -121,7 +135,7 @@ public abstract class ModuleAbstract implements ModuleInterface
     @Override
     public void fireOnWorkFinish(BaseHolder[] files)
     {
-        EventBusHelper.post(files);
+        fileListController.addFromEventFiles(files);
     }
 
     @Override

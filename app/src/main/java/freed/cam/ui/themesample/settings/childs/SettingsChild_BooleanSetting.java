@@ -4,10 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
-import android.widget.TextView;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.databinding.SettingsBooleansettingschildBinding;
 
 import freed.settings.mode.BooleanSettingModeInterface;
 
@@ -17,28 +18,25 @@ import freed.settings.mode.BooleanSettingModeInterface;
 
 public class SettingsChild_BooleanSetting extends LinearLayout implements CompoundButton.OnCheckedChangeListener
 {
-    private TextView description;
-
-    private TextView headerText;
-    private Switch aSwitch;
     private BooleanSettingModeInterface booleanSettingMode;
+    SettingsBooleansettingschildBinding binding;
 
     public SettingsChild_BooleanSetting(Context context, final BooleanSettingModeInterface booleanSettingMode, int headerid, int descriptionid) {
         super(context);
         this.booleanSettingMode = booleanSettingMode;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.settings_booleansettingschild, this);
-        headerText = findViewById(R.id.header);
-        aSwitch = findViewById(R.id.switch1);
-        aSwitch.setChecked(booleanSettingMode.get());
-        aSwitch.setOnCheckedChangeListener(this);
-        description = findViewById(R.id.description);
-        headerText.setText(getResources().getText(headerid));
-        description.setText(getResources().getText(descriptionid));
+        binding = DataBindingUtil.inflate(inflater,R.layout.settings_booleansettingschild,this,true);
+        binding.setParameter(booleanSettingMode);
+        binding.switch1.setOnCheckedChangeListener(this);
+        binding.header.setText(getResources().getText(headerid));
+        binding.description.setText(getResources().getText(descriptionid));
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if(!buttonView.isPressed()) {
+            return;
+        }
         booleanSettingMode.set(isChecked);
     }
 }

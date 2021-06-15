@@ -27,7 +27,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 08.01.2016.
@@ -40,10 +39,10 @@ public class IntervalShutterSleepParameter extends AbstractParameter
     {
         super(SettingKeys.INTERVAL_SHUTTER_SLEEP);
         this.cameraUiWrapper = cameraUiWrapper;
-        if (TextUtils.isEmpty(SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get()))
-            SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).set(current);
+        if (TextUtils.isEmpty(settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get()))
+            settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).set(current);
         else
-            current = SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
+            current = settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).get();
         fireStringValueChanged(current);
     }
 
@@ -53,14 +52,14 @@ public class IntervalShutterSleepParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         current = valueToSet;
-        SettingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).set(current);
+        settingsManager.get(SettingKeys.INTERVAL_SHUTTER_SLEEP).set(current);
         fireStringValueChanged(current);
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return current;
     }
 

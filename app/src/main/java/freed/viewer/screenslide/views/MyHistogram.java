@@ -131,6 +131,18 @@ public class MyHistogram extends View {
         invalidate();
     }
 
+    public void setLumaHistogram(int[] histo, int srcPos)
+    {
+        if (histo == null)
+            return;
+        System.arraycopy( histo , srcPos , redHistogram, 0 , 256 );
+        System.arraycopy( histo , srcPos, greenHistogram, 0 , 256 );
+        System.arraycopy( histo , srcPos, blueHistogram, 0 , 256 );
+        bringToFront();
+        invalidate();
+
+    }
+
     public void redrawHistogram()
     {
         post(redrawHisto);

@@ -26,12 +26,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
@@ -43,7 +41,7 @@ import freed.utils.Log;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseManualParameterSony extends AbstractParameter implements I_SonyApi, ParameterEvents
+public class BaseManualParameterSony extends AbstractParameter implements I_SonyApi
 {
     protected String VALUE_TO_GET;
     protected String VALUES_TO_GET;
@@ -114,7 +112,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
 
 
     @Override
-    public void SetValue(final int valueToSet, boolean setToCamera)
+    public void setIntValue(final int valueToSet, boolean setToCamera)
     {
         sendLog("Set Value to " + valueToSet);
         currentInt = valueToSet;
@@ -134,7 +132,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
         });
     }
 
-    public String GetStringValue()
+    public String getStringValue()
     {
         sendLog("GetStringValue");
         if (value == null || TextUtils.isEmpty(value)) {
@@ -144,7 +142,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
             }
             if (stringvalues != null && stringvalues.length > 0 && currentInt < stringvalues.length) {
                 if (currentInt == -200)
-                    GetValue();
+                    getIntValue();
                 if (currentInt == -1)
                     return value;
                 return stringvalues[currentInt];
@@ -155,7 +153,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
     }
 
 
-    @Override
+    /*@Override
     public void onViewStateChanged(ViewState value) {
 
     }
@@ -185,7 +183,7 @@ public class BaseManualParameterSony extends AbstractParameter implements I_Sony
             if (value.equals(stringvalues[i]))
                 onIntValueChanged(i);
         }
-    }
+    }*/
 
     protected void sendLog(String log)
     {

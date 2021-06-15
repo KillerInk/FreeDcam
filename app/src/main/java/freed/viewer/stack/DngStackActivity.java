@@ -9,7 +9,6 @@ import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
 import freed.jni.DngStack;
-import freed.utils.LocationManager;
 import freed.viewer.dngconvert.DngConvertingFragment;
 
 
@@ -42,11 +41,6 @@ public class DngStackActivity extends ActivityAbstract
             ((TextView)findViewById(R.id.rawList)).setText(filesToStack.length+"");
 
 
-    }
-
-    @Override
-    public LocationManager getLocationManager() {
-        return null;
     }
 
     @Override

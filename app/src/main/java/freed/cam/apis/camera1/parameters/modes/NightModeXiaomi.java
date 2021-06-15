@@ -25,14 +25,13 @@ import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.ParameterEvents;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
 
 /**
  * Created by troop on 10.06.2016.
  */
-public class NightModeXiaomi extends BaseModeParameter implements ParameterEvents
+public class NightModeXiaomi extends BaseModeParameter
 {
     final String TAG = NightModeZTE.class.getSimpleName();
     private boolean visible = true;
@@ -50,7 +49,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))) {
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hdr), FreedApplication.getStringFromRessources(R.string.false_));
@@ -68,7 +67,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (parameters.get(FreedApplication.getStringFromRessources(R.string.morpho_hht)).equals(FreedApplication.getStringFromRessources(R.string.true_))
                 && parameters.get(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr)).equals(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_off)))
@@ -98,7 +97,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
         }
     }
 
-    @Override
+    /*@Override
     public void onViewStateChanged(ViewState value) {
 
     }
@@ -122,13 +121,13 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
         else if (!val.contains(FreedApplication.getStringFromRessources(R.string.jpeg_))&& visible) {
             Hide();
         }
-    }
+    }*/
 
     private void Hide()
     {
-        state = GetStringValue();
+        state = getStringValue();
         visible = false;
-        SetValue(FreedApplication.getStringFromRessources(R.string.off_),true);
+        setStringValue(FreedApplication.getStringFromRessources(R.string.off_),true);
         fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
         setViewState(ViewState.Hidden);
     }
@@ -136,7 +135,7 @@ public class NightModeXiaomi extends BaseModeParameter implements ParameterEvent
     private void Show()
     {
         visible = true;
-        SetValue(state,true);
+        setStringValue(state,true);
         fireStringValueChanged(state);
         setViewState(ViewState.Visible);
     }

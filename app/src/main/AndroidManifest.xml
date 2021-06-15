@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.troop.freedcam"
     android:installLocation="auto">
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -40,6 +41,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
     <uses-feature android:name="android.hardware.sensor.compass" android:required="false"/>
 
+    <uses-sdk tools:overrideLibrary="org.chickenhook.restrictionbypass"/>
 
     <application
         android:name="freed.FreedApplication"
@@ -84,7 +86,7 @@
             </intent-filter>
         </activity>
 
-        <activity
+       <!-- <activity
             android:name="freed.cam.ActivityFreeDcamShare"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
@@ -98,7 +100,7 @@
                 <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity
             android:name="freed.viewer.ActivityFreeDviewer"

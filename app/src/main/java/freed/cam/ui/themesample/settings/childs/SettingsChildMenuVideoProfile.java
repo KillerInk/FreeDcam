@@ -21,6 +21,7 @@ package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
 
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 
 /**
@@ -30,11 +31,12 @@ public class SettingsChildMenuVideoProfile extends SettingsChildMenu
 {
     public SettingsChildMenuVideoProfile(Context context, ParameterInterface parameter, int headerid, int descriptionid) {
         super(context, parameter, headerid, descriptionid);
+        parameter.setViewState(AbstractParameter.ViewState.Visible);
     }
 
     @Override
     public void SetValue(String value) {
-        onStringValueChanged(value);
-        parameter.SetValue(value, true);
+        //onStringValueChanged(value);
+        parameter.setStringValue(value, true);
     }
 }

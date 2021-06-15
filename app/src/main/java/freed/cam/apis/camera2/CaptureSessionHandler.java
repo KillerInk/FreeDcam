@@ -2,10 +2,7 @@ package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
@@ -29,14 +26,13 @@ import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
 import freed.FreedApplication;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
+import freed.cam.ActivityFreeDcamMain;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
-import freed.utils.MatrixUtil;
 
 /**
  * Created by troop on 16.03.2017.
@@ -51,21 +47,17 @@ public class CaptureSessionHandler
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CaptureRequest.Builder mImageCaptureRequestBuilder;
     private CameraCaptureSession mCaptureSession;
-    private Camera2Fragment cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private CameraHolderApi2 cameraHolderApi2;
     private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
     private BackgroundHandlerThread backgroundHandlerThread;
     private Handler handler;
+    private SettingsManager settingsManager;
+    private UserMessageHandler userMessageHandler;
 
-    private int OPMODE = 0;
 
     private boolean captureSessionOpen = false;
-
-
-    public void setOPMODE(int opmode){
-        OPMODE = opmode;
-    }
 
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
@@ -86,7 +78,7 @@ public class CaptureSessionHandler
                 // Finally, we start displaying the camera preview.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         cameraBackroundValuesChangedListner, handler);
-                cameraUiWrapper.parametersHandler.SetAppSettingsToParameters();
+                cameraUiWrapper.getParameterHandler().SetAppSettingsToParameters();
             } catch (CameraAccessException | IllegalStateException e) {
                 Log.WriteEx(e);
             }
@@ -97,7 +89,6 @@ public class CaptureSessionHandler
         {
             Log.d(TAG, "onConfigureFailed()");
             mCaptureSession = null;
-            EventBusHelper.post(new SwichCameraFragmentEvent());
         }
 
         @Override
@@ -125,10 +116,12 @@ public class CaptureSessionHandler
         }
     };
 
-    public CaptureSessionHandler(Camera2Fragment cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
+    public CaptureSessionHandler(Camera2 cameraUiWrapper, CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolderApi2 = cameraUiWrapper.getCameraHolder();
+        this.settingsManager = FreedApplication.settingsManager();
+        this.userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
         Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -166,7 +159,7 @@ public class CaptureSessionHandler
         try {
             mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             try {
-                if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+                if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
                     mPreviewRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG, (byte) 1);
             }
             catch (IllegalArgumentException ex)
@@ -184,7 +177,7 @@ public class CaptureSessionHandler
             return;
         try {
             mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-            if (SettingsManager.getInstance().getFrameWork() == Frameworks.HuaweiCamera2Ex)
+            if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
                 mImageCaptureRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG,(byte)1);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
@@ -197,10 +190,10 @@ public class CaptureSessionHandler
     }
 
 
-    public SurfaceTexture getSurfaceTexture()
+    /*public SurfaceTexture getSurfaceTexture()
     {
         return cameraHolderApi2.textureView.getSurfaceTexture();
-    }
+    }*/
 
     public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
     {
@@ -221,7 +214,14 @@ public class CaptureSessionHandler
         Log.d(TAG, "RemoveSurface");
         if (surfaces.contains(surface))
             surfaces.remove(surface);
-        mPreviewRequestBuilder.removeTarget(surface);
+        try {
+            if (mPreviewRequestBuilder != null)
+                mPreviewRequestBuilder.removeTarget(surface);
+        }
+        catch (NullPointerException ex)
+        {
+            Log.WriteEx(ex);
+        }
     }
 
 
@@ -247,25 +247,24 @@ public class CaptureSessionHandler
             return;
         isHighSpeedSession = false;
 
-        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, handler);
         } catch (Exception  ex) {
             Log.WriteEx(ex);
-            EventBusHelper.post(new SwichCameraFragmentEvent());
         }
         captureSessionOpen = true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void CreateCustomCaptureSession()
+    public void CreateCustomCaptureSession(int OPMODE)
     {
         Log.d(TAG, "CreateCustomCaptureSession:");
         if(cameraHolderApi2.mCameraDevice == null)
             return;
         isHighSpeedSession = false;
 
-        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
             List<OutputConfiguration> outputConfigurations = new ArrayList<>(surfaces.size());
             for (Surface surface : surfaces)
@@ -291,11 +290,13 @@ public class CaptureSessionHandler
             ccreateCustomCaptureSession.invoke(cdv,var1,var2,var3,var4,var5);
 
         }catch (NoSuchMethodException e)
-        {e.printStackTrace();} catch (IllegalAccessException e) {
+        {
+            Log.WriteEx(e);
+        } catch (IllegalAccessException e) {
 
-            e.printStackTrace();
+            Log.WriteEx(e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Log.WriteEx(e);
         }
     }
 
@@ -332,7 +333,7 @@ public class CaptureSessionHandler
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void CreateCustomCaptureSession(CameraCaptureSession.StateCallback customCallback)
+    public void CreateCustomCaptureSession(int OPMODE,CameraCaptureSession.StateCallback customCallback)
     {
         Log.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
         isHighSpeedSession = false;
@@ -441,7 +442,7 @@ public class CaptureSessionHandler
             mCaptureSession.setRepeatingBurst(capList, cameraBackroundValuesChangedListner, handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+            userMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
         }catch (IllegalArgumentException ex)
         {
             Log.WriteEx(ex);
@@ -571,7 +572,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null || mCaptureSession == null)
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetPreviewParameter :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (setToCamera)
             try {
@@ -595,7 +596,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null )
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetParameterRepeating :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (mImageCaptureRequestBuilder != null)
             mImageCaptureRequestBuilder.set(key,value);
@@ -606,7 +607,7 @@ public class CaptureSessionHandler
     {
         if (mPreviewRequestBuilder == null|| mCaptureSession == null)
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetParameter :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
         if (isHighSpeedSession)
             StartHighspeedCaptureSession();
@@ -638,7 +639,7 @@ public class CaptureSessionHandler
     {
         if (mImageCaptureRequestBuilder == null|| mCaptureSession == null)
             return;
-        Log.d(TAG, "Set :" + key.getName() + " to " + value);
+        Log.d(TAG, "SetSetCaptureParameter :" + key.getName() + " to " + value);
         mImageCaptureRequestBuilder.set(key,value);
     }
 
@@ -658,14 +659,14 @@ public class CaptureSessionHandler
 
     private final String MATRIXTAG = TAG + ".SetTextureViewSize";
 
-    public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
+    /*public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
     {
         float dispWidth = 0;
         float dispHeight = 0;
         if (renderscript)
         {
-            dispWidth = cameraHolderApi2.textureView.getWidth();
-            dispHeight = cameraHolderApi2.textureView.getHeight();
+            dispWidth = cameraUiWrapper.getPreview().getPreviewWidth();
+            dispHeight = cameraUiWrapper.getPreview().getPreviewHeight();
         }
         else if (displaySize.x > displaySize.y) {
             dispWidth = displaySize.x;
@@ -679,7 +680,7 @@ public class CaptureSessionHandler
         Matrix matrix = MatrixUtil.getTransFormMatrix(w,h,(int)dispWidth,(int)dispHeight,rotation,renderscript);
 
         cameraHolderApi2.textureView.setTransform(matrix);
-    }
+    }*/
 
     public void StartAePrecapture()
     {
@@ -702,7 +703,7 @@ public class CaptureSessionHandler
                 mCaptureSession.captureBurst(capList, cameraBackroundValuesChangedListner, handler);
             } catch (CameraAccessException ex) {
                 Log.WriteEx(ex);
-                UserMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
+                userMessageHandler.sendMSG(ex.getLocalizedMessage(),false);
             }catch (IllegalArgumentException ex)
             {
                 Log.WriteEx(ex);

@@ -22,9 +22,10 @@ package freed.cam.apis.basecamera.parameters.modes;
 import android.os.Build.VERSION;
 import android.text.TextUtils;
 
+import javax.inject.Inject;
+
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.SwichCameraFragmentEvent;
 import freed.settings.SettingsManager;
 
 /**
@@ -33,9 +34,14 @@ import freed.settings.SettingsManager;
 public class ApiParameter extends AbstractParameter
 {
 
-    public ApiParameter() {
+    private SettingsManager settingsManager;
+    private CameraApiManager cameraApiManager;
+    @Inject
+    public ApiParameter(SettingsManager settingsManager, CameraApiManager cameraApiManager) {
         super(null);
-        fireStringValueChanged(GetStringValue());
+        this.settingsManager = settingsManager;
+        this.cameraApiManager = cameraApiManager;
+        fireStringValueChanged(getStringValue());
     }
 
     @Override
@@ -43,7 +49,7 @@ public class ApiParameter extends AbstractParameter
     {
         if (VERSION.SDK_INT >= 21)
         {
-            if (SettingsManager.getInstance().hasCamera2Features())
+            if (settingsManager.hasCamera2Features())
                 return new String[]{SettingsManager.API_SONY, SettingsManager.API_2, SettingsManager.API_1};
             else
                 return new String[]{SettingsManager.API_SONY, SettingsManager.API_1};
@@ -52,17 +58,18 @@ public class ApiParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue() {
-        String ret = SettingsManager.getInstance().getCamApi();
+    public String getStringValue() {
+        String ret = settingsManager.getCamApi();
         if (TextUtils.isEmpty(ret))
             ret = SettingsManager.API_1;
         return ret;
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
-        SettingsManager.getInstance().setCamApi(valueToSet);
-        EventBusHelper.post(new SwichCameraFragmentEvent());
+    public void setStringValue(String valueToSet, boolean setToCamera) {
+        settingsManager.setCamApi(valueToSet);
+        cameraApiManager.unloadCamera();
+        cameraApiManager.switchCamera();
         fireStringValueChanged(valueToSet);
     }
 

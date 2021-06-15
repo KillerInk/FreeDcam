@@ -1,10 +1,14 @@
 package freed.cam.apis.basecamera.parameters;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
+import com.troop.freedcam.BR;
+
 import java.util.ArrayList;
 
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
@@ -13,7 +17,7 @@ import freed.settings.mode.SettingMode;
  * Created by troop on 18.06.2017.
  */
 
-public abstract class AbstractParameter implements ParameterInterface {
+public abstract class AbstractParameter<C extends CameraWrapperInterface> extends BaseObservable implements ParameterInterface {
 
     public enum ViewState{
         Visible,
@@ -27,7 +31,7 @@ public abstract class AbstractParameter implements ParameterInterface {
     /**
      * the parameterhandler
      */
-    protected CameraWrapperInterface cameraUiWrapper;
+    protected C cameraUiWrapper;
     /**
      * contains the values that are supported by the parameters
      */
@@ -44,21 +48,24 @@ public abstract class AbstractParameter implements ParameterInterface {
 
     protected SettingKeys.Key key;
     protected SettingMode settingMode;
+    protected SettingsManager settingsManager;
 
     public AbstractParameter(SettingKeys.Key  key)
     {
+        settingsManager = FreedApplication.settingsManager();
         this.key = key;
-        if (key == null || SettingsManager.get(key) == null) {
+        if (key == null || settingsManager.get(key) == null) {
             setViewState(ViewState.Hidden);
             return;
         }
-        if (SettingsManager.get(key) instanceof  SettingMode) {
-            this.settingMode = (SettingMode) SettingsManager.get(key);
+        if (settingsManager.get(key) instanceof  SettingMode) {
+            this.settingMode = (SettingMode) settingsManager.get(key);
             stringvalues = settingMode.getValues();
             if (settingMode.isSupported())
                 setViewState(ViewState.Visible);
             currentString = settingMode.get();
         }
+        notifyChange();
     }
 
     @Override
@@ -68,22 +75,12 @@ public abstract class AbstractParameter implements ParameterInterface {
     }
 
     @Override
-    public void startListning() {
-        EventBusHelper.register(this);
-    }
-
-    @Override
-    public void stopListning() {
-        EventBusHelper.unregister(this);
-    }
-
-    @Override
     public void setViewState(ViewState viewState) {
         this.viewState = viewState;
         fireViewStateChanged(viewState);
     }
 
-    public AbstractParameter(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode)
+    public AbstractParameter(C cameraUiWrapper, SettingKeys.Key  settingMode)
     {
         this(settingMode);
         this.cameraUiWrapper = cameraUiWrapper;
@@ -92,33 +89,35 @@ public abstract class AbstractParameter implements ParameterInterface {
     public void fireIntValueChanged(int current)
     {
         currentInt = current;
-        EventBusHelper.post(new ValueChangedEvent<>(key,current, Integer.class));
+        notifyPropertyChanged(BR.intValue);
+        notifyPropertyChanged(BR.stringValue);
     }
 
     public void fireStringValueChanged(String value)
     {
         currentString = value;
-        EventBusHelper.post(new ValueChangedEvent<>(key,value, String.class));
+        notifyPropertyChanged(BR.stringValue);
     }
 
     @Override
     public void fireViewStateChanged(ViewState value)
     {
         viewState = value;
-        EventBusHelper.post(new ValueChangedEvent<>(key,value, ViewState.class));
+        notifyPropertyChanged(BR.viewState);
     }
 
     @Override
     public void fireStringValuesChanged(String[] value)
     {
         stringvalues = value;
-        EventBusHelper.post(new ValueChangedEvent<>(key,value, String[].class));
+        notifyPropertyChanged(BR.stringValues);
     }
 
     /**
      *
      * @return true if the parameter is supported
      */
+    @Bindable
     @Override
     public ViewState getViewState() {
         return viewState;
@@ -128,8 +127,9 @@ public abstract class AbstractParameter implements ParameterInterface {
      *
      * @return returns the current key_value as int
      */
+    @Bindable
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return currentInt;
     }
 
@@ -137,11 +137,10 @@ public abstract class AbstractParameter implements ParameterInterface {
      *
      * @return returns the current key_value as string
      */
+    @Bindable
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
-        if (currentString == null)
-            return "";
         return currentString;
     }
 
@@ -149,6 +148,7 @@ public abstract class AbstractParameter implements ParameterInterface {
      *
      * @return returns all values as StringArray
      */
+    @Bindable
     @Override
     public String[] getStringValues() { return stringvalues;}
 
@@ -162,7 +162,7 @@ public abstract class AbstractParameter implements ParameterInterface {
      * @param setToCamera
      */
     @Override
-    public void SetValue(int valueToSet, boolean setToCamera)
+    public void setIntValue(int valueToSet, boolean setToCamera)
     {
         setValue(valueToSet,setToCamera);
     }
@@ -175,10 +175,12 @@ public abstract class AbstractParameter implements ParameterInterface {
      */
     protected void setValue(int valueToSet, boolean setToCamera)
     {
-        fireIntValueChanged(valueToSet);
         currentInt = valueToSet;
+        if (stringvalues != null && valueToSet < stringvalues.length)
+            currentString = stringvalues[valueToSet];
         if (settingMode != null)
             settingMode.set(String.valueOf(valueToSet));
+        fireIntValueChanged(valueToSet);
     }
 
     /**
@@ -188,7 +190,7 @@ public abstract class AbstractParameter implements ParameterInterface {
      * @param setToCamera not needed anymore?
      */
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera) {
+    public void setStringValue(String valueToSet, boolean setToCamera) {
         setValue(valueToSet,setToCamera);
     }
 

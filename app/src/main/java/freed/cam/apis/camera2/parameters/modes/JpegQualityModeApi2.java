@@ -7,10 +7,8 @@ import android.text.TextUtils;
 
 import java.util.HashMap;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by Ingo on 03.10.2016.
@@ -18,9 +16,10 @@ import freed.settings.SettingsManager;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class JpegQualityModeApi2 extends BaseModeApi2 {
-    public JpegQualityModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public JpegQualityModeApi2(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.JpegQuality);
         parameterValues =new HashMap<>();
+        settingMode.setIsSupported(true);
         for (int i= 10; i <= 100; i+=10)
         {
             parameterValues.put(i+"", i);
@@ -31,12 +30,12 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
-        if(TextUtils.isEmpty(SettingsManager.get(SettingKeys.JpegQuality).get()))
+        if(TextUtils.isEmpty(settingsManager.get(SettingKeys.JpegQuality).get()))
             return "100";
         else
-            return SettingsManager.get(SettingKeys.JpegQuality).get();
+            return settingsManager.get(SettingKeys.JpegQuality).get();
     }
 
     @Override
@@ -46,8 +45,8 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
-        SettingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
+        settingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
         fireStringValueChanged(valueToSet);
     }
 }

@@ -20,13 +20,13 @@
 package freed.cam.apis.camera1;
 
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.Area;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.location.Location;
 import android.view.Surface;
-import android.view.TextureView;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -34,10 +34,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.events.CameraStateEvents;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.utils.Log;
@@ -57,11 +57,13 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     public int Orientation;
 
     private Method setPreviewSurfaceMethod;
+    private UserMessageHandler userMessageHandler;
 
 
     public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)
     {
         super(cameraUiWrapper);
+        this.userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         DeviceFrameWork = frameworks;
         try {
             setPreviewSurfaceMethod = Camera.class.getMethod("setPreviewSurface",Surface.class);
@@ -95,7 +97,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             Log.d(TAG, "open camera");
             mCamera = Camera.open(camera);
             mCamera.setErrorCallback((error, camera1) -> Log.e(TAG, "Error:" + error));
-            CameraStateEvents.fireCameraOpenEvent();
+            fireCameraOpen();
             return true;
 
         } catch (Exception ex) {
@@ -123,7 +125,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             mCamera = null;
             Log.d(TAG, "Camera closed");
         }
-        CameraStateEvents.fireCameraCloseEvent();
+        fireCameraClose();
     }
 
     public void SetCameraParameters(Parameters parameters)
@@ -163,10 +165,10 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         return false;
     }
 
-    public void setTextureView(TextureView texturView)
+    public void setTextureView(SurfaceTexture texturView)
     {
         try {
-            mCamera.setPreviewTexture(texturView.getSurfaceTexture());
+            mCamera.setPreviewTexture(texturView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,17 +185,17 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     {
         if (mCamera == null)
         {
-            UserMessageHandler.sendMSG("Failed to Start Preview, Camera is null",false);
+            userMessageHandler.sendMSG("Failed to Start Preview, Camera is null",false);
             return;
         }
         try
         {
             mCamera.startPreview();
             Log.d(TAG, "PreviewStarted");
-            CameraStateEvents.firePreviewOpenEvent();
+            //fireOnPreviewOpen();
         } catch (Exception ex) {
             Log.WriteEx(ex);
-            UserMessageHandler.sendMSG("Failed to Start Preview",false);
+            userMessageHandler.sendMSG("Failed to Start Preview",false);
         }
     }
 
@@ -207,7 +209,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             Log.d(TAG, "Preview Stopped");
-            CameraStateEvents.firePreviewCloseEvent();
+            //fireOnPreviewClose();
         } catch (Exception ex)
         {
             Log.d(TAG, "Camera was released");
@@ -234,7 +236,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         }
         catch (RuntimeException ex)
         {
-            UserMessageHandler.sendMSG("Picture Taking failed, What a Terrible Failure!!",false);
+            userMessageHandler.sendMSG("Picture Taking failed, What a Terrible Failure!!",false);
             Log.WriteEx(ex);
         }
     }
@@ -324,7 +326,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
             }
             catch (RuntimeException ex)
             {
-                UserMessageHandler.sendMSG("Set Location failed",false);
+                userMessageHandler.sendMSG("Set Location failed",false);
 
             }
         }

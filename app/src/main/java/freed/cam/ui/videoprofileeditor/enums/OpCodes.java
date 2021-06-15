@@ -10,13 +10,13 @@ public enum  OpCodes {
     disabled(0),
     eis_realtime(OpModes.OP_RealTimeEIS),
     eis_lookahead(OpModes.OP_LookAheadEIS),
-    eis_videnahnc60(OpModes.OP_VidHanceEIS60),
     lg_hdr10(Opcode.LG_VIDEO_HDR),
-    lg_preview_hdr10(Opcode.LG_VIDEO_HDR_PREVIEW),
-    qbc_hdr(OpModes.qbcHDR),
     xiaomi_hdr10(OpCode.SESSION_OPERATION_MODE_HDR10),
     xiaomi_supereis(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREIS),
-    xiaomi_supereispro(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREISPRO);
+    xiaomi_supereispro(OpCode.SESSION_OPERATION_MODE_VIDEO_SUPEREISPRO),
+    videomode(OpCode.SESSION_OPERATION_MODE_VIDEO),
+    eis8k(OpCode.SESSION_OPERATION_MODE_VIDEO_EIS_8K);
+
 
 
 

@@ -9,7 +9,12 @@
     <string name="aps_opencamera1legacy" translatable="false">opencamera1legacy</string>
     <string name="aps_usehuawei_wb" translatable="false">useHuaweiWb</string>
     <string name="aps_switch_aspect_ratio" translatable="false">switchAspectRatio</string>
+    <string name="aps_xiaomi_video_record_control" translatable="false">xiaomiVideoRecordControl</string>
+    <string name="aps_xiaomi_pro_video_log" translatable="false">xiaomiProVideoLog</string>
+    <string name="aps_qcom_video_hdr" translatable="false">qcomVideoHDR</string>
     <string name="aps_usecustom_matrix_oncamera2" translatable="false">useCustomMatrixOnCamera2</string>
+    <string name="aps_checkforupdates" translatable="false">checkforupdates</string>
+    <string name="aps_showmanualsettings" translatable="false">showmanualsettings</string>
     <string name="aps_api" translatable="false">activeapi</string>
     <string name="aps_app_version" translatable="false">app_version</string>
 
@@ -47,6 +52,8 @@
     <string name="aps_denoisemode" translatable="false">denoisemode</string>
     <string name="aps_controlmode" translatable="false">controlmode</string>
     <string name="aps_edgemode" translatable="false">edgemode</string>
+    <string name="aps_distortionmode" translatable="false">distortionmode</string>
+    <string name="aps_facemode" translatable="false">facemode</string>
     <string name="aps_digitalimagestabmode" translatable="false">digitalimagestabmode</string>
     <string name="aps_hotpixel" translatable="false">hotpixel</string>
     <string name="aps_ae_priortiy" translatable="false">aepritority</string>
@@ -138,6 +145,12 @@
     <string name="aps_afbracketmax" translatable="false">afbracketmax</string>
     <string name="aps_afbracketmin" translatable="false">afbracketmin</string>
     <string name="aps_timelapseframes" translatable="false">timelapsframes</string>
+
+    <string name="aps_zoom_on_mf" translatable="false">zoom_on_mf</string>
+    <string name="aps_zoom_on_mf_zoomfactor" translatable="false">zoom_on_mf_zoomfactor</string>
+    <string name="aps_zoom_on_mf_zoomduration" translatable="false">zoom_on_mf_zoomduration</string>
+    <string name="aps_histogram_stats_qcom" translatable="false">histogram_stats_qcom</string>
+    <string name="aps_preview_post_processing_mode" translatable="false">preview_post_processing_mode</string>
 
 
 

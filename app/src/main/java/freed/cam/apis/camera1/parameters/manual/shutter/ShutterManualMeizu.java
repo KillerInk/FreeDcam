@@ -24,11 +24,11 @@ import android.hardware.Camera.Parameters;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -80,10 +80,9 @@ public class ShutterManualMeizu extends AbstractParameter
 
     private String setExposureTimeToParameter(String shutterstring)
     {
-        parameters.set(SettingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
+        parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
-        cameraUiWrapper.stopPreviewAsync();
-        cameraUiWrapper.startPreviewAsync();
+        CameraThreadHandler.restartPreviewAsync();
 
         return shutterstring;
     }

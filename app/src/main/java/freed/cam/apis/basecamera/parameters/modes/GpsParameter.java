@@ -23,12 +23,13 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
-import freed.ActivityInterface;
+import freed.ActivityAbstract;
 import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
+import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
 
 /**
@@ -42,14 +43,16 @@ public class GpsParameter extends AbstractParameter
 
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
-    private ActivityInterface activityInterface;
+    private PermissionManager permissionManager;
+    private LocationManager locationManager;
 
     public GpsParameter(CameraWrapperInterface cameraUiWrapper)
     {
         super(SettingKeys.LOCATION_MODE);
+        permissionManager = ActivityAbstract.permissionManager();
+        locationManager = ActivityFreeDcamMain.locationManager();
         this.cameraUiWrapper = cameraUiWrapper;
-        this.activityInterface = cameraUiWrapper.getActivityInterface();
-        userAcceptedPermission = activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
+        userAcceptedPermission = permissionManager.isPermissionGranted(PermissionManager.Permissions.Location);
     }
 
     @Override
@@ -58,13 +61,13 @@ public class GpsParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if (cameraUiWrapper == null)
             return FreedApplication.getStringFromRessources(R.string.off_);
-        if (TextUtils.isEmpty(SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get()))
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
-        return SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
+        if (TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get()))
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
+        return settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
     }
 
     @Override
@@ -73,18 +76,18 @@ public class GpsParameter extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
-        if (activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location) &&
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Location) &&
                 valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.off_))) {
-                activityInterface.getLocationManager().stopLocationListining();
+                locationManager.stopLocationListining();
                 fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             }
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))) {
-                activityInterface.getLocationManager().startListing();
+                locationManager.startListing();
                 fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
             }
         }
@@ -92,9 +95,9 @@ public class GpsParameter extends AbstractParameter
         {
             if (!userAcceptedPermission && !askedForPermission)
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))
-                    && !activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location))
-                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
-            SettingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
+                    && !permissionManager.isPermissionGranted(PermissionManager.Permissions.Location))
+                permissionManager.requestPermission(PermissionManager.Permissions.Location);
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             askedForPermission = false;
         }

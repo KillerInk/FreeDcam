@@ -12,13 +12,6 @@ import android.view.Surface;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-
 import freed.image.ImageTask;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

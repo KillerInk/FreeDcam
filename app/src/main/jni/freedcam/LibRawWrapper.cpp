@@ -46,6 +46,7 @@ void copyMatrix(float* dest, float colormatrix[4])
 }
 
 void LibRawWrapper::openFD(int fd) {
+    isFP =true;
     FILE *f = fdopen(fd, "r" );
     LOGD("FileDescriptor open");
     fseek(f, 0, SEEK_END);
@@ -54,14 +55,14 @@ void LibRawWrapper::openFD(int fd) {
     LOGD("size:%l",fsize);
     fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
     LOGD("malloc ");
-    char *buffer = (char *)malloc((fsize+1)*sizeof(char));
+    buffer = (char *)malloc((fsize+1)*sizeof(char));
     LOGD("malloc end, fill buffer");
     fread(buffer, fsize, 1, f);
     LOGD("buffer filled, close file");
     fclose(f); // Close the file
     LOGD("closed file, libraw open buffer");
     raw.open_buffer(buffer,fsize);
-    free(buffer);
+    //free(buffer);
 }
 
 void LibRawWrapper::openFile(const char *strFilename) {
@@ -104,6 +105,8 @@ jobject LibRawWrapper::getBitmap(JNIEnv* env) {
     // has already been called (repeated call will not cause any harm either).
     // we don't evoke recycle() or call the desctructor; C++ will do everything for us
     delete image;
+    if (isFP)
+        free(buffer);
 
     LOGD("rawdata recycled");
 

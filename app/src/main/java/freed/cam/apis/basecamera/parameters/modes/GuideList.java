@@ -23,7 +23,6 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by George on 1/19/2015.
@@ -40,21 +39,21 @@ public class GuideList extends AbstractParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
-        SettingsManager.getGlobal(SettingKeys.GuideList).set(valueToSet);
+        settingsManager.getGlobal(SettingKeys.GuideList).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
-        return SettingsManager.getGlobal(SettingKeys.GuideList).get();
+        return settingsManager.getGlobal(SettingKeys.GuideList).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.getGlobal(SettingKeys.GuideList).getValues();
+        return settingsManager.getGlobal(SettingKeys.GuideList).getValues();
     }
 
 

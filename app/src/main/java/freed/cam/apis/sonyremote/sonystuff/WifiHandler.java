@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.utils.Log;
@@ -28,10 +29,12 @@ public class WifiHandler extends WifiUtils {
     private WifiEvents eventsListner;
     private Handler uiHandler;
     private boolean resumed = false;
+    private PermissionManager permissionManager;
 
 
     public WifiHandler(ActivityInterface activityInterface) {
         super(FreedApplication.getContext());
+        permissionManager = ActivityAbstract.permissionManager();
         this.activityInterface = activityInterface;
         mSsdpClient = new SimpleSsdpClient();
         uiHandler = new Handler(Looper.getMainLooper());
@@ -40,12 +43,12 @@ public class WifiHandler extends WifiUtils {
     public void onResume()
     {
         resumed = true;
-        if(activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Location)) {
-            if (!activityInterface.getPermissionManager().isPermissionGranted(PermissionManager.Permissions.Wifi))
-                activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Wifi);
+        if(permissionManager.isPermissionGranted(PermissionManager.Permissions.Location)) {
+            if (!permissionManager.isPermissionGranted(PermissionManager.Permissions.Wifi))
+                permissionManager.requestPermission(PermissionManager.Permissions.Wifi);
         }
         else {
-            activityInterface.getPermissionManager().requestPermission(PermissionManager.Permissions.Location);
+            permissionManager.requestPermission(PermissionManager.Permissions.Location);
             sendMessage("Location Permission is needed to find the camera!");
         }
     }

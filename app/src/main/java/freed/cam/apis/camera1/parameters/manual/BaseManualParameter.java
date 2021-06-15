@@ -25,7 +25,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
 
@@ -52,7 +51,7 @@ public class BaseManualParameter extends AbstractParameter
     {
         super(cameraUiWrapper,settingMode);
         this.parameters = parameters;
-        SettingMode mode = (SettingMode) SettingsManager.get(key);
+        SettingMode mode = (SettingMode) settingsManager.get(key);
         key_value = mode.getCamera1ParameterKEY();
         currentString = mode.get();
         stringvalues = mode.getValues();

@@ -25,13 +25,13 @@ public class UiSettingsChildAeLock extends UiSettingsChild implements SettingsCh
     }
 
     @Override
-    public void onSettingsChildClick(UiSettingsChild item, boolean fromLeftFragment) {
+    public void onSettingsChildClick(SettingsChildAbstract item, boolean fromLeftFragment) {
         if (parameter == null)
             return;
-        if (parameter.GetStringValue().equals(getResources().getString(R.string.true_))) {
-            parameter.SetValue(getResources().getString(R.string.false_), true);
+        if (parameter.getStringValue().equals(getResources().getString(R.string.true_))) {
+            parameter.setStringValue(getResources().getString(R.string.false_), true);
         }
         else{
-            parameter.SetValue(getResources().getString(R.string.true_),true);}
+            parameter.setStringValue(getResources().getString(R.string.true_),true);}
     }
 }

@@ -1,6 +1,5 @@
 package freed.viewer.screenslide.binding;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
@@ -10,10 +9,7 @@ import com.troop.freedcam.R;
 
 import freed.image.ImageManager;
 import freed.utils.Log;
-import freed.viewer.gridview.BitmapLoadRunnable;
-import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.screenslide.BitmapLoader;
-import freed.viewer.screenslide.models.ExifViewItemModel;
 import freed.viewer.screenslide.models.ExifViewModel;
 import freed.viewer.screenslide.models.ImageFragmentModel;
 

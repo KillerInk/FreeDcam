@@ -1,15 +1,13 @@
 package freed.settings.mode;
 
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManagerInterface;
 
 /**
  * Created by KillerInk on 04.01.2018.
  */
 
-public abstract class AbstractSettingMode implements SettingInterface
+public abstract class AbstractSettingMode implements XmlSettingInterface
 {
-    protected SettingsManagerInterface settingsManagerInterface;
     //key to identify this settings
     protected String camera1ParameterKEY_value;
     protected SettingKeys.Key settingKey;

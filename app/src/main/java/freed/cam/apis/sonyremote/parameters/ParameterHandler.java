@@ -32,14 +32,13 @@ import java.util.List;
 import java.util.Set;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.FocusHandler;
 import freed.cam.apis.sonyremote.PreviewStreamDrawer;
-import freed.cam.apis.sonyremote.SonyCameraRemoteFragment;
+import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
@@ -61,40 +60,37 @@ import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
-import freed.cam.events.CameraStateEvents;
 import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Log;
 
 /**
  * Created by troop on 13.12.2014.
  */
-public class ParameterHandler extends AbstractParameterHandler implements SimpleCameraEventObserver.ChangeListener
+public class ParameterHandler extends AbstractParameterHandler<SonyRemoteCamera> implements SimpleCameraEventObserver.ChangeListener
 {
     private final String TAG = ParameterHandler.class.getSimpleName();
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
     private final List<I_SonyApi> parametersChangedList;
     private final PreviewStreamDrawer surfaceView;
-    private final CameraWrapperInterface cameraUiWrapper;
     private String cameraStatus = "IDLE";
 
     public I_CameraStatusChanged CameraStatusListner;
     public CameraHolderSony.I_CameraShotMode cameraShotMode;
 
 
-    public ParameterHandler(CameraWrapperInterface cameraUiWrapper, PreviewStreamDrawer surfaceView)
+    public ParameterHandler(SonyRemoteCamera cameraUiWrapper, PreviewStreamDrawer surfaceView)
     {
         super(cameraUiWrapper);
         parametersChangedList = new ArrayList<>();
         this.surfaceView = surfaceView;
         this.cameraUiWrapper =cameraUiWrapper;
         if (RenderScriptManager.isSupported()) {
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).set(SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
-            SettingsManager.get(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.focuspeakColors));
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).set(settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).getValues()[0]);
+            settingsManager.getGlobal(SettingKeys.FOCUSPEAK_COLOR).setIsSupported(true);
         }
     }
 
@@ -268,8 +264,8 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onTimout() {
-        CameraStateEvents.fireCameraErrorEvent("Camera connection timed out");
-        ((SonyCameraRemoteFragment)cameraUiWrapper).stopEventObserver();
+        cameraUiWrapper.getCameraHolder().fireOCameraError("Camera connection timed out");
+        cameraUiWrapper.stopEventObserver();
     }
 
     @Override
@@ -345,7 +341,7 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
     public void onWhiteBalanceValueChanged(String wb)
     {
         get(SettingKeys.WhiteBalanceMode).fireStringValueChanged(wb);
-        if (get(SettingKeys.WhiteBalanceMode).GetStringValue().equals("Color Temperature") && get(SettingKeys.M_Whitebalance) != null)
+        if (get(SettingKeys.WhiteBalanceMode).getStringValue().equals("Color Temperature") && get(SettingKeys.M_Whitebalance) != null)
             get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Visible);
         else
             get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Hidden);
@@ -463,9 +459,9 @@ public class ParameterHandler extends AbstractParameterHandler implements Simple
 
     @Override
     public void onExposureModeChanged(String expomode) {
-        if ((expomode == null && TextUtils.isEmpty(expomode)) || get(SettingKeys.ExposureMode).GetStringValue() == null)
+        if ((expomode == null && TextUtils.isEmpty(expomode)) || get(SettingKeys.ExposureMode).getStringValue() == null)
             return;
-        if (!get(SettingKeys.ExposureMode).GetStringValue().equals(expomode))
+        if (!get(SettingKeys.ExposureMode).getStringValue().equals(expomode))
             get(SettingKeys.ExposureMode).fireStringValueChanged(expomode);
         if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
             get(SettingKeys.WhiteBalanceMode).setViewState(AbstractParameter.ViewState.Hidden);

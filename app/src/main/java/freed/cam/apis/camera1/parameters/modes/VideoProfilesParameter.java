@@ -32,7 +32,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -51,19 +50,19 @@ public class VideoProfilesParameter extends AbstractParameter
         super(cameraUiWrapper,SettingKeys.VideoProfiles);
         isSupported =true;
         try {
-            supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
+            supportedProfiles = settingsManager.getMediaProfiles();
         }
         catch (NullPointerException ex)
         {
             Log.e(TAG, "Failed to load MediaProfiles");
         }
 
-        profile = SettingsManager.get(SettingKeys.VideoProfiles).get();
+        profile = settingsManager.get(SettingKeys.VideoProfiles).get();
         if (profile == null && supportedProfiles.size() > 0)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
-            SettingsManager.get(SettingKeys.VideoProfiles).set(profile);
+            settingsManager.get(SettingKeys.VideoProfiles).set(profile);
         }
         else if (supportedProfiles == null || supportedProfiles.size() == 0)
             fireViewStateChanged(ViewState.Hidden);
@@ -80,7 +79,7 @@ public class VideoProfilesParameter extends AbstractParameter
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         if ((profile == null || TextUtils.isEmpty(profile)) && supportedProfiles != null)
         {
@@ -108,7 +107,7 @@ public class VideoProfilesParameter extends AbstractParameter
     public VideoMediaProfile GetCameraProfile(String profile)
     {
         if (supportedProfiles == null)
-            supportedProfiles = SettingsManager.getInstance().getMediaProfiles();
+            supportedProfiles = settingsManager.getMediaProfiles();
         if (profile == null || TextUtils.isEmpty(profile))
         {
             String[] t = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);

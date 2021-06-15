@@ -25,9 +25,8 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.camera2.Camera2Fragment;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -36,7 +35,7 @@ import freed.utils.Log;
  * Created by troop on 06.03.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ZoomApi2 extends AbstractParameter
+public class ZoomApi2 extends AbstractParameter<Camera2>
 {
     private final String TAG = ZoomApi2.class.getSimpleName();
     private float maxzoom;
@@ -47,7 +46,7 @@ public class ZoomApi2 extends AbstractParameter
 
     private final int ZOOM_LIMITER = 100;
 
-    public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
+    public ZoomApi2(Camera2 cameraUiWrapper)  {
         super(cameraUiWrapper, SettingKeys.M_Zoom);
         maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
         sensorSize = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
@@ -70,12 +69,12 @@ public class ZoomApi2 extends AbstractParameter
     }
 
     @Override
-    public int GetValue() {
+    public int getIntValue() {
         return zoom;
     }
 
     @Override
-    public String GetStringValue() {
+    public String getStringValue() {
         return String.valueOf(zoom);
     }
 
@@ -90,7 +89,7 @@ public class ZoomApi2 extends AbstractParameter
         int cropH = (minCropHeight * zoom)/2;
         Log.d(TAG, "maxZoomSize: " + minCropWidth +"/"+ minCropHeight + " cropSize: " + cropW+"/"+cropH);
         Rect zoom = new Rect(cropW, cropH,sensorSize.width()-cropW, sensorSize.height() - cropH);
-        ((Camera2Fragment) cameraUiWrapper).captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom,setToCamera);
+        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom,setToCamera);
     }
 
 }

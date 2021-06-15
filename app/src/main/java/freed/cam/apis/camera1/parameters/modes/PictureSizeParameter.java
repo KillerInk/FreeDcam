@@ -24,7 +24,6 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -40,10 +39,10 @@ public class PictureSizeParameter extends BaseModeParameter
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam)
+    public void setStringValue(String valueToSet, boolean setToCam)
     {
         parameters.set("picture-size" , valueToSet);
-        SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        settingsManager.get(SettingKeys.PictureSize).set(valueToSet);
         currentString = valueToSet;
         Log.d(TAG, "SetValue : picture-size");
         if (setToCam)
@@ -53,12 +52,12 @@ public class PictureSizeParameter extends BaseModeParameter
     }
 
     @Override
-    public String GetStringValue() {
-        return SettingsManager.get(SettingKeys.PictureSize).get();
+    public String getStringValue() {
+        return settingsManager.get(SettingKeys.PictureSize).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return SettingsManager.get(SettingKeys.PictureSize).getValues();
+        return settingsManager.get(SettingKeys.PictureSize).getValues();
     }
 }

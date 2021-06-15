@@ -25,9 +25,9 @@ import android.os.Build.VERSION_CODES;
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by troop on 13.12.2014.
@@ -35,29 +35,28 @@ import freed.settings.SettingsManager;
 public class PictureSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public PictureSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
+    public PictureSizeModeApi2(Camera2 cameraUiWrapper) {
         super(cameraUiWrapper,SettingKeys.PictureSize);
         setViewState(ViewState.Visible);
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCamera)
+    public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        SettingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        settingsManager.get(SettingKeys.PictureSize).set(valueToSet);
         size = valueToSet;
         if (setToCamera &&
-                (SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
-                    || SettingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
+                (settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
+                    || settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
                 )
         {
-            cameraUiWrapper.stopPreviewAsync();
-            cameraUiWrapper.startPreviewAsync();
+            CameraThreadHandler.restartPreviewAsync();
         }
     }
 
     @Override
-    public String GetStringValue()
+    public String getStringValue()
     {
         return size;
     }
@@ -66,6 +65,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return SettingsManager.get(SettingKeys.PictureSize).getValues();
+        return settingsManager.get(SettingKeys.PictureSize).getValues();
     }
 }
