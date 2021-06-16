@@ -53,7 +53,13 @@ public class UserMessageHandler implements Runnable, CameraHolderEvent
 
     public void sendMSG(String msg,boolean asToast)
     {
-        setUserMessage(msg,asToast);
+        messageHolder1.post(new Runnable() {
+            @Override
+            public void run() {
+                setUserMessage(msg,asToast);
+            }
+        });
+
     }
 
     private void setUserMessage(String msg,boolean asToast)
