@@ -1,6 +1,7 @@
 import java.util.function.Consumer
 
 apply plugin: "cpp"
+apply plugin: 'visual-studio'
 
 class StreamGobbler extends Thread {
     InputStream is;
@@ -68,14 +69,14 @@ model{
             sources {
                 cpp {
                     source {
-                        srcDirs "generator/", "${halide_dir}/tools/", "${halide_dir}/include/","generator/hdrplus/"
+                        srcDirs "generator/", "generator/tools/", "generator/include/","generator/hdrplus/"
                         include "stage1_align_merge_generator.cpp","stage1_alignmerge_generator.cpp", "GenGen.cpp","align.cpp", "merge.cpp", "util.cpp", "avarage_generator.cpp"
                     }
                 }
             }
             binaries{
                 all {
-                    cppCompiler.args "/I${halide_dir}/include/"
+                    //cppCompiler.args "/I$projectDir/generator/halide_include/","$projectDir/generator/halide_tools/"
                     // "/bin" assumes Makefile build for Halide; "/build/lib" assumes CMake build
                     linker.args "${halide_dir}/Release/Halide.lib", "/LIBPATH:${halide_dir}/Release/Halide.dll"
                     logger.quiet("binaries all")
@@ -85,6 +86,7 @@ model{
             //hook into clean and delete libs too
             clean{
                 delete "$project.projectDir/libs"
+                delete "$projectDir/generator/include/"
             }
 
             task copyHalideLib(type: Copy) {
@@ -93,10 +95,14 @@ model{
                 into file("${buildDir}/exe/halide_generator")
             }
 
+            task copyHalideInclude(type: Copy){
+                from  "${halide_dir}/include/"
+                into "$projectDir/generator/include/"
+            }
+
             task copyFiles(type: Copy){
                 logger.quiet("copyFiles")
                 from "$projectDir/libs"
-
                 into "$projectDir/../app/libs"
             }
 
@@ -104,6 +110,8 @@ model{
             build{
                 //on windows its needed, if halide is not in the %PATH, to copy the halide.dll to the exe to run the generator
                 dependsOn copyHalideLib
+                dependsOn copyHalideInclude
+                //dependsOn copyHalideTools
                 //the compiler runs after doFirst and calls doLast
                 doFirst {
                     logger.quiet("build.doFirst")

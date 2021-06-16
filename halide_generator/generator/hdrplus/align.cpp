@@ -1,7 +1,7 @@
 #include "align.h"
 
 #include <string>
-#include "Halide.h"
+#include "../include/Halide.h"
 #include "Point.h"
 #include "util.h"
 

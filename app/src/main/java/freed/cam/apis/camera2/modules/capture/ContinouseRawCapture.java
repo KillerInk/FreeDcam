@@ -24,9 +24,10 @@ import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.ActivityInterface;
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.events.EventBusHelper;
-import freed.cam.events.UserMessageEvent;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.dng.DngProfile;
 import freed.image.EmptyTask;
 import freed.image.ImageManager;
@@ -45,9 +46,11 @@ public class ContinouseRawCapture extends RawImageCapture {
     private StackRunner stackRunner;
     private final String TAG = ContinouseRawCapture.class.getSimpleName();
     private LinkedBlockingQueue<Image> imageBlockingQueue;
-    public ContinouseRawCapture(Size size, int format, boolean setToPreview, ActivityInterface activityInterface, ModuleInterface moduleInterface, String file_ending,int max_images) {
-        super(size, format, setToPreview,activityInterface,moduleInterface,file_ending,max_images);
+    private UserMessageHandler userMessageHandler;
+    public ContinouseRawCapture(Size size, int format, boolean setToPreview, ModuleInterface moduleInterface, String file_ending,int max_images) {
+        super(size, format, setToPreview,moduleInterface,file_ending,max_images);
         imageBlockingQueue = new LinkedBlockingQueue<>(max_images);
+        userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
     }
 
     @Override
@@ -171,12 +174,12 @@ public class ContinouseRawCapture extends RawImageCapture {
                     imageBlockingQueue.notifyAll();
                 }
                 stackCoutn++;
-                EventBusHelper.post(new UserMessageEvent("Stacked:" +stackCoutn,false));
+                userMessageHandler.sendMSG("Stacked:" +stackCoutn,false);
                 Log.d(TAG, "stackframes done " + stackCoutn);
             }
             String f = getFilepath() + "_hdr_frames" + burst + file_ending;
             ImageTask task;
-            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             ImageSaveTask itask = (ImageSaveTask)task;
             if (upshift > 0) {
                 int bl = itask.getDngProfile().getBlacklvl();
@@ -184,7 +187,7 @@ public class ContinouseRawCapture extends RawImageCapture {
                 int wl = itask.getDngProfile().getWhitelvl();
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
-            itask.getDngProfile().setRawType(DngProfile.S16bit_To_16bit);
+            itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
                 ImageManager.putImageSaveTask(task);
@@ -246,12 +249,12 @@ public class ContinouseRawCapture extends RawImageCapture {
                     imageBlockingQueue.notifyAll();
                 }
                 stackCoutn++;
-                EventBusHelper.post(new UserMessageEvent("Stacked:" +stackCoutn,false));
+                userMessageHandler.sendMSG("Stacked:" +stackCoutn,false);
                 Log.d(TAG, "stackframes done " + stackCoutn);
             }
             String f = getFilepath() + "_average_frames" + burst + file_ending;
             ImageTask task;
-            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             ImageSaveTask itask = (ImageSaveTask)task;
             if (upshift > 0) {
                 int bl = itask.getDngProfile().getBlacklvl();
@@ -259,7 +262,7 @@ public class ContinouseRawCapture extends RawImageCapture {
                 int wl = itask.getDngProfile().getWhitelvl();
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
-            itask.getDngProfile().setRawType(DngProfile.S16bit_To_16bit);
+            itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
                 ImageManager.putImageSaveTask(task);
@@ -332,7 +335,7 @@ public class ContinouseRawCapture extends RawImageCapture {
 
             String f = getFilepath() + "_hdr_frames" + burst + file_ending;
             ImageTask task;
-            task = process_rawWithDngConverter(bytes, 6, new File(f), result, characteristics, w,h,activityInterface,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(bytes, 6, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
 
             ImageSaveTask itask = (ImageSaveTask)task;
             if (upshift > 0) {
@@ -341,7 +344,7 @@ public class ContinouseRawCapture extends RawImageCapture {
                 int wl = itask.getDngProfile().getWhitelvl();
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
-            itask.getDngProfile().setRawType(DngProfile.S16bit_To_16bit);
+            itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
                 ImageManager.putImageSaveTask(task);

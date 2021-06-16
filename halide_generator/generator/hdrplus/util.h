@@ -1,7 +1,7 @@
 #ifndef HDRPLUS_UTIL_H_
 #define HDRPLUS_UTIL_H_
 
-#include "Halide.h"
+#include "../include/Halide.h"
 
 /*
  * box_down2 -- Averages and downsamples input by 2

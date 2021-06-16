@@ -1,7 +1,7 @@
 #ifndef HDRPLUS_ALIGN_H_
 #define HDRPLUS_ALIGN_H_
 
-#include <Halide.h>
+#include "../include/Halide.h"
 
 #define T_SIZE 32           // Size of a tile in the bayer mosaiced image
 #define T_SIZE_2 16         // Half of T_SIZE and the size of a tile throughout the alignment pyramid

@@ -2,6 +2,9 @@ package freed.jni;
 
 import java.nio.ByteBuffer;
 
+import freed.ActivityAbstract;
+import freed.FreedApplication;
+import freed.cam.ActivityFreeDcamMain;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.settings.SettingsManager;
@@ -97,9 +100,9 @@ public class RawStack {
 
     public synchronized void saveDng(DngProfile profile, CustomMatrix customMatrix, String fileout, ExifInfo exifInfo)
     {
-        if (SettingsManager.getInstance().getOpCode() != null) {
+        if (FreedApplication.settingsManager().getOpCode() != null) {
             Log.d(TAG, "setOpCode");
-            SetOpCode(SettingsManager.getInstance().getOpCode().getByteBuffer(), byteBuffer);
+            SetOpCode(FreedApplication.settingsManager().getOpCode().getByteBuffer(), byteBuffer);
         }
         writeDng(byteBuffer,profile.getByteBuffer(),customMatrix.getByteBuffer(),fileout,exifInfo.getByteBuffer());
         byteBuffer = null;

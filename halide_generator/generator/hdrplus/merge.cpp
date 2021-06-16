@@ -1,6 +1,6 @@
 #include "merge.h"
 
-#include "Halide.h"
+#include "../include/Halide.h"
 #include "align.h"
 #include "Point.h"
 #include "util.h"

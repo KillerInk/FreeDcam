@@ -33,3 +33,5 @@ app/release
 /app/src/main/jni/include/*
 /halide_aot/*.a
 /halide_aot/*.h
+/halide_generator/generator/include/*
+/halide_generator/libs/arm64-v8a/*

@@ -1,4 +1,4 @@
-#include "Halide.h"
+#include "include/Halide.h"
 
 using namespace Halide;
 namespace {

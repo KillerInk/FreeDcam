@@ -16,18 +16,20 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.capture.ContinouseRawCapture;
 import freed.cam.apis.camera2.modules.capture.ContinouseYuvCapture;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.featuredetector.Camera2FeatureDetectorTask;
+import freed.cam.apis.featuredetector.camera2.PictureSizeDetector;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
-    public RawStackPipeAllAtOnce(CameraWrapperInterface cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
+    public RawStackPipeAllAtOnce(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         name = "HDR2";
     }
@@ -53,11 +55,11 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
     protected void createImageCaptureListners() {
         captureType = CaptureType.Dng16;
         List<Size> yuvsizes = Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888));
-        Size min = (Size) Collections.min(yuvsizes,new Camera2FeatureDetectorTask.SizeComparer());
-        ContinouseYuvCapture byteImageCapture = new ContinouseYuvCapture(min,ImageFormat.YUV_420_888,false,cameraUiWrapper.getActivityInterface(),this,".yuv",max_images);
+        Size min = (Size) Collections.min(yuvsizes,new PictureSizeDetector.SizeComparer());
+        ContinouseYuvCapture byteImageCapture = new ContinouseYuvCapture(min,ImageFormat.YUV_420_888,false,this,".yuv",max_images);
         captureController.add(byteImageCapture);
         Size largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolderApi2.CompareSizesByArea());
-        continouseRawCapture = new ContinouseRawCapture(largestImageSize,ImageFormat.RAW_SENSOR,false,cameraUiWrapper.getActivityInterface(),this,".dng",max_images);
+        continouseRawCapture = new ContinouseRawCapture(largestImageSize,ImageFormat.RAW_SENSOR,false,this,".dng",max_images);
         captureController.add(continouseRawCapture);
     }
 
@@ -69,18 +71,18 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.parametersHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
-        cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst).SetValue(14,true);
-        BurstApi2 burstApi2 = (BurstApi2) cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst);
+        parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
+        parameterHandler.get(SettingKeys.M_Burst).setIntValue(14,true);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
         burstApi2.overwriteValues(2,30);
     }
 
     @Override
     public void DestroyModule() {
-        BurstApi2 burstApi2 = (BurstApi2) cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
         burstApi2.overwriteValues(1,60);
-        cameraUiWrapper.parametersHandler.get(SettingKeys.M_Burst).SetValue(0,true);
-        cameraUiWrapper.parametersHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
+        parameterHandler.get(SettingKeys.M_Burst).setIntValue(0,true);
+        parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
         super.DestroyModule();
     }
 
@@ -100,8 +102,8 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
     @Override
     protected void finishCapture() {
         if(BurstCounter.getBurstCount()-1 == BurstCounter.getImageCaptured()) {
-            if (SettingsManager.get(SettingKeys.forceRawToDng).get()) {
-                if (SettingsManager.get(SettingKeys.support12bitRaw).get())
+            if (settingsManager.get(SettingKeys.forceRawToDng).get()) {
+                if (settingsManager.get(SettingKeys.support12bitRaw).get())
                     continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 2);
                 else
                     continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 4);

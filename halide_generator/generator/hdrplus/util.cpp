@@ -1,6 +1,6 @@
 #include "util.h"
 
-#include "Halide.h"
+#include "../include/Halide.h"
 #include <vector>
 #include <algorithm>
 

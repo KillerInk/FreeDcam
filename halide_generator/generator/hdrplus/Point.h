@@ -1,7 +1,7 @@
 #ifndef HDRPLUS_POINT_H_
 #define HDRPLUS_POINT_H_
 
-#include "Halide.h"
+#include "../include/Halide.h"
 
 /*
  * struct Point -- An abstraction used to store the x and y offsets of alignment together (among other things).

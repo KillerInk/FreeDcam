@@ -1,4 +1,4 @@
-#include "Halide.h"
+#include "include/Halide.h"
 #include "hdrplus/align.h"
 #include "hdrplus/merge.h"
 
