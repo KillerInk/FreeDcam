@@ -76,6 +76,7 @@ model{
             }
             binaries{
                 all {
+                    cppCompiler.args "-v -g -o3 -std=c++17 -lpthread -ldl"
                     //cppCompiler.args "/I$projectDir/generator/halide_include/","$projectDir/generator/halide_tools/"
                     // "/bin" assumes Makefile build for Halide; "/build/lib" assumes CMake build
                     linker.args "${halide_dir}/Release/Halide.lib", "/LIBPATH:${halide_dir}/Release/Halide.dll"
@@ -129,7 +130,7 @@ model{
                     gens.each { gen ->
                         archs.each { arch ->
                             mkdir("${projectDir}/libs/${arch.key}")
-                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}-opencl"
+                            String envVars = "${buildDir}/exe/halide_generator/halide_generator.exe -g ${gen} -o ${projectDir}/libs/${arch.key} target=${arch.value}"
                             ProcessBuilder processBuilder = new ProcessBuilder()
                             processBuilder.command(envVars.split(' '))
                             logger.quiet("Output of running " + envVars + " is: ")

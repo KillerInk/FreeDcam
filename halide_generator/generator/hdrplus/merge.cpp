@@ -89,10 +89,10 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
     // schedule
     ///////////////////////////////////////////////////////////////////////////
 
-    //weight.compute_root().parallel(ty).vectorize(tx, 16);
-    weight.compute_root().gpu_tile(tx,ty,ixi,tyi,16,16);
-    //total_weight.compute_root().parallel(ty).vectorize(tx, 16);
-    total_weight.compute_root().gpu_tile(tx,ty,ixii,tyii,16,16);
+    weight.compute_root().parallel(ty).vectorize(tx, 16);
+    //weight.compute_root().gpu_tile(tx,ty,ixi,tyi,16,16);
+    total_weight.compute_root().parallel(ty).vectorize(tx, 16);
+    //total_weight.compute_root().gpu_tile(tx,ty,ixii,tyii,16,16);
 
     output.compute_root().parallel(ty).vectorize(ix, 32);
     //output.compute_root().gpu_tile(ix,iy,ixi,tyi,32,32).gpu_blocks(ix,iy).gpu_threads(tx,ty);
@@ -143,8 +143,8 @@ Func merge_spatial(Func input) {
 
     weight.compute_root().vectorize(v, 32);
 
-    //output.compute_root().parallel(y).vectorize(x, 32);
-    output.gpu_tile(x,y,xii,yii,32,32);
+    output.compute_root().parallel(y).vectorize(x, 32);
+    //output.gpu_tile(x,y,xii,yii,32,32);
 
     return output;
 }

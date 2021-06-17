@@ -157,8 +157,9 @@ namespace {
              */
 
             //output.tile(x,y,xi,xo,16,16);
-            output.gpu_tile(x, y, xi, yi, 32, 32);
-            //output.compute_root();
+            //output.gpu_tile(x, y, xi, yi, 32, 32);
+
+            output.compute_root().parallel(x).vectorize(y, 32);;
 
             /**
              produce output:
