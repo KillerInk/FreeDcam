@@ -30,7 +30,7 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
 
     // mirror input with overlapping edges
 
-    Func imgs_mirror = BoundaryConditions::mirror_interior(imgs, 0, width, 0, height);
+    Func imgs_mirror = BoundaryConditions::mirror_interior(imgs,{{ 0, width}, {0, height}});
 
     // downsampled layer for computing L1 distances
 
