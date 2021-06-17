@@ -182,7 +182,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
             gridViewFragmentModelView.getFilesHolderModel().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
                 @Override
                 public void onPropertyChanged(Observable sender, int propertyId) {
-                    if (propertyId == BR.files) {
+                    if (propertyId == BR.files && getActivity() != null) {
                         getActivity().runOnUiThread(() -> mPagerAdapter.setGridImageViewModels(gridViewFragmentModelView.getFilesHolderModel().getGridImageViewModels()));
                     }
                 }
