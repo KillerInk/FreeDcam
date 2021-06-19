@@ -23,7 +23,6 @@ public class PreviewController implements PreviewControllerInterface
 
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
-    //private CameraFragmentAbstract cameraFragment;
     private PreviewFragment previewFragment;
 
     public void init(FragmentManager fragmentManager, int fragmentHolderId) {
@@ -178,6 +177,16 @@ public class PreviewController implements PreviewControllerInterface
         this.eventListner = eventListner;
         if (preview != null)
             preview.setPreviewEventListner(eventListner);
+    }
+
+    @Override
+    public int getViewWidth() {
+        return preview.getViewWidth();
+    }
+
+    @Override
+    public int getViewHeight() {
+        return preview.getViewHeight();
     }
 
     @Override

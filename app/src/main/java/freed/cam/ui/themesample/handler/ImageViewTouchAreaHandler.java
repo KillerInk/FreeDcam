@@ -129,9 +129,9 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                 int yd = getDistance(startY, (int) dify);
 
                 if (allowDrag) {
-                    if (event.getX() - difx > previewController.getMargineLeft() && event.getX() - difx + imageView.getWidth() < previewController.getMargineLeft() + previewController.getPreviewWidth())
+                    if (event.getX() - difx > previewController.getMargineLeft() && event.getX() - difx + imageView.getWidth() < previewController.getMargineLeft() + previewController.getViewWidth())
                         imageView.setX(event.getX() - difx);
-                    if (event.getY() - dify > previewController.getMargineTop() && event.getY() - dify + imageView.getHeight() < previewController.getMargineTop() + previewController.getPreviewHeight())
+                    if (event.getY() - dify > previewController.getMargineTop() && event.getY() - dify + imageView.getHeight() < previewController.getMargineTop() + previewController.getViewHeight())
                         imageView.setY(event.getY() - dify);
                     /*
       distance in pixel? to move bevor it gets detected as move
@@ -168,7 +168,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                     FocusRect imageRect = new FocusRect((int) imageView.getX(), (int) imageView.getX() + imageView.getWidth(), (int) imageView.getY(), (int) imageView.getY() + imageView.getWidth(), (int) imageView.getX(), (int) imageView.getY());
 */
                     if (touchListnerEvent != null) {
-                        touchListnerEvent.onAreaCHanged((int)x,(int)y, previewController.getPreviewWidth(), previewController.getPreviewHeight());
+                        touchListnerEvent.onAreaCHanged((int)x,(int)y, previewController.getViewWidth(), previewController.getViewHeight());
                         touchListnerEvent.IsMoving(false);
                     }
                 }

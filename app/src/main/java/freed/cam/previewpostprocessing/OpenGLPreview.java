@@ -27,6 +27,8 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     private HistogramController histogramController;
     private HistogramFeed feed;
     SettingsManager settingsManager;
+    private int preview_width;
+    private int preview_height;
 
     public OpenGLPreview(Context context, HistogramController myHistogram)
     {
@@ -57,6 +59,8 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
 
     @Override
     public void setSize(int width, int height) {
+        preview_width = width;
+        preview_height = height;
         Point disp =DisplayUtil.getDisplaySize();
         Log.d(TAG, "setSize width :" + width + " height:"+height+ " switch aspectRatio:" + settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
         glPreview.scale(width,height,disp.x,disp.y, settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
@@ -140,13 +144,23 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     }
 
     @Override
-    public int getPreviewWidth() {
+    public int getViewWidth() {
         return glPreview.getWidth();
     }
 
     @Override
-    public int getPreviewHeight() {
+    public int getViewHeight() {
         return glPreview.getHeight();
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return preview_width;
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return preview_height;
     }
 
     @Override

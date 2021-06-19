@@ -163,8 +163,8 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     public void setRotation(int width, int height, int rotation) {
         float dispWidth = 0;
         float dispHeight = 0;
-        dispWidth = getPreviewWidth();
-        dispHeight = getPreviewHeight();
+        dispWidth = getViewWidth();
+        dispHeight = getViewHeight();
         Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,true);
         getAutoFitTextureView().setTransform(matrix);
     }

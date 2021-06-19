@@ -715,9 +715,16 @@ public class CaptureSessionHandler
         }
         else {
             cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
+            //StopRepeatingCaptureSession();
+
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
+
             mPreviewRequestBuilder.set(key,value);
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START,true);
+            //StartRepeatingCaptureSession();
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
+            //SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, null,true);
+            //StartRepeatingCaptureSession();
 
         }
     }

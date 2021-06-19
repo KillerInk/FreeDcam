@@ -1,9 +1,11 @@
 package freed.cam.apis.camera2;
 
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.util.Pair;
 
@@ -83,7 +85,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
 
     private final String TAG = CameraValuesChangedCaptureCallback.class.getSimpleName();
-    private CameraWrapperInterface camera2Fragment;
+    private Camera2 camera2Fragment;
     public boolean flashRequired = false;
     int afState;
     int aeState;
@@ -106,7 +108,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private HistogramChangedEvent histogramChangedEventListner;
     private SettingsManager settingsManager;
 
-    public CameraValuesChangedCaptureCallback(CameraWrapperInterface camera2Fragment)
+    public CameraValuesChangedCaptureCallback(Camera2 camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
         settingsManager = FreedApplication.settingsManager();
@@ -261,6 +263,24 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             e.printStackTrace();
         }
 
+        if (result.get(CaptureResult.CONTROL_AF_REGIONS) != null)
+        {
+            MeteringRectangle[] rects = result.get(CaptureResult.CONTROL_AF_REGIONS);
+            for (MeteringRectangle rectangle : rects)
+                if (rectangle.getMeteringWeight() > 0)
+                    Log.d(TAG, rectangle.toString());
+        }
+
+    }
+
+    private String afStates ="";
+
+    private void setAfState(String afState)
+    {
+        if (!afStates.equals(afState)) {
+            Log.d(TAG, "af : " + afState);
+            afStates = afState;
+        }
     }
 
     private void processDefaultFocus(TotalCaptureResult result) {
@@ -271,40 +291,39 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             switch (afState)
             {
                 case CaptureRequest.CONTROL_AF_STATE_INACTIVE:
-                    state ="INACTIVE";
+                    setAfState("INACTIVE");
                     //afLocked= true;
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_SCAN:
-                    state = "PASSIVE_SCAN";
+                    setAfState("PASSIVE_SCAN");
                     focusState = SCAN;
                     aeAfLocker.setAfLocked(false);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_FOCUSED:
-                    state = "PASSIVE_FOCUSED";
+                    setAfState("PASSIVE_FOCUSED");
                     aeAfLocker.setAfLocked(true);
                     processFocus(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_ACTIVE_SCAN:
-                    state="ACTIVE_SCAN";
+                    setAfState("ACTIVE_SCAN");
                     aeAfLocker.setAfLocked(false);
                     focusState = SCAN;
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_FOCUSED_LOCKED:
-                    state = "FOCUSED_LOCKED";
+                    setAfState("FOCUSED_LOCKED");
                     aeAfLocker.setAfLocked(true);
                     processFocus(true);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED:
-                    state = "NOT_FOCUSED_LOCKED";
+                    setAfState("NOT_FOCUSED_LOCKED");
                     aeAfLocker.setAfLocked(true);
                     processFocus(false);
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:
-                    state ="PASSIVE_UNFOCUSED";
+                    setAfState("PASSIVE_UNFOCUSED");
                     aeAfLocker.setAfLocked(false);
                     break;
             }
-            log("new AF_STATE :" + state);
             if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null && result.get(TotalCaptureResult.CONTROL_AF_MODE) != TotalCaptureResult.CONTROL_AF_MODE_OFF) {
                 try {
                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
@@ -318,16 +337,13 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processFocus(boolean focus_is_locked) {
-        if (focusState == SCAN) {
-            focusState = FOCUSED;
             if (camera2Fragment.getFocusHandler().focusEvent != null && waitForFocusLock) {
 
                 camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked);
+               /* if (focus_is_locked)
+                    camera2Fragment.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);*/
             }
             waitForFocusLock = false;
-        }
-
-
     }
 
     private void processDefaultAEValues( TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
