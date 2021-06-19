@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.event.capture.CaptureStates;
 import freed.utils.Log;
 
 /**
@@ -27,7 +27,7 @@ import freed.utils.Log;
 
 public class ShutterAnimationHandler extends Handler
 {
-    private ModuleHandlerAbstract.CaptureStates currentShow = ModuleHandlerAbstract.CaptureStates.image_capture_stop;
+    private CaptureStates currentShow = CaptureStates.image_capture_stop;
     int red_top, red_bottom, red_right,red_left, padding_red, red_radius, halfsize;
     float txt_left, txt_right,txt_top,txt_bottom, txt_length,txt_height;
 
@@ -115,7 +115,7 @@ public class ShutterAnimationHandler extends Handler
         red.setAntiAlias(true);
     }
 
-    public void setCaptureState(ModuleHandlerAbstract.CaptureStates captureState)
+    public void setCaptureState(CaptureStates captureState)
     {
         synchronized (this) {
             currentShow = captureState;

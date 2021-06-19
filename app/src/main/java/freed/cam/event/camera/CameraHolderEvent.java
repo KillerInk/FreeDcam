@@ -1,7 +1,10 @@
-package freed.cam.apis.basecamera;
+package freed.cam.event.camera;
 
 
-public interface CameraHolderEvent {
+import freed.cam.apis.basecamera.Size;
+import freed.cam.event.MyEvent;
+
+public interface CameraHolderEvent extends MyEvent {
     void onCameraOpen();
     void onCameraOpenFinished();
     void onCameraClose();

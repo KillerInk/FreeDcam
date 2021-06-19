@@ -25,8 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.Size;
+import freed.cam.event.camera.CameraHolderEvent;
 
 
 /**

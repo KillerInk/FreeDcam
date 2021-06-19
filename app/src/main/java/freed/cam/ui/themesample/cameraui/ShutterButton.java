@@ -36,11 +36,10 @@ import org.greenrobot.eventbus.Subscribe;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.events.CaptureStateChangedEvent;
-import freed.cam.events.EventBusHelper;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -50,13 +49,7 @@ import freed.utils.Log;
  * Created by troop on 20.06.2015.
  */
 @AndroidEntryPoint
-public class ShutterButton extends AppCompatButton implements ModuleChangedEvent {
-
-    @Subscribe
-    public void onCaptureStateChanged(CaptureStateChangedEvent stateChangedEvent) {
-        CaptureStates mode = stateChangedEvent.captureState;
-        setCaptureState(mode);
-    }
+public class ShutterButton extends AppCompatButton implements ModuleChangedEvent, freed.cam.event.capture.CaptureStateChangedEvent {
 
     @Subscribe
     public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
@@ -73,6 +66,8 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
 
     @Inject
     public SettingsManager settingsManager;
+    @Inject
+    CameraApiManager cameraApiManager;
 
     /**
      * Starts a background thread and its {@link Handler}.
@@ -121,7 +116,8 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         super.onAttachedToWindow();
         startBackgroundThread();
         Log.d(TAG, "EventBus register");
-        EventBusHelper.register(this);
+        cameraApiManager.addCaptureStateChangedEventListner(this);
+        //EventBusHelper.register(this);
         invalidate();
     }
 
@@ -129,7 +125,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.d(TAG, "EventBus unregister");
-        EventBusHelper.unregister(this);
+        cameraApiManager.removeCaptureStateChangedListner(this);
         stopBackgroundThread();
     }
 
@@ -241,5 +237,10 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         if(cameraUiWrapper.getModuleHandler().getCurrentModule() != null) {
             setCaptureState(cameraUiWrapper.getModuleHandler().getCurrentModule().getCurrentCaptureState());
         }
+    }
+
+    @Override
+    public void onCaptureStateChanged(CaptureStates states) {
+        setCaptureState(states);
     }
 }

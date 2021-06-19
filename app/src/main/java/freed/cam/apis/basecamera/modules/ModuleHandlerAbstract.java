@@ -28,6 +28,7 @@ import java.util.HashMap;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.event.capture.CaptureStateChangedEventHandler;
 import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingsManager;
@@ -39,22 +40,6 @@ import freed.utils.Log;
  */
 public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> implements ModuleHandlerInterface
 {
-    public enum CaptureStates
-    {
-        video_recording_stop,
-        video_recording_start,
-        image_capture_stop,
-        image_capture_start,
-        continouse_capture_start,
-        continouse_capture_stop,
-        continouse_capture_work_start,
-        continouse_capture_work_stop,
-        cont_capture_stop_while_working,
-        cont_capture_stop_while_notworking,
-        selftimerstart,
-        selftimerstop
-    }
-
     private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
     protected AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
@@ -65,6 +50,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;
     protected SettingsManager settingsManager;
+    private CaptureStateChangedEventHandler captureStateChangedEventHandler;
 
     public ModuleHandlerAbstract(CW cameraUiWrapper)
     {
@@ -76,6 +62,11 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
         mBackgroundHandler = new Handler(backgroundHandlerThread.getThread().getLooper());
     }
 
+    @Override
+    public void setCaptureStateChangedEventHandler(CaptureStateChangedEventHandler captureStateChangedEventHandler) {
+        this.captureStateChangedEventHandler = captureStateChangedEventHandler;
+    }
+
     /**
      * Load the new module
      * @param name of the module to load
@@ -84,15 +75,15 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     public void setModule(String name) {
         if (currentModule !=null) {
             currentModule.DestroyModule();
-            //currentModule.SetCaptureStateChangedListner(null);
+            currentModule.setCaptureStateEventHandler(null);
             currentModule = null;
         }
         currentModule = moduleList.get(name);
         if(currentModule == null)
             currentModule = moduleList.get(FreedApplication.getStringFromRessources(R.string.module_picture));
+        currentModule.setCaptureStateEventHandler(captureStateChangedEventHandler);
         currentModule.InitModule();
         ModuleHasChanged(currentModule.ModuleName());
-        //currentModule.SetCaptureStateChangedListner(workerListner);
         Log.d(TAG, "Set Module to " + name);
     }
 
@@ -140,4 +131,5 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     public AbstractMap<String, ModuleInterface> getModuleList() {
         return moduleList;
     }
+
 }

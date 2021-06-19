@@ -40,7 +40,6 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         focusHandler = new FocusHandler(this);
 
         cameraHolder = new CameraHolderApi2(this);
-        cameraHolder.addEventListner(this);
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())

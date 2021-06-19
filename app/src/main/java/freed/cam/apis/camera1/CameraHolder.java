@@ -285,6 +285,8 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         mCamera.cancelAutoFocus();
     }
 
+
+
     public void SetMeteringAreas(Rect meteringRect)
     {
         try {

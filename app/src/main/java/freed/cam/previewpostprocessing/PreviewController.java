@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.PreviewFragment;
-import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;

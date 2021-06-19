@@ -51,7 +51,6 @@ import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2;
@@ -59,6 +58,7 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessorFactory;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
@@ -138,7 +138,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Log.d(TAG, "InitModule");
         super.InitModule();
         //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(settingsManager.get(SettingKeys.VideoProfiles).get());
         if (currentVideoProfile == null) {
@@ -207,7 +207,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     }
 
     private void startRecording() {
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_start);
+        changeCaptureState(CaptureStates.video_recording_start);
         Log.d(TAG, "startRecording");
         startPreviewVideo();
     }
@@ -225,7 +225,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         recorderSurface = null;
         isRecording = false;
 
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
 
         fireOnWorkFinish(recordingFile);
     }
@@ -390,7 +390,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {
             Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         });
 
         videoRecorder.setInfoListener((mr, what, extra) -> {
@@ -443,7 +443,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
         else{
             isRecording = false;
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         }
     }
 

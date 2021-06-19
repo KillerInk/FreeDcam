@@ -4,25 +4,21 @@ package freed.cam.apis;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.troop.freedcam.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.featuredetector.CameraFeatureDetector;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
+import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.event.camera.CameraHolderEventHandler;
+import freed.cam.event.capture.CaptureStateChangedEvent;
+import freed.cam.event.capture.CaptureStateChangedEventHandler;
 import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.settings.SettingKeys;
@@ -30,7 +26,7 @@ import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
-public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent {
+public class CameraApiManager implements Preview.PreviewEvent {
     private final String TAG = CameraApiManager.class.getSimpleName();
 
 
@@ -41,14 +37,16 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
     private boolean PreviewSurfaceRdy;
     boolean cameraIsOpen;
     private PreviewController previewController;
-    private List<CameraHolderEvent> eventList;
+    private CaptureStateChangedEventHandler captureStateChangedEventHandler;
+    private CameraHolderEventHandler cameraHolderEventHandler;
 
     @Inject
     public CameraApiManager(SettingsManager settingsManager, PreviewController previewController)
     {
         this.settingsManager = settingsManager;
         this.previewController = previewController;
-        eventList = new ArrayList<>();
+        captureStateChangedEventHandler = new CaptureStateChangedEventHandler();
+        cameraHolderEventHandler = new CameraHolderEventHandler();
     }
 
     public void init()
@@ -137,7 +135,9 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
                         break;
                 }
                 CameraThreadHandler.setCameraInterface(camera);
-                camera.getCameraHolder().addEventListner(this);
+                cameraHolderEventHandler.setEventListner(camera);
+                camera.setCameraHolderEventHandler(cameraHolderEventHandler);
+                camera.setCaptureStateChangedEventHandler(captureStateChangedEventHandler);
                 if (!cameraIsOpen && PreviewSurfaceRdy)
                     CameraThreadHandler.startCameraAsync();
             }
@@ -158,7 +158,8 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             CameraThreadHandler.stopCameraAsync();
             CameraThreadHandler.setCameraInterface(null);
-            camera.getCameraHolder().removeEventListner(this);
+            camera.setCameraHolderEventHandler(null);
+            cameraHolderEventHandler.removeEventListner(camera);
         }
     }
 
@@ -191,41 +192,6 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
     }
 
     @Override
-    public void onCameraOpen() {
-        Log.d(TAG,"onCameraOpen");
-        for (CameraHolderEvent event : eventList)
-            event.onCameraOpen();
-    }
-
-    @Override
-    public void onCameraOpenFinished() {
-        Log.d(TAG,"onCameraOpenFinished");
-        for (CameraHolderEvent event : eventList)
-            event.onCameraOpenFinished();
-    }
-
-    @Override
-    public void onCameraClose() {
-        Log.d(TAG,"onCameraClose");
-        for (CameraHolderEvent event : eventList)
-            event.onCameraClose();
-    }
-
-    @Override
-    public void onCameraError(String error) {
-        Log.d(TAG,"onCameraError " +error);
-        for (CameraHolderEvent event : eventList)
-            event.onCameraError(error);
-    }
-
-    @Override
-    public void onCameraChangedAspectRatioEvent(Size size) {
-        Log.d(TAG,"onCameraChangedAspectRatioEvent " +size.toString());
-        for (CameraHolderEvent event : eventList)
-            event.onCameraChangedAspectRatioEvent(size);
-    }
-
-    @Override
     public void onPreviewSizeChanged(SurfaceTexture surface, int width, int height) {
         Log.d(TAG,"onPreviewSizeChanged " +width + "/" + height);
     }
@@ -245,12 +211,22 @@ public class CameraApiManager implements Preview.PreviewEvent, CameraHolderEvent
     public void addEventListner(CameraHolderEvent event)
     {
         Log.d(TAG,"addEventListner " + event.getClass().getSimpleName());
-        eventList.add(event);
+        cameraHolderEventHandler.setEventListner(event);
     }
 
     public void removeEventListner(CameraHolderEvent event)
     {
         Log.d(TAG,"removeEventListner " + event.getClass().getSimpleName());
-        eventList.remove(event);
+        cameraHolderEventHandler.removeEventListner(event);
+    }
+
+    public void addCaptureStateChangedEventListner(CaptureStateChangedEvent listner)
+    {
+        captureStateChangedEventHandler.setEventListner(listner);
+    }
+
+    public void removeCaptureStateChangedListner(CaptureStateChangedEvent listner)
+    {
+        captureStateChangedEventHandler.removeEventListner(listner);
     }
 }
