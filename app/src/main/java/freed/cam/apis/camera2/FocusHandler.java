@@ -76,9 +76,10 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
             return;
 
         Rect sensorSize =  cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        int x_pos = (int)(x * sensorSize.width());
-        int y_pos = (int)(y *sensorSize.height());
-        int areasize = 300;
+        int x_pos = (int)(x * sensorSize.width())-1;
+        int y_pos = (int)(y *sensorSize.height())-1;
+        Log.d(TAG, "relative x/y : " + x+"/"+y  +" norm : " + x_pos + "/" +y_pos);
+        int areasize = 50;
         int left = x_pos - areasize;
         int right =x_pos +areasize;
         int top = y_pos -areasize;
@@ -90,8 +91,8 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
             targetFocusRect.right = areasize*2;
         }
         if (targetFocusRect.right > sensorSize.right) {
-            targetFocusRect.right = sensorSize.width();
-            targetFocusRect.left = sensorSize.width() -areasize*2;
+            targetFocusRect.right = sensorSize.width()-1;
+            targetFocusRect.left = sensorSize.width()-1 -areasize*2;
         }
         if (targetFocusRect.top < sensorSize.top) {
             targetFocusRect.top = 0;
@@ -100,14 +101,14 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
         }
         if (targetFocusRect.bottom > sensorSize.bottom)
         {
-            targetFocusRect.bottom = sensorSize.height();
-            targetFocusRect.top = sensorSize.height() - areasize*2;
+            targetFocusRect.bottom = sensorSize.height()-1;
+            targetFocusRect.top = sensorSize.height()-1 - areasize*2;
         }
 
-        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
+        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, MeteringRectangle.METERING_WEIGHT_MAX-1);
         Log.d(TAG,rectangle.toString());
         MeteringRectangle[] mre = { rectangle};
-        cameraUiWrapper.captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        cameraUiWrapper.captureSessionHandler.SetFocusArea(mre);
     }
 
 

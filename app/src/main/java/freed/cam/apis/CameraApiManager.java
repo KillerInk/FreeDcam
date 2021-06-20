@@ -157,9 +157,10 @@ public class CameraApiManager implements Preview.PreviewEvent {
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             CameraThreadHandler.stopCameraAsync();
-            CameraThreadHandler.setCameraInterface(null);
-            camera.setCameraHolderEventHandler(null);
+
             cameraHolderEventHandler.removeEventListner(camera);
+            camera.setCameraHolderEventHandler(null);
+            CameraThreadHandler.setCameraInterface(null);
         }
     }
 

@@ -65,27 +65,32 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
 
     public void fireCameraOpen()
     {
-        cameraHolderEventHandler.fireOnCameraOpen();
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraOpen();
     }
 
     public void fireCameraOpenFinished()
     {
-        cameraHolderEventHandler.fireOnCameraOpenFinished();
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraOpenFinished();
     }
 
     public void fireCameraClose()
     {
-       cameraHolderEventHandler.fireOnCameraClose();
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraClose();
     }
 
     public void fireOnCameraChangedAspectRatioEvent(Size sie)
     {
-        cameraHolderEventHandler.fireOnCameraChangedAspectRatioEvent(sie);
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraChangedAspectRatioEvent(sie);
     }
 
 
     public void fireOCameraError(String error)
     {
-        cameraHolderEventHandler.fireOnCameraError(error);
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraError(error);
     }
 }

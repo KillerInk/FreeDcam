@@ -40,6 +40,7 @@ public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
 
     public void StartTouchToFocus(int x1, int y1,int width1, int height1, float x_norm ,float y_norm)
     {
+        Log.d(TAG, "Touch x/y :" + x1 +"/" +y1);
         startTouchFocus(x_norm, y_norm);
         if (focusEvent != null)
             focusEvent.FocusStarted(x1,y1);

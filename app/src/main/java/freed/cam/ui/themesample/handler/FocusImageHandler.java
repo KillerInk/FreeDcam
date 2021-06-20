@@ -281,7 +281,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         if(x_pos >=0 && x_pos <= 1 && y_pos >=0 && y_pos <= 1)
         {
             if (wrapper.getFocusHandler() != null)
-                wrapper.getFocusHandler().StartTouchToFocus(x,y,previewController.getViewWidth(),previewController.getViewHeight(), x_pos, x_pos);
+                wrapper.getFocusHandler().StartTouchToFocus(x,y,previewController.getViewWidth(),previewController.getViewHeight(), x_pos, y_pos);
         }
 
 

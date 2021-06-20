@@ -150,6 +150,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     }
 
+    public boolean isAF_Locked()
+    {
+        return aeAfLocker.getAfLock();
+    }
+
     public float[] GetFocusRange()
     {
         float ar[] = new float[3];
@@ -263,13 +268,13 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             e.printStackTrace();
         }
 
-        if (result.get(CaptureResult.CONTROL_AF_REGIONS) != null)
+        /*if (result.get(CaptureResult.CONTROL_AF_REGIONS) != null)
         {
             MeteringRectangle[] rects = result.get(CaptureResult.CONTROL_AF_REGIONS);
             for (MeteringRectangle rectangle : rects)
                 if (rectangle.getMeteringWeight() > 0)
                     Log.d(TAG, rectangle.toString());
-        }
+        }*/
 
     }
 
@@ -287,12 +292,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (result.get(CaptureResult.CONTROL_AF_STATE) != null /*&& afState != result.get(CaptureResult.CONTROL_AF_STATE)*/)
         {
             afState =  result.get(CaptureResult.CONTROL_AF_STATE);
-            String state = "";
             switch (afState)
             {
                 case CaptureRequest.CONTROL_AF_STATE_INACTIVE:
                     setAfState("INACTIVE");
-                    //afLocked= true;
                     break;
                 case CaptureRequest.CONTROL_AF_STATE_PASSIVE_SCAN:
                     setAfState("PASSIVE_SCAN");

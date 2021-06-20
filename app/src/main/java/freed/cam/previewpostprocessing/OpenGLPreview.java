@@ -145,12 +145,12 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
 
     @Override
     public int getViewWidth() {
-        return glPreview.getWidth();
+        return glPreview.getRootView().getWidth();
     }
 
     @Override
     public int getViewHeight() {
-        return glPreview.getHeight();
+        return glPreview.getRootView().getHeight();
     }
 
     @Override
