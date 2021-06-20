@@ -66,6 +66,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         super.onCreateView(inflater,container,savedInstanceState);
         binding = DataBindingUtil.inflate(inflater,layout.settings_rightmenufragment,container,false);
+        settingchildholder = binding.SettingChildHolder;
         cameraApiManager.addEventListner(this);
         return binding.getRoot();
     }
@@ -79,7 +80,6 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        settingchildholder = binding.SettingChildHolder;
     }
 
     private void setCameraToUi(CameraWrapperInterface wrapper)
@@ -126,5 +126,11 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onCameraChangedAspectRatioEvent(Size size) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onCameraOpenFinished();
     }
 }
