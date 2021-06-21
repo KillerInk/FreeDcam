@@ -35,6 +35,8 @@ public interface Preview
     void stop();
     View getPreviewView();
     void setPreviewEventListner(PreviewEvent eventListner);
+    int getViewWidth();
+    int getViewHeight();
     int getPreviewWidth();
     int getPreviewHeight();
     void setRotation(int width, int height,int rotation);

@@ -28,10 +28,10 @@ import java.io.File;
 import java.util.Date;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
+import freed.cam.event.capture.CaptureStates;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;

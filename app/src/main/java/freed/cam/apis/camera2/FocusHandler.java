@@ -71,33 +71,28 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
 
 
     @Override
-    protected void startTouchFocus(AbstractFocusHandler.FocusCoordinates viewCoordinates) {
-        //logFocusRect(rect);
-        Log.d(TAG, "Width:" + viewCoordinates.width + "Height" + viewCoordinates.height + " X: " + viewCoordinates.x + "Y : "+viewCoordinates.y);
+    protected void startTouchFocus(float x ,float y) {
         if (!focusenabled)
             return;
 
         Rect sensorSize =  cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        logFocusRect(sensorSize);
-        int areasize = (sensorSize.width() /10);
-        float xf = (float)viewCoordinates.x * sensorSize.width() / viewCoordinates.width;
-        float yf = (float)viewCoordinates.y * sensorSize.height() /  viewCoordinates.height;
-        int x_c = (int)xf; //(int)((float)x/width * m.right);
-        int y_C = (int) yf; //(int)((float)y/height * m.bottom);
-        int left = x_c - areasize;
-        int right =x_c +areasize;
-        int top = y_C -areasize;
-        int bottom = y_C +areasize;
+        int x_pos = (int)(x * sensorSize.width())-1;
+        int y_pos = (int)(y *sensorSize.height())-1;
+        Log.d(TAG, "relative x/y : " + x+"/"+y  +" norm : " + x_pos + "/" +y_pos);
+        int areasize = 50;
+        int left = x_pos - areasize;
+        int right =x_pos +areasize;
+        int top = y_pos -areasize;
+        int bottom = y_pos +areasize;
         Rect targetFocusRect = new Rect(left, top,right,bottom);
 
-        logFocusRect(targetFocusRect);
         if (targetFocusRect.left < 0) {
             targetFocusRect.left = 0;
             targetFocusRect.right = areasize*2;
         }
         if (targetFocusRect.right > sensorSize.right) {
-            targetFocusRect.right = sensorSize.width();
-            targetFocusRect.left = sensorSize.width() -areasize*2;
+            targetFocusRect.right = sensorSize.width()-1;
+            targetFocusRect.left = sensorSize.width()-1 -areasize*2;
         }
         if (targetFocusRect.top < sensorSize.top) {
             targetFocusRect.top = 0;
@@ -106,14 +101,14 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
         }
         if (targetFocusRect.bottom > sensorSize.bottom)
         {
-            targetFocusRect.bottom = sensorSize.height();
-            targetFocusRect.top = sensorSize.height() - areasize*2;
+            targetFocusRect.bottom = sensorSize.height()-1;
+            targetFocusRect.top = sensorSize.height()-1 - areasize*2;
         }
 
-        logFocusRect(targetFocusRect);
-        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
+        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, MeteringRectangle.METERING_WEIGHT_MAX-1);
+        Log.d(TAG,rectangle.toString());
         MeteringRectangle[] mre = { rectangle};
-        cameraUiWrapper.captureSessionHandler.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        cameraUiWrapper.captureSessionHandler.SetFocusArea(mre);
     }
 
 

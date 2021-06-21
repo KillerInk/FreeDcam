@@ -3,8 +3,6 @@ package freed.cam.apis.featuredetector.camera2;
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;

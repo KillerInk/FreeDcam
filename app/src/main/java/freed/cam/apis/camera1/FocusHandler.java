@@ -95,15 +95,20 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     }
 
     @Override
-    protected void startTouchFocus(FocusCoordinates obj) {
+    protected void startTouchFocus(float x, float y) {
         if (cameraUiWrapper == null|| cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode) == null)
             return;
 
-        Log.d(TAG, "start Touch X:Y " + obj.x +":" + obj.y);
+        Log.d(TAG, "start Touch X:Y " + x +":" + y);
         String focusmode = cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).getStringValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            Rect targetFocusRect = getFocusRect(obj.x,obj.y, obj.width, obj.height);
+            String size[] = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValue().split("x");
+            int w = Integer.parseInt(size[0]);
+            int h = Integer.parseInt(size[1]);
+            int x_norm = (int) x * w;
+            int y_norm = (int) y * h;
+            Rect targetFocusRect = getFocusRect(x_norm,y_norm, w, h);
 
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000

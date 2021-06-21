@@ -25,10 +25,10 @@ public interface PreviewControllerInterface extends Preview {
      * get the preview width
      * @return
      */
-    int getPreviewWidth();
+    int getViewWidth();
     /**
      * get the preview height
      * @return
      */
-    int getPreviewHeight();
+    int getViewHeight();
 }

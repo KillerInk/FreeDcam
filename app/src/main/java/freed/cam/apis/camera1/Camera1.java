@@ -52,7 +52,6 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
             cameraHolder = new CameraHolder(this, Frameworks.Default);
             Log.d(TAG, "create Normal camera");
         }
-        cameraHolder.addEventListner(this);
         moduleHandler = new ModuleHandler(this);
 
         parametersHandler = new ParametersHandler(this);

@@ -25,8 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.Size;
+import freed.cam.event.camera.CameraHolderEvent;
 
 
 /**
@@ -53,7 +53,8 @@ public class UserMessageHandler implements Runnable, CameraHolderEvent
 
     public void sendMSG(String msg,boolean asToast)
     {
-        setUserMessage(msg,asToast);
+        messageHolder1.post(()->setUserMessage(msg,asToast));
+
     }
 
     private void setUserMessage(String msg,boolean asToast)
