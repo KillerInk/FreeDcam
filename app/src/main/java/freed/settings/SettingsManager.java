@@ -39,7 +39,6 @@ import freed.jni.OpCode;
 import freed.settings.mode.XmlSettingInterface;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
-import freed.views.VideoToneCurveProfile;
 
 /**
  * Created by troop on 19.08.2014.
@@ -111,7 +110,7 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
     {
         if (settingsStorage != null)
             settingsStorage.save();
-        new XmlParserWriter().saveToneCurveProfiles(videoToneCurveProfiles, getAppDataFolder());
+        new VideoToneCurveXmlParserWriter().saveToneCurveProfiles(videoToneCurveProfiles, getAppDataFolder());
     }
 
     public <T> T get(Key<T> key)
@@ -145,7 +144,7 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
 
         Log.d(TAG, "load Settings");
         settingsStorage.load();
-        videoToneCurveProfiles = new XmlParserWriter().getToneCurveProfiles(getAppDataFolder());
+        videoToneCurveProfiles = new VideoToneCurveXmlParserWriter().getToneCurveProfiles(getAppDataFolder());
         //loadOpCodes();
         parseXml();
     }
@@ -173,7 +172,7 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
         matrixes = parser.getMatrixes(FreedApplication.getContext().getResources(),settingsStorage.appdataFolder);
 
         tonemapProfiles = parser.getToneMapProfiles(settingsStorage.appdataFolder);
-        videoToneCurveProfiles = parser.getToneCurveProfiles(settingsStorage.appdataFolder);
+        videoToneCurveProfiles = new VideoToneCurveXmlParserWriter().getToneCurveProfiles(settingsStorage.appdataFolder);
         if (settingsStorage.getDevice() == null || TextUtils.isEmpty(settingsStorage.getDevice()))
         {
             Log.d(TAG, "Lookup PreDefinedConfigFile");

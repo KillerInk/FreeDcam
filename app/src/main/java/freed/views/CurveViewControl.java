@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.VideoToneCurveProfile;
 
 /**
  * Created by troop on 05.08.2017.
@@ -154,7 +155,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         @Override
         public void onClick(View v) {
             if (loadPanel.getVisibility() == GONE) {
-                HashMap<String,VideoToneCurveProfile> profiles = FreedApplication.settingsManager().getVideoToneCurveProfiles();
+                HashMap<String, VideoToneCurveProfile> profiles = FreedApplication.settingsManager().getVideoToneCurveProfiles();
                 String[] pro = new String[profiles.keySet().size()];
                 profiles.keySet().toArray(pro);
                 loadPanel.removeAllViews();

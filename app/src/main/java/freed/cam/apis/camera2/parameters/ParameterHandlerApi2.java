@@ -67,7 +67,7 @@ import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 import freed.utils.OrientationUtil;
-import freed.views.VideoToneCurveProfile;
+import freed.settings.VideoToneCurveProfile;
 
 /**
  * Created by troop on 12.12.2014.

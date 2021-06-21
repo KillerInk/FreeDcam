@@ -1,4 +1,4 @@
-package freed.views;
+package freed.settings;
 
 import android.graphics.PointF;
 import android.text.TextUtils;
@@ -27,10 +27,10 @@ public class VideoToneCurveProfile {
             for (int i = 0; i < split.length; i+=2) {
                 if (!TextUtils.isEmpty(split[i])) {
                     float toset = Float.parseFloat(split[i]);
-                    if (toset >= 1)
+                    if (toset > 1)
                         toset = toset / 255;
                     float toset2 = Float.parseFloat(split[i+1]);
-                    if (toset2 >= 1)
+                    if (toset2 > 1)
                         toset2 = toset2 / 255;
                     rgb[i/2] = new PointF(toset,toset2);
                     //check if its in range 0-1 if not apply that range
@@ -91,9 +91,9 @@ public class VideoToneCurveProfile {
                 if (!TextUtils.isEmpty(split[i])) {
                     float toset = Float.parseFloat(split[i]);
                     float toset2 = Float.parseFloat(split[i+1]);
-                    if (toset >= 1)
+                    if (toset > 1)
                         toset = toset / 255;
-                    if (toset2 >= 1)
+                    if (toset2 > 1)
                         toset2 = toset2 / 255;
                     b[i/2] = new PointF(toset,toset2);
                     //check if its in range 0-1 if not apply that range
