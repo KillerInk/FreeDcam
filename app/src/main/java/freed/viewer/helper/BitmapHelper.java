@@ -63,7 +63,7 @@ public class BitmapHelper
             }
 
         } catch (NullPointerException e) {
-            Log.WriteEx(e);
+            Log.d(TAG, e.getMessage());
         }
         return  response;
     }
@@ -130,7 +130,7 @@ public class BitmapHelper
                 try {
                     response = file.getVideoThumb(context);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.d(TAG, e.getMessage());
                 }
                 //
             }
