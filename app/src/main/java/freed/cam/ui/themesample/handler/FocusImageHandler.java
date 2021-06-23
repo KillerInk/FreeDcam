@@ -199,7 +199,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         touchToFocusIsSupported = isSupported;
         if (!isSupported)
-            focusImageView.setVisibility(View.GONE);
+            focusImageView.post(()->focusImageView.setVisibility(View.GONE));
     }
 
     @Override
@@ -265,6 +265,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
      */
     public void OnClick(int x, int y)
     {
+        if (!touchToFocusIsSupported) {
+            focusImageView.setVisibility(View.GONE);
+            return;
+        }
         Log.d(TAG, "view width/height:" + previewController.getViewWidth() + "/" + previewController.getViewHeight());
         Log.d(TAG, "preview view width/height:" + previewController.getPreviewWidth() + "/" + previewController.getPreviewHeight());
         Log.d(TAG, "Margin left top" + getLeftMargin() + "/" + getTopMargin());
@@ -283,42 +287,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             if (wrapper.getFocusHandler() != null)
                 wrapper.getFocusHandler().StartTouchToFocus(x,y,previewController.getViewWidth(),previewController.getViewHeight(), x_pos, y_pos);
         }
-
-
-
-        /*if (wrapper == null || wrapper.getFocusHandler() == null && (x < getLeftMargin() || y < getTopMargin()))
-            return;
-        int width = previewController.getViewWidth();
-        if (wrapper == null || wrapper.getFocusHandler() == null || !touchToFocusIsSupported
-                || x < previewController.getMargineLeft() || x > width) {
-            focusImageView.setVisibility(View.GONE);
-            return;
-        }
-        disWidth = previewController.getViewWidth();
-        disHeight = previewController.getViewHeight();
-
-        x -= (recthalf +getLeftMargin());
-        y -= (recthalf +getTopMargin());*/
-
-        /*int marginLeft = wrapper.getMargineLeft();
-        int marginRight = wrapper.getMargineRight();
-        if (x > marginLeft && x < disWidth + marginLeft) {
-            if (x < marginLeft + recthalf)
-                x = marginLeft + recthalf;
-            if (x > marginRight - recthalf)
-                x = marginRight - recthalf;
-            if (y < recthalf)
-                y = recthalf;
-            if (y > disHeight - recthalf)
-                y = disHeight - recthalf;
-
-
-        }*/
-
-
-
-
-
     }
 
     private int getLeftMargin()
