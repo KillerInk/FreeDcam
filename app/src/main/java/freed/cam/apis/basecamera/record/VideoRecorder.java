@@ -85,6 +85,16 @@ public class VideoRecorder {
         this.recordingFile = recordingFile;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setNextFile(File file) throws IOException {
+        BaseHolder baseHolder = fileListController.getNewMovieFileHolder(file);
+        try {
+            baseHolder.setNextToMediaRecorder(mediaRecorder);
+        } catch (FileNotFoundException e) {
+            Log.WriteEx(e);
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Surface getSurface()
     {
@@ -111,7 +121,14 @@ public class VideoRecorder {
 
     public void stop()
     {
-        mediaRecorder.stop();
+        try {
+            mediaRecorder.stop();
+        }
+        catch (RuntimeException e)
+        {
+            Log.WriteEx(e);
+        }
+
     }
 
     public void setInputSurface(Surface inputSurface) {
@@ -307,6 +324,11 @@ public class VideoRecorder {
 
     public void reset(){
         mediaRecorder.reset();
+    }
+
+    public void setNextOutputFile(BaseHolder baseHolder)
+    {
+
     }
 
     public int getAudioSource()

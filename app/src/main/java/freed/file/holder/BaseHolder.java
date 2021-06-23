@@ -23,7 +23,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -102,6 +105,19 @@ public abstract class BaseHolder
         {
             ParcelFileDescriptor fileDescriptor = ((UriHolder)this).getParcelFileDescriptor();
             recorder.setOutputFile(fileDescriptor.getFileDescriptor());
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setNextToMediaRecorder(MediaRecorder recorder) throws IOException {
+        if (this instanceof FileHolder)
+        {
+            recorder.setNextOutputFile(((FileHolder)this).getFile());
+        }
+        else if (this instanceof UriHolder)
+        {
+            ParcelFileDescriptor fileDescriptor = ((UriHolder)this).getParcelFileDescriptor();
+            recorder.setNextOutputFile(fileDescriptor.getFileDescriptor());
         }
     }
 }

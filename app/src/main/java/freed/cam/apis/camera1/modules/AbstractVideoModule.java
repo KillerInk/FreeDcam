@@ -264,7 +264,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         }
         finally
         {
-            ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
+            cameraUiWrapper.getCameraHolder().GetCamera().lock();
             recorder.reset();
             isWorking = false;
             try {
@@ -294,6 +294,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     }
 
     private void recordnextFile(MediaRecorder mr) {
+
         stopRecording();
         startRecording();
     }

@@ -395,7 +395,7 @@ public class CaptureSessionHandler
             return;
         try {
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                    null);
+                    handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
