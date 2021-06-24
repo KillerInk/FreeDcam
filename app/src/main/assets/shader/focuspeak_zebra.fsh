@@ -62,6 +62,8 @@ void main()
     vec4 sobel_edge_h = n[2] + (peak_strength*n[5]) + n[8] - (n[0] + (peak_strength*n[3]) + n[6]);
     vec4 sobel_edge_v = n[0] + (peak_strength*n[1]) + n[2] - (n[6] + (peak_strength*n[7]) + n[8]);
     vec4 sobel = sqrt((sobel_edge_h * sobel_edge_h) + (sobel_edge_v * sobel_edge_v));
+    if(sobel == min(sobel, vec4(0.3,0.3,0.3,1)))
+        sobel = vec4(0,0,0,1);
 
 
     vec4 out_color = getZebra(texCoord, color);

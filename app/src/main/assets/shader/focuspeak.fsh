@@ -21,7 +21,7 @@ uniform float peak_strength;
 void main() {
 
     vec4 color = texture(sTexture, texCoord);
-    float gray = length(color.rgb);
+    float gray = ((color.r + color.g +color.b)/3.0);
 
     float focusPeak = step(peak_strength, length(vec2(dFdx(gray), dFdy(gray))));
 
