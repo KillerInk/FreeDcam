@@ -62,7 +62,16 @@ public class VideoProfileEditorModelView extends ViewModel {
             settingsManager.init();
         }
         settingsManager.getCamApi();
-        videoMediaProfiles = settingsManager.getMediaProfiles();
+        try {
+            videoMediaProfiles = settingsManager.getMediaProfiles();
+        }
+        catch (NullPointerException e)
+        {
+            videoMediaProfiles = new HashMap<>();
+            VideoMediaProfile m = new VideoMediaProfile(320000,2,3,48000,0,2,6,20000000,2,30,1920,1080,0,"1080p", VideoMediaProfile.VideoMode.Normal,true,-1,-1,"Default",0,-1);
+            currentProfile.set(m);
+            videoMediaProfiles.put("1080p",m);
+        }
         popupModel = new PopupModel();
         profileModel = new ProfileModel(this,popupModel);
         recordModel = new RecordModel(popupModel);
@@ -82,7 +91,10 @@ public class VideoProfileEditorModelView extends ViewModel {
             avccCodecs = mediaCodecInfoParser.getAvcCodecs();
             av1Codecs = mediaCodecInfoParser.getAv1Codecs();
         }
-        if (videoMediaProfiles != null) {
+        if (videoMediaProfiles != null
+                && videoMediaProfiles.size() > 0
+                && settingsManager.get(SettingKeys.VideoProfiles).get() != null
+                && videoMediaProfiles.get(settingsManager.get(SettingKeys.VideoProfiles).get())!= null) {
             setProfile(videoMediaProfiles.get(settingsManager.get(SettingKeys.VideoProfiles).get()));
         }
     }
