@@ -203,7 +203,7 @@ public class CameraUiFragment extends AbstractFragment implements
 
             if (parameterHandler.get(SettingKeys.HISTOGRAM) != null) {
                 UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                focusPeak.SetParameter(wrapper.getParameterHandler().get(SettingKeys.HISTOGRAM));
+                focusPeak.SetParameter(parameterHandler.get(SettingKeys.HISTOGRAM));
                 focusPeak.SetCameraUiWrapper(wrapper);
                 focusPeak.SetUiItemClickListner(this);
                 focusPeak.setBackgroundResource(R.drawable.quck_set_histogram);
@@ -211,7 +211,7 @@ public class CameraUiFragment extends AbstractFragment implements
             }
             if (parameterHandler.get(SettingKeys.CLIPPING) != null) {
                 UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                focusPeak.SetParameter(wrapper.getParameterHandler().get(SettingKeys.CLIPPING));
+                focusPeak.SetParameter(parameterHandler.get(SettingKeys.CLIPPING));
                 focusPeak.SetCameraUiWrapper(wrapper);
                 focusPeak.SetUiItemClickListner(this);
                 focusPeak.setBackgroundResource(R.drawable.clipping);
@@ -241,7 +241,7 @@ public class CameraUiFragment extends AbstractFragment implements
             if (wrapper.getParameterHandler().get(SettingKeys.NightMode) != null) {
                 UiSettingsChild night = new UiSettingsChild(getContext());
                 night.SetMenuItemClickListner(this, true);
-                night.SetParameter(wrapper.getParameterHandler().get(SettingKeys.NightMode));
+                night.SetParameter(parameterHandler.get(SettingKeys.NightMode));
                 night.setBackgroundResource(R.drawable.quck_set_night);
                 left_ui_items_holder.addView(night);
             }
@@ -264,7 +264,7 @@ public class CameraUiFragment extends AbstractFragment implements
 
                 if (parameterHandler.get(SettingKeys.Focuspeak) != null) {
                     UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                    focusPeak.SetParameter(wrapper.getParameterHandler().get(SettingKeys.Focuspeak));
+                    focusPeak.SetParameter(parameterHandler.get(SettingKeys.Focuspeak));
                     focusPeak.SetCameraUiWrapper(wrapper);
                     focusPeak.SetUiItemClickListner(this);
                     focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);

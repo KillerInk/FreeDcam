@@ -29,7 +29,7 @@ import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
-import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
+import freed.cam.apis.basecamera.parameters.modes.PreviewPostProcessingMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakColorMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakMode;
 import freed.cam.apis.basecamera.parameters.modes.GpsParameter;
@@ -45,6 +45,7 @@ import freed.cam.apis.basecamera.parameters.modes.SelfTimerParameter;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
@@ -80,16 +81,16 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         add(SettingsManager.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
         add(SettingsManager.HorizontLvl, new Horizont());
         add(SettingsManager.SD_SAVE_LOCATION, new SDModeParameter());
-        EnableRenderScriptMode enableRenderScriptMode = new EnableRenderScriptMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
+        PreviewPostProcessingMode previewPostProcessingMode = new PreviewPostProcessingMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
         add(SettingsManager.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
-        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, enableRenderScriptMode);
+        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, previewPostProcessingMode);
         add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(previewController, SettingsManager.FOCUSPEAK_COLOR));
-        add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
+        add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper, SettingKeys.Focuspeak));
         add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-        add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
+        add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper,SettingKeys.CLIPPING));
         add(SettingsManager.selfTimer, new SelfTimerParameter(SettingsManager.selfTimer));
         applyPreviewPostprocessingVisibility();
-        enableRenderScriptMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        previewPostProcessingMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 applyPreviewPostprocessingVisibility();
@@ -108,10 +109,10 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         }
         else
         {
-            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Hidden);
+            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Hidden);
+            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Hidden);
+            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Hidden);
         }
     }
 
@@ -180,11 +181,11 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setAppSettingsToCamera(SettingsManager.Ae_TargetFPS,false);
         setAppSettingsToCamera(SettingsManager.secondarySensorSize, false);
         setAppSettingsToCamera(SettingsManager.ExposureMode,false);
-        if (RenderScriptManager.isSupported() && previewController != null) {
-            setAppSettingsToCamera(SettingsManager.FOCUSPEAK_COLOR, true);
-            setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
-            setAppSettingsToCamera(SettingsManager.CLIPPING, true);
-        }
+        setAppSettingsToCamera(SettingsManager.FOCUSPEAK_COLOR, true);
+        setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
+        setAppSettingsToCamera(SettingsManager.CLIPPING, true);
+        setAppSettingsToCamera(SettingsManager.Focuspeak, true);
+
     }
 
     @Override

@@ -5,9 +5,9 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
 
-public class EnableRenderScriptMode extends AbstractParameter {
+public class PreviewPostProcessingMode extends AbstractParameter {
 
-    public EnableRenderScriptMode(SettingKeys.Key cameraUiWrapper) {
+    public PreviewPostProcessingMode(SettingKeys.Key cameraUiWrapper) {
         super(cameraUiWrapper);
         setViewState(ViewState.Visible);
         fireStringValueChanged(settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get());

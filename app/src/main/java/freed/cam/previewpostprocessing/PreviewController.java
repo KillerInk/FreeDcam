@@ -24,6 +24,12 @@ public class PreviewController implements PreviewControllerInterface
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
     private PreviewFragment previewFragment;
+    boolean blue = false;
+    boolean red = false;
+    boolean green = false;
+    boolean focuspeak = false;
+    boolean clipping = false;
+    boolean showhistogram = false;
 
     public void init(FragmentManager fragmentManager, int fragmentHolderId) {
         this.fragmentManager = fragmentManager;
@@ -54,6 +60,12 @@ public class PreviewController implements PreviewControllerInterface
                 break;
         }
         preview.setPreviewEventListner(eventListner);
+        preview.setBlue(blue);
+        preview.setGreen(green);
+        preview.setRed(red);
+        preview.setClipping(clipping);
+        preview.setFocusPeak(focuspeak);
+        preview.setHistogram(showhistogram);
     }
 
     @Override
@@ -102,25 +114,32 @@ public class PreviewController implements PreviewControllerInterface
         return preview.isSucessfullLoaded();
     }
 
+
     @Override
     public void setBlue(boolean blue) {
-        preview.setBlue(blue);
+        this.blue = blue;
+        if (preview != null)
+            preview.setBlue(blue);
     }
 
     @Override
     public void setRed(boolean red) {
+        this.red = red;
         if (preview != null)
             preview.setRed(red);
     }
 
     @Override
     public void setGreen(boolean green) {
+        this.green = green;
         if (preview != null)
             preview.setGreen(green);
     }
 
+
     @Override
     public void setFocusPeak(boolean on) {
+        this.focuspeak = on;
         preview.setFocusPeak(on);
     }
 
@@ -133,6 +152,7 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setClipping(boolean on) {
+        this.clipping = on;
         if (preview != null)
             preview.setClipping(on);
     }
@@ -146,6 +166,7 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setHistogram(boolean on) {
+        this.showhistogram = on;
         if (preview != null)
             preview.setHistogram(on);
     }

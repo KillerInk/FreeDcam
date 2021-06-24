@@ -61,6 +61,14 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
         settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
+        String[] v = new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
+        settingsManager.get(SettingKeys.CLIPPING).setIsSupported(true);
+        settingsManager.get(SettingKeys.CLIPPING).setValues(v);
+        settingsManager.get(SettingKeys.CLIPPING).set(v[1]);
+        settingsManager.get(SettingKeys.Focuspeak).setIsSupported(true);
+        settingsManager.get(SettingKeys.Focuspeak).setValues(v);
+        settingsManager.get(SettingKeys.Focuspeak).set(v[1]);
+
 
     }
 
