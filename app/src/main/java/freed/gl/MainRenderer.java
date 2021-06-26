@@ -66,19 +66,25 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     public void onDrawFrame(GL10 unused) {
         if (!mGLInit) return;
-            if (mUpdateST) {
-                try {
-                    cameraInputTextureHolder.getmSTexture().updateTexImage();
-                }
-                catch (RuntimeException ex)
-                {
-                    Log.WriteEx(ex);
-                }
-                finally {
-                    mUpdateST = false;
-                }
+        if (mUpdateST)
+        {
+            try {
+                cameraInputTextureHolder.getmSTexture().updateTexImage();
+            }
+            catch (RuntimeException ex)
+            {
+                Log.WriteEx(ex);
+            }
+            finally {
+                mUpdateST = false;
+            }
         }
         activeProgram.draw();
+        if (previewModel.getFloat_position() <= 10.0f)
+            previewModel.setFloat_position(previewModel.getFloat_position() +0.05f);
+        else
+            previewModel.setFloat_position(0);
+
     }
 
     @Override

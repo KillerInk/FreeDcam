@@ -17,6 +17,8 @@ varying mediump vec2 texCoord;
 uniform vec2 texRes;
 #END_GLES
 
+uniform float float_position;
+
 #IMPORT shader/zebramethod.fsh
 
 void main() {
@@ -28,7 +30,7 @@ void main() {
     vec4 color = texture2D(sTexture,texSize);
 #END_GLES
 
-    vec4 out_color = getZebra(texSize, color);
+    vec4 out_color = getZebra(texSize, color,float_position);
 
 #GLES3
     Output = out_color;

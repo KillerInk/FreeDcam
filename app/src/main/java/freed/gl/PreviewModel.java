@@ -26,6 +26,7 @@ public class PreviewModel
     private float[] peak_color = {1f,0f,0f,1f};
     private float peak_strength = 0.01f;
     private float[] textSize = {640,480};
+    private float float_position = 0;
 
     public PreviewModel()
     {
@@ -59,6 +60,14 @@ public class PreviewModel
 
     public float[] getPeak_color() {
         return peak_color;
+    }
+
+    public float getFloat_position() {
+        return float_position;
+    }
+
+    public void setFloat_position(float float_position) {
+        this.float_position = float_position;
     }
 
     public void setOrientation(int or)
