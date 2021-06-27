@@ -20,6 +20,8 @@ uniform vec2 texRes;
 uniform vec4 peak_color;
 uniform float peak_strength;
 uniform float float_position;
+uniform float zebra_high;
+uniform float zebra_low;
 #IMPORT shader/zebramethod.fsh
 //test
 void main()
@@ -67,7 +69,7 @@ void main()
         sobel = vec4(0,0,0,1);
 
 
-    vec4 out_color = getZebra(texCoord, color,float_position);
+    vec4 out_color = getZebra(texCoord, color,float_position,zebra_high,zebra_low);
 
 #GLES3
     Output = mix(out_color, peak_color, sobel);

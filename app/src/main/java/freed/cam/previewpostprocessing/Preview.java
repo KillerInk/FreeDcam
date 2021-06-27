@@ -42,4 +42,6 @@ public interface Preview
     void setRotation(int width, int height,int rotation);
     void setHistogramFeed(HistogramFeed feed);
     void clear();
+    void setZebraHigh(float high);
+    void setZebraLow(float low);
 }

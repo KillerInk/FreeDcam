@@ -216,4 +216,14 @@ public class GLPreview extends GLSurfaceView {
         else
             setPreviewProcessors(PreviewProcessors.Normal);
     }
+
+    public void setZebraHight(float high)
+    {
+        previewModel.setZebra_high(high);
+    }
+
+    public void setZebraLow(float low)
+    {
+        previewModel.setZebra_low(low);
+    }
 }

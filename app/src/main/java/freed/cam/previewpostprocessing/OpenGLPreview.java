@@ -202,4 +202,14 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     public void clear() {
         glPreview = null;
     }
+
+    @Override
+    public void setZebraHigh(float high) {
+        glPreview.setZebraHight(high);
+    }
+
+    @Override
+    public void setZebraLow(float low) {
+        glPreview.setZebraLow(low);
+    }
 }

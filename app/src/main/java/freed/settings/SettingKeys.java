@@ -32,6 +32,8 @@ public class SettingKeys{
     public final static Key<SettingMode> M_ProgramShift = new Key(SettingMode.class, R.string.aps_manualprogramshift);
     public final static Key<SettingMode> M_PreviewZoom = new Key(SettingMode.class, R.string.aps_manualpreviewzoom);
     public final static Key<SettingMode> M_Aperture = new Key(SettingMode.class, R.string.aps_manualaperture);
+    public final static Key<SettingMode> M_ZEBRA_HIGH = new Key(SettingMode.class, R.string.aps_zebrahigh);
+    public final static Key<SettingMode> M_ZEBRA_LOW = new Key(SettingMode.class, R.string.aps_zebralow);
 
     public final static Key<SettingMode> ColorMode = new Key(SettingMode.class, R.string.aps_colormode);
     public final static Key<SettingMode> ExposureMode = new Key(SettingMode.class, R.string.aps_exposuremode);

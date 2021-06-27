@@ -113,6 +113,8 @@
     <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
     <string name="aps_unsupported" translatable="false">unsupported</string>
     <string name="aps_manualaperture" translatable="false">manualaperture</string>
+    <string name="aps_zebrahigh" translatable="false">zebrahigh</string>
+    <string name="aps_zebralow" translatable="false">zebralow</string>
     <string name="aps_ae_targetFPS" translatable="false">ae_TargetFPS</string>
     <string name="aps_orientationHack" translatable="false">orientationHack</string>
     <string name="aps_tonemapProfile" translatable="false">tonemapProfile</string>

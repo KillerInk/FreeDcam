@@ -174,4 +174,14 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
 
     }
 
+    @Override
+    public void setZebraHigh(float high) {
+
+    }
+
+    @Override
+    public void setZebraLow(float low) {
+
+    }
+
 }

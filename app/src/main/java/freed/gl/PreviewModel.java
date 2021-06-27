@@ -27,6 +27,8 @@ public class PreviewModel
     private float peak_strength = 0.01f;
     private float[] textSize = {640,480};
     private float float_position = 0;
+    private float zebra_high = 0.001f;
+    private float zebra_low = 0.01f;
 
     public PreviewModel()
     {
@@ -155,5 +157,21 @@ public class PreviewModel
     public float[] getTextSize()
     {
         return textSize;
+    }
+
+    public void setZebra_high(float zebra_high) {
+        this.zebra_high = zebra_high;
+    }
+
+    public float getZebra_high() {
+        return zebra_high;
+    }
+
+    public void setZebra_low(float zebra_low) {
+        this.zebra_low = zebra_low;
+    }
+
+    public float getZebra_low() {
+        return zebra_low;
     }
 }

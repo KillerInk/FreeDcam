@@ -30,6 +30,8 @@ public class PreviewController implements PreviewControllerInterface
     boolean focuspeak = false;
     boolean clipping = false;
     boolean showhistogram = false;
+    float zebrahigh = 0.001f;
+    float zebralow = 0.01f;
 
     public void init(FragmentManager fragmentManager, int fragmentHolderId) {
         this.fragmentManager = fragmentManager;
@@ -66,6 +68,8 @@ public class PreviewController implements PreviewControllerInterface
         preview.setClipping(clipping);
         preview.setFocusPeak(focuspeak);
         preview.setHistogram(showhistogram);
+        preview.setZebraHigh(zebrahigh);
+        preview.setZebraLow(zebralow);
     }
 
     @Override
@@ -263,5 +267,17 @@ public class PreviewController implements PreviewControllerInterface
         transaction.commit();
     }
 
+    @Override
+    public void setZebraHigh(float high) {
+        zebrahigh = high;
+        if (preview!=null)
+            preview.setZebraHigh(high);
+    }
 
+    @Override
+    public void setZebraLow(float low) {
+        zebralow = low;
+        if (preview != null)
+            preview.setZebraLow(low);
+    }
 }

@@ -28,6 +28,8 @@ import java.util.HashMap;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.manual.ZebraManualHighParameter;
+import freed.cam.apis.basecamera.parameters.manual.ZebraManualLowParameter;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
 import freed.cam.apis.basecamera.parameters.modes.PreviewPostProcessingMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakColorMode;
@@ -89,6 +91,8 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
         add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper,SettingKeys.CLIPPING));
         add(SettingsManager.selfTimer, new SelfTimerParameter(SettingsManager.selfTimer));
+        add(SettingsManager.M_ZEBRA_HIGH,new ZebraManualHighParameter(SettingsManager.M_ZEBRA_HIGH,previewController));
+        add(SettingsManager.M_ZEBRA_LOW,new ZebraManualLowParameter(SettingsManager.M_ZEBRA_LOW,previewController));
         applyPreviewPostprocessingVisibility();
         previewPostProcessingMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -113,6 +117,13 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
             get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Hidden);
             get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Hidden);
             get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.M_ZEBRA_HIGH).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.M_ZEBRA_LOW).setViewState(AbstractParameter.ViewState.Hidden);
+        }
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+        {
+            get(SettingKeys.M_ZEBRA_HIGH).setViewState(AbstractParameter.ViewState.Visible);
+            get(SettingKeys.M_ZEBRA_LOW).setViewState(AbstractParameter.ViewState.Visible);
         }
     }
 
@@ -185,6 +196,8 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
         setAppSettingsToCamera(SettingsManager.CLIPPING, true);
         setAppSettingsToCamera(SettingsManager.Focuspeak, true);
+        setManualMode(SettingsManager.M_ZEBRA_HIGH, true);
+        setManualMode(SettingsManager.M_ZEBRA_LOW, true);
 
     }
 

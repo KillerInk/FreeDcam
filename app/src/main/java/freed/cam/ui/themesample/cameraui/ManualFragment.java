@@ -252,6 +252,17 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             curveView.setVisibility(View.GONE);
             curveView.setCurveChangedListner(this);
 
+            if (parms.get(SettingKeys.M_ZEBRA_HIGH) != null) {
+                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_ZEBRA_HIGH), R.drawable.clipping);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+            if (parms.get(SettingKeys.M_ZEBRA_LOW) != null) {
+                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_ZEBRA_LOW), R.drawable.clipping);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+            }
+
             seekbar.setVisibility(View.GONE);
             afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
             if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket))

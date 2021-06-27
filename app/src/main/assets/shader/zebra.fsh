@@ -18,6 +18,8 @@ uniform vec2 texRes;
 #END_GLES
 
 uniform float float_position;
+uniform float zebra_high;
+uniform float zebra_low;
 
 #IMPORT shader/zebramethod.fsh
 
@@ -30,7 +32,7 @@ void main() {
     vec4 color = texture2D(sTexture,texSize);
 #END_GLES
 
-    vec4 out_color = getZebra(texSize, color,float_position);
+    vec4 out_color = getZebra(texSize, color,float_position,zebra_high,zebra_low);
 
 #GLES3
     Output = out_color;
