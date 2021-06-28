@@ -70,16 +70,16 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         settingsManager.get(SettingKeys.Focuspeak).setValues(v);
         settingsManager.get(SettingKeys.Focuspeak).set(v[1]);
         List<String> zebra_values = new ArrayList<>();
-        for (int i = 1; i <=100; i++)
+        for (int i = 1; i <=1000; i++)
         {
             zebra_values.add(String.valueOf(i));
         }
         settingsManager.get(SettingKeys.M_ZEBRA_HIGH).setValues(zebra_values.toArray(new String[zebra_values.size()]));
-        settingsManager.get(SettingKeys.M_ZEBRA_HIGH).set("10");
+        settingsManager.get(SettingKeys.M_ZEBRA_HIGH).set("99");
         settingsManager.get(SettingKeys.M_ZEBRA_HIGH).setIsSupported(true);
 
         settingsManager.get(SettingKeys.M_ZEBRA_LOW).setValues(zebra_values.toArray(new String[zebra_values.size()]));
-        settingsManager.get(SettingKeys.M_ZEBRA_LOW).set("10");
+        settingsManager.get(SettingKeys.M_ZEBRA_LOW).set("99");
         settingsManager.get(SettingKeys.M_ZEBRA_LOW).setIsSupported(true);
 
     }
