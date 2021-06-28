@@ -11,10 +11,7 @@ public class ZebraManualLowParameter extends ZebraManualParameter {
     @Override
     protected void setValue(int valueToSet, boolean setToCamera) {
         super.setValue(valueToSet, setToCamera);
-        if (valueToSet > stringvalues.length)
-            valueToSet = stringvalues.length-1;
         String val = stringvalues[valueToSet];
-        settingMode.set(val);
         float t = Float.parseFloat(val) * 0.0001f;
         previewController.setZebraLow(t);
     }
