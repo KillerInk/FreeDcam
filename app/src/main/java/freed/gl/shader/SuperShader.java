@@ -1,13 +1,13 @@
 package freed.gl.shader;
 
-public class ZebraShader extends Shader {
-    public ZebraShader(int glesVersion) {
+public class SuperShader extends Shader {
+    public SuperShader(int glesVersion) {
         super(glesVersion);
     }
 
     @Override
     String getShaderName() {
-        return "zebra";
+        return "supershader";
     }
 
     @Override

@@ -29,6 +29,8 @@ public class PreviewModel
     private float float_position = 0;
     private float zebra_high = 0.001f;
     private float zebra_low = 0.01f;
+    private boolean focuspeak = false;
+    private boolean zebra = false;
 
     public PreviewModel()
     {
@@ -173,5 +175,22 @@ public class PreviewModel
 
     public float getZebra_low() {
         return zebra_low;
+    }
+
+    public boolean isFocusPeak()
+    {
+        return focuspeak;
+    }
+
+    public void setFocuspeak(boolean focuspeak) {
+        this.focuspeak = focuspeak;
+    }
+
+    public void setZebra(boolean zebra) {
+        this.zebra = zebra;
+    }
+
+    public boolean isZebra() {
+        return zebra;
     }
 }

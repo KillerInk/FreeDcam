@@ -7,16 +7,9 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import freed.gl.program.FPShape;
-import freed.gl.program.FocuspeakZebraShape;
-import freed.gl.program.GLProgram;
-import freed.gl.program.PreviewShape;
-import freed.gl.program.ZebraShape;
+import freed.gl.program.SuperShaderShape;
 import freed.gl.shader.DefaultVertexShader;
-import freed.gl.shader.FocusPeakZebraShader;
-import freed.gl.shader.PreviewFragmentShader;
-import freed.gl.shader.SobelFpFragmentShader;
-import freed.gl.shader.ZebraShader;
+import freed.gl.shader.SuperShader;
 import freed.utils.Log;
 
 public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
@@ -29,13 +22,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     private final GLPreview mView;
 
-    private GLProgram activeProgram;
-    private PreviewShape previewShape;
-    private FPShape fpShape;
-    private ZebraShape zebraShape;
-    private FocuspeakZebraShape focuspeakZebraShape;
     private GLPreview.PreviewProcessors processors = GLPreview.PreviewProcessors.Normal;
     private final PreviewModel previewModel;
+    private SuperShaderShape superShaderShape;
 
     GLTex cameraInputTextureHolder;
 
@@ -49,16 +38,20 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         this.processors = processors;
         switch (processors) {
             case Normal:
-                activeProgram = previewShape;
+                previewModel.setZebra(false);
+                previewModel.setFocuspeak(false);
                 break;
             case FocusPeak:
-                activeProgram = fpShape;
+                previewModel.setZebra(false);
+                previewModel.setFocuspeak(true);
                 break;
             case Zebra:
-                activeProgram = zebraShape;
+                previewModel.setZebra(true);
+                previewModel.setFocuspeak(false);
                 break;
             case FocusPeak_Zebra:
-                activeProgram = focuspeakZebraShape;
+                previewModel.setZebra(true);
+                previewModel.setFocuspeak(true);
                 break;
         }
     }
@@ -79,12 +72,11 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 mUpdateST = false;
             }
         }
-        activeProgram.draw();
+        superShaderShape.draw();
         if (previewModel.getFloat_position() <= 10.0f)
             previewModel.setFloat_position(previewModel.getFloat_position() +0.05f);
         else
             previewModel.setFloat_position(0);
-
     }
 
     @Override
@@ -97,42 +89,14 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         DefaultVertexShader vertexShader = new DefaultVertexShader(glesv);
         vertexShader.createShader();
 
-        SobelFpFragmentShader fpFragmentShader = new SobelFpFragmentShader(glesv);
-        fpFragmentShader.createShader();
+        SuperShader superShader = new SuperShader(glesv);
+        superShader.createShader();
 
-        PreviewFragmentShader previewFragmentShader = new PreviewFragmentShader(glesv);
-        previewFragmentShader.createShader();
-
-        ZebraShader zebraShader = new ZebraShader(glesv);
-        zebraShader.createShader();
-
-        FocusPeakZebraShader focusPeakZebraShader = new FocusPeakZebraShader(glesv);
-        focusPeakZebraShader.createShader();
-
-        previewShape = new PreviewShape(glesv,previewModel);
-        previewShape.setFragmentShader(previewFragmentShader);
-        previewShape.setVertexShader(vertexShader);
-        previewShape.createAndLinkProgram();
-        previewShape.setGlTex(cameraInputTextureHolder);
-        activeProgram = previewShape;
-
-        fpShape = new FPShape(glesv,previewModel);
-        fpShape.setVertexShader(vertexShader);
-        fpShape.setFragmentShader(fpFragmentShader);
-        fpShape.createAndLinkProgram();
-        fpShape.setGlTex(cameraInputTextureHolder);
-
-        zebraShape = new ZebraShape(glesv,previewModel);
-        zebraShape.setVertexShader(vertexShader);
-        zebraShape.setFragmentShader(zebraShader);
-        zebraShape.createAndLinkProgram();
-        zebraShape.setGlTex(cameraInputTextureHolder);
-
-        focuspeakZebraShape = new FocuspeakZebraShape(glesv,previewModel);
-        focuspeakZebraShape.setVertexShader(vertexShader);
-        focuspeakZebraShape.setFragmentShader(focusPeakZebraShader);
-        focuspeakZebraShape.createAndLinkProgram();
-        focuspeakZebraShape.setGlTex(cameraInputTextureHolder);
+        superShaderShape = new SuperShaderShape(glesv,previewModel);
+        superShaderShape.setFragmentShader(superShader);
+        superShaderShape.setVertexShader(vertexShader);
+        superShaderShape.createAndLinkProgram();
+        superShaderShape.setGlTex(cameraInputTextureHolder);
 
         cameraInputTextureHolder.getmSTexture().setOnFrameAvailableListener(this);
         mGLInit = true;
