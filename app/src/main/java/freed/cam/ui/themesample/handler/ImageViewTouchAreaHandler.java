@@ -59,7 +59,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
      *
      * @param imageView the view that should get moved
      */
-    public ImageViewTouchAreaHandler(ImageView imageView, CameraWrapperInterface cameraUiWrapper, I_TouchListnerEvent touchListnerEvent)
+    public ImageViewTouchAreaHandler(ImageView imageView, CameraWrapperInterface cameraUiWrapper, I_TouchListnerEvent touchListnerEvent,PreviewController previewController)
     {
         this.imageView = imageView;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -67,7 +67,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
         this.touchListnerEvent = touchListnerEvent;
         allowDrag = true;
         longClickHandler = new Handler();
-        previewController = ActivityFreeDcamMain.previewController();
+        this.previewController = previewController;
     }
 
 
