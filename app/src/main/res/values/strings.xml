@@ -98,6 +98,7 @@
 
     <!-- settings_rightmenufragment  -->
     <string name="setting_camera_">... Settings</string>
+    <string name="setting_preview_">Preview</string>
     <string name="setting_antiflicker_header">Anti Flicker: </string>
     <string name="setting_antiflicker_description">Reduce flickering on artificial light sources</string>
     <string name="setting_color_header">Color Effect: </string>

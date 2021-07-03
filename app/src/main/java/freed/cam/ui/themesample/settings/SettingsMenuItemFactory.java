@@ -213,14 +213,7 @@ public class SettingsMenuItemFactory
             externalShutter.SetUiItemClickListner(click);
             globalSettingGroup.addView(externalShutter);
 
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack) != null) {
-                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack), R.string.setting_orientation_header, R.string.setting_orientation_description);
-                orientationHack.SetUiItemClickListner(click);
-                globalSettingGroup.addView(orientationHack);
-            }
 
-            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
-            globalSettingGroup.addView(aspectRatio);
 
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
             sdSave.SetCameraUiWrapper(cameraUiWrapper);
@@ -275,31 +268,41 @@ public class SettingsMenuItemFactory
     }
 
 
-    public GroupChild fillRightSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click)
+    public void fillRightSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, LinearLayout settingchildholder, SettingsChildAbstract.SettingsChildClick click)
     {
         if (cameraUiWrapper != null) {
             SettingsManager apS = FreedApplication.settingsManager();
             ParameterHandler params = cameraUiWrapper.getParameterHandler();
 
-
             GroupChild settingsgroup = new GroupChild(context,  context.getResources().getString(R.string.setting_camera_));
             if (params == null)
             {
                 Log.d(TAG, "ParameterHandler is null");
-                return settingsgroup;
+                return;
             }
 
+            GroupChild previewgroup = new GroupChild(context,context.getResources().getString(R.string.setting_preview_));
             if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null) {
                 SettingsChildMenu ers = new SettingsChildMenu(context, params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE), R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description);
                 ers.SetUiItemClickListner(click);
-                settingsgroup.addView(ers);
+                previewgroup.addView(ers);
             }
-
             if (params.get(SettingKeys.FOCUSPEAK_COLOR) != null) {
                 SettingsChildMenu fpc = new SettingsChildMenu(context, params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
                 fpc.SetUiItemClickListner(click);
-                settingsgroup.addView(fpc);
+                previewgroup.addView(fpc);
             }
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack) != null) {
+                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack), R.string.setting_orientation_header, R.string.setting_orientation_description);
+                orientationHack.SetUiItemClickListner(click);
+                previewgroup.addView(orientationHack);
+            }
+            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
+            previewgroup.addView(aspectRatio);
+
+            settingchildholder.addView(previewgroup);
+
+
 
             if (params.get(SettingKeys.SceneMode) != null) {
                 SettingsChildMenu scene = new SettingsChildMenu(context, params.get(SettingKeys.SceneMode), R.string.setting_scene_header, R.string.setting_scene_description);
@@ -513,8 +516,7 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            return settingsgroup;
+            settingchildholder.addView(settingsgroup);
         }
-        return null;
     }
 }

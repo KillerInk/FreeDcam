@@ -87,9 +87,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         if (settingchildholder == null)
             return;
         settingchildholder.removeAllViews();
-        GroupChild settingsgroup = settingsMenuItemFactory.fillRightSettingsMenu(wrapper,getContext(),RightMenuFragment.this);
-        if (settingsgroup != null)
-            settingchildholder.addView(settingsgroup);
+        settingsMenuItemFactory.fillRightSettingsMenu(wrapper,getContext(),settingchildholder,RightMenuFragment.this);
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick)
