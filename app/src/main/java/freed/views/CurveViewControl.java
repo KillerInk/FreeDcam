@@ -5,8 +5,11 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,6 +33,7 @@ import freed.settings.VideoToneCurveProfile;
 @AndroidEntryPoint
 public class CurveViewControl extends LinearLayout implements CurveView.CurveChangedEvent {
 
+    private static final String TAG = CurveViewControl.class.getSimpleName();
     private Button button_rgb;
     private Button button_r;
     private Button button_g;
@@ -38,6 +42,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private Button button_removePoint;
     private Button button_save;
     private Button button_load;
+    private Button button_drag;
 
     private EditText savePanel_editText_toneCurveName;
     private Button savePanel_saveButton;
@@ -52,6 +57,8 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private CurveView curveView;
     CurveView.CurveChangedEvent curveChangedListner;
     private Button activeButton;
+    private float startPosX;
+    private float startPosY;
     private enum PointStates
     {
         none,
@@ -77,6 +84,11 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     public CurveViewControl(Context context,AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
     }
 
     private void init(Context context)
@@ -108,6 +120,40 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
         button_load =findViewById(R.id.button_load);
         button_load.setOnClickListener(onLoadButtonClick);
+
+        button_drag = findViewById(R.id.button_drag);
+        button_drag.setOnTouchListener(new OnTouchListener() {
+            private float lastx;
+            private float lasty;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //Log.d(TAG,event.toString());
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    if (startPosX == 0.0f)
+                    {
+                        startPosX = getX() + getWidth();
+                        startPosY = getY() + getHeight();
+                    }
+                    lastx = event.getRawX();
+                    lasty = event.getRawY();
+                }
+                else if (event.getAction() == MotionEvent.ACTION_MOVE)
+                {
+
+                    float difX = lastx - event.getRawX();
+                    float difY = lasty - event.getRawY();
+                    lastx = event.getRawX();
+                    lasty = event.getRawY();
+
+                    ViewGroup.LayoutParams params = getLayoutParams();
+                    params.height = (int) (startPosY - (getY() - difY));
+                    params.width = (int) (startPosX - (getX() - difX));
+                    requestLayout();
+                }
+                return false;
+            }
+        });
 
         this.curveView = findViewById(R.id.curveViewHolder);
         curveView.setCurveChangedListner(this);
