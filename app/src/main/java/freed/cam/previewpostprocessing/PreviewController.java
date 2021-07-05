@@ -32,6 +32,7 @@ public class PreviewController implements PreviewControllerInterface
     boolean showhistogram = false;
     float zebrahigh = 0.001f;
     float zebralow = 0.01f;
+    HistogramFeed feed;
 
     public void init(FragmentManager fragmentManager, int fragmentHolderId) {
         this.fragmentManager = fragmentManager;
@@ -70,10 +71,12 @@ public class PreviewController implements PreviewControllerInterface
         preview.setHistogram(showhistogram);
         preview.setZebraHigh(zebrahigh);
         preview.setZebraLow(zebralow);
+        preview.setHistogramFeed(feed);
     }
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
+        this.feed = feed;
         if (preview != null)
             this.preview.setHistogramFeed(feed);
     }
