@@ -25,25 +25,30 @@ import android.view.MotionEvent;
 
 import androidx.viewpager.widget.ViewPager;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
 /**
  * Created by troop on 18.03.2016.
  * This class allows to disable ViewPagers touch events.
  * when the metering rectangle gets moved left or right it tends to switch fragments
  * with disabling touch while metering is moved that is avoided
  */
+@AndroidEntryPoint
 public class PagingView extends ViewPager
 {
 
-    private boolean allowScroll;
+    @Inject PagingViewTouchState pagingViewTouchState;
 
     public PagingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        allowScroll = true;
+        pagingViewTouchState.setTouchEnable(true);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (allowScroll) {
+        if (pagingViewTouchState.isTouchEnable()) {
             return super.onTouchEvent(event);
         }
 
@@ -52,14 +57,9 @@ public class PagingView extends ViewPager
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (allowScroll) {
+        if (pagingViewTouchState.isTouchEnable()) {
             return super.onInterceptTouchEvent(event);
         }
-
         return false;
-    }
-
-    public void EnableScroll(boolean enabled) {
-        allowScroll = enabled;
     }
 }

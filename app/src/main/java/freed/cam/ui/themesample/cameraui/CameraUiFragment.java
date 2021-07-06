@@ -61,6 +61,7 @@ import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildCameraSwitch;
@@ -137,6 +138,8 @@ public class CameraUiFragment extends AbstractFragment implements
     UserMessageHandler userMessageHandler;
     @Inject
     CameraApiManager cameraApiManager;
+    @Inject
+    PagingViewTouchState pagingViewTouchState;
 
     private Handler handler = new Handler();
 
@@ -336,7 +339,7 @@ public class CameraUiFragment extends AbstractFragment implements
         binding.infoOverlay.setInfoOverlayModel(infoOverlayModelView.getInfoOverlayModel());
         //infoOverlayHandler = new SampleInfoOverlayHandler(view);
 
-        focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
+        focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity(), pagingViewTouchState);
 
         shutterButton = binding.shutterButton;
 

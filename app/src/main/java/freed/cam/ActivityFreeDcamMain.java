@@ -28,8 +28,6 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -37,7 +35,6 @@ import freed.ActivityAbstract;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
-import freed.cam.events.DisableViewPagerTouchEvent;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.SecureCamera;
@@ -150,14 +147,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             fileListController.LoadFreeDcamDCIMDirsFiles();
             return false;
         }
-    }
-
-
-
-    @Subscribe
-    public void onDisableViewPagerTouch(DisableViewPagerTouchEvent event)
-    {
-        uiViewPager.EnableScroll(!event.disableIt);
     }
 
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();

@@ -45,9 +45,8 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
-import freed.cam.events.DisableViewPagerTouchEvent;
-import freed.cam.events.EventBusHelper;
 import freed.cam.previewpostprocessing.PreviewController;
+import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
@@ -74,8 +73,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
     private SettingsManager settingsManager;
     private PreviewController previewController;
+    private PagingViewTouchState pagingViewTouchState;
 
-    public FocusImageHandler(View view, ActivityAbstract fragment)
+    public FocusImageHandler(View view, ActivityAbstract fragment, PagingViewTouchState pagingViewTouchState)
     {
         super(fragment);
         settingsManager = FreedApplication.settingsManager();
@@ -255,7 +255,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 expolock.setStringValue("false",true);
             }
             //enable/disable viewpager touch
-            EventBusHelper.post(new DisableViewPagerTouchEvent(moving));
+            pagingViewTouchState.setTouchEnable(!moving);
         }
     };
 

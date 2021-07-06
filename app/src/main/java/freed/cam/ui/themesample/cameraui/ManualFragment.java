@@ -52,10 +52,9 @@ import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.event.camera.CameraHolderEvent;
-import freed.cam.events.DisableViewPagerTouchEvent;
-import freed.cam.events.EventBusHelper;
 import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.themesample.AbstractFragment;
+import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
@@ -86,6 +85,8 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private final String TAG = ManualFragment.class.getSimpleName();
     @Inject
     CameraApiManager cameraApiManager;
+    @Inject
+    PagingViewTouchState pagingViewTouchState;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -467,12 +468,12 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onTouchStart() {
-        EventBusHelper.post(new DisableViewPagerTouchEvent(true));
+        pagingViewTouchState.setTouchEnable(false);
     }
 
     @Override
     public void onTouchEnd() {
-        EventBusHelper.post(new DisableViewPagerTouchEvent(false));
+        pagingViewTouchState.setTouchEnable(true);
     }
 
     @Override

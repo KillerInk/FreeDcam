@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +21,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
+import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.VideoToneCurveProfile;
@@ -70,6 +70,8 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
     @Inject
     SettingsManager settingsManager;
+    @Inject
+    PagingViewTouchState pagingViewTouchState;
 
     public CurveViewControl(Context context) {
         super(context);
@@ -137,6 +139,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                     }
                     lastx = event.getRawX();
                     lasty = event.getRawY();
+                    pagingViewTouchState.setTouchEnable(false);
                 }
                 else if (event.getAction() == MotionEvent.ACTION_MOVE)
                 {
@@ -151,6 +154,8 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                     params.width = (int) (startPosX - (getX() - difX));
                     requestLayout();
                 }
+                else if(event.getAction() == MotionEvent.ACTION_UP)
+                    pagingViewTouchState.setTouchEnable(true);
                 return false;
             }
         });
