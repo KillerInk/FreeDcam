@@ -37,6 +37,7 @@ import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
+import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -166,6 +167,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     FileListController fileListController;
     @Inject PermissionManager permissionManager;
     @Inject LocationManager locationManager;
+    @Inject KeyPressedController keyPressedController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,43 +263,35 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (activityIsResumed && (cameraApiManager != null && cameraApiManager.getCamera() != null && cameraApiManager.getCamera().getParameterHandler() != null) ) {
-            Log.d(TAG, "KeyCode Pressed:" + keyCode);
-            int appSettingsKeyShutter = 0;
-
-            try {
-                String es = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).getStringValue();
-                if(es == null)
-                    super.onKeyDown(keyCode,event);
-                if (es.equals("Vol+"))
-                    appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-                else if (es.equals("Vol-"))
-                    appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-                else if (es.equals("Hook")
-                        || es.isEmpty())
-                    appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
-            }
-            catch (NullPointerException ex)
-            {
-                Log.WriteEx(ex);
-            }
-
-            if ((keyCode == KeyEvent.KEYCODE_3D_MODE
-                    || keyCode == KeyEvent.KEYCODE_POWER
-                    || keyCode == appSettingsKeyShutter
-                    || keyCode == KeyEvent.KEYCODE_UNKNOWN
-                    || keyCode == KeyEvent.KEYCODE_CAMERA)
-            && (cameraApiManager != null && cameraApiManager.getCamera() != null)) {
-                cameraApiManager.getCamera().getModuleHandler().startWork();
-                return true;
-            }
-            if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
-            {
-                closeActivity();
-                return true;
-            }
-        }
+        if (keyPressedController.onKeyDown(keyCode,event))
+            return true;
         return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyPressedController.onKeyUp(keyCode,event))
+            return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
+        {
+            closeActivity();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
+        keyPressedController.onKeyMultiple(keyCode,repeatCount,event);
+        return super.onKeyMultiple(keyCode, repeatCount, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if(keyPressedController.onKeyLongPressed(keyCode,event))
+            return true;
+        return super.onKeyLongPress(keyCode, event);
     }
 
     public void closeActivity()
