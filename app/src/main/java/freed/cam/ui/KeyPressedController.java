@@ -61,7 +61,7 @@ public class KeyPressedController
             else if (repeat > 2)
                 return true;
         }
-        return handelVolUpDown(keyCode);
+        return handelVolUpDown(keyCode,2);
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent keyEvent)
@@ -72,7 +72,7 @@ public class KeyPressedController
         {
             if(keyCode == KeyEvent.KEYCODE_HEADSETHOOK && repeat == 1)
                 changeManualMode();
-            handelVolUpDown(keyCode);
+            handelVolUpDown(keyCode,1);
             ret = true;
         }
         activeKeyEvent = 0;
@@ -93,30 +93,30 @@ public class KeyPressedController
         return false;  //startWork(keyCode);
     }
 
-    private void fireOnVolDown()
+    private void fireOnVolDown(int sensitivity)
     {
         ParameterInterface parameter = cameraApiManager.getCamera().getParameterHandler().get(activeKey);
-        if (parameter.getIntValue()-1 >= 0)
-            parameter.setIntValue(parameter.getIntValue()-1,true);
+        if (parameter.getIntValue()-sensitivity >= 0)
+            parameter.setIntValue(parameter.getIntValue()-sensitivity,true);
     }
 
-    private void fireOnVolUp()
+    private void fireOnVolUp(int sensitivity)
     {
         ParameterInterface parameter = cameraApiManager.getCamera().getParameterHandler().get(activeKey);
-        if (parameter.getIntValue()+1 < parameter.getStringValues().length)
-            parameter.setIntValue(parameter.getIntValue()+1,true);
+        if (parameter.getIntValue()+sensitivity < parameter.getStringValues().length)
+            parameter.setIntValue(parameter.getIntValue()+sensitivity,true);
     }
 
-    private boolean handelVolUpDown(int keyCode)
+    private boolean handelVolUpDown(int keyCode,int sensitivity)
     {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
         {
-            fireOnVolDown();
+            fireOnVolDown(sensitivity);
             return true;
         }
         else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
         {
-            fireOnVolUp();
+            fireOnVolUp(sensitivity);
             return true;
         }
         return false;
