@@ -209,12 +209,6 @@ public class SettingsMenuItemFactory
 
         if (cameraUiWrapper != null && cameraUiWrapper.getParameterHandler() != null) {
 
-            SettingsChildMenu externalShutter = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER), R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
-            externalShutter.SetUiItemClickListner(click);
-            globalSettingGroup.addView(externalShutter);
-
-
-
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
             sdSave.SetCameraUiWrapper(cameraUiWrapper);
             sdSave.SetUiItemClickListner(click);
