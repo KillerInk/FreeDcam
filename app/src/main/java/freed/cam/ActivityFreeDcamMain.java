@@ -50,11 +50,13 @@ import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
+import freed.utils.SoundPlayer;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import hilt.CameraApiManagerEntryPoint;
 import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
 import hilt.PreviewControllerEntryPoint;
+import hilt.SoundPlayerEntryPoint;
 import hilt.UserMessageHandlerEntryPoint;
 
 /**
@@ -94,6 +96,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public static UserMessageHandler userMessageHandler()
     {
         return getEntryPointFromActivity(UserMessageHandlerEntryPoint.class).userMessageHandler();
+    }
+
+    public static SoundPlayer soundPlayer()
+    {
+        return getEntryPointFromActivity(SoundPlayerEntryPoint.class).soundPlayer();
     }
 
     @Override

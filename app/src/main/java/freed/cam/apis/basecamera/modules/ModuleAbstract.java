@@ -20,6 +20,7 @@
 package freed.cam.apis.basecamera.modules;
 
 
+import android.media.MediaActionSound;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -34,6 +35,7 @@ import freed.settings.SettingsManager;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.OrientationManager;
+import freed.utils.SoundPlayer;
 
 /**
  * Created by troop on 15.08.2014.
@@ -53,6 +55,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
     protected LocationManager locationManager;
     protected OrientationManager orientationManager;
     private CaptureStateChangedEventHandler captureStateChangedEventHandler;
+    protected SoundPlayer soundPlayer;
 
 
     public ModuleAbstract(CW cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -64,6 +67,7 @@ public abstract class ModuleAbstract<CW extends CameraWrapperInterface> implemen
         fileListController = FreedApplication.fileListController();
         locationManager = ActivityFreeDcamMain.locationManager();
         orientationManager = ActivityFreeDcamMain.orientationManager();
+        this.soundPlayer = ActivityFreeDcamMain.soundPlayer();
     }
 
     /**

@@ -235,6 +235,9 @@ public class SettingsMenuItemFactory
             SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
             globalSettingGroup.addView(booleanSetting);
 
+            SettingsChild_BooleanSetting playshutter = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND),R.string.setting_playshuttersound_header, R.string.setting_playshuttersound_description);
+            globalSettingGroup.addView(playshutter);
+
 
             SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(context,R.string.setting_savecamparams_header,R.string.setting_savecamparams_description,cameraUiWrapper);
             saveCamParams.setCameraUiWrapper(cameraUiWrapper);

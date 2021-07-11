@@ -657,6 +657,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     @Override
     public void onRdyToSaveImg() {
         Log.d(TAG,"onRdyToSaveImg");
+        if (settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).get())
+            soundPlayer.play();
         finishCapture();
     }
 

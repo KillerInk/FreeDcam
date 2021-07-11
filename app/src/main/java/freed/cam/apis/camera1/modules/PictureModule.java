@@ -51,6 +51,7 @@ import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 
@@ -217,6 +218,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
+        if (settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).get())
+            soundPlayer.play();
         Log.d(this.TAG, "onPictureTaken " + Thread.currentThread().getName());
         if(data == null)
             return;

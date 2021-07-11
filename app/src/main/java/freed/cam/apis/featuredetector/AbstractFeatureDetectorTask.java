@@ -81,7 +81,6 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         settingsManager.get(SettingKeys.M_ZEBRA_LOW).setValues(zebra_values.toArray(new String[zebra_values.size()]));
         settingsManager.get(SettingKeys.M_ZEBRA_LOW).set("99");
         settingsManager.get(SettingKeys.M_ZEBRA_LOW).setIsSupported(true);
-
     }
 
     protected  <T> T getInstance(Class classtype) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {

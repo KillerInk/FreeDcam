@@ -81,6 +81,8 @@ public class PictureModuleMTK extends PictureModule
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
+        if (settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).get())
+            soundPlayer.play();
         if (!waitForPicture)
             return;
         waitForPicture =false;
