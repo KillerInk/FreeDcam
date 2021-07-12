@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import freed.cam.apis.CameraApiManager;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
@@ -19,25 +20,30 @@ public class KeyPressedController
 
     private static final String TAG = KeyPressedController.class.getSimpleName();
     private CameraApiManager cameraApiManager;
-    private final List<SettingKeys.Key> supportedManualsModes = new ArrayList();
-    private SettingKeys.Key activeKey = SettingKeys.M_Zoom;
+    private List<SettingKeys.Key> supportedManualsModes = new ArrayList();
+    private SettingKeys.Key activeKey = null;
     private int activeKeyEvent;
     private ManualModeChangedEvent manualModeChangedEventListner;
     private UserMessageHandler userMessageHandler;
 
     public KeyPressedController(CameraApiManager cameraApiManager,UserMessageHandler userMessageHandler)
     {
-        supportedManualsModes.add(SettingKeys.M_Zoom);
-        supportedManualsModes.add(SettingKeys.M_Focus);
-        supportedManualsModes.add(SettingKeys.M_ManualIso);
-        supportedManualsModes.add(SettingKeys.M_ExposureTime);
-        supportedManualsModes.add(SettingKeys.M_ExposureCompensation);
         this.cameraApiManager = cameraApiManager;
         this.userMessageHandler = userMessageHandler;
     }
 
     public void setManualModeChangedEventListner(ManualModeChangedEvent manualModeChangedEventListner) {
         this.manualModeChangedEventListner = manualModeChangedEventListner;
+    }
+
+    public void setActiveKey(SettingKeys.Key key)
+    {
+        activeKey = key;
+    }
+
+    public void setSupportedManualsModes(List<SettingKeys.Key> supportedManualsModes)
+    {
+        this.supportedManualsModes = supportedManualsModes;
     }
 
     //workaround to simulate a long press
@@ -95,6 +101,8 @@ public class KeyPressedController
 
     private void fireOnVolDown(int sensitivity)
     {
+        if (activeKey == null)
+            return;
         ParameterInterface parameter = cameraApiManager.getCamera().getParameterHandler().get(activeKey);
         if (parameter.getIntValue()-sensitivity >= 0)
             parameter.setIntValue(parameter.getIntValue()-sensitivity,true);
@@ -102,6 +110,8 @@ public class KeyPressedController
 
     private void fireOnVolUp(int sensitivity)
     {
+        if (activeKey == null)
+            return;
         ParameterInterface parameter = cameraApiManager.getCamera().getParameterHandler().get(activeKey);
         if (parameter.getIntValue()+sensitivity < parameter.getStringValues().length)
             parameter.setIntValue(parameter.getIntValue()+sensitivity,true);
@@ -137,8 +147,6 @@ public class KeyPressedController
         return false;
     }
 
-
-
     private String getKeyCodeString(int keyCode)
     {
         switch (keyCode)
@@ -155,21 +163,38 @@ public class KeyPressedController
     }
 
     private void changeManualMode() {
-        activeKey = getKey();
+        activeKey = getNextValidKey();
+        if (activeKey == null)
+            return;
         userMessageHandler.sendMSG(activeKey.toString(),false);
         if (manualModeChangedEventListner != null)
             manualModeChangedEventListner.onManualModeChanged(activeKey);
     }
 
-    private SettingKeys.Key getKey() {
-        int activPos = getActiveKeyPos();
-        if (activPos + 1 == supportedManualsModes.size())
+    private SettingKeys.Key getNextValidKey()
+    {
+        int currentPos = getActiveKeyPos();
+        currentPos = increaseAndClampPos(currentPos);
+        SettingKeys.Key nextKey = supportedManualsModes.get(currentPos);
+        ParameterInterface parameter = cameraApiManager.getCamera().getParameterHandler().get(nextKey);
+        while (parameter == null || parameter.getViewState() == AbstractParameter.ViewState.Disabled || parameter.getViewState() == AbstractParameter.ViewState.Hidden)
         {
-            activPos = 0;
+            currentPos = increaseAndClampPos(currentPos);
+            nextKey = supportedManualsModes.get(currentPos);
+            parameter = cameraApiManager.getCamera().getParameterHandler().get(nextKey);
+        }
+        return nextKey;
+    }
+
+    private int increaseAndClampPos(int inpos)
+    {
+        if (inpos + 1 == supportedManualsModes.size())
+        {
+            inpos = 0;
         }
         else
-            activPos++;
-        return supportedManualsModes.get(activPos);
+            inpos++;
+        return inpos;
     }
 
 

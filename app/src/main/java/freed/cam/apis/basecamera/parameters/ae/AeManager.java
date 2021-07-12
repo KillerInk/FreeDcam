@@ -97,7 +97,7 @@ public abstract class AeManager implements AeManagerInterface
         @Override
         public ViewState getViewState() {
             if (isExposureTimeWriteable())
-                return ViewState.Visible;
+                return ViewState.Enabled;
             else
                 return ViewState.Disabled;
         }
