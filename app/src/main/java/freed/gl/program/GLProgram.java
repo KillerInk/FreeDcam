@@ -1,8 +1,9 @@
 package freed.gl.program;
 
+import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
-import freed.gl.GLTex;
+import freed.gl.texture.GLTex;
 import freed.gl.shader.Shader;
 import freed.utils.Log;
 
@@ -13,7 +14,6 @@ public abstract class GLProgram implements GLProgamInterface {
     private final static String TAG = GLProgram.class.getSimpleName();
     private Shader vertexShader;
     private Shader fragmentShader;
-    private GLTex glTex;
 
     public GLProgram(int glesVersion)
     {
@@ -28,11 +28,6 @@ public abstract class GLProgram implements GLProgamInterface {
     @Override
     public void setFragmentShader(Shader fragmentShader) {
         this.fragmentShader = fragmentShader;
-    }
-
-    @Override
-    public void setGlTex(GLTex glTex) {
-        this.glTex = glTex;
     }
 
     @Override
@@ -72,6 +67,13 @@ public abstract class GLProgram implements GLProgamInterface {
         // Bind the texture to this unit.
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, out);
     }
+
+    public void bindTexture(GLTex glTex)
+    {
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, glTex.getId());
+    }
+
 
     public static void checkGlError(String glOperation) {
         int error;

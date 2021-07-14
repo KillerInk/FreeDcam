@@ -1,17 +1,17 @@
 package freed.gl.shader;
 
-public class DefaultVertexShader extends Shader {
-    public DefaultVertexShader(int glesVersion) {
+public class OesFragmentShader extends Shader {
+    public OesFragmentShader(int glesVersion) {
         super(glesVersion);
     }
 
     @Override
     String getShaderName() {
-        return "preview";
+        return "oes";
     }
 
     @Override
     ShaderType getShaderType() {
-        return ShaderType.vertex;
+        return ShaderType.fragment;
     }
 }
