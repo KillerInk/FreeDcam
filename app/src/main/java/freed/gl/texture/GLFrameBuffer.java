@@ -13,7 +13,7 @@ public class GLFrameBuffer {
     int[] depth;
     private int depth_id;
     private int id;
-    private GL2DTex texture;
+    private GLTex texture;
     public GLFrameBuffer()
     {
 
@@ -28,15 +28,15 @@ public class GLFrameBuffer {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, id);
     }
 
-    public void setOutputTexture(GL2DTex texture)
+    public void setOutputTexture(GLTex texture)
     {
         this.texture = texture;
-        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, texture.id, 0);
+        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, texture.getGLTextureType(), texture.id, 0);
         if (!isSuccessfulLoaded())
             Log.e(TAG, "initFBO failed, status: " + GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER));
     }
 
-    public GL2DTex getOutputTexture()
+    public GLTex getOutputTexture()
     {
         return texture;
     }
@@ -44,6 +44,8 @@ public class GLFrameBuffer {
     public void setActive()
     {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, id);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         /*GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture.id);*/
     }
@@ -66,6 +68,8 @@ public class GLFrameBuffer {
     public void switchToDefaultFB()
     {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         /*GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);*/
     }

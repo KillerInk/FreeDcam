@@ -87,21 +87,17 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 mUpdateST = false;
             }
         }
-       /* frameBuffer.setActive();
-        oesProgram.bindTexture(cameraInputTextureHolder);
+        frameBuffer.setActive();
+        oesProgram.setGlTex(cameraInputTextureHolder);
         oesProgram.draw();
         frameBuffer.switchToDefaultFB();
 
-        superShaderShape.bindTexture(fbtexture);*/
+        superShaderShape.setGlTex(fbtexture);
         superShaderShape.draw();
         if (previewModel.getFloat_position() <= 10.0f)
             previewModel.setFloat_position(previewModel.getFloat_position() +0.05f);
         else
             previewModel.setFloat_position(0);
-        //frameBuffer.drawToScreen();
-        /*previewShape.bind(tempTexture);
-        previewShape.draw();*/
-
     }
 
     @Override
@@ -111,12 +107,11 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             width = (int)previewModel.getTextSize()[0];
             height = (int)previewModel.getTextSize()[1];
         }
-       /* frameBuffer.create();
+        frameBuffer.create();
         fbtexture.create(width,height);
-        frameBuffer.setOutputTexture(fbtexture);*/
+        frameBuffer.setOutputTexture(fbtexture);
         Log.d(TAG,"Framebuffer successful:" +frameBuffer.isSuccessfulLoaded());
 
-        //GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
         cameraInputTextureHolder.create(width,height);
         int glesv = GlVersion.getGlesVersion();
         Log.d(TAG, "GlesVersion:" + glesv);
@@ -133,14 +128,11 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.setFragmentShader(oesFragmentShader);
         oesProgram.setVertexShader(vertexShader);
         oesProgram.createAndLinkProgram();
-        //oesProgram.bindTexture(cameraInputTextureHolder);
 
         superShaderShape = new SuperShaderShape(glesv,previewModel);
         superShaderShape.setFragmentShader(superShader);
         superShaderShape.setVertexShader(vertexShader);
         superShaderShape.createAndLinkProgram();
-        //superShaderShape.bindTexture(offScreenTexture);
-        //superShaderShape.setGlTex(cameraInputTextureHolder);
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;

@@ -33,8 +33,8 @@ public class SuperShaderShape extends OesProgram
     }
 
     @Override
-    protected void setData() {
-        super.setData();
+    protected void onSetData() {
+        super.onSetData();
         if (float_position > 0)
             GLES20.glUniform1f(float_position, previewModel.getFloat_position());
 

@@ -23,4 +23,6 @@ public abstract class GLTex {
     public int getId() {
         return id;
     }
+
+    public abstract int getGLTextureType();
 }

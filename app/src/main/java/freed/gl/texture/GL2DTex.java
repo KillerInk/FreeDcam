@@ -19,4 +19,9 @@ public class GL2DTex extends GLTex {
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
     }
+
+    @Override
+    public int getGLTextureType() {
+        return GLES20.GL_TEXTURE_2D;
+    }
 }

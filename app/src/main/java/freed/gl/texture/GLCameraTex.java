@@ -25,8 +25,14 @@ public class GLCameraTex extends GLTex {
         //setActive();
     }
 
+    @Override
+    public int getGLTextureType() {
+        return GLES11Ext.GL_TEXTURE_EXTERNAL_OES;
+    }
+
     public SurfaceTexture getSurfaceTexture()
     {
         return mSTexture;
     }
+
 }

@@ -30,30 +30,28 @@ public class OesProgram extends GLProgram
         sTexture = GLES20.glGetAttribLocation(hProgram, "sTexture");
     }
 
-    protected void setData()
-    {
-        GLES20.glUniformMatrix4fv(uTexRotateMatrix, 1, false, previewModel.getmTexRotateMatrix(), 0);
-        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, previewModel.getpVertex());
-        GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, previewModel.getpTexCoord());
-    }
-
-
-    @Override
-    public void bindTexture(GLTex glTex) {
-        super.bindTexture(glTex);
-        //GLES20.glUniform1i(glTex.getId(), 0);
-    }
-
     @Override
     public void draw()
     {
+        super.draw();
+    }
+
+    @Override
+    protected void onDraw() {
         GLES20.glEnableVertexAttribArray(vPosition);
         GLES20.glEnableVertexAttribArray(vTexCoord);
-        super.draw();
-        setData();
+
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 
         GLES20.glDisableVertexAttribArray(vPosition);
         GLES20.glDisableVertexAttribArray(vTexCoord);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+    }
+
+    @Override
+    protected void onSetData() {
+        GLES20.glUniformMatrix4fv(uTexRotateMatrix, 1, false, previewModel.getmTexRotateMatrix(), 0);
+        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, previewModel.getpVertex());
+        GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, previewModel.getpTexCoord());
     }
 }

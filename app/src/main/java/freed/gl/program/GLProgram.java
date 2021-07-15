@@ -14,6 +14,7 @@ public abstract class GLProgram implements GLProgamInterface {
     private final static String TAG = GLProgram.class.getSimpleName();
     private Shader vertexShader;
     private Shader fragmentShader;
+    private GLTex glTex;
 
     public GLProgram(int glesVersion)
     {
@@ -28,6 +29,11 @@ public abstract class GLProgram implements GLProgamInterface {
     @Override
     public void setFragmentShader(Shader fragmentShader) {
         this.fragmentShader = fragmentShader;
+    }
+
+    public void setGlTex(GLTex glTex)
+    {
+        this.glTex = glTex;
     }
 
     @Override
@@ -54,25 +60,45 @@ public abstract class GLProgram implements GLProgamInterface {
 
     @Override
     public void draw() {
+
+        //step0 clear
+        onClear();
+        //step1 use program
+        onUseProgram();
+        //step2 active and bind custom data
+        onSetData();
+        //step3 bind texture
+        onBindTexture();
+        //step4 normal draw
+        onDraw();
+    }
+
+    protected abstract void onDraw();
+
+    private void onBindTexture() {
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        if (glTex != null)
+            GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
+        //GLES20.glUniform1i(mUTexture, 0);
+    }
+
+    protected abstract void onSetData();
+
+    private void onUseProgram() {
         GLES20.glUseProgram(hProgram);
-
-
     }
 
-    public void setHandel(int in, int out)
+    protected void onClear()
     {
-        // Set the active texture unit to texture unit 0.
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + in);
-
-        // Bind the texture to this unit.
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, out);
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
 
-    public void bindTexture(GLTex glTex)
+  /*  public void bindTexture(GLTex glTex)
     {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, glTex.getId());
-    }
+        GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
+    }*/
 
 
     public static void checkGlError(String glOperation) {
