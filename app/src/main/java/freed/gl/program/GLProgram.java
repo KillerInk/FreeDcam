@@ -3,6 +3,10 @@ package freed.gl.program;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 import freed.gl.texture.GLTex;
 import freed.gl.shader.Shader;
 import freed.utils.Log;
@@ -15,10 +19,20 @@ public abstract class GLProgram implements GLProgamInterface {
     private Shader vertexShader;
     private Shader fragmentShader;
     private GLTex glTex;
+    private float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
+    private float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
+    protected FloatBuffer vertexBuffer;
+    protected FloatBuffer textureBuffer;
 
     public GLProgram(int glesVersion)
     {
         this.glesVersion = glesVersion;
+        vertexBuffer = ByteBuffer.allocateDirect(vtmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        vertexBuffer.put(vtmp);
+        vertexBuffer.position(0);
+        textureBuffer = ByteBuffer.allocateDirect(ttmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        textureBuffer.put(ttmp);
+        textureBuffer.position(0);
     }
 
     @Override
@@ -79,7 +93,6 @@ public abstract class GLProgram implements GLProgamInterface {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         if (glTex != null)
             GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
-        //GLES20.glUniform1i(mUTexture, 0);
     }
 
     protected abstract void onSetData();
@@ -93,13 +106,6 @@ public abstract class GLProgram implements GLProgamInterface {
         GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
-
-  /*  public void bindTexture(GLTex glTex)
-    {
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
-    }*/
-
 
     public static void checkGlError(String glOperation) {
         int error;

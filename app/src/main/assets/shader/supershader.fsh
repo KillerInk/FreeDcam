@@ -3,7 +3,7 @@
 #extension GL_OES_EGL_image_external_essl3 : require
 precision mediump float;
 
-uniform samplerExternalOES sTexture;
+uniform sampler2D sTexture;
 out vec4 Output;
 in vec2 texCoord;
 

@@ -12,6 +12,7 @@ import freed.gl.program.OesProgram;
 import freed.gl.program.SuperShaderShape;
 import freed.gl.shader.OesFragmentShader;
 import freed.gl.shader.OesVertexShader;
+import freed.gl.shader.PreviewVertexShader;
 import freed.gl.shader.SuperShader;
 import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
@@ -70,10 +71,12 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         }
     }
 
+    private boolean drawing = false;
 
     public void onDrawFrame(GL10 unused) {
         if (!mGLInit) return;
 
+        drawing = true;
         if (mUpdateST)
         {
             try {
@@ -98,6 +101,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             previewModel.setFloat_position(previewModel.getFloat_position() +0.05f);
         else
             previewModel.setFloat_position(0);
+        drawing = false;
     }
 
     @Override
@@ -107,11 +111,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             width = (int)previewModel.getTextSize()[0];
             height = (int)previewModel.getTextSize()[1];
         }
-        frameBuffer.create();
-        fbtexture.create(width,height);
-        frameBuffer.setOutputTexture(fbtexture);
-        Log.d(TAG,"Framebuffer successful:" +frameBuffer.isSuccessfulLoaded());
+        Log.d(TAG, "onSurface created " +width + "/" + height);
+        int m_viewport[] = new int[4];
 
+        createBuffers();
         cameraInputTextureHolder.create(width,height);
         int glesv = GlVersion.getGlesVersion();
         Log.d(TAG, "GlesVersion:" + glesv);
@@ -120,6 +123,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         vertexShader.createShader();
         OesFragmentShader oesFragmentShader = new OesFragmentShader(glesv);
         oesFragmentShader.createShader();
+
+        PreviewVertexShader previewVertexShader = new PreviewVertexShader(glesv);
+        previewVertexShader.createShader();
 
         SuperShader superShader = new SuperShader(glesv);
         superShader.createShader();
@@ -131,7 +137,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         superShaderShape = new SuperShaderShape(glesv,previewModel);
         superShaderShape.setFragmentShader(superShader);
-        superShaderShape.setVertexShader(vertexShader);
+        superShaderShape.setVertexShader(previewVertexShader);
         superShaderShape.createAndLinkProgram();
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
@@ -139,9 +145,35 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         mView.fireOnSurfaceTextureAvailable(cameraInputTextureHolder.getSurfaceTexture(),0,0);
     }
 
+    private void createBuffers()
+    {
+        frameBuffer.create();
+        fbtexture.create(width,height);
+        frameBuffer.setOutputTexture(fbtexture);
+        Log.d(TAG,"Framebuffer successful:" +frameBuffer.isSuccessfulLoaded());
+
+
+    }
+
+    private void closeBuffers()
+    {
+        frameBuffer.delete();
+        fbtexture.delete();
+    }
+
     public void onSurfaceChanged(GL10 unused, int width, int height) {
+        Log.d(TAG, "onSurface changed " +width + "/" + height);
         this.width = width;
         this.height = height;
+        if (drawing) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        closeBuffers();
+        createBuffers();
         GLES30.glViewport(0, 0, width, height);
     }
 

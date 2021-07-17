@@ -2,7 +2,6 @@ package freed.gl.program;
 
 import android.opengl.GLES20;
 
-import freed.gl.texture.GLTex;
 import freed.gl.PreviewModel;
 
 
@@ -45,13 +44,12 @@ public class OesProgram extends GLProgram
 
         GLES20.glDisableVertexAttribArray(vPosition);
         GLES20.glDisableVertexAttribArray(vTexCoord);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
     }
 
     @Override
     protected void onSetData() {
         GLES20.glUniformMatrix4fv(uTexRotateMatrix, 1, false, previewModel.getmTexRotateMatrix(), 0);
-        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, previewModel.getpVertex());
-        GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, previewModel.getpTexCoord());
+        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, vertexBuffer);
+        GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, textureBuffer);
     }
 }

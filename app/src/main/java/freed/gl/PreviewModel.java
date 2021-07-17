@@ -18,11 +18,8 @@ public class PreviewModel
         cyan,
     }
 
-    private FloatBuffer pVertex;
-    private FloatBuffer pTexCoord;
+
     private float[] mTexRotateMatrix = new float[] {1, 0, 0, 0,   0, 1, 0, 0,   0, 0, 1, 0,   0, 0, 0, 1};
-    private float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
-    private float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
     private float[] peak_color = {1f,0f,0f,1f};
     private float peak_strength = 0.01f;
     private float[] textSize = {640,480};
@@ -34,32 +31,11 @@ public class PreviewModel
 
     public PreviewModel()
     {
-        pVertex = ByteBuffer.allocateDirect(8 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        pVertex.put(vtmp);
-        pVertex.position(0);
-        pTexCoord = ByteBuffer.allocateDirect(8 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        pTexCoord.put(ttmp);
-        pTexCoord.position(0);
+
     }
 
     public float[] getmTexRotateMatrix() {
         return mTexRotateMatrix;
-    }
-
-    public FloatBuffer getpVertex() {
-        return pVertex;
-    }
-
-    public FloatBuffer getpTexCoord() {
-        return pTexCoord;
-    }
-
-    public float[] getTtmp() {
-        return ttmp;
-    }
-
-    public float[] getVtmp() {
-        return vtmp;
     }
 
     public float[] getPeak_color() {

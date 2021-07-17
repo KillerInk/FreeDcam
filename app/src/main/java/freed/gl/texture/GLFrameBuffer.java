@@ -52,7 +52,7 @@ public class GLFrameBuffer {
 
     public void delete()
     {
-        GLES20.glDeleteFramebuffers(1,fbo,id);
+        GLES20.glDeleteFramebuffers(1,fbo,0);
     }
 
 
