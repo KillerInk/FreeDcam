@@ -1,19 +1,22 @@
 package freed.gl;
 
 import android.graphics.SurfaceTexture;
-import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import freed.gl.program.ClippingProgram;
+import freed.gl.program.FocuspeakProgram;
 import freed.gl.program.OesProgram;
-import freed.gl.program.SuperShaderShape;
+import freed.gl.program.PreviewProgram;
+import freed.gl.shader.ClippingShader;
+import freed.gl.shader.FocuspeakShader;
 import freed.gl.shader.OesFragmentShader;
 import freed.gl.shader.OesVertexShader;
+import freed.gl.shader.PreviewFragmentShader;
 import freed.gl.shader.PreviewVertexShader;
-import freed.gl.shader.SuperShader;
 import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
@@ -30,45 +33,54 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private final GLPreview mView;
 
     private GLPreview.PreviewProcessors processors = GLPreview.PreviewProcessors.Normal;
-    private final PreviewModel previewModel;
-    private SuperShaderShape superShaderShape;
+
     private OesProgram oesProgram;
+    private FocuspeakProgram focuspeakProgram;
+    private ClippingProgram clippingProgram;
+    private PreviewProgram previewProgram;
 
     GLCameraTex cameraInputTextureHolder;
-    GLFrameBuffer frameBuffer;
-    private GL2DTex fbtexture;
+    GLFrameBuffer oesFrameBuffer;
+    private GL2DTex oesFbTexture;
+    GLFrameBuffer focuspeakBuffer;
+    GL2DTex focuspeakFbTexture;
+    GLFrameBuffer clippingBuffer;
+    GL2DTex clippingFbTexture;
     int width;
     int height;
 
-    public MainRenderer(GLPreview view, PreviewModel previewModel) {
+    private GL2DTex lastTextureInUse;
+
+    public MainRenderer(GLPreview view) {
         mView = view;
-        this.previewModel = previewModel;
-        frameBuffer = new GLFrameBuffer();
-        fbtexture = new GL2DTex();
+
+        oesFrameBuffer = new GLFrameBuffer();
+        oesFbTexture = new GL2DTex();
+
         cameraInputTextureHolder = new GLCameraTex();
+
+        focuspeakBuffer = new GLFrameBuffer();
+        focuspeakFbTexture = new GL2DTex();
+
+        clippingBuffer = new GLFrameBuffer();
+        clippingFbTexture = new GL2DTex();
+
+        int glesv = GlVersion.getGlesVersion();
+        oesProgram = new OesProgram(glesv);
+        focuspeakProgram = new FocuspeakProgram(glesv);
+        clippingProgram = new ClippingProgram(glesv);
+        previewProgram = new PreviewProgram(glesv);
+    }
+
+    public void setSize(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
     }
 
     public void setProgram(GLPreview.PreviewProcessors processors)
     {
         this.processors = processors;
-        switch (processors) {
-            case Normal:
-                previewModel.setZebra(false);
-                previewModel.setFocuspeak(false);
-                break;
-            case FocusPeak:
-                previewModel.setZebra(false);
-                previewModel.setFocuspeak(true);
-                break;
-            case Zebra:
-                previewModel.setZebra(true);
-                previewModel.setFocuspeak(false);
-                break;
-            case FocusPeak_Zebra:
-                previewModel.setZebra(true);
-                previewModel.setFocuspeak(true);
-                break;
-        }
     }
 
     private boolean drawing = false;
@@ -90,29 +102,41 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 mUpdateST = false;
             }
         }
-        frameBuffer.setActive();
+        oesFrameBuffer.setActive();
         oesProgram.setGlTex(cameraInputTextureHolder);
         oesProgram.draw();
-        frameBuffer.switchToDefaultFB();
+        lastTextureInUse = oesFbTexture;
+        if (processors == GLPreview.PreviewProcessors.FocusPeak || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
+        {
+            focuspeakBuffer.setActive();
+            focuspeakProgram.setGlTex(lastTextureInUse);
+            focuspeakProgram.draw();
+            lastTextureInUse = focuspeakFbTexture;
+        }
+        if (processors == GLPreview.PreviewProcessors.Zebra || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
+        {
+            clippingBuffer.setActive();
+            clippingProgram.setGlTex(lastTextureInUse);
+            clippingProgram.draw();
+            lastTextureInUse = clippingFbTexture;
+        }
+        oesFrameBuffer.switchToDefaultFB();
 
-        superShaderShape.setGlTex(fbtexture);
-        superShaderShape.draw();
-        if (previewModel.getFloat_position() <= 10.0f)
-            previewModel.setFloat_position(previewModel.getFloat_position() +0.05f);
+        /*superShaderShape.setGlTex(lastTextureInUse);
+        superShaderShape.draw();*/
+        previewProgram.setGlTex(lastTextureInUse);
+        previewProgram.draw();
+        if (clippingProgram.getFloat_position() <= 10.0f)
+            clippingProgram.setFloat_position(clippingProgram.getFloat_position() +0.05f);
         else
-            previewModel.setFloat_position(0);
+            clippingProgram.setFloat_position(0);
         drawing = false;
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        if (width == 0 && height == 0)
-        {
-            width = (int)previewModel.getTextSize()[0];
-            height = (int)previewModel.getTextSize()[1];
-        }
+
         Log.d(TAG, "onSurface created " +width + "/" + height);
-        int m_viewport[] = new int[4];
 
         createBuffers();
         cameraInputTextureHolder.create(width,height);
@@ -121,24 +145,45 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         OesVertexShader vertexShader = new OesVertexShader(glesv);
         vertexShader.createShader();
+
         OesFragmentShader oesFragmentShader = new OesFragmentShader(glesv);
         oesFragmentShader.createShader();
 
         PreviewVertexShader previewVertexShader = new PreviewVertexShader(glesv);
         previewVertexShader.createShader();
 
-        SuperShader superShader = new SuperShader(glesv);
-        superShader.createShader();
+        PreviewFragmentShader previewFragmentShader = new PreviewFragmentShader(glesv);
+        previewFragmentShader.createShader();
 
-        oesProgram  = new OesProgram(glesv,previewModel);
+        FocuspeakShader focuspeakShader = new FocuspeakShader(glesv);
+        focuspeakShader.createShader();
+
+        ClippingShader clippingShader = new ClippingShader(glesv);
+        clippingShader.createShader();
+
+        Log.d(TAG,"create Oes Program");
+        oesProgram.create();
         oesProgram.setFragmentShader(oesFragmentShader);
         oesProgram.setVertexShader(vertexShader);
         oesProgram.createAndLinkProgram();
 
-        superShaderShape = new SuperShaderShape(glesv,previewModel);
-        superShaderShape.setFragmentShader(superShader);
-        superShaderShape.setVertexShader(previewVertexShader);
-        superShaderShape.createAndLinkProgram();
+        Log.d(TAG,"create Focuspeak Program");
+        focuspeakProgram.create();
+        focuspeakProgram.setFragmentShader(focuspeakShader);
+        focuspeakProgram.setVertexShader(vertexShader);
+        focuspeakProgram.createAndLinkProgram();
+
+        Log.d(TAG,"create Clipping Program");
+        clippingProgram.create();
+        clippingProgram.setFragmentShader(clippingShader);
+        clippingProgram.setVertexShader(vertexShader);
+        clippingProgram.createAndLinkProgram();
+
+        Log.d(TAG,"create Preview Program");
+        previewProgram.create();
+        previewProgram.setFragmentShader(previewFragmentShader);
+        previewProgram.setVertexShader(previewVertexShader);
+        previewProgram.createAndLinkProgram();
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;
@@ -147,18 +192,32 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     private void createBuffers()
     {
-        frameBuffer.create();
-        fbtexture.create(width,height);
-        frameBuffer.setOutputTexture(fbtexture);
-        Log.d(TAG,"Framebuffer successful:" +frameBuffer.isSuccessfulLoaded());
+        oesFrameBuffer.create();
+        oesFbTexture.create(width,height);
+        oesFrameBuffer.setOutputTexture(oesFbTexture);
+        Log.d(TAG,"OesFramebuffer successful:" + oesFrameBuffer.isSuccessfulLoaded());
 
+        focuspeakBuffer.create();
+        focuspeakFbTexture.create(width,height);
+        focuspeakBuffer.setOutputTexture(focuspeakFbTexture);
+        Log.d(TAG,"FocuspeakFramebuffer successful:" + focuspeakBuffer.isSuccessfulLoaded());
 
+        clippingBuffer.create();
+        clippingFbTexture.create(width,height);
+        clippingBuffer.setOutputTexture(clippingFbTexture);
+        Log.d(TAG,"ClippingFramebuffer successful:" + clippingBuffer.isSuccessfulLoaded());
     }
 
     private void closeBuffers()
     {
-        frameBuffer.delete();
-        fbtexture.delete();
+        oesFrameBuffer.delete();
+        oesFbTexture.delete();
+
+        focuspeakBuffer.delete();
+        focuspeakFbTexture.delete();
+
+        clippingBuffer.delete();
+        clippingFbTexture.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -191,4 +250,17 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         mView.requestRender();
     }
 
+
+    public FocuspeakProgram getFocuspeakProgram() {
+        return focuspeakProgram;
+    }
+
+    public ClippingProgram getClippingProgram()
+    {
+        return clippingProgram;
+    }
+
+    public PreviewProgram getPreviewProgram() {
+        return previewProgram;
+    }
 }

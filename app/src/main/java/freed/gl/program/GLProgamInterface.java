@@ -9,4 +9,5 @@ public interface GLProgamInterface
     void createAndLinkProgram();
     void draw();
     void close();
+    void create();
 }

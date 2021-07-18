@@ -1,13 +1,13 @@
 package freed.gl.shader;
 
-public class SuperShader extends Shader {
-    public SuperShader(int glesVersion) {
+public class ClippingShader extends Shader {
+    public ClippingShader(int glesVersion) {
         super(glesVersion);
     }
 
     @Override
     String getShaderName() {
-        return "supershader";
+        return "clipping";
     }
 
     @Override

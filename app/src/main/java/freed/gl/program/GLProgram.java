@@ -24,9 +24,18 @@ public abstract class GLProgram implements GLProgamInterface {
     protected FloatBuffer vertexBuffer;
     protected FloatBuffer textureBuffer;
 
+    protected int vTexCoord;
+    protected int vPosition;
+    protected int sTexture;
+
     public GLProgram(int glesVersion)
     {
         this.glesVersion = glesVersion;
+
+    }
+
+    @Override
+    public void create() {
         vertexBuffer = ByteBuffer.allocateDirect(vtmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuffer.put(vtmp);
         vertexBuffer.position(0);
@@ -62,6 +71,9 @@ public abstract class GLProgram implements GLProgamInterface {
         checkGlError("glAttachShader fragment");
         GLES20.glLinkProgram(hProgram);
         checkGlError("glLinkProgram");
+        vPosition = GLES20.glGetAttribLocation(hProgram, "vPosition");
+        vTexCoord = GLES20.glGetAttribLocation(hProgram, "vTexCoord");
+        //sTexture = GLES20.glGetAttribLocation(hProgram, "sTexture");
     }
 
     @Override
@@ -87,7 +99,16 @@ public abstract class GLProgram implements GLProgamInterface {
         onDraw();
     }
 
-    protected abstract void onDraw();
+    protected void onDraw()
+    {
+        GLES20.glEnableVertexAttribArray(vPosition);
+        GLES20.glEnableVertexAttribArray(vTexCoord);
+
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+
+        GLES20.glDisableVertexAttribArray(vPosition);
+        GLES20.glDisableVertexAttribArray(vTexCoord);
+    }
 
     private void onBindTexture() {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -95,7 +116,12 @@ public abstract class GLProgram implements GLProgamInterface {
             GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
     }
 
-    protected abstract void onSetData();
+    protected void onSetData()
+    {
+        GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, vertexBuffer);
+        GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, textureBuffer);
+        checkGlError("onSetData");
+    }
 
     private void onUseProgram() {
         GLES20.glUseProgram(hProgram);
