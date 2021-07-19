@@ -19,6 +19,7 @@ public abstract class GLProgram implements GLProgamInterface {
     private Shader vertexShader;
     private Shader fragmentShader;
     private GLTex glTex;
+    private int glTex_id;
     private float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
     private float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
     protected FloatBuffer vertexBuffer;
@@ -73,6 +74,7 @@ public abstract class GLProgram implements GLProgamInterface {
         checkGlError("glLinkProgram");
         vPosition = GLES20.glGetAttribLocation(hProgram, "vPosition");
         vTexCoord = GLES20.glGetAttribLocation(hProgram, "vTexCoord");
+        glTex_id  = GLES20.glGetUniformLocation(hProgram, "sTexture");
         //sTexture = GLES20.glGetAttribLocation(hProgram, "sTexture");
     }
 
@@ -110,10 +112,11 @@ public abstract class GLProgram implements GLProgamInterface {
         GLES20.glDisableVertexAttribArray(vTexCoord);
     }
 
-    private void onBindTexture() {
+    protected void onBindTexture() {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         if (glTex != null)
             GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
+        GLES20.glUniform1i(glTex_id,0);
     }
 
     protected void onSetData()
@@ -129,7 +132,7 @@ public abstract class GLProgram implements GLProgamInterface {
 
     protected void onClear()
     {
-        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
 

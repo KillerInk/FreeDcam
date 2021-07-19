@@ -8,6 +8,7 @@ public class PreviewProgram extends GLProgram {
 
     private static final String TAG = PreviewProgram.class.getSimpleName();
     protected int uTexRotateMatrix;
+    private int orientaion;
 
     private float[] mTexRotateMatrix = new float[] {1, 0, 0, 0,   0, 1, 0, 0,   0, 0, 1, 0,   0, 0, 0, 1};
 
@@ -23,6 +24,8 @@ public class PreviewProgram extends GLProgram {
     }
 
 
+
+
     @Override
     protected void onSetData() {
         super.onSetData();
@@ -32,8 +35,21 @@ public class PreviewProgram extends GLProgram {
 
     public void setOrientation(int or)
     {
-        Log.d(TAG, "set Orientation to :" + or);
+        this.orientaion = or;
         android.opengl.Matrix.setRotateM(mTexRotateMatrix, 0,  or, 0f, 0f, 1f);
     }
 
+    public int getOrientaion() {
+        return orientaion;
+    }
+
+    @Override
+    protected void onClear() {
+        //super.onClear();
+    }
+
+    public void doClear()
+    {
+        super.onClear();
+    }
 }
