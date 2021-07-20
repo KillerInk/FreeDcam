@@ -60,12 +60,19 @@ public class BitmapLoader extends ImageTask
 
     private  int [] createHistogramm(Bitmap bitmap)
     {
-        int [] histogramData = null;
-
-        histogramData = Toolkit.INSTANCE.histogram(bitmap);
-/*        Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return null;
+        int [] histogramData = null;
+
+        try {
+            histogramData = Toolkit.INSTANCE.histogram(bitmap);
+        }
+        catch (NullPointerException ex)
+        {
+
+        }
+/*        Log.d(TAG, "Histodata");
+
         int [] pixels = null;
 
         int w = bitmap.getWidth ();
