@@ -65,7 +65,7 @@ public class HistogramController implements HistogramChangedEvent {
 
                 public void run() {
                     //src pos 0,256,512
-                    myHistogram.setLumaHistogram(histogram_data,0);
+                    myHistogram.SetHistogramData(histogram_data);
                 }
             });
         }
