@@ -1,2 +1,2 @@
-
 include ':app'
+include ':renderscript-intrinsics-replacement-toolkit:renderscript-toolkit'

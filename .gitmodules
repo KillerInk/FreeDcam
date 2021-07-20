@@ -1,0 +1,4 @@
+[submodule "renderscript-intrinsics-replacement-toolkit"]
+	path = renderscript-intrinsics-replacement-toolkit
+	url = https://github.com/KillerInk/renderscript-intrinsics-replacement-toolkit.git
+	branch = main

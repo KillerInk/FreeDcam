@@ -125,9 +125,22 @@ public class MyHistogram extends View {
     {
         if (histo == null)
             return;
-        System.arraycopy( histo , 0 , redHistogram, 0 , 256 );
-        System.arraycopy( histo , 256 , greenHistogram, 0 , 256 );
-        System.arraycopy( histo , 512 , blueHistogram, 0 , 256 );
+        if(histo.length < 1024) {
+            System.arraycopy(histo, 0, redHistogram, 0, 256);
+            System.arraycopy(histo, 256, greenHistogram, 0, 256);
+            System.arraycopy(histo, 512, blueHistogram, 0, 256);
+        }
+        else
+        {
+            int t = 0;
+            for (int i = 0; i< histo.length; i+=4)
+            {
+                redHistogram[t] = histo[i];
+                greenHistogram[t] = histo[i+1];
+                blueHistogram[t] = histo[i+2];
+                t++;
+            }
+        }
         invalidate();
     }
 

@@ -3,6 +3,7 @@ package freed.viewer.screenslide;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.google.android.renderscript.Toolkit;
 import com.ortiz.touch.TouchImageView;
 
 import java.lang.ref.WeakReference;
@@ -59,13 +60,14 @@ public class BitmapLoader extends ImageTask
 
     private  int [] createHistogramm(Bitmap bitmap)
     {
-        Log.d(TAG, "Histodata");
+        int [] histogramData = null;
+
+        histogramData = Toolkit.INSTANCE.histogram(bitmap);
+/*        Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return null;
         int [] pixels = null;
-        int [] histogramData = null;
-        if (histogramData == null)
-            histogramData = new int [ 256 * 3 ];
+
         int w = bitmap.getWidth ();
         int h = bitmap.getHeight ();
         if ((pixels == null) || (pixels.length < (w * h)))
@@ -89,7 +91,7 @@ public class BitmapLoader extends ImageTask
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-        }
+        }*/
         return histogramData;
     }
 }
