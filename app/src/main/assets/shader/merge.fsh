@@ -8,8 +8,8 @@ out vec4 Output;
 in vec2 texCoord;
 
 void main() {
-    vec2 texSize = texCoord.xy;
-    vec4 c1 = texture(sTexture,texSize);
-    vec4 c2 = texture(sTexture1,texSize);
+    ivec2 size  = textureSize(sTexture, 0);
+    vec4 c1 = texelFetch(sTexture, ivec2(texCoord * vec2(size.x,size.y)), 0).rgba;
+    vec4 c2 = texelFetch(sTexture1, ivec2(texCoord * vec2(size.x,size.y)), 0).rgba;
     Output = mix(c1, c2, 0.5);
 }

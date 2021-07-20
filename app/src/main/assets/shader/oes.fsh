@@ -7,6 +7,6 @@ out vec4 Output;
 in vec2 texCoord;
 
 void main() {
-    vec2 texSize = texCoord.xy;
-    Output = texture(sTexture,texSize);
+    ivec2 size  = textureSize(sTexture, 0);
+    Output = texelFetch(sTexture, ivec2(texCoord * vec2(size.x,size.y)), 0).rgba;
 }

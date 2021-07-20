@@ -39,7 +39,7 @@ vec4 getZebra(vec2 texS, vec4 color, float pos,float high,float low)
 }
 
 void main() {
-    vec2 texSize = texCoord.xy;
-    vec4 color = texture(sTexture,texSize);
-    Output = getZebra(texSize, color,float_position,zebra_high,zebra_low);
+    ivec2 size  = textureSize(sTexture, 0);
+    vec4 color = texelFetch(sTexture, ivec2(texCoord * vec2(size.x,size.y)), 0).rgba;
+    Output = getZebra(texCoord, color,float_position,zebra_high,zebra_low);
 }
