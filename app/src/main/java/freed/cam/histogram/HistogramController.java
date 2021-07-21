@@ -10,10 +10,13 @@ public class HistogramController implements HistogramChangedEvent {
     private static final String TAG = HistogramController.class.getSimpleName();
     private MyHistogram myHistogram;
     private HistogramFeed feedToRegister;
+    private HistogramProcessor histogramProcessor;
+    private boolean enabled;
 
     public HistogramController(MyHistogram myHistogram)
     {
         this.myHistogram = myHistogram;
+        histogramProcessor = new HistogramProcessor(this);
     }
 
     public void setFeedToRegister(HistogramFeed histogramFeed) {
@@ -22,6 +25,7 @@ public class HistogramController implements HistogramChangedEvent {
 
     public void enable(boolean en)
     {
+        enabled = en;
         if (en)
         {
             myHistogram.setVisibility(View.VISIBLE);
@@ -69,5 +73,19 @@ public class HistogramController implements HistogramChangedEvent {
                 }
             });
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+    }
+
+    public void setImageData(final byte[] imagedata,int width, int height)
+    {
+        histogramProcessor.add(imagedata,width,height);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }

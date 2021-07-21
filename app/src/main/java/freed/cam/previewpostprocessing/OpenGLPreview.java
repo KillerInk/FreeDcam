@@ -36,6 +36,7 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
         glPreview.setSurfaceTextureListener(this);
         this.histogramController = myHistogram;
         settingsManager = FreedApplication.settingsManager();
+        glPreview.setHistogramController(histogramController);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.widget.FrameLayout;
 
+import freed.cam.histogram.HistogramController;
 import freed.gl.program.FocuspeakProgram;
 import freed.utils.Log;
 
@@ -17,6 +18,7 @@ public class GLPreview extends GLSurfaceView {
     private TextureView.SurfaceTextureListener surfaceTextureListener;
     private boolean focuspeak_enabled = false;
     private boolean zebra_enabled= false;
+    private HistogramController histogramController;
 
     public enum PreviewProcessors
     {
@@ -34,6 +36,14 @@ public class GLPreview extends GLSurfaceView {
     public GLPreview(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+    }
+
+    public void setHistogramController(HistogramController histogramController) {
+        this.histogramController = histogramController;
+    }
+
+    public HistogramController getHistogramController() {
+        return histogramController;
     }
 
     private void init() {

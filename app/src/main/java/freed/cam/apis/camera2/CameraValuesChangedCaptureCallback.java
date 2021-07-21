@@ -253,7 +253,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
-        try {
+       /* try {
             if (settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM) != null && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get() && result.get(CaptureResultQcom.HISTOGRAM_STATS) != null)
             {
                 int[] histo = result.get(CaptureResultQcom.HISTOGRAM_STATS);
@@ -266,7 +266,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         catch (NullPointerException e)
         {
             e.printStackTrace();
-        }
+        }*/
 
         /*if (result.get(CaptureResult.CONTROL_AF_REGIONS) != null)
         {

@@ -5,9 +5,15 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import freed.cam.histogram.HistogramChangedEvent;
+import freed.cam.histogram.HistogramFeed;
 import freed.gl.program.ClippingProgram;
 import freed.gl.program.FocuspeakProgram;
 import freed.gl.program.MergeProgram;
@@ -25,7 +31,7 @@ import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
 import freed.utils.Log;
 
-public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener {
+public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener, HistogramFeed {
 
 
     private static final String TAG = MainRenderer.class.getSimpleName();
@@ -52,6 +58,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     GL2DTex clippingFbTexture;
     int width;
     int height;
+    int pixels[];
+    IntBuffer pixelBuffer;
+    byte bytepixels[];
+    ByteBuffer byteBuffer;
 
     public MainRenderer(GLPreview view) {
         mView = view;
@@ -109,6 +119,12 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.setGlTex(cameraInputTextureHolder);
 
         oesProgram.draw();
+
+        if (mView.getHistogramController().isEnabled()) {
+            GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+            byteBuffer.asIntBuffer().put(pixels);
+            mView.getHistogramController().setImageData(bytepixels.clone(), width, height);
+        }
         focuspeakBuffer.setActive();
         //workaround for orientation. draw normal preview first in focuspeakbuffer
         //if we would draw from oesbuffer orientation would be inversed
@@ -239,6 +255,15 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         clippingFbTexture.create(width,height);
         clippingBuffer.setOutputTexture(clippingFbTexture);
         Log.d(TAG,"ClippingFramebuffer successful:" + clippingBuffer.isSuccessfulLoaded());
+
+        pixels = new int[width*height];
+        pixelBuffer = IntBuffer.wrap(pixels);
+        bytepixels = new byte[width*height*4];
+        byteBuffer = ByteBuffer.wrap(bytepixels);
+        byteBuffer.order(ByteOrder.nativeOrder());
+
+        Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
+
     }
 
     private void closeBuffers()
@@ -295,5 +320,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     public PreviewProgram getPreviewProgram() {
         return previewProgram;
+    }
+
+    @Override
+    public void setHistogramFeed(HistogramChangedEvent feed) {
+
     }
 }
