@@ -21,6 +21,8 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
+import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.HistogramData;
 import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -31,7 +33,7 @@ import freed.settings.VideoToneCurveProfile;
  */
 
 @AndroidEntryPoint
-public class CurveViewControl extends LinearLayout implements CurveView.CurveChangedEvent {
+public class CurveViewControl extends LinearLayout implements CurveView.CurveChangedEvent, HistogramController.DataListner {
 
     private static final String TAG = CurveViewControl.class.getSimpleName();
     private Button button_rgb;
@@ -59,6 +61,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private Button activeButton;
     private float startPosX;
     private float startPosY;
+
     private enum PointStates
     {
         none,
@@ -72,6 +75,9 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     SettingsManager settingsManager;
     @Inject
     PagingViewTouchState pagingViewTouchState;
+
+    @Inject
+    HistogramController histogramController;
 
     public CurveViewControl(Context context) {
         super(context);
@@ -91,6 +97,34 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        histogramController.setDataListner(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        histogramController.setDataListner(null);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void setData(HistogramData data) {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                curveView.setHistogramData(data);
+            }
+        });
+
+    }
+
+    @Override
+    public void setWaveFormData(int[] data, int width, int height) {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                curveView.setWaveformData(data,width,height);
+            }
+        });
     }
 
     private void init(Context context)

@@ -71,7 +71,7 @@ public class BitmapLoader extends ImageTask
         {
 
         }
-/*        Log.d(TAG, "Histodata");
+        /*Log.d(TAG, "Histodata");
 
         int [] pixels = null;
 
@@ -94,6 +94,42 @@ public class BitmapLoader extends ImageTask
                     histogramData [ 512 + b ]++;
                 }
             }
+            *//*int destWidth = 256;
+            int destHeight = 256;
+            int destPixels[] = new int[destWidth*destHeight];
+            int scopeIntensity = 30;
+            for (int i = 0; i < w; i++) {
+                int destX = i/w*destWidth;
+                for(int j = 0; j < h; j++) {
+                    //red
+                    int redValue = Color.red(pixels[j*w+i]); //(sourcePixels[j*sourceWidth+i] % 256) // [0,255]
+                    int destIndex = (destHeight-1-redValue)*destWidth + destX;
+
+                    int destRedVal = destPixels[destIndex];
+                    destRedVal = Math.min(destRedVal + scopeIntensity, 255);
+
+                    destPixels[destIndex] = destPixels[destIndex] & 0xff_ff_ff_00;
+                    destPixels[destIndex] = destPixels[destIndex] | destRedVal<<16;
+                    //green
+                    int greenValue = Color.green(pixels[j*w+i]); //(sourcePixels[j*sourceWidth+i] % 256) // [0,255]
+                    int destIndexgreen = (destHeight-1-greenValue)*destWidth + destX;
+
+                    int destGreenVal = destPixels[destIndexgreen];
+                    destGreenVal = Math.min(destGreenVal + scopeIntensity, 255);
+
+                    destPixels[destIndexgreen] = destPixels[destIndexgreen] & 0xff_ff_ff_00;
+                    destPixels[destIndexgreen] = destPixels[destIndexgreen] | (destGreenVal<<8);
+                    //blue
+                    int blueValue = Color.blue(pixels[j*w+i]); //(sourcePixels[j*sourceWidth+i] % 256) // [0,255]
+                    int destIndexblue = (destHeight-1-blueValue)*destWidth + destX;
+
+                    int destblueVal = destPixels[destIndexblue];
+                    destblueVal = Math.min(destblueVal + scopeIntensity, 255);
+
+                    destPixels[destIndexblue] = destPixels[destIndexblue] & 0xff_ff_ff_00;
+                    destPixels[destIndexblue] = destPixels[destIndexblue] | (destblueVal);
+                }
+            }*//*
         }
         catch (NullPointerException ex)
         {

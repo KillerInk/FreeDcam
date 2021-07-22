@@ -19,6 +19,7 @@ import freed.gl.program.FocuspeakProgram;
 import freed.gl.program.MergeProgram;
 import freed.gl.program.OesProgram;
 import freed.gl.program.PreviewProgram;
+import freed.gl.program.WaveFormRGBProgram;
 import freed.gl.shader.ClippingShader;
 import freed.gl.shader.FocuspeakShader;
 import freed.gl.shader.MergeShader;
@@ -26,6 +27,7 @@ import freed.gl.shader.OesFragmentShader;
 import freed.gl.shader.OesVertexShader;
 import freed.gl.shader.PreviewFragmentShader;
 import freed.gl.shader.PreviewVertexShader;
+import freed.gl.shader.WaveformRGBShader;
 import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
@@ -48,6 +50,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private final ClippingProgram clippingProgram;
     private final PreviewProgram previewProgram;
     private final MergeProgram mergeProgram;
+    private final WaveFormRGBProgram waveFormRGBProgram;
 
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
@@ -83,6 +86,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         clippingProgram = new ClippingProgram(glesv);
         previewProgram = new PreviewProgram(glesv);
         mergeProgram = new MergeProgram(glesv);
+        waveFormRGBProgram = new WaveFormRGBProgram(glesv);
     }
 
     public void setSize(int width, int height)
@@ -233,6 +237,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         mergeProgram.setFragmentShader(mergeShader);
         mergeProgram.setVertexShader(vertexShader);
         mergeProgram.createAndLinkProgram();
+
+        WaveformRGBShader waveformRGBShader = new WaveformRGBShader(glesv);
+        waveformRGBShader.createShader();
+        waveFormRGBProgram.create();
+        waveFormRGBProgram.setFragmentShader(waveformRGBShader);
+        waveFormRGBProgram.setVertexShader(previewVertexShader);
+        waveFormRGBProgram.createAndLinkProgram();
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;

@@ -3,20 +3,36 @@ package freed.cam.histogram;
 import android.view.View;
 
 import freed.utils.Log;
-import freed.viewer.screenslide.views.MyHistogram;
 
 public class HistogramController implements HistogramChangedEvent {
+
+    public interface DataListner
+    {
+        void setData(HistogramData data);
+        void setWaveFormData(int[] data, int width, int height);
+    }
 
     private static final String TAG = HistogramController.class.getSimpleName();
     private MyHistogram myHistogram;
     private HistogramFeed feedToRegister;
     private HistogramProcessor histogramProcessor;
     private boolean enabled;
+    private HistogramData histogramData;
+    private DataListner dataListner;
 
-    public HistogramController(MyHistogram myHistogram)
+    public HistogramController()
+    {
+        histogramProcessor = new HistogramProcessor(this);
+        histogramData = new HistogramData();
+    }
+
+    public void setMyHistogram(MyHistogram myHistogram)
     {
         this.myHistogram = myHistogram;
-        histogramProcessor = new HistogramProcessor(this);
+    }
+
+    public void setDataListner(DataListner dataListner) {
+        this.dataListner = dataListner;
     }
 
     public void setFeedToRegister(HistogramFeed histogramFeed) {
@@ -38,6 +54,10 @@ public class HistogramController implements HistogramChangedEvent {
         else
         {
             myHistogram.setVisibility(View.GONE);
+            if (dataListner != null) {
+                dataListner.setData(null);
+                dataListner.setWaveFormData(null,0,0);
+            }
             if (feedToRegister != null)
                 feedToRegister.setHistogramFeed(null);
             else
@@ -46,33 +66,30 @@ public class HistogramController implements HistogramChangedEvent {
     }
 
     @Override
-    public int[] getRedHistogram(){return myHistogram.getRedHistogram();}
+    public int[] getRedHistogram(){return histogramData.getRedHistogram();}
     @Override
-    public int[] getGreenHistogram(){return myHistogram.getGreenHistogram();}
+    public int[] getGreenHistogram(){return histogramData.getGreenHistogram();}
     @Override
-    public int[] getBlueHistogram() {return myHistogram.getBlueHistogram();}
+    public int[] getBlueHistogram() {return histogramData.getBlueHistogram();}
 
     @Override
     public void updateHistogram() {
         myHistogram.redrawHistogram();
     }
 
-    private int counter = 0;
     @Override
     public void onHistogramChanged(final int[] histogram_data) {
-        counter++;
-        if (histogram_data.length > 256*3)
-        {
-            counter = 0;
-            myHistogram.post(new Runnable() {
-                @Override
+        histogramData.setHistogramData(histogram_data, HistogramData.HistoDataAlignment.RGBA);
+        myHistogram.post(new Runnable() {
+            @Override
 
-                public void run() {
-                    //src pos 0,256,512
-                    myHistogram.SetHistogramData(histogram_data);
-                }
-            });
-        }
+            public void run() {
+                //src pos 0,256,512
+                myHistogram.setHistogramData(histogramData);
+            }
+        });
+        if (dataListner != null)
+            dataListner.setData(histogramData);
     }
 
     @Override
@@ -87,5 +104,11 @@ public class HistogramController implements HistogramChangedEvent {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void setWaveFormData(int[] waveFormData,int width, int height)
+    {
+        if (dataListner != null)
+            dataListner.setWaveFormData(waveFormData,width,height);
     }
 }

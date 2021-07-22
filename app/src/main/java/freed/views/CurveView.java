@@ -12,6 +12,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import freed.cam.histogram.ColorLookupDrawer;
+import freed.cam.histogram.HistogramData;
+import freed.cam.histogram.HistogramDrawer;
+
 /**
  * Created by troop on 31.07.2017.
  */
@@ -41,6 +45,13 @@ public class CurveView extends View {
 
     private RectF drawPointsRects[];
     Path path = new Path();
+    private HistogramData histogramData;
+    private HistogramDrawer histogramDrawer;
+
+    private int waveformdata[];
+    private int waveform_width;
+    private int waveform_height;
+    private ColorLookupDrawer waveformdrawer;
 
     public CurveView(Context context) {
         super(context);
@@ -65,7 +76,24 @@ public class CurveView extends View {
         paint.setStrokeWidth(2);
         paint.setTextSize(BUTTON_SIZE);
         setPoints(new PointF[]{new PointF(0,0),new PointF(0.25f,0.25f), new PointF(0.5f,0.5f),new PointF(0.75f,0.75f),new PointF(1,1)});
+        histogramDrawer = new HistogramDrawer();
+        waveformdrawer = new ColorLookupDrawer();
+    }
 
+    public void setHistogramData(HistogramData histogramData) {
+        synchronized (drawLock) {
+            this.histogramData = histogramData;
+        }
+        invalidate();
+    }
+
+    public void setWaveformData(int[] histogramData,int width,int height) {
+        synchronized (drawLock) {
+            this.waveform_width = width;
+            this.waveform_height = height;
+            this.waveformdata = histogramData;
+        }
+        invalidate();
     }
 
     public void setCurveChangedListner(CurveChangedEvent event)
@@ -139,6 +167,18 @@ public class CurveView extends View {
 
             if (points == null)
                 return;
+
+            if (histogramData != null)
+            {
+                histogramDrawer.drawHistogram(canvas , histogramData.getRedHistogram(), Color.RED,getWidth(),getHeight());
+                histogramDrawer.drawHistogram(canvas , histogramData.getGreenHistogram(), Color.GREEN,getWidth(),getHeight());
+                histogramDrawer.drawHistogram(canvas , histogramData.getBlueHistogram(), Color.BLUE,getWidth(),getHeight());
+            }
+
+            if (waveformdata != null)
+            {
+                waveformdrawer.drawColorLookup(canvas,waveformdata,waveform_width,waveform_height,getWidth(),getHeight(),BUTTON_SIZE);
+            }
 
             paint.setColor(gridColor);
             paint.setStrokeWidth(2);

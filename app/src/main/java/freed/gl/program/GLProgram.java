@@ -114,26 +114,34 @@ public abstract class GLProgram implements GLProgamInterface {
 
     protected void onBindTexture() {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        if (glTex != null)
+        checkGlError("onBindTexture glActiveTexture");
+        if (glTex != null) {
             GLES20.glBindTexture(glTex.getGLTextureType(), glTex.getId());
+            checkGlError("onBindTexture glBindTexture");
+        }
         GLES20.glUniform1i(glTex_id,0);
+        checkGlError("onBindTexture glUniform1i");
     }
 
     protected void onSetData()
     {
         GLES20.glVertexAttribPointer(vPosition, 2, GLES20.GL_FLOAT, false, 4 * 2, vertexBuffer);
+        checkGlError("onSetData vertex Buffer");
         GLES20.glVertexAttribPointer(vTexCoord, 2, GLES20.GL_FLOAT, false, 4 * 2, textureBuffer);
-        checkGlError("onSetData");
+        checkGlError("onSetData texture Buffer");
     }
 
     private void onUseProgram() {
         GLES20.glUseProgram(hProgram);
+        checkGlError("onUseProgram");
     }
 
     protected void onClear()
     {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        checkGlError("onClear glClearColor");
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        checkGlError("onClear glClear");
     }
 
     public static void checkGlError(String glOperation) {

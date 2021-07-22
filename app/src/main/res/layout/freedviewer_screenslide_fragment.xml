@@ -42,7 +42,7 @@
             android:orientation="vertical"
             setVisibility="@{screenslideFragmentModel.exifViewModel.visibility}">
 
-            <freed.viewer.screenslide.views.MyHistogram
+            <freed.cam.histogram.MyHistogram
                 android:id="@+id/screenslide_histogram"
                 android:layout_width="@dimen/freedviewer_screenslide_histogram_width"
                 android:layout_height="@dimen/freedviewer_screenslide_histogram_height"
