@@ -21,7 +21,7 @@ void main()
     int w = int(oResolution.x / 8.0);
     for (int y = 0; y < w; ++y){
         coords.x = texCoord.x;
-        coords.y += onePixel.y;
+        coords.y += onePixel.y * 8.0;
         vec4  texcol = texture(sTexture, coords);
         if (texcol.r > ys && texcol.r < ye){
             col += vec4(accum, 0., 0., 0.);
