@@ -125,9 +125,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.draw();
 
         if (mView.getHistogramController().isEnabled()) {
-            GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+            GLES20.glReadPixels(0, 0, width/4, height/4, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
             byteBuffer.asIntBuffer().put(pixels);
-            mView.getHistogramController().setImageData(bytepixels.clone(), width, height);
+            mView.getHistogramController().setImageData(bytepixels.clone(), width/4, height/4);
         }
         focuspeakBuffer.setActive();
         //workaround for orientation. draw normal preview first in focuspeakbuffer
@@ -159,9 +159,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 previewProgram.draw();
                 break;
             case Zebra:
-                previewProgram.doClear();
-                previewProgram.setGlTex(clippingFbTexture);
-                previewProgram.draw();
+                clippingProgram.setGlTex(clippingFbTexture);
+                clippingProgram.draw();
                 break;
             case FocusPeak_Zebra:
                 mergeProgram.doClear();
@@ -240,9 +239,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         WaveformRGBShader waveformRGBShader = new WaveformRGBShader(glesv);
         waveformRGBShader.createShader();
+
         waveFormRGBProgram.create();
         waveFormRGBProgram.setFragmentShader(waveformRGBShader);
-        waveFormRGBProgram.setVertexShader(previewVertexShader);
+        waveFormRGBProgram.setVertexShader(vertexShader);
         waveFormRGBProgram.createAndLinkProgram();
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
@@ -267,9 +267,11 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         clippingBuffer.setOutputTexture(clippingFbTexture);
         Log.d(TAG,"ClippingFramebuffer successful:" + clippingBuffer.isSuccessfulLoaded());
 
-        pixels = new int[width*height];
+        int w = width /4;
+        int h = height /4;
+        pixels = new int[w*h];
         pixelBuffer = IntBuffer.wrap(pixels);
-        bytepixels = new byte[width*height*4];
+        bytepixels = new byte[w*h*4];
         byteBuffer = ByteBuffer.wrap(bytepixels);
         byteBuffer.order(ByteOrder.nativeOrder());
 
