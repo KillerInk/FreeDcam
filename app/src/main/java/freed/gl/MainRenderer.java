@@ -159,8 +159,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 previewProgram.draw();
                 break;
             case Zebra:
-                clippingProgram.setGlTex(clippingFbTexture);
-                clippingProgram.draw();
+                previewProgram.doClear();
+                previewProgram.setGlTex(clippingFbTexture);
+                previewProgram.draw();
                 break;
             case FocusPeak_Zebra:
                 mergeProgram.doClear();
