@@ -18,8 +18,8 @@ void main()
     float ys = texCoord.y - onePixel.y;
     float ye = texCoord.y + onePixel.y;
     vec4  pix = texture(sTexture, texCoord);
-    int w = int(oResolution.x / 8.0);
-    for (int y = 0; y < w; ++y){
+    int h = int(oResolution.y / 8.0);
+    for (int y = 0; y < h; ++y){
         coords.x = texCoord.x;
         coords.y += onePixel.y * 8.0;
         vec4  texcol = texture(sTexture, coords);

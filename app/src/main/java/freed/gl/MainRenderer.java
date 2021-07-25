@@ -125,9 +125,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.draw();
 
         if (mView.getHistogramController().isEnabled()) {
-            GLES20.glReadPixels(0, 0, width/4, height/4, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+            GLES20.glReadPixels(0, 0, width/2, height/2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
             byteBuffer.asIntBuffer().put(pixels);
-            mView.getHistogramController().setImageData(bytepixels.clone(), width/4, height/4);
+            mView.getHistogramController().setImageData(bytepixels.clone(), width/2, height/2);
         }
         focuspeakBuffer.setActive();
         //workaround for orientation. draw normal preview first in focuspeakbuffer
@@ -268,8 +268,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         clippingBuffer.setOutputTexture(clippingFbTexture);
         Log.d(TAG,"ClippingFramebuffer successful:" + clippingBuffer.isSuccessfulLoaded());
 
-        int w = width /4;
-        int h = height /4;
+        int w = width /2;
+        int h = height /2;
         pixels = new int[w*h];
         pixelBuffer = IntBuffer.wrap(pixels);
         bytepixels = new byte[w*h*4];
