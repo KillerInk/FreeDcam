@@ -59,12 +59,16 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     GL2DTex focuspeakFbTexture;
     GLFrameBuffer clippingBuffer;
     GL2DTex clippingFbTexture;
+    GLFrameBuffer waveformBuffer;
+    GL2DTex waveformFbTexture;
     int width;
     int height;
     int pixels[];
     IntBuffer pixelBuffer;
     byte bytepixels[];
     ByteBuffer byteBuffer;
+
+    IntBuffer waveformPixel;
 
     public MainRenderer(GLPreview view) {
         mView = view;
@@ -79,6 +83,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         clippingBuffer = new GLFrameBuffer();
         clippingFbTexture = new GL2DTex();
+
+        waveformBuffer = new GLFrameBuffer();
+        waveformFbTexture = new GL2DTex();
 
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
@@ -121,14 +128,22 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         }
         oesFrameBuffer.setActive();
         oesProgram.setGlTex(cameraInputTextureHolder);
-
         oesProgram.draw();
 
         if (mView.getHistogramController().isEnabled()) {
             GLES20.glReadPixels(0, 0, width/2, height/2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
             byteBuffer.asIntBuffer().put(pixels);
             mView.getHistogramController().setImageData(bytepixels.clone(), width/2, height/2);
+
+            waveformBuffer.setActive();
+            waveFormRGBProgram.setGlTex(oesFbTexture);
+            waveFormRGBProgram.draw();
+            GLES20.glReadPixels(0, height/3 *2, width, height/3, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, waveformPixel);
+            mView.getHistogramController().setWaveFormData(waveformPixel.array().clone(), width, height/3);
+            waveformBuffer.switchToDefaultFB();
         }
+
+
         focuspeakBuffer.setActive();
         //workaround for orientation. draw normal preview first in focuspeakbuffer
         //if we would draw from oesbuffer orientation would be inversed
@@ -137,16 +152,21 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             previewProgram.setGlTex(oesFbTexture);
             previewProgram.draw();
         }
-        else if (processors == GLPreview.PreviewProcessors.FocusPeak || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
+        else
+            if (processors == GLPreview.PreviewProcessors.FocusPeak || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
         {
             focuspeakProgram.setGlTex(oesFbTexture);
             focuspeakProgram.draw();
         }
-        clippingBuffer.setActive();
+            focuspeakBuffer.switchToDefaultFB();
+
         if (processors == GLPreview.PreviewProcessors.Zebra || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
         {
+            clippingBuffer.setActive();
             clippingProgram.setGlTex(oesFbTexture);
             clippingProgram.draw();
+            clippingBuffer.switchToDefaultFB();
+
         }
         oesFrameBuffer.switchToDefaultFB();
 
@@ -268,6 +288,11 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         clippingBuffer.setOutputTexture(clippingFbTexture);
         Log.d(TAG,"ClippingFramebuffer successful:" + clippingBuffer.isSuccessfulLoaded());
 
+        waveformBuffer.create();
+        waveformFbTexture.create(width,height);
+        waveformBuffer.setOutputTexture(waveformFbTexture);
+        Log.d(TAG,"Waveformbuffer successful:" + waveformBuffer.isSuccessfulLoaded());
+
         int w = width /2;
         int h = height /2;
         pixels = new int[w*h];
@@ -276,6 +301,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         byteBuffer = ByteBuffer.wrap(bytepixels);
         byteBuffer.order(ByteOrder.nativeOrder());
 
+        waveformPixel = IntBuffer.allocate(width *(height/3));
         Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
 
     }
@@ -290,6 +316,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         clippingBuffer.delete();
         clippingFbTexture.delete();
+
+        waveformBuffer.delete();
+        waveformFbTexture.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {

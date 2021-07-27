@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -39,6 +40,8 @@ public class PreviewFragment  extends Fragment {
         view = layoutInflater.inflate(R.layout.camerafragment, viewGroup, false);
         MyHistogram histogram = view.findViewById(R.id.hisotview);
         histogramController.setMyHistogram(histogram);
+        ImageView waveform = view.findViewById(R.id.imageView_waveform);
+        histogramController.setWaveFormView(waveform);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() == null)
             preview.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
         else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
