@@ -217,6 +217,16 @@ public class GLPreview extends GLSurfaceView {
 
     public void setZebraLow(float low)
     {
-        mRenderer.getClippingProgram().setZebra_low(low);
+                mRenderer.getClippingProgram().setZebra_low(low);
+    }
+
+    public void setColorWaveForm(boolean on)
+    {
+        mRenderer.getWaveFormRGBProgram().setColorWaveForm(on);
+    }
+
+    public boolean isColorWaveForm()
+    {
+        return mRenderer.getWaveFormRGBProgram().isColorWaveForm();
     }
 }

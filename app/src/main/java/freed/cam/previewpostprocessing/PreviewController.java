@@ -30,6 +30,7 @@ public class PreviewController implements PreviewControllerInterface
     boolean focuspeak = false;
     boolean clipping = false;
     boolean showhistogram = false;
+    boolean color_waveform = true;
     float zebrahigh = 0.001f;
     float zebralow = 0.01f;
     HistogramFeed feed;
@@ -186,6 +187,20 @@ public class PreviewController implements PreviewControllerInterface
     }
 
     @Override
+    public void setColorWaveForm(boolean on) {
+        if (preview == null)
+            return;
+        preview.setColorWaveForm(on);
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        if (preview == null)
+            return false;
+        return preview.isColorWaveForm();
+    }
+
+    @Override
     public void start() {
         preview.start();
     }
@@ -283,4 +298,5 @@ public class PreviewController implements PreviewControllerInterface
         if (preview != null)
             preview.setZebraLow(low);
     }
+
 }

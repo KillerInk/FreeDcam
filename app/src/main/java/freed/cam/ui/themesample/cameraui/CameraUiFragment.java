@@ -33,6 +33,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -57,6 +58,9 @@ import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.MyHistogram;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
@@ -140,6 +144,10 @@ public class CameraUiFragment extends AbstractFragment implements
     CameraApiManager cameraApiManager;
     @Inject
     PagingViewTouchState pagingViewTouchState;
+    @Inject
+    HistogramController histogramController;
+    @Inject
+    PreviewController preview;
 
     private Handler handler = new Handler();
 
@@ -353,6 +361,19 @@ public class CameraUiFragment extends AbstractFragment implements
         settingsChildSelfTimer.SetUiItemClickListner(this);
 
 
+        MyHistogram histogram = view.findViewById(R.id.hisotview);
+        histogramController.setMyHistogram(histogram);
+        ImageView waveform = binding.imageViewWaveform;
+        waveform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (preview.isColorWaveForm())
+                    preview.setColorWaveForm(false);
+                else
+                    preview.setColorWaveForm(true);
+            }
+        });
+        histogramController.setWaveFormView(waveform);
 
 
         manualModesFragment = new ManualFragment();

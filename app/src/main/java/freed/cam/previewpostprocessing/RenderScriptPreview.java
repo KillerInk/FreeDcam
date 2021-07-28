@@ -148,6 +148,16 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     }
 
     @Override
+    public void setColorWaveForm(boolean on) {
+
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        return false;
+    }
+
+    @Override
     public void start() {
         mProcessor.setRenderScriptErrorListner(new MyRSErrorHandler());
         mProcessor.start();

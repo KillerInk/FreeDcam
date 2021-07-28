@@ -5,27 +5,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <view
-        android:id="@+id/hisotview"
-        class="freed.cam.histogram.MyHistogram"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="46dp"
-        android:visibility="gone"
-        android:background="@color/uiSettingsBackground"
-        tools:layout_width="120dp"
-        tools:layout_height="60dp"/>
-
-    <ImageView
-        android:id="@+id/imageView_waveform"
-        android:layout_width="290dp"
-        android:layout_height="120dp"
-        android:layout_marginLeft="-39dp"
-        android:layout_marginTop="150dp"
-        android:adjustViewBounds="true"
-        android:rotation="90"
-        android:scaleType="fitXY"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <FrameLayout
         android:id="@+id/autofitview"

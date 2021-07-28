@@ -125,6 +125,16 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     }
 
     @Override
+    public void setColorWaveForm(boolean on) {
+        glPreview.setColorWaveForm(on);
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        return glPreview.isColorWaveForm();
+    }
+
+    @Override
     public void start() {
 
     }

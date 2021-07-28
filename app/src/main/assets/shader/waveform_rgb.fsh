@@ -5,6 +5,7 @@ uniform sampler2D sTexture;
 out vec4 Output;
 in vec2 texCoord;
 const float factor = 3.0;
+uniform bool show_color;
 
 void main()
 {
@@ -20,21 +21,37 @@ void main()
     vec4  pix = texture(sTexture, texCoord);
 
         int h = int(oResolution.y);
-        for (int y = 0; y < h; y+=4){
+        for (int y = 0; y < h; y+=8){
             coords.x = texCoord.x;
             coords.y = onePixel.y * float(y);
             vec4  texcol = texture(sTexture, coords);
             if (texcol.r > ys && texcol.r < ye){
-                col += vec4(accum, 0., 0., 0.);
+                if(show_color)
+                    col += vec4(accum, 0., 0., 0.);
+                else
+                    col += vec4(accum, accum, accum, 0.);
             }
             if (texcol.g > ys && texcol.g < ye){
-                col += vec4(0., accum, 0., 0.);
+                if(show_color)
+                    col += vec4(0., accum, 0., 0.);
+                else
+                    col += vec4(accum, accum, accum, 0.);
             }
             if (texcol.b > ys && texcol.b < ye){
-                col += vec4(0., 0., accum, 0.);
+                if(show_color)
+                    col += vec4(0., 0., accum, 0.);
+                else
+                    col += vec4(accum, accum, accum, 0.);
             }
         }
     if(col.r == 0. && col.b == 0. && col.g == 0.)
         col.a = 0.8;
+    if(!show_color && col.r >= 1. && col.b >= 1. && col.g >= 1.)
+    {
+        col.r = 1.;
+        col.g = 0.;
+        col.b = 0.;
+        col.a = 1.;
+    }
     Output = col;
 }

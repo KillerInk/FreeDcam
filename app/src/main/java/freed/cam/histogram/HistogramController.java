@@ -33,11 +33,15 @@ public class HistogramController implements HistogramChangedEvent {
     public void setMyHistogram(MyHistogram myHistogram)
     {
         this.myHistogram = myHistogram;
+        if (enabled && myHistogram != null)
+            myHistogram.setVisibility(View.VISIBLE);
     }
 
     public void setWaveFormView(ImageView imageView)
     {
         this.waveFormView = imageView;
+        if (enabled && waveFormView != null)
+            waveFormView.setVisibility(View.VISIBLE);
     }
 
     public void setDataListner(DataListner dataListner) {
@@ -53,10 +57,14 @@ public class HistogramController implements HistogramChangedEvent {
         enabled = en;
         if (en)
         {
-            myHistogram.setVisibility(View.VISIBLE);
-            myHistogram.bringToFront();
-            waveFormView.setVisibility(View.VISIBLE);
-            waveFormView.bringToFront();
+            if (myHistogram != null) {
+                myHistogram.setVisibility(View.VISIBLE);
+                myHistogram.bringToFront();
+            }
+            if (waveFormView != null) {
+                waveFormView.setVisibility(View.VISIBLE);
+                waveFormView.bringToFront();
+            }
             if (feedToRegister != null)
                 feedToRegister.setHistogramFeed(this);
             else
@@ -64,8 +72,10 @@ public class HistogramController implements HistogramChangedEvent {
         }
         else
         {
-            myHistogram.setVisibility(View.GONE);
-            waveFormView.setVisibility(View.GONE);
+            if (myHistogram != null)
+                myHistogram.setVisibility(View.GONE);
+            if (waveFormView != null)
+                waveFormView.setVisibility(View.GONE);
             if (dataListner != null) {
                 dataListner.setData(null);
                 dataListner.setWaveFormData(null,0,0);
@@ -132,22 +142,28 @@ public class HistogramController implements HistogramChangedEvent {
     WaveFormUpdater waveFormUpdater = new WaveFormUpdater() {
 
         int[] waveFormData;int width; int height;
+        private Bitmap bitmap;
 
         public void setData(int[] waveFormData,int width, int height)
         {
             this.waveFormData = waveFormData;
             this.width = width;
             this.height = height;
+
         }
 
         @Override
         public void run() {
+
             if (waveFormData == null || width == 0 || height == 0)
             {
                 Log.e(TAG, "Error updating waveform");
                 return;
             }
-            Bitmap bitmap = Bitmap.createBitmap(waveFormData, width, height, Bitmap.Config.ARGB_8888);
+            if (bitmap == null)
+                bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+
+            bitmap.setPixels(waveFormData,0,width,0,0,width,height);
             waveFormView.setImageBitmap(bitmap);
         }
     };

@@ -31,6 +31,8 @@ public interface Preview
     boolean isClipping();
     void setHistogram(boolean on);
     boolean isHistogram();
+    void setColorWaveForm(boolean on);
+    boolean isColorWaveForm();
     void start();
     void stop();
     View getPreviewView();

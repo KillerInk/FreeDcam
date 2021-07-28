@@ -70,6 +70,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     IntBuffer waveformPixel;
 
+    private int histo_update_counter = 0;
+
     public MainRenderer(GLPreview view) {
         mView = view;
 
@@ -131,16 +133,19 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.draw();
 
         if (mView.getHistogramController().isEnabled()) {
-            GLES20.glReadPixels(0, 0, width/2, height/2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
-            byteBuffer.asIntBuffer().put(pixels);
-            mView.getHistogramController().setImageData(bytepixels.clone(), width/2, height/2);
+            if (histo_update_counter++ == 10) {
+                GLES20.glReadPixels(0, 0, width / 2, height / 2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+                byteBuffer.asIntBuffer().put(pixels);
+                mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
 
-            waveformBuffer.setActive();
-            waveFormRGBProgram.setGlTex(oesFbTexture);
-            waveFormRGBProgram.draw();
-            GLES20.glReadPixels(0, height/3 *2, width, height/3, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, waveformPixel);
-            mView.getHistogramController().setWaveFormData(waveformPixel.array().clone(), width, height/3);
-            waveformBuffer.switchToDefaultFB();
+                waveformBuffer.setActive();
+                waveFormRGBProgram.setGlTex(oesFbTexture);
+                waveFormRGBProgram.draw();
+                GLES20.glReadPixels(0, height / 3 * 2, width, height / 3, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, waveformPixel);
+                mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
+                waveformBuffer.switchToDefaultFB();
+                histo_update_counter = 0;
+            }
         }
 
 
@@ -368,5 +373,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     @Override
     public void setHistogramFeed(HistogramChangedEvent feed) {
 
+    }
+
+    public WaveFormRGBProgram getWaveFormRGBProgram() {
+        return waveFormRGBProgram;
     }
 }
