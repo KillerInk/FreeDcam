@@ -43,16 +43,27 @@ android {
         signingConfig signingConfigs.config
     }
     lintOptions { checkReleaseBuilds false }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
             ndk.debugSymbolLevel 'full'
+            sourceSets {
+                main {
+                    jniLibs.srcDir "$buildDir/intermediates/ndkBuild/release/obj/local"
+                }
+            }
         }
         debug {
             jniDebuggable true
             signingConfig signingConfigs.config
+            sourceSets {
+                main {
+                    jniLibs.srcDir "$buildDir/intermediates/ndkBuild/debug/obj/local"
+                }
+            }
         }
     }
     externalNativeBuild {
@@ -68,11 +79,7 @@ android {
         dataBinding true
 
     }
-    sourceSets {
-        main {
-            jniLibs.srcDir "$buildDir/intermediates/ndkBuild/debug/obj/local"
-        }
-    }
+
 }
 
 
