@@ -97,12 +97,14 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        histogramController.setDataListner(this);
+        if(histogramController != null)
+            histogramController.setDataListner(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
-        histogramController.setDataListner(null);
+        if(histogramController != null)
+            histogramController.setDataListner(null);
         super.onDetachedFromWindow();
     }
 

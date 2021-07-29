@@ -510,15 +510,16 @@ public class CameraUiFragment extends AbstractFragment implements
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.leftMargin = getResources().getDimensionPixelSize(dimen.cameraui_settingschild_width);
-        params.rightMargin = getResources().getDimensionPixelSize(dimen.cameraui_shuttericon_size);
+        params.rightMargin = getResources().getDimensionPixelSize(dimen.cameraui_shuttericon_size) +getResources().getDimensionPixelSize(dimen.cameraui_settingschild_width);
         //params.addRule(RelativeLayout.CENTER_VERTICAL);
 
         if (manualsettingsIsOpen)
             params.bottomMargin = getResources().getDimensionPixelSize(dimen.cameraui_manualbuttonholder_height);
 
-        if (fromLeftFragment)
+        /*if (fromLeftFragment)
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        else  params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        else  */
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         camerauiValuesFragmentHolder.setLayoutParams(params);
 
         currentOpendChild = item;
