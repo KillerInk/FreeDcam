@@ -68,6 +68,7 @@ import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
+import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildAeLock;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildCameraSwitch;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildExit;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildModuleSwitch;
@@ -97,8 +98,6 @@ public class CameraUiFragment extends AbstractFragment implements
 
     private CamerauiFragmentBinding binding;
 
-    //button to switch between front and back cam
-    private UiSettingsChildCameraSwitch cameraSwitch;
     //hold the button wich opened the horizontalValuesFragment
     private SettingsChildAbstract currentOpendChild;
     //Shows the values when a uibutton got clicked
@@ -123,11 +122,9 @@ public class CameraUiFragment extends AbstractFragment implements
     //holds guide
     private GuideHandler guideHandler;
 
-    private UiSettingsChild aelock;
 
     private HorizontLineFragment horizontLineFragment;
 
-    private UiSettingsChildSelfTimer settingsChildSelfTimer;
 
 
     //get shown in sony api,when the preview gets zoomed to navigate through the img
@@ -189,6 +186,7 @@ public class CameraUiFragment extends AbstractFragment implements
         if (left_ui_items_holder != null) {
             left_ui_items_holder.removeAllViews();
             right_ui_items_top.removeAllViews();
+            binding.rightUiItemsBottom.removeAllViews();
             addexit();
         }
         if (wrapper == null) {
@@ -196,8 +194,6 @@ public class CameraUiFragment extends AbstractFragment implements
                 focusImageHandler.AEMeteringSupported(false);
                 focusImageHandler.TouchToFocusSupported(false);
                 joyPad.setVisibility(View.GONE);
-                cameraSwitch.setVisibility(View.GONE);
-                aelock.setVisibility(View.GONE);
                 shutterButton.setVisibility(View.GONE);
                 //settingsChildSelfTimer.setVisibility(View.GONE);
                 if (isAdded())
@@ -256,8 +252,6 @@ public class CameraUiFragment extends AbstractFragment implements
                 night.setBackgroundResource(R.drawable.quck_set_night);
                 left_ui_items_holder.addView(night);
             }
-            if (wrapper.getParameterHandler().get(SettingKeys.selfTimer) != null)
-                settingsChildSelfTimer.SetParameter(wrapper.getParameterHandler().get(SettingKeys.selfTimer));
 
             if (wrapper.getParameterHandler().get(SettingKeys.PictureFormat) != null) {
                 setUiItem(left_ui_items_holder, parameterHandler.get(SettingKeys.PictureFormat), R.drawable.quck_set_format2);
@@ -283,10 +277,33 @@ public class CameraUiFragment extends AbstractFragment implements
                     right_ui_items_top.addView(focusPeak);
                 }
 
+                UiSettingsChildSelfTimer selfTimer = new UiSettingsChildSelfTimer(getContext());
+                selfTimer.setLifeCycleOwner(getViewLifecycleOwner());
+                selfTimer.SetParameter(parameterHandler.get(SettingKeys.selfTimer));
+                selfTimer.setBackgroundResource(R.drawable.selftimer);
+                selfTimer.SetMenuItemClickListner(this,true);
+                selfTimer.setVisibility(View.VISIBLE);
+                selfTimer.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                binding.rightUiItemsBottom.addView(selfTimer);
+
+                UiSettingsChildAeLock aeLock = new UiSettingsChildAeLock(getContext());
+                aeLock.setLifeCycleOwner(getViewLifecycleOwner());
+                aeLock.SetParameter(parameterHandler.get(SettingKeys.ExposureLock));
+                aeLock.setBackgroundResource(R.drawable.quck_set_ae_lock);
+                aeLock.SetUiItemClickListner(this);
+                aeLock.setVisibility(View.VISIBLE);
+                aeLock.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                binding.rightUiItemsBottom.addView(aeLock);
+
+                UiSettingsChildCameraSwitch cameraSwitch = new UiSettingsChildCameraSwitch(getContext());
+                cameraSwitch.setLifeCycleOwner(getViewLifecycleOwner());
                 cameraSwitch.setVisibility(View.VISIBLE);
                 cameraSwitch.SetCameraUiWrapper(wrapper);
                 cameraSwitch.SetUiItemClickListner(this);
                 cameraSwitch.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                cameraSwitch.setBackgroundResource(R.drawable.quck_set_cswitch);
+                binding.rightUiItemsBottom.addView(cameraSwitch);
+
                 focusImageHandler.SetCamerUIWrapper(wrapper);
 
                 shutterButton.setVisibility(View.VISIBLE);
@@ -297,9 +314,6 @@ public class CameraUiFragment extends AbstractFragment implements
                 horizontLineFragment.setCameraUiWrapper(wrapper);
                 //infoOverlayHandler.setCameraUIWrapper(wrapper);
                 shutterButton.setVisibility(View.VISIBLE);
-                aelock.setVisibility(View.VISIBLE);
-                aelock.SetParameter(wrapper.getParameterHandler().get(SettingKeys.ExposureLock));
-
 
                 //restore view state for the manuals
                 if (settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).get())
@@ -338,7 +352,6 @@ public class CameraUiFragment extends AbstractFragment implements
         right_ui_items_top = binding.rightUiHolderTop;
         addexit();
         cameraApiManager.addEventListner(this);
-        cameraSwitch = binding.cameraSwitch;
 
         infoOverlayModelView = new ViewModelProvider(this).get(InfoOverlayModelView.class);
         getLifecycle().addObserver(infoOverlayModelView);
@@ -353,12 +366,6 @@ public class CameraUiFragment extends AbstractFragment implements
 
         view.setOnTouchListener(onTouchListener);
 
-        aelock = binding.aeLock;
-        aelock.SetUiItemClickListner(this);
-
-
-        settingsChildSelfTimer = binding.selftimer;
-        settingsChildSelfTimer.SetUiItemClickListner(this);
 
 
         MyHistogram histogram = view.findViewById(R.id.hisotview);

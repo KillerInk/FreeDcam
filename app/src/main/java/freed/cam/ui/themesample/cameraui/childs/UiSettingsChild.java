@@ -100,7 +100,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         View view = inflater.inflate(layout.cameraui_uisettingschild, null);
         binding = CamerauiUisettingschildBinding.bind(view);
         binding.textView2.setSelected(true);
-        binding.getRoot().setOnClickListener(this::onClick);
+        binding.getRoot().setOnClickListener(this);
         this.addView(binding.getRoot());
     }
 

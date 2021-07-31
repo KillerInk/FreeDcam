@@ -163,8 +163,14 @@ public class HistogramController implements HistogramChangedEvent {
             if (bitmap == null)
                 bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
 
-            bitmap.setPixels(waveFormData,0,width,0,0,width,height);
-            waveFormView.setImageBitmap(bitmap);
+            try {
+                bitmap.setPixels(waveFormData, 0, width, 0, 0, width, height);
+                waveFormView.setImageBitmap(bitmap);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                Log.e(TAG, ex.getMessage());
+            }
         }
     };
 
