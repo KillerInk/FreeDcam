@@ -218,6 +218,13 @@ public class RawToDng
         SetBaselineExposure(baselineExposure, byteBuffer);
     }
 
+    public void setBaselineExposureOffset(float baselineExposure)
+    {
+        if (byteBuffer == null)
+            return;
+        SetBaselineExposureOffset(baselineExposure, byteBuffer);
+    }
+
     public void setBayerGreenSplit(int greenSplit)
     {
         if (byteBuffer == null)

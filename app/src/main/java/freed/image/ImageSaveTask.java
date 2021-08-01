@@ -57,6 +57,7 @@ public class ImageSaveTask extends ImageTask
     private Thread currentThread;
     private OpCode opcode;
     private float baselineExposure = 0;
+    private float baselineExposureOffset = 0;
     private int greensplit = 0;
     private SettingsManager settingsManager;
     private FileListController fileListController;
@@ -207,6 +208,7 @@ public class ImageSaveTask extends ImageTask
             rawToDng.setOpCode(opcode);
 
         rawToDng.setBaselineExposure(baselineExposure);
+        rawToDng.setBaselineExposureOffset(baselineExposureOffset);
         rawToDng.setBayerGreenSplit(greensplit);
         BaseHolder fileholder = fileListController.getNewImgFileHolder(filename);
         if (fileholder instanceof FileHolder)
