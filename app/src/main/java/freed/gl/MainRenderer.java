@@ -133,11 +133,15 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.draw();
 
         if (mView.getHistogramController().isEnabled()) {
-            if (histo_update_counter++ == 10) {
+            if (histo_update_counter++ == 6) {
                 GLES20.glReadPixels(0, 0, width / 2, height / 2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
                 byteBuffer.asIntBuffer().put(pixels);
                 mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
 
+
+            }
+            if (histo_update_counter == 11)
+            {
                 waveformBuffer.setActive();
                 waveFormRGBProgram.setGlTex(oesFbTexture);
                 waveFormRGBProgram.draw();
