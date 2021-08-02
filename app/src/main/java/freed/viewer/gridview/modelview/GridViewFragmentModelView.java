@@ -66,14 +66,16 @@ public class GridViewFragmentModelView extends ViewModel
 
     private final IntentSenderModel intentSenderModel;
     private FileListController fileListController;
+    private ImageManager imageManager;
 
 
     @Inject
-    public GridViewFragmentModelView(FileListController fileListController)
+    public GridViewFragmentModelView(FileListController fileListController, ImageManager imageManager)
     {
         viewStateModel = new ViewStateModel();
         filesHolderModel = new FilesHolderModel();
         this.fileListController = fileListController;
+        this.imageManager = imageManager;
         buttonFiletype = new ButtonFileTypeModel(this);
         buttonDoAction = new ButtonDoAction();
         buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onStackClick,onRawToDngClick,onDngStackClick,this);
@@ -446,7 +448,7 @@ public class GridViewFragmentModelView extends ViewModel
 
     public void deleteFiles()
     {
-        ImageManager.cancelImageLoadTasks();
+        imageManager.cancelImageLoadTasks();
         urisToDelte.clear();
         if (filesSelectedList.get(0).getHolderType() == FileHolder.class)
         {

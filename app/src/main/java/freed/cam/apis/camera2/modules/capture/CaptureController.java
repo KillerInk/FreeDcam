@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.ActivityAbstract;
+import freed.FreedApplication;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.image.EmptyTask;
 import freed.image.ImageManager;
@@ -23,11 +25,13 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
     private final String TAG = CaptureController.class.getSimpleName();
     private List<StillImageCapture> imageCaptures;
     private RdyToSaveImg rdyToSaveImg;
+    protected ImageManager imageManager;
 
     public CaptureController(RdyToSaveImg rdyToSaveImg)
     {
         imageCaptures = new ArrayList<>();
         this.rdyToSaveImg = rdyToSaveImg;
+        imageManager = FreedApplication.imageManager();
     }
 
     public List<StillImageCapture> getImageCaptures() {
@@ -64,7 +68,7 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
             ImageTask task = imageCapture.getSaveTask();
             imageCapture.resetTask();
             if (task != null && !(task instanceof EmptyTask)) {
-                ImageManager.putImageSaveTask(task);
+                imageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
             }
         }

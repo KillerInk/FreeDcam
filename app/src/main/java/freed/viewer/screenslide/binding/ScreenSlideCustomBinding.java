@@ -7,6 +7,8 @@ import androidx.databinding.BindingAdapter;
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
 
+import freed.ActivityAbstract;
+import freed.FreedApplication;
 import freed.image.ImageManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.BitmapLoader;
@@ -29,7 +31,7 @@ public class ScreenSlideCustomBinding {
             return;
         if (gridImageViewModel.bitmapLoader != null) {
             gridImageViewModel.setProgressBarVisible(false);
-            ImageManager.removeImageLoadTask(gridImageViewModel.bitmapLoader);
+            FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoader);
         }
 
         gridImageView.setImageBitmap(null);
@@ -39,7 +41,7 @@ public class ScreenSlideCustomBinding {
             gridImageViewModel.setProgressBarVisible(true);
             try {
                 gridImageViewModel.bitmapLoader = new BitmapLoader(gridImageViewModel,gridImageView);
-                ImageManager.putImageLoadTask(gridImageViewModel.bitmapLoader);
+                FreedApplication.imageManager().putImageLoadTask(gridImageViewModel.bitmapLoader);
             }
             catch (NullPointerException ex)
             {

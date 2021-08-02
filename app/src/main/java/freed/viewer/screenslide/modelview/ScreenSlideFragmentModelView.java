@@ -32,11 +32,13 @@ public class ScreenSlideFragmentModelView extends ViewModel {
     private ButtonModel deleteButton;
     private ButtonModel playButton;
     private FileListController fileListController;
+    private ImageManager imageManager;
 
     @Inject
-    public ScreenSlideFragmentModelView(FileListController fileListController,BitmapHelper bitmapHelper)
+    public ScreenSlideFragmentModelView(FileListController fileListController,BitmapHelper bitmapHelper, ImageManager imageManager)
     {
         this.fileListController = fileListController;
+        this.imageManager = imageManager;
         filesHolderModel = new ScreenSlideFilesHolderModel();
         filesHolderModel.setBitmapHelper(bitmapHelper);
         filesHolderModel.setFileListController(fileListController);
@@ -154,6 +156,6 @@ public class ScreenSlideFragmentModelView extends ViewModel {
 
     private void processExif(final BaseHolder file)
     {
-        ImageManager.putImageLoadTask(new ExifLoader(file,exifViewModel));
+        imageManager.putImageLoadTask(new ExifLoader(file,exifViewModel));
     }
 }

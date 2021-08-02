@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraThreadHandler;
@@ -68,6 +69,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     protected long startcapturetime;
     private boolean isBurstCapture = false;
     protected PreviewController previewController;
+    protected ImageManager imageManager;
 
 
     public PictureModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -76,6 +78,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         this.cameraHolder = cameraUiWrapper.getCameraHolder();
         previewController = ActivityFreeDcamMain.previewController();
+        imageManager = FreedApplication.imageManager();
     }
 
     @Override
@@ -336,7 +339,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         ImageSaveTask task = new ImageSaveTask(this);
         task.setBytesTosave(data,ImageSaveTask.JPEG);
         task.setFilePath(file, settingsManager.GetWriteExternal());
-        ImageManager.putImageSaveTask(task);
+        imageManager.putImageSaveTask(task);
     }
 
     protected void saveDng(byte[] data, File file)
@@ -385,6 +388,6 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         task.setBytesTosave(data,ImageSaveTask.RAW10);
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             task.setLocation(locationManager.getCurrentLocation());
-        ImageManager.putImageSaveTask(task);
+        imageManager.putImageSaveTask(task);
     }
 }

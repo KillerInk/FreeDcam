@@ -40,6 +40,9 @@ import com.troop.freedcam.databinding.FreedviewerGridviewfragmentBinding;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
@@ -54,6 +57,7 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 /**
  * Created by troop on 11.12.2015.
  */
+@AndroidEntryPoint
 public class GridViewFragment extends Fragment implements I_OnActivityResultCallback
 {
 
@@ -71,6 +75,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     private ScreenSlideFragment.ButtonClick onGridItemClick;
 
     public int DEFAULT_ITEM_TO_SET = 0;
+    @Inject ImageManager imageManager;
 
     public View GetGridItem(int position)
     {
@@ -159,7 +164,7 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
     @Override
     public void onPause() {
         super.onPause();
-        ImageManager.cancelImageLoadTasks();
+        imageManager.cancelImageLoadTasks();
     }
 
     @Override

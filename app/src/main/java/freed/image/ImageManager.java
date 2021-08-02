@@ -10,53 +10,46 @@ import java.util.concurrent.TimeUnit;
 import freed.utils.Log;
 
 public class ImageManager {
-
-    private static ImageManager imageManager = new ImageManager();
-
-    public static ImageManager getInstance()
-    {
-        return imageManager;
-    }
-
+    
     private final String TAG = ImageManager.class.getSimpleName();
     private final ImageSaveManager imageSaveManager;
     private final ImageLoadManager imageLoadManager;
 
     private final int KEEP_ALIVE_TIME = 500;
 
-    private ImageManager()
+    public ImageManager()
     {
         imageSaveManager = new ImageSaveManager();
         imageLoadManager = new ImageLoadManager();
     }
 
-    public static void putImageSaveTask(ImageTask task)
+    public void putImageSaveTask(ImageTask task)
     {
-        imageManager.imageSaveManager.imageSaveExecutor.execute(task);
+        imageSaveManager.imageSaveExecutor.execute(task);
     }
 
-    public static void cancelImageSaveTasks()
+    public void cancelImageSaveTasks()
     {
-        synchronized (imageManager) {
-            imageManager.imageSaveManager.cancel();
+        synchronized (imageSaveManager) {
+            imageSaveManager.cancel();
         }
     }
 
-    public static void putImageLoadTask(ImageTask runnable)
+    public void putImageLoadTask(ImageTask runnable)
     {
-        imageManager.imageLoadManager.imageLoadExecutor.execute(runnable);
+        imageLoadManager.imageLoadExecutor.execute(runnable);
     }
 
-    public static void cancelImageLoadTasks()
+    public void cancelImageLoadTasks()
     {
-        synchronized (imageManager) {
-            imageManager.imageLoadManager.cancel();
+        synchronized (imageLoadManager) {
+            imageLoadManager.cancel();
         }
     }
 
-    public static void removeImageLoadTask(ImageTask task)
+    public void removeImageLoadTask(ImageTask task)
     {
-        imageManager.imageLoadManager.removeTaskFromQueue(task);
+        imageLoadManager.removeTaskFromQueue(task);
     }
 
     private class ImageSaveManager {
