@@ -34,6 +34,12 @@ public class ExposureTimeDetector extends BaseParameter2Detector {
         settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
         if (tmp.size() > 0)
             settingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
+        for (int i = 0; i < tmp.size(); i++)
+        {
+            if (tmp.get(i).equals("1/30"))
+                settingsManager.get(SettingKeys.M_ExposureTime).set(i +"");
+        }
+
 
     }
 
