@@ -9,15 +9,15 @@ import freed.utils.Log;
  * Created by KillerInk on 29.12.2017.
  */
 
-public abstract class AeManager implements AeManagerInterface
+public abstract class AeManager<C extends CameraWrapperInterface> implements AeManagerInterface
 {
-    protected CameraWrapperInterface cameraWrapperInterface;
+    protected C cameraWrapperInterface;
     protected ManualIso manualIso;
     protected ManualExposureTime manualExposureTime;
     protected ExposureCompensation exposureCompensation;
     protected AeStates activeAeState = AeStates.auto;
 
-    public AeManager(CameraWrapperInterface cameraWrapperInterface)
+    public AeManager(C cameraWrapperInterface)
     {
         this.cameraWrapperInterface =cameraWrapperInterface;
         manualIso = new ManualIso(cameraWrapperInterface);

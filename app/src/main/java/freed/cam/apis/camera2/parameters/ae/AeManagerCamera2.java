@@ -24,16 +24,14 @@ import freed.utils.Log;
  * Created by KillerInk on 29.12.2017.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class AeManagerCamera2 extends AeManager {
+public class AeManagerCamera2 extends AeManager<Camera2> {
 
     public final static long MAX_PREVIEW_EXPOSURETIME = 100000000;
 
-    protected Camera2 cameraUiWrapper;
     private AeModeApi2 aeModeApi2;
     private SettingsManager settingsManager;
     public AeManagerCamera2(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
-        this.cameraUiWrapper = cameraWrapperInterface;
         aeModeApi2 = new AeModeApi2(cameraWrapperInterface);
         settingsManager = FreedApplication.settingsManager();
     }
@@ -48,13 +46,13 @@ public class AeManagerCamera2 extends AeManager {
         if (valueToSet > 0) {
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet]) * 1000;
             Log.d(manualExposureTime.TAG, "ExposureTimeToSet:" + val);
-            cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
+            cameraWrapperInterface.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
             if (val > MAX_PREVIEW_EXPOSURETIME && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                 Log.d(manualExposureTime.TAG, "ExposureTime Exceed 100000000 for preview, set it to 100000000");
                 val = MAX_PREVIEW_EXPOSURETIME;
             }
 
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val,setToCamera);
+            cameraWrapperInterface.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val,setToCamera);
             manualExposureTime.fireIntValueChanged(valueToSet);
         }
     }
@@ -63,16 +61,16 @@ public class AeManagerCamera2 extends AeManager {
     public void setIso(int valueToSet, boolean setToCamera) {
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.on),setToCamera);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.on),setToCamera);
             setAeMode(AeStates.auto);
         }
         else
         {
             if (activeAeState != AeStates.manual){
                 setAeMode(AeStates.manual);
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.off),setToCamera);
+                cameraWrapperInterface.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.off),setToCamera);
             }
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
             manualIso.fireIntValueChanged(valueToSet);
         }
     }
@@ -80,7 +78,7 @@ public class AeManagerCamera2 extends AeManager {
     @Override
     public void setExposureCompensation(int valueToSet, boolean setToCamera) {
         int t = valueToSet - exposureCompensation.getStringValues().length / 2;
-        cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t,setToCamera);
+        cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t,setToCamera);
         exposureCompensation.fireStringValueChanged(exposureCompensation.getStringValues()[valueToSet]);
     }
 
@@ -123,9 +121,9 @@ public class AeManagerCamera2 extends AeManager {
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
 
         //hide flash ui item its not supported in manual mode
-        if(cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode) != null) {
-            cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Hidden);
+        if(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode) != null) {
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Hidden);
         }
         //enable manualiso item in ui
         manualIso.setViewState(AbstractParameter.ViewState.Visible);
