@@ -132,6 +132,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.setGlTex(cameraInputTextureHolder);
         oesProgram.draw();
 
+        if (mView.getHistogramController().getMeteringProcessor() != null)
+            mView.getHistogramController().getMeteringProcessor().getMeters();
+
         if (mView.getHistogramController().isEnabled()) {
             if (histo_update_counter++ == 6) {
                 GLES20.glReadPixels(0, 0, width / 2, height / 2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
@@ -343,6 +346,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         }
         closeBuffers();
         createBuffers();
+        if (mView.getHistogramController().getMeteringProcessor() != null)
+            mView.getHistogramController().getMeteringProcessor().setSize(width,height);
         GLES30.glViewport(0, 0, width, height);
     }
 
@@ -381,5 +386,12 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     public WaveFormRGBProgram getWaveFormRGBProgram() {
         return waveFormRGBProgram;
+    }
+
+    private void getMeterPixels()
+    {
+        int center_x = width/2;
+        int center_y = height/2;
+        GLES20.glReadPixels(0, height / 3 * 2, width, height / 3, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, waveformPixel);
     }
 }

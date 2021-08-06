@@ -14,6 +14,7 @@ import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
+import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -30,6 +31,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean cameraIsOpen = false;
+    private FreedAeManger freedAeManger;
 
     public Camera2()
     {
@@ -45,6 +47,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
             preview.setHistogramFeed(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
+        freedAeManger = new FreedAeManger(this);
     }
 
 
@@ -102,6 +105,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     @Override
     public void stopPreview() {
         Log.d(TAG, "Stop Preview");
+
         if (moduleHandler == null)
             return;
         I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.getCurrentModule());
@@ -116,6 +120,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         //workaround, that seem to kill front camera when switching picformat
         if (!settingsManager.getIsFrontCamera())
             parametersHandler.setManualSettingsToParameters();
+        freedAeManger.turnDefaultAeOff();
     }
 
     public Size getSizeForPreviewDependingOnImageSize(int imageformat, int mImageWidth, int mImageHeight)
@@ -154,6 +159,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void onCameraOpen() {
         Log.d(TAG, "onCameraOpen, initCamera");
         CameraThreadHandler.initCameraAsync();
+        freedAeManger.start();
     }
 
     @Override
@@ -163,6 +169,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
 
     @Override
     public void onCameraClose() {
+        freedAeManger.stop();
         try {
             Log.d(TAG, "onCameraClose");
             cameraIsOpen = false;

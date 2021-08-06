@@ -35,6 +35,7 @@ import freed.ActivityAbstract;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.cam.ui.KeyPressedController;
@@ -53,6 +54,7 @@ import freed.utils.PermissionManager;
 import freed.utils.SoundPlayer;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import hilt.CameraApiManagerEntryPoint;
+import hilt.HistogramControllerEntryPoint;
 import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
 import hilt.PreviewControllerEntryPoint;
@@ -101,6 +103,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public static SoundPlayer soundPlayer()
     {
         return getEntryPointFromActivity(SoundPlayerEntryPoint.class).soundPlayer();
+    }
+
+    public static HistogramController histogramController()
+    {
+        return getEntryPointFromActivity(HistogramControllerEntryPoint.class).histogramcontroller();
     }
 
     @Override
