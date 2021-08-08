@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
@@ -47,7 +48,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
             preview.setHistogramFeed(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
-        freedAeManger = new FreedAeManger(this);
+        freedAeManger = new FreedAeManger(this, ActivityFreeDcamMain.userMessageHandler());
     }
 
 
