@@ -143,7 +143,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         preview.stop();
 
         preview.setSize(size.width, size.height);
-        preview.setRotation(size.width, size.height, 0);
+        mainHandler.post(()->preview.setRotation(size.width, size.height, 0));
         if (cameraUiWrapper.getCameraHolder().canSetSurfaceDirect()) {
             cameraUiWrapper. getCameraHolder().setSurface((Surface)null);
             Surface surface = new Surface(preview.getSurfaceTexture());

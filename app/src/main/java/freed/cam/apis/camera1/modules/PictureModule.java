@@ -205,7 +205,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             Log.d(TAG, "set size to " + size.width + "x" + size.height);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
             previewController.setSize(size.width, size.height);
-            previewController.setRotation(size.width, size.height, 0);
+            mainHandler.post(()-> previewController.setRotation(size.width, size.height, 0));
             cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
             cameraHolder.StartPreview();
         }
