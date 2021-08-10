@@ -1,6 +1,9 @@
 package freed.cam.apis.camera2.parameters.ae;
 
+import static java.lang.Math.sqrt;
+
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
@@ -35,7 +38,7 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
 
     private int iso;
     private long exposuretime;
-    private final long default_exposuretime = (long)((1f/30f) * 1000000 * 1000);
+    private final long default_exposuretime = (long)((1f/15f) * 1000000 * 1000);
     private long min_exposuretime;
     private long max_exposuretime;
     private int max_iso;
@@ -63,7 +66,7 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
         max_exposuretime = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper();
         max_iso = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
         min_iso = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
-        aperture = 0.1f;//cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES)[0];
+        aperture = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_APERTURES)[0];
         focal_length = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS)[0];
         backgroundHandlerThread.create();
         meteringProcessor.setMeteringEventListener(this::onMeteringDataChanged);
@@ -89,7 +92,7 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
     private void setExposuretime(long exposuretime, boolean setToCam)
     {
         cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, exposuretime,setToCam);
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged(getShutterStringNS(exposuretime));
+        //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged(getShutterStringNS(exposuretime));
     }
 
     private String getShutterStringNS(long val)
@@ -104,7 +107,7 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
     private void setIso(int iso, boolean setToCam)
     {
         cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, iso,setToCam);
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(iso+"");
+        //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(iso+"");
     }
 
     @Override
@@ -121,6 +124,7 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
 
         private int[] meter;
         List<Float> lumas = new ArrayList<>();
+        private int logcounter = 0;
 
         private void addLuma(float luma)
         {
@@ -157,23 +161,27 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
 
             luminance = getAvarageLuma();
 
+            double currentValuesEV = getCurrentEV(aperture,exposuretime,iso);
+            double EV100 = getEv100(aperture,exposuretime);
             double ev = getTargetEv(luminance);
-            long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
-            double calciso = clamp(getIso(aperture,exposuretime,ev),min_iso,max_iso);
-            double iso_applied_ev = getCurrentEV(aperture,expotime,calciso);
-            double difev= ev - iso_applied_ev;
 
-            double calcsexpotime = clamp(expotimeToNano(getExposureTime(expotime,difev)),min_exposuretime,default_exposuretime);
-
-            String msg = "L:" + luminance +
-                    "\nI:" + iso +"/" +(int)calciso+
-                    "\nS:" + exposuretime +"/" +(float)calcsexpotime +
-                    "\nEV:" + (float)ev +"/" + (float)iso_applied_ev;
-            userMessageHandler.sendMSG(msg,false);
-
-            exposuretime = (long) calcsexpotime;
-            iso = (int) calciso;
-
+            ev = ev + ((luminance) * 12.5);
+            //long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
+            double ciso = getIso(aperture,exposuretime, ev);
+            double newiso = clamp(ciso,min_iso,max_iso);
+            double iso_applied_ev = getCurrentEV(aperture,exposuretime,newiso);
+            double newexpotime = clamp(expotimeToNano(getExposureTime(exposuretime,(ev -iso_applied_ev))),min_exposuretime,default_exposuretime);
+            double finalEV = getCurrentEV(aperture,newexpotime,newiso);
+            if (logcounter++ == 11) {
+                String msg = "L:" + luminance +
+                        "\nI:" + iso + "/" + (int)ciso + "/" + (int) newiso +
+                        "\nS:" + exposuretime + "/" + (long) newexpotime +
+                        "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV + "\n" + (float) finalEV+ "\n" + (float) EV100;
+                userMessageHandler.sendMSG(msg, false);
+                logcounter = 0;
+            }
+            exposuretime = (long) newexpotime;
+            iso = (int) newiso;
 
             setExposuretime(exposuretime,false);
             setIso(iso,true);
@@ -181,25 +189,35 @@ public class FreedAeManger implements MeteringProcessor.MeteringEvent
 
         private double getLuminance(int color)
         {
-            return (float) ((0.2126 * (Color.alpha(color)/255)) + (0.7152 * (Color.red(color)/255)) + (0.0722 * (Color.green(color)/255)));
+            //float a = Color.alpha(color)/255;
+            float r = Color.red(color) / 255f;
+            float g = Color.green(color) / 255f;
+            float b = Color.blue(color) / 255f;
+            return (float) ((0.2126 * r) + (0.7152 * g) + (0.0722 * b));
         }
 
         private double getTargetEv(double luma)
         {
-            return log2(luma *100 / 12.5);
+            return log2(luma * 100.0 / 12.5);
+        }
+
+        private double getEv100(double luma, double expotime)
+        {
+            double expotime_sec = getExpotimeInSec(expotime);
+            return log2((luma*100) / (expotime_sec*100));
         }
 
         private double getCurrentEV(double aperture, double exposuretime, double iso)
         {
             double expotime_sec = getExpotimeInSec(exposuretime);
-            double tmp =  ((sqr(aperture)*100)/(expotime_sec*iso));
+            double tmp =  ((sqrt(aperture)*100)/(expotime_sec*iso));
             return log2(tmp);
         }
 
         private double getIso(double aperture, double exposuretime, double ev)
         {
             double expotime_sec = getExpotimeInSec(exposuretime);
-            return (sqr(aperture) * 100.0) / (expotime_sec * Math.pow(2.0, ev));
+            return (sqrt(aperture) * 100.0) / (expotime_sec * Math.pow(2.0, ev));
         }
 
         private double getExposureTime(double exposuretime,double evdif)
