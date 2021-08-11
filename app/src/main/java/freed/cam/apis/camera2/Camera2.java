@@ -191,4 +191,8 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void onCameraChangedAspectRatioEvent(freed.cam.apis.basecamera.Size size) {
 
     }
+
+    public FreedAeManger getFreedAeManger() {
+        return freedAeManger;
+    }
 }

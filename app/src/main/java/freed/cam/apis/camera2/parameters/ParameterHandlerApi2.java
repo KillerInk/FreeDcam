@@ -42,6 +42,7 @@ import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
+import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualApertureApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
@@ -169,7 +170,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());
         }
         else {
-            AeManagerCamera2 aeManager = new AeManagerCamera2(cameraUiWrapper);
+            //AeManagerCamera2 aeManager = new AeManagerCamera2(cameraUiWrapper);
+            FreedAeManger aeManager = cameraUiWrapper.getFreedAeManger();
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());
