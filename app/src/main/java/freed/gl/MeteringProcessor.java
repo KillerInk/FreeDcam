@@ -80,7 +80,8 @@ public class MeteringProcessor {
         getColor(7,center_y_minus_x_minus);  getColor(8,center_y_minus);        getColor(9,center_y_minus_x_plus);
                                                 getColor(10,center_y_minus_minus);*/
 
-        GLES20.glReadPixels(width/2-100, height/2-100, 200, 200, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+        GLES20.glReadPixels(0, 0, width/2, height/2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+        //GLES20.glReadPixels(width/2-100, height/2-100, 200, 200, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
 
        /* int t = 0;
         for (int x = 0; x < 20000; x+=2000)

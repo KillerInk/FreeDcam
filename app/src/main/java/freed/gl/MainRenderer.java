@@ -68,6 +68,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     byte bytepixels[];
     ByteBuffer byteBuffer;
 
+    GL2DTex scaledownTexture;
+    GLFrameBuffer scaledownBuffer;
+
     IntBuffer waveformPixel;
 
     private int histo_update_counter = 0;
@@ -88,6 +91,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         waveformBuffer = new GLFrameBuffer();
         waveformFbTexture = new GL2DTex();
+
+        scaledownBuffer = new GLFrameBuffer();
+        scaledownTexture = new GL2DTex();
 
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
@@ -131,6 +137,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesFrameBuffer.setActive();
         oesProgram.setGlTex(cameraInputTextureHolder);
         oesProgram.draw();
+
+        scaledownBuffer.setActive();
+        GLES30.glViewport(0, 0, width/2, height/2);
+        previewProgram.setGlTex(oesFbTexture);
+        previewProgram.draw();
+
+        GLES30.glViewport(0, 0, width, height);
 
         if (mView.getHistogramController().getMeteringProcessor() != null)
             mView.getHistogramController().getMeteringProcessor().getMeters();
@@ -313,6 +326,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         byteBuffer = ByteBuffer.wrap(bytepixels);
         byteBuffer.order(ByteOrder.nativeOrder());
 
+        scaledownBuffer.create();
+        scaledownTexture.create(w,h);
+        scaledownBuffer.setOutputTexture(scaledownTexture);
+
         waveformPixel = IntBuffer.allocate(width *(height/3));
         Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
 
@@ -331,6 +348,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         waveformBuffer.delete();
         waveformFbTexture.delete();
+
+        scaledownBuffer.delete();
+        scaledownTexture.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
