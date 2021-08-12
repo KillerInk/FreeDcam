@@ -90,7 +90,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
 
     public void Init()
     {
-        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
+        this.cameraHolder = cameraUiWrapper.getCameraHolder();
         List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
@@ -170,8 +170,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());
         }
         else {
-            //AeManagerCamera2 aeManager = new AeManagerCamera2(cameraUiWrapper);
-            FreedAeManger aeManager = cameraUiWrapper.getFreedAeManger();
+            AeManagerCamera2 aeManager;
+            if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+                aeManager = cameraUiWrapper.getFreedAeManger();
+            else
+                aeManager = new AeManagerCamera2(cameraUiWrapper);
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());

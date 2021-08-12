@@ -90,6 +90,9 @@
     <string name="setting_switch_aspect_header">Switch width and height</string>
     <string name="setting_switch_aspect_text">Switch Preview Aspect Ratio</string>
 
+    <string name="setting_usefreedae_header">Freedcam AE</string>
+    <string name="setting_use_freedae_text">Enable to use a custom ae</string>
+
     <string name="setting_timer_header">Delay till shutter fires</string>
     <string name="setting_timer_text">Time</string>
 

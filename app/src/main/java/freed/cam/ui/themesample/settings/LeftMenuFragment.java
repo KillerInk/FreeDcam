@@ -85,7 +85,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         if (settingsChildHolder == null)
             return;
         settingsChildHolder.removeAllViews();
-        settingsMenuItemFactory.fillLeftSettingsMenu(wrapper,getContext(),LeftMenuFragment.this,settingsChildHolder,(ActivityInterface) getActivity());
+        settingsMenuItemFactory.fillLeftSettingsMenu(wrapper,getContext(),LeftMenuFragment.this,settingsChildHolder);
     }
 
 

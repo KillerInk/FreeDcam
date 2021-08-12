@@ -176,6 +176,7 @@ public class SettingKeys{
     public final static GlobalKey<SettingMode> HorizontLvl = new GlobalKey(SettingMode.class, R.string.aps_horizontlvl);
     public final static GlobalKey<SettingMode> FOCUSPEAK_COLOR = new GlobalKey(SettingMode.class, R.string.aps_focuspeakcolor);
     public final static GlobalKey<GlobalBooleanSettingMode> PLAY_SHUTTER_SOUND = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_playshuttersound);
+    public final static GlobalKey<GlobalBooleanSettingMode> USE_FREEDCAM_AE = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_use_freedcam_ae);
 
     /**
      *

@@ -18,6 +18,7 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -121,7 +122,8 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         //workaround, that seem to kill front camera when switching picformat
         if (!settingsManager.getIsFrontCamera())
             parametersHandler.setManualSettingsToParameters();
-        freedAeManger.turnDefaultAeOff();
+        if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+            freedAeManger.turnDefaultAeOff();
     }
 
     public Size getSizeForPreviewDependingOnImageSize(int imageformat, int mImageWidth, int mImageHeight)
@@ -160,7 +162,8 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void onCameraOpen() {
         Log.d(TAG, "onCameraOpen, initCamera");
         CameraThreadHandler.initCameraAsync();
-        freedAeManger.start();
+        if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+            freedAeManger.start();
     }
 
     @Override
@@ -170,7 +173,8 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
 
     @Override
     public void onCameraClose() {
-        freedAeManger.stop();
+        if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+            freedAeManger.stop();
         try {
             Log.d(TAG, "onCameraClose");
             cameraIsOpen = false;

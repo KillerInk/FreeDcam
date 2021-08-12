@@ -17,6 +17,7 @@ import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
@@ -28,6 +29,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
+import freed.cam.ui.themesample.settings.childs.SettingsChild_FreedAe;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_SwitchAspectRatio;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -48,7 +50,7 @@ public class SettingsMenuItemFactory
         this.apiParameter = apiParameter;
     }
 
-    public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder, ActivityInterface activityInterface)
+    public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder)
     {
         SettingsManager apS = FreedApplication.settingsManager();
         if (cameraUiWrapper != null) {
@@ -296,6 +298,12 @@ public class SettingsMenuItemFactory
             }
             SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
             previewgroup.addView(aspectRatio);
+
+            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null && params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name()))
+            {
+                SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context,apS.getGlobal(SettingKeys.USE_FREEDCAM_AE),R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
+                previewgroup.addView(freedae);
+            }
 
             settingchildholder.addView(previewgroup);
 

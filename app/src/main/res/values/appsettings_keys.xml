@@ -142,6 +142,7 @@
     <string name="aps_bayformat" translatable="false">bayerformat</string>
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>
     <string name="aps_playshuttersound" translatable="false">playshuttersound</string>
+    <string name="aps_use_freedcam_ae" translatable="false">use_freedcam_ae</string>
     <string name="aps_focuspeakcolor" translatable="false">focuspeakcolor</string>
     <string name="aps_video_audio_source" translatable="false">videoaudiosource</string>
     <string name="aps_rawsize" translatable="false">rawsize</string>
