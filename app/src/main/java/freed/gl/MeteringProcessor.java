@@ -5,6 +5,8 @@ import android.opengl.GLES20;
 
 import java.nio.IntBuffer;
 
+import freed.settings.SettingsManager;
+
 public class MeteringProcessor {
 
     public interface MeteringEvent
@@ -16,6 +18,7 @@ public class MeteringProcessor {
     private int width;
     private int height;
     private int meters[];
+    private SettingsManager settingsManager;
 
   /*                                          private Point center_y_plus_plus;
     private Point center_x_minus_y_plus;    private Point center_y_plus;        private Point center_x_plus_y_plus;
@@ -24,6 +27,12 @@ public class MeteringProcessor {
                                             private Point center_y_minus_minus;*/
 
     private IntBuffer pixelBuffer;
+
+
+    public MeteringProcessor(SettingsManager settingsManager)
+    {
+        this.settingsManager = settingsManager;
+    }
 
 
     public void setMeteringEventListener(MeteringEvent meteringEventListener) {
@@ -72,8 +81,17 @@ public class MeteringProcessor {
 
     }
 
+    public boolean isMeteringEnabled()
+    {
+        return settingsManager.getGlobal(SettingsManager.USE_FREEDCAM_AE).get();
+    }
+
     public void getMeters()
     {
+        if (!isMeteringEnabled())
+            return;
+
+
         /*                                        getColor(0,center_y_plus_plus);
         getColor(1,center_x_minus_y_plus);   getColor(2,center_y_plus);         getColor(3,center_x_plus_y_plus);
         getColor(4,center_x_minus);          getColor(5,center);                getColor(6,center_x_plus);

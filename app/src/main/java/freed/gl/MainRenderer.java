@@ -121,16 +121,12 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         if (!mGLInit) return;
 
         drawing = true;
-        if (mUpdateST)
-        {
+        if (mUpdateST) {
             try {
                 cameraInputTextureHolder.getSurfaceTexture().updateTexImage();
-            }
-            catch (RuntimeException ex)
-            {
+            } catch (RuntimeException ex) {
                 Log.WriteEx(ex);
-            }
-            finally {
+            } finally {
                 mUpdateST = false;
             }
         }
@@ -138,14 +134,18 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesProgram.setGlTex(cameraInputTextureHolder);
         oesProgram.draw();
 
-        scaledownBuffer.setActive();
-        GLES30.glViewport(0, 0, width/2, height/2);
-        previewProgram.setGlTex(oesFbTexture);
-        previewProgram.draw();
+        if ((mView.getHistogramController().getMeteringProcessor() != null
+                && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
+                || mView.getHistogramController().isEnabled())
+        {
+            scaledownBuffer.setActive();
+            GLES30.glViewport(0, 0, width / 2, height / 2);
+            previewProgram.setGlTex(oesFbTexture);
+            previewProgram.draw();
+            GLES30.glViewport(0, 0, width, height);
+        }
 
-        GLES30.glViewport(0, 0, width, height);
-
-        if (mView.getHistogramController().getMeteringProcessor() != null)
+        if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
             mView.getHistogramController().getMeteringProcessor().getMeters();
 
         if (mView.getHistogramController().isEnabled()) {

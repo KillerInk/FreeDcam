@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import freed.gl.MeteringProcessor;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 public class HistogramController implements HistogramChangedEvent {
@@ -26,11 +27,11 @@ public class HistogramController implements HistogramChangedEvent {
     private ImageView waveFormView;
     private MeteringProcessor meteringProcessor;
 
-    public HistogramController()
+    public HistogramController(SettingsManager settingsManager)
     {
         histogramProcessor = new HistogramProcessor(this);
         histogramData = new HistogramData();
-        meteringProcessor = new MeteringProcessor();
+        meteringProcessor = new MeteringProcessor(settingsManager);
     }
 
     public MeteringProcessor getMeteringProcessor() {
