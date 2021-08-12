@@ -15,6 +15,10 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
@@ -27,6 +31,7 @@ import freed.cam.apis.camera2.Camera2;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.gl.MeteringProcessor;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
@@ -55,12 +60,15 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private boolean iso_enabled;
     private long forcedExposureTime;
     private int forcedIso;
+    private SettingsManager settingsManager;
 
 
-    public FreedAeManger(Camera2 cameraWrapperInterface,UserMessageHandler userMessageHandler) {
+
+    public FreedAeManger(Camera2 cameraWrapperInterface,UserMessageHandler userMessageHandler,SettingsManager settingsManager) {
         super(cameraWrapperInterface);
         this.cameraWrapperInterface = cameraWrapperInterface;
         this.userMessageHandler = userMessageHandler;
+        this.settingsManager =settingsManager;
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         meteringProcessor = ActivityFreeDcamMain.histogramController().getMeteringProcessor();
         manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
@@ -180,7 +188,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
 
     @Override
     public void onMeteringDataChanged(int[] meters) {
-        if (backgroundHandlerThread.getThread().isAlive()) {
+        if (!this.measureMeter.isWorking) {
             this.measureMeter.setMeter(meters);
             backgroundHandlerThread.execute(measureMeter);
         }
@@ -193,6 +201,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         private int[] meter;
         List<Float> lumas = new ArrayList<>();
         private int logcounter = 0;
+        private final Object lock = new Object();
 
         private void addLuma(float luma)
         {
@@ -210,85 +219,143 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             return out;
         }
 
+        private boolean isWorking = false;
+        public boolean isWorking()
+        {
+            return isWorking;
+        }
+
         public void setMeter(int[] meter) {
-            this.meter = meter.clone();
+            synchronized (lock) {
+                this.meter = meter.clone();
+            }
         }
 
         @Override
         public void run() {
-            if (meter == null)
-                return;
-            float luminance  = 0f;
-            for (int i = 0; i < meter.length;i++)
-            {
-                luminance += getLuminance(meter[i]);
-            }
-
-            luminance = luminance / (float)meter.length /*- 0.2126f*/;
-            addLuma(luminance);
-
-            luminance = getAvarageLuma();
-
-            double currentValuesEV = getCurrentEV(aperture,exposuretime,iso);
-            double EV100 = getEv100(aperture,exposuretime);
-            double ev = getTargetEv(luminance);
-
-            ev = ev + ((luminance) * 12.5) ;
-            //long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
-            if (!iso_enabled && ! expotime_enable) {
-                double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
-                double newiso = clamp(ciso, min_iso, max_iso);
-                double iso_applied_ev = getCurrentEV(aperture, exposuretime, newiso);
-                double newexpotime = clamp(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), min_exposuretime, default_exposuretime);
-                double finalEV = getCurrentEV(aperture, newexpotime, newiso);
-                if (logcounter++ == 11) {
-                    String msg = "L:" + luminance +
-                            "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
-                            "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV + "\n" + (float) finalEV + "\n" + (float) EV100;
-                    userMessageHandler.sendMSG(msg, false);
-                    logcounter = 0;
+            synchronized (lock) {
+                if (meter == null)
+                    return;
+                isWorking = true;
+                float luminance = 0f;
+                for (int i = 0; i < meter.length; i++) {
+                    luminance += getLuminance(meter[i]);
                 }
-                exposuretime = (long) newexpotime;
-                iso = (int) newiso;
-            }
-            else if (iso_enabled && !expotime_enable)
-            {
-                iso = forcedIso;
-                double iso_applied_ev = getCurrentEV(aperture, exposuretime, iso);
-                double newexpotime = clamp(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), min_exposuretime, default_exposuretime);
-                exposuretime = (long) newexpotime;
-                if (logcounter++ == 11) {
-                    String msg = "L:" + luminance +
-                            "\nI:" + iso +
-                            "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
-                    userMessageHandler.sendMSG(msg, false);
-                    logcounter = 0;
-                }
-            }
-            else if (!iso_enabled && expotime_enable)
-            {
-                exposuretime = forcedExposureTime;
-                double is = getIso(aperture, exposuretime, ev + exposureCompensationValue);
-                iso = (int)clamp(is, min_iso, max_iso);
-                if (logcounter++ == 11) {
-                    String msg = "L:" + luminance +
-                            "\nI:" + iso +
-                            "\nS:" + getShutterStringNS(exposuretime) +
-                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
-                    userMessageHandler.sendMSG(msg, false);
-                    logcounter = 0;
-                }
-            }
-            else
-            {
-                iso = forcedIso;
-                exposuretime = forcedExposureTime;
-            }
 
-            setExposuretime(exposuretime,false);
-            setiso(iso,true);
+                luminance = luminance / (float) meter.length /*- 0.2126f*/;
+                addLuma(luminance);
+
+                luminance = getAvarageLuma();
+
+                double currentValuesEV = getCurrentEV(aperture, exposuretime, iso);
+                double EV100 = getEv100(aperture, exposuretime);
+                double ev = getTargetEv(luminance);
+                int user_max_iso = getUserMaxIso();
+                int user_min_iso = getUserMinIso();
+                long user_max_expotime = getUserMaxExpoTime();
+                long user_min_expotime = getUserMinExpoTime();
+
+                ev = ev + ((luminance) * 12.5);
+                //long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
+                if (!iso_enabled && !expotime_enable) {
+                    double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
+                    double newiso = clampIso(ciso, user_min_iso, user_max_iso);
+                    double iso_applied_ev = getCurrentEV(aperture, exposuretime, newiso);
+                    double newexpotime = clampExposureTime(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), user_min_expotime, user_max_expotime);
+                    double finalEV = getCurrentEV(aperture, newexpotime, newiso);
+                    if (logcounter++ == 11) {
+                        String msg = "L:" + luminance +
+                                "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
+                                "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
+                                "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV + "\n" + (float) finalEV + "\n" + (float) EV100;
+                        userMessageHandler.sendMSG(msg, false);
+                        logcounter = 0;
+                    }
+                    exposuretime = (long) newexpotime;
+                    iso = (int) newiso;
+                } else if (iso_enabled && !expotime_enable) {
+                    iso = forcedIso;
+                    double iso_applied_ev = getCurrentEV(aperture, exposuretime, iso);
+                    double newexpotime = clampExposureTime(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), user_min_expotime, user_max_expotime);
+                    exposuretime = (long) newexpotime;
+                    if (logcounter++ == 11) {
+                        String msg = "L:" + luminance +
+                                "\nI:" + iso +
+                                "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
+                                "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
+                        userMessageHandler.sendMSG(msg, false);
+                        logcounter = 0;
+                    }
+                } else if (!iso_enabled && expotime_enable) {
+                    exposuretime = forcedExposureTime;
+                    double is = getIso(aperture, exposuretime, ev + exposureCompensationValue);
+                    iso = (int) clampIso(is, user_min_iso, user_max_iso);
+                    if (logcounter++ == 11) {
+                        String msg = "L:" + luminance +
+                                "\nI:" + iso +
+                                "\nS:" + getShutterStringNS(exposuretime) +
+                                "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
+                        userMessageHandler.sendMSG(msg, false);
+                        logcounter = 0;
+                    }
+                } else {
+                    iso = forcedIso;
+                    exposuretime = forcedExposureTime;
+                }
+
+                setExposuretime(exposuretime, false);
+                setiso(iso, true);
+                isWorking = false;
+            }
+        }
+
+        private int getUserMaxIso()
+        {
+            try {
+                int index = Integer.parseInt(settingsManager.get(SettingKeys.MAX_ISO).get());
+                return index;
+            }
+            catch (NullPointerException exception)
+            {
+            }
+            return 0;
+        }
+
+        private int getUserMinIso()
+        {
+            try {
+                int index = Integer.parseInt(settingsManager.get(SettingKeys.MIN_ISO).get());
+                return index;  /*Integer.parseInt(manualIso.getStringValues()[index]);*/
+            }
+            catch (NullPointerException exception)
+            {
+            }
+            return 0;
+        }
+
+        private long getUserMinExpoTime()
+        {
+            try {
+
+                String s = settingsManager.get(SettingKeys.MIN_EXPOSURE).get();
+                return AbstractManualShutter.getMilliSecondStringFromShutterString(s) * 1000;
+            }
+            catch (NullPointerException exception)
+            {
+            }
+            return 0;
+        }
+
+        private long getUserMaxExpoTime()
+        {
+            try {
+                String s = settingsManager.get(SettingKeys.MAX_EXPOSURE).get();
+                return AbstractManualShutter.getMilliSecondStringFromShutterString(s) * 1000;
+            }
+            catch (NullPointerException exception)
+            {
+            }
+            return 0;
         }
 
         private void setExposuretime(long valueToSet, boolean setToCamera) {
@@ -364,6 +431,30 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 return max;
             else
                 return val;
+        }
+
+        private double clampIso(double iso, int isomin, int isomax)
+        {
+            if (isomin == 0 && isomax == 0)
+                return clamp(iso,min_iso, max_iso);
+            else if (isomin == 0 && isomax != 0)
+                return clamp(iso,min_iso, isomax);
+            else if (isomin != 0 && isomax == 0)
+                return clamp(iso,isomin,max_iso);
+            else
+                return clamp(iso,isomin,isomax);
+        }
+
+        private double clampExposureTime(double expotime, double expotimeMin, double expoTimeMax)
+        {
+            if (expotimeMin == 0 && expoTimeMax == 0)
+                return clamp(expotime,min_exposuretime, default_exposuretime);
+            else if (expotimeMin == 0 && expoTimeMax != 0)
+                return clamp(expotime,min_exposuretime, expoTimeMax);
+            else if (expotimeMin != 0 && expoTimeMax == 0)
+                return clamp(expotime,expotimeMin,default_exposuretime);
+            else
+                return clamp(expotime,expotimeMin,expoTimeMax);
         }
 
         private double sqr(double in)

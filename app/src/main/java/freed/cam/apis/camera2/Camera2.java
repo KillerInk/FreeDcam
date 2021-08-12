@@ -49,7 +49,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
             preview.setHistogramFeed(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
-        freedAeManger = new FreedAeManger(this, ActivityFreeDcamMain.userMessageHandler());
+        freedAeManger = new FreedAeManger(this, ActivityFreeDcamMain.userMessageHandler(),settingsManager);
     }
 
 

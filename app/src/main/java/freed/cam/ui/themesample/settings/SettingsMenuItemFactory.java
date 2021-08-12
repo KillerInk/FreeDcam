@@ -303,6 +303,22 @@ public class SettingsMenuItemFactory
             {
                 SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context,apS.getGlobal(SettingKeys.USE_FREEDCAM_AE),R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
                 previewgroup.addView(freedae);
+
+                SettingsChildMenu maxiso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_ISO),R.string.setting_maxiso_header, R.string.setting_maxiso_text);
+                maxiso.SetUiItemClickListner(click);
+                previewgroup.addView(maxiso);
+
+                SettingsChildMenu miniso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_ISO),R.string.setting_miniso_header, R.string.setting_miniso_text);
+                miniso.SetUiItemClickListner(click);
+                previewgroup.addView(miniso);
+
+                SettingsChildMenu minexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_EXPOSURE),R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
+                minexpotime.SetUiItemClickListner(click);
+                previewgroup.addView(minexpotime);
+
+                SettingsChildMenu maxexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_EXPOSURE),R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
+                maxexpotime.SetUiItemClickListner(click);
+                previewgroup.addView(maxexpotime);
             }
 
             settingchildholder.addView(previewgroup);

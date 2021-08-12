@@ -132,6 +132,10 @@
     <string name="aps_focuspeak" translatable="false">focuspeak</string>
     <string name="aps_histogram" translatable="false">histogram</string>
     <string name="aps_clipping" translatable="false">clipping</string>
+    <string name="aps_min_iso" translatable="false">min_iso</string>
+    <string name="aps_max_iso" translatable="false">max_iso</string>
+    <string name="aps_min_exposure" translatable="false">min_exposure</string>
+    <string name="aps_max_exposure" translatable="false">max_exposure</string>
     <string name="aps_enable_renderscript" translatable="false">enable_renderscript</string>
     <string name="aps_enable_video_opmode" translatable="false">enable_video_op_mode</string>
     <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
