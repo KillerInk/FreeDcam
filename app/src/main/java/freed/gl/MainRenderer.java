@@ -318,8 +318,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         waveformBuffer.setOutputTexture(waveformFbTexture);
         Log.d(TAG,"Waveformbuffer successful:" + waveformBuffer.isSuccessfulLoaded());
 
-        int w = width /2;
-        int h = height /2;
+        int w = width;
+        int h = height;
         pixels = new int[w*h];
         pixelBuffer = IntBuffer.wrap(pixels);
         bytepixels = new byte[w*h*4];

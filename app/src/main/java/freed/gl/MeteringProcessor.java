@@ -43,7 +43,7 @@ public class MeteringProcessor {
     {
         this.width = width;
         this.height = height;
-        pixelBuffer = IntBuffer.allocate((width/2) * (height /2));
+        pixelBuffer = IntBuffer.allocate((width) * (height));
         meters = new int[10];
         calcPositionsToGet();
     }
@@ -99,7 +99,7 @@ public class MeteringProcessor {
                                                 getColor(10,center_y_minus_minus);*/
 
         pixelBuffer.clear();
-        GLES20.glReadPixels(0, 0, width/2, height/2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+        GLES20.glReadPixels(0, 0, width, height, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
         //GLES20.glReadPixels(width/2-100, height/2-100, 200, 200, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
 
        /* int t = 0;
