@@ -43,10 +43,10 @@ public class ExposureTimeDetector extends BaseParameter2Detector {
             tmp = getShutterStrings(max, min,true);
             String ext2[] = tmp.toArray(new String[tmp.size()]);
             settingsManager.get(SettingKeys.MIN_EXPOSURE).setValues(ext2);
-            settingsManager.get(SettingKeys.MIN_EXPOSURE).set(0+"");
+            settingsManager.get(SettingKeys.MIN_EXPOSURE).set("auto");
             settingsManager.get(SettingKeys.MIN_EXPOSURE).setIsSupported(true);
             settingsManager.get(SettingKeys.MAX_EXPOSURE).setValues(ext2);
-            settingsManager.get(SettingKeys.MAX_EXPOSURE).set(0+"");
+            settingsManager.get(SettingKeys.MAX_EXPOSURE).set("auto");
             settingsManager.get(SettingKeys.MAX_EXPOSURE).setIsSupported(true);
         }
 

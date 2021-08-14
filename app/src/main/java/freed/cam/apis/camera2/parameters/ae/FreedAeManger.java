@@ -74,7 +74,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
         List<String> evs = new ArrayList<>();
-        for (float i = -8; i <= 8; i +=0.2)
+        for (float i = -10; i <= 10; i +=0.2)
         {
             String t = String.format("%.1f", i);
             evs.add(t);

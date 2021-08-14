@@ -152,6 +152,8 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
 
         @Override
         public String getStringValue() {
+            if (currentInt > stringvalues.length)
+                currentInt = stringvalues.length/2;
             try {
                 return stringvalues[currentInt];
             }

@@ -34,8 +34,10 @@ public class IsoDetector extends BaseParameter2Detector {
             settingsManager.get(SettingKeys.M_ManualIso).setValues(a);
             settingsManager.get(SettingKeys.MIN_ISO).setValues(a);
             settingsManager.get(SettingKeys.MIN_ISO).setIsSupported(true);
+            settingsManager.get(SettingKeys.MIN_ISO).set("auto");
             settingsManager.get(SettingKeys.MAX_ISO).setValues(a);
             settingsManager.get(SettingKeys.MAX_ISO).setIsSupported(true);
+            settingsManager.get(SettingKeys.MAX_ISO).set("auto");
         }
     }
 
