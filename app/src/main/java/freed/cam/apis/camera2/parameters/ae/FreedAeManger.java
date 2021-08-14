@@ -312,7 +312,10 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         private int getUserMaxIso()
         {
             try {
-                int index = Integer.parseInt(settingsManager.get(SettingKeys.MAX_ISO).get());
+                String s = settingsManager.get(SettingKeys.MAX_ISO).get();
+                if (s.equals("auto"))
+                    return 0;
+                int index = Integer.parseInt(s);
                 return index;
             }
             catch (NullPointerException exception)
@@ -324,7 +327,10 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         private int getUserMinIso()
         {
             try {
-                int index = Integer.parseInt(settingsManager.get(SettingKeys.MIN_ISO).get());
+                String s = settingsManager.get(SettingKeys.MIN_ISO).get();
+                if (s.equals("auto"))
+                    return 0;
+                int index = Integer.parseInt(s);
                 return index;  /*Integer.parseInt(manualIso.getStringValues()[index]);*/
             }
             catch (NullPointerException exception)
@@ -338,6 +344,8 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             try {
 
                 String s = settingsManager.get(SettingKeys.MIN_EXPOSURE).get();
+                if (s.equals("auto"))
+                    return 0;
                 return AbstractManualShutter.getMilliSecondStringFromShutterString(s) * 1000;
             }
             catch (NullPointerException exception)
@@ -350,6 +358,8 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         {
             try {
                 String s = settingsManager.get(SettingKeys.MAX_EXPOSURE).get();
+                if (s.equals("auto"))
+                    return 0;
                 return AbstractManualShutter.getMilliSecondStringFromShutterString(s) * 1000;
             }
             catch (NullPointerException exception)
@@ -359,7 +369,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         }
 
         private void setExposuretime(long valueToSet, boolean setToCamera) {
-            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, exposuretime,setToCamera);
+            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, valueToSet,setToCamera);
             //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged(getShutterStringNS(exposuretime));
         }
 
