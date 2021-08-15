@@ -56,8 +56,8 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private float focal_length;
     private UserMessageHandler userMessageHandler;
     private float exposureCompensationValue = 0;
-    private boolean expotime_enable;
-    private boolean iso_enabled;
+    private boolean expotime_enable = false;
+    private boolean iso_enabled = false;
     private long forcedExposureTime;
     private int forcedIso;
     private SettingsManager settingsManager;
@@ -228,7 +228,9 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         public void setMeter(int[] meter) {
             synchronized (lock) {
                 this.meter = meter.clone();
+                lock.notify();
             }
+
         }
 
         @Override
@@ -256,14 +258,16 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 long user_min_expotime = getUserMinExpoTime();
 
                 ev = ev + ((luminance) * 12.5);
+                //ev = ev * 2;
                 //long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
                 if (!iso_enabled && !expotime_enable) {
-                    exposuretime = getUserMaxExpoTime();
+                    //exposuretime = getUserMaxExpoTime();
                     double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
                     double newiso = clampIso(ciso, user_min_iso, user_max_iso);
                     double iso_applied_ev = getCurrentEV(aperture, exposuretime, newiso);
                     double newexpotime = clampExposureTime(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), user_min_expotime, user_max_expotime);
                     double finalEV = getCurrentEV(aperture, newexpotime, newiso);
+
                     if (logcounter++ == 11) {
                         String msg = "L:" + luminance +
                                 "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
@@ -274,11 +278,14 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                     }
                     exposuretime = (long) newexpotime;
                     iso = (int) newiso;
+                    setExposuretime(exposuretime, false);
+                    setiso(iso, true);
                 } else if (iso_enabled && !expotime_enable) {
                     iso = forcedIso;
                     double iso_applied_ev = getCurrentEV(aperture, exposuretime, iso);
                     double newexpotime = clampExposureTime(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), user_min_expotime, user_max_expotime);
                     exposuretime = (long) newexpotime;
+
                     if (logcounter++ == 11) {
                         String msg = "L:" + luminance +
                                 "\nI:" + iso +
@@ -287,10 +294,12 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                         userMessageHandler.sendMSG(msg, false);
                         logcounter = 0;
                     }
+                    setExposuretime(exposuretime, true);
                 } else if (!iso_enabled && expotime_enable) {
                     exposuretime = forcedExposureTime;
                     double is = getIso(aperture, exposuretime, ev + exposureCompensationValue);
                     iso = (int) clampIso(is, user_min_iso, user_max_iso);
+
                     if (logcounter++ == 11) {
                         String msg = "L:" + luminance +
                                 "\nI:" + iso +
@@ -299,15 +308,15 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                         userMessageHandler.sendMSG(msg, false);
                         logcounter = 0;
                     }
+                    setiso(iso, true);
                 } else {
                     iso = forcedIso;
                     exposuretime = forcedExposureTime;
                 }
-
-                setExposuretime(exposuretime, false);
-                setiso(iso, true);
                 isWorking = false;
+                lock.notify();
             }
+
         }
 
         private int getUserMaxIso()
