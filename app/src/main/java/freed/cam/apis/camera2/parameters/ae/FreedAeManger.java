@@ -74,7 +74,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
         List<String> evs = new ArrayList<>();
-        for (float i = -10; i <= 10; i +=0.2)
+        for (float i = -20; i <= 20; i +=0.2)
         {
             String t = String.format("%.1f", i);
             evs.add(t);
@@ -258,6 +258,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 ev = ev + ((luminance) * 12.5);
                 //long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
                 if (!iso_enabled && !expotime_enable) {
+                    exposuretime = getUserMaxExpoTime();
                     double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
                     double newiso = clampIso(ciso, user_min_iso, user_max_iso);
                     double iso_applied_ev = getCurrentEV(aperture, exposuretime, newiso);
