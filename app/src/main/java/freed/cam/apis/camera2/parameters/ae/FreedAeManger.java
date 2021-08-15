@@ -245,7 +245,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 luminance = luminance / (float) meter.length /*- 0.2126f*/;
                 addLuma(luminance);
 
-                luminance = getAvarageLuma();
+                luminance = getAvarageLuma() *4;
 
                 double currentValuesEV = getCurrentEV(aperture, exposuretime, iso);
                 double EV100 = getEv100(aperture, exposuretime);
