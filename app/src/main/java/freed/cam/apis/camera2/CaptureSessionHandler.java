@@ -390,7 +390,7 @@ public class CaptureSessionHandler
 
     public void StartRepeatingCaptureSession()
     {
-        Log.d(TAG, "StartRepeatingCaptureSession Surface:" +surfaces.size());
+        //Log.d(TAG, "StartRepeatingCaptureSession Surface:" +surfaces.size());
         if (mCaptureSession == null || surfaces.size() == 0)
             return;
         try {
@@ -538,8 +538,8 @@ public class CaptureSessionHandler
 
     public <T> void SetParameterRepeating(CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
-        if (key != null && value != null)
-            Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");
+        /*if (key != null && value != null)
+            Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");*/
         if (mPreviewRequestBuilder == null )
             return;
         mPreviewRequestBuilder.set(key,value);

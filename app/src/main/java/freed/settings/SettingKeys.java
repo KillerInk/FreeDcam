@@ -176,6 +176,11 @@ public class SettingKeys{
     public final static GlobalKey<SettingMode> HorizontLvl = new GlobalKey(SettingMode.class, R.string.aps_horizontlvl);
     public final static GlobalKey<SettingMode> FOCUSPEAK_COLOR = new GlobalKey(SettingMode.class, R.string.aps_focuspeakcolor);
     public final static GlobalKey<GlobalBooleanSettingMode> PLAY_SHUTTER_SOUND = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_playshuttersound);
+    public final static GlobalKey<GlobalBooleanSettingMode> USE_FREEDCAM_AE = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_use_freedcam_ae);
+    public final static Key<SettingMode> MIN_ISO = new Key(SettingMode.class, R.string.aps_min_iso);
+    public final static Key<SettingMode> MAX_ISO = new Key(SettingMode.class, R.string.aps_max_iso);
+    public final static Key<SettingMode> MAX_EXPOSURE = new Key(SettingMode.class, R.string.aps_max_exposure);
+    public final static Key<SettingMode> MIN_EXPOSURE = new Key(SettingMode.class, R.string.aps_min_exposure);
 
     /**
      *

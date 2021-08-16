@@ -90,6 +90,21 @@
     <string name="setting_switch_aspect_header">Switch width and height</string>
     <string name="setting_switch_aspect_text">Switch Preview Aspect Ratio</string>
 
+    <string name="setting_usefreedae_header">Freedcam AE</string>
+    <string name="setting_use_freedae_text">Enable to use a custom ae</string>
+
+    <string name="setting_maxiso_header">Max Iso:</string>
+    <string name="setting_maxiso_text">Max iso that can get used by ae</string>
+
+    <string name="setting_miniso_header">Min Iso:</string>
+    <string name="setting_miniso_text">Min iso that can get used by ae</string>
+
+    <string name="setting_minexpotime_header">Min ExposureTime:</string>
+    <string name="setting_minexpotime_text">Min ExposureTime that can get used by ae</string>
+
+    <string name="setting_maxexpotime_header">Max ExposureTime:</string>
+    <string name="setting_maxexpotime_text">Max ExposureTime that can get used by ae</string>
+
     <string name="setting_timer_header">Delay till shutter fires</string>
     <string name="setting_timer_text">Time</string>
 

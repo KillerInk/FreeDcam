@@ -329,10 +329,15 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     {
         Log.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
-        if (!(cameraApiManager.getCamera() instanceof SonyRemoteCamera)) {
-            currentButton.setValueToParameters(progress);
+        try {
+            if (!(cameraApiManager.getCamera() instanceof SonyRemoteCamera)) {
+                currentButton.setValueToParameters(progress);
 
+            }
         }
+        catch (NullPointerException ex)
+        {}
+
     }
 
     @Override

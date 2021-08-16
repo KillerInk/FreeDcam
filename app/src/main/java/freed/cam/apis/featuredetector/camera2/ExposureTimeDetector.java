@@ -32,13 +32,24 @@ public class ExposureTimeDetector extends BaseParameter2Detector {
 
         ArrayList<String> tmp = getShutterStrings(max, min,false);
         settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
-        if (tmp.size() > 0)
-            settingsManager.get(SettingKeys.M_ExposureTime).setValues(tmp.toArray(new String[tmp.size()]));
-        for (int i = 0; i < tmp.size(); i++)
-        {
-            if (tmp.get(i).equals("1/30"))
-                settingsManager.get(SettingKeys.M_ExposureTime).set(i +"");
+        if (tmp.size() > 0) {
+            String ext[] = tmp.toArray(new String[tmp.size()]);
+            settingsManager.get(SettingKeys.M_ExposureTime).setValues(ext);
+            for (int i = 0; i < tmp.size(); i++)
+            {
+                if (tmp.get(i).equals("1/30"))
+                    settingsManager.get(SettingKeys.M_ExposureTime).set(i +"");
+            }
+            tmp = getShutterStrings(max, min,true);
+            String ext2[] = tmp.toArray(new String[tmp.size()]);
+            settingsManager.get(SettingKeys.MIN_EXPOSURE).setValues(ext2);
+            settingsManager.get(SettingKeys.MIN_EXPOSURE).set("auto");
+            settingsManager.get(SettingKeys.MIN_EXPOSURE).setIsSupported(true);
+            settingsManager.get(SettingKeys.MAX_EXPOSURE).setValues(ext2);
+            settingsManager.get(SettingKeys.MAX_EXPOSURE).set("auto");
+            settingsManager.get(SettingKeys.MAX_EXPOSURE).setIsSupported(true);
         }
+
 
 
     }

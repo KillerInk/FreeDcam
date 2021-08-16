@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
     <view

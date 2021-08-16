@@ -68,6 +68,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     byte bytepixels[];
     ByteBuffer byteBuffer;
 
+    GL2DTex scaledownTexture;
+    GLFrameBuffer scaledownBuffer;
+
     IntBuffer waveformPixel;
 
     private int histo_update_counter = 0;
@@ -88,6 +91,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         waveformBuffer = new GLFrameBuffer();
         waveformFbTexture = new GL2DTex();
+
+        scaledownBuffer = new GLFrameBuffer();
+        scaledownTexture = new GL2DTex();
 
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
@@ -115,22 +121,30 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         if (!mGLInit) return;
 
         drawing = true;
-        if (mUpdateST)
-        {
+        if (mUpdateST) {
             try {
                 cameraInputTextureHolder.getSurfaceTexture().updateTexImage();
-            }
-            catch (RuntimeException ex)
-            {
+            } catch (RuntimeException ex) {
                 Log.WriteEx(ex);
-            }
-            finally {
+            } finally {
                 mUpdateST = false;
             }
         }
         oesFrameBuffer.setActive();
         oesProgram.setGlTex(cameraInputTextureHolder);
         oesProgram.draw();
+
+        if ((mView.getHistogramController().getMeteringProcessor() != null
+                && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
+                || mView.getHistogramController().isEnabled())
+        {
+            scaledownBuffer.setActive();
+            previewProgram.setGlTex(oesFbTexture);
+            previewProgram.draw();
+        }
+
+        if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
+            mView.getHistogramController().getMeteringProcessor().getMeters();
 
         if (mView.getHistogramController().isEnabled()) {
             if (histo_update_counter++ == 6) {
@@ -302,13 +316,17 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         waveformBuffer.setOutputTexture(waveformFbTexture);
         Log.d(TAG,"Waveformbuffer successful:" + waveformBuffer.isSuccessfulLoaded());
 
-        int w = width /2;
-        int h = height /2;
+        int w = width;
+        int h = height;
         pixels = new int[w*h];
         pixelBuffer = IntBuffer.wrap(pixels);
         bytepixels = new byte[w*h*4];
         byteBuffer = ByteBuffer.wrap(bytepixels);
         byteBuffer.order(ByteOrder.nativeOrder());
+
+        scaledownBuffer.create();
+        scaledownTexture.create(w,h);
+        scaledownBuffer.setOutputTexture(scaledownTexture);
 
         waveformPixel = IntBuffer.allocate(width *(height/3));
         Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
@@ -328,6 +346,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         waveformBuffer.delete();
         waveformFbTexture.delete();
+
+        scaledownBuffer.delete();
+        scaledownTexture.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -343,6 +364,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         }
         closeBuffers();
         createBuffers();
+        if (mView.getHistogramController().getMeteringProcessor() != null)
+            mView.getHistogramController().getMeteringProcessor().setSize(width,height);
         GLES30.glViewport(0, 0, width, height);
     }
 
@@ -382,4 +405,5 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     public WaveFormRGBProgram getWaveFormRGBProgram() {
         return waveFormRGBProgram;
     }
+    
 }
