@@ -139,10 +139,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 || mView.getHistogramController().isEnabled())
         {
             scaledownBuffer.setActive();
-            GLES30.glViewport(0, 0, width / 2, height / 2);
             previewProgram.setGlTex(oesFbTexture);
             previewProgram.draw();
-            GLES30.glViewport(0, 0, width, height);
         }
 
         if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
@@ -407,11 +405,5 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     public WaveFormRGBProgram getWaveFormRGBProgram() {
         return waveFormRGBProgram;
     }
-
-    private void getMeterPixels()
-    {
-        int center_x = width/2;
-        int center_y = height/2;
-        GLES20.glReadPixels(0, height / 3 * 2, width, height / 3, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, waveformPixel);
-    }
+    
 }

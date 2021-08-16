@@ -137,7 +137,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         if (valueToSet > 0) {
             expotime_enable = true;
             long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet]) * 1000;
-            if (val > MAX_PREVIEW_EXPOSURETIME/* && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))*/) {
+            if (val > MAX_PREVIEW_EXPOSURETIME && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                 Log.d(manualExposureTime.TAG, "ExposureTime Exceed 100000000 for preview, set it to 100000000");
                 val = MAX_PREVIEW_EXPOSURETIME;
             }
@@ -148,7 +148,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         {
             expotime_enable = false;
         }
-        //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged(getShutterStringNS(exposuretime));
     }
 
     @Override
@@ -163,7 +162,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         }
         else
             iso_enabled = false;
-        //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(iso+"");
     }
 
     @Override
@@ -244,10 +242,10 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                     luminance += getLuminance(meter[i]);
                 }
 
-                luminance = luminance / (float) meter.length /*- 0.2126f*/;
+                luminance = luminance / (float) meter.length;
                 addLuma(luminance);
 
-                luminance = getAvarageLuma() *4;
+                luminance = getAvarageLuma();
 
                 double currentValuesEV = getCurrentEV(aperture, exposuretime, iso);
                 double EV100 = getEv100(aperture, exposuretime);
@@ -258,8 +256,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 long user_min_expotime = getUserMinExpoTime();
 
                 ev = ev + ((luminance) * 12.5);
-                //ev = ev * 2;
-                //long expotime = (long) expotimeToNano(1.0f / (focal_length * 1000.0f));
                 if (!iso_enabled && !expotime_enable) {
                     //exposuretime = getUserMaxExpoTime();
                     double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
@@ -341,7 +337,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 if (s.equals("auto"))
                     return 0;
                 int index = Integer.parseInt(s);
-                return index;  /*Integer.parseInt(manualIso.getStringValues()[index]);*/
+                return index;
             }
             catch (NullPointerException exception)
             {
@@ -380,13 +376,11 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
 
         private void setExposuretime(long valueToSet, boolean setToCamera) {
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, valueToSet,setToCamera);
-            //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged(getShutterStringNS(exposuretime));
         }
 
         private void setiso(int iso, boolean setToCam)
         {
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, iso,setToCam);
-            //cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(iso+"");
         }
 
         private double getLuminance(int color)
@@ -475,11 +469,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 return clamp(expotime,expotimeMin,default_exposuretime);
             else
                 return clamp(expotime,expotimeMin,expoTimeMax);
-        }
-
-        private double sqr(double in)
-        {
-            return in*in;
         }
 
     };
