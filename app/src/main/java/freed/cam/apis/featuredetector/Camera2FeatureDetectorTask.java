@@ -12,6 +12,7 @@ import android.os.Build;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -263,6 +264,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private void findCameraIds(CameraManager manager, List<String> cameraids) {
         List<String> allcameraids = new ArrayList<>();
         List<String> nonlogicids = new ArrayList<>();
+        String[] reportedids = null;
+        try {
+            reportedids = manager.getCameraIdList();
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i< 200; i++)
         {
             try {
@@ -328,9 +335,14 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             {
             }
         }
-        if (nonlogicids.size() == 0)
-            cameraids.addAll(allcameraids);
+        if (nonlogicids.size() >= reportedids.length || allcameraids.size() >= reportedids.length) {
+            if (nonlogicids.size() == 0)
+                cameraids.addAll(allcameraids);
+            else
+                cameraids.addAll(nonlogicids);
+        }
         else
-            cameraids.addAll(nonlogicids);
+            cameraids.addAll(Arrays.asList(reportedids));
+
     }
 }
