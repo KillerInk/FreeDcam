@@ -19,6 +19,9 @@
 
 package freed.cam.apis.basecamera.modules;
 
+import freed.cam.event.capture.CaptureStateChangedEventHandler;
+import freed.cam.event.capture.CaptureStates;
+
 /**
  * Created by troop on 15.08.2014.
  */
@@ -71,8 +74,9 @@ public interface ModuleInterface extends WorkFinishEvents
     void DestroyModule();
 
 
-    void changeCaptureState(final ModuleHandlerAbstract.CaptureStates captureStates);
+    void changeCaptureState(CaptureStates captureStates);
+    CaptureStates getCurrentCaptureState();
 
-    ModuleHandlerAbstract.CaptureStates getCurrentCaptureState();
+    void setCaptureStateEventHandler(CaptureStateChangedEventHandler eventHandler);
 
 }

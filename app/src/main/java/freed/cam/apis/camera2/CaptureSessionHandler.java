@@ -10,6 +10,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.InputConfiguration;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.OutputConfiguration;
 import android.os.Build;
 import android.os.Handler;
@@ -389,12 +390,12 @@ public class CaptureSessionHandler
 
     public void StartRepeatingCaptureSession()
     {
-        Log.d(TAG, "StartRepeatingCaptureSession Surface:" +surfaces.size());
+        //Log.d(TAG, "StartRepeatingCaptureSession Surface:" +surfaces.size());
         if (mCaptureSession == null || surfaces.size() == 0)
             return;
         try {
             mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                    null);
+                    handler);
         } catch (CameraAccessException ex) {
             Log.WriteEx(ex);
         }
@@ -537,8 +538,8 @@ public class CaptureSessionHandler
 
     public <T> void SetParameterRepeating(CaptureRequest.Key<T> key, T value, boolean setToCamera)
     {
-        if (key != null && value != null)
-            Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");
+        /*if (key != null && value != null)
+            Log.d(TAG," SetParameterRepeating(" + key.getName() + " " + value+")");*/
         if (mPreviewRequestBuilder == null )
             return;
         mPreviewRequestBuilder.set(key,value);
@@ -577,7 +578,7 @@ public class CaptureSessionHandler
         if (setToCamera)
             try {
                 mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                        handler);
+                        null);
             } catch (CameraAccessException ex) {
                 Log.WriteEx(ex);
             }
@@ -687,14 +688,14 @@ public class CaptureSessionHandler
         SetPreviewParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START,false);
     }
 
-    public <T> void SetFocusArea( CaptureRequest.Key<T> key, T value)
+    public void SetFocusArea(MeteringRectangle[] value)
     {
-        if (value != null)
-            Log.d(TAG, "Set :" + key.getName() + " to " + value.toString());
+        if (cameraBackroundValuesChangedListner.isAF_Locked())
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL,true);
         if (isHighSpeedSession && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
         {
-            mPreviewRequestBuilder.set(key,value);
-            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_REGIONS,value,true);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START,true);
             try {
                 CameraConstrainedHighSpeedCaptureSession session = null;
                 session = (CameraConstrainedHighSpeedCaptureSession)mCaptureSession;
@@ -715,10 +716,9 @@ public class CaptureSessionHandler
         }
         else {
             cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
-            mPreviewRequestBuilder.set(key,value);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_REGIONS,value,true);
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START,true);
-            SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
-
+            SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
         }
     }
 

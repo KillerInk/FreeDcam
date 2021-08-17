@@ -6,7 +6,9 @@ import android.graphics.PointF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,16 +21,21 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
+import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.HistogramData;
+import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.VideoToneCurveProfile;
 
 /**
  * Created by troop on 05.08.2017.
  */
 
 @AndroidEntryPoint
-public class CurveViewControl extends LinearLayout implements CurveView.CurveChangedEvent {
+public class CurveViewControl extends LinearLayout implements CurveView.CurveChangedEvent, HistogramController.DataListner {
 
+    private static final String TAG = CurveViewControl.class.getSimpleName();
     private Button button_rgb;
     private Button button_r;
     private Button button_g;
@@ -37,6 +44,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private Button button_removePoint;
     private Button button_save;
     private Button button_load;
+    private Button button_drag;
 
     private EditText savePanel_editText_toneCurveName;
     private Button savePanel_saveButton;
@@ -51,6 +59,9 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private CurveView curveView;
     CurveView.CurveChangedEvent curveChangedListner;
     private Button activeButton;
+    private float startPosX;
+    private float startPosY;
+
     private enum PointStates
     {
         none,
@@ -62,6 +73,11 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
     @Inject
     SettingsManager settingsManager;
+    @Inject
+    PagingViewTouchState pagingViewTouchState;
+
+    @Inject
+    HistogramController histogramController;
 
     public CurveViewControl(Context context) {
         super(context);
@@ -76,6 +92,41 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     public CurveViewControl(Context context,AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if(histogramController != null)
+            histogramController.setDataListner(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if(histogramController != null)
+            histogramController.setDataListner(null);
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void setData(HistogramData data) {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                curveView.setHistogramData(data);
+            }
+        });
+
+    }
+
+    @Override
+    public void setWaveFormData(int[] data, int width, int height) {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                curveView.setWaveformData(data,width,height);
+            }
+        });
     }
 
     private void init(Context context)
@@ -107,6 +158,43 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
         button_load =findViewById(R.id.button_load);
         button_load.setOnClickListener(onLoadButtonClick);
+
+        button_drag = findViewById(R.id.button_drag);
+        button_drag.setOnTouchListener(new OnTouchListener() {
+            private float lastx;
+            private float lasty;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //Log.d(TAG,event.toString());
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    if (startPosX == 0.0f)
+                    {
+                        startPosX = getX() + getWidth();
+                        startPosY = getY() + getHeight();
+                    }
+                    lastx = event.getRawX();
+                    lasty = event.getRawY();
+                    pagingViewTouchState.setTouchEnable(false);
+                }
+                else if (event.getAction() == MotionEvent.ACTION_MOVE)
+                {
+
+                    float difX = lastx - event.getRawX();
+                    float difY = lasty - event.getRawY();
+                    lastx = event.getRawX();
+                    lasty = event.getRawY();
+
+                    ViewGroup.LayoutParams params = getLayoutParams();
+                    params.height = (int) (startPosY - (getY() - difY));
+                    params.width = (int) (startPosX - (getX() - difX));
+                    requestLayout();
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP)
+                    pagingViewTouchState.setTouchEnable(true);
+                return false;
+            }
+        });
 
         this.curveView = findViewById(R.id.curveViewHolder);
         curveView.setCurveChangedListner(this);
@@ -154,7 +242,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         @Override
         public void onClick(View v) {
             if (loadPanel.getVisibility() == GONE) {
-                HashMap<String,VideoToneCurveProfile> profiles = FreedApplication.settingsManager().getVideoToneCurveProfiles();
+                HashMap<String, VideoToneCurveProfile> profiles = FreedApplication.settingsManager().getVideoToneCurveProfiles();
                 String[] pro = new String[profiles.keySet().size()];
                 profiles.keySet().toArray(pro);
                 loadPanel.removeAllViews();

@@ -28,18 +28,17 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.events.DisableViewPagerTouchEvent;
+import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.CameraUiSlidePagerAdapter;
+import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -52,11 +51,14 @@ import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.OrientationManager;
 import freed.utils.PermissionManager;
+import freed.utils.SoundPlayer;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import hilt.CameraApiManagerEntryPoint;
+import hilt.HistogramControllerEntryPoint;
 import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
 import hilt.PreviewControllerEntryPoint;
+import hilt.SoundPlayerEntryPoint;
 import hilt.UserMessageHandlerEntryPoint;
 
 /**
@@ -98,6 +100,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return getEntryPointFromActivity(UserMessageHandlerEntryPoint.class).userMessageHandler();
     }
 
+    public static SoundPlayer soundPlayer()
+    {
+        return getEntryPointFromActivity(SoundPlayerEntryPoint.class).soundPlayer();
+    }
+
+    public static HistogramController histogramController()
+    {
+        return getEntryPointFromActivity(HistogramControllerEntryPoint.class).histogramcontroller();
+    }
+
     @Override
     public void onCameraOpen() {
 
@@ -115,12 +127,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 SetNightOverlay();
                 if (!FileListController.needStorageAccessFrameWork) {
                     if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
-                        ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+                        imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
                 }
                 else
                 {
                     if (fileListController.getFiles() == null || fileListController.getFiles().size() == 0)
-                        ImageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+                        imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
                 }
             }
         });
@@ -152,14 +164,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
     }
 
-
-
-    @Subscribe
-    public void onDisableViewPagerTouch(DisableViewPagerTouchEvent event)
-    {
-        uiViewPager.EnableScroll(!event.disableIt);
-    }
-
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     @Inject
@@ -177,6 +181,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     FileListController fileListController;
     @Inject PermissionManager permissionManager;
     @Inject LocationManager locationManager;
+    @Inject KeyPressedController keyPressedController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -272,43 +277,35 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (activityIsResumed && (cameraApiManager != null && cameraApiManager.getCamera() != null && cameraApiManager.getCamera().getParameterHandler() != null) ) {
-            Log.d(TAG, "KeyCode Pressed:" + keyCode);
-            int appSettingsKeyShutter = 0;
-
-            try {
-                String es = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER).getStringValue();
-                if(es == null)
-                    super.onKeyDown(keyCode,event);
-                if (es.equals("Vol+"))
-                    appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-                else if (es.equals("Vol-"))
-                    appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-                else if (es.equals("Hook")
-                        || es.isEmpty())
-                    appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
-            }
-            catch (NullPointerException ex)
-            {
-                Log.WriteEx(ex);
-            }
-
-            if ((keyCode == KeyEvent.KEYCODE_3D_MODE
-                    || keyCode == KeyEvent.KEYCODE_POWER
-                    || keyCode == appSettingsKeyShutter
-                    || keyCode == KeyEvent.KEYCODE_UNKNOWN
-                    || keyCode == KeyEvent.KEYCODE_CAMERA)
-            && (cameraApiManager != null && cameraApiManager.getCamera() != null)) {
-                cameraApiManager.getCamera().getModuleHandler().startWork();
-                return true;
-            }
-            if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
-            {
-                closeActivity();
-                return true;
-            }
-        }
+        if (keyPressedController.onKeyDown(keyCode,event))
+            return true;
         return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyPressedController.onKeyUp(keyCode,event))
+            return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
+        {
+            closeActivity();
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
+        keyPressedController.onKeyMultiple(keyCode,repeatCount,event);
+        return super.onKeyMultiple(keyCode, repeatCount, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if(keyPressedController.onKeyLongPressed(keyCode,event))
+            return true;
+        return super.onKeyLongPress(keyCode, event);
     }
 
     public void closeActivity()

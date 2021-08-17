@@ -32,18 +32,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.dng.DngProfile;
@@ -51,6 +52,7 @@ import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.StringUtils.FileEnding;
 
@@ -67,6 +69,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     protected long startcapturetime;
     private boolean isBurstCapture = false;
     protected PreviewController previewController;
+    protected ImageManager imageManager;
 
 
     public PictureModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler)
@@ -75,6 +78,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         name = FreedApplication.getStringFromRessources(R.string.module_picture);
         this.cameraHolder = cameraUiWrapper.getCameraHolder();
         previewController = ActivityFreeDcamMain.previewController();
+        imageManager = FreedApplication.imageManager();
     }
 
     @Override
@@ -201,7 +205,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             Log.d(TAG, "set size to " + size.width + "x" + size.height);
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
             previewController.setSize(size.width, size.height);
-            previewController.setRotation(size.width, size.height, 0);
+            mainHandler.post(()-> previewController.setRotation(size.width, size.height, 0));
             cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
             cameraHolder.StartPreview();
         }
@@ -217,6 +221,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
+        if (settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).get())
+            soundPlayer.play();
         Log.d(this.TAG, "onPictureTaken " + Thread.currentThread().getName());
         if(data == null)
             return;
@@ -333,7 +339,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         ImageSaveTask task = new ImageSaveTask(this);
         task.setBytesTosave(data,ImageSaveTask.JPEG);
         task.setFilePath(file, settingsManager.GetWriteExternal());
-        ImageManager.putImageSaveTask(task);
+        imageManager.putImageSaveTask(task);
     }
 
     protected void saveDng(byte[] data, File file)
@@ -382,6 +388,6 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         task.setBytesTosave(data,ImageSaveTask.RAW10);
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             task.setLocation(locationManager.getCurrentLocation());
-        ImageManager.putImageSaveTask(task);
+        imageManager.putImageSaveTask(task);
     }
 }

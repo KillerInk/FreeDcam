@@ -19,13 +19,17 @@
 
 package freed.cam.apis.basecamera;
 
+import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.event.camera.CameraHolderEventHandler;
+import freed.cam.event.capture.CaptureStateChangedEventHandler;
+
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface extends CameraObjects, CameraInterface
+public interface CameraWrapperInterface extends CameraObjects, CameraInterface, CameraHolderEvent
 {
-
-
+    void setCaptureStateChangedEventHandler(CaptureStateChangedEventHandler eventHandler);
+    void setCameraHolderEventHandler(CameraHolderEventHandler cameraHolderEventHandler);
 
     boolean isAeMeteringSupported();
 

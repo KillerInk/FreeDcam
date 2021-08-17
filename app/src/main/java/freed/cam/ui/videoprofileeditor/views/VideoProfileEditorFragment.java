@@ -198,8 +198,15 @@ public class VideoProfileEditorFragment extends Fragment {
             OpCodes opcodes = OpCodes.valueOf((String)videoProfileEditorFragmentBinding.buttonOpcode.getText());
             videoProfileEditorModelView.getProfile().opcode = opcodes.GetInt();
 
-            HdrModes hdrmode = HdrModes.valueOf((String)videoProfileEditorFragmentBinding.videoHDR.getText());
-            videoProfileEditorModelView.getProfile().videoHdr = hdrmode.GetInt();
+            try {
+                HdrModes hdrmode = HdrModes.valueOf((String)videoProfileEditorFragmentBinding.videoHDR.getText());
+                videoProfileEditorModelView.getProfile().videoHdr = hdrmode.GetInt();
+            }
+            catch (IllegalArgumentException e)
+            {
+                videoProfileEditorModelView.getProfile().videoHdr = 0;
+            }
+
 
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoProfileEditorModelView.getVideoMediaProfiles().containsKey(videoProfileEditorFragmentBinding.editTextProfileName.getText().toString()))

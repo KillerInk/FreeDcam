@@ -3,6 +3,7 @@ package freed.viewer.screenslide;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import com.google.android.renderscript.Toolkit;
 import com.ortiz.touch.TouchImageView;
 
 import java.lang.ref.WeakReference;
@@ -59,13 +60,21 @@ public class BitmapLoader extends ImageTask
 
     private  int [] createHistogramm(Bitmap bitmap)
     {
-        Log.d(TAG, "Histodata");
         if(bitmap == null || bitmap.isRecycled())
             return null;
-        int [] pixels = null;
         int [] histogramData = null;
-        if (histogramData == null)
-            histogramData = new int [ 256 * 3 ];
+
+        try {
+            histogramData = Toolkit.INSTANCE.histogram(bitmap);
+        }
+        catch (NullPointerException ex)
+        {
+
+        }
+        /*Log.d(TAG, "Histodata");
+
+        int [] pixels = null;
+
         int w = bitmap.getWidth ();
         int h = bitmap.getHeight ();
         if ((pixels == null) || (pixels.length < (w * h)))
@@ -85,11 +94,47 @@ public class BitmapLoader extends ImageTask
                     histogramData [ 512 + b ]++;
                 }
             }
+            *//*int destWidth = 256;
+            int destHeight = 256;
+            int destPixels[] = new int[destWidth*destHeight];
+            int scopeIntensity = 30;
+            for (int i = 0; i < w; i++) {
+                int destX = i/w*destWidth;
+                for(int j = 0; j < h; j++) {
+                    //red
+                    int redValue = Color.red(pixels[j*w+i]); //(sourcePixels[j*sourceWidth+i] % 256) // [0,255]
+                    int destIndex = (destHeight-1-redValue)*destWidth + destX;
+
+                    int destRedVal = destPixels[destIndex];
+                    destRedVal = Math.min(destRedVal + scopeIntensity, 255);
+
+                    destPixels[destIndex] = destPixels[destIndex] & 0xff_ff_ff_00;
+                    destPixels[destIndex] = destPixels[destIndex] | destRedVal<<16;
+                    //green
+                    int greenValue = Color.green(pixels[j*w+i]); //(sourcePixels[j*sourceWidth+i] % 256) // [0,255]
+                    int destIndexgreen = (destHeight-1-greenValue)*destWidth + destX;
+
+                    int destGreenVal = destPixels[destIndexgreen];
+                    destGreenVal = Math.min(destGreenVal + scopeIntensity, 255);
+
+                    destPixels[destIndexgreen] = destPixels[destIndexgreen] & 0xff_ff_ff_00;
+                    destPixels[destIndexgreen] = destPixels[destIndexgreen] | (destGreenVal<<8);
+                    //blue
+                    int blueValue = Color.blue(pixels[j*w+i]); //(sourcePixels[j*sourceWidth+i] % 256) // [0,255]
+                    int destIndexblue = (destHeight-1-blueValue)*destWidth + destX;
+
+                    int destblueVal = destPixels[destIndexblue];
+                    destblueVal = Math.min(destblueVal + scopeIntensity, 255);
+
+                    destPixels[destIndexblue] = destPixels[destIndexblue] & 0xff_ff_ff_00;
+                    destPixels[destIndexblue] = destPixels[destIndexblue] | (destblueVal);
+                }
+            }*//*
         }
         catch (NullPointerException ex)
         {
             Log.WriteEx(ex);
-        }
+        }*/
         return histogramData;
     }
 }

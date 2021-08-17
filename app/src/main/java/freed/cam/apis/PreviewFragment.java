@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,7 +20,7 @@ import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.viewer.screenslide.views.MyHistogram;
+import freed.cam.histogram.MyHistogram;
 
 @AndroidEntryPoint
 public class PreviewFragment  extends Fragment {
@@ -31,13 +32,12 @@ public class PreviewFragment  extends Fragment {
     protected PreviewController preview;
     @Inject
     SettingsManager settingsManager;
+    @Inject HistogramController histogramController;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         Log.d(TAG, "onCreateView");
         view = layoutInflater.inflate(R.layout.camerafragment, viewGroup, false);
-        MyHistogram histogram = view.findViewById(R.id.hisotview);
-        HistogramController histogramController = new HistogramController(histogram);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() == null)
             preview.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
         else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))

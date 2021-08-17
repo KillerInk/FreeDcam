@@ -21,6 +21,8 @@ package freed.cam.apis.basecamera;
 
 import android.location.Location;
 
+import freed.cam.event.camera.CameraHolderEventHandler;
+
 /**
  * Created by troop on 15.08.2014.
  */
@@ -37,8 +39,7 @@ public interface CameraHolderInterface
 
     void SetLocation(Location location);
     void CancelFocus();
-    void addEventListner(CameraHolderEvent event);
-    void removeEventListner(CameraHolderEvent event);
-
+    void addEventListner(CameraHolderEventHandler event);
+    CameraHolderEventHandler getCameraHolderEventHandler();
 
 }

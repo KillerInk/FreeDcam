@@ -24,8 +24,6 @@ import java.util.concurrent.BlockingQueue;
 import freed.FreedApplication;
 import freed.cam.apis.sonyremote.sonystuff.DataExtractor;
 import freed.cam.apis.sonyremote.sonystuff.SimpleLiveviewSlicer;
-import freed.cam.events.DisableViewPagerTouchEvent;
-import freed.cam.events.EventBusHelper;
 import freed.renderscript.RenderScriptManager;
 import freed.renderscript.RenderScriptProcessorInterface;
 import freed.utils.FreeDPool;
@@ -79,10 +77,10 @@ public class PreviewStreamDrawer implements RenderScriptProcessorInterface {
     @Subscribe
     public void onJoypadTouchUp(boolean up)
     {
-        if (up)
+        /*if (up)
             EventBusHelper.post(new DisableViewPagerTouchEvent(false));
         else
-            EventBusHelper.post(new DisableViewPagerTouchEvent(true));
+            EventBusHelper.post(new DisableViewPagerTouchEvent(true));*/
     }
 
     @Subscribe

@@ -4,6 +4,8 @@ import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
+import freed.cam.event.camera.CameraHolderEventHandler;
+import freed.cam.event.capture.CaptureStateChangedEventHandler;
 import freed.cam.previewpostprocessing.PreviewControllerInterface;
 import freed.settings.SettingsManager;
 
@@ -12,8 +14,7 @@ public abstract class AbstractCamera<
         C extends CameraHolderInterface,
         M extends ModuleHandlerInterface,
         F extends AbstractFocusHandler>
-        implements CameraWrapperInterface,
-        CameraHolderEvent
+        implements CameraWrapperInterface
 {
     private static final String TAG = AbstractCamera.class.getSimpleName();
     public M moduleHandler;
@@ -37,6 +38,18 @@ public abstract class AbstractCamera<
     {
         settingsManager = FreedApplication.settingsManager();
         preview = ActivityFreeDcamMain.previewController();
+    }
+
+    @Override
+    public void setCaptureStateChangedEventHandler(CaptureStateChangedEventHandler eventHandler)
+    {
+        moduleHandler.setCaptureStateChangedEventHandler(eventHandler);
+    }
+
+    @Override
+    public void setCameraHolderEventHandler(CameraHolderEventHandler cameraHolderEventHandler) {
+
+        cameraHolder.addEventListner(cameraHolderEventHandler);
     }
 
     @Override

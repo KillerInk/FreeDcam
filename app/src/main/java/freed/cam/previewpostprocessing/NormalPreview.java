@@ -86,6 +86,16 @@ public class NormalPreview extends AutoFitTexturviewPreview {
     }
 
     @Override
+    public void setColorWaveForm(boolean on) {
+
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        return false;
+    }
+
+    @Override
     public void start() {
 
     }
@@ -114,6 +124,16 @@ public class NormalPreview extends AutoFitTexturviewPreview {
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
+
+    }
+
+    @Override
+    public void setZebraHigh(float high) {
+
+    }
+
+    @Override
+    public void setZebraLow(float low) {
 
     }
 

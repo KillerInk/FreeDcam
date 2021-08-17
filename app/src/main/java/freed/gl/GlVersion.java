@@ -22,6 +22,6 @@ public class GlVersion {
 
     public static boolean isMinGlVersion()
     {
-        return getGlesVersion() >1;
+        return getGlesVersion() >=3;
     }
 }

@@ -30,10 +30,10 @@ import java.io.IOException;
 
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.jni.RawToDng;
 import freed.settings.SettingKeys;
@@ -81,6 +81,8 @@ public class PictureModuleMTK extends PictureModule
     @Override
     public void onPictureTaken(byte[] data, Camera camera)
     {
+        if (settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).get())
+            soundPlayer.play();
         if (!waitForPicture)
             return;
         waitForPicture =false;

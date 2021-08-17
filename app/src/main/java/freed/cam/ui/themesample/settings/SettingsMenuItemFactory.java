@@ -17,6 +17,7 @@ import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
@@ -28,6 +29,7 @@ import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoProfile;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu_VideoProfEditor;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_BooleanSetting;
+import freed.cam.ui.themesample.settings.childs.SettingsChild_FreedAe;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_SwitchAspectRatio;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -48,7 +50,7 @@ public class SettingsMenuItemFactory
         this.apiParameter = apiParameter;
     }
 
-    public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder, ActivityInterface activityInterface)
+    public void fillLeftSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click, LinearLayout settingsChildHolder)
     {
         SettingsManager apS = FreedApplication.settingsManager();
         if (cameraUiWrapper != null) {
@@ -209,19 +211,6 @@ public class SettingsMenuItemFactory
 
         if (cameraUiWrapper != null && cameraUiWrapper.getParameterHandler() != null) {
 
-            SettingsChildMenu externalShutter = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.EXTERNAL_SHUTTER), R.string.setting_externalshutter_header, R.string.setting_externalshutter_description);
-            externalShutter.SetUiItemClickListner(click);
-            globalSettingGroup.addView(externalShutter);
-
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack) != null) {
-                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack), R.string.setting_orientation_header, R.string.setting_orientation_description);
-                orientationHack.SetUiItemClickListner(click);
-                globalSettingGroup.addView(orientationHack);
-            }
-
-            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
-            globalSettingGroup.addView(aspectRatio);
-
             SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
             sdSave.SetCameraUiWrapper(cameraUiWrapper);
             sdSave.SetUiItemClickListner(click);
@@ -247,6 +236,9 @@ public class SettingsMenuItemFactory
 
             SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
             globalSettingGroup.addView(booleanSetting);
+
+            SettingsChild_BooleanSetting playshutter = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND),R.string.setting_playshuttersound_header, R.string.setting_playshuttersound_description);
+            globalSettingGroup.addView(playshutter);
 
 
             SettingsChildMenuSaveCamParams saveCamParams = new SettingsChildMenuSaveCamParams(context,R.string.setting_savecamparams_header,R.string.setting_savecamparams_description,cameraUiWrapper);
@@ -275,31 +267,63 @@ public class SettingsMenuItemFactory
     }
 
 
-    public GroupChild fillRightSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, SettingsChildAbstract.SettingsChildClick click)
+    public void fillRightSettingsMenu(CameraWrapperInterface cameraUiWrapper, Context context, LinearLayout settingchildholder, SettingsChildAbstract.SettingsChildClick click)
     {
         if (cameraUiWrapper != null) {
             SettingsManager apS = FreedApplication.settingsManager();
             ParameterHandler params = cameraUiWrapper.getParameterHandler();
 
-
             GroupChild settingsgroup = new GroupChild(context,  context.getResources().getString(R.string.setting_camera_));
             if (params == null)
             {
                 Log.d(TAG, "ParameterHandler is null");
-                return settingsgroup;
+                return;
             }
 
+            GroupChild previewgroup = new GroupChild(context,context.getResources().getString(R.string.setting_preview_));
             if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null) {
                 SettingsChildMenu ers = new SettingsChildMenu(context, params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE), R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description);
                 ers.SetUiItemClickListner(click);
-                settingsgroup.addView(ers);
+                previewgroup.addView(ers);
             }
-
             if (params.get(SettingKeys.FOCUSPEAK_COLOR) != null) {
                 SettingsChildMenu fpc = new SettingsChildMenu(context, params.get(SettingKeys.FOCUSPEAK_COLOR), R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description);
                 fpc.SetUiItemClickListner(click);
-                settingsgroup.addView(fpc);
+                previewgroup.addView(fpc);
             }
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack) != null) {
+                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack), R.string.setting_orientation_header, R.string.setting_orientation_description);
+                orientationHack.SetUiItemClickListner(click);
+                previewgroup.addView(orientationHack);
+            }
+            SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
+            previewgroup.addView(aspectRatio);
+
+            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null && params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name()))
+            {
+                SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context,apS.getGlobal(SettingKeys.USE_FREEDCAM_AE),R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
+                previewgroup.addView(freedae);
+
+                SettingsChildMenu maxiso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_ISO),R.string.setting_maxiso_header, R.string.setting_maxiso_text);
+                maxiso.SetUiItemClickListner(click);
+                previewgroup.addView(maxiso);
+
+                SettingsChildMenu miniso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_ISO),R.string.setting_miniso_header, R.string.setting_miniso_text);
+                miniso.SetUiItemClickListner(click);
+                previewgroup.addView(miniso);
+
+                SettingsChildMenu minexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_EXPOSURE),R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
+                minexpotime.SetUiItemClickListner(click);
+                previewgroup.addView(minexpotime);
+
+                SettingsChildMenu maxexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_EXPOSURE),R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
+                maxexpotime.SetUiItemClickListner(click);
+                previewgroup.addView(maxexpotime);
+            }
+
+            settingchildholder.addView(previewgroup);
+
+
 
             if (params.get(SettingKeys.SceneMode) != null) {
                 SettingsChildMenu scene = new SettingsChildMenu(context, params.get(SettingKeys.SceneMode), R.string.setting_scene_header, R.string.setting_scene_description);
@@ -513,8 +537,7 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            return settingsgroup;
+            settingchildholder.addView(settingsgroup);
         }
-        return null;
     }
 }

@@ -38,11 +38,11 @@ import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.Camera1Utils;
 import freed.cam.apis.camera1.CameraHolder;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.holder.FileHolder;
@@ -143,7 +143,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         preview.stop();
 
         preview.setSize(size.width, size.height);
-        preview.setRotation(size.width, size.height, 0);
+        mainHandler.post(()->preview.setRotation(size.width, size.height, 0));
         if (cameraUiWrapper.getCameraHolder().canSetSurfaceDirect()) {
             cameraUiWrapper. getCameraHolder().setSurface((Surface)null);
             Surface surface = new Surface(preview.getSurfaceTexture());
@@ -264,7 +264,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         }
         finally
         {
-            ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCamera().lock();
+            cameraUiWrapper.getCameraHolder().GetCamera().lock();
             recorder.reset();
             isWorking = false;
             try {
@@ -294,6 +294,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     }
 
     private void recordnextFile(MediaRecorder mr) {
+
         stopRecording();
         startRecording();
     }

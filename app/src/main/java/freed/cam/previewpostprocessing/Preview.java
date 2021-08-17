@@ -31,13 +31,19 @@ public interface Preview
     boolean isClipping();
     void setHistogram(boolean on);
     boolean isHistogram();
+    void setColorWaveForm(boolean on);
+    boolean isColorWaveForm();
     void start();
     void stop();
     View getPreviewView();
     void setPreviewEventListner(PreviewEvent eventListner);
+    int getViewWidth();
+    int getViewHeight();
     int getPreviewWidth();
     int getPreviewHeight();
     void setRotation(int width, int height,int rotation);
     void setHistogramFeed(HistogramFeed feed);
     void clear();
+    void setZebraHigh(float high);
+    void setZebraLow(float low);
 }

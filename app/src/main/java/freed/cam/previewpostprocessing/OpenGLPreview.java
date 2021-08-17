@@ -27,6 +27,8 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     private HistogramController histogramController;
     private HistogramFeed feed;
     SettingsManager settingsManager;
+    private int preview_width;
+    private int preview_height;
 
     public OpenGLPreview(Context context, HistogramController myHistogram)
     {
@@ -34,6 +36,7 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
         glPreview.setSurfaceTextureListener(this);
         this.histogramController = myHistogram;
         settingsManager = FreedApplication.settingsManager();
+        glPreview.setHistogramController(histogramController);
     }
 
     @Override
@@ -57,6 +60,8 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
 
     @Override
     public void setSize(int width, int height) {
+        preview_width = width;
+        preview_height = height;
         Point disp =DisplayUtil.getDisplaySize();
         Log.d(TAG, "setSize width :" + width + " height:"+height+ " switch aspectRatio:" + settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
         glPreview.scale(width,height,disp.x,disp.y, settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
@@ -120,6 +125,16 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     }
 
     @Override
+    public void setColorWaveForm(boolean on) {
+        glPreview.setColorWaveForm(on);
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        return glPreview.isColorWaveForm();
+    }
+
+    @Override
     public void start() {
 
     }
@@ -140,13 +155,23 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     }
 
     @Override
+    public int getViewWidth() {
+        return glPreview.getRootView().getWidth();
+    }
+
+    @Override
+    public int getViewHeight() {
+        return glPreview.getRootView().getHeight();
+    }
+
+    @Override
     public int getPreviewWidth() {
-        return glPreview.getWidth();
+        return preview_width;
     }
 
     @Override
     public int getPreviewHeight() {
-        return glPreview.getHeight();
+        return preview_height;
     }
 
     @Override
@@ -187,5 +212,15 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     @Override
     public void clear() {
         glPreview = null;
+    }
+
+    @Override
+    public void setZebraHigh(float high) {
+        glPreview.setZebraHight(high);
+    }
+
+    @Override
+    public void setZebraLow(float low) {
+        glPreview.setZebraLow(low);
     }
 }

@@ -40,15 +40,31 @@
     <string name="shutter_1_2000" translatable="false">1/2000</string>
     <string name="shutter_1_1600" translatable="false">1/1600</string>
     <string name="shutter_1_1250" translatable="false">1/1250</string>
+    <string name="shutter_1_1200" translatable="false">1/1200</string>
+    <string name="shutter_1_1100" translatable="false">1/1100</string>
     <string name="shutter_1_1000" translatable="false">1/1000</string>
+    <string name="shutter_1_950" translatable="false">1/950</string>
+    <string name="shutter_1_900" translatable="false">1/900</string>
+    <string name="shutter_1_850" translatable="false">1/850</string>
     <string name="shutter_1_800" translatable="false">1/800</string>
+    <string name="shutter_1_750" translatable="false">1/750</string>
     <string name="shutter_1_700" translatable="false">1/700</string>
+    <string name="shutter_1_650" translatable="false">1/650</string>
     <string name="shutter_1_600" translatable="false">1/600</string>
+    <string name="shutter_1_550" translatable="false">1/550</string>
     <string name="shutter_1_500" translatable="false">1/500</string>
+    <string name="shutter_1_450" translatable="false">1/450</string>
     <string name="shutter_1_400" translatable="false">1/400</string>
+    <string name="shutter_1_375" translatable="false">1/375</string>
+    <string name="shutter_1_350" translatable="false">1/350</string>
+    <string name="shutter_1_325" translatable="false">1/325</string>
     <string name="shutter_1_300" translatable="false">1/300</string>
+    <string name="shutter_1_275" translatable="false">1/275</string>
     <string name="shutter_1_250" translatable="false">1/250</string>
+    <string name="shutter_1_225" translatable="false">1/225</string>
     <string name="shutter_1_200" translatable="false">1/200</string>
+    <string name="shutter_1_175" translatable="false">1/175</string>
+    <string name="shutter_1_150" translatable="false">1/150</string>
     <string name="shutter_1_125" translatable="false">1/125</string>
     <string name="shutter_1_100" translatable="false">1/100</string>
     <string name="shutter_1_85" translatable="false">1/85</string>
@@ -168,14 +184,30 @@
         <item>@string/shutter_1_2000</item>
         <item>@string/shutter_1_1600</item>
         <item>@string/shutter_1_1250</item>
+        <item>@string/shutter_1_1100</item>
         <item>@string/shutter_1_1000</item>
+        <item>@string/shutter_1_950</item>
+        <item>@string/shutter_1_900</item>
+        <item>@string/shutter_1_850</item>
         <item>@string/shutter_1_800</item>
+        <item>@string/shutter_1_750</item>
         <item>@string/shutter_1_700</item>
+        <item>@string/shutter_1_650</item>
         <item>@string/shutter_1_600</item>
+        <item>@string/shutter_1_550</item>
         <item>@string/shutter_1_500</item>
+        <item>@string/shutter_1_450</item>
         <item>@string/shutter_1_400</item>
+        <item>@string/shutter_1_375</item>
+        <item>@string/shutter_1_350</item>
+        <item>@string/shutter_1_325</item>
+        <item>@string/shutter_1_300</item>
+        <item>@string/shutter_1_275</item>
         <item>@string/shutter_1_250</item>
+        <item>@string/shutter_1_225</item>
         <item>@string/shutter_1_200</item>
+        <item>@string/shutter_1_175</item>
+        <item>@string/shutter_1_150</item>
         <item>@string/shutter_1_125</item>
         <item>@string/shutter_1_100</item>
         <item>@string/shutter_1_85</item>

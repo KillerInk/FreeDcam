@@ -24,7 +24,10 @@ public class VideoMediaProfilesDetector extends BaseParameter2Detector {
             supportedProfiles.put("2160p_Timelapse",new VideoMediaProfile("156000 2 3 48000 30 2 10007 48000000 2 30 2160 3840 2160p_TimeLapse Timelapse true"));
         }
         settingsManager.saveMediaProfiles(supportedProfiles);
-
+        if (supportedProfiles.get("1080p") != null)
+            settingsManager.get(SettingKeys.VideoProfiles).set("1080p");
+        else
+            settingsManager.get(SettingKeys.VideoProfiles).set("480p");
         ////publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 

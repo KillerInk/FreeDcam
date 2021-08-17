@@ -113,6 +113,8 @@
     <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
     <string name="aps_unsupported" translatable="false">unsupported</string>
     <string name="aps_manualaperture" translatable="false">manualaperture</string>
+    <string name="aps_zebrahigh" translatable="false">zebrahigh</string>
+    <string name="aps_zebralow" translatable="false">zebralow</string>
     <string name="aps_ae_targetFPS" translatable="false">ae_TargetFPS</string>
     <string name="aps_orientationHack" translatable="false">orientationHack</string>
     <string name="aps_tonemapProfile" translatable="false">tonemapProfile</string>
@@ -130,6 +132,10 @@
     <string name="aps_focuspeak" translatable="false">focuspeak</string>
     <string name="aps_histogram" translatable="false">histogram</string>
     <string name="aps_clipping" translatable="false">clipping</string>
+    <string name="aps_min_iso" translatable="false">min_iso</string>
+    <string name="aps_max_iso" translatable="false">max_iso</string>
+    <string name="aps_min_exposure" translatable="false">min_exposure</string>
+    <string name="aps_max_exposure" translatable="false">max_exposure</string>
     <string name="aps_enable_renderscript" translatable="false">enable_renderscript</string>
     <string name="aps_enable_video_opmode" translatable="false">enable_video_op_mode</string>
     <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
@@ -139,6 +145,8 @@
     <string name="aps_location" translatable="false">location</string>
     <string name="aps_bayformat" translatable="false">bayerformat</string>
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>
+    <string name="aps_playshuttersound" translatable="false">playshuttersound</string>
+    <string name="aps_use_freedcam_ae" translatable="false">use_freedcam_ae</string>
     <string name="aps_focuspeakcolor" translatable="false">focuspeakcolor</string>
     <string name="aps_video_audio_source" translatable="false">videoaudiosource</string>
     <string name="aps_rawsize" translatable="false">rawsize</string>

@@ -9,12 +9,14 @@ import androidx.databinding.BindingAdapter;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityAbstract;
+import freed.FreedApplication;
 import freed.image.ImageManager;
 import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.models.PopupMenuModel;
-import freed.viewer.screenslide.views.MyHistogram;
+import freed.cam.histogram.MyHistogram;
 
 public class CustomBinding {
 
@@ -67,7 +69,7 @@ public class CustomBinding {
             return;
         if (gridImageViewModel.bitmapLoadRunnable != null) {
             gridImageViewModel.bitmapLoadRunnable.stopProgessbar();
-            ImageManager.removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
+            FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
         }
 
         gridImageView.setImageBitmap(null);
@@ -77,7 +79,7 @@ public class CustomBinding {
             gridImageViewModel.setProgressBarVisible(true);
             try {
                 gridImageViewModel.bitmapLoadRunnable = new BitmapLoadRunnable(gridImageView,gridImageViewModel);
-                ImageManager.putImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
+                FreedApplication.imageManager().putImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
             }
             catch (NullPointerException ex)
             {

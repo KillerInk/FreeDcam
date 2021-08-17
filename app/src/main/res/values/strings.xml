@@ -69,6 +69,8 @@
     <string name="setting_nightoverlay_header">NightOverlay: </string>
     <string name="setting_touchtocapture_description">When enabled, a image capture starts.</string>
     <string name="setting_touchtocapture_header">Touch to Capture: </string>
+    <string name="setting_playshuttersound_description">When enabled, a sound get played on Image capture</string>
+    <string name="setting_playshuttersound_header">Play Shutter Sound</string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
     <string name="setting_featuredetector_header">Run FeatureDetector</string>
@@ -88,6 +90,21 @@
     <string name="setting_switch_aspect_header">Switch width and height</string>
     <string name="setting_switch_aspect_text">Switch Preview Aspect Ratio</string>
 
+    <string name="setting_usefreedae_header">Freedcam AE</string>
+    <string name="setting_use_freedae_text">Enable to use a custom ae</string>
+
+    <string name="setting_maxiso_header">Max Iso:</string>
+    <string name="setting_maxiso_text">Max iso that can get used by ae</string>
+
+    <string name="setting_miniso_header">Min Iso:</string>
+    <string name="setting_miniso_text">Min iso that can get used by ae</string>
+
+    <string name="setting_minexpotime_header">Min ExposureTime:</string>
+    <string name="setting_minexpotime_text">Min ExposureTime that can get used by ae</string>
+
+    <string name="setting_maxexpotime_header">Max ExposureTime:</string>
+    <string name="setting_maxexpotime_text">Max ExposureTime that can get used by ae</string>
+
     <string name="setting_timer_header">Delay till shutter fires</string>
     <string name="setting_timer_text">Time</string>
 
@@ -98,6 +115,7 @@
 
     <!-- settings_rightmenufragment  -->
     <string name="setting_camera_">... Settings</string>
+    <string name="setting_preview_">Preview</string>
     <string name="setting_antiflicker_header">Anti Flicker: </string>
     <string name="setting_antiflicker_description">Reduce flickering on artificial light sources</string>
     <string name="setting_color_header">Color Effect: </string>

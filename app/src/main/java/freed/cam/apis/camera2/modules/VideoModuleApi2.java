@@ -29,6 +29,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.ImageReader;
+import android.media.MediaCodec;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Build;
@@ -43,6 +44,7 @@ import androidx.annotation.NonNull;
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +53,6 @@ import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2;
@@ -59,6 +60,7 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessorFactory;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
@@ -98,7 +100,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         permissionManager = ActivityAbstract.permissionManager();
         userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         name = FreedApplication.getStringFromRessources(R.string.module_video);
-        videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
     }
 
     @Override
@@ -117,9 +118,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     private void startStopRecording() {
         mBackgroundHandler.post(() -> {
             if (!isRecording && !isLowStorage) {
-                startRecording();
+                startRecording(true);
             } else if (isRecording) {
-                stopRecording();
+                stopRecording(true);
             }
             if (isLowStorage) {
                 userMessageHandler.sendMSG("Can't Record due to low storage space. Free some and try again.", false);
@@ -137,8 +138,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     public void InitModule() {
         Log.d(TAG, "InitModule");
         super.InitModule();
-        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(new MyRSErrorHandler());
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
         currentVideoProfile = profilesApi2.GetCameraProfile(settingsManager.get(SettingKeys.VideoProfiles).get());
         if (currentVideoProfile == null) {
@@ -156,7 +156,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Log.d(TAG, "Create VideoRecorder");
         videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             inputSurface = MediaCodec.createPersistentInputSurface();
             videoRecorder.setInputSurface(inputSurface);
         }*/
@@ -175,7 +175,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Visible);
         if (isRecording)
-            stopRecording();
+            stopRecording(true);
         Log.d(TAG, "DestroyModule");
         try {
             videoRecorder.release();
@@ -185,6 +185,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         if (PicReader != null)
         {
             Log.d(TAG, "Close Opcode PicReader");
+            Log.d(TAG, "remove surface picture");
             cameraUiWrapper.captureSessionHandler.RemoveSurface(PicReader.getSurface());
             PicReader.close();
             PicReader = null;
@@ -192,6 +193,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         previewController.close();
         //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
+        videoRecorder.release();
         videoRecorder = null;
         previewsurface = null;
     }
@@ -206,26 +208,28 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         return "Vid";
     }
 
-    private void startRecording() {
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_start);
+    private void startRecording(boolean addSurface) {
+        changeCaptureState(CaptureStates.video_recording_start);
         Log.d(TAG, "startRecording");
-        startPreviewVideo();
+        startPreviewVideo(addSurface);
     }
 
-    private void stopRecording() {
+    private void stopRecording(boolean removesurface) {
         Log.d(TAG, "stopRecording");
         videoRecorder.stop();
 
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             opcodeProcessor.stopRecording();
-
+        Log.d(TAG,"remove surface record");
+        if (removesurface)
+            cameraUiWrapper.captureSessionHandler.RemoveSurface(recorderSurface);
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        cameraUiWrapper.captureSessionHandler.RemoveSurface(recorderSurface);
+
         recorderSurface = null;
         isRecording = false;
 
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
 
         fireOnWorkFinish(recordingFile);
     }
@@ -296,6 +300,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             previewController.setSize(previewSize.getWidth(),previewSize.getHeight());
 
             Surface camerasurface = previewController.getInputSurface();
+            Log.d(TAG, "Add preview surface RS");
             cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
             previewController.start();
         }
@@ -338,13 +343,14 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             SurfaceTexture texture = previewController.getSurfaceTexture();
             texture.setDefaultBufferSize(w, h);
             previewsurface = new Surface(texture);
-
+            Log.d(TAG, "add preview surface normal");
             cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
 
         if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.d(TAG, "Create Opcode PicReader");
             PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
+            Log.d(TAG, "add surface picture");
             cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
             Log.d(TAG, "Create Preview OpCodeSession" + active_op.name() + ":" + active_op.GetInt());
@@ -382,25 +388,45 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
 
 
-    private void startPreviewVideo()
+    private void startPreviewVideo(boolean addsurface)
     {
         String file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
         recordingFile = new FileHolder(new File(file),settingsManager.GetWriteExternal());
         //TODO handel uri based holder
         videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
         videoRecorder.setErrorListener((mr, what, extra) -> {
-            Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            Log.e(TAG, "error MediaRecorder:" + what + "extra:" + extra);
+            changeCaptureState(CaptureStates.video_recording_stop);
+            if (what == MediaRecorder.MEDIA_ERROR_SERVER_DIED)
+                Log.e(TAG, "MEDIA_ERROR_SERVER_DIED");
+            else if (what == MediaRecorder.MEDIA_RECORDER_ERROR_UNKNOWN)
+                Log.e(TAG, "MEDIA_RECORDER_ERROR_UNKNOWN");
+            else if (what == 200)
+                Log.e(TAG, "MEDIA_RECORDER_ERROR_VIDEO_NO_SYNC_FRAME");
+            else if (what == 1000)
+                Log.e(TAG, "MEDIA_RECORDER_TRACK_ERROR_LIST_END");
         });
 
         videoRecorder.setInfoListener((mr, what, extra) -> {
-            if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+            Log.d(TAG, "onMediaRecorderInfo what:" + what +" extra:" + extra);
+            if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_APPROACHING)
             {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_APPROACHING");
+                setNextFile();
+            }
+            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+            {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED");
                 recordnextFile(mr);
             }
-            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED)
+            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED && extra == 0)
             {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED");
                 recordnextFile(mr);
+            }
+            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_NEXT_OUTPUT_FILE_STARTED)
+            {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_NEXT_OUTPUT_FILE_STARTED");
             }
         });
 
@@ -417,6 +443,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         videoRecorder.setOrientation(0);
 
         if(videoRecorder.prepare()) {
+            Log.d(TAG,"video recorder prepared");
             /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
                 recorderSurface = inputSurface;
@@ -424,7 +451,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             else {*/
                 recorderSurface = videoRecorder.getSurface();
             //}
-            cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
+            Log.d(TAG, "add surface record");
+            if (addsurface)
+                cameraUiWrapper.captureSessionHandler.AddSurface(recorderSurface, true);
             applyQcomSettingsToSession(active_op);
 
             if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -442,20 +471,41 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         }
         else{
+            Log.d(TAG, "failed to prepare Video recorder");
             isRecording = false;
-            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         }
     }
 
     private void recordnextFile(MediaRecorder mr) {
-        stopRecording();
-        startRecording();
+
+        if (Build.VERSION.SDK_INT < VERSION_CODES.O) {
+            Log.d(TAG, "recordnextFile");
+            stopRecording(false);
+            startRecording(false);
+        }
+    }
+
+    private void setNextFile()
+    {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.O) {
+            Log.d(TAG, "setNextFile");
+            String file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
+            try {
+                videoRecorder.setNextFile(new File(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private final StateCallback previewSessionCallback = new StateCallback() {
+
+        private final String TAG = VideoModuleApi2.this.TAG + ".previewSessionCallback";
+
         @Override
         public void onConfigured(@NonNull CameraCaptureSession session) {
-            Log.d(TAG, "onConfigured Preview Session");
+            Log.d(TAG, "onConfigured");
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
 
             cameraUiWrapper.getParameterHandler().SetAppSettingsToParameters();
@@ -472,54 +522,101 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
         @Override
         public void onConfigureFailed(@NonNull CameraCaptureSession session) {
-            Log.d(TAG, "Failed to configure Preview Session");
-        }
-    };
-
-    private final StateCallback recordingSessionCallback = new StateCallback()
-    {
-        @Override
-        public void onConfigured(CameraCaptureSession cameraCaptureSession)
-        {
-            Log.d(TAG, "onConfigured Recording Session");
-            mBackgroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
-                    if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                        opcodeProcessor.startRecording();
-
-                    Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
-                    cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
-
-                    if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
-                        cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
-                    }
-                    else
-                    {
-                        int index = getHFRResIndex();
-                        cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(index);
-                        cameraUiWrapper.captureSessionHandler.StartHighspeedCaptureSession();
-                    }
-
-                    videoRecorder.start();
-                    isRecording = true;
-                }
-            });
+            Log.d(TAG, "onConfigureFailed");
         }
 
         @Override
-        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
-        {
-            Log.d(TAG, "Failed to Config RecordingSession");
-            userMessageHandler.sendMSG("Failed to Config CaptureSession",false);
-            stopRecording();
+        public void onActive(@NonNull CameraCaptureSession session) {
+            super.onActive(session);
+            Log.d(TAG, "onActive");
         }
 
         @Override
         public void onClosed(@NonNull CameraCaptureSession session) {
             super.onClosed(session);
+            Log.d(TAG, "onClosed");
+        }
+
+        @Override
+        public void onReady(@NonNull CameraCaptureSession session) {
+            super.onReady(session);
+            Log.d(TAG, "onReady");
+        }
+
+        @Override
+        public void onSurfacePrepared(@NonNull CameraCaptureSession session, @NonNull Surface surface) {
+            super.onSurfacePrepared(session, surface);
+            Log.d(TAG, "onSurfacePrepared");
+        }
+    };
+
+    private final StateCallback recordingSessionCallback = new StateCallback()
+    {
+
+        private final String TAG = VideoModuleApi2.this.TAG + ".recordingSessionCallback";
+
+        @Override
+        public void onConfigured(CameraCaptureSession cameraCaptureSession)
+        {
+            Log.d(TAG, "onConfigured");
+            cameraUiWrapper.captureSessionHandler.SetCaptureSession(cameraCaptureSession);
+            if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                opcodeProcessor.startRecording();
+
+            Range<Integer> fps = new Range<>(currentVideoProfile.videoFrameRate, currentVideoProfile.videoFrameRate);
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fps,true);
+
+            if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed) {
+                cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
+            }
+            else
+            {
+                int index = getHFRResIndex();
+                cameraHolder.setOpModeForHFRVideoStreamToActiveCamera(index);
+                cameraUiWrapper.captureSessionHandler.StartHighspeedCaptureSession();
+            }
+
+            videoRecorder.start();
+            isRecording = true;
+           /* mBackgroundHandler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });*/
+        }
+
+        @Override
+        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
+        {
+            Log.d(TAG, "onConfigureFailed");
+            userMessageHandler.sendMSG("Failed to Config CaptureSession",false);
+            stopRecording(true);
+        }
+
+        @Override
+        public void onClosed(@NonNull CameraCaptureSession session) {
+            super.onClosed(session);
+            Log.d(TAG, "onClosed");
             startPreview();
+        }
+
+        @Override
+        public void onActive(@NonNull CameraCaptureSession session) {
+            super.onActive(session);
+            Log.d(TAG, "onActive");
+        }
+
+        @Override
+        public void onReady(@NonNull CameraCaptureSession session) {
+            super.onReady(session);
+            Log.d(TAG, "onReady");
+        }
+
+        @Override
+        public void onSurfacePrepared(@NonNull CameraCaptureSession session, @NonNull Surface surface) {
+            super.onSurfacePrepared(session, surface);
+            Log.d(TAG, "onSurfacePrepared");
         }
     };
 

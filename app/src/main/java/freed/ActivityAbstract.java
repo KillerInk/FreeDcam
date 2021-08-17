@@ -40,6 +40,7 @@ import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
+import hilt.ImageManagerEntryPoint;
 import hilt.PermissionManagerEntryPoint;
 
 /**
@@ -69,7 +70,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     PermissionManager permissionManager;
     @Inject
     public SettingsManager settingsManager;
-
+    @Inject protected ImageManager imageManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +102,12 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        ImageManager.getInstance(); // init it
     }
 
     @Override
     protected void onDestroy() {
-        ImageManager.cancelImageSaveTasks();
-        ImageManager.cancelImageLoadTasks();
+        imageManager.cancelImageSaveTasks();
+        imageManager.cancelImageLoadTasks();
         settingsManager.release();
         context = null;
         super.onDestroy();

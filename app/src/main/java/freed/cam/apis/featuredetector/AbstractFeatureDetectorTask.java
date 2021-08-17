@@ -4,6 +4,7 @@ import com.troop.freedcam.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import freed.FreedApplication;
@@ -61,7 +62,25 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.video_audio_source));
         settingsManager.get(SettingKeys.VIDEO_AUDIO_SOURCE).setIsSupported(true);
 
+        String[] v = new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
+        settingsManager.get(SettingKeys.CLIPPING).setIsSupported(true);
+        settingsManager.get(SettingKeys.CLIPPING).setValues(v);
+        settingsManager.get(SettingKeys.CLIPPING).set(v[1]);
+        settingsManager.get(SettingKeys.Focuspeak).setIsSupported(true);
+        settingsManager.get(SettingKeys.Focuspeak).setValues(v);
+        settingsManager.get(SettingKeys.Focuspeak).set(v[1]);
+        List<String> zebra_values = new ArrayList<>();
+        for (int i = 1; i <=1000; i++)
+        {
+            zebra_values.add(String.valueOf(i));
+        }
+        settingsManager.get(SettingKeys.M_ZEBRA_HIGH).setValues(zebra_values.toArray(new String[zebra_values.size()]));
+        settingsManager.get(SettingKeys.M_ZEBRA_HIGH).set("99");
+        settingsManager.get(SettingKeys.M_ZEBRA_HIGH).setIsSupported(true);
 
+        settingsManager.get(SettingKeys.M_ZEBRA_LOW).setValues(zebra_values.toArray(new String[zebra_values.size()]));
+        settingsManager.get(SettingKeys.M_ZEBRA_LOW).set("99");
+        settingsManager.get(SettingKeys.M_ZEBRA_LOW).setIsSupported(true);
     }
 
     protected  <T> T getInstance(Class classtype) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {

@@ -35,9 +35,9 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.basecamera.CameraHolderEvent;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
+import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
@@ -66,6 +66,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         super.onCreateView(inflater,container,savedInstanceState);
         binding = DataBindingUtil.inflate(inflater,layout.settings_rightmenufragment,container,false);
+        settingchildholder = binding.SettingChildHolder;
         cameraApiManager.addEventListner(this);
         return binding.getRoot();
     }
@@ -79,7 +80,6 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        settingchildholder = binding.SettingChildHolder;
     }
 
     private void setCameraToUi(CameraWrapperInterface wrapper)
@@ -87,9 +87,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         if (settingchildholder == null)
             return;
         settingchildholder.removeAllViews();
-        GroupChild settingsgroup = settingsMenuItemFactory.fillRightSettingsMenu(wrapper,getContext(),RightMenuFragment.this);
-        if (settingsgroup != null)
-            settingchildholder.addView(settingsgroup);
+        settingsMenuItemFactory.fillRightSettingsMenu(wrapper,getContext(),settingchildholder,RightMenuFragment.this);
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick)
@@ -126,5 +124,11 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     @Override
     public void onCameraChangedAspectRatioEvent(Size size) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onCameraOpenFinished();
     }
 }

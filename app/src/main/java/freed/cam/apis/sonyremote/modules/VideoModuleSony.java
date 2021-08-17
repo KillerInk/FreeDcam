@@ -26,9 +26,9 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
+import freed.cam.event.capture.CaptureStates;
 import freed.file.holder.BaseHolder;
 
 /**

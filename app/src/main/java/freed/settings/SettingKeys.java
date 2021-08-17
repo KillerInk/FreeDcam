@@ -32,6 +32,8 @@ public class SettingKeys{
     public final static Key<SettingMode> M_ProgramShift = new Key(SettingMode.class, R.string.aps_manualprogramshift);
     public final static Key<SettingMode> M_PreviewZoom = new Key(SettingMode.class, R.string.aps_manualpreviewzoom);
     public final static Key<SettingMode> M_Aperture = new Key(SettingMode.class, R.string.aps_manualaperture);
+    public final static Key<SettingMode> M_ZEBRA_HIGH = new Key(SettingMode.class, R.string.aps_zebrahigh);
+    public final static Key<SettingMode> M_ZEBRA_LOW = new Key(SettingMode.class, R.string.aps_zebralow);
 
     public final static Key<SettingMode> ColorMode = new Key(SettingMode.class, R.string.aps_colormode);
     public final static Key<SettingMode> ExposureMode = new Key(SettingMode.class, R.string.aps_exposuremode);
@@ -173,7 +175,12 @@ public class SettingKeys{
     public final static GlobalKey<SettingMode> GuideList = new GlobalKey(SettingMode.class, R.string.aps_guide);
     public final static GlobalKey<SettingMode> HorizontLvl = new GlobalKey(SettingMode.class, R.string.aps_horizontlvl);
     public final static GlobalKey<SettingMode> FOCUSPEAK_COLOR = new GlobalKey(SettingMode.class, R.string.aps_focuspeakcolor);
-    public final static GlobalKey<SettingMode> EXTERNAL_SHUTTER = new GlobalKey(SettingMode.class, R.string.aps_externalshutter);
+    public final static GlobalKey<GlobalBooleanSettingMode> PLAY_SHUTTER_SOUND = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_playshuttersound);
+    public final static GlobalKey<GlobalBooleanSettingMode> USE_FREEDCAM_AE = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_use_freedcam_ae);
+    public final static Key<SettingMode> MIN_ISO = new Key(SettingMode.class, R.string.aps_min_iso);
+    public final static Key<SettingMode> MAX_ISO = new Key(SettingMode.class, R.string.aps_max_iso);
+    public final static Key<SettingMode> MAX_EXPOSURE = new Key(SettingMode.class, R.string.aps_max_exposure);
+    public final static Key<SettingMode> MIN_EXPOSURE = new Key(SettingMode.class, R.string.aps_min_exposure);
 
     /**
      *

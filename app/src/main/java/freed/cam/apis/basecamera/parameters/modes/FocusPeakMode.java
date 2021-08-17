@@ -20,6 +20,8 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
+import android.text.TextUtils;
+
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
@@ -29,26 +31,18 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
+import freed.utils.StringUtils;
 
 /**
  * Created by troop on 10.09.2015.
  */
 public class FocusPeakMode extends AbstractParameter {
     protected PreviewController previewController;
-    public FocusPeakMode(CameraWrapperInterface cameraUiWrapper)
-    {
-        super(cameraUiWrapper,SettingKeys.Focuspeak);
-        previewController = ActivityFreeDcamMain.previewController();
-        currentString = FreedApplication.getStringFromRessources(R.string.off_);
-    }
 
-    public FocusPeakMode(CameraWrapperInterface cameraWrapperInterface, SettingKeys.Key key)
-    {
-        super(cameraWrapperInterface,key);
+    public FocusPeakMode(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+        super(cameraUiWrapper, settingMode);
         previewController = ActivityFreeDcamMain.previewController();
-        currentString = FreedApplication.getStringFromRessources(R.string.off_);
     }
-
 
     @Override
     public ViewState getViewState() {
@@ -69,13 +63,9 @@ public class FocusPeakMode extends AbstractParameter {
         else {
             previewController.setFocusPeak(false);
         }
+        settingMode.set(valueToSet);
         fireStringValueChanged(valueToSet);
 
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
     }
 
 }

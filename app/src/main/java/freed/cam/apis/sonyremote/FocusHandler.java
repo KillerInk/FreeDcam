@@ -36,7 +36,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
     private boolean isFocusing;
 
     @Override
-    protected void startTouchFocus(FocusCoordinates obj) {
+    protected void startTouchFocus(float x, float y) {
 
     }
 
@@ -46,7 +46,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents, I
     }
 
     @Override
-    public void StartTouchToFocus(int x, int y, int width, int height)
+    public void StartTouchToFocus(int x, int y, int width, int height, float x_norm ,float y_norm)
     {
         int areasize = (width*height) /8;
         if (this.cameraUiWrapper.getParameterHandler() == null)

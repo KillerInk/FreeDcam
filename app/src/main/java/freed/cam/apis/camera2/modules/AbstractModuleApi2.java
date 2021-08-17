@@ -71,7 +71,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract<Camera2> impleme
     public void InitModule()
     {
         super.InitModule();
-        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.getCameraHolder();
+        this.cameraHolder = cameraUiWrapper.getCameraHolder();
     }
 
     //use to workaround the problem with activated renderscript when switching back from a non renderscript session

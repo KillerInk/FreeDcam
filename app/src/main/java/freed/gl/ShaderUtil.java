@@ -78,12 +78,12 @@ public class ShaderUtil {
         GLES20.glShaderSource(fshader, shader);
         GLES20.glCompileShader(fshader);
         GLES20.glGetShaderiv(fshader, GLES20.GL_COMPILE_STATUS, compiled, 0);
+        Log.d(TAG, "create shader: " + shadername + "\n" + shader);
         if (compiled[0] == 0) {
-            Log.e(TAG, "Could not compile shader " + shadername);
-            Log.v(TAG, "Could not compile shader: " + shadername + " " + GLES20.glGetShaderInfoLog(fshader));
-            Log.v(TAG, shader);
+            Log.e(TAG, "Could not compile shader: " + shadername + "\n" + GLES20.glGetShaderInfoLog(fshader) + "\n" + shader);
             GLES20.glDeleteShader(fshader);
             fshader = 0;
+            throw new RuntimeException("Could not compile shader: " + shadername);
         }
         return fshader;
     }

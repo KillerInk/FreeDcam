@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.PreviewFragment;
-import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;
@@ -24,8 +23,17 @@ public class PreviewController implements PreviewControllerInterface
 
     private int fragmentHolderId;
     private FragmentManager fragmentManager;
-    //private CameraFragmentAbstract cameraFragment;
     private PreviewFragment previewFragment;
+    boolean blue = false;
+    boolean red = false;
+    boolean green = false;
+    boolean focuspeak = false;
+    boolean clipping = false;
+    boolean showhistogram = false;
+    boolean color_waveform = true;
+    float zebrahigh = 0.001f;
+    float zebralow = 0.01f;
+    HistogramFeed feed;
 
     public void init(FragmentManager fragmentManager, int fragmentHolderId) {
         this.fragmentManager = fragmentManager;
@@ -56,10 +64,20 @@ public class PreviewController implements PreviewControllerInterface
                 break;
         }
         preview.setPreviewEventListner(eventListner);
+        preview.setBlue(blue);
+        preview.setGreen(green);
+        preview.setRed(red);
+        preview.setClipping(clipping);
+        preview.setFocusPeak(focuspeak);
+        preview.setHistogram(showhistogram);
+        preview.setZebraHigh(zebrahigh);
+        preview.setZebraLow(zebralow);
+        preview.setHistogramFeed(feed);
     }
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
+        this.feed = feed;
         if (preview != null)
             this.preview.setHistogramFeed(feed);
     }
@@ -104,25 +122,32 @@ public class PreviewController implements PreviewControllerInterface
         return preview.isSucessfullLoaded();
     }
 
+
     @Override
     public void setBlue(boolean blue) {
-        preview.setBlue(blue);
+        this.blue = blue;
+        if (preview != null)
+            preview.setBlue(blue);
     }
 
     @Override
     public void setRed(boolean red) {
+        this.red = red;
         if (preview != null)
             preview.setRed(red);
     }
 
     @Override
     public void setGreen(boolean green) {
+        this.green = green;
         if (preview != null)
             preview.setGreen(green);
     }
 
+
     @Override
     public void setFocusPeak(boolean on) {
+        this.focuspeak = on;
         preview.setFocusPeak(on);
     }
 
@@ -135,6 +160,7 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setClipping(boolean on) {
+        this.clipping = on;
         if (preview != null)
             preview.setClipping(on);
     }
@@ -148,6 +174,7 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setHistogram(boolean on) {
+        this.showhistogram = on;
         if (preview != null)
             preview.setHistogram(on);
     }
@@ -157,6 +184,20 @@ public class PreviewController implements PreviewControllerInterface
         if (preview == null)
             return false;
         return preview.isHistogram();
+    }
+
+    @Override
+    public void setColorWaveForm(boolean on) {
+        if (preview == null)
+            return;
+        preview.setColorWaveForm(on);
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        if (preview == null)
+            return false;
+        return preview.isColorWaveForm();
     }
 
     @Override
@@ -179,6 +220,16 @@ public class PreviewController implements PreviewControllerInterface
         this.eventListner = eventListner;
         if (preview != null)
             preview.setPreviewEventListner(eventListner);
+    }
+
+    @Override
+    public int getViewWidth() {
+        return preview.getViewWidth();
+    }
+
+    @Override
+    public int getViewHeight() {
+        return preview.getViewHeight();
     }
 
     @Override
@@ -234,5 +285,18 @@ public class PreviewController implements PreviewControllerInterface
         transaction.commit();
     }
 
+    @Override
+    public void setZebraHigh(float high) {
+        zebrahigh = high;
+        if (preview!=null)
+            preview.setZebraHigh(high);
+    }
+
+    @Override
+    public void setZebraLow(float low) {
+        zebralow = low;
+        if (preview != null)
+            preview.setZebraLow(low);
+    }
 
 }

@@ -15,7 +15,6 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.sonystuff.JsonUtils;
@@ -24,8 +23,7 @@ import freed.cam.apis.sonyremote.sonystuff.SimpleCameraEventObserver;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SonyUtils;
 import freed.cam.apis.sonyremote.sonystuff.WifiHandler;
-import freed.cam.events.CaptureStateChangedEvent;
-import freed.cam.events.EventBusHelper;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.RenderScriptPreview;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
@@ -57,7 +55,6 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
         focusHandler = new FocusHandler(this);
         parametersHandler.addApiChangedListner((I_SonyApi) focusHandler);
         cameraHolder = new CameraHolderSony(FreedApplication.getContext(), previewStreamDrawer, this);
-        cameraHolder.addEventListner(this);
         moduleHandler.initModules();
     }
 
@@ -187,13 +184,13 @@ public class SonyRemoteCamera extends AbstractCamera<ParameterHandler,CameraHold
 
 
             if (JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.cont_capture_stop_while_working));
+                moduleHandler.getCurrentModule().changeCaptureState(CaptureStates.cont_capture_stop_while_working);
             else if (JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.continouse_capture_start));
+                moduleHandler.getCurrentModule().changeCaptureState(CaptureStates.continouse_capture_start);
             else if (JsonUtils.isApiSupported("actTakePicture",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_stop));
+                moduleHandler.getCurrentModule().changeCaptureState(CaptureStates.image_capture_stop);
             else if (JsonUtils.isApiSupported("awaitTakePicture",mAvailableCameraApiSet))
-                EventBusHelper.post(new CaptureStateChangedEvent(ModuleHandlerAbstract.CaptureStates.image_capture_start));
+                moduleHandler.getCurrentModule().changeCaptureState(CaptureStates.image_capture_start);
 
             if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet) &&
                     !(JsonUtils.isApiSupported("startContShooting",mAvailableCameraApiSet) && JsonUtils.isApiSupported("stopContShooting",mAvailableCameraApiSet))) {

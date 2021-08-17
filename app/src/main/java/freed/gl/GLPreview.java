@@ -8,15 +8,17 @@ import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.widget.FrameLayout;
 
+import freed.cam.histogram.HistogramController;
+import freed.gl.program.FocuspeakProgram;
 import freed.utils.Log;
 
 public class GLPreview extends GLSurfaceView {
     private static final String TAG =  GLPreview.class.getSimpleName();
     MainRenderer mRenderer;
     private TextureView.SurfaceTextureListener surfaceTextureListener;
-    private PreviewModel previewModel;
     private boolean focuspeak_enabled = false;
     private boolean zebra_enabled= false;
+    private HistogramController histogramController;
 
     public enum PreviewProcessors
     {
@@ -36,9 +38,16 @@ public class GLPreview extends GLSurfaceView {
         init();
     }
 
+    public void setHistogramController(HistogramController histogramController) {
+        this.histogramController = histogramController;
+    }
+
+    public HistogramController getHistogramController() {
+        return histogramController;
+    }
+
     private void init() {
-        previewModel = new PreviewModel();
-        mRenderer = new MainRenderer(this,previewModel);
+        mRenderer = new MainRenderer(this);
         setEGLContextClientVersion(2);
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -58,8 +67,8 @@ public class GLPreview extends GLSurfaceView {
 
     public void surfaceCreated(SurfaceHolder holder) {
         super.surfaceCreated(holder);
-        previewModel.setTextSize(holder.getSurfaceFrame().width(), holder.getSurfaceFrame().height());
-        Log.d(TAG, "texSize :" + previewModel.getTextSize()[0] +"/"+ previewModel.getTextSize()[1]);
+        mRenderer.setSize(holder.getSurfaceFrame().width(), holder.getSurfaceFrame().height());
+        Log.d(TAG, "texSize :" + holder.getSurfaceFrame().width() +"/"+ holder.getSurfaceFrame().height());
 
     }
 
@@ -69,8 +78,8 @@ public class GLPreview extends GLSurfaceView {
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
         super.surfaceChanged(holder, format, w, h);
-        previewModel.setTextSize(holder.getSurfaceFrame().width(), holder.getSurfaceFrame().height());
-        Log.d(TAG, "texSize :" + previewModel.getTextSize()[0] +"/"+ previewModel.getTextSize()[1]);
+        mRenderer.setSize(holder.getSurfaceFrame().width(), holder.getSurfaceFrame().height());
+        Log.d(TAG, "texSize :" + holder.getSurfaceFrame().width() +"/"+ holder.getSurfaceFrame().height());
         if (surfaceTextureListener != null)
             surfaceTextureListener.onSurfaceTextureSizeChanged(mRenderer.getmSTexture(),w,h);
     }
@@ -132,28 +141,12 @@ public class GLPreview extends GLSurfaceView {
             layout.rightMargin = layout.leftMargin;
         }
 
-
         this.post(()-> this.setLayoutParams(layout));
-    }
-
-    private int getNewWidth(int input_height, float ratio)
-    {
-        return Math.round(input_height / ratio);
-    }
-
-    private int getNewHeight(int input_width, float ratio)
-    {
-        return Math.round(input_width * ratio);
-    }
-
-    private float getAspectRation(int w, int h)
-    {
-        return (float)w/(float)h;
     }
 
     public void setOrientation(int or)
     {
-        previewModel.setOrientation(or);
+        mRenderer.getPreviewProgram().setOrientation(or);
     }
 
     public void setPreviewProcessors(PreviewProcessors processors)
@@ -161,27 +154,27 @@ public class GLPreview extends GLSurfaceView {
         mRenderer.setProgram(processors);
     }
 
-    public void setFocusPeakColor(PreviewModel.Colors color)
+    public void setFocusPeakColor(FocuspeakProgram.Colors color)
     {
-        previewModel.setPeak_color(color);
+        mRenderer.getFocuspeakProgram().setPeak_color(color);
         requestRender();
     }
 
     public void setRed(boolean r)
     {
-        previewModel.setRed(r);
+        mRenderer.getFocuspeakProgram().setRed(r);
         requestRender();
     }
 
     public void setGreen(boolean g)
     {
-        previewModel.setGreen(g);
+        mRenderer.getFocuspeakProgram().setGreen(g);
         requestRender();
     }
 
     public void setBlue(boolean b)
     {
-        previewModel.setBlue(b);
+        mRenderer.getFocuspeakProgram().setBlue(b);
         requestRender();
     }
 
@@ -215,5 +208,25 @@ public class GLPreview extends GLSurfaceView {
         }
         else
             setPreviewProcessors(PreviewProcessors.Normal);
+    }
+
+    public void setZebraHight(float high)
+    {
+        mRenderer.getClippingProgram().setZebra_high(high);
+    }
+
+    public void setZebraLow(float low)
+    {
+                mRenderer.getClippingProgram().setZebra_low(low);
+    }
+
+    public void setColorWaveForm(boolean on)
+    {
+        mRenderer.getWaveFormRGBProgram().setColorWaveForm(on);
+    }
+
+    public boolean isColorWaveForm()
+    {
+        return mRenderer.getWaveFormRGBProgram().isColorWaveForm();
     }
 }

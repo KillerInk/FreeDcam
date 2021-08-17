@@ -37,7 +37,6 @@ import freed.settings.SettingsManager;
 @AndroidEntryPoint
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
-    private CameraWrapperInterface cameraUiWrapper;
     private int currentCamera;
 
     @Inject
@@ -52,14 +51,12 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     }
 
     @Override
-    public void onClick(View v) {
-        if (onItemClick != null)
-            onItemClick.onSettingsChildClick(this, fromleft);
+    protected void init(Context context) {
+        super.init(context);
     }
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof SonyRemoteCamera)
         {
             setVisibility(View.GONE);
@@ -81,18 +78,6 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         binding.textView2.setText(getCamera(currentCamera));
     }
 
-
-    private void switchCamera()
-    {
-        int maxcams = settingsManager.getCameraIds().length;
-        if (currentCamera++ >= maxcams - 1)
-            currentCamera = 0;
-
-        settingsManager.SetCurrentCamera(currentCamera);
-        sendLog("Stop Preview and Camera");
-        CameraThreadHandler.restartCameraAsync();
-        binding.textView2.setText(getCamera(currentCamera));
-    }
 
     private String getCamera(int i)
     {
@@ -116,5 +101,8 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         return retarr;
     }
 
-
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+    }
 }

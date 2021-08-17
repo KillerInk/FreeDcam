@@ -28,8 +28,10 @@ import java.util.HashMap;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.manual.ZebraManualHighParameter;
+import freed.cam.apis.basecamera.parameters.manual.ZebraManualLowParameter;
 import freed.cam.apis.basecamera.parameters.modes.ClippingMode;
-import freed.cam.apis.basecamera.parameters.modes.EnableRenderScriptMode;
+import freed.cam.apis.basecamera.parameters.modes.PreviewPostProcessingMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakColorMode;
 import freed.cam.apis.basecamera.parameters.modes.FocusPeakMode;
 import freed.cam.apis.basecamera.parameters.modes.GpsParameter;
@@ -39,12 +41,11 @@ import freed.cam.apis.basecamera.parameters.modes.Horizont;
 import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
-import freed.cam.apis.basecamera.parameters.modes.ParameterExternalShutter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.SelfTimerParameter;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
-import freed.renderscript.RenderScriptManager;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
@@ -76,20 +77,21 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         add(SettingsManager.GuideList, new GuideList());
         add(SettingsManager.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
         add(SettingsManager.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
-        add(SettingsManager.EXTERNAL_SHUTTER, new ParameterExternalShutter());
         add(SettingsManager.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
         add(SettingsManager.HorizontLvl, new Horizont());
         add(SettingsManager.SD_SAVE_LOCATION, new SDModeParameter());
-        EnableRenderScriptMode enableRenderScriptMode = new EnableRenderScriptMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
+        PreviewPostProcessingMode previewPostProcessingMode = new PreviewPostProcessingMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
         add(SettingsManager.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
-        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, enableRenderScriptMode);
+        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, previewPostProcessingMode);
         add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(previewController, SettingsManager.FOCUSPEAK_COLOR));
-        add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper));
+        add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper, SettingKeys.Focuspeak));
         add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-        add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper));
+        add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper,SettingKeys.CLIPPING));
         add(SettingsManager.selfTimer, new SelfTimerParameter(SettingsManager.selfTimer));
+        add(SettingsManager.M_ZEBRA_HIGH,new ZebraManualHighParameter(SettingsManager.M_ZEBRA_HIGH,previewController));
+        add(SettingsManager.M_ZEBRA_LOW,new ZebraManualLowParameter(SettingsManager.M_ZEBRA_LOW,previewController));
         applyPreviewPostprocessingVisibility();
-        enableRenderScriptMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        previewPostProcessingMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 applyPreviewPostprocessingVisibility();
@@ -108,10 +110,17 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         }
         else
         {
-            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Visible);
+            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Hidden);
+            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Hidden);
+            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Hidden);
+            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.M_ZEBRA_HIGH).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.M_ZEBRA_LOW).setViewState(AbstractParameter.ViewState.Hidden);
+        }
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+        {
+            get(SettingKeys.M_ZEBRA_HIGH).setViewState(AbstractParameter.ViewState.Visible);
+            get(SettingKeys.M_ZEBRA_LOW).setViewState(AbstractParameter.ViewState.Visible);
         }
     }
 
@@ -180,11 +189,13 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setAppSettingsToCamera(SettingsManager.Ae_TargetFPS,false);
         setAppSettingsToCamera(SettingsManager.secondarySensorSize, false);
         setAppSettingsToCamera(SettingsManager.ExposureMode,false);
-        if (RenderScriptManager.isSupported() && previewController != null) {
-            setAppSettingsToCamera(SettingsManager.FOCUSPEAK_COLOR, true);
-            setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
-            setAppSettingsToCamera(SettingsManager.CLIPPING, true);
-        }
+        setAppSettingsToCamera(SettingsManager.FOCUSPEAK_COLOR, true);
+        setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
+        setAppSettingsToCamera(SettingsManager.CLIPPING, true);
+        setAppSettingsToCamera(SettingsManager.Focuspeak, true);
+        setManualMode(SettingsManager.M_ZEBRA_HIGH, true);
+        setManualMode(SettingsManager.M_ZEBRA_LOW, true);
+
     }
 
     @Override

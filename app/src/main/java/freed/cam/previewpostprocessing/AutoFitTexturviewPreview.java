@@ -14,6 +14,8 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
     private final String TAG = AutoFitTexturviewPreview.class.getSimpleName();
     protected AutoFitTextureView autoFitTextureView;
     private PreviewEvent previewEventListner;
+    protected int preview_width;
+    protected int preview_height;
 
     public AutoFitTexturviewPreview(Context context)
     {
@@ -32,6 +34,8 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
 
     @Override
     public void setSize(int width, int height) {
+        this.preview_width = width;
+        this.preview_height = height;
         autoFitTextureView.setAspectRatio(width,height);
     }
 
@@ -45,13 +49,23 @@ public abstract class AutoFitTexturviewPreview implements Preview, TextureView.S
     }
 
     @Override
-    public int getPreviewWidth() {
+    public int getViewWidth() {
         return autoFitTextureView.getWidth();
     }
 
     @Override
-    public int getPreviewHeight() {
+    public int getViewHeight() {
         return autoFitTextureView.getHeight();
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return preview_height;
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return preview_width;
     }
 
     @Override

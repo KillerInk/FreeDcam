@@ -21,8 +21,7 @@ package freed.cam.apis.basecamera;
 
 import android.location.Location;
 
-import java.util.ArrayList;
-import java.util.List;
+import freed.cam.event.camera.CameraHolderEventHandler;
 
 /**
  * Created by troop on 12.12.2014.
@@ -31,7 +30,7 @@ import java.util.List;
 public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
     protected CameraWrapperInterface cameraUiWrapper;
-    private List<CameraHolderEvent> eventList = new ArrayList<>();
+    private CameraHolderEventHandler cameraHolderEventHandler;
 
     /**
      *
@@ -54,56 +53,44 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     public abstract void SetLocation(Location loc);
 
     @Override
-    public void addEventListner(CameraHolderEvent event)
+    public void addEventListner(CameraHolderEventHandler event)
     {
-        eventList.add(event);
+        cameraHolderEventHandler = event;
     }
 
     @Override
-    public void removeEventListner(CameraHolderEvent event)
-    {
-        eventList.remove(event);
+    public CameraHolderEventHandler getCameraHolderEventHandler() {
+        return cameraHolderEventHandler;
     }
 
     public void fireCameraOpen()
     {
-        for (CameraHolderEvent cameraHolderEvent : eventList)
-        {
-            cameraHolderEvent.onCameraOpen();
-        }
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraOpen();
     }
 
     public void fireCameraOpenFinished()
     {
-        for (CameraHolderEvent cameraHolderEvent : eventList)
-        {
-            cameraHolderEvent.onCameraOpenFinished();
-        }
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraOpenFinished();
     }
 
     public void fireCameraClose()
     {
-        for (CameraHolderEvent cameraHolderEvent : eventList)
-        {
-            cameraHolderEvent.onCameraClose();
-        }
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraClose();
     }
 
     public void fireOnCameraChangedAspectRatioEvent(Size sie)
     {
-        for (CameraHolderEvent cameraHolderEvent : eventList)
-        {
-            cameraHolderEvent.onCameraChangedAspectRatioEvent(sie);
-        }
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraChangedAspectRatioEvent(sie);
     }
 
 
     public void fireOCameraError(String error)
     {
-        for (CameraHolderEvent cameraHolderEvent : eventList)
-        {
-            cameraHolderEvent.onCameraError(error);
-        }
-        eventList.clear();
+        if (cameraHolderEventHandler != null)
+            cameraHolderEventHandler.fireOnCameraError(error);
     }
 }

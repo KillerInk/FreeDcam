@@ -31,29 +31,17 @@ public abstract class AbstractFocusHandler<C extends CameraWrapperInterface>
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
     protected C cameraUiWrapper;
 
-    public class FocusCoordinates
-    {
-        public int x;
-        public int y;
-        public int width;
-        public int height;
-    }
-
-    protected abstract void startTouchFocus(FocusCoordinates obj);
+    protected abstract void startTouchFocus(float x, float y);
 
     protected AbstractFocusHandler(C cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public void StartTouchToFocus(int x1, int y1,int width1, int height1)
+    public void StartTouchToFocus(int x1, int y1,int width1, int height1, float x_norm ,float y_norm)
     {
-        FocusCoordinates focusCoordinates = new FocusCoordinates();
-        focusCoordinates.x = x1;
-        focusCoordinates.y = y1;
-        focusCoordinates.width = width1;
-        focusCoordinates.height = height1;
-        startTouchFocus(focusCoordinates);
+        Log.d(TAG, "Touch x/y :" + x1 +"/" +y1);
+        startTouchFocus(x_norm, y_norm);
         if (focusEvent != null)
             focusEvent.FocusStarted(x1,y1);
     }

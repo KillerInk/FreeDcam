@@ -19,12 +19,10 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
-import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import freed.FreedApplication;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.ui.themesample.cameraui.model.InfoOverlayModel;
 import freed.cam.ui.themesample.cameraui.service.BatteryService;
 import freed.settings.SettingKeys;

@@ -148,6 +148,16 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     }
 
     @Override
+    public void setColorWaveForm(boolean on) {
+
+    }
+
+    @Override
+    public boolean isColorWaveForm() {
+        return false;
+    }
+
+    @Override
     public void start() {
         mProcessor.setRenderScriptErrorListner(new MyRSErrorHandler());
         mProcessor.start();
@@ -163,14 +173,24 @@ public class RenderScriptPreview extends AutoFitTexturviewPreview {
     public void setRotation(int width, int height, int rotation) {
         float dispWidth = 0;
         float dispHeight = 0;
-        dispWidth = getPreviewWidth();
-        dispHeight = getPreviewHeight();
+        dispWidth = getViewWidth();
+        dispHeight = getViewHeight();
         Matrix matrix = MatrixUtil.getTransFormMatrix(width,height,(int)dispWidth,(int)dispHeight,rotation,true);
         getAutoFitTextureView().setTransform(matrix);
     }
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
+
+    }
+
+    @Override
+    public void setZebraHigh(float high) {
+
+    }
+
+    @Override
+    public void setZebraLow(float low) {
 
     }
 

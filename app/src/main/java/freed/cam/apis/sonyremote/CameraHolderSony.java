@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Set;
 
+import freed.ActivityAbstract;
+import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
@@ -76,12 +78,14 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     private SimpleRemoteApi mRemoteApi;
     private PreviewStreamDrawer mLiveviewSurface;
+    private ImageManager imageManager;
 
     public CameraHolderSony(Context context, PreviewStreamDrawer simpleStreamSurfaceView, CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         this.context = context;
         mLiveviewSurface = simpleStreamSurfaceView;
+        imageManager = FreedApplication.imageManager();
     }
 
     public void setRemoteApi(SimpleRemoteApi remoteApi)
@@ -135,7 +139,7 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
     @Override
     public void StopPreview()
     {
-        ImageManager.putImageLoadTask(new StopPreviewRunner(mRemoteApi));
+        imageManager.putImageLoadTask(new StopPreviewRunner(mRemoteApi));
     }
 
     /**
@@ -181,33 +185,33 @@ public class CameraHolderSony extends CameraHolderAbstract implements CameraHold
 
     public void TakePicture(I_PictureCallback pictureCallback)
     {
-        ImageManager.putImageLoadTask(new ActTakePictureRunner(mRemoteApi,pictureCallback,((ParameterHandler)cameraUiWrapper.getParameterHandler())));
+        imageManager.putImageLoadTask(new ActTakePictureRunner(mRemoteApi,pictureCallback,((ParameterHandler)cameraUiWrapper.getParameterHandler())));
     }
 
     public void startContShoot(I_PictureCallback pictureCallback)
     {
-        ImageManager.putImageLoadTask(new StartContShotRunner(mRemoteApi));
+        imageManager.putImageLoadTask(new StartContShotRunner(mRemoteApi));
     }
 
     public void stopContShoot(I_PictureCallback pictureCallback)
     {
-        ImageManager.putImageLoadTask(new StopContShotRunner(mRemoteApi));
+        imageManager.putImageLoadTask(new StopContShotRunner(mRemoteApi));
     }
 
     public void startBulbCapture(I_PictureCallback pictureCallback)
     {
-        ImageManager.putImageLoadTask(new StartBulbCaptureRunner(mRemoteApi));
+        imageManager.putImageLoadTask(new StartBulbCaptureRunner(mRemoteApi));
     }
 
     public void stopBulbCapture(I_PictureCallback pictureCallback)
     {
-        ImageManager.putImageLoadTask(new StopBulbCaptureRunner(mRemoteApi));
+        imageManager.putImageLoadTask(new StopBulbCaptureRunner(mRemoteApi));
     }
 
 
     public void SetShootMode(final String mode)
     {
-        ImageManager.putImageLoadTask(new SetShootModeRunner(mRemoteApi,mode));
+        imageManager.putImageLoadTask(new SetShootModeRunner(mRemoteApi,mode));
     }
 
     public void StartRecording()

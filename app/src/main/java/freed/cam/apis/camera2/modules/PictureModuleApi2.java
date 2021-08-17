@@ -40,7 +40,6 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -56,6 +55,7 @@ import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
@@ -657,6 +657,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     @Override
     public void onRdyToSaveImg() {
         Log.d(TAG,"onRdyToSaveImg");
+        if (settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).get())
+            soundPlayer.play();
         finishCapture();
     }
 

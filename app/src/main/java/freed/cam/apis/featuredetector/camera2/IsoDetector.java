@@ -29,8 +29,16 @@ public class IsoDetector extends BaseParameter2Detector {
         int min = characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower();
         ArrayList<String> ar = getIsoStrings(max, min);
         settingsManager.get(SettingKeys.M_ManualIso).setIsSupported(ar.size() > 0);
-        if (ar.size() > 0)
-            settingsManager.get(SettingKeys.M_ManualIso).setValues(ar.toArray(new String[ar.size()]));
+        if (ar.size() > 0) {
+            String a[] = ar.toArray(new String[ar.size()]);
+            settingsManager.get(SettingKeys.M_ManualIso).setValues(a);
+            settingsManager.get(SettingKeys.MIN_ISO).setValues(a);
+            settingsManager.get(SettingKeys.MIN_ISO).setIsSupported(true);
+            settingsManager.get(SettingKeys.MIN_ISO).set("auto");
+            settingsManager.get(SettingKeys.MAX_ISO).setValues(a);
+            settingsManager.get(SettingKeys.MAX_ISO).setIsSupported(true);
+            settingsManager.get(SettingKeys.MAX_ISO).set("auto");
+        }
     }
 
     public static ArrayList<String> getIsoStrings(int max, int min) {
