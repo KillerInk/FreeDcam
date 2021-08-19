@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.ActivityInterface;
+import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.events.EventBusHelper;
@@ -47,10 +48,12 @@ public class ContinouseRawCapture extends RawImageCapture {
     private final String TAG = ContinouseRawCapture.class.getSimpleName();
     private LinkedBlockingQueue<Image> imageBlockingQueue;
     private UserMessageHandler userMessageHandler;
+    private ImageManager imageManager;
     public ContinouseRawCapture(Size size, int format, boolean setToPreview, ModuleInterface moduleInterface, String file_ending,int max_images) {
         super(size, format, setToPreview,moduleInterface,file_ending,max_images);
         imageBlockingQueue = new LinkedBlockingQueue<>(max_images);
         userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
+        imageManager = FreedApplication.imageManager();
     }
 
     @Override
@@ -190,7 +193,7 @@ public class ContinouseRawCapture extends RawImageCapture {
             itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
-                ImageManager.putImageSaveTask(task);
+                imageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
             }
             rawStack.clear();
@@ -265,7 +268,7 @@ public class ContinouseRawCapture extends RawImageCapture {
             itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
-                ImageManager.putImageSaveTask(task);
+                imageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
             }
             rawStack.clear();
@@ -347,7 +350,7 @@ public class ContinouseRawCapture extends RawImageCapture {
             itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
-                ImageManager.putImageSaveTask(task);
+                imageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
             }
             //rawStack.clear();
