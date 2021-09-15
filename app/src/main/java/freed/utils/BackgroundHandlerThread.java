@@ -44,6 +44,11 @@ public class BackgroundHandlerThread
         return mBackgroundThread;
     }
 
+    public Handler getBackgroundHandler()
+    {
+        return mBackgroundHandler;
+    }
+
     public void execute(Runnable runnable)
     {
         mBackgroundHandler.post(runnable);
