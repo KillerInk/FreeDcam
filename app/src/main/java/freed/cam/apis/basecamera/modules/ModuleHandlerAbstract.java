@@ -59,7 +59,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
         moduleList = new HashMap<>();
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
-        mBackgroundHandler = new Handler(backgroundHandlerThread.getThread().getLooper());
+        mBackgroundHandler = backgroundHandlerThread.getBackgroundHandler();
     }
 
     @Override

@@ -536,7 +536,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         changeCaptureState(CaptureStates.image_capture_start);
         Log.d(TAG, "StartStillCapture");
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController, mBackgroundHandler);
+        cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController);
     }
 
     protected void prepareCaptureBuilder(int captureNum)

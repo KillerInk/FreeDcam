@@ -62,36 +62,41 @@ public class HistogramController implements HistogramChangedEvent {
 
     public void enable(boolean en)
     {
-        enabled = en;
-        if (en)
-        {
-            if (myHistogram != null) {
-                myHistogram.setVisibility(View.VISIBLE);
-                myHistogram.bringToFront();
-            }
-            if (waveFormView != null) {
-                waveFormView.setVisibility(View.VISIBLE);
-                waveFormView.bringToFront();
-            }
-            if (feedToRegister != null)
-                feedToRegister.setHistogramFeed(this);
-            else
-                Log.d(TAG, "histogram on feed to Register is null!");
-        }
-        else
-        {
-            if (myHistogram != null)
-                myHistogram.setVisibility(View.GONE);
-            if (waveFormView != null)
-                waveFormView.setVisibility(View.GONE);
-            if (dataListner != null) {
-                dataListner.setData(null);
-                dataListner.setWaveFormData(null,0,0);
-            }
-            if (feedToRegister != null)
-                feedToRegister.setHistogramFeed(null);
-            else
-                Log.d(TAG, "histogram off feed to Register is null!");
+        if(myHistogram != null) {
+            enabled = en;
+            myHistogram.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (en) {
+                        if (myHistogram != null) {
+                            myHistogram.setVisibility(View.VISIBLE);
+                            myHistogram.bringToFront();
+                        }
+                        if (waveFormView != null) {
+                            waveFormView.setVisibility(View.VISIBLE);
+                            waveFormView.bringToFront();
+                        }
+                        if (feedToRegister != null)
+                            feedToRegister.setHistogramFeed(HistogramController.this);
+                        else
+                            Log.d(TAG, "histogram on feed to Register is null!");
+                    } else {
+                        if (myHistogram != null)
+                            myHistogram.setVisibility(View.GONE);
+                        if (waveFormView != null)
+                            waveFormView.setVisibility(View.GONE);
+                        if (dataListner != null) {
+                            dataListner.setData(null);
+                            dataListner.setWaveFormData(null, 0, 0);
+                        }
+                        if (feedToRegister != null)
+                            feedToRegister.setHistogramFeed(null);
+                        else
+                            Log.d(TAG, "histogram off feed to Register is null!");
+                    }
+                }
+            });
+
         }
     }
 

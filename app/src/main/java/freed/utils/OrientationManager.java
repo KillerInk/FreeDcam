@@ -13,6 +13,7 @@ import androidx.lifecycle.OnLifecycleEvent;
  */
 public class OrientationManager implements LifecycleObserver
 {
+    private static final String TAG = OrientationManager.class.getSimpleName();
     private int currentOrientation;
     private final OrientationEventListener orientationEventListener;
     private OrientationEvent orientationListner;
@@ -44,11 +45,13 @@ public class OrientationManager implements LifecycleObserver
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void Start()
     {
+        Log.d(TAG, "start");
         orientationEventListener.enable();
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     public void Stop()
     {
+        Log.d(TAG, "stop");
         orientationEventListener.disable();
     }
 
