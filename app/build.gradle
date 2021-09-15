@@ -51,20 +51,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
             ndk.debugSymbolLevel 'full'
-            sourceSets {
+           /* sourceSets {
                 main {
                     jniLibs.srcDir "$buildDir/intermediates/ndkBuild/release/obj/local"
                 }
-            }
+            }*/
         }
         debug {
             jniDebuggable true
             signingConfig signingConfigs.config
-            sourceSets {
+           /* sourceSets {
                 main {
                     jniLibs.srcDir "$buildDir/intermediates/ndkBuild/debug/obj/local"
                 }
-            }
+            }*/
         }
     }
     externalNativeBuild {
