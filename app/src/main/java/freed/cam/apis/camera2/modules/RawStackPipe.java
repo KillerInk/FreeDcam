@@ -51,12 +51,12 @@ public class RawStackPipe extends PictureModuleApi2 {
 
     @Override
     public String LongName() {
-        return "HDR+";
+        return "HDR+OneByOne";
     }
 
     @Override
     public String ShortName() {
-        return "HDR+";
+        return "HDR+ObO";
     }
 
     @Override

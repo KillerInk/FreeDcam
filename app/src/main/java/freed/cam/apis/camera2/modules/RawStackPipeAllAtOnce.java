@@ -42,12 +42,12 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
 
     @Override
     public String LongName() {
-        return "HDR+2";
+        return "HDR+AllAtOnce";
     }
 
     @Override
     public String ShortName() {
-        return "HDR+2";
+        return "HDR+AaO";
     }
 
 
