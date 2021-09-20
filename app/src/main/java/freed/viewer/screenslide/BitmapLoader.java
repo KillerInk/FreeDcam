@@ -2,6 +2,7 @@ package freed.viewer.screenslide;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 
 import com.google.android.renderscript.Toolkit;
 import com.ortiz.touch.TouchImageView;
@@ -32,7 +33,9 @@ public class BitmapLoader extends ImageTask
 
         Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getName());
         final Bitmap response = imageFragmentModel.getBitmapHelper().getBitmap(file,false);
-        int hist[] = createHistogramm(response);
+        int hist[] = null;
+        if (response.getConfig() == Bitmap.Config.ARGB_8888)
+            hist = createHistogramm(response);
         Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getName());
         if (imageviewRef != null && response != null) {
             final TouchImageView imageFragment = imageviewRef.get();
