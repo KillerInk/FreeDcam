@@ -296,7 +296,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
     private int getTopMargin()
     {
-        return previewController.getViewHeight()/2 - previewController.getPreviewHeight()/2;
+        int mtop = previewController.getViewHeight()/2 - previewController.getPreviewHeight()/2;
+        if (mtop > 0)
+            return mtop;
+        else return 0;
     }
 
 
