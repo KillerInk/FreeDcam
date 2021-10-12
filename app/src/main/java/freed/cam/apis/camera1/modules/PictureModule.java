@@ -121,7 +121,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
                 }
 
             }
-            cameraUiWrapper.getParameterHandler().SetPictureOrientation(orientationManager.getCurrentOrientation());
+            int orientation = orientationManager.getCurrentOrientation();
+            cameraUiWrapper.getParameterHandler().SetPictureOrientation(orientation);
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             ParameterInterface burst = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst);

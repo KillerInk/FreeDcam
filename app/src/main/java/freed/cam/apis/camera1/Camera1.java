@@ -9,7 +9,6 @@ import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
 import freed.cam.apis.camera1.cameraholder.CameraHolderSony;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.events.EventBusHelper;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -72,7 +71,6 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
 
     @Override
     public void startCamera() {
-        EventBusHelper.register(this);
         if (!cameraIsOpen)
             cameraIsOpen = cameraHolder.OpenCamera(settingsManager.getCameraIds()[settingsManager.GetCurrentCamera()]);
         Log.d(TAG, "startCamera");
@@ -80,7 +78,6 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
 
     @Override
     public void stopCamera() {
-        EventBusHelper.unregister(this);
         Log.d(TAG, "Stop Camera");
         preview.close();
         if (cameraHolder != null)

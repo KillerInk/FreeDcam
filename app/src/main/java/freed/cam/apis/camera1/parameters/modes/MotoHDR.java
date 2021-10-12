@@ -4,7 +4,6 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +95,6 @@ public class MotoHDR extends BaseModeParameter
     }
 
 
-    @Subscribe
     public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
     {
         if (valueChangedEvent.key == SettingKeys.PictureFormat) {

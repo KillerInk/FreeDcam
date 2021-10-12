@@ -37,7 +37,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -400,11 +399,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.SetStringValues(values);
     }
 
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
 
     /**
      * Gets called when the module has changed

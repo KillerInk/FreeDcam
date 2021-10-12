@@ -29,8 +29,6 @@ import java.util.HashMap;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.event.capture.CaptureStateChangedEventHandler;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
@@ -124,7 +122,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     @Override
     public void ModuleHasChanged(final String module)
     {
-        EventBusHelper.post(new ModuleHasChangedEvent(module));
+
     }
 
     @Override

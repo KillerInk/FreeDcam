@@ -27,8 +27,6 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 
 import freed.FreedApplication;
@@ -106,7 +104,6 @@ public class BurstManualParam extends BaseManualParameter
     }
 
 
-    @Subscribe
     public void onModuleChanged(ModuleHasChangedEvent event)
     {
         String module = event.NewModuleName;

@@ -31,8 +31,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -50,12 +48,6 @@ import freed.utils.Log;
  */
 @AndroidEntryPoint
 public class ShutterButton extends AppCompatButton implements ModuleChangedEvent, freed.cam.event.capture.CaptureStateChangedEvent {
-
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
 
     private CameraWrapperInterface cameraUiWrapper;
 

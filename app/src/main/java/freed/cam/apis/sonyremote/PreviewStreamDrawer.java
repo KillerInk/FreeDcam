@@ -15,8 +15,6 @@ import android.renderscript.Type;
 import android.view.Surface;
 import android.view.TextureView;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -74,7 +72,6 @@ public class PreviewStreamDrawer implements RenderScriptProcessorInterface {
 
     private boolean useRenderScript = false;
 
-    @Subscribe
     public void onJoypadTouchUp(boolean up)
     {
         /*if (up)
@@ -83,7 +80,6 @@ public class PreviewStreamDrawer implements RenderScriptProcessorInterface {
             EventBusHelper.post(new DisableViewPagerTouchEvent(true));*/
     }
 
-    @Subscribe
     public void onJoypadMove(int x, int y)
     {
         zoomPreviewMagineLeft += (x);
