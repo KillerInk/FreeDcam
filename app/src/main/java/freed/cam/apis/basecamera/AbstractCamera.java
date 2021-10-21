@@ -6,6 +6,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerInterface;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.event.camera.CameraHolderEventHandler;
 import freed.cam.event.capture.CaptureStateChangedEventHandler;
+import freed.cam.event.module.ModuleChangedEventHandler;
 import freed.cam.previewpostprocessing.PreviewControllerInterface;
 import freed.settings.SettingsManager;
 
@@ -50,6 +51,11 @@ public abstract class AbstractCamera<
     public void setCameraHolderEventHandler(CameraHolderEventHandler cameraHolderEventHandler) {
 
         cameraHolder.addEventListner(cameraHolderEventHandler);
+    }
+
+    @Override
+    public void setModuleChangedEventHandler(ModuleChangedEventHandler moduleChangedEventHandler) {
+        moduleHandler.setModuleChangedEventHandler(moduleChangedEventHandler);
     }
 
     @Override

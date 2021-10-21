@@ -36,9 +36,8 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.event.capture.CaptureStates;
-import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -109,6 +108,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         startBackgroundThread();
         Log.d(TAG, "EventBus register");
         cameraApiManager.addCaptureStateChangedEventListner(this);
+        cameraApiManager.addModuleChangedEventListner(this);
         //EventBusHelper.register(this);
         invalidate();
     }
@@ -118,6 +118,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         super.onDetachedFromWindow();
         Log.d(TAG, "EventBus unregister");
         cameraApiManager.removeCaptureStateChangedListner(this);
+        cameraApiManager.removeModuleChangedEventListner(this);
         stopBackgroundThread();
     }
 

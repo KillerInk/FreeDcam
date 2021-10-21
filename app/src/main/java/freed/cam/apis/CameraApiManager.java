@@ -19,6 +19,8 @@ import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.event.camera.CameraHolderEventHandler;
 import freed.cam.event.capture.CaptureStateChangedEvent;
 import freed.cam.event.capture.CaptureStateChangedEventHandler;
+import freed.cam.event.module.ModuleChangedEvent;
+import freed.cam.event.module.ModuleChangedEventHandler;
 import freed.cam.previewpostprocessing.Preview;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.settings.SettingKeys;
@@ -39,6 +41,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
     private PreviewController previewController;
     private CaptureStateChangedEventHandler captureStateChangedEventHandler;
     private CameraHolderEventHandler cameraHolderEventHandler;
+    private ModuleChangedEventHandler moduleChangedEventHandler;
 
     @Inject
     public CameraApiManager(SettingsManager settingsManager, PreviewController previewController)
@@ -47,6 +50,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
         this.previewController = previewController;
         captureStateChangedEventHandler = new CaptureStateChangedEventHandler();
         cameraHolderEventHandler = new CameraHolderEventHandler();
+        moduleChangedEventHandler = new ModuleChangedEventHandler();
     }
 
     public void init()
@@ -138,6 +142,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
                 cameraHolderEventHandler.setEventListner(camera);
                 camera.setCameraHolderEventHandler(cameraHolderEventHandler);
                 camera.setCaptureStateChangedEventHandler(captureStateChangedEventHandler);
+                camera.setModuleChangedEventHandler(moduleChangedEventHandler);
                 if (!cameraIsOpen && PreviewSurfaceRdy)
                     CameraThreadHandler.startCameraAsync();
             }
@@ -229,5 +234,15 @@ public class CameraApiManager implements Preview.PreviewEvent {
     public void removeCaptureStateChangedListner(CaptureStateChangedEvent listner)
     {
         captureStateChangedEventHandler.removeEventListner(listner);
+    }
+
+    public void addModuleChangedEventListner(ModuleChangedEvent listner)
+    {
+        moduleChangedEventHandler.setEventListner(listner);
+    }
+
+    public void removeModuleChangedEventListner(ModuleChangedEvent listner)
+    {
+        moduleChangedEventHandler.removeEventListner(listner);
     }
 }

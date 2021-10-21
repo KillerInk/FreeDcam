@@ -17,12 +17,14 @@
  * /
  */
 
-package freed.cam.apis.basecamera.modules;
+package freed.cam.event.module;
+
+import freed.cam.event.MyEvent;
 
 /**
  * Created by troop on 23.08.2014.
  */
-public interface ModuleChangedEvent
+public interface ModuleChangedEvent extends MyEvent
 {
     /**
      * Gets called when the module has changed

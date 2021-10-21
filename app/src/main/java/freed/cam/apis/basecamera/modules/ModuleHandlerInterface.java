@@ -23,6 +23,7 @@ package freed.cam.apis.basecamera.modules;
 import java.util.AbstractMap;
 
 import freed.cam.event.capture.CaptureStateChangedEventHandler;
+import freed.cam.event.module.ModuleChangedEventHandler;
 
 /**
  * Created by troop on 09.12.2014.
@@ -62,6 +63,7 @@ public interface ModuleHandlerInterface
     void initModules();
 
     AbstractMap<String, ModuleInterface> getModuleList();
-    void ModuleHasChanged(final String module);
+    void fireModuleHasChanged(final String module);
     void setCaptureStateChangedEventHandler(CaptureStateChangedEventHandler eventHandler);
+    void setModuleChangedEventHandler(ModuleChangedEventHandler eventHandler);
 }
