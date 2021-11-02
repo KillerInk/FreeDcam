@@ -53,6 +53,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
 
+    private CaptureResult captureResult;
+
+    public CaptureResult getCaptureResult() {
+        return captureResult;
+    }
 
     public class AeAfLocker
     {
@@ -180,7 +185,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFirstFrame = false;
         }
 
-
+        captureResult = result;
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
         ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
         if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)

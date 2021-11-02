@@ -55,6 +55,7 @@ public class PreviewFragment  extends Fragment {
     public void onDestroy() {
         FrameLayout frameLayout = view.findViewById(R.id.autofitview);
         frameLayout.removeAllViews();
+        view = null;
         super.onDestroy();
     }
 }

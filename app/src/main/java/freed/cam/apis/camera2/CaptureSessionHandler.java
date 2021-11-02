@@ -720,4 +720,9 @@ public class CaptureSessionHandler
         }
     }
 
+    public CaptureRequest getCaptureRequest()
+    {
+        return mPreviewRequestBuilder.build();
+    }
+
 }

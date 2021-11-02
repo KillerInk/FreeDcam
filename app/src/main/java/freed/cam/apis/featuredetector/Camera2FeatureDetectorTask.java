@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import camera2_hidden_keys.VendorKeyParser;
+import camera2_hidden_keys.VendorKeyTestLog;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.camera2.AeTargetFpsDetector;
@@ -175,8 +176,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         VendorKeyParser vendorKeyParser = new VendorKeyParser();
         HashSet<String> vendorkeys = null;
         try {
-            vendorKeyParser.readVendorKeys(characteristics);
+            vendorKeyParser.readVendorKeys(characteristics,CaptureRequest.Key.class);
             vendorkeys = vendorKeyParser.getRequests();
+            /*VendorKeyTestLog vendorKeyTestLog = new VendorKeyTestLog(vendorKeyParser,characteristics,null,null);
+            vendorKeyTestLog.testKeys();*/
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

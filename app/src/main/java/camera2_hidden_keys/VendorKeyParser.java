@@ -27,15 +27,15 @@ public class VendorKeyParser
         availiblekeys = new HashSet<>();
     }
 
-    public void readVendorKeys(CameraCharacteristics cameraCharacteristics) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void readVendorKeys(CameraCharacteristics cameraCharacteristics, Class keyclass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         ArrayList<CaptureRequest.Key> keys = null;
         if (get_mProperties() != null)
         {
-            keys = getAllvendorKeysApi29(cameraCharacteristics);
+            keys = getAllvendorKeysApi29(cameraCharacteristics, keyclass);
         }
         else if (getNativeCopy() != null)
         {
-            keys = getAllvendorKeysApi26(cameraCharacteristics);
+            keys = getAllvendorKeysApi26(cameraCharacteristics, keyclass);
         }
 
         if (keys != null)
@@ -49,30 +49,44 @@ public class VendorKeyParser
         else Log.d(TAG, "No vendorKeys found " + Build.VERSION.SDK + " " + Build.VERSION.SDK_INT);
     }
 
+    public ArrayList getVendorKeys(CameraCharacteristics cameraCharacteristics, Class keyclass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        ArrayList<CaptureRequest.Key> keys = null;
+        if (get_mProperties() != null)
+        {
+            keys = getAllvendorKeysApi29(cameraCharacteristics, keyclass);
+        }
+        else if (getNativeCopy() != null)
+        {
+            keys = getAllvendorKeysApi26(cameraCharacteristics, keyclass);
+        }
+        return keys;
+    }
+
     public HashSet<String> getRequests() {
         return availiblekeys;
     }
 
 
-    private ArrayList getAllvendorKeysApi29(CameraCharacteristics characteristics) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private ArrayList getAllvendorKeysApi29(CameraCharacteristics characteristics,Class keyclass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Field mPropertiesField = get_mProperties();
         mPropertiesField.setAccessible(true);
         Object  mProperties = mPropertiesField.get(characteristics);
         Method getAllVendorKeys = RestrictionBypass.getDeclaredMethod(mProperties.getClass(), "getAllVendorKeys", Class.class);
         getAllVendorKeys.setAccessible(true);
         //seems to be equal wich key.class we use, it returns always all key for CameraCharateristics, CaptureRequest and CaptureResult
-        return (ArrayList) getAllVendorKeys.invoke(mProperties, CaptureRequest.Key.class);
+        return (ArrayList) getAllVendorKeys.invoke(mProperties, keyclass);
     }
 
-    private ArrayList getAllvendorKeysApi26(CameraCharacteristics characteristics) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private ArrayList getAllvendorKeysApi26(CameraCharacteristics characteristics,Class keyclass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method getNativeCopy = getNativeCopy();
         getNativeCopy.setAccessible(true);
         Object metadata = getNativeCopy.invoke(characteristics);
         Method getAllVendorKeys = RestrictionBypass.getDeclaredMethod(metadata.getClass(),"getAllVendorKeys",Class.class);
         getAllVendorKeys.setAccessible(true);
         //seems to be equal wich key.class we use, it returns always all keys for CameraCharacteristics, CaptureRequest and CaptureResult
-        return (ArrayList) getAllVendorKeys.invoke(metadata, CaptureRequest.Key.class);
+        return (ArrayList) getAllVendorKeys.invoke(metadata, keyclass);
     }
+
 
     private Field get_mProperties() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         return RestrictionBypass.getDeclaredField(CameraCharacteristics.class, "mProperties");
