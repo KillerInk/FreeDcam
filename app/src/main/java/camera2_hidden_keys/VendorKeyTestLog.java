@@ -274,7 +274,8 @@ public class VendorKeyTestLog {
                 bufferedTextFileWriter.writeLine(addCommentLine(getObjectString(ret)));
 
                 Object t = getKeyType(k);
-                bufferedTextFileWriter.writeLine(addCharacteristicsStaticLine(getObjectType(t),k.getName().replace(".","_")));
+                String name = k.getName().replace(".","_").replace("-","_");
+                bufferedTextFileWriter.writeLine(addCharacteristicsStaticLine(getObjectType(t),name));
             }
         }
         bufferedTextFileWriter.writeLine("static {");
@@ -314,9 +315,9 @@ public class VendorKeyTestLog {
             if (ret != null)
             {
                 bufferedTextFileWriter.writeLine(addCommentLine(getObjectString(ret)));
-
+                String name = k.getName().replace(".","_").replace("-","_");
                 Object t = getKeyType(k);
-                bufferedTextFileWriter.writeLine(addResultStaticLine(getObjectType(t),k.getName().replace(".","_")));
+                bufferedTextFileWriter.writeLine(addResultStaticLine(getObjectType(t),name));
             }
         }
         bufferedTextFileWriter.writeLine("static {");
@@ -359,7 +360,8 @@ public class VendorKeyTestLog {
                 bufferedTextFileWriter.writeLine(addCommentLine(getObjectString(ret)));
 
                 Object t = getKeyType(k);
-                bufferedTextFileWriter.writeLine(addRequestStaticLine(getObjectType(t),k.getName().replace(".","_")));
+                String name = k.getName().replace(".","_").replace("-","_");
+                bufferedTextFileWriter.writeLine(addRequestStaticLine(getObjectType(t),name));
             }
             else
             {
@@ -401,6 +403,6 @@ public class VendorKeyTestLog {
 
     private String writeKeyInstance(String name, String type)
     {
-        return name.replace(".","_") + "= getKeyType(\""+name+"\", " + type+".class);";
+        return name.replace(".","_").replace("-","_") + "= getKeyType(\""+name+"\", " + type+".class);";
     }
 }
