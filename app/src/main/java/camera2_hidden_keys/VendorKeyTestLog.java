@@ -17,6 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -190,19 +192,18 @@ public class VendorKeyTestLog {
         }
     }
 
-    private <T,K,M> T getKeyType(K key)
+    private <T,K,M> Class<T> getKeyType(K key)
     {
-        T mTypeInstance = null;
+        Class mTypeInstance = null;
         M mKeyInstance = null;
         Field mKey = null;
-        Field mType = null;
+        Method mgetType = null;
         try {
             mKey = RestrictionBypass.getDeclaredField(key.getClass(),"mKey");
             mKey.setAccessible(true);
             mKeyInstance = (M) mKey.get(key);
-            mType = RestrictionBypass.getDeclaredField(mKeyInstance.getClass(),"mType");
-            mType.setAccessible(true);
-            mTypeInstance = (T) mType.get(mKeyInstance);
+            mgetType = RestrictionBypass.getDeclaredMethod(mKeyInstance.getClass(),"getType");
+            mTypeInstance = (Class) mgetType.invoke(mKeyInstance,null);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -231,16 +232,26 @@ public class VendorKeyTestLog {
 
     private <T> String getObjectType(T o)
     {
-        if (o.toString().equals("class [I"))
+        if      (o.toString().equals("class [I"))
             return "int[]";
+        else if (o.toString().equals("class I"))
+            return "int";
         else if (o.toString().equals("class [B"))
             return "byte[]";
+        else if (o.toString().equals("class B"))
+            return "Byte";
         else if (o.toString().equals("class [F"))
             return "float[]";
+        else if (o.toString().equals("class F"))
+            return "Float";
         else if (o.toString().equals("class [D"))
             return "double[]";
+        else if (o.toString().equals("class D"))
+            return "double";
         else if (o.toString().equals("class [J"))
             return "long[]";
+        else if (o.toString().equals("class J"))
+            return "long";
         else if (o == Rational.class)
             return "Rational.class";
         else
@@ -273,7 +284,7 @@ public class VendorKeyTestLog {
             {
                 bufferedTextFileWriter.writeLine(addCommentLine(getObjectString(ret)));
 
-                Object t = getKeyType(k);
+                Class t = getKeyType(k);
                 String name = k.getName().replace(".","_").replace("-","_");
                 bufferedTextFileWriter.writeLine(addCharacteristicsStaticLine(getObjectType(t),name));
             }
