@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.FreedApplication;
+import freed.settings.SettingKeys;
 import freed.utils.BufferedTextFileWriter;
 import freed.utils.Log;
 
@@ -192,9 +194,9 @@ public class VendorKeyTestLog {
         }
     }
 
-    private <T,K,M> Class<T> getKeyType(K key)
+    private <K,M> Type getKeyType(K key)
     {
-        Class mTypeInstance = null;
+        Type mTypeInstance = null;
         M mKeyInstance = null;
         Field mKey = null;
         Method mgetType = null;
@@ -203,7 +205,8 @@ public class VendorKeyTestLog {
             mKey.setAccessible(true);
             mKeyInstance = (M) mKey.get(key);
             mgetType = RestrictionBypass.getDeclaredMethod(mKeyInstance.getClass(),"getType");
-            mTypeInstance = (Class) mgetType.invoke(mKeyInstance,null);
+            mTypeInstance = (Type) mgetType.invoke(mKeyInstance,null);
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
@@ -284,7 +287,7 @@ public class VendorKeyTestLog {
             {
                 bufferedTextFileWriter.writeLine(addCommentLine(getObjectString(ret)));
 
-                Class t = getKeyType(k);
+                Type t = getKeyType(k);
                 String name = k.getName().replace(".","_").replace("-","_");
                 bufferedTextFileWriter.writeLine(addCharacteristicsStaticLine(getObjectType(t),name));
             }

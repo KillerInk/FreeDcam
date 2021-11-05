@@ -41,6 +41,7 @@ import freed.cam.apis.basecamera.parameters.modes.VideoAudioSourceMode;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
+import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2Qcom;
 import freed.cam.apis.camera2.parameters.ae.AeManagerHuaweiCamera2;
 import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
@@ -165,6 +166,13 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         //AE mode start
         if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex) {
             AeManagerHuaweiCamera2 aeManager = new AeManagerHuaweiCamera2(cameraUiWrapper);
+            add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
+            add(SettingKeys.M_ManualIso, aeManager.getIso());
+            add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());
+        }
+        else if (settingsManager.get(SettingKeys.USE_QCOM_AE).get() && !settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+        {
+            AeManagerCamera2Qcom aeManager = new AeManagerCamera2Qcom(cameraUiWrapper);
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());

@@ -23,6 +23,10 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
     public static final CameraCharacteristics.Key<int[]> sensorModeTable;
     public static final CameraCharacteristics.Key<int[]> support_video_hdr_modes;
 
+    //[9470, 32110118400]
+    public static final CameraCharacteristics.Key<long[]> org_codeaurora_qcamera3_iso_exp_priority_exposure_time_range;
+    //[0, 1, 2, 3, 4, 5, 6, 7]
+    public static final CameraCharacteristics.Key<int[]> org_codeaurora_qcamera3_iso_exp_priority_iso_available_modes;
 
     static {
         sharpness_range = getKeyType("org.codeaurora.qcamera3.sharpness.range", int[].class);
@@ -37,6 +41,9 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
         customhw = getKeyType("com.qti.node.customhw", Integer.class);
         sensorModeTable = getKeyType("org.quic.camera2.sensormode.info.SensorModeTable", int[].class);
         support_video_hdr_modes = getKeyType("org.codeaurora.qcamera3.available_video_hdr_modes.video_hdr_modes", int[].class);
+
+        org_codeaurora_qcamera3_iso_exp_priority_exposure_time_range= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.exposure_time_range", long[].class);
+        org_codeaurora_qcamera3_iso_exp_priority_iso_available_modes= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.iso_available_modes", int[].class);
     }
 
 

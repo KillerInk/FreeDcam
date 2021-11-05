@@ -192,6 +192,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         {
             processHuaweiAEValues(result, expotime, iso);
         }
+        /*else if (settingsManager.get(SettingKeys.USE_QCOM_AE).get())
+        {
+            processQcomAEValues(result, expotime, iso);
+        }*/
         else {
             processDefaultAEValues(result, expotime, iso);
         }
@@ -283,6 +287,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     }
 
+
+
     private String afStates ="";
 
     private void setAfState(String afState)
@@ -354,8 +360,14 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFocusLock = false;
     }
 
+
+    private boolean expotimeVisible(ParameterInterface expotime)
+    {
+        return expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Enabled;
+    }
+
     private void processDefaultAEValues( TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
-        if (expotime != null && expotime.getViewState() == AbstractParameter.ViewState.Visible || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
+        if (expotime != null && expotimeVisible(expotime) || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
                 try {
                     long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
@@ -392,6 +404,24 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (iso.getIntValue() == 0)
         {
             Integer isova = result.get(CaptureResult.SENSOR_SENSITIVITY);
+            if(isova != null) {
+                currentIso = isova;
+                iso.fireStringValueChanged(String.valueOf(isova));
+            }
+        }
+    }
+
+    private void processQcomAEValues(TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
+        if (expotime.getIntValue() == 0) {
+            Long expoTime = result.get(CaptureResultQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority);
+            if (expoTime != null) {
+                currentExposureTime = expoTime;
+                expotime.fireStringValueChanged(getShutterStringNS(expoTime));
+            }
+        }
+        if (iso.getIntValue() == 0)
+        {
+            Integer isova = result.get(CaptureResultQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_value);
             if(isova != null) {
                 currentIso = isova;
                 iso.fireStringValueChanged(String.valueOf(isova));
