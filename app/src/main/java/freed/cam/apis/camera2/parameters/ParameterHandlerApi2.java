@@ -176,6 +176,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ExposureCompensation, aeManager.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManager.getIso());
             add(SettingKeys.M_ExposureTime, aeManager.getExposureTime());
+            add(SettingKeys.ExposureMode, aeManager.getAeMode());
         }
         else {
             AeManagerCamera2 aeManager;

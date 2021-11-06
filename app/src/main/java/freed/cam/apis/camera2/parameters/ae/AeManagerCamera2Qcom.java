@@ -1,5 +1,6 @@
 package freed.cam.apis.camera2.parameters.ae;
 
+import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -9,15 +10,21 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.Camera2;
+import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
+import freed.settings.SettingKeys;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class AeManagerCamera2Qcom extends AeManagerCamera2 {
 
     private boolean expotimeIsActive;
     private boolean isoIsActive;
+    private BaseModeApi2 aemode;
+    private long exposuretime = 0L;
+    private int isoVal = 0;
 
     public AeManagerCamera2Qcom(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
+        aemode = new BaseModeApi2(cameraWrapperInterface, SettingKeys.ExposureMode, CaptureRequest.CONTROL_AE_MODE);
     }
 
     @Override
@@ -31,52 +38,49 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
     }
 
     @Override
+    public AbstractParameter getAeMode() {
+        return aemode;
+    }
+
+    @Override
     public void setAeMode(AeStates aeState) {
-        if (activeAeState == aeState)
-            return;
         activeAeState = aeState;
         switch (aeState)
         {
             case manual:
                 exposureCompensation.setViewState(AbstractParameter.ViewState.Disabled);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority,0,false);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority,0,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_OFF,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME,exposuretime,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY,isoVal,true);
                 break;
             case iso_priority:
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 0,false);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 8L,false);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_value,isoVal ,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 0,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 8L,true);
                 break;
             case shutter_priority:
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 1,false);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, exposuretime,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 1,true);
                 break;
             default:
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 0,false);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 0L,false);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 0,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 0L,true);
                 exposureCompensation.setViewState(AbstractParameter.ViewState.Enabled);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON,true);
+                break;
         }
-    }
-
-    @Override
-    public void setExposureCompensation(int valueToSet, boolean setToCamera) {
-        super.setExposureCompensation(valueToSet,setToCamera);
-       /* if (valueToSet > exposureCompensation.getStringValues().length)
-            valueToSet = exposureCompensation.getStringValues().length/2;
-        float t = Float.parseFloat(exposureCompensation.getStringValues()[valueToSet].replace(",","."));
-        cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_gain_value, t,setToCamera);*/
     }
 
     @Override
     public void setExposureTime(int valueToSet, boolean setToCamera) {
         if (valueToSet > 0) {
-            long val = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet])* 1000;
-            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, val,setToCamera);
-
-            manualExposureTime.fireIntValueChanged(valueToSet);
+            exposuretime = AbstractManualShutter.getMilliSecondStringFromShutterString(manualExposureTime.getStringValues()[valueToSet])* 1000;
             expotimeIsActive = true;
-
         }
         else
         {
-            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 0L,setToCamera);
+            exposuretime = 0;
             expotimeIsActive = false;
         }
         applyAeMode();
@@ -86,12 +90,12 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
     public void setIso(int valueToSet, boolean setToCamera) {
         if (valueToSet == 0)
         {
-            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_value, 0,setToCamera);
+            isoVal = 0;
             isoIsActive = false;
         }
         else
         {
-            cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_value, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
+            isoVal = Integer.parseInt(manualIso.getStringValues()[valueToSet]);
             isoIsActive =true;
         }
         applyAeMode();
