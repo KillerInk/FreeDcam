@@ -116,6 +116,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(AwbModesDetector.class);
         parameter2Detectors.add(CameraControlModeDetector.class);
         parameter2Detectors.add(AeTargetFpsDetector.class);
+
+        //qcom
+        parameter2Detectors.add(VideoHdr10Detector.class);
+        parameter2Detectors.add(HistogramSupportedDetector.class);
+        //run this bevor exposuretime get detected
+        parameter2Detectors.add(QcomAeDetector.class);
         //manuals
         parameter2Detectors.add(ApertureDetector.class);
         parameter2Detectors.add(EvDetector.class);
@@ -127,10 +133,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //xiaomi
         parameter2Detectors.add(VideoRecordControl.class);
         parameter2Detectors.add(ProVideoLogDetector.class);
-        //qcom
-        parameter2Detectors.add(VideoHdr10Detector.class);
-        parameter2Detectors.add(HistogramSupportedDetector.class);
-        parameter2Detectors.add(QcomAeDetector.class);
+
         //huawei
         parameter2Detectors.add(DualPrimaryCameraDetector.class);
         parameter2Detectors.add(IsoExposureTimeDetector.class);
