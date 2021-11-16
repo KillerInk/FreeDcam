@@ -66,6 +66,8 @@ public class ShaderUtil {
         String end = ".vsh";
         if (type == Shader.ShaderType.fragment)
             end = ".fsh";
+        else if (type == Shader.ShaderType.compute)
+            end = ".csh";
 
         return getShader("shader/"+name+end,glesVersion);
     }

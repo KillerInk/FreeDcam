@@ -15,12 +15,14 @@ import javax.microedition.khronos.opengles.GL10;
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.gl.program.ClippingProgram;
+import freed.gl.program.ComputeTestProgram;
 import freed.gl.program.FocuspeakProgram;
 import freed.gl.program.MergeProgram;
 import freed.gl.program.OesProgram;
 import freed.gl.program.PreviewProgram;
 import freed.gl.program.WaveFormRGBProgram;
 import freed.gl.shader.ClippingShader;
+import freed.gl.shader.ComputeTestShader;
 import freed.gl.shader.FocuspeakShader;
 import freed.gl.shader.MergeShader;
 import freed.gl.shader.OesFragmentShader;
@@ -51,6 +53,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private final PreviewProgram previewProgram;
     private final MergeProgram mergeProgram;
     private final WaveFormRGBProgram waveFormRGBProgram;
+    private final ComputeTestProgram computeTestProgram;
 
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
@@ -102,6 +105,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         previewProgram = new PreviewProgram(glesv);
         mergeProgram = new MergeProgram(glesv);
         waveFormRGBProgram = new WaveFormRGBProgram(glesv);
+        computeTestProgram = new ComputeTestProgram(glesv);
     }
 
     public void setSize(int width, int height)
@@ -151,8 +155,6 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 GLES20.glReadPixels(0, 0, width / 2, height / 2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
                 byteBuffer.asIntBuffer().put(pixels);
                 mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
-
-
             }
             if (histo_update_counter == 11)
             {
@@ -175,13 +177,12 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             previewProgram.setGlTex(oesFbTexture);
             previewProgram.draw();
         }
-        else
-            if (processors == GLPreview.PreviewProcessors.FocusPeak || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
+        else if (processors == GLPreview.PreviewProcessors.FocusPeak || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
         {
             focuspeakProgram.setGlTex(oesFbTexture);
             focuspeakProgram.draw();
         }
-            focuspeakBuffer.switchToDefaultFB();
+        focuspeakBuffer.switchToDefaultFB();
 
         if (processors == GLPreview.PreviewProcessors.Zebra || processors == GLPreview.PreviewProcessors.FocusPeak_Zebra)
         {
@@ -189,7 +190,6 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             clippingProgram.setGlTex(oesFbTexture);
             clippingProgram.draw();
             clippingBuffer.switchToDefaultFB();
-
         }
         oesFrameBuffer.switchToDefaultFB();
 
@@ -197,13 +197,18 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         {
             case Normal:
             case FocusPeak:
+
                 previewProgram.doClear();
                 previewProgram.setGlTex(focuspeakFbTexture);
                 previewProgram.draw();
                 break;
             case Zebra:
+                focuspeakBuffer.setActive();
+                computeTestProgram.setGlTex(clippingFbTexture);
+                computeTestProgram.draw();
+                focuspeakBuffer.switchToDefaultFB();
                 previewProgram.doClear();
-                previewProgram.setGlTex(clippingFbTexture);
+                previewProgram.setGlTex(focuspeakFbTexture);
                 previewProgram.draw();
                 break;
             case FocusPeak_Zebra:
@@ -252,6 +257,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         MergeShader mergeShader = new MergeShader(glesv);
         mergeShader.createShader();
 
+        ComputeTestShader computeTestShader = new ComputeTestShader(glesv);
+        computeTestShader.createShader();
+
         Log.d(TAG,"create Oes Program");
         oesProgram.create();
         oesProgram.setFragmentShader(oesFragmentShader);
@@ -288,6 +296,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         waveFormRGBProgram.setFragmentShader(waveformRGBShader);
         waveFormRGBProgram.setVertexShader(vertexShader);
         waveFormRGBProgram.createAndLinkProgram();
+
+        computeTestProgram.create();
+        computeTestProgram.setComputeShader(computeTestShader);
+        computeTestProgram.createAndLinkProgram();
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;

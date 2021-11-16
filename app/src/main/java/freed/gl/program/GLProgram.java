@@ -18,7 +18,8 @@ public abstract class GLProgram implements GLProgamInterface {
     private final static String TAG = GLProgram.class.getSimpleName();
     private Shader vertexShader;
     private Shader fragmentShader;
-    private GLTex glTex;
+    private Shader computeShader;
+    protected GLTex glTex;
     private int glTex_id;
     private float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
     private float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
@@ -55,6 +56,11 @@ public abstract class GLProgram implements GLProgamInterface {
         this.fragmentShader = fragmentShader;
     }
 
+    @Override
+    public void setComputeShader(Shader computeShader) {
+        this.computeShader = computeShader;
+    }
+
     public void setGlTex(GLTex glTex)
     {
         this.glTex = glTex;
@@ -66,10 +72,18 @@ public abstract class GLProgram implements GLProgamInterface {
         hProgram = GLES20.glCreateProgram();
         checkGlError("glCreateProgram");
         Log.d(TAG,"createAndLinkProgram id:" +hProgram);
-        GLES20.glAttachShader(hProgram, vertexShader.getHandel());
-        checkGlError("glAttachShader vertex");
-        GLES20.glAttachShader(hProgram, fragmentShader.getHandel());
-        checkGlError("glAttachShader fragment");
+        if (vertexShader != null) {
+            GLES20.glAttachShader(hProgram, vertexShader.getHandel());
+            checkGlError("glAttachShader vertex");
+        }
+        if (fragmentShader != null) {
+            GLES20.glAttachShader(hProgram, fragmentShader.getHandel());
+            checkGlError("glAttachShader fragment");
+        }
+        if (computeShader != null) {
+            GLES20.glAttachShader(hProgram, computeShader.getHandel());
+            checkGlError("glAttachShader compute");
+        }
         GLES20.glLinkProgram(hProgram);
         checkGlError("glLinkProgram");
         vPosition = GLES20.glGetAttribLocation(hProgram, "vPosition");

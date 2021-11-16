@@ -1,6 +1,7 @@
 package freed.gl.shader;
 
 import android.opengl.GLES20;
+import android.opengl.GLES31;
 
 import java.io.IOException;
 
@@ -12,6 +13,7 @@ public abstract class Shader {
     {
         vertex,
         fragment,
+        compute,
     }
 
     private int handel;
@@ -26,6 +28,8 @@ public abstract class Shader {
     {
         if (getShaderType() == ShaderType.vertex)
             handel = ShaderUtil.createShader(loadShader(), getShaderName() + " vertex", GLES20.GL_VERTEX_SHADER);
+        else if (getShaderType() == ShaderType.compute)
+            handel = ShaderUtil.createShader(loadShader(), getShaderName() + " vertex", GLES31.GL_COMPUTE_SHADER);
         else
             handel = ShaderUtil.createShader(loadShader(),getShaderName() +" fragment",GLES20.GL_FRAGMENT_SHADER);
     }
