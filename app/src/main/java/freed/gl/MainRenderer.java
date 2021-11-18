@@ -1,9 +1,13 @@
 package freed.gl;
 
 import android.graphics.SurfaceTexture;
-import android.opengl.GLES20;
+import android.opengl.GLES31;
 import android.opengl.GLES30;
+import android.opengl.GLES31;
 import android.opengl.GLSurfaceView;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,6 +21,7 @@ import freed.cam.histogram.HistogramFeed;
 import freed.gl.program.ClippingProgram;
 import freed.gl.program.ComputeTestProgram;
 import freed.gl.program.FocuspeakProgram;
+import freed.gl.program.GLProgram;
 import freed.gl.program.MergeProgram;
 import freed.gl.program.OesProgram;
 import freed.gl.program.PreviewProgram;
@@ -121,6 +126,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     private boolean drawing = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDrawFrame(GL10 unused) {
         if (!mGLInit) return;
 
@@ -152,7 +158,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         if (mView.getHistogramController().isEnabled()) {
             if (histo_update_counter++ == 6) {
-                GLES20.glReadPixels(0, 0, width / 2, height / 2, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, pixelBuffer);
+                GLES31.glReadPixels(0, 0, width / 2, height / 2, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, pixelBuffer);
                 byteBuffer.asIntBuffer().put(pixels);
                 mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
             }
@@ -161,7 +167,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 waveformBuffer.setActive();
                 waveFormRGBProgram.setGlTex(oesFbTexture);
                 waveFormRGBProgram.draw();
-                GLES20.glReadPixels(0, height / 3 * 2, width, height / 3, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, waveformPixel);
+                GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
                 mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
                 waveformBuffer.switchToDefaultFB();
                 histo_update_counter = 0;
@@ -203,11 +209,25 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 previewProgram.draw();
                 break;
             case Zebra:
-                focuspeakBuffer.setActive();
-                computeTestProgram.setGlTex(clippingFbTexture);
+                //focuspeakBuffer.setActive();
+                //computeTestProgram.setGlTex(clippingFbTexture);
+                computeTestProgram.setWidth(width);
+                computeTestProgram.setHeight(height);
+                computeTestProgram.onUseProgram();
+                GLES31.glBindImageTexture(0, clippingFbTexture.getId(), 0, false, 0, GLES31.GL_READ_ONLY, GLES31.GL_RGBA8);
+                GLES31.glBindImageTexture(1, focuspeakFbTexture.getId(), 0, false, 0, GLES31.GL_WRITE_ONLY, GLES31.GL_RGBA8);
+
+                GLProgram.checkGlError("computeTestProgram.onUseProgram();");
+               /* GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 0, focuspeakBuffer.getId());
+                GLProgram.checkGlError("GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 0, focuspeakBuffer.getId());");
+                GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 1,clippingBuffer.getId());
+                GLProgram.checkGlError("GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 1,clippingBuffer.getId());");*/
                 computeTestProgram.draw();
+                //GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 1, 0);
+                //GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 0, 0);
+
                 focuspeakBuffer.switchToDefaultFB();
-                previewProgram.doClear();
+                //previewProgram.doClear();
                 previewProgram.setGlTex(focuspeakFbTexture);
                 previewProgram.draw();
                 break;

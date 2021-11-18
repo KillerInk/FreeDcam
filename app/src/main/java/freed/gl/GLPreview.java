@@ -48,7 +48,7 @@ public class GLPreview extends GLSurfaceView {
 
     private void init() {
         mRenderer = new MainRenderer(this);
-        setEGLContextClientVersion(2);
+        setEGLContextClientVersion(3);
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }

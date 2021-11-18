@@ -1,15 +1,11 @@
 #version 310 es
 
-layout(binding = 0) writeonly buffer Output {
-    vec4 elements[];
-} output_data;
-layout(binding = 1) readonly buffer Input {
-    vec4 elements[];
-} input_data0;
+layout(rgba8,binding = 0) readonly uniform highp image2D inTexture;
+layout(rgba8,binding = 1)  writeonly uniform highp image2D outTexture;
 
-layout (local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
-
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 void main() {
-    uint storePos = gl_GlobalInvocationID.x;
-    output_data.elements[storePos] = input_data0.elements[storePos];
+    ivec2 storePos = ivec2(gl_GlobalInvocationID.xy);
+    vec4 texColor = imageLoad(inTexture,storePos).rgba;
+    imageStore(outTexture, storePos, texColor);
 }
