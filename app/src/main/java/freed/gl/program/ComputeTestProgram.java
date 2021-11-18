@@ -10,17 +10,6 @@ public class ComputeTestProgram extends GLProgram{
         super(glesVersion);
     }
 
-    int width = 1920;
-    int height = 1080;
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     @Override
     protected void onClear() {
         //super.onClear();
@@ -31,9 +20,6 @@ public class ComputeTestProgram extends GLProgram{
         //super.onSetData();
     }
 
-    private int gIndexBufferBinding = 0;
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onBindTexture() {
         //GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, gIndexBufferBinding, glTex.getId());
@@ -43,9 +29,16 @@ public class ComputeTestProgram extends GLProgram{
     @Override
     protected void onDraw() {
         //super.onDraw();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void compute(int width, int height, int input, int output)
+    {
+        GLES31.glUseProgram(hProgram);
+        GLES31.glBindImageTexture(0, input, 0, false, 0, GLES31.GL_READ_ONLY, GLES31.GL_RGBA8);
+        GLES31.glBindImageTexture(1, output, 0, false, 0, GLES31.GL_WRITE_ONLY, GLES31.GL_RGBA8);
         GLES31.glDispatchCompute(width, height, 1);
         GLES31.glMemoryBarrier(GLES31.GL_TEXTURE_UPDATE_BARRIER_BIT);
-
         GLES31.glMemoryBarrier(GLES31.GL_ALL_SHADER_BITS);
     }
 }

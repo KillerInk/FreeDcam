@@ -209,23 +209,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 previewProgram.draw();
                 break;
             case Zebra:
-                //focuspeakBuffer.setActive();
-                //computeTestProgram.setGlTex(clippingFbTexture);
-                computeTestProgram.setWidth(width);
-                computeTestProgram.setHeight(height);
-                computeTestProgram.onUseProgram();
-                GLES31.glBindImageTexture(0, clippingFbTexture.getId(), 0, false, 0, GLES31.GL_READ_ONLY, GLES31.GL_RGBA8);
-                GLES31.glBindImageTexture(1, focuspeakFbTexture.getId(), 0, false, 0, GLES31.GL_WRITE_ONLY, GLES31.GL_RGBA8);
-
-                GLProgram.checkGlError("computeTestProgram.onUseProgram();");
-               /* GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 0, focuspeakBuffer.getId());
-                GLProgram.checkGlError("GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 0, focuspeakBuffer.getId());");
-                GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 1,clippingBuffer.getId());
-                GLProgram.checkGlError("GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 1,clippingBuffer.getId());");*/
-                computeTestProgram.draw();
-                //GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 1, 0);
-                //GLES31.glBindBufferBase(GLES31.GL_SHADER_STORAGE_BUFFER, 0, 0);
-
+                computeTestProgram.compute(width,height, clippingFbTexture.getId(),focuspeakFbTexture.getId());
                 focuspeakBuffer.switchToDefaultFB();
                 //previewProgram.doClear();
                 previewProgram.setGlTex(focuspeakFbTexture);

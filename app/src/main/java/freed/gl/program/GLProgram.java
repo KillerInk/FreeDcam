@@ -87,10 +87,11 @@ public abstract class GLProgram implements GLProgamInterface {
         }
         GLES31.glLinkProgram(hProgram);
         checkGlError("glLinkProgram");
-        vPosition = GLES31.glGetAttribLocation(hProgram, "vPosition");
-        vTexCoord = GLES31.glGetAttribLocation(hProgram, "vTexCoord");
-        glTex_id  = GLES31.glGetUniformLocation(hProgram, "sTexture");
-        //sTexture = GLES31.glGetAttribLocation(hProgram, "sTexture");
+        if (computeShader == null) {
+            vPosition = GLES31.glGetAttribLocation(hProgram, "vPosition");
+            vTexCoord = GLES31.glGetAttribLocation(hProgram, "vTexCoord");
+            glTex_id = GLES31.glGetUniformLocation(hProgram, "sTexture");
+        }
     }
 
     @Override
