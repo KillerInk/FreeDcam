@@ -141,26 +141,29 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             scaledownBuffer.setActive();
             previewProgram.setInputTex(oesFbTexture);
             previewProgram.draw();
-        }
 
-        if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
-            mView.getHistogramController().getMeteringProcessor().getMeters();
 
-        if (mView.getHistogramController().isEnabled()) {
-            if (histo_update_counter++ == 6) {
-                GLES31.glReadPixels(0, 0, width / 2, height / 2, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, pixelBuffer);
-                byteBuffer.asIntBuffer().put(pixels);
-                mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
-            }
-            if (histo_update_counter == 11)
-            {
-                waveformBuffer.setActive();
-                waveFormRGBProgram.setInputTex(oesFbTexture);
-                waveFormRGBProgram.draw();
-                GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
-                mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
-                waveformBuffer.switchToDefaultFB();
-                histo_update_counter = 0;
+            //custom ae
+            if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
+                mView.getHistogramController().getMeteringProcessor().getMeters();
+
+            //histogram and waveform
+            if (mView.getHistogramController().isEnabled()) {
+                if (histo_update_counter++ == 6) {
+                    GLES31.glReadPixels(0, 0, width / 2, height / 2, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, pixelBuffer);
+                    byteBuffer.asIntBuffer().put(pixels);
+                    mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
+                }
+                if (histo_update_counter == 11)
+                {
+                    waveformBuffer.setActive();
+                    waveFormRGBProgram.setInputTex(oesFbTexture);
+                    waveFormRGBProgram.draw();
+                    GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
+                    mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
+                    waveformBuffer.switchToDefaultFB();
+                    histo_update_counter = 0;
+                }
             }
         }
 
