@@ -18,12 +18,6 @@ public class OesProgram extends GLProgram
     }
 
     @Override
-    public void draw()
-    {
-        super.draw();
-    }
-
-    @Override
     protected void onSetData() {
         super.onSetData();
 

@@ -1,13 +1,13 @@
 package freed.gl.shader;
 
-public class ComputeTestShader extends Shader {
-    public ComputeTestShader(int glesVersion) {
+public class FocuspeakComputeShader extends Shader {
+    public FocuspeakComputeShader(int glesVersion) {
         super(glesVersion);
     }
 
     @Override
     String getShaderName() {
-        return "computeTest";
+        return "computeFocuspeak";
     }
 
     @Override

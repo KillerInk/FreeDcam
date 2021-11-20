@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.GLTex;
 import freed.gl.shader.Shader;
 import freed.utils.Log;
@@ -62,7 +63,7 @@ public abstract class GLProgram implements GLProgamInterface {
         this.computeShader = computeShader;
     }
 
-    public void setGlTex(GLTex glTex)
+    public void setInputTex(GLTex glTex)
     {
         this.glTex = glTex;
     }

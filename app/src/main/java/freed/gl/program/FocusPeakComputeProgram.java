@@ -1,8 +1,13 @@
 package freed.gl.program;
 
 import android.opengl.GLES20;
+import android.opengl.GLES31;
+import android.os.Build;
 
-public class FocuspeakProgram extends GLProgram{
+import androidx.annotation.RequiresApi;
+
+public class FocusPeakComputeProgram extends GLProgram {
+
     private int peak_color_id;
     private int peak_strength_id;
     private float[] peak_color = {1f,0f,0f,1f};
@@ -19,7 +24,7 @@ public class FocuspeakProgram extends GLProgram{
         cyan,
     }
 
-    public FocuspeakProgram(int glesVersion) {
+    public FocusPeakComputeProgram(int glesVersion) {
         super(glesVersion);
     }
 
@@ -32,15 +37,24 @@ public class FocuspeakProgram extends GLProgram{
         checkGlError("link peak strength");
     }
 
-
     @Override
-    protected void onSetData() {
-        super.onSetData();
+    public void draw() {
+        //super.draw();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void compute(int width, int height, int input, int output)
+    {
+        GLES31.glUseProgram(hProgram);
         GLES20.glUniform4fv(peak_color_id, 1, peak_color,0);
         checkGlError("set peak color");
         GLES20.glUniform1f(peak_strength_id, peak_strength);
         checkGlError("peak strength");
-
+        GLES31.glBindImageTexture(0, input, 0, false, 0, GLES31.GL_READ_ONLY, GLES31.GL_RGBA8);
+        GLES31.glBindImageTexture(1, output, 0, false, 0, GLES31.GL_WRITE_ONLY, GLES31.GL_RGBA8);
+        GLES31.glDispatchCompute(width, height, 1);
+        GLES31.glMemoryBarrier(GLES31.GL_TEXTURE_UPDATE_BARRIER_BIT);
+        GLES31.glMemoryBarrier(GLES31.GL_ALL_SHADER_BITS);
     }
 
     public void setRed(boolean on)
@@ -61,7 +75,7 @@ public class FocuspeakProgram extends GLProgram{
         peak_color[3] = 1f;
     }
 
-    public void setPeak_color(Colors color)
+    public void setPeak_color(FocusPeakComputeProgram.Colors color)
     {
         switch (color)
         {
