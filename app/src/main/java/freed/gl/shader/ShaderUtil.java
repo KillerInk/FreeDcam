@@ -1,8 +1,8 @@
-package freed.gl;
+package freed.gl.shader;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.opengl.GLES20;
+import android.opengl.GLES31;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import freed.FreedApplication;
-import freed.gl.shader.Shader;
 
 public class ShaderUtil {
 
@@ -66,6 +65,8 @@ public class ShaderUtil {
         String end = ".vsh";
         if (type == Shader.ShaderType.fragment)
             end = ".fsh";
+        else if (type == Shader.ShaderType.compute)
+            end = ".csh";
 
         return getShader("shader/"+name+end,glesVersion);
     }
@@ -74,14 +75,14 @@ public class ShaderUtil {
     public static int createShader(String shader , String shadername, int shaderType)
     {
         int[] compiled = new int[1];
-        int fshader = GLES20.glCreateShader(shaderType);
-        GLES20.glShaderSource(fshader, shader);
-        GLES20.glCompileShader(fshader);
-        GLES20.glGetShaderiv(fshader, GLES20.GL_COMPILE_STATUS, compiled, 0);
+        int fshader = GLES31.glCreateShader(shaderType);
+        GLES31.glShaderSource(fshader, shader);
+        GLES31.glCompileShader(fshader);
+        GLES31.glGetShaderiv(fshader, GLES31.GL_COMPILE_STATUS, compiled, 0);
         Log.d(TAG, "create shader: " + shadername + "\n" + shader);
         if (compiled[0] == 0) {
-            Log.e(TAG, "Could not compile shader: " + shadername + "\n" + GLES20.glGetShaderInfoLog(fshader) + "\n" + shader);
-            GLES20.glDeleteShader(fshader);
+            Log.e(TAG, "Could not compile shader: " + shadername + "\n" + GLES31.glGetShaderInfoLog(fshader) + "\n" + shader);
+            GLES31.glDeleteShader(fshader);
             fshader = 0;
             throw new RuntimeException("Could not compile shader: " + shadername);
         }

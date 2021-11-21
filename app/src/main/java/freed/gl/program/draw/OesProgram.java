@@ -1,8 +1,9 @@
-package freed.gl.program;
+package freed.gl.program.draw;
 
 
+import freed.gl.program.GLDrawProgram;
 
-public class OesProgram extends GLProgram
+public class OesProgram extends GLDrawProgram
 {
 
 
@@ -14,13 +15,6 @@ public class OesProgram extends GLProgram
     @Override
     public void createAndLinkProgram() {
         super.createAndLinkProgram();
-
-    }
-
-    @Override
-    public void draw()
-    {
-        super.draw();
     }
 
     @Override
@@ -28,6 +22,4 @@ public class OesProgram extends GLProgram
         super.onSetData();
 
     }
-
-
 }

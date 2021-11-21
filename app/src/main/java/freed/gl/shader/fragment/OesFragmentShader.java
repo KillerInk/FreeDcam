@@ -1,4 +1,6 @@
-package freed.gl.shader;
+package freed.gl.shader.fragment;
+
+import freed.gl.shader.Shader;
 
 public class OesFragmentShader extends Shader {
     public OesFragmentShader(int glesVersion) {
@@ -6,12 +8,12 @@ public class OesFragmentShader extends Shader {
     }
 
     @Override
-    String getShaderName() {
+    public String getShaderName() {
         return "oes";
     }
 
     @Override
-    ShaderType getShaderType() {
+    public ShaderType getShaderType() {
         return ShaderType.fragment;
     }
 }

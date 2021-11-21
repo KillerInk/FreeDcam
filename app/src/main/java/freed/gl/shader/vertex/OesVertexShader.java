@@ -1,4 +1,6 @@
-package freed.gl.shader;
+package freed.gl.shader.vertex;
+
+import freed.gl.shader.Shader;
 
 public class OesVertexShader extends Shader {
     public OesVertexShader(int glesVersion) {
@@ -6,12 +8,12 @@ public class OesVertexShader extends Shader {
     }
 
     @Override
-    String getShaderName() {
+    public String getShaderName() {
         return "oes";
     }
 
     @Override
-    ShaderType getShaderType() {
+    public ShaderType getShaderType() {
         return ShaderType.vertex;
     }
 }

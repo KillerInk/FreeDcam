@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
+import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -76,9 +77,11 @@ public class CaptureSessionHandler
 
             try {
                 // Finally, we start displaying the camera preview.
+
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         cameraBackroundValuesChangedListner, backgroundHandlerThread.getBackgroundHandler());
                 cameraUiWrapper.getParameterHandler().SetAppSettingsToParameters();
+
             } catch (CameraAccessException | IllegalStateException e) {
                 Log.WriteEx(e);
             }

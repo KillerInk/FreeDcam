@@ -9,7 +9,7 @@ import android.view.TextureView;
 import android.widget.FrameLayout;
 
 import freed.cam.histogram.HistogramController;
-import freed.gl.program.FocuspeakProgram;
+import freed.gl.program.compute.FocusPeakComputeProgram;
 import freed.utils.Log;
 
 public class GLPreview extends GLSurfaceView {
@@ -48,7 +48,7 @@ public class GLPreview extends GLSurfaceView {
 
     private void init() {
         mRenderer = new MainRenderer(this);
-        setEGLContextClientVersion(2);
+        setEGLContextClientVersion(3);
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
@@ -154,7 +154,7 @@ public class GLPreview extends GLSurfaceView {
         mRenderer.setProgram(processors);
     }
 
-    public void setFocusPeakColor(FocuspeakProgram.Colors color)
+    public void setFocusPeakColor(FocusPeakComputeProgram.Colors color)
     {
         mRenderer.getFocuspeakProgram().setPeak_color(color);
         requestRender();
