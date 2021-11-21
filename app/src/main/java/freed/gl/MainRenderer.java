@@ -171,8 +171,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 break;
         }
 
-        if (clippingComputeProgram.getFloat_position() <= 10.0f)
-            clippingComputeProgram.setFloat_position(clippingComputeProgram.getFloat_position() +0.05f);
+        if (clippingComputeProgram.getFloat_position() <= 1000)
+            clippingComputeProgram.setFloat_position(clippingComputeProgram.getFloat_position() +1);
         else
             clippingComputeProgram.setFloat_position(0);
         drawing = false;
@@ -233,7 +233,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         processingBuffer1.delete();
         processingTexture1.delete();
-        
+
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
