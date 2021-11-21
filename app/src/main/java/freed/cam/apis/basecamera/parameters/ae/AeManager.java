@@ -140,7 +140,7 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
 
         public ExposureCompensation(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper,SettingKeys.M_ExposureCompensation);
-            //currentInt = stringvalues.length / 2;
+            currentInt = stringvalues.length / 2;
         }
 
 
@@ -165,8 +165,12 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
 
         @Override
         public void setValue(int valueToSet, boolean setToCamera) {
+            if (valueToSet >= stringvalues.length)
+                valueToSet = stringvalues.length/2;
             super.setValue(valueToSet,setToCamera);
-            setExposureCompensation(valueToSet,setToCamera);
+            currentInt = valueToSet;
+            setExposureCompensation(valueToSet - stringvalues.length/2,setToCamera);
+            fireStringValueChanged(stringvalues[valueToSet]);
         }
 
         @Override
