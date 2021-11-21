@@ -4,7 +4,7 @@ import android.opengl.GLES20;
 
 import freed.utils.Log;
 
-public class WaveFormRGBProgram extends GLProgram {
+public class WaveFormRGBProgram extends GLDrawProgram {
 
     private final String TAG = WaveFormRGBProgram.class.getSimpleName();
 

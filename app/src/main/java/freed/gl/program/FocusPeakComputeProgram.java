@@ -6,7 +6,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-public class FocusPeakComputeProgram extends GLProgram {
+public class FocusPeakComputeProgram extends GLComputeProgram {
 
     private int peak_color_id;
     private int peak_strength_id;
@@ -35,11 +35,6 @@ public class FocusPeakComputeProgram extends GLProgram {
         checkGlError("link peak color");
         peak_strength_id = GLES20.glGetUniformLocation (hProgram, "peak_strength");
         checkGlError("link peak strength");
-    }
-
-    @Override
-    public void draw() {
-        //super.draw();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

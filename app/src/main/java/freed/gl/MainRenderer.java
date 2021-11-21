@@ -254,11 +254,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         waveFormRGBProgram.setVertexShader(vertexShader);
         waveFormRGBProgram.createAndLinkProgram();
 
-        clippingComputeProgram.create();
         clippingComputeProgram.setComputeShader(clippingComputeShader);
         clippingComputeProgram.createAndLinkProgram();
 
-        focusPeakComputeProgram.create();
         focusPeakComputeProgram.setComputeShader(focuspeakComputeShader);
         focusPeakComputeProgram.createAndLinkProgram();
 

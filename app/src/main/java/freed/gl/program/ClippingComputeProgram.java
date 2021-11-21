@@ -6,7 +6,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-public class ClippingComputeProgram extends GLProgram {
+public class ClippingComputeProgram extends GLComputeProgram {
 
     int float_position_id;
     int zebra_low_id;
@@ -28,12 +28,9 @@ public class ClippingComputeProgram extends GLProgram {
         zebra_high_id = GLES20.glGetUniformLocation (hProgram, "zebra_high");
     }
 
-    @Override
-    public void draw() {
-        //super.draw();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
     public void compute(int width, int height, int input, int output)
     {
         GLES31.glUseProgram(hProgram);

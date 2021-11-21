@@ -2,7 +2,7 @@ package freed.gl.program;
 
 import android.opengl.GLES20;
 
-public class PreviewProgram extends GLProgram {
+public class PreviewProgram extends GLDrawProgram {
 
     private static final String TAG = PreviewProgram.class.getSimpleName();
     protected int uTexRotateMatrix;
