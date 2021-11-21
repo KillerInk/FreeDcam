@@ -1,4 +1,4 @@
-package freed.gl;
+package freed.gl.shader;
 
 import java.io.IOException;
 

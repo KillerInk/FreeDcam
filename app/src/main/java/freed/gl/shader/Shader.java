@@ -1,11 +1,8 @@
 package freed.gl.shader;
 
 import android.opengl.GLES31;
-import android.opengl.GLES31;
 
 import java.io.IOException;
-
-import freed.gl.ShaderUtil;
 
 public abstract class Shader {
 
@@ -44,8 +41,8 @@ public abstract class Shader {
         return null;
     }
 
-    abstract String getShaderName();
-    abstract ShaderType getShaderType();
+    public abstract String getShaderName();
+    public abstract ShaderType getShaderType();
 
     public int getHandel() {
         return handel;

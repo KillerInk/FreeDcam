@@ -1,17 +1,19 @@
-package freed.gl.shader;
+package freed.gl.shader.compute;
 
-public class ClippingComputeShader extends Shader{
+import freed.gl.shader.Shader;
+
+public class ClippingComputeShader extends Shader {
     public ClippingComputeShader(int glesVersion) {
         super(glesVersion);
     }
 
     @Override
-    String getShaderName() {
+    public String getShaderName() {
         return "computeClipping";
     }
 
     @Override
-    ShaderType getShaderType() {
+    public ShaderType getShaderType() {
         return ShaderType.compute;
     }
 }

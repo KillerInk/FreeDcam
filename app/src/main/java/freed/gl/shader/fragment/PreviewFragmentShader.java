@@ -1,4 +1,6 @@
-package freed.gl.shader;
+package freed.gl.shader.fragment;
+
+import freed.gl.shader.Shader;
 
 public class PreviewFragmentShader extends Shader {
     public PreviewFragmentShader(int glesVersion) {
@@ -6,12 +8,12 @@ public class PreviewFragmentShader extends Shader {
     }
 
     @Override
-    String getShaderName() {
+    public String getShaderName() {
         return "preview";
     }
 
     @Override
-    ShaderType getShaderType() {
+    public ShaderType getShaderType() {
         return ShaderType.fragment;
     }
 }

@@ -1,10 +1,12 @@
-package freed.gl.program;
+package freed.gl.program.compute;
 
 import android.opengl.GLES20;
 import android.opengl.GLES31;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
+
+import freed.gl.program.GLComputeProgram;
 
 public class FocusPeakComputeProgram extends GLComputeProgram {
 

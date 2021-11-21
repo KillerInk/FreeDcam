@@ -27,7 +27,7 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
     public GLDrawProgram(int glesVersion) {
         super(glesVersion);
     }
-    
+
     @Override
     public void create() {
         vertexBuffer = ByteBuffer.allocateDirect(vtmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();

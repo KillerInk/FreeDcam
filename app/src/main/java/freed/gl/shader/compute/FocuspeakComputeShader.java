@@ -1,4 +1,6 @@
-package freed.gl.shader;
+package freed.gl.shader.compute;
+
+import freed.gl.shader.Shader;
 
 public class FocuspeakComputeShader extends Shader {
     public FocuspeakComputeShader(int glesVersion) {
@@ -6,12 +8,12 @@ public class FocuspeakComputeShader extends Shader {
     }
 
     @Override
-    String getShaderName() {
+    public String getShaderName() {
         return "computeFocuspeak";
     }
 
     @Override
-    ShaderType getShaderType() {
+    public ShaderType getShaderType() {
         return ShaderType.compute;
     }
 }

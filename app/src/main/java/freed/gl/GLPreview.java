@@ -9,7 +9,7 @@ import android.view.TextureView;
 import android.widget.FrameLayout;
 
 import freed.cam.histogram.HistogramController;
-import freed.gl.program.FocusPeakComputeProgram;
+import freed.gl.program.compute.FocusPeakComputeProgram;
 import freed.utils.Log;
 
 public class GLPreview extends GLSurfaceView {

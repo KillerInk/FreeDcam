@@ -1,6 +1,8 @@
-package freed.gl.program;
+package freed.gl.program.draw;
 
 import android.opengl.GLES20;
+
+import freed.gl.program.GLDrawProgram;
 
 public class PreviewProgram extends GLDrawProgram {
 

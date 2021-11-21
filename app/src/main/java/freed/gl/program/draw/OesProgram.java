@@ -1,6 +1,7 @@
-package freed.gl.program;
+package freed.gl.program.draw;
 
 
+import freed.gl.program.GLDrawProgram;
 
 public class OesProgram extends GLDrawProgram
 {
