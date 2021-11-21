@@ -10,7 +10,6 @@ vec4 getZebra(ivec2 texS, vec4 color, int pos,float high,float low)
     vec4 out_color;
     int texSF;
     int texSFn;
-    int ipos;
     texSF = (texS.x + texS.y)+pos;
     texSFn = (texS.x - texS.y)+pos;
     out_color = color;
@@ -18,11 +17,11 @@ vec4 getZebra(ivec2 texS, vec4 color, int pos,float high,float low)
     {
         float gray = (color.r + color.g +color.b) /3.0;
         if (gray > (1.0 - high))
-        out_color = mix(color, vec4(1.0, 0.0, 0.0, 1.0), gray);
+            out_color = mix(color, vec4(1.0, 0.0, 0.0, 1.0), gray);
         else if (gray < low)
-        out_color =  mix(color, vec4(0.0, 0.4, 1.0, 1.0), 1.0-gray);
+            out_color =  mix(color, vec4(0.0, 0.4, 1.0, 1.0), 1.0-gray);
         else
-        out_color = color;
+            out_color = color;
     }
     return out_color;
 }
