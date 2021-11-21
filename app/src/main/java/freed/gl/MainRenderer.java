@@ -56,12 +56,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
     private GL2DTex oesFbTexture;
-    GLFrameBuffer focuspeakBuffer;
-    GL2DTex focuspeakFbTexture;
-    GLFrameBuffer clippingBuffer;
-    GL2DTex clippingFbTexture;
-    GLFrameBuffer waveformBuffer;
-    GL2DTex waveformFbTexture;
+    GLFrameBuffer processingBuffer1;
+    GL2DTex processingTexture1;
     int width;
     int height;
     int pixels[];
@@ -69,8 +65,6 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     byte bytepixels[];
     ByteBuffer byteBuffer;
 
-    GL2DTex scaledownTexture;
-    GLFrameBuffer scaledownBuffer;
 
     IntBuffer waveformPixel;
 
@@ -84,17 +78,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         cameraInputTextureHolder = new GLCameraTex();
 
-        focuspeakBuffer = new GLFrameBuffer();
-        focuspeakFbTexture = new GL2DTex();
-
-        clippingBuffer = new GLFrameBuffer();
-        clippingFbTexture = new GL2DTex();
-
-        waveformBuffer = new GLFrameBuffer();
-        waveformFbTexture = new GL2DTex();
-
-        scaledownBuffer = new GLFrameBuffer();
-        scaledownTexture = new GL2DTex();
+        processingBuffer1 = new GLFrameBuffer();
+        processingTexture1 = new GL2DTex();
 
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
@@ -137,9 +122,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
                 || mView.getHistogramController().isEnabled())
         {
-            previewProgram.draw(oesFbTexture,scaledownBuffer);
-
-
+            //draw
+            previewProgram.draw(oesFbTexture,processingBuffer1);
             //custom ae
             if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
                 mView.getHistogramController().getMeteringProcessor().getMeters();
@@ -153,7 +137,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 }
                 if (histo_update_counter == 11)
                 {
-                    waveFormRGBProgram.draw(oesFbTexture,waveformBuffer);
+                    waveFormRGBProgram.draw(oesFbTexture,processingBuffer1);
                     GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
                     mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
                     histo_update_counter = 0;
@@ -170,20 +154,20 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 previewProgram.draw(oesFbTexture,null);
                 break;
             case FocusPeak:
-                focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(),focuspeakFbTexture.getId());
+                focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(), processingTexture1.getId());
                 previewProgram.inverseOrientation(false);
-                previewProgram.draw(focuspeakFbTexture,null);
+                previewProgram.draw(processingTexture1,null);
                 break;
             case Zebra:
-                clippingComputeProgram.compute(width,height,oesFbTexture.getId(),clippingFbTexture.getId());
+                clippingComputeProgram.compute(width,height,oesFbTexture.getId(),processingTexture1.getId());
                 previewProgram.inverseOrientation(false);
-                previewProgram.draw(clippingFbTexture,null);
+                previewProgram.draw(processingTexture1,null);
                 break;
             case FocusPeak_Zebra:
-                focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(),focuspeakFbTexture.getId());
-                clippingComputeProgram.compute(width,height,focuspeakFbTexture.getId(),clippingFbTexture.getId());
+                focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(), processingTexture1.getId());
+                clippingComputeProgram.compute(width,height, processingTexture1.getId(),oesFbTexture.getId());
                 previewProgram.inverseOrientation(false);
-                previewProgram.draw(clippingFbTexture,null);
+                previewProgram.draw(oesFbTexture,null);
                 break;
         }
 
@@ -205,7 +189,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         Log.d(TAG, "GlesVersion:" + glesv);
 
         Shader vertexShader = new OesVertexShader(glesv);
-        
+
         oesProgram.create(vertexShader, new OesFragmentShader(glesv));
         previewProgram.create(new PreviewVertexShader(glesv),new PreviewFragmentShader(glesv));
         waveFormRGBProgram.create(vertexShader,new WaveformRGBShader(glesv));
@@ -224,20 +208,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesFrameBuffer.setOutputTexture(oesFbTexture);
         Log.d(TAG,"OesFramebuffer successful:" + oesFrameBuffer.isSuccessfulLoaded());
 
-        focuspeakBuffer.create();
-        focuspeakFbTexture.create(width,height);
-        focuspeakBuffer.setOutputTexture(focuspeakFbTexture);
-        Log.d(TAG,"FocuspeakFramebuffer successful:" + focuspeakBuffer.isSuccessfulLoaded());
-
-        clippingBuffer.create();
-        clippingFbTexture.create(width,height);
-        clippingBuffer.setOutputTexture(clippingFbTexture);
-        Log.d(TAG,"ClippingFramebuffer successful:" + clippingBuffer.isSuccessfulLoaded());
-
-        waveformBuffer.create();
-        waveformFbTexture.create(width,height);
-        waveformBuffer.setOutputTexture(waveformFbTexture);
-        Log.d(TAG,"Waveformbuffer successful:" + waveformBuffer.isSuccessfulLoaded());
+        processingBuffer1.create();
+        processingTexture1.create(width,height);
+        processingBuffer1.setOutputTexture(processingTexture1);
+        Log.d(TAG,"FocuspeakFramebuffer successful:" + processingBuffer1.isSuccessfulLoaded());
 
         int w = width;
         int h = height;
@@ -246,10 +220,6 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         bytepixels = new byte[w*h*4];
         byteBuffer = ByteBuffer.wrap(bytepixels);
         byteBuffer.order(ByteOrder.nativeOrder());
-
-        scaledownBuffer.create();
-        scaledownTexture.create(w,h);
-        scaledownBuffer.setOutputTexture(scaledownTexture);
 
         waveformPixel = IntBuffer.allocate(width *(height/3));
         Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
@@ -261,17 +231,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         oesFrameBuffer.delete();
         oesFbTexture.delete();
 
-        focuspeakBuffer.delete();
-        focuspeakFbTexture.delete();
-
-        clippingBuffer.delete();
-        clippingFbTexture.delete();
-
-        waveformBuffer.delete();
-        waveformFbTexture.delete();
-
-        scaledownBuffer.delete();
-        scaledownTexture.delete();
+        processingBuffer1.delete();
+        processingTexture1.delete();
+        
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
