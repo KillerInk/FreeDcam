@@ -4,7 +4,7 @@ import android.opengl.GLES31;
 
 import java.io.IOException;
 
-public abstract class Shader {
+public abstract class Shader<T extends Shader> {
 
     public enum ShaderType
     {
@@ -19,9 +19,10 @@ public abstract class Shader {
     public Shader(int glesVersion)
     {
         this.glesVersion = glesVersion;
+        createShader();
     }
 
-    public void createShader()
+    private void createShader()
     {
         if (getShaderType() == ShaderType.vertex)
             handel = ShaderUtil.createShader(loadShader(), getShaderName() + " vertex", GLES31.GL_VERTEX_SHADER);

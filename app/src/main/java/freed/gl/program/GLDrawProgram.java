@@ -11,7 +11,7 @@ import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.GLTex;
 import freed.utils.Log;
 
-public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
+public abstract class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
 
     private final String TAG = GLDrawProgram.class.getSimpleName();
     private Shader vertexShader;
@@ -29,23 +29,16 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
     }
 
     @Override
-    public void create() {
+    public void create(Shader vertexShader, Shader fragmentShader) {
         vertexBuffer = ByteBuffer.allocateDirect(vtmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuffer.put(vtmp);
         vertexBuffer.position(0);
         textureBuffer = ByteBuffer.allocateDirect(ttmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         textureBuffer.put(ttmp);
         textureBuffer.position(0);
-    }
-
-    @Override
-    public void setVertexShader(Shader vertexShader) {
         this.vertexShader = vertexShader;
-    }
-
-    @Override
-    public void setFragmentShader(Shader fragmentShader) {
         this.fragmentShader = fragmentShader;
+        createAndLinkProgram();
     }
 
     @Override

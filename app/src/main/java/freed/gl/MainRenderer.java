@@ -22,9 +22,9 @@ import freed.gl.program.compute.FocusPeakComputeProgram;
 import freed.gl.program.draw.OesProgram;
 import freed.gl.program.draw.PreviewProgram;
 import freed.gl.program.draw.WaveFormRGBProgram;
+import freed.gl.shader.Shader;
 import freed.gl.shader.compute.ClippingComputeShader;
 import freed.gl.shader.compute.FocuspeakComputeShader;
-import freed.gl.shader.HistogramShader;
 import freed.gl.shader.fragment.OesFragmentShader;
 import freed.gl.shader.vertex.OesVertexShader;
 import freed.gl.shader.fragment.PreviewFragmentShader;
@@ -204,49 +204,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         int glesv = GlVersion.getGlesVersion();
         Log.d(TAG, "GlesVersion:" + glesv);
 
-        OesVertexShader vertexShader = new OesVertexShader(glesv);
-        vertexShader.createShader();
-
-        OesFragmentShader oesFragmentShader = new OesFragmentShader(glesv);
-        oesFragmentShader.createShader();
-
-        PreviewVertexShader previewVertexShader = new PreviewVertexShader(glesv);
-        previewVertexShader.createShader();
-
-        PreviewFragmentShader previewFragmentShader = new PreviewFragmentShader(glesv);
-        previewFragmentShader.createShader();
-
-        ClippingComputeShader clippingComputeShader = new ClippingComputeShader(glesv);
-        clippingComputeShader.createShader();
-
-        FocuspeakComputeShader focuspeakComputeShader = new FocuspeakComputeShader(glesv);
-        focuspeakComputeShader.createShader();
-
-        Log.d(TAG,"create Oes Program");
-        oesProgram.create();
-        oesProgram.setFragmentShader(oesFragmentShader);
-        oesProgram.setVertexShader(vertexShader);
-        oesProgram.createAndLinkProgram();
-
-        Log.d(TAG,"create Preview Program");
-        previewProgram.create();
-        previewProgram.setFragmentShader(previewFragmentShader);
-        previewProgram.setVertexShader(previewVertexShader);
-        previewProgram.createAndLinkProgram();
-
-        WaveformRGBShader waveformRGBShader = new WaveformRGBShader(glesv);
-        waveformRGBShader.createShader();
-
-        waveFormRGBProgram.create();
-        waveFormRGBProgram.setFragmentShader(waveformRGBShader);
-        waveFormRGBProgram.setVertexShader(vertexShader);
-        waveFormRGBProgram.createAndLinkProgram();
-
-        clippingComputeProgram.setComputeShader(clippingComputeShader);
-        clippingComputeProgram.createAndLinkProgram();
-
-        focusPeakComputeProgram.setComputeShader(focuspeakComputeShader);
-        focusPeakComputeProgram.createAndLinkProgram();
+        Shader vertexShader = new OesVertexShader(glesv);
+        
+        oesProgram.create(vertexShader, new OesFragmentShader(glesv));
+        previewProgram.create(new PreviewVertexShader(glesv),new PreviewFragmentShader(glesv));
+        waveFormRGBProgram.create(vertexShader,new WaveformRGBShader(glesv));
+        clippingComputeProgram.setComputeShader(new ClippingComputeShader(glesv));
+        focusPeakComputeProgram.setComputeShader(new FocuspeakComputeShader(glesv));
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;

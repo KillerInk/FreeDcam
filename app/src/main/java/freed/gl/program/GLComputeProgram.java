@@ -4,7 +4,7 @@ import android.opengl.GLES31;
 
 import freed.gl.shader.Shader;
 
-public class GLComputeProgram extends GLProgram implements GLComputeProgramInterace{
+public abstract class GLComputeProgram extends GLProgram implements GLComputeProgramInterace{
 
     private Shader computeShader;
 
@@ -15,6 +15,7 @@ public class GLComputeProgram extends GLProgram implements GLComputeProgramInter
     @Override
     public void setComputeShader(Shader shader) {
         this.computeShader = shader;
+        createAndLinkProgram();
     }
 
     @Override
