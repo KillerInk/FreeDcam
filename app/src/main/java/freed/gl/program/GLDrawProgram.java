@@ -7,6 +7,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import freed.gl.shader.Shader;
+import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.GLTex;
 import freed.utils.Log;
 
@@ -15,8 +16,6 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
     private final String TAG = GLDrawProgram.class.getSimpleName();
     private Shader vertexShader;
     private Shader fragmentShader;
-    private int glTex_id;
-
     private float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
     private float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
     protected FloatBuffer vertexBuffer;
@@ -24,18 +23,11 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
     protected int vTexCoord;
     protected int vPosition;
     protected int sTexture;
-    protected GLTex glTex;
 
     public GLDrawProgram(int glesVersion) {
         super(glesVersion);
     }
-
-
-    public void setInputTex(GLTex glTex)
-    {
-        this.glTex = glTex;
-    }
-
+    
     @Override
     public void create() {
         vertexBuffer = ByteBuffer.allocateDirect(vtmp.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -73,12 +65,15 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
         checkGlError("glLinkProgram");
         vPosition = GLES31.glGetAttribLocation(hProgram, "vPosition");
         vTexCoord = GLES31.glGetAttribLocation(hProgram, "vTexCoord");
-        glTex_id = GLES31.glGetUniformLocation(hProgram, "sTexture");
     }
 
     @Override
-    public void draw() {
+    public void draw(GLTex input, GLFrameBuffer output) {
 
+        if (output != null)
+            output.setActive();
+        else
+            GLFrameBuffer.switchToDefaultFB();
         //step0 clear
         onClear();
         //step1 use program
@@ -86,7 +81,7 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
         //step2 active and bind custom data
         onSetData();
         //step3 bind texture
-        onBindTexture();
+        onBindTexture(input);
         //step4 normal draw
         onDraw();
     }
@@ -102,14 +97,13 @@ public class GLDrawProgram extends GLProgram implements GLDrawProgramInterface{
         GLES31.glDisableVertexAttribArray(vTexCoord);
     }
 
-    protected void onBindTexture() {
+    protected void onBindTexture(GLTex input) {
         GLES31.glActiveTexture(GLES31.GL_TEXTURE0);
         checkGlError("onBindTexture glActiveTexture");
-        if (glTex != null) {
-            GLES31.glBindTexture(glTex.getGLTextureType(), glTex.getId());
+        if (input != null) {
+            GLES31.glBindTexture(input.getGLTextureType(), input.getId());
             checkGlError("onBindTexture glBindTexture");
         }
-        GLES31.glUniform1i(glTex_id,0);
         checkGlError("onBindTexture glUniform1i");
     }
 

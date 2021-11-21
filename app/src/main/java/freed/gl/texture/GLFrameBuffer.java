@@ -65,7 +65,7 @@ public class GLFrameBuffer {
         return id;
     }
 
-    public void switchToDefaultFB()
+    public static void switchToDefaultFB()
     {
         GLES31.glBindFramebuffer(GLES31.GL_FRAMEBUFFER, 0);
         GLES31.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

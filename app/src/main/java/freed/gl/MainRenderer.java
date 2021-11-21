@@ -130,17 +130,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 mUpdateST = false;
             }
         }
-        oesFrameBuffer.setActive();
-        oesProgram.setInputTex(cameraInputTextureHolder);
-        oesProgram.draw();
+        oesProgram.draw(cameraInputTextureHolder,oesFrameBuffer);
 
         if ((mView.getHistogramController().getMeteringProcessor() != null
                 && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
                 || mView.getHistogramController().isEnabled())
         {
-            scaledownBuffer.setActive();
-            previewProgram.setInputTex(oesFbTexture);
-            previewProgram.draw();
+            previewProgram.draw(oesFbTexture,scaledownBuffer);
 
 
             //custom ae
@@ -156,46 +152,37 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 }
                 if (histo_update_counter == 11)
                 {
-                    waveformBuffer.setActive();
-                    waveFormRGBProgram.setInputTex(oesFbTexture);
-                    waveFormRGBProgram.draw();
+                    waveFormRGBProgram.draw(oesFbTexture,waveformBuffer);
                     GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
                     mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
-                    waveformBuffer.switchToDefaultFB();
                     histo_update_counter = 0;
                 }
             }
         }
 
-        oesFrameBuffer.switchToDefaultFB();
+        GLFrameBuffer.switchToDefaultFB();
         switch (processors)
         {
             case Normal:
                 previewProgram.inverseOrientation(false);
                 previewProgram.doClear();
-                previewProgram.setInputTex(oesFbTexture);
-                previewProgram.draw();
+                previewProgram.draw(oesFbTexture,null);
                 break;
             case FocusPeak:
-                focuspeakBuffer.switchToDefaultFB();
                 focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(),focuspeakFbTexture.getId());
-                previewProgram.setInputTex(focuspeakFbTexture);
                 previewProgram.inverseOrientation(false);
-                previewProgram.draw();
+                previewProgram.draw(focuspeakFbTexture,null);
                 break;
             case Zebra:
-                clippingBuffer.switchToDefaultFB();
                 clippingComputeProgram.compute(width,height,oesFbTexture.getId(),clippingFbTexture.getId());
-                previewProgram.setInputTex(clippingFbTexture);
                 previewProgram.inverseOrientation(false);
-                previewProgram.draw();
+                previewProgram.draw(clippingFbTexture,null);
                 break;
             case FocusPeak_Zebra:
                 focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(),focuspeakFbTexture.getId());
                 clippingComputeProgram.compute(width,height,focuspeakFbTexture.getId(),clippingFbTexture.getId());
-                previewProgram.setInputTex(clippingFbTexture);
                 previewProgram.inverseOrientation(false);
-                previewProgram.draw();
+                previewProgram.draw(clippingFbTexture,null);
                 break;
         }
 
