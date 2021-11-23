@@ -36,4 +36,16 @@ public class HistogramData {
             }
         }
     }
+
+    public void setGreenHistogram(int[] greenHistogram) {
+        this.greenHistogram = greenHistogram;
+    }
+
+    public void setRedHistogram(int[] redHistogram) {
+        this.redHistogram = redHistogram;
+    }
+
+    public void setBlueHistogram(int[] blueHistogram) {
+        this.blueHistogram = blueHistogram;
+    }
 }

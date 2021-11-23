@@ -19,12 +19,14 @@ import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.gl.program.compute.ClippingComputeProgram;
 import freed.gl.program.compute.FocusPeakComputeProgram;
+import freed.gl.program.compute.HistogramComputeProgram;
 import freed.gl.program.draw.OesProgram;
 import freed.gl.program.draw.PreviewProgram;
 import freed.gl.program.draw.WaveFormRGBProgram;
 import freed.gl.shader.Shader;
 import freed.gl.shader.compute.ClippingComputeShader;
 import freed.gl.shader.compute.FocuspeakComputeShader;
+import freed.gl.shader.compute.HistogramShader;
 import freed.gl.shader.fragment.OesFragmentShader;
 import freed.gl.shader.vertex.OesVertexShader;
 import freed.gl.shader.fragment.PreviewFragmentShader;
@@ -33,6 +35,7 @@ import freed.gl.shader.fragment.WaveformRGBShader;
 import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
+import freed.gl.texture.HistoTex;
 import freed.utils.Log;
 
 public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener, HistogramFeed {
@@ -52,12 +55,18 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private final WaveFormRGBProgram waveFormRGBProgram;
     private final ClippingComputeProgram clippingComputeProgram;
     private final FocusPeakComputeProgram focusPeakComputeProgram;
+    private final HistogramComputeProgram histogramComputeProgram;
 
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
     private GL2DTex oesFbTexture;
     GLFrameBuffer processingBuffer1;
     GL2DTex processingTexture1;
+    HistoTex histogram_r;
+    HistoTex histogram_g;
+    HistoTex histogram_b;
+    private int histo_ar_r[];
+    IntBuffer histo_buf;
     int width;
     int height;
     int pixels[];
@@ -81,12 +90,17 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         processingBuffer1 = new GLFrameBuffer();
         processingTexture1 = new GL2DTex();
 
+        histogram_r = new HistoTex();
+        histogram_g = new HistoTex();
+        histogram_b = new HistoTex();
+
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
         previewProgram = new PreviewProgram(glesv);
         waveFormRGBProgram = new WaveFormRGBProgram(glesv);
         clippingComputeProgram = new ClippingComputeProgram(glesv);
         focusPeakComputeProgram = new FocusPeakComputeProgram(glesv);
+        histogramComputeProgram = new HistogramComputeProgram(glesv);
     }
 
     public void setSize(int width, int height)
@@ -131,9 +145,23 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
                 if (histo_update_counter++ == 6) {
-                    GLES31.glReadPixels(0, 0, width / 2, height / 2, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, pixelBuffer);
+                    histogramComputeProgram.compute(width,height,oesFbTexture.getId(),histogram_r.getId(),histogram_g.getId(),histogram_b.getId());
+                    GLES31.glActiveTexture(GLES31.GL_TEXTURE0);
+                    GLES31.glBindTexture(histogram_r.getGLTextureType(), histogram_r.getId());
+                    GLES31.glReadPixels(0, 0, 256, 1, GLES31.GL_RGBA8, GLES31.GL_UNSIGNED_BYTE, histo_buf);
+                    mView.getHistogramController().setRedHistogram(histo_ar_r.clone());
+                    GLES31.glActiveTexture(GLES31.GL_TEXTURE0);
+                    GLES31.glBindTexture(histogram_g.getGLTextureType(), histogram_g.getId());
+                    GLES31.glReadPixels(0, 0, 256, 1, GLES31.GL_RGBA8, GLES31.GL_UNSIGNED_BYTE, histo_buf);
+                    mView.getHistogramController().setRedHistogram(histo_ar_r.clone());
+                    GLES31.glActiveTexture(GLES31.GL_TEXTURE0);
+                    GLES31.glBindTexture(histogram_b.getGLTextureType(), histogram_b.getId());
+                    GLES31.glReadPixels(0, 0, 256, 1, GLES31.GL_RGBA8, GLES31.GL_UNSIGNED_BYTE, histo_buf);
+                    mView.getHistogramController().setRedHistogram(histo_ar_r.clone());
+                    mView.getHistogramController().updateHistogram();
+                    /*GLES31.glReadPixels(0, 0, width / 2, height / 2, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, pixelBuffer);
                     byteBuffer.asIntBuffer().put(pixels);
-                    mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);
+                    mView.getHistogramController().setImageData(bytepixels.clone(), width / 2, height / 2);*/
                 }
                 if (histo_update_counter == 11)
                 {
@@ -189,6 +217,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         Log.d(TAG, "GlesVersion:" + glesv);
 
         Shader vertexShader = new OesVertexShader(glesv);
+        histogramComputeProgram.setComputeShader(new HistogramShader(glesv));
 
         oesProgram.create(vertexShader, new OesFragmentShader(glesv));
         previewProgram.create(new PreviewVertexShader(glesv),new PreviewFragmentShader(glesv));
@@ -213,6 +242,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         processingBuffer1.setOutputTexture(processingTexture1);
         Log.d(TAG,"FocuspeakFramebuffer successful:" + processingBuffer1.isSuccessfulLoaded());
 
+        histogram_r.create(256,1);
+        histogram_g.create(256,1);
+        histogram_b.create(256,1);
+
+        histo_ar_r = new int[256];
+        histo_buf = IntBuffer.wrap(histo_ar_r);
+
         int w = width;
         int h = height;
         pixels = new int[w*h];
@@ -234,6 +270,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         processingBuffer1.delete();
         processingTexture1.delete();
 
+        histogram_r.delete();
+        histogram_g.delete();
+        histogram_b.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {

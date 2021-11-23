@@ -108,6 +108,21 @@ public class HistogramController implements HistogramChangedEvent {
     public int[] getBlueHistogram() {return histogramData.getBlueHistogram();}
 
     @Override
+    public void setBlueHistogram(int[] blue) {
+        histogramData.setBlueHistogram(blue);
+    }
+
+    @Override
+    public void setRedHistogram(int[] red) {
+        histogramData.setRedHistogram(red);
+    }
+
+    @Override
+    public void setGreenHistogram(int[] green) {
+        histogramData.setGreenHistogram(green);
+    }
+
+    @Override
     public void updateHistogram() {
         myHistogram.redrawHistogram();
     }
