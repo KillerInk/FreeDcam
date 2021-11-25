@@ -3,10 +3,10 @@ layout(rgba8,binding = 0) readonly uniform highp image2D inTexture;
 layout(std430, binding = 1) buffer histogramRed {
     uint reds[];
 };
-layout(std430, binding = 1) buffer histogramGreen {
+layout(std430, binding = 2) buffer histogramGreen {
     uint greens[];
 };
-layout(std430, binding = 1) buffer histogramBlue {
+layout(std430, binding = 3) buffer histogramBlue {
     uint blues[];
 };
 shared uint histogramSharedRed[256];
