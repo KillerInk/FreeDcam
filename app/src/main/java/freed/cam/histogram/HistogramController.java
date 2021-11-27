@@ -124,7 +124,14 @@ public class HistogramController implements HistogramChangedEvent {
 
     @Override
     public void updateHistogram() {
-        myHistogram.redrawHistogram();
+        myHistogram.post(new Runnable() {
+            @Override
+
+            public void run() {
+                //src pos 0,256,512
+                myHistogram.setHistogramData(histogramData);
+            }
+        });
     }
 
     @Override

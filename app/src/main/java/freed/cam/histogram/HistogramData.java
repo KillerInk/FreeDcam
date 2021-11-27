@@ -38,14 +38,14 @@ public class HistogramData {
     }
 
     public void setGreenHistogram(int[] greenHistogram) {
-        this.greenHistogram = greenHistogram;
+        this.greenHistogram = greenHistogram.clone();
     }
 
     public void setRedHistogram(int[] redHistogram) {
-        this.redHistogram = redHistogram;
+        this.redHistogram = redHistogram.clone();
     }
 
     public void setBlueHistogram(int[] blueHistogram) {
-        this.blueHistogram = blueHistogram;
+        this.blueHistogram = blueHistogram.clone();
     }
 }

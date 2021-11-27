@@ -151,7 +151,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
-                if (histo_update_counter++ == 6) {
+                if (/*histo_update_counter++ == 6*/true) {
                     histogramComputeProgram.computeFB(width,height,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
                     int red[] = histogramR_SSBO.getHistogramChannel();
                     int green[] = histogramG_SSBO.getHistogramChannel();
@@ -162,10 +162,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                     mView.getHistogramController().setBlueHistogram(blue);
 
                     mView.getHistogramController().updateHistogram();
+                    histogramR_SSBO.clearBuffer();
+                    histogramG_SSBO.clearBuffer();
+                    histogramB_SSBO.clearBuffer();
 
 
                 }
-                if (histo_update_counter == 11)
+                if (histo_update_counter++ == 11)
                 {
                     waveFormRGBProgram.draw(oesFbTexture,processingBuffer1);
                     GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
