@@ -86,14 +86,15 @@
         android:background="@color/uiSettingsBackground"
         tools:layout_width="120dp"
         tools:layout_height="60dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"/>
 
     <ImageView
         android:id="@+id/imageView_waveform"
         android:layout_width="290dp"
         android:layout_height="120dp"
         android:layout_marginLeft="-79dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="165dp"
         android:adjustViewBounds="true"
         android:clickable="true"
         android:rotation="90"

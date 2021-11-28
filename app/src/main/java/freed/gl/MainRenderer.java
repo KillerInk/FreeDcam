@@ -39,13 +39,15 @@ import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.HistoSSBO;
-import freed.gl.texture.HistoTex;
+
 import freed.utils.Log;
 
 public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener, HistogramFeed {
 
 
     private static final String TAG = MainRenderer.class.getSimpleName();
+
+    private final int groupfactor = 8;
 
     private boolean mGLInit = false;
     private boolean mUpdateST = false;
@@ -151,8 +153,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
-                if (/*histo_update_counter++ == 6*/true) {
-                    histogramComputeProgram.computeFB(width,height,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
+                if (true) {
+                    histogramComputeProgram.computeFB(width/groupfactor,height/groupfactor,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
                     int red[] = histogramR_SSBO.getHistogramChannel();
                     int green[] = histogramG_SSBO.getHistogramChannel();
                     int blue[] = histogramB_SSBO.getHistogramChannel();
@@ -168,7 +170,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
 
                 }
-                if (histo_update_counter++ == 11)
+                if (true)
                 {
                     waveFormRGBProgram.draw(oesFbTexture,processingBuffer1);
                     GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
@@ -187,18 +189,18 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 previewProgram.draw(oesFbTexture,null);
                 break;
             case FocusPeak:
-                focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(), processingTexture1.getId());
+                focusPeakComputeProgram.compute(width/groupfactor,height/groupfactor,oesFbTexture.getId(), processingTexture1.getId());
                 previewProgram.inverseOrientation(false);
                 previewProgram.draw(processingTexture1,null);
                 break;
             case Zebra:
-                clippingComputeProgram.compute(width,height,oesFbTexture.getId(),processingTexture1.getId());
+                clippingComputeProgram.compute(width/groupfactor,height/groupfactor,oesFbTexture.getId(),processingTexture1.getId());
                 previewProgram.inverseOrientation(false);
                 previewProgram.draw(processingTexture1,null);
                 break;
             case FocusPeak_Zebra:
-                focusPeakComputeProgram.compute(width,height,oesFbTexture.getId(), processingTexture1.getId());
-                clippingComputeProgram.compute(width,height, processingTexture1.getId(),oesFbTexture.getId());
+                focusPeakComputeProgram.compute(width/groupfactor,height/groupfactor,oesFbTexture.getId(), processingTexture1.getId());
+                clippingComputeProgram.compute(width/groupfactor,height/groupfactor, processingTexture1.getId(),oesFbTexture.getId());
                 previewProgram.inverseOrientation(false);
                 previewProgram.draw(oesFbTexture,null);
                 break;

@@ -24,7 +24,7 @@ public class HistoSSBO {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public void create(int index)
     {
-        ByteBuffer b = ByteBuffer.allocateDirect(256*8);
+        ByteBuffer b = ByteBuffer.allocateDirect(histogram_in_bytes);
         b.order(ByteOrder.nativeOrder());
         histogramBuf = b.asIntBuffer();
         ssbo = IntBuffer.allocate(1);

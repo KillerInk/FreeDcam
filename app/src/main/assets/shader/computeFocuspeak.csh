@@ -5,7 +5,7 @@ layout(rgba8,binding = 1)  writeonly uniform highp image2D outTexture;
 layout(location = 2) uniform vec4 peak_color;
 layout(location = 3) uniform float peak_strength;
 
-layout (local_size_x = 4, local_size_y = 4, local_size_z = 1) in;
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
 void main() {
     ivec2 storePos = ivec2(gl_GlobalInvocationID.xy);

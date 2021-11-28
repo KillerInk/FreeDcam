@@ -4,7 +4,7 @@ layout(rgba8,binding = 1)  writeonly uniform highp image2D outTexture;
 layout(location = 2) uniform int float_position;
 layout(location = 3) uniform float zebra_high;
 layout(location = 4) uniform float zebra_low;
-layout (local_size_x = 4, local_size_y = 4, local_size_z = 1) in;
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 vec4 getZebra(ivec2 texS, vec4 color, int pos,float high,float low)
 {
     vec4 out_color;
