@@ -450,7 +450,6 @@ public class DngConvertingFragment extends Fragment
     private Bitmap convertRawToDng(BaseHolder baseHolder)
     {
         byte[] data = null;
-        ActivityInterface activityInterface = (ActivityInterface)getActivity();
         try {
             InputStream in = baseHolder.getInputStream();
             data = new byte[in.available()];
@@ -471,7 +470,6 @@ public class DngConvertingFragment extends Fragment
         RawToDng dng = RawToDng.GetInstance();
         /*dng.setOpcode3(AppsettingsManager.getOpcode3());
         dng.setOpcode2(AppsettingsManager.getOpcode2());*/
-        String intsd = StringUtils.GetInternalSDCARD();
         if (out == null) {
             for (BaseHolder holder: fileListController.getFiles())
             {
@@ -493,7 +491,7 @@ public class DngConvertingFragment extends Fragment
             ParcelFileDescriptor pfd = null;
             if (fileListController.getFreeDcamDocumentFolder() != null && settingsManager.GetWriteExternal()) {
                 DocumentFile df = fileListController.getFreeDcamDocumentFolder();
-                DocumentFile wr = df.createFile("image/dng", out.getName());
+                DocumentFile wr = df.findFile(out.getName());
                 try {
 
                     pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");

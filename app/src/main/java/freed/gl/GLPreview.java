@@ -227,6 +227,6 @@ public class GLPreview extends GLSurfaceView {
 
     public boolean isColorWaveForm()
     {
-        return mRenderer.getWaveFormRGBProgram().isColorWaveForm();
+        return true;
     }
 }

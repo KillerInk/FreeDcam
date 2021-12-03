@@ -8,7 +8,7 @@ public class WaveFormRGBProgram extends GLDrawProgram {
 
     private final String TAG = WaveFormRGBProgram.class.getSimpleName();
 
-    private boolean colorwaveform = true;
+    private int colorwaveform = 0;
     private int show_color;
 
 
@@ -27,15 +27,17 @@ public class WaveFormRGBProgram extends GLDrawProgram {
     @Override
     protected void onSetData() {
         super.onSetData();
-        GLES20.glUniform1f(show_color, colorwaveform ? 1:0);
+        GLES20.glUniform1i(show_color, colorwaveform);
     }
 
     public void setColorWaveForm(boolean on)
     {
-        this.colorwaveform = on;
+        this.colorwaveform++;
+        if (colorwaveform == 3)
+            colorwaveform = 0;
     }
 
-    public boolean isColorWaveForm()
+    public int isColorWaveForm()
     {
         return colorwaveform;
     }

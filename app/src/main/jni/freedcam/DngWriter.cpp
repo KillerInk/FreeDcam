@@ -481,22 +481,32 @@ void DngWriter::processLoose(TIFF *tif) {
 void DngWriter::processSXXX16(TIFF *tif) {
     int j, row, col;
     unsigned short pixel[dngProfile->rawwidht];
+    unsigned short pixel2[dngProfile->rawwidht];
     unsigned short low, high;
     j=0;
-    for (row=0; row < dngProfile->rawheight; row ++)
+    for (row=0; row < dngProfile->rawheight; row+=2)
     {
         for (col = 0; col < dngProfile->rawwidht; col+=4)
         { // iterate over pixel columns
             for (int k = 0; k < 4; ++k)
             {
-                low = bayerBytes[j++];
-                high =   bayerBytes[j++];
+                int pos = (dngProfile->rawwidht * row + col +k)*2;
+                low = bayerBytes[pos];
+                high =   bayerBytes[pos+1];
                 pixel[col+k] =  high << 8 |low;
+                pos = (dngProfile->rawwidht * (row+1) + col +k)*2;
+                low = bayerBytes[pos];
+                high =   bayerBytes[pos+1];
+                pixel2[col+k] =  high << 8 |low;
+
                 if(col < 4 && row < 4)
-                    LOGD("Pixel : %i, high: %i low: %i ", pixel[col+k], high, low);
+                    LOGD("Pixel : %i, high: %i low: %i j: %i pos: %i", pixel[col+k], high, low,j,pos);
             }
         }
         if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+        if (TIFFWriteScanline (tif, pixel2, row+1, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
     }

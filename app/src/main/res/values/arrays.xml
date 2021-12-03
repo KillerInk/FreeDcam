@@ -34,8 +34,9 @@
     <string-array name="raw_format"  translatable="false">
         <item>Mipi10bit</item>
         <item>QCom16bit</item>
-        <item>Plain16bit</item>
-        <item>Mipi16bit</item>
+        <item>16bitTo10bit</item>
+        <item>Mipi10bitTo16bit</item>
+        <item>RAW_12BIT_SHIFT</item>
         <item>Pure16bit_To_12bit</item>
         <item>Pure16bit_To_16bit</item>
         <item>QuadBayer_To_16bit</item>

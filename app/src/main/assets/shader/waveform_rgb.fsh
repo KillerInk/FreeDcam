@@ -9,7 +9,7 @@ const int lookupsize = 200;
 const int lookupstep = 3;
 const float intensity = 0.09;
 const float thres = 0.006;
-uniform bool show_color;
+uniform int show_color;
 
 void main()
 {
@@ -26,14 +26,18 @@ void main()
         coords.x = texCoord.x;
         coords.y = texCoord.y/factor + onePixel.y * float(y);
         vec3  texcol = texture(sTexture, coords).rgb;
-        if(show_color)
+        if(show_color == 0 || show_color == 1)
+        {
             col += vec3(intensity)*step(texcol, vec3(maxb))*step(vec3(minb), texcol);
-
-        float l = dot(texcol, texcol)/factor;
-        col += vec3(intensity)*step(l, maxb*maxb)*step(minb*minb, l);
+        }
+        if (show_color == 2 || show_color == 0)
+        {
+            float l = dot(texcol, texcol)/factor;
+            col += vec3(intensity)*step(l, maxb*maxb)*step(minb*minb, l);
+        }
 
     }
-    if(!show_color && col.r >= 0.97 && col.b >= 0.97 && col.g >= 0.97)
+    if(show_color == 2 && col.r >= 0.97 && col.b >= 0.97 && col.g >= 0.97)
     {
         col.r = 1.;
         col.g = 0.;
