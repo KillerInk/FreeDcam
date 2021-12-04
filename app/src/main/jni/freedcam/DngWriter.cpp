@@ -65,7 +65,10 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
     LOGD("height");
-    if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT || dngProfile->rawType == RAW_10BIT_TO_16BIT || dngProfile->rawType == RAW_16BIT)
+    if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT
+    || dngProfile->rawType == RAW_10BIT_TO_16BIT
+    || dngProfile->rawType == RAW_16BIT
+    || dngProfile->rawType == QUADBAYER_16BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
     else if (dngProfile->rawType == RAW_12BIT_SHIFT || dngProfile->rawType == RAW_16BIT_TO_12BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
@@ -486,22 +489,16 @@ void DngWriter::processSXXX16(TIFF *tif) {
     j=0;
     for (row=0; row < dngProfile->rawheight; row+=2)
     {
-        for (col = 0; col < dngProfile->rawwidht; col+=4)
+        for (col = 0; col < dngProfile->rawwidht; col++)
         { // iterate over pixel columns
-            for (int k = 0; k < 4; ++k)
-            {
-                int pos = (dngProfile->rawwidht * row + col +k)*2;
-                low = bayerBytes[pos];
-                high =   bayerBytes[pos+1];
-                pixel[col+k] =  high << 8 |low;
-                pos = (dngProfile->rawwidht * (row+1) + col +k)*2;
-                low = bayerBytes[pos];
-                high =   bayerBytes[pos+1];
-                pixel2[col+k] =  high << 8 |low;
-
-                if(col < 4 && row < 4)
-                    LOGD("Pixel : %i, high: %i low: %i j: %i pos: %i", pixel[col+k], high, low,j,pos);
-            }
+            int pos = (dngProfile->rawwidht * row + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            pixel[col] =  high << 8 |low;
+            pos = (dngProfile->rawwidht * (row+1) + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            pixel2[col] =  high << 8 |low;
         }
         if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
@@ -517,81 +514,75 @@ void DngWriter::processSXXX16(TIFF *tif) {
 
 
 void DngWriter::quadBayer16bit(TIFF *tif) {
-    int  row, col, pos;
-    int rowsize = dngProfile->rawwidht;
-    unsigned short rggb1[rowsize];
-    unsigned short rggb2[rowsize];
-    unsigned short rggb3[rowsize];
-    unsigned short rggb4[rowsize];
+
+    int j, row, col;
+    unsigned short pixel[dngProfile->rawwidht];
+    unsigned short pixel2[dngProfile->rawwidht];
+    unsigned short low, high, rrrr, gggg,gggg2,bbbbb;
     unsigned short r1,r2,r3,r4;
     unsigned short g1,g2,g3,g4;
     unsigned short gg1,gg2,gg3,gg4;
     unsigned short b1,b2,b3,b4;
-
-    for (row=0; row < dngProfile->rawheight; row+=4)
+    unsigned short tmp;
+    j=0;
+    for (row=0; row < dngProfile->rawheight; row+=2)
     {
-        for (col = 0; col < dngProfile->rawwidht; col+=4)
+        for (col = 0; col < dngProfile->rawwidht; col+=2)
         { // iterate over pixel columns
-            // r1  r2  g1 g2 = r1  g1  r2 g2
-            // r3  r4  g3 g4 = g3  b1  g4 b2
-            // gg1 gg2 b1 b2 = r3  gg1 r4 gg2
-            // gg3 gg4 b3 b4 = gg3 b3  gg4 b4
-            //row1 r1  r2  g1 g2
-            pos = row*col;
-            r1 = bayerBytes[pos];
-            r2 = bayerBytes[pos+1];
-            g1 = bayerBytes[pos+2];
-            g2 = bayerBytes[pos+3];
+            int pos = (dngProfile->rawwidht * row + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            rrrr = high << 8 | low;
+            tmp = rrrr << 6;
+            r1 = tmp >> 12 & 0xF;
+            r2 = tmp >> 8 & 0xF;
+            g1 = tmp >> 4 & 0xF;
+            g2 = tmp & 0xF;
 
-            //row2 r3  r4  g3 g4
-            pos = (row+1)*col;
-            r3 = bayerBytes[pos];
-            r4 = bayerBytes[pos+1];
-            g3 = bayerBytes[pos+2];
-            g4 = bayerBytes[pos+3];
+            pos = (dngProfile->rawwidht * (row) + col+1)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            gggg = high << 8 | low;
+            tmp = gggg << 6;
+            r3 = tmp >> 12 & 0xF;
+            r4 = tmp >> 8 & 0xF;
+            g3 = tmp >> 4 & 0xF;
+            g4 = tmp & 0xF;
 
-            //row3 gg1 gg2 b1 b2
-            pos = (row+2)*col;
-            gg1 = bayerBytes[pos];
-            gg2 = bayerBytes[pos+1];
-            b1 = bayerBytes[pos+2];
-            b2 = bayerBytes[pos+3];
+            pos = (dngProfile->rawwidht * (row+1) + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            gggg2 = high << 8 | low;
+            tmp = gggg2 << 6;
+            gg1 = tmp >> 12 & 0xF;
+            gg2 = tmp >> 8 & 0xF;
+            b1 = tmp >> 4 & 0xF;
+            b2 = tmp & 0xF;
 
-            //row4 gg3 gg4 b3 b4
-            pos = (row+3)*col;
-            gg3 = bayerBytes[pos];
-            gg4 = bayerBytes[pos+1];
-            b3 = bayerBytes[pos+2];
-            b4 = bayerBytes[pos+3];
+            pos = (dngProfile->rawwidht * (row+1) + col+1)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            bbbbb = high << 8 | low;
+            tmp = bbbbb << 6;
+            gg3 = tmp >> 12  & 0xF;
+            gg4 = tmp >> 8 & 0xF;
+            b3= tmp >> 4 & 0xF;
+            b4 = tmp & 0xF;
 
-            //r1  g1  r2 g2
-            rggb1[col] =   g1 << 8 |r1;
-            rggb1[col+1] =   g2 << 8 |r2;
+            tmp = (r1 << 12 | g1 << 8 | gg1 <<4 | b1)>>6;
+            pixel[col] = tmp;
+            tmp = (r2 << 12 | g2 << 8 | gg2 <<4 | b2)>>6;
+            pixel[col+1] = tmp;
 
-            //g3  b1  g4 b2
-            rggb2[col] =   b1 << 8 |g3;
-            rggb2[col+1] =   b2 << 8 |g4;
-
-            //r3  gg1 r4 gg2
-            rggb3[col] =   gg1 << 8 |r3;
-            rggb3[col+1] =   gg2 << 8 |r4;
-
-            //gg3 b3  gg4 b4
-            rggb4[col] =   b3 << 8 |gg3;
-            rggb4[col+1] =   b4 << 8 |gg4;
-
-
+            tmp = (r3 << 12 | g3 << 8 | gg3 <<4 | b3)>>6;
+            pixel2[col] = tmp;
+            tmp = (r4 << 12 | g4 << 8 | gg4 <<4 | b4)>>6;
+            pixel2[col+1] = tmp;
         }
-        if (TIFFWriteScanline (tif, rggb1, row, 0) != 1) {
+        if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
-        if (TIFFWriteScanline (tif, rggb2, row+1, 0) != 1) {
-            LOGD("Error writing TIFF scanline.");
-        }
-        if (TIFFWriteScanline (tif, rggb3, row+2, 0) != 1) {
-            LOGD("Error writing TIFF scanline.");
-        }
-        if (TIFFWriteScanline (tif, rggb4, row+3, 0) != 1) {
+        if (TIFFWriteScanline (tif, pixel2, row+1, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
     }
