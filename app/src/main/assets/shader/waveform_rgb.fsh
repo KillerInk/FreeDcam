@@ -6,7 +6,7 @@ out vec4 Output;
 in vec2 texCoord;
 const float factor = 3.0;
 const int lookupsize = 200;
-const int lookupstep = 3;
+const int lookupstep = 10;
 const float intensity = 0.09;
 const float thres = 0.006;
 uniform int show_color;
