@@ -10,31 +10,20 @@ import android.util.Size;
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
-
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.cam.apis.camera2.modules.capture.AbstractImageCapture;
-import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
 import freed.cam.apis.camera2.modules.capture.ContinouseRawCapture;
 import freed.cam.apis.camera2.modules.capture.ContinouseYuvCapture;
-import freed.cam.apis.camera2.modules.capture.JpegCapture;
-import freed.cam.apis.camera2.modules.capture.StillImageCapture;
 import freed.cam.apis.camera2.modules.helper.CaptureType;
-import freed.cam.apis.featuredetector.Camera2FeatureDetectorTask;
+import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.featuredetector.camera2.PictureSizeDetector;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
-import freed.utils.Log;
+
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class RawStackPipe extends PictureModuleApi2 {
@@ -83,7 +72,7 @@ public class RawStackPipe extends PictureModuleApi2 {
             if (settingsManager.get(SettingKeys.support12bitRaw).get())
                 continouseRawCapture.startStack(BurstCounter.getBurstCount(), 2);
             else
-                continouseRawCapture.startStack(BurstCounter.getBurstCount(), 4);
+                continouseRawCapture.startStack(BurstCounter.getBurstCount(), 0);
         }
         else
             continouseRawCapture.startStack(BurstCounter.getBurstCount(), 0);
@@ -94,10 +83,14 @@ public class RawStackPipe extends PictureModuleApi2 {
         super.InitModule();
         parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
         parameterHandler.get(SettingKeys.M_Burst).setIntValue(14,true);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
+        burstApi2.overwriteValues(2,60);
     }
 
     @Override
     public void DestroyModule() {
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
+        burstApi2.overwriteValues(1,60);
         parameterHandler.get(SettingKeys.M_Burst).setIntValue(0,true);
         parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
         super.DestroyModule();

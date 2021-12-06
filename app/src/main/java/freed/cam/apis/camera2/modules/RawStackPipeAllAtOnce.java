@@ -106,7 +106,7 @@ public class RawStackPipeAllAtOnce extends PictureModuleApi2 {
                 if (settingsManager.get(SettingKeys.support12bitRaw).get())
                     continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 2);
                 else
-                    continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 4);
+                    continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 0);
             }
             else
                 continouseRawCapture.startStackALL(BurstCounter.getBurstCount(), 0);

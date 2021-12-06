@@ -1,43 +1,24 @@
 package freed.cam.apis.camera2.modules.capture;
 
-import android.graphics.ImageFormat;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.DngCreator;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.Size;
 import androidx.annotation.RequiresApi;
-
-import org.json.JSONArray;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.time.Clock;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
-import freed.cam.events.EventBusHelper;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.dng.DngProfile;
 import freed.image.EmptyTask;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
-import freed.jni.ExifInfo;
 import freed.jni.RawStack;
-import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -190,7 +171,8 @@ public class ContinouseRawCapture extends RawImageCapture {
                 int wl = itask.getDngProfile().getWhitelvl();
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
-            itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
+            if (itask.getDngProfile().getRawType() != DngProfile.QuadBayerTo16bit)
+                itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
                 imageManager.putImageSaveTask(task);
@@ -265,7 +247,8 @@ public class ContinouseRawCapture extends RawImageCapture {
                 int wl = itask.getDngProfile().getWhitelvl();
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
-            itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
+            if (itask.getDngProfile().getRawType() != DngProfile.QuadBayerTo16bit)
+                itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
                 imageManager.putImageSaveTask(task);
@@ -347,7 +330,8 @@ public class ContinouseRawCapture extends RawImageCapture {
                 int wl = itask.getDngProfile().getWhitelvl();
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
-            itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
+            if (itask.getDngProfile().getRawType() != DngProfile.QuadBayerTo16bit)
+                itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
 
             if (task != null) {
                 imageManager.putImageSaveTask(task);
