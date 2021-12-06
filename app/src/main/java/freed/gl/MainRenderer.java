@@ -128,6 +128,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDrawFrame(GL10 unused) {
         if (!mGLInit) return;
+        if (drawing) return;
 
         drawing = true;
         if (mUpdateST) {
