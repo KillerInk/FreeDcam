@@ -37,7 +37,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,13 +50,12 @@ import freed.FreedApplication;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.event.camera.CameraHolderEvent;
-import freed.cam.events.ModuleHasChangedEvent;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.PagingViewTouchState;
@@ -122,6 +120,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         afBracketSettingsView = view.findViewById(id.manualFragment_afbsettings);
         afBracketSettingsView.setVisibility(View.GONE);
         cameraApiManager.addEventListner(this);
+        cameraApiManager.addModuleChangedEventListner(this);
         onCameraOpenFinished();
     }
 
@@ -129,6 +128,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     public void onDestroyView() {
         super.onDestroyView();
         cameraApiManager.removeEventListner(this);
+        cameraApiManager.removeModuleChangedEventListner(this);
     }
 
     private void setCameraToUi(CameraWrapperInterface cameraUiWrapper)
@@ -151,7 +151,16 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         {
             ParameterHandler parms = cameraUiWrapper.getParameterHandler();
             addManualButton(parms,SettingKeys.M_Zoom,R.drawable.manual_zoom);
-            addManualButton(parms,SettingKeys.M_Focus,R.drawable.manual_focus);
+            //addManualButton(parms,SettingKeys.M_Focus,R.drawable.manual_focus);
+            //used to simple check if its mf and then activate near/far limits in afbracket module
+            //need a rework that modules can have their own specific settings
+            if (parms.get(SettingKeys.M_Focus) != null) {
+                ManualButtonMF btn = new ManualButtonMF(getContext(), parms.get(SettingKeys.M_Focus), R.drawable.manual_focus);
+                btn.setOnClickListener(manualButtonClickListner);
+                manualItemsHolder.addView(btn);
+                buttonHashMap.put(SettingKeys.M_Focus,btn);
+                supportedManuals.add(SettingKeys.M_Focus);
+            }
             addManualButton(parms,SettingKeys.M_ManualIso,R.drawable.manual_iso);
             addManualButton(parms,SettingKeys.M_ExposureTime,R.drawable.manual_shutter);
             addManualButton(parms,SettingKeys.M_Fnumber,R.drawable.manual_fnum);
@@ -400,11 +409,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         seekbar.SetStringValues(values);
     }
 
-    @Subscribe
-    public void onModuleHasChangedEvent(ModuleHasChangedEvent event)
-    {
-        onModuleChanged(event.NewModuleName);
-    }
 
     /**
      * Gets called when the module has changed

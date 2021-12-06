@@ -135,7 +135,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
         }
         catch (Exception ex)
         {
-            Log.WriteEx(ex);
+            Log.d(TAG, "a parameter failed to get set");
         }
 
     }

@@ -5,8 +5,6 @@ import android.text.TextUtils;
 
 import com.troop.freedcam.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -118,7 +116,6 @@ public class AutoHdrMode extends BaseModeParameter {
         }
     }
 
-    @Subscribe
     public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
     {
         if (valueChangedEvent.key == SettingKeys.PictureFormat) {

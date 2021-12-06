@@ -33,8 +33,9 @@ public class EvDetector extends BaseParameter2Detector {
         }
         if (strings.size() > 0) {
             exposure.setIsSupported(true);
-            exposure.setValues(strings.toArray(new String[strings.size()]));
-            exposure.set(strings.size()/2+"");
+            String ar[] = strings.toArray(new String[strings.size()]);
+            exposure.setValues(ar);
+            exposure.set(ar[ar.length/2]);
         }
         else
             exposure.setIsSupported(false);

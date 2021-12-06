@@ -25,12 +25,12 @@ public class JoypadActionEvent {
 
     public static void fireJoypadMove(int x, int y)
     {
-        EventBusHelper.post(new Move(x, y));
+
     }
 
     public static void fireJoypadTouch(boolean up)
     {
-        EventBusHelper.post(new Touch(up));
+
     }
 
 }

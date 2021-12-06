@@ -378,5 +378,8 @@
     <string name="setting_checkforupdate_description">When enabled it checks if a new version is available on Github</string>
     <string name="setting_checkforupdate_header">Check for new updates</string>
 
+    <string name="setting_dump_vendor_keys_description">Dump vendor keys</string>
+    <string name="setting_dump_vendor_keys_header">Dump vendor keys</string>
+
 
 </resources>

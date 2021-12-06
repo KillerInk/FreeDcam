@@ -1,6 +1,7 @@
 package camera2_hidden_keys.qcom;
 
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -35,6 +36,17 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
 
 
 
+    /*
+            0 = auto or shutter priority
+            1= iso priority set with expotime to 8L
+     */
+    public static final CaptureRequest.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_select_priority;
+    //[0.0]
+    public static final CaptureRequest.Key<Float> org_codeaurora_qcamera3_iso_exp_priority_use_gain_value;
+    //[0]
+    public static final CaptureRequest.Key<Long> org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority;
+    //[0]
+    public static final CaptureRequest.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_use_iso_value;
 
 
 
@@ -56,6 +68,11 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
         QCOM_VIDEO_HDR_ENABLED = getKeyType("org.codeaurora.qcamera3.sessionParameters.EnableMFHDR", Integer.class);
         SUPERNIGHT_RAW_ENABLED = getKeyType("xiaomi.supernight.raw.enabled", Boolean.class);
         CINEMATIC_VIDEO_ENABLED = getKeyType("xiaomi.pro.video.movie.enabled", Byte.class);
+
+        org_codeaurora_qcamera3_iso_exp_priority_select_priority= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.select_priority", int.class);
+        org_codeaurora_qcamera3_iso_exp_priority_use_gain_value= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_gain_value", float.class);
+        org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_iso_exp_priority", long.class);
+        org_codeaurora_qcamera3_iso_exp_priority_use_iso_value= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_iso_value", int.class);
     }
 
 

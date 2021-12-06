@@ -29,8 +29,7 @@ public class ExposureTimeDetector extends BaseParameter2Detector {
             max = settingsManager.getCamera2MaxExposureTime();
         if (settingsManager.getCamera2MinExposureTime() >0)
             min = settingsManager.getCamera2MinExposureTime();
-
-        ArrayList<String> tmp = getShutterStrings(max, min,false);
+        ArrayList<String>  tmp = getShutterStrings(max, min,settingsManager.get(SettingKeys.USE_QCOM_AE).get());
         settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(tmp.size() > 0);
         if (tmp.size() > 0) {
             String ext[] = tmp.toArray(new String[tmp.size()]);

@@ -106,9 +106,9 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
             String size[] = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValue().split("x");
             int w = Integer.parseInt(size[0]);
             int h = Integer.parseInt(size[1]);
-            int x_norm = (int) x * w;
-            int y_norm = (int) y * h;
-            Rect targetFocusRect = getFocusRect(x_norm,y_norm, w, h);
+            /*int x_norm = (int) (x * w);
+            int y_norm = (int) (y * h);*/
+            Rect targetFocusRect = getFocusRect(x,y, w, h);
 
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000
@@ -131,23 +131,27 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         ((CameraHolder) cameraUiWrapper.getCameraHolder()).SetMeteringAreas(getFocusRect(x,y, width, height));
     }
 
-    private Rect getFocusRect(int inputx, int inputy, int width, int height)
+    private Rect getFocusRect(float inputx, float inputy, int width, int height)
     {
-        int areasize = (width/8) /2;
+        int areasize = ((width/8) /2);
         Log.d(TAG, "TapToFocus X:Y " + inputx +":"+inputy);
         if (width == 0 || height == 0)
             return null;
-        int left = ((inputx - areasize) * 2000) / width - 1000;
-        int right = ((inputx + areasize) * 2000) / width - 1000;
-        int top = ((inputy - areasize) * 2000) / height - 1000;
-        int bottom = ((inputy + areasize) * 2000) / height - 1000;
+
+        int x = (int)(inputx * 2000) -1000;
+        int y = (int)(inputy * 2000) -1000;
+
+        int left =  x- areasize;
+        int right = x +areasize;
+        int top = y -areasize;
+        int bottom = y + areasize;
 
         Rect targetFocusRect = new Rect(
                 left,
                 top,
                 right,
                 bottom);
-        logFocusRect(targetFocusRect);
+
         //check if stuff is to big or to small and set it to min max
         if (targetFocusRect.left < -1000)
         {
@@ -173,6 +177,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
             targetFocusRect.bottom = 1000;
             targetFocusRect.top -=dif;
         }
+        logFocusRect(targetFocusRect);
         return targetFocusRect;
     }
 

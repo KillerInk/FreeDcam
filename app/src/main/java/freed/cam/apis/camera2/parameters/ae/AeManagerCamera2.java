@@ -77,11 +77,7 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
 
     @Override
     public void setExposureCompensation(int valueToSet, boolean setToCamera) {
-        int t = valueToSet - exposureCompensation.getStringValues().length / 2;
-        if (valueToSet > exposureCompensation.getStringValues().length)
-            valueToSet =  exposureCompensation.getStringValues().length / 2;
-        cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t,setToCamera);
-        exposureCompensation.fireStringValueChanged(exposureCompensation.getStringValues()[valueToSet]);
+        cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, valueToSet,setToCamera);
     }
 
     @Override

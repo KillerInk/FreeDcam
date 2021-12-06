@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import camera2_hidden_keys.VendorKeyParser;
+import camera2_hidden_keys.VendorKeyTestLog;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.camera2.AeTargetFpsDetector;
@@ -58,6 +59,7 @@ import freed.cam.apis.featuredetector.camera2.huawei.Raw12bitDetector;
 import freed.cam.apis.featuredetector.camera2.huawei.SecondarySensorSizeDetector;
 import freed.cam.apis.featuredetector.camera2.huawei.WhitebalanceRangeDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.HistogramSupportedDetector;
+import freed.cam.apis.featuredetector.camera2.qcom.QcomAeDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.VideoHdr10Detector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ArcDistortionDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ProVideoLogDetector;
@@ -114,6 +116,12 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(AwbModesDetector.class);
         parameter2Detectors.add(CameraControlModeDetector.class);
         parameter2Detectors.add(AeTargetFpsDetector.class);
+
+        //qcom
+        parameter2Detectors.add(VideoHdr10Detector.class);
+        parameter2Detectors.add(HistogramSupportedDetector.class);
+        //run this bevor exposuretime get detected
+        parameter2Detectors.add(QcomAeDetector.class);
         //manuals
         parameter2Detectors.add(ApertureDetector.class);
         parameter2Detectors.add(EvDetector.class);
@@ -125,9 +133,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //xiaomi
         parameter2Detectors.add(VideoRecordControl.class);
         parameter2Detectors.add(ProVideoLogDetector.class);
-        //qcom
-        parameter2Detectors.add(VideoHdr10Detector.class);
-        parameter2Detectors.add(HistogramSupportedDetector.class);
+
         //huawei
         parameter2Detectors.add(DualPrimaryCameraDetector.class);
         parameter2Detectors.add(IsoExposureTimeDetector.class);
@@ -175,8 +181,10 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         VendorKeyParser vendorKeyParser = new VendorKeyParser();
         HashSet<String> vendorkeys = null;
         try {
-            vendorKeyParser.readVendorKeys(characteristics);
+            vendorKeyParser.readVendorKeys(characteristics,CaptureRequest.Key.class);
             vendorkeys = vendorKeyParser.getRequests();
+            /*VendorKeyTestLog vendorKeyTestLog = new VendorKeyTestLog(vendorKeyParser,characteristics,null,null);
+            vendorKeyTestLog.testKeys();*/
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

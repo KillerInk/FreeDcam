@@ -6,5 +6,8 @@ public interface HistogramChangedEvent
     int[] getRedHistogram();
     int[] getGreenHistogram();
     int[] getBlueHistogram();
+    void setBlueHistogram(int[] blue);
+    void setRedHistogram(int[] red);
+    void setGreenHistogram(int[] green);
     void updateHistogram();
 }

@@ -29,8 +29,7 @@ import java.util.HashMap;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.event.capture.CaptureStateChangedEventHandler;
-import freed.cam.events.EventBusHelper;
-import freed.cam.events.ModuleHasChangedEvent;
+import freed.cam.event.module.ModuleChangedEventHandler;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
@@ -51,6 +50,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     protected Handler mainHandler;
     protected SettingsManager settingsManager;
     private CaptureStateChangedEventHandler captureStateChangedEventHandler;
+    private ModuleChangedEventHandler moduleChangedEventHandler;
 
     public ModuleHandlerAbstract(CW cameraUiWrapper)
     {
@@ -65,6 +65,11 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     @Override
     public void setCaptureStateChangedEventHandler(CaptureStateChangedEventHandler captureStateChangedEventHandler) {
         this.captureStateChangedEventHandler = captureStateChangedEventHandler;
+    }
+
+    @Override
+    public void setModuleChangedEventHandler(ModuleChangedEventHandler eventHandler) {
+        this.moduleChangedEventHandler = eventHandler;
     }
 
     /**
@@ -83,7 +88,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
             currentModule = moduleList.get(FreedApplication.getStringFromRessources(R.string.module_picture));
         currentModule.setCaptureStateEventHandler(captureStateChangedEventHandler);
         currentModule.InitModule();
-        ModuleHasChanged(currentModule.ModuleName());
+        fireModuleHasChanged(currentModule.ModuleName());
         Log.d(TAG, "Set Module to " + name);
     }
 
@@ -122,9 +127,9 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
      * @param module the new module that gets loaded
      */
     @Override
-    public void ModuleHasChanged(final String module)
+    public void fireModuleHasChanged(final String module)
     {
-        EventBusHelper.post(new ModuleHasChangedEvent(module));
+        moduleChangedEventHandler.fireOnModuleChanged(module);
     }
 
     @Override

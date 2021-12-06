@@ -22,6 +22,7 @@ package freed.cam.apis.basecamera;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.event.camera.CameraHolderEventHandler;
 import freed.cam.event.capture.CaptureStateChangedEventHandler;
+import freed.cam.event.module.ModuleChangedEventHandler;
 
 /**
  * Created by troop on 09.12.2014.
@@ -34,4 +35,5 @@ public interface CameraWrapperInterface extends CameraObjects, CameraInterface, 
     boolean isAeMeteringSupported();
 
 
+    void setModuleChangedEventHandler(ModuleChangedEventHandler moduleChangedEventHandler);
 }

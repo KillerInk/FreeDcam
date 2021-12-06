@@ -65,7 +65,10 @@ void DngWriter::writeIfd0(TIFF *tif) {
     LOGD("width");
     assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
     LOGD("height");
-    if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT || dngProfile->rawType == RAW_10BIT_TO_16BIT || dngProfile->rawType == RAW_16BIT)
+    if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT
+    || dngProfile->rawType == RAW_10BIT_TO_16BIT
+    || dngProfile->rawType == RAW_16BIT
+    || dngProfile->rawType == QUADBAYER_16BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
     else if (dngProfile->rawType == RAW_12BIT_SHIFT || dngProfile->rawType == RAW_16BIT_TO_12BIT)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
@@ -481,22 +484,26 @@ void DngWriter::processLoose(TIFF *tif) {
 void DngWriter::processSXXX16(TIFF *tif) {
     int j, row, col;
     unsigned short pixel[dngProfile->rawwidht];
+    unsigned short pixel2[dngProfile->rawwidht];
     unsigned short low, high;
     j=0;
-    for (row=0; row < dngProfile->rawheight; row ++)
+    for (row=0; row < dngProfile->rawheight; row+=2)
     {
-        for (col = 0; col < dngProfile->rawwidht; col+=4)
+        for (col = 0; col < dngProfile->rawwidht; col++)
         { // iterate over pixel columns
-            for (int k = 0; k < 4; ++k)
-            {
-                low = bayerBytes[j++];
-                high =   bayerBytes[j++];
-                pixel[col+k] =  high << 8 |low;
-                if(col < 4 && row < 4)
-                    LOGD("Pixel : %i, high: %i low: %i ", pixel[col+k], high, low);
-            }
+            int pos = (dngProfile->rawwidht * row + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            pixel[col] =  high << 8 |low;
+            pos = (dngProfile->rawwidht * (row+1) + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            pixel2[col] =  high << 8 |low;
         }
         if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+        if (TIFFWriteScanline (tif, pixel2, row+1, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
     }
@@ -505,14 +512,21 @@ void DngWriter::processSXXX16(TIFF *tif) {
     LOGD("Free Memory processSXXX16");
 }
 
+unsigned short DngWriter::getColor(int row, int col)
+{
+    int pos = (dngProfile->rawwidht * row + col)*2;
+    unsigned short low = bayerBytes[pos];
+    unsigned short high =   bayerBytes[pos+1];
+    return high << 8 | low;
+}
 
 void DngWriter::quadBayer16bit(TIFF *tif) {
-    int  row, col, pos;
-    int rowsize = dngProfile->rawwidht;
-    unsigned short rggb1[rowsize];
-    unsigned short rggb2[rowsize];
-    unsigned short rggb3[rowsize];
-    unsigned short rggb4[rowsize];
+
+    int row, col;
+    unsigned short pixel[dngProfile->rawwidht];
+    unsigned short pixel2[dngProfile->rawwidht];
+    unsigned short pixel3[dngProfile->rawwidht];
+    unsigned short pixel4[dngProfile->rawwidht];
     unsigned short r1,r2,r3,r4;
     unsigned short g1,g2,g3,g4;
     unsigned short gg1,gg2,gg3,gg4;
@@ -522,65 +536,53 @@ void DngWriter::quadBayer16bit(TIFF *tif) {
     {
         for (col = 0; col < dngProfile->rawwidht; col+=4)
         { // iterate over pixel columns
-            // r1  r2  g1 g2 = r1  g1  r2 g2
-            // r3  r4  g3 g4 = g3  b1  g4 b2
-            // gg1 gg2 b1 b2 = r3  gg1 r4 gg2
-            // gg3 gg4 b3 b4 = gg3 b3  gg4 b4
-            //row1 r1  r2  g1 g2
-            pos = row*col;
-            r1 = bayerBytes[pos];
-            r2 = bayerBytes[pos+1];
-            g1 = bayerBytes[pos+2];
-            g2 = bayerBytes[pos+3];
-            //row2 r3  r4  g3 g4
-            pos = (row+1)*col;
-            r3 = bayerBytes[pos];
-            r4 = bayerBytes[pos+1];
-            g3 = bayerBytes[pos+2];
-            g4 = bayerBytes[pos+3];
+            r1 = getColor(row,col);
+            r2 = getColor(row, col+1);
+            r3 = getColor(row+1,col);
+            r4 = getColor(row+1,col+1);
+            g1 = getColor(row,col+2);
+            g2 = getColor(row,col+3);
+            g3 = getColor(row+1,col+2);
+            g4 = getColor(row+1,col+3);
 
-            //row3 gg1 gg2 b1 b2
-            pos = (row+2)*col;
-            gg1 = bayerBytes[pos];
-            gg2 = bayerBytes[pos+1];
-            b1 = bayerBytes[pos+2];
-            b2 = bayerBytes[pos+3];
+            gg1 = getColor(row+2,col);
+            gg2 = getColor(row+2,col+1);
+            gg3 = getColor(row+3,col);
+            gg4 = getColor(row+3,col+1);
+            b1 = getColor(row+2,col+2);
+            b2 = getColor(row+2,col+3);
+            b3 = getColor(row+3,col+2);
+            b4 = getColor(row+3,col+3);
 
-            //row4 gg3 gg4 b3 b4
-            pos = (row+3)*col;
-            gg3 = bayerBytes[pos];
-            gg4 = bayerBytes[pos+1];
-            b3 = bayerBytes[pos+2];
-            b4 = bayerBytes[pos+3];
+            pixel[col] = r1;
+            pixel[col+1] = g1;
+            pixel[col+2] = r2;
+            pixel[col+3] = g2;
+            pixel3[col] = r3;
+            pixel3[col+1] = g3;
+            pixel3[col+2] = r4;
+            pixel3[col+3] = g4;
 
-            //r1  g1  r2 g2
-            rggb1[col] =   g1 << 8 |r1;
-            rggb1[col+1] =   g2 << 8 |r2;
-
-            //g3  b1  g4 b2
-            rggb2[col] =   b1 << 8 |g3;
-            rggb2[col+1] =   b2 << 8 |g4;
-
-            //r3  gg1 r4 gg2
-            rggb3[col] =   gg1 << 8 |r3;
-            rggb3[col+1] =   gg2 << 8 |r4;
-
-            //gg3 b3  gg4 b4
-            rggb4[col] =   b3 << 8 |gg3;
-            rggb4[col+1] =   b4 << 8 |gg4;
-
+            pixel2[col] = gg1;
+            pixel2[col+1] = b1;
+            pixel2[col+2] = gg2;
+            pixel2[col+3] = b2;
+            pixel4[col] = gg3;
+            pixel4[col+1] = b3;
+            pixel4[col+2] = gg4;
+            pixel4[col+3] = b4;
 
         }
-        if (TIFFWriteScanline (tif, rggb1, row, 0) != 1) {
+        if (TIFFWriteScanline (tif, pixel, row, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
-        if (TIFFWriteScanline (tif, rggb2, row+1, 0) != 1) {
+        if (TIFFWriteScanline (tif, pixel2, row+1, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
-        if (TIFFWriteScanline (tif, rggb3, row+2, 0) != 1) {
+        if (TIFFWriteScanline (tif, pixel3, row+2, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
-        if (TIFFWriteScanline (tif, rggb4, row+3, 0) != 1) {
+        if (TIFFWriteScanline (tif, pixel4, row+3, 0) != 1) {
             LOGD("Error writing TIFF scanline.");
         }
     }

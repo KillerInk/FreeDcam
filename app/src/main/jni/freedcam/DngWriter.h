@@ -39,6 +39,7 @@ private:
     void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
     void quadBayer16bit(TIFF *tif);
+    unsigned short getColor(int row, int col);
 
 public:
     ExifInfo *exifInfo;

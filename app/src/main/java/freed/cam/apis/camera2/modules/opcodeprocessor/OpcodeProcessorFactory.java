@@ -19,8 +19,9 @@ public class OpcodeProcessorFactory {
                 return new XiaomiEisOpcodeProcessor(captureSessionHandler,opCodes);
 
             case eis_realtime:
+                return new QcomEisRealtime(captureSessionHandler,opCodes);
             case eis_lookahead:
-                return new QcomEisOpcodeProcessor(captureSessionHandler,opCodes);
+                return new QcomEisLookaHead(captureSessionHandler,opCodes);
 
             case xiaomi_hdr10:
                 return new XiaomiHdr10Processor(captureSessionHandler,opCodes);

@@ -20,6 +20,7 @@ import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
+import freed.cam.ui.themesample.settings.childs.SettingsChildDumpCamera2VendorKeys;
 import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSDSave;
@@ -261,6 +262,12 @@ public class SettingsMenuItemFactory
         if (ReleaseChecker.isGithubRelease) {
             SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, apS.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);
             globalSettingGroup.addView(booleanSetting);
+        }
+
+        if (cameraUiWrapper instanceof Camera2)
+        {
+            SettingsChildDumpCamera2VendorKeys dumpCamera2VendorKeys = new SettingsChildDumpCamera2VendorKeys(context,R.string.setting_dump_vendor_keys_header,R.string.setting_dump_vendor_keys_description,(Camera2) cameraUiWrapper);
+            globalSettingGroup.addView(dumpCamera2VendorKeys);
         }
 
         settingsChildHolder.addView(globalSettingGroup);

@@ -45,6 +45,8 @@ public class BurstApi2 extends AbstractParameter
 
     @Override
     public String getStringValue() {
+        if (current > stringvalues.length)
+            return stringvalues[stringvalues.length-1];
         return stringvalues[current];
     }
 

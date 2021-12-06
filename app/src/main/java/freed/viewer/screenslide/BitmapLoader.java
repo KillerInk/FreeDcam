@@ -34,6 +34,8 @@ public class BitmapLoader extends ImageTask
         Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getName());
         final Bitmap response = imageFragmentModel.getBitmapHelper().getBitmap(file,false);
         int hist[] = null;
+        if (response == null)
+            return true;
         if (response.getConfig() == Bitmap.Config.ARGB_8888)
             hist = createHistogramm(response);
         Log.d(TAG, "ImageLoaderTask: LoadImage Done:" + file.getName());

@@ -1,5 +1,6 @@
 package camera2_hidden_keys.qcom;
 
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 
@@ -23,7 +24,20 @@ public class CaptureResultQcom extends AbstractCaptureResult {
      */
     public static final CaptureResult.Key<int[]> HISTOGRAM_STATS;
 
+    //[0]
+    public static final CaptureResult.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_select_priority;
+    //[0.0]
+    public static final CaptureResult.Key<Float> org_codeaurora_qcamera3_iso_exp_priority_use_gain_value;
+    //[0]
+    public static final CaptureResult.Key<Long> org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority;
+    //[0]
+    public static final CaptureResult.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_use_iso_value;
+
     static {
         HISTOGRAM_STATS = getKeyClass("org.codeaurora.qcamera3.histogram.stats", int[].class);
+        org_codeaurora_qcamera3_iso_exp_priority_select_priority= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.select_priority", int.class);
+        org_codeaurora_qcamera3_iso_exp_priority_use_gain_value= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_gain_value", float.class);
+        org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_iso_exp_priority", long.class);
+        org_codeaurora_qcamera3_iso_exp_priority_use_iso_value= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_iso_value", int.class);
     }
 }
