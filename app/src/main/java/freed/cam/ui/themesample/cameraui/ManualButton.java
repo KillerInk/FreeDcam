@@ -24,6 +24,9 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import androidx.databinding.Observable;
+
+import com.troop.freedcam.BR;
 import com.troop.freedcam.databinding.CamerauiManualbuttonBinding;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -133,24 +136,34 @@ public class ManualButton extends LinearLayout
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        //EventBusHelper.register(this);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        //EventBusHelper.unregister(this);
+        AbstractParameter p = (AbstractParameter) parameter;
+        p.removeOnPropertyChangedCallback(selectedParameterObserver);
     }
 
 
     public void SetManualParameter(ParameterInterface parameter)
     {
         this.parameter = parameter;
+        AbstractParameter p = (AbstractParameter) parameter;
+        p.addOnPropertyChangedCallback(selectedParameterObserver);
         binding.setParameter((AbstractParameter) parameter);
         if (parameter != null) {
             parameterValues = parameter.getStringValues();
         }
     }
+
+    Observable.OnPropertyChangedCallback selectedParameterObserver = new Observable.OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable sender, int propertyId) {
+            if (propertyId == BR.stringValues)
+                parameterValues =(((AbstractParameter)sender).getStringValues());
+        }
+    };
 
     /*private String getStringValue(int pos)
     {
