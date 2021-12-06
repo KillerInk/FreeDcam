@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.Build;
 import android.util.Size;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
@@ -46,15 +47,15 @@ public class RawImageCapture extends StillImageCapture {
         //Log.d(TAG, "save dng");
         if(image.getFormat() == ImageFormat.RAW10) {
             Log.d(TAG, "save 10bit dng");
-            task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(image.getPlanes()[0].getBuffer(), DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             image.close();
         }
         else if(image.getFormat() == ImageFormat.RAW_SENSOR) {
             if (forceRawToDng) { // use freedcam dngconverter
                 if (support12bitRaw)
-                    task = process_rawWithDngConverter(imageToByteArray(image), DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+                    task = process_rawWithDngConverter(image.getPlanes()[0].getBuffer(), DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
                 else
-                    task = process_rawWithDngConverter(imageToByteArray(image),
+                    task = process_rawWithDngConverter(image.getPlanes()[0].getBuffer(),
                             DngProfile.Plain,
                             file,
                             result,
@@ -90,6 +91,30 @@ public class RawImageCapture extends StillImageCapture {
         ImageSaveTask saveTask = new ImageSaveTask(moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         saveTask.setBytesTosave(bytes,ImageSaveTask.RAW_SENSOR);
+        return getImageTask(rawFormat, file, captureResult, characteristics, width, height, customMatrix, orientation, externalSD, toneMapProfile, saveTask, bytes.length);
+    }
+
+
+    protected static ImageTask process_rawWithDngConverter(ByteBuffer bytes,
+                                                           int rawFormat,
+                                                           File file,
+                                                           CaptureResult captureResult,
+                                                           CameraCharacteristics characteristics,
+                                                           int width,
+                                                           int height,
+                                                           ModuleInterface moduleInterface,
+                                                           CustomMatrix customMatrix,
+                                                           int orientation,
+                                                           boolean externalSD,
+                                                           ToneMapProfile toneMapProfile) {
+        ImageSaveTask saveTask = new ImageSaveTask(moduleInterface);
+        Log.d(TAG, "Create DNG VIA RAw2DNG");
+        saveTask.setByteBufferTosave(bytes,ImageSaveTask.RAW_SENSOR);
+        return getImageTask(rawFormat, file, captureResult, characteristics, width, height, customMatrix, orientation, externalSD, toneMapProfile, saveTask, bytes.remaining());
+    }
+
+    @NonNull
+    private static ImageTask getImageTask(int rawFormat, File file, CaptureResult captureResult, CameraCharacteristics characteristics, int width, int height, CustomMatrix customMatrix, int orientation, boolean externalSD, ToneMapProfile toneMapProfile, ImageSaveTask saveTask, int remaining) {
         SettingsManager settingsManager = FreedApplication.settingsManager();
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             saveTask.setLocation(ActivityFreeDcamMain.locationManager().getCurrentLocation());
@@ -139,26 +164,23 @@ public class RawImageCapture extends StillImageCapture {
 
         try {
             float greensplit = captureResult.get(CaptureResult.SENSOR_GREEN_SPLIT);
-            int fgreen = (int)(greensplit * 5000) -5000;
-            Log.d(TAG,"GreenSplit:" + fgreen);
+            int fgreen = (int) (greensplit * 5000) - 5000;
+            Log.d(TAG, "GreenSplit:" + fgreen);
             saveTask.setBayerGreenSplit(fgreen);
-        }
-        catch (NullPointerException ex)
-        {
+        } catch (NullPointerException ex) {
             Log.WriteEx(ex);
         }
 
 
-
         DngProfile prof = null;
-        if (settingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && settingsManager.getDngProfilesMap().get(bytes.length) != null)
-            prof = settingsManager.getDngProfilesMap().get(bytes.length);
+        if (settingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && settingsManager.getDngProfilesMap().get(remaining) != null)
+            prof = settingsManager.getDngProfilesMap().get(remaining);
         else
-            prof = DngProfileCreator.getDngProfile(rawFormat, width,height,characteristics,customMatrix,captureResult);
+            prof = DngProfileCreator.getDngProfile(rawFormat, width, height, characteristics, customMatrix, captureResult);
         prof.toneMapProfile = toneMapProfile;
         OpCodeCreator opCodeCreator = new OpCodeCreator();
-        byte opcode[] = opCodeCreator.createOpCode2(characteristics,captureResult);
-        OpCode opCode =new OpCode(opcode,null);
+        byte opcode[] = opCodeCreator.createOpCode2(characteristics, captureResult);
+        OpCode opCode = new OpCode(opcode, null);
         saveTask.setOpCode(opCode);
         saveTask.setDngProfile(prof);
         saveTask.setFilePath(file, externalSD);

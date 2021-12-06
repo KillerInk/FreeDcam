@@ -93,6 +93,23 @@ extern "C"
 
         LOGD(" writer->rawsize : %d", writer->rawSize);
     }
+
+    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_SetBayerDataBufferFD(JNIEnv *env, jobject thiz,jobject fileBytes, jint fileDescriptor, jstring filename,jobject javaHandler)
+    {
+        DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
+        //writer->rawSize = env->GetArrayLength(fileBytes);
+        LOGD("Try to set SetBayerDataFD");
+
+        writer->bayerBytes = static_cast<unsigned char *>(env->GetDirectBufferAddress(fileBytes));
+
+        LOGD(" set Bayerdata");
+        writer->fileDes = (int)fileDescriptor;
+        writer->hasFileDes = true;
+        LOGD(" writer->fileDes : %d", writer->fileDes);
+        writer->fileSavePath = "";
+
+        LOGD(" writer->rawsize : %d", writer->rawSize);
+    }
     JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz,jobject javaHandler)
     {
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);

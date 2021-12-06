@@ -44,6 +44,7 @@ public class RawToDng
     private native void SetModelAndMake(String model, String make,ByteBuffer byteBuffer);
     private native void SetBayerData(byte[] fileBytes, String fileout,ByteBuffer byteBuffer);
     private native void SetBayerDataFD(byte[] fileBytes, int fileout, String filename,ByteBuffer byteBuffer);
+    private native void SetBayerDataBufferFD(ByteBuffer fileBytes, int fileout, String filename,ByteBuffer byteBuffer);
     private native void SetBayerInfo(ByteBuffer matrix, ByteBuffer dngprofile,ByteBuffer byteBuffer);
     private native void SetExifData(ByteBuffer exifInfo,ByteBuffer byteBuffer);
 
@@ -201,6 +202,17 @@ public class RawToDng
         }
         this.fileout = fileout;
         SetBayerDataFD(fileBytes, fileout.detachFd(), filename,byteBuffer);
+        if (opCode != null)
+            SetOpCode(byteBuffer,opCode.getByteBuffer());
+    }
+
+    public void SetBayerDataBufFD(ByteBuffer fileBytes, ParcelFileDescriptor fileout, String filename) throws NullPointerException
+    {
+        if (fileBytes == null) {
+            throw new NullPointerException();
+        }
+        this.fileout = fileout;
+        SetBayerDataBufferFD(fileBytes, fileout.detachFd(), filename,byteBuffer);
         if (opCode != null)
             SetOpCode(byteBuffer,opCode.getByteBuffer());
     }

@@ -7,6 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
@@ -61,6 +62,7 @@ public class ImageSaveTask extends ImageTask
     private int greensplit = 0;
     private SettingsManager settingsManager;
     private FileListController fileListController;
+    private ByteBuffer bytesBuffer;
 
 
     public ImageSaveTask(ModuleInterface moduleInterface)
@@ -83,6 +85,12 @@ public class ImageSaveTask extends ImageTask
     public void setBytesTosave(byte[] bytes, int imageFormat)
     {
         this.bytesTosave = bytes;
+        this.imageFormat = imageFormat;
+    }
+
+    public void setByteBufferTosave(ByteBuffer buffer, int imageFormat)
+    {
+        this.bytesBuffer = buffer;
         this.imageFormat = imageFormat;
     }
 
@@ -216,12 +224,16 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setBaselineExposureOffset(baselineExposureOffset);
         rawToDng.setBayerGreenSplit(greensplit);
         BaseHolder fileholder = fileListController.getNewImgFileHolder(filename);
-        if (fileholder instanceof FileHolder)
-            rawToDng.setBayerData(bytesTosave,filename.getAbsolutePath());
+        if (fileholder instanceof FileHolder) {
+                rawToDng.setBayerData(bytesTosave, filename.getAbsolutePath());
+        }
         else if(fileholder instanceof UriHolder) {
             try {
                 pfd = ((UriHolder)fileholder).getParcelFileDescriptor();
-                rawToDng.SetBayerDataFD(bytesTosave, pfd, filename.getName());
+                if (bytesTosave != null)
+                    rawToDng.SetBayerDataFD(bytesTosave, pfd, filename.getName());
+                else
+                    rawToDng.SetBayerDataBufFD(bytesBuffer, pfd, filename.getName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
