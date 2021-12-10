@@ -9,7 +9,7 @@ import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.image.EmptyTask;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class ContinouseYuvCapture extends StillImageCapture {
+public class ContinouseYuvCapture extends ByteImageCapture {
 
     public ContinouseYuvCapture(Size size, int format, boolean setToPreview, ModuleInterface moduleInterface, String file_ending,int max_images) {
         super(size, format, setToPreview, moduleInterface, file_ending,max_images);
