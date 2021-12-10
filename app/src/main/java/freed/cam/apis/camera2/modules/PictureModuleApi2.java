@@ -47,6 +47,7 @@ import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.capture.AbstractImageCapture;
 import freed.cam.apis.camera2.modules.capture.ByteImageCapture;
 import freed.cam.apis.camera2.modules.capture.CaptureController;
+import freed.cam.apis.camera2.modules.capture.ContinouseYuvCapture;
 import freed.cam.apis.camera2.modules.capture.JpegCapture;
 import freed.cam.apis.camera2.modules.capture.RawImageCapture;
 import freed.cam.apis.camera2.modules.capture.StillImageCapture;
@@ -347,7 +348,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             Size smallestImageSize = Collections.min(
                     Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                     new CameraHolderApi2.CompareSizesByArea());
-            byteImageCapture = new JpegCapture(smallestImageSize,false,this,".jpg",max_images);
+            byteImageCapture = new ContinouseYuvCapture(smallestImageSize,ImageFormat.YUV_420_888,false,this,".jpg",max_images);
         }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {
