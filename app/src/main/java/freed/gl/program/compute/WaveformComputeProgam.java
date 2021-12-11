@@ -60,7 +60,7 @@ public class WaveformComputeProgam extends GLComputeProgram {
     public void setColorWaveForm(boolean on)
     {
         this.show_color++;
-        if (show_color == 3)
+        if (show_color == 2)
             show_color = 0;
     }
 }

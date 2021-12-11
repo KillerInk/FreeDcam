@@ -145,7 +145,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
                 if (true) {
-                    histogramComputeProgram.computeFB(width/groupfactor,height/groupfactor,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
+                    histogramComputeProgram.computeFB(width/16,height/16,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
                     int red[] = histogramR_SSBO.getHistogramChannel();
                     int green[] = histogramG_SSBO.getHistogramChannel();
                     int blue[] = histogramB_SSBO.getHistogramChannel();

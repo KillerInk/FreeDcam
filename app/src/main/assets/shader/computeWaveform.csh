@@ -23,23 +23,23 @@ void main() {
         coords.x = storePos.x;
         coords.y = float(y);
         vec3  texcol = imageLoad(inTexture, ivec2(coords.xy)).rgb;
-        if (show_color == 0 || show_color == 1)
+        if (show_color == 0)
         {
             col += vec3(intensity)*step(texcol, vec3(maxb))*step(vec3(minb), texcol);
         }
-        if (show_color == 2 || show_color == 0)
+        if (show_color == 1)
         {
-            float l = dot(texcol, texcol)/factor;
+            float l = (texcol.r +texcol.g + texcol.b) / 3.;
             col += vec3(intensity)*step(l, maxb*maxb)*step(minb*minb, l);
+            if(col.r >= 0.99 && col.b >= 0.99 && col.g >= 0.99)
+            {
+                col.r = 1.;
+                col.g = 0.;
+                col.b = 0.;
+            }
         }
     }
-    if(show_color == 2 && col.r >= 0.99 && col.b >= 0.99 && col.g >= 0.99)
-    {
-        col.r = 1.;
-        col.g = 0.;
-        col.b = 0.;
-    }
-    int pos =  (int(storePos.y * imgsize.x) + int(imgsize.x -storePos.x));
+    int pos =  (int(storePos.y * imgsize.x - imgsize.x) + int(imgsize.x -storePos.x));
     ivec4 bytes = ivec4(col * 255.,255);
     uint integerValue = (uint(bytes.a) << 24) | (uint(bytes.r) << 16) | (uint(bytes.g) << 8) | uint((bytes.b));
     waveform[pos] = integerValue;

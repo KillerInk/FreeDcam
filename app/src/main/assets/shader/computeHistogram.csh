@@ -9,7 +9,7 @@ layout(std430, binding = 2) buffer histogramGreen {
 layout(std430, binding = 3) buffer histogramBlue {
     uint blues[];
 };
-layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+layout (local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
 void main() {
     ivec2 storePos = ivec2(gl_GlobalInvocationID.xy);
     ivec2 imgsize = imageSize(inTexture).xy;
