@@ -8,37 +8,34 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
-import java.util.Arrays;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
-import freed.gl.program.GLProgram;
 import freed.gl.program.compute.ClippingComputeProgram;
 import freed.gl.program.compute.FocusPeakComputeProgram;
 import freed.gl.program.compute.HistogramComputeProgram;
+import freed.gl.program.compute.WaveformComputeProgam;
 import freed.gl.program.draw.OesProgram;
 import freed.gl.program.draw.PreviewProgram;
-import freed.gl.program.draw.WaveFormRGBProgram;
 import freed.gl.shader.Shader;
 import freed.gl.shader.compute.ClippingComputeShader;
 import freed.gl.shader.compute.FocuspeakComputeShader;
 import freed.gl.shader.compute.HistogramShader;
+import freed.gl.shader.compute.WaveformComputeShader;
 import freed.gl.shader.fragment.OesFragmentShader;
 import freed.gl.shader.vertex.OesVertexShader;
 import freed.gl.shader.fragment.PreviewFragmentShader;
 import freed.gl.shader.vertex.PreviewVertexShader;
-import freed.gl.shader.fragment.WaveformRGBShader;
 import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
-import freed.gl.texture.HistoSSBO;
+import freed.gl.texture.SharedStorageBufferObject;
 
 import freed.utils.Log;
 
@@ -48,6 +45,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private static final String TAG = MainRenderer.class.getSimpleName();
 
     private final int groupfactor = 8;
+    private final int waveform_factor = 8;
 
     private boolean mGLInit = false;
     private boolean mUpdateST = false;
@@ -58,32 +56,26 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     private final OesProgram oesProgram;
     private final PreviewProgram previewProgram;
-    private final WaveFormRGBProgram waveFormRGBProgram;
     private final ClippingComputeProgram clippingComputeProgram;
     private final FocusPeakComputeProgram focusPeakComputeProgram;
     private final HistogramComputeProgram histogramComputeProgram;
+    private final WaveformComputeProgam waveformComputeProgam;
 
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
     private GL2DTex oesFbTexture;
     GLFrameBuffer processingBuffer1;
     GL2DTex processingTexture1;
-    HistoSSBO histogramR_SSBO;
-    HistoSSBO histogramG_SSBO;
-    HistoSSBO histogramB_SSBO;
+    SharedStorageBufferObject histogramR_SSBO;
+    SharedStorageBufferObject histogramG_SSBO;
+    SharedStorageBufferObject histogramB_SSBO;
+    SharedStorageBufferObject waveform_SSBO;
     int width;
     int height;
     int pixels[];
     IntBuffer pixelBuffer;
     byte bytepixels[];
     ByteBuffer byteBuffer;
-
-
-    IntBuffer waveformPixel;
-
-    private final int[] histoOut;
-
-    private int histo_update_counter = 0;
 
     public MainRenderer(GLPreview view) {
         mView = view;
@@ -96,20 +88,18 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         processingBuffer1 = new GLFrameBuffer();
         processingTexture1 = new GL2DTex();
 
-       histogramR_SSBO = new HistoSSBO();
-       histogramG_SSBO = new HistoSSBO();
-       histogramB_SSBO = new HistoSSBO();
-
-        histoOut = new int[256];
-
+       histogramR_SSBO = new SharedStorageBufferObject();
+       histogramG_SSBO = new SharedStorageBufferObject();
+       histogramB_SSBO = new SharedStorageBufferObject();
+       waveform_SSBO = new SharedStorageBufferObject();
 
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
         previewProgram = new PreviewProgram(glesv);
-        waveFormRGBProgram = new WaveFormRGBProgram(glesv);
         clippingComputeProgram = new ClippingComputeProgram(glesv);
         focusPeakComputeProgram = new FocusPeakComputeProgram(glesv);
         histogramComputeProgram = new HistogramComputeProgram(glesv);
+        waveformComputeProgam = new WaveformComputeProgam(glesv);
     }
 
     public void setSize(int width, int height)
@@ -173,10 +163,12 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 }
                 if (true)
                 {
-                    waveFormRGBProgram.draw(oesFbTexture,processingBuffer1);
+                    waveformComputeProgam.compute(width/64,height/waveform_factor,oesFrameBuffer,waveform_SSBO);
+                    int wave[] = waveform_SSBO.getHistogramChannel();
+                    mView.getHistogramController().setWaveFormData(wave, width, height/waveform_factor);
+                    /*waveFormRGBProgram.draw(oesFbTexture,processingBuffer1);
                     GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
-                    mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);
-                    histo_update_counter = 0;
+                    mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);*/
                 }
             }
         }
@@ -226,12 +218,13 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         Shader vertexShader = new OesVertexShader(glesv);
         histogramComputeProgram.setComputeShader(new HistogramShader(glesv));
+        new WaveformComputeShader(glesv);
 
         oesProgram.create(vertexShader, new OesFragmentShader(glesv));
         previewProgram.create(new PreviewVertexShader(glesv),new PreviewFragmentShader(glesv));
-        waveFormRGBProgram.create(vertexShader,new WaveformRGBShader(glesv));
         clippingComputeProgram.setComputeShader(new ClippingComputeShader(glesv));
         focusPeakComputeProgram.setComputeShader(new FocuspeakComputeShader(glesv));
+        waveformComputeProgam.setComputeShader( new WaveformComputeShader(glesv));
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;
@@ -250,9 +243,10 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         processingBuffer1.setOutputTexture(processingTexture1);
         Log.d(TAG,"FocuspeakFramebuffer successful:" + processingBuffer1.isSuccessfulLoaded());
 
-        histogramR_SSBO.create(1);
-        histogramG_SSBO.create(2);
-        histogramB_SSBO.create(3);
+        histogramR_SSBO.create(1,256);
+        histogramG_SSBO.create(2,256);
+        histogramB_SSBO.create(3,256);
+        waveform_SSBO.create(1,height/waveform_factor* width);
 
         int w = width;
         int h = height;
@@ -262,7 +256,6 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         byteBuffer = ByteBuffer.wrap(bytepixels);
         byteBuffer.order(ByteOrder.nativeOrder());
 
-        waveformPixel = IntBuffer.allocate(width *(height/3));
         Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
 
     }
@@ -277,6 +270,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         histogramR_SSBO.delete();
         histogramG_SSBO.delete();
         histogramB_SSBO.delete();
+        waveform_SSBO.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -330,8 +324,8 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     }
 
-    public WaveFormRGBProgram getWaveFormRGBProgram() {
-        return waveFormRGBProgram;
+    public WaveformComputeProgam getWaveFormRGBProgram() {
+        return waveformComputeProgam;
     }
 
 

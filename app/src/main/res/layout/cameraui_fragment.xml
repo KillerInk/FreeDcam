@@ -97,7 +97,7 @@
         android:layout_marginTop="165dp"
         android:adjustViewBounds="true"
         android:clickable="true"
-        android:rotation="90"
+        android:rotation="270"
         android:scaleType="fitXY"
         tools:srcCompat="@tools:sample/avatars" />
 

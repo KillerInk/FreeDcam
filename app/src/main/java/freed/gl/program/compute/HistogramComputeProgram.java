@@ -1,22 +1,14 @@
 package freed.gl.program.compute;
 
-import static android.opengl.GLES30.GL_MAP_INVALIDATE_RANGE_BIT;
-import static android.opengl.GLES30.GL_MAP_READ_BIT;
-import static android.opengl.GLES30.GL_MAP_UNSYNCHRONIZED_BIT;
-import static android.opengl.GLES30.GL_MAP_WRITE_BIT;
-
-import android.opengl.GLES20;
 import android.opengl.GLES31;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.nio.Buffer;
-
 import freed.gl.program.GLComputeProgram;
 import freed.gl.program.GLProgram;
 import freed.gl.texture.GLFrameBuffer;
-import freed.gl.texture.HistoSSBO;
+import freed.gl.texture.SharedStorageBufferObject;
 
 public class HistogramComputeProgram extends GLComputeProgram {
     public HistogramComputeProgram(int glesVersion) {
@@ -37,7 +29,7 @@ public class HistogramComputeProgram extends GLComputeProgram {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void computeFB(int width, int height, GLFrameBuffer input, HistoSSBO r,HistoSSBO g,HistoSSBO b)
+    public void computeFB(int width, int height, GLFrameBuffer input, SharedStorageBufferObject r, SharedStorageBufferObject g, SharedStorageBufferObject b)
     {
         GLES31.glBindBuffer(GLES31.GL_SHADER_STORAGE_BUFFER,0);
 
