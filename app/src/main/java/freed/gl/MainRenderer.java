@@ -17,6 +17,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
+import freed.gl.program.compute.AvgLumaComputeProgram;
 import freed.gl.program.compute.ClippingComputeProgram;
 import freed.gl.program.compute.FocusPeakComputeProgram;
 import freed.gl.program.compute.HistogramComputeProgram;
@@ -24,6 +25,7 @@ import freed.gl.program.compute.WaveformComputeProgam;
 import freed.gl.program.draw.OesProgram;
 import freed.gl.program.draw.PreviewProgram;
 import freed.gl.shader.Shader;
+import freed.gl.shader.compute.AvgLumaComputeShader;
 import freed.gl.shader.compute.ClippingComputeShader;
 import freed.gl.shader.compute.FocuspeakComputeShader;
 import freed.gl.shader.compute.HistogramShader;
@@ -60,6 +62,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     private final FocusPeakComputeProgram focusPeakComputeProgram;
     private final HistogramComputeProgram histogramComputeProgram;
     private final WaveformComputeProgam waveformComputeProgam;
+    private final AvgLumaComputeProgram avgLumaComputeProgram;
 
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
@@ -70,6 +73,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     SharedStorageBufferObject histogramG_SSBO;
     SharedStorageBufferObject histogramB_SSBO;
     SharedStorageBufferObject waveform_SSBO;
+    SharedStorageBufferObject avgLuma_SSBO;
     int width;
     int height;
     int pixels[];
@@ -92,6 +96,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
        histogramG_SSBO = new SharedStorageBufferObject();
        histogramB_SSBO = new SharedStorageBufferObject();
        waveform_SSBO = new SharedStorageBufferObject();
+       avgLuma_SSBO = new SharedStorageBufferObject();
 
         int glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
@@ -100,6 +105,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         focusPeakComputeProgram = new FocusPeakComputeProgram(glesv);
         histogramComputeProgram = new HistogramComputeProgram(glesv);
         waveformComputeProgam = new WaveformComputeProgam(glesv);
+        avgLumaComputeProgram = new AvgLumaComputeProgram(glesv);
     }
 
     public void setSize(int width, int height)
@@ -139,8 +145,14 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             //draw
             previewProgram.draw(oesFbTexture,processingBuffer1);
             //custom ae
-            if (mView.getHistogramController().getMeteringProcessor() != null && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled())
-                mView.getHistogramController().getMeteringProcessor().getMeters();
+            if (mView.getHistogramController().getMeteringProcessor() != null
+                    && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled()) {
+                avgLuma_SSBO.clearBuffer();
+                avgLumaComputeProgram.compute(width/16/2,height/16/2,oesFrameBuffer,avgLuma_SSBO);
+                int l[] = avgLuma_SSBO.getHistogramChannel();
+                float luma = (float)l[0] / 1000000f;
+                mView.getHistogramController().getMeteringProcessor().setLuma(luma);
+            }
 
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
@@ -225,6 +237,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         clippingComputeProgram.setComputeShader(new ClippingComputeShader(glesv));
         focusPeakComputeProgram.setComputeShader(new FocuspeakComputeShader(glesv));
         waveformComputeProgam.setComputeShader( new WaveformComputeShader(glesv));
+        avgLumaComputeProgram.setComputeShader(new AvgLumaComputeShader(glesv));
 
         cameraInputTextureHolder.getSurfaceTexture().setOnFrameAvailableListener(this);
         mGLInit = true;
@@ -247,6 +260,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         histogramG_SSBO.create(2,256);
         histogramB_SSBO.create(3,256);
         waveform_SSBO.create(1,height/waveform_factor* width);
+        avgLuma_SSBO.create(1,1);
 
         int w = width;
         int h = height;
@@ -271,6 +285,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         histogramG_SSBO.delete();
         histogramB_SSBO.delete();
         waveform_SSBO.delete();
+        avgLuma_SSBO.delete();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
