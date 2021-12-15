@@ -12,6 +12,7 @@ public class MeteringProcessor {
     public interface MeteringEvent
     {
         void onMeteringDataChanged(int meters[]);
+        void onLumaChanged(float luma);
     }
 
     private MeteringEvent meteringEventListener;
@@ -114,6 +115,12 @@ public class MeteringProcessor {
 
         if(meteringEventListener != null)
             meteringEventListener.onMeteringDataChanged(pixelBuffer.array());
+    }
+
+    public void setLuma(float luma)
+    {
+        if (meteringEventListener != null)
+            meteringEventListener.onLumaChanged(luma);
     }
 
     private void getColor(int i, Point p)

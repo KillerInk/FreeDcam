@@ -8,9 +8,23 @@ public class HistogramData {
         RGBA,
     }
 
-    private int [] redHistogram = new int [ 256 ];
-    private int [] greenHistogram = new int [ 256 ];
-    private int [] blueHistogram = new int [ 256 ];
+    public HistogramData()
+    {
+        redHistogram = new int [ 256 ];
+        greenHistogram = new int [ 256 ];
+        blueHistogram = new int [ 256 ];
+    }
+
+    public HistogramData(int[] redHistogram, int[] greenHistogram, int[] blueHistogram)
+    {
+        this.redHistogram = redHistogram;
+        this.greenHistogram = greenHistogram;
+        this.blueHistogram = blueHistogram;
+    }
+
+    private int [] redHistogram;
+    private int [] greenHistogram;
+    private int [] blueHistogram;
 
     public int[] getRedHistogram(){return redHistogram;}
     public int[] getGreenHistogram(){return greenHistogram;}

@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.concurrent.ArrayBlockingQueue;
+
 import freed.gl.MeteringProcessor;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -137,13 +139,9 @@ public class HistogramController implements HistogramChangedEvent {
     @Override
     public void onHistogramChanged(final int[] histogram_data) {
         histogramData.setHistogramData(histogram_data, HistogramData.HistoDataAlignment.RGBA);
-        myHistogram.post(new Runnable() {
-            @Override
-
-            public void run() {
-                //src pos 0,256,512
-                myHistogram.setHistogramData(histogramData);
-            }
+        myHistogram.post(() -> {
+            //src pos 0,256,512
+            myHistogram.setHistogramData(histogramData);
         });
         if (dataListner != null)
             dataListner.setData(histogramData);
@@ -174,14 +172,21 @@ public class HistogramController implements HistogramChangedEvent {
             dataListner.setWaveFormData(waveFormData,width,height);
     }
 
+
     WaveFormUpdater waveFormUpdater = new WaveFormUpdater() {
 
-        int[] waveFormData;int width; int height;
+        ArrayBlockingQueue<int[]> waveformQueue = new ArrayBlockingQueue(3);
+        int width; int height;
         private Bitmap bitmap;
 
         public void setData(int[] waveFormData,int width, int height)
         {
-            this.waveFormData = waveFormData;
+            synchronized (waveformQueue)
+            {
+                if (waveformQueue.size() == 3)
+                    waveformQueue.poll();
+                waveformQueue.offer(waveFormData);
+            }
             this.width = width;
             this.height = height;
 
@@ -190,6 +195,7 @@ public class HistogramController implements HistogramChangedEvent {
         @Override
         public void run() {
 
+            int[] waveFormData = waveformQueue.poll();
             if (waveFormData == null || width == 0 || height == 0)
             {
                 Log.e(TAG, "Error updating waveform");
@@ -212,5 +218,36 @@ public class HistogramController implements HistogramChangedEvent {
     interface  WaveFormUpdater extends Runnable
     {
         public void setData(int[] waveFormData,int width, int height);
+    }
+
+    interface  HistogramUpdater extends Runnable
+    {
+        public void setData(HistogramData histogramData);
+    }
+
+    HistogramUpdater histogramUpdater = new HistogramUpdater() {
+        ArrayBlockingQueue<HistogramData> histogramDatas = new ArrayBlockingQueue(3);
+        @Override
+        public void setData(HistogramData histogramData) {
+            synchronized (histogramDatas)
+            {
+                if (histogramDatas.size() == 3)
+                    histogramDatas.poll();
+                histogramDatas.offer(histogramData);
+            }
+        }
+
+        @Override
+        public void run() {
+            HistogramData data = histogramDatas.poll();
+            if (data != null)
+                myHistogram.setHistogramData(data);
+        }
+    };
+
+    public void updateData(HistogramData data)
+    {
+        histogramUpdater.setData(data);
+        myHistogram.post(histogramUpdater);
     }
 }
