@@ -15,11 +15,13 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import Camera2EXT.Keys;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -269,13 +271,14 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
 
                 double currentValuesEV = getCurrentEV(aperture, exposuretime, iso);
                 double EV100 = getEv100(aperture, exposuretime);
-                double ev = getTargetEv(luminance);
                 int user_max_iso = getUserMaxIso();
                 int user_min_iso = getUserMinIso();
                 long user_max_expotime = getUserMaxExpoTime();
                 long user_min_expotime = getUserMinExpoTime();
+                double ev = getTargetEv(luminance,iso);
 
-                //ev = ev + ((luminance) * 12.5);
+
+                //ev = ev *0.4;
                 if (!iso_enabled && !expotime_enable) {
                     //exposuretime = getUserMaxExpoTime();
                     double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
@@ -355,7 +358,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             try {
                 String s = settingsManager.get(SettingKeys.MIN_ISO).get();
                 if (s.equals("auto"))
-                    return 0;
+                    return Integer.parseInt(cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).getStringValues()[1]);
                 int index = Integer.parseInt(s);
                 return index;
             }
@@ -412,9 +415,9 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             return (float) ((0.2126 * r) + (0.7152 * g) + (0.0722 * b));
         }
 
-        private double getTargetEv(double luma)
+        private double getTargetEv(double luma, int min_iso)
         {
-            return log2(luma * 100.0 / 12.5);
+            return log2(luma * 10 / 12.5);
         }
 
         private double getEv100(double luma, double expotime)
