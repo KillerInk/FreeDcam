@@ -28,9 +28,10 @@ void main() {
         atomicAdd(histogramSharedRed[red], 1u);
         atomicAdd(histogramSharedGreen[green], 1u);
         atomicAdd(histogramSharedBlue[blue], 1u);
+        barrier();
+        atomicAdd(reds[gl_LocalInvocationIndex], histogramSharedRed[gl_LocalInvocationIndex]);
+        atomicAdd(greens[gl_LocalInvocationIndex], histogramSharedGreen[gl_LocalInvocationIndex]);
+        atomicAdd(blues[gl_LocalInvocationIndex], histogramSharedBlue[gl_LocalInvocationIndex]);
     }
-    barrier();
-    atomicAdd(reds[gl_LocalInvocationIndex], histogramSharedRed[gl_LocalInvocationIndex]);
-    atomicAdd(greens[gl_LocalInvocationIndex], histogramSharedGreen[gl_LocalInvocationIndex]);
-    atomicAdd(blues[gl_LocalInvocationIndex], histogramSharedBlue[gl_LocalInvocationIndex]);
+
 }

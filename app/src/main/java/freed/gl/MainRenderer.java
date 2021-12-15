@@ -16,6 +16,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import freed.cam.histogram.HistogramChangedEvent;
+import freed.cam.histogram.HistogramData;
 import freed.cam.histogram.HistogramFeed;
 import freed.gl.program.compute.AvgLumaComputeProgram;
 import freed.gl.program.compute.ClippingComputeProgram;
@@ -51,6 +52,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     private boolean mGLInit = false;
     private boolean mUpdateST = false;
+    private boolean drawing = false;
 
     private final GLPreview mView;
 
@@ -76,10 +78,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
     SharedStorageBufferObject avgLuma_SSBO;
     int width;
     int height;
-    int pixels[];
-    IntBuffer pixelBuffer;
-    byte bytepixels[];
-    ByteBuffer byteBuffer;
+
 
     public MainRenderer(GLPreview view) {
         mView = view;
@@ -119,7 +118,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         this.processors = processors;
     }
 
-    private boolean drawing = false;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onDrawFrame(GL10 unused) {
@@ -156,32 +155,20 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
-                if (true) {
-                    histogramComputeProgram.computeFB(width/16,height/16,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
-                    int red[] = histogramR_SSBO.getHistogramChannel();
-                    int green[] = histogramG_SSBO.getHistogramChannel();
-                    int blue[] = histogramB_SSBO.getHistogramChannel();
+                histogramComputeProgram.computeFB(width/16,height/16,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
+                int red[] = histogramR_SSBO.getHistogramChannel();
+                int green[] = histogramG_SSBO.getHistogramChannel();
+                int blue[] = histogramB_SSBO.getHistogramChannel();
 
-                    mView.getHistogramController().setRedHistogram(red);
-                    mView.getHistogramController().setGreenHistogram(green);
-                    mView.getHistogramController().setBlueHistogram(blue);
+                HistogramData data = new HistogramData(red,green,blue);
+                mView.getHistogramController().updateData(data);
+                histogramR_SSBO.clearBuffer();
+                histogramG_SSBO.clearBuffer();
+                histogramB_SSBO.clearBuffer();
 
-                    mView.getHistogramController().updateHistogram();
-                    histogramR_SSBO.clearBuffer();
-                    histogramG_SSBO.clearBuffer();
-                    histogramB_SSBO.clearBuffer();
-
-
-                }
-                if (true)
-                {
-                    waveformComputeProgam.compute(width/64,height/waveform_factor,oesFrameBuffer,waveform_SSBO);
-                    int wave[] = waveform_SSBO.getHistogramChannel();
-                    mView.getHistogramController().setWaveFormData(wave, width, height/waveform_factor);
-                    /*waveFormRGBProgram.draw(oesFbTexture,processingBuffer1);
-                    GLES31.glReadPixels(0, height / 3 * 2, width, height / 3, GLES31.GL_RGBA, GLES31.GL_UNSIGNED_BYTE, waveformPixel);
-                    mView.getHistogramController().setWaveFormData(waveformPixel.array(), width, height / 3);*/
-                }
+                waveformComputeProgam.compute(width/64,height/waveform_factor,oesFrameBuffer,waveform_SSBO);
+                int wave[] = waveform_SSBO.getHistogramChannel();
+                mView.getHistogramController().setWaveFormData(wave, width, height/waveform_factor);
             }
         }
 
@@ -261,16 +248,6 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
         histogramB_SSBO.create(3,256);
         waveform_SSBO.create(1,height/waveform_factor* width);
         avgLuma_SSBO.create(1,1);
-
-        int w = width;
-        int h = height;
-        pixels = new int[w*h];
-        pixelBuffer = IntBuffer.wrap(pixels);
-        bytepixels = new byte[w*h*4];
-        byteBuffer = ByteBuffer.wrap(bytepixels);
-        byteBuffer.order(ByteOrder.nativeOrder());
-
-        Log.d(TAG,"pixelbuffer isReadOnly: " + pixelBuffer.isReadOnly() + " pixelbuffer isDirect:" + pixelBuffer.isDirect());
 
     }
 

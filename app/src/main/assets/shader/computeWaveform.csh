@@ -7,9 +7,9 @@ layout(location = 2) uniform int show_color;
 layout (local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 const float factor = 8.0;
 const int lookupsize = 400;
-const int lookupstep = 1;
-const float intensity = 0.06;
-const float thres = 0.002;
+const int lookupstep = 2;
+const float intensity = 0.01;
+const float thres = 0.016;
 void main() {
     vec2 storePos = vec2(gl_GlobalInvocationID.xy);
     vec2 imgsize = vec2(imageSize(inTexture).xy);
@@ -18,8 +18,9 @@ void main() {
     float minb = s-thres;
     vec2 coords;
     vec3 col = vec3(0.0);
+    int st = int(storePos.y);
     int size = int(imgsize.y);
-    for (int y = 0; y < size-y; y+=lookupstep){
+    for (int y = st; y < size-st; y+=lookupstep){
         coords.x = storePos.x;
         coords.y = float(y);
         vec3  texcol = imageLoad(inTexture, ivec2(coords.xy)).rgb;
@@ -39,8 +40,11 @@ void main() {
             }
         }
     }
-    int pos =  (int(storePos.y * imgsize.x - imgsize.x) + int(imgsize.x -storePos.x));
+    int pos =  (int(storePos.y * imgsize.x) + int(imgsize.x -storePos.x));
     ivec4 bytes = ivec4(col * 255.,255);
     uint integerValue = (uint(bytes.a) << 24) | (uint(bytes.r) << 16) | (uint(bytes.g) << 8) | uint((bytes.b));
     waveform[pos] = integerValue;
 }
+
+
+
