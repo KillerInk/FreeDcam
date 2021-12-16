@@ -13,6 +13,7 @@ import android.view.Surface;
 import androidx.annotation.RequiresApi;
 
 import freed.image.ImageTask;
+import freed.utils.BackgroundHandlerThread;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public abstract class AbstractImageCapture implements ImageCaptureInterface {
@@ -20,8 +21,7 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     private final String TAG = AbstractImageCapture.class.getSimpleName();
     protected final int max_images;
     private final ImageReader imageReader;
-    private HandlerThread mBackgroundThread;
-    private Handler mBackgroundHandler;
+    private BackgroundHandlerThread backgroundHandlerThread;
     private boolean setToPreview = false;
     protected Image image;
     protected CaptureResult result;
@@ -30,11 +30,12 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
 
     public AbstractImageCapture(Size size, int format, boolean setToPreview, int max_images)
     {
-        startBackgroundThread();
+        backgroundHandlerThread = new BackgroundHandlerThread("AbstractImageCapture");
+        backgroundHandlerThread.create();
         this.setToPreview = setToPreview;
         this.max_images = max_images;
         imageReader = ImageReader.newInstance(size.getWidth(),size.getHeight(),format,max_images);
-        imageReader.setOnImageAvailableListener(this,mBackgroundHandler);
+        imageReader.setOnImageAvailableListener(this,backgroundHandlerThread.getBackgroundHandler());
     }
 
     public void resetTask()
@@ -106,26 +107,9 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
             imageReader.close();
         if (image != null)
             image.close();
-        stopBackgroundThread();
+        backgroundHandlerThread.destroy();
 
     }
 
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
 
-    private void stopBackgroundThread() {
-        if (mBackgroundThread == null)
-            return;
-        mBackgroundThread.quitSafely();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
