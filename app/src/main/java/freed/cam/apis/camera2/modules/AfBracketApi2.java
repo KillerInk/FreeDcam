@@ -52,7 +52,6 @@ public class AfBracketApi2 extends PictureModuleApi2
     private int focusStep;
     private int currentFocusPos;
     private int focusCaptureRange;
-    private int min;
 
     @Override
     public String ShortName() {
@@ -88,6 +87,7 @@ public class AfBracketApi2 extends PictureModuleApi2
         cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,true);
         int max  = 0;
+        int min = 0;
         try {
             min = Integer.parseInt(settingsManager.get(SettingKeys.AF_BRACKET_MIN).get());
             max = Integer.parseInt(settingsManager.get(SettingKeys.AF_BRACKET_MAX).get());
