@@ -227,7 +227,6 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             }
 
             seekbar.setVisibility(View.GONE);
-            afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
             if (cameraUiWrapper.getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_afbracket))
                     && currentButton instanceof ManualButtonMF
                     && seekbar.getVisibility() == View.VISIBLE)

@@ -34,7 +34,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SetMax" />
+            android:text="Far" />
 
         <TextView
             android:id="@+id/textView_afBracketFragment_maxvalue"
@@ -56,7 +56,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SetMin" />
+            android:text="Near" />
 
         <TextView
             android:id="@+id/textView_afBracketFragment_minvalue"
