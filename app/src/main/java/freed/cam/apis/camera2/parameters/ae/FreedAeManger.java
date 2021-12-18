@@ -1,9 +1,5 @@
 package freed.cam.apis.camera2.parameters.ae;
 
-import static java.lang.Math.sqrt;
-
-import android.graphics.Color;
-import android.graphics.CornerPathEffect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
@@ -15,18 +11,10 @@ import com.troop.freedcam.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
-import Camera2EXT.Keys;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera2.Camera2;
@@ -34,7 +22,6 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.gl.MeteringProcessor;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
-import freed.settings.mode.SettingMode;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
@@ -48,7 +35,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
 
     private int iso;
     private long exposuretime;
-    private final long default_exposuretime = (long)((1f/15f) * 1000000 * 1000);
+    private final long default_exposuretime_max = (long)((1f/15f) * 1000000 * 1000);
     private long min_exposuretime;
     private long max_exposuretime;
     private int max_iso;
@@ -63,6 +50,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private long forcedExposureTime;
     private int forcedIso;
     private SettingsManager settingsManager;
+    private AeMath aeMath;
 
 
 
@@ -71,12 +59,13 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         this.cameraWrapperInterface = cameraWrapperInterface;
         this.userMessageHandler = userMessageHandler;
         this.settingsManager =settingsManager;
+        aeMath = new AeMath();
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         meteringProcessor = ActivityFreeDcamMain.histogramController().getMeteringProcessor();
         manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
         List<String> evs = new ArrayList<>();
-        for (float i = -10; i <= 10; i +=0.2)
+        for (float i = -5; i <= 5; i +=0.1)
         {
             String t = String.format("%.1f", i);
             evs.add(t);
@@ -94,7 +83,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     {
         Log.d(TAG, "start");
         iso = 100;
-        exposuretime = default_exposuretime;
+        exposuretime = default_exposuretime_max;
         min_exposuretime = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower();
         max_exposuretime = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper();
         max_iso = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
@@ -246,95 +235,81 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         public void setLuma(float luma)
         {
             //synchronized (lock) {
-                addLuma(luma);
+            addLuma(luma);
             //    lock.notify();
             //}
         }
 
         @Override
         public void run() {
-            //synchronized (lock) {
-                if (isWorking)
-                    return;
-                /*if (meter == null)
-                    return;*/
-                isWorking = true;
-                float luminance = 0f;
-                /*for (int i = 0; i < meter.length; i++) {
-                    luminance += getLuminance(meter[i]);
+            if (isWorking)
+                return;
+            isWorking = true;
+            float luminance = getAvarageLuma();
+
+            double currentValuesEV = aeMath.getCurrentEV(aperture, exposuretime, iso);
+            double EV100 = getEv100(aperture, exposuretime);
+            int user_max_iso = getUserMaxIso();
+            int user_min_iso = getUserMinIso();
+            long user_max_expotime = getUserMaxExpoTime();
+            long user_min_expotime = getUserMinExpoTime();
+            double ev = aeMath.getTargetEv(luminance) + (exposureCompensationValue*2) -4;
+
+            if (!iso_enabled && !expotime_enable) {
+                exposuretime = default_exposuretime_max/2;
+                double ciso = aeMath.getIso(aperture, exposuretime, ev);
+                double newiso = clampIso(ciso, user_min_iso, user_max_iso);
+                double iso_applied_ev = aeMath.getCurrentEV(aperture, exposuretime, newiso);
+                double newexpotime = clampExposureTime(expotimeToNano(aeMath.getExposureTime(exposuretime, (ev - iso_applied_ev))), user_min_expotime, user_max_expotime);
+                double finalEV = aeMath.getCurrentEV(aperture, newexpotime, newiso);
+
+                if (logcounter++ == 11) {
+                    String msg = "L:" + luminance +
+                            "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
+                            "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
+                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV + "\n" + (float) finalEV + "\n" + (float) EV100;
+                    userMessageHandler.sendMSG(msg, false);
+                    logcounter = 0;
                 }
+                exposuretime = (long) newexpotime;
+                iso = (int) newiso;
+                setExposuretime(exposuretime, false);
+                setiso(iso, true);
+            } else if (iso_enabled && !expotime_enable) {
+                iso = forcedIso;
+                exposuretime = default_exposuretime_max/2;
+                double iso_applied_ev = aeMath.getCurrentEV(aperture, exposuretime, iso);
+                double newexpotime = clampExposureTime(expotimeToNano(aeMath.getExposureTime(exposuretime, (ev - iso_applied_ev))), user_min_expotime, user_max_expotime);
+                exposuretime = (long) newexpotime;
 
-                luminance = luminance / (float) meter.length;
-                addLuma(luminance);*/
-
-                luminance = getAvarageLuma();
-
-                double currentValuesEV = getCurrentEV(aperture, exposuretime, iso);
-                double EV100 = getEv100(aperture, exposuretime);
-                int user_max_iso = getUserMaxIso();
-                int user_min_iso = getUserMinIso();
-                long user_max_expotime = getUserMaxExpoTime();
-                long user_min_expotime = getUserMinExpoTime();
-                double ev = getTargetEv(luminance,iso);
-
-
-                //ev = ev *0.4;
-                if (!iso_enabled && !expotime_enable) {
-                    //exposuretime = getUserMaxExpoTime();
-                    double ciso = getIso(aperture, exposuretime, ev + exposureCompensationValue);
-                    double newiso = clampIso(ciso, user_min_iso, user_max_iso);
-                    double iso_applied_ev = getCurrentEV(aperture, exposuretime, newiso);
-                    double newexpotime = clampExposureTime(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), user_min_expotime, user_max_expotime);
-                    double finalEV = getCurrentEV(aperture, newexpotime, newiso);
-
-                    if (logcounter++ == 11) {
-                        String msg = "L:" + luminance +
-                                "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
-                                "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                                "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV + "\n" + (float) finalEV + "\n" + (float) EV100;
-                        userMessageHandler.sendMSG(msg, false);
-                        logcounter = 0;
-                    }
-                    exposuretime = (long) newexpotime;
-                    iso = (int) newiso;
-                    setExposuretime(exposuretime, false);
-                    setiso(iso, true);
-                } else if (iso_enabled && !expotime_enable) {
-                    iso = forcedIso;
-                    double iso_applied_ev = getCurrentEV(aperture, exposuretime, iso);
-                    double newexpotime = clampExposureTime(expotimeToNano(getExposureTime(exposuretime, (ev - iso_applied_ev + exposureCompensationValue))), user_min_expotime, user_max_expotime);
-                    exposuretime = (long) newexpotime;
-
-                    if (logcounter++ == 11) {
-                        String msg = "L:" + luminance +
-                                "\nI:" + iso +
-                                "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                                "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
-                        userMessageHandler.sendMSG(msg, false);
-                        logcounter = 0;
-                    }
-                    setExposuretime(exposuretime, true);
-                } else if (!iso_enabled && expotime_enable) {
-                    exposuretime = forcedExposureTime;
-                    double is = getIso(aperture, exposuretime, ev + exposureCompensationValue);
-                    iso = (int) clampIso(is, user_min_iso, user_max_iso);
-
-                    if (logcounter++ == 11) {
-                        String msg = "L:" + luminance +
-                                "\nI:" + iso +
-                                "\nS:" + getShutterStringNS(exposuretime) +
-                                "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
-                        userMessageHandler.sendMSG(msg, false);
-                        logcounter = 0;
-                    }
-                    setiso(iso, true);
-                } else {
-                    iso = forcedIso;
-                    exposuretime = forcedExposureTime;
+                if (logcounter++ == 11) {
+                    String msg = "L:" + luminance +
+                            "\nI:" + iso +
+                            "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
+                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
+                    userMessageHandler.sendMSG(msg, false);
+                    logcounter = 0;
                 }
-                isWorking = false;
-                //lock.notify();
-            //}
+                setExposuretime(exposuretime, true);
+            } else if (!iso_enabled && expotime_enable) {
+                exposuretime = forcedExposureTime;
+                double is = aeMath.getIso(aperture, exposuretime, ev);
+                iso = (int) clampIso(is, user_min_iso, user_max_iso);
+
+                if (logcounter++ == 11) {
+                    String msg = "L:" + luminance +
+                            "\nI:" + iso +
+                            "\nS:" + getShutterStringNS(exposuretime) +
+                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
+                    userMessageHandler.sendMSG(msg, false);
+                    logcounter = 0;
+                }
+                setiso(iso, true);
+            } else {
+                iso = forcedIso;
+                exposuretime = forcedExposureTime;
+            }
+            isWorking = false;
 
         }
 
@@ -406,19 +381,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, iso,setToCam);
         }
 
-        private double getLuminance(int color)
-        {
-            //float a = Color.alpha(color)/255;
-            float r = Color.red(color) / 255f;
-            float g = Color.green(color) / 255f;
-            float b = Color.blue(color) / 255f;
-            return (float) ((0.2126 * r) + (0.7152 * g) + (0.0722 * b));
-        }
 
-        private double getTargetEv(double luma, int min_iso)
-        {
-            return log2(luma * 10 / 12.5);
-        }
 
         private double getEv100(double luma, double expotime)
         {
@@ -426,24 +389,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             return log2((luma*100) / (expotime_sec*100));
         }
 
-        private double getCurrentEV(double aperture, double exposuretime, double iso)
-        {
-            double expotime_sec = getExpotimeInSec(exposuretime);
-            double tmp =  ((sqrt(aperture)*100)/(expotime_sec*iso));
-            return log2(tmp);
-        }
-
-        private double getIso(double aperture, double exposuretime, double ev)
-        {
-            double expotime_sec = getExpotimeInSec(exposuretime);
-            return (sqrt(aperture) * 100.0) / (expotime_sec * Math.pow(2.0, ev));
-        }
-
-        private double getExposureTime(double exposuretime,double evdif)
-        {
-            double expotime_sec = getExpotimeInSec(exposuretime);
-            return expotime_sec * Math.pow(2.0, -evdif);
-        }
 
         private double log2(double l)
         {
@@ -485,11 +430,11 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         private double clampExposureTime(double expotime, double expotimeMin, double expoTimeMax)
         {
             if (expotimeMin == 0 && expoTimeMax == 0)
-                return clamp(expotime,min_exposuretime, default_exposuretime);
+                return clamp(expotime,min_exposuretime, default_exposuretime_max);
             else if (expotimeMin == 0 && expoTimeMax != 0)
                 return clamp(expotime,min_exposuretime, expoTimeMax);
             else if (expotimeMin != 0 && expoTimeMax == 0)
-                return clamp(expotime,expotimeMin,default_exposuretime);
+                return clamp(expotime,expotimeMin, default_exposuretime_max);
             else
                 return clamp(expotime,expotimeMin,expoTimeMax);
         }
