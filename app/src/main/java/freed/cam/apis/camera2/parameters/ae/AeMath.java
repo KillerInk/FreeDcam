@@ -2,9 +2,9 @@ package freed.cam.apis.camera2.parameters.ae;
 
 public class AeMath {
 
-    public double getTargetEv(double luma)
+    public double getTargetEv(double luma ,double iso)
     {
-        return log2(luma * 100 / 12.5);
+        return log2(luma * iso / 12.5);
     }
 
     public double getIso(double aperture, double exposuretime, double ev)

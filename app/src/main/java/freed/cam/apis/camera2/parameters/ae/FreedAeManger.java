@@ -36,6 +36,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private int iso;
     private long exposuretime;
     private final long default_exposuretime_max = (long)((1f/15f) * 1000000 * 1000);
+    private final long default_exposuretime = (long)((1f/100f) * 1000000 * 1000);
     private long min_exposuretime;
     private long max_exposuretime;
     private int max_iso;
@@ -240,6 +241,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             //}
         }
 
+        private double evboost = 0;
         @Override
         public void run() {
             if (isWorking)
@@ -248,26 +250,34 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             float luminance = getAvarageLuma();
 
             double currentValuesEV = aeMath.getCurrentEV(aperture, exposuretime, iso);
-            double EV100 = getEv100(aperture, exposuretime);
             int user_max_iso = getUserMaxIso();
             int user_min_iso = getUserMinIso();
             long user_max_expotime = getUserMaxExpoTime();
             long user_min_expotime = getUserMinExpoTime();
-            double ev = aeMath.getTargetEv(luminance) + (exposureCompensationValue*2) -4;
+
+           /* if (luminance > 10)
+                evboost += 0.02;
+            else if ( luminance < 10 && evboost > 0)
+                evboost -= 0.02;*/
+
+            double ev = aeMath.getTargetEv(luminance, 100) + (exposureCompensationValue*2) + evboost;
+
 
             if (!iso_enabled && !expotime_enable) {
-                exposuretime = default_exposuretime_max/2;
+                exposuretime = default_exposuretime;
                 double ciso = aeMath.getIso(aperture, exposuretime, ev);
                 double newiso = clampIso(ciso, user_min_iso, user_max_iso);
                 double iso_applied_ev = aeMath.getCurrentEV(aperture, exposuretime, newiso);
-                double newexpotime = clampExposureTime(expotimeToNano(aeMath.getExposureTime(exposuretime, (ev - iso_applied_ev))), user_min_expotime, user_max_expotime);
+                double ev_diff = (ev - iso_applied_ev);
+                double expotimeSec = aeMath.getExposureTime(exposuretime, ev_diff);
+                double newexpotime = clampExposureTime(expotimeToNano(expotimeSec), user_min_expotime, user_max_expotime);
                 double finalEV = aeMath.getCurrentEV(aperture, newexpotime, newiso);
 
                 if (logcounter++ == 11) {
                     String msg = "L:" + luminance +
                             "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
                             "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV + "\n" + (float) finalEV + "\n" + (float) EV100;
+                            "\nEV:\n" +  ev + "\n" +  currentValuesEV + "\n" +  finalEV + "\n" +  ev_diff;
                     userMessageHandler.sendMSG(msg, false);
                     logcounter = 0;
                 }
@@ -277,9 +287,11 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 setiso(iso, true);
             } else if (iso_enabled && !expotime_enable) {
                 iso = forcedIso;
-                exposuretime = default_exposuretime_max/2;
+                exposuretime = default_exposuretime;
                 double iso_applied_ev = aeMath.getCurrentEV(aperture, exposuretime, iso);
-                double newexpotime = clampExposureTime(expotimeToNano(aeMath.getExposureTime(exposuretime, (ev - iso_applied_ev))), user_min_expotime, user_max_expotime);
+                double ev_diff = (ev - iso_applied_ev);
+                double expotimeSec = aeMath.getExposureTime(exposuretime, ev_diff);
+                double newexpotime = clampExposureTime(expotimeToNano(expotimeSec), user_min_expotime, user_max_expotime);
                 exposuretime = (long) newexpotime;
 
                 if (logcounter++ == 11) {
