@@ -84,7 +84,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     {
         Log.d(TAG, "start");
         iso = 100;
-        exposuretime = default_exposuretime_max;
+        exposuretime = default_exposuretime;
         min_exposuretime = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower();
         max_exposuretime = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper();
         max_iso = cameraWrapperInterface.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper();
@@ -240,8 +240,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             //    lock.notify();
             //}
         }
-
-        private double evboost = 0;
+        
         @Override
         public void run() {
             if (isWorking)
@@ -255,12 +254,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             long user_max_expotime = getUserMaxExpoTime();
             long user_min_expotime = getUserMinExpoTime();
 
-           /* if (luminance > 10)
-                evboost += 0.02;
-            else if ( luminance < 10 && evboost > 0)
-                evboost -= 0.02;*/
-
-            double ev = aeMath.getTargetEv(luminance, 100) + (exposureCompensationValue*2) + evboost;
+            double ev = aeMath.getTargetEv(luminance, 50) + (exposureCompensationValue*2);
 
 
             if (!iso_enabled && !expotime_enable) {
@@ -391,25 +385,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         private void setiso(int iso, boolean setToCam)
         {
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, iso,setToCam);
-        }
-
-
-
-        private double getEv100(double luma, double expotime)
-        {
-            double expotime_sec = getExpotimeInSec(expotime);
-            return log2((luma*100) / (expotime_sec*100));
-        }
-
-
-        private double log2(double l)
-        {
-            return (Math.log(l) / Math.log(2));
-        }
-
-        private double getExpotimeInSec(double exposuretime)
-        {
-            return exposuretime/1000000000;
         }
 
         private double expotimeToNano(double expotime)

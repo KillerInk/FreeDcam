@@ -4,7 +4,7 @@ public class AeMath {
 
     public double getTargetEv(double luma ,double iso)
     {
-        return log2(luma * iso / 12.5);
+        return log2(luma * iso / 256);
     }
 
     public double getIso(double aperture, double exposuretime, double ev)
