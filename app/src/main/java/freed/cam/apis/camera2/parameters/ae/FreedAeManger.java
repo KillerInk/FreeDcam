@@ -240,7 +240,8 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             //    lock.notify();
             //}
         }
-        
+
+        double evboost = 0;
         @Override
         public void run() {
             if (isWorking)
@@ -254,7 +255,14 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             long user_max_expotime = getUserMaxExpoTime();
             long user_min_expotime = getUserMinExpoTime();
 
-            double ev = aeMath.getTargetEv(luminance, 50) + (exposureCompensationValue*2);
+            if (luminance >= 110)
+                evboost +=0.1;
+            else if (luminance < 30 && evboost > 0)
+                evboost = 0;
+            else if (luminance < 100 && evboost > 0)
+                evboost -=0.1;
+
+            double ev = aeMath.getTargetEv(luminance, 100) + (exposureCompensationValue*2) +evboost;
 
 
             if (!iso_enabled && !expotime_enable) {

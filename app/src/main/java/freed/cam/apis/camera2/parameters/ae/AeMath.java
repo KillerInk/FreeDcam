@@ -33,7 +33,7 @@ public class AeMath {
 
     private double log2(double l)
     {
-        return (Math.log(l) / Math.log(2));
+        return (Math.log(l) / Math.log(2) + 1e-10);
     }
 
     private double getExpotimeInSec(double exposuretime)
