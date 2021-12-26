@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.FreedApplication;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -57,10 +58,12 @@ import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2;
 import freed.cam.event.capture.CaptureStates;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.file.holder.BaseHolder;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.OrientationUtil;
 
@@ -74,25 +77,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     private final String TAG = PictureModuleApi2.class.getSimpleName();
     private String picFormat;
     protected Output output;
-    //protected ImageReader jpegReader;
-    //protected ImageReader rawReader;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
-    private final int STATE_WAITING_LOCK = 3;
     private int mState = STATE_PICTURE_TAKEN;
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
-    //private ImageCaptureHolder currentCaptureHolder;
-    private final int MAX_IMAGES = 8;
     protected List<BaseHolder> filesSaved;
 
     private boolean isBurstCapture = false;
 
     private final int max_images = 5;
 
-    /*private boolean captureDng = false;
-    private boolean captureJpeg = false;*/
     protected CaptureType captureType;
     protected CaptureController captureController;
 
@@ -168,7 +164,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         previewController.close();
-        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
     }
 
     @Override
@@ -176,7 +171,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
     {
         Log.d(TAG, "startWork: start new progress");
         if(!isWorking)
-            mBackgroundHandler.post(()-> takePicture());
+            mBackgroundHandler.post(this::takePicture);
         else if (isWorking)
         {
             mBackgroundHandler.post(()->{
@@ -205,7 +200,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
 
-        preparePreviewTextureView(orientationToSet, previewSize);
+        preparePreviewTextureView(orientationToSet, previewSize,previewController,settingsManager,TAG,mainHandler,cameraUiWrapper);
 
         for (AbstractImageCapture s : captureController.getImageCaptures())
             cameraUiWrapper.captureSessionHandler.AddSurface(s.getSurface(),false);
@@ -217,21 +212,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(s.getSurface());
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).getStringValue());
-        //cameraHolder.fireOnPreviewOpen();
     }
 
-    private void preparePreviewTextureView(int orientationToSet, Size previewSize) {
+    public static void preparePreviewTextureView(int orientationToSet, Size previewSize, PreviewController previewController,
+                                                 SettingsManager settingsManager, String TAG,
+                                                 Handler mainHandler, Camera2 cameraWrapperInterface) {
         SurfaceTexture texture = previewController.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-       /* if (cameraUiWrapper.getPreviewSurface() != null)
-            cameraUiWrapper.getPreviewSurface().release();*/
         Surface previewsurface = new Surface(previewController.getSurfaceTexture());
         int w = previewSize.getWidth();
         int h = previewSize.getHeight();
-
-
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
-
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
             Log.d(TAG, "RenderScriptPreview");
             int rotation = 0;
@@ -270,7 +261,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             previewController.setSize(previewSize.getWidth(),previewSize.getHeight());
 
             Surface camerasurface = previewController.getInputSurface();
-            cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
+            cameraWrapperInterface.captureSessionHandler.AddSurface(camerasurface, true);
             previewController.start();
         }
         else
@@ -310,7 +301,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             int finalH1 = h;
             previewController.setSize(finalW1, finalH1);
             mainHandler.post(() -> previewController.setRotation(finalW1, finalH1, or));
-            cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
+            cameraWrapperInterface.captureSessionHandler.AddSurface(previewsurface, true);
         }
     }
 
@@ -333,9 +324,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
 
         Log.d(TAG, "ImageReader JPEG");
-        getCaptureType();
-        //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
-        //if (captureType == CaptureType.Jpeg)
+        captureType = getCaptureType(picFormat,TAG);
         createImageCaptureListners();
     }
 
@@ -382,40 +371,40 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         return captureType == CaptureType.Bayer10 || captureType == CaptureType.Bayer16;
     }
 
-    private void getCaptureType() {
+    public static CaptureType getCaptureType(String picFormat,String TAG) {
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))) {
-            captureType = CaptureType.Jpeg;
+            return CaptureType.Jpeg;
         }
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv))) {
-            captureType = CaptureType.Yuv;
+            return CaptureType.Yuv;
         }
 
         if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16)) || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
             if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng16))) {
-                captureType = CaptureType.Dng16;
+                return CaptureType.Dng16;
             } else {
-                captureType = CaptureType.JpegDng16;
+                return CaptureType.JpegDng16;
             }
         }
         else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng10))) {
             Log.d(TAG, "ImageReader RAW10");
-            captureType = CaptureType.Dng10;
+            return CaptureType.Dng10;
         }
         else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng12))) {
             Log.d(TAG, "ImageReader RAW12");
-            captureType= CaptureType.Dng12;
+            return CaptureType.Dng12;
         }
         else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer))) {
             Log.d(TAG, "ImageReader BAYER16");
-            captureType = CaptureType.Bayer16;
+            return CaptureType.Bayer16;
         }
         else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer10)))
         {
             Log.d(TAG, "ImageReader BAYER10");
-            captureType = CaptureType.Bayer10;
+            return CaptureType.Bayer10;
         }
-
+        return CaptureType.Jpeg;
     }
 
 

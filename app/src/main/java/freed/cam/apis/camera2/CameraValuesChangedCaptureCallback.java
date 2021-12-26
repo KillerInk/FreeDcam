@@ -16,6 +16,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera2.modules.zsl.ZslCaptureResultRingBuffer;
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.settings.Frameworks;
@@ -112,12 +113,18 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private AeAfLocker aeAfLocker;
     private HistogramChangedEvent histogramChangedEventListner;
     private SettingsManager settingsManager;
+    private ZslCaptureResultRingBuffer captureResultRingBuffer;
 
     public CameraValuesChangedCaptureCallback(Camera2 camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
         settingsManager = FreedApplication.settingsManager();
         this.aeAfLocker = new AeAfLocker();
+    }
+
+    public void setZslCaptureResultRingBuffer(ZslCaptureResultRingBuffer zslCaptureResultRingBuffer)
+    {
+        this.captureResultRingBuffer = zslCaptureResultRingBuffer;
     }
 
     @Override
@@ -184,6 +191,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 waitForFirstFrameCallback.onFirstFrame();
             waitForFirstFrame = false;
         }
+        if (captureResultRingBuffer != null)
+            captureResultRingBuffer.addCaptureResult(result);
 
         captureResult = result;
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);

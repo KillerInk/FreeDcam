@@ -14,6 +14,7 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
+import freed.cam.apis.camera2.modules.zsl.ZslCaptureResultRingBuffer;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -34,6 +35,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean cameraIsOpen = false;
     private FreedAeManger freedAeManger;
+
 
     public Camera2()
     {
@@ -56,7 +58,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     @Override
     public void initCamera() {
         Log.d(TAG,"initCamera");
-        captureSessionHandler.CreatePreviewRequestBuilder();
+        //captureSessionHandler.CreatePreviewRequestBuilder();
         parametersHandler.Init();
         //cameraHolder.SetSurface(getPreview().getSurfaceTexture());
         Log.d(TAG, "initCamera Camera Opened and Preview Started");

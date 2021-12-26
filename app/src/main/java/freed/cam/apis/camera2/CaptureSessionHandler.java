@@ -9,6 +9,8 @@ import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.InputConfiguration;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.OutputConfiguration;
@@ -74,6 +76,9 @@ public class CaptureSessionHandler
 
             // When the session is ready, we start displaying the previewSize.
             mCaptureSession = cameraCaptureSession;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Log.d(TAG,"reprocess session:" + mCaptureSession.isReprocessable());
+            }
 
             try {
                 // Finally, we start displaying the camera preview.
@@ -173,6 +178,29 @@ public class CaptureSessionHandler
         }
     }
 
+    public void CreateZSLRequestBuilder()
+    {
+        Log.d(TAG,"create zsl request");
+        if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
+            return;
+        try {
+            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_ZERO_SHUTTER_LAG);
+        } catch (CameraAccessException ex) {
+            Log.WriteEx(ex);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public CaptureRequest.Builder createReprocessRequest(TotalCaptureResult result)
+    {
+        try {
+            return cameraHolderApi2.mCameraDevice.createReprocessCaptureRequest(result);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void createImageCaptureRequestBuilder()
     {
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
@@ -252,6 +280,25 @@ public class CaptureSessionHandler
         cameraBackroundValuesChangedListner.setWaitForFirstFrame();
         try {
             cameraHolderApi2.mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, backgroundHandlerThread.getBackgroundHandler());
+        } catch (Exception  ex) {
+            Log.WriteEx(ex);
+        }
+        captureSessionOpen = true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void CreateReprocessCaptureSession(int width, int height, int format)
+    {
+        Log.d(TAG, "CreateReprocessCaptureSession:");
+        if(cameraHolderApi2.mCameraDevice == null)
+            return;
+        isHighSpeedSession = false;
+
+        cameraBackroundValuesChangedListner.setWaitForFirstFrame();
+        Log.d(TAG,"surfaces size:" +surfaces.size());
+        try {
+
+            cameraHolderApi2.mCameraDevice.createReprocessableCaptureSession(new InputConfiguration(width, height, format),surfaces, previewStateCallBackRestart, backgroundHandlerThread.getBackgroundHandler());
         } catch (Exception  ex) {
             Log.WriteEx(ex);
         }
@@ -474,6 +521,22 @@ public class CaptureSessionHandler
         }
     }
 
+    public void captureReprocess(CaptureRequest request,CameraCaptureSession.CaptureCallback listener)
+    {
+        try {
+            mCaptureSession.capture(request,listener,backgroundHandlerThread.getBackgroundHandler());
+        } catch (CameraAccessException | NullPointerException e) {
+            e.printStackTrace();
+        }catch (IllegalArgumentException ex)
+        {
+            Log.WriteEx(ex);
+        }
+        catch (IllegalStateException ex)
+        {
+            Log.WriteEx(ex);
+        }
+    }
+
     public void StartImageCapture(CameraCaptureSession.CaptureCallback listener)
     {
         Log.d(TAG,"StartImageCapture");
@@ -659,30 +722,6 @@ public class CaptureSessionHandler
         return mImageCaptureRequestBuilder.get(key);
     }
 
-    private final String MATRIXTAG = TAG + ".SetTextureViewSize";
-
-    /*public void SetTextureViewSize(int w, int h, int rotation,boolean renderscript)
-    {
-        float dispWidth = 0;
-        float dispHeight = 0;
-        if (renderscript)
-        {
-            dispWidth = cameraUiWrapper.getPreview().getPreviewWidth();
-            dispHeight = cameraUiWrapper.getPreview().getPreviewHeight();
-        }
-        else if (displaySize.x > displaySize.y) {
-            dispWidth = displaySize.x;
-            dispHeight = displaySize.y;
-        }
-        else
-        {
-            dispWidth = displaySize.y;
-            dispHeight = displaySize.x;
-        }
-        Matrix matrix = MatrixUtil.getTransFormMatrix(w,h,(int)dispWidth,(int)dispHeight,rotation,renderscript);
-
-        cameraHolderApi2.textureView.setTransform(matrix);
-    }*/
 
     public void StartAePrecapture()
     {
