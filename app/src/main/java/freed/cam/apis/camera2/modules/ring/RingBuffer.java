@@ -1,14 +1,12 @@
-package freed.cam.apis.camera2.modules.zsl;
-
-import android.media.Image;
+package freed.cam.apis.camera2.modules.ring;
 
 import java.util.ArrayDeque;
 
-public abstract class ZslRingBuffer<T> {
-    public static final int buffer_size = 10;
+public abstract class RingBuffer<T> {
+    public static final int buffer_size = 20;
     protected final ArrayDeque<T> ringbuffer;
 
-    public ZslRingBuffer()
+    public RingBuffer()
     {
         ringbuffer = new ArrayDeque<>(buffer_size+1);
     }
@@ -26,5 +24,15 @@ public abstract class ZslRingBuffer<T> {
     public T getLatest()
     {
         return ringbuffer.getFirst();
+    }
+
+    public T pollFirst()
+    {
+        return ringbuffer.pollFirst();
+    }
+
+    public T pollLast()
+    {
+        return ringbuffer.pollLast();
     }
 }

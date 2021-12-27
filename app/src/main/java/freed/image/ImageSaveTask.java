@@ -1,7 +1,11 @@
 package freed.image;
 
 import android.location.Location;
+import android.media.Image;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -55,14 +59,13 @@ public class ImageSaveTask extends ImageTask
     private String whitebalance;
     private ModuleInterface moduleInterface;
 
-    private Thread currentThread;
     private OpCode opcode;
     private float baselineExposure = 0;
     private float baselineExposureOffset = 0;
     private int greensplit = 0;
     private SettingsManager settingsManager;
     private FileListController fileListController;
-    private ByteBuffer bytesBuffer;
+    private Image image;
 
 
     public ImageSaveTask(ModuleInterface moduleInterface)
@@ -73,13 +76,19 @@ public class ImageSaveTask extends ImageTask
     }
 
 
-    private void clear()
+    public void clear()
     {
         this.whitebalance = null;
         this.location =null;
         this.filename = null;
         this.profile = null;
         this.bytesTosave = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (image != null)
+            {
+                image.close();
+            }
+        }
     }
 
     public void setBytesTosave(byte[] bytes, int imageFormat)
@@ -88,9 +97,9 @@ public class ImageSaveTask extends ImageTask
         this.imageFormat = imageFormat;
     }
 
-    public void setByteBufferTosave(ByteBuffer buffer, int imageFormat)
+    public void setByteBufferTosave(Image buffer, int imageFormat)
     {
-        this.bytesBuffer = buffer;
+        this.image = buffer;
         this.imageFormat = imageFormat;
     }
 
@@ -192,11 +201,7 @@ public class ImageSaveTask extends ImageTask
         return false;
     }
 
-    @Override
-    public Thread getThread() {
-        return currentThread;
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void saveRawToDng()
     {
         RawToDng rawToDng = RawToDng.GetInstance();
@@ -228,13 +233,17 @@ public class ImageSaveTask extends ImageTask
                 if (bytesTosave != null)
                     rawToDng.SetBayerDataFD(bytesTosave, pfd, filename.getName());
                 else
-                    rawToDng.SetBayerDataBufFD(bytesBuffer, pfd, filename.getName());
+                    rawToDng.SetBayerDataBufFD(image.getPlanes()[0].getBuffer(), pfd, filename.getName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
         rawToDng.WriteDngWithProfile(profile);
+        if (image != null)
+        {
+            image.close();
+        }
         /*if (pfd != null)
             try {
                 pfd.close();

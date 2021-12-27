@@ -30,7 +30,7 @@ import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
-import freed.cam.apis.camera2.modules.ZslModuleApi2;
+import freed.cam.apis.camera2.modules.RawRecordApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 
@@ -67,8 +67,8 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
             AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
             moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
         }
-        ZslModuleApi2 zslModuleApi2 = new ZslModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        moduleList.put(zslModuleApi2.ModuleName(),zslModuleApi2);
+        RawRecordApi2 rawRecordApi2 = new RawRecordApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        moduleList.put(rawRecordApi2.ModuleName(), rawRecordApi2);
 
     }
 

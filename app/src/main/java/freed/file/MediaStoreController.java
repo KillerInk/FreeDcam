@@ -409,6 +409,19 @@ public class MediaStoreController {
         return builder.toString();
     }
 
+    public String getNewFilePath(String name, String fileEnding)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        if (fileEnding.equals(".jpg") || fileEnding.equals(".dng") || fileEnding.equals(".jps"))
+            builder.append(File.separator).append("IMG_");
+        if (fileEnding.equals(".mp4"))
+            builder.append(File.separator).append("MOV_");
+        builder.append(name)
+                .append(fileEnding);
+        return builder.toString();
+    }
+
     public String getNewFilePathBurst(boolean externalSd, String fileEnding, int hdrcount)
     {
         StringBuilder builder = new StringBuilder();

@@ -14,12 +14,10 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractCamera;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
-import freed.cam.apis.camera2.modules.zsl.ZslCaptureResultRingBuffer;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
