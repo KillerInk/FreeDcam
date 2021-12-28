@@ -393,6 +393,13 @@ public class FileListController {
             return storageFileManager.getNewFilePath(external,fileending);
     }
 
+    public String getNewFilePath(String external, String fileending)
+    {
+        return mediaStoreController.getNewFilePath(external,fileending);
+    }
+
+
+
     public String getNewFilePathBurst(boolean external, String fileending, int count)
     {
         if (needStorageAccessFrameWork)

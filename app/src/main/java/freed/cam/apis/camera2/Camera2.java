@@ -18,7 +18,6 @@ import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -34,6 +33,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean cameraIsOpen = false;
     private FreedAeManger freedAeManger;
+
 
     public Camera2()
     {
@@ -56,7 +56,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     @Override
     public void initCamera() {
         Log.d(TAG,"initCamera");
-        captureSessionHandler.CreatePreviewRequestBuilder();
+        //captureSessionHandler.CreatePreviewRequestBuilder();
         parametersHandler.Init();
         //cameraHolder.SetSurface(getPreview().getSurfaceTexture());
         Log.d(TAG, "initCamera Camera Opened and Preview Started");

@@ -1,11 +1,9 @@
 package freed.cam.apis.camera2;
 
 import android.hardware.camera2.CameraCaptureSession;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.util.Pair;
 
@@ -13,9 +11,9 @@ import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.qcom.CaptureResultQcom;
 import freed.FreedApplication;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.camera2.modules.ring.CaptureResultRingBuffer;
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.settings.Frameworks;
@@ -112,12 +110,18 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private AeAfLocker aeAfLocker;
     private HistogramChangedEvent histogramChangedEventListner;
     private SettingsManager settingsManager;
+    private CaptureResultRingBuffer captureResultRingBuffer;
 
     public CameraValuesChangedCaptureCallback(Camera2 camera2Fragment)
     {
         this.camera2Fragment =camera2Fragment;
         settingsManager = FreedApplication.settingsManager();
         this.aeAfLocker = new AeAfLocker();
+    }
+
+    public void setCaptureResultRingBuffer(CaptureResultRingBuffer captureResultRingBuffer)
+    {
+        this.captureResultRingBuffer = captureResultRingBuffer;
     }
 
     @Override
@@ -184,6 +188,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
                 waitForFirstFrameCallback.onFirstFrame();
             waitForFirstFrame = false;
         }
+        if (captureResultRingBuffer != null)
+            captureResultRingBuffer.addCaptureResult(result);
 
         captureResult = result;
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);

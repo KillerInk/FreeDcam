@@ -7,6 +7,7 @@
     <string translatable="false" name="module_stacking">module_stacking</string>
     <string translatable="false" name="module_interval">module_interval</string>
     <string translatable="false" name="module_afbracket">module_afbracket</string>
+    <string translatable="false" name="module_rawcapture">module_rawcapture</string>
 
     <string translatable="false" name="off_">off</string>
     <string translatable="false" name="on_">on</string>

@@ -147,7 +147,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             if (mView.getHistogramController().getMeteringProcessor() != null
                     && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled()) {
                 avgLuma_SSBO.clearBuffer();
-                avgLumaComputeProgram.compute(width/16/2,height/16/2,oesFrameBuffer,avgLuma_SSBO);
+                avgLumaComputeProgram.compute(width/16,height/16,oesFrameBuffer,avgLuma_SSBO);
                 int l[] = avgLuma_SSBO.getHistogramChannel();
                 float luma = (float)l[0] / 1000000f;
                 mView.getHistogramController().getMeteringProcessor().setLuma(luma);

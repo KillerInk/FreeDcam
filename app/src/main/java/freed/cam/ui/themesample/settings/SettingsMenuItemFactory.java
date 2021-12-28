@@ -252,23 +252,28 @@ public class SettingsMenuItemFactory
                 globalSettingGroup.addView(ers);
             }
 
-            if (!(cameraUiWrapper instanceof SonyRemoteCamera))
-            {
-                SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
-                globalSettingGroup.addView(fd);
-            }
+
+        }
+
+        GroupChild etc = new GroupChild(context,"Etc");
+        if (!(cameraUiWrapper instanceof SonyRemoteCamera))
+        {
+            SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
+            etc.addView(fd);
         }
 
         if (ReleaseChecker.isGithubRelease) {
             SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, apS.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);
-            globalSettingGroup.addView(booleanSetting);
+            etc.addView(booleanSetting);
         }
 
         if (cameraUiWrapper instanceof Camera2)
         {
             SettingsChildDumpCamera2VendorKeys dumpCamera2VendorKeys = new SettingsChildDumpCamera2VendorKeys(context,R.string.setting_dump_vendor_keys_header,R.string.setting_dump_vendor_keys_description,(Camera2) cameraUiWrapper);
-            globalSettingGroup.addView(dumpCamera2VendorKeys);
+            etc.addView(dumpCamera2VendorKeys);
         }
+        if (etc.childSize() > 0)
+            globalSettingGroup.addView(etc);
 
         settingsChildHolder.addView(globalSettingGroup);
     }
@@ -308,24 +313,26 @@ public class SettingsMenuItemFactory
 
             if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null && params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name()))
             {
+                GroupChild aegroup = new GroupChild(context,  "Custom AE");
                 SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context,apS.getGlobal(SettingKeys.USE_FREEDCAM_AE),R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
-                previewgroup.addView(freedae);
+                aegroup.addView(freedae);
 
                 SettingsChildMenu maxiso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_ISO),R.string.setting_maxiso_header, R.string.setting_maxiso_text);
                 maxiso.SetUiItemClickListner(click);
-                previewgroup.addView(maxiso);
+                aegroup.addView(maxiso);
 
                 SettingsChildMenu miniso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_ISO),R.string.setting_miniso_header, R.string.setting_miniso_text);
                 miniso.SetUiItemClickListner(click);
-                previewgroup.addView(miniso);
+                aegroup.addView(miniso);
 
                 SettingsChildMenu minexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_EXPOSURE),R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
                 minexpotime.SetUiItemClickListner(click);
-                previewgroup.addView(minexpotime);
+                aegroup.addView(minexpotime);
 
                 SettingsChildMenu maxexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_EXPOSURE),R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
                 maxexpotime.SetUiItemClickListner(click);
-                previewgroup.addView(maxexpotime);
+                aegroup.addView(maxexpotime);
+                previewgroup.addView(aegroup);
             }
 
             settingchildholder.addView(previewgroup);
@@ -528,22 +535,25 @@ public class SettingsMenuItemFactory
                 settingsgroup.addView(ton);
             }
 
+            GroupChild mf = new GroupChild(context,"Manual Focus");
             if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported()) {
                 SettingsChild_BooleanSetting ton = new SettingsChild_BooleanSetting(context,apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS),R.string.setting_zoom_on_mf_header, R.string.setting_zoom_on_mf_description);
-                settingsgroup.addView(ton);
+                mf.addView(ton);
             }
 
             if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).isSupported()) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR),R.string.setting_zoom_on_mf_factor_header, R.string.setting_zoom_on_mf_factor_description);
                 ton.SetUiItemClickListner(click);
-                settingsgroup.addView(ton);
+                mf.addView(ton);
             }
 
             if (apS.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).isSupported()) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION),R.string.setting_zoom_on_mf_duration_header, R.string.setting_zoom_on_mf_duration_description);
                 ton.SetUiItemClickListner(click);
-                settingsgroup.addView(ton);
+                mf.addView(ton);
             }
+            if (mf.childSize() > 0)
+                settingsgroup.addView(mf);
             settingchildholder.addView(settingsgroup);
         }
     }

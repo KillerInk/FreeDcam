@@ -47,15 +47,15 @@ public class RawImageCapture extends StillImageCapture {
         //Log.d(TAG, "save dng");
         if(image.getFormat() == ImageFormat.RAW10) {
             Log.d(TAG, "save 10bit dng");
-            task = process_rawWithDngConverter(image.getPlanes()[0].getBuffer(), DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(image, DngProfile.Mipi, file,result,characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             image.close();
         }
         else if(image.getFormat() == ImageFormat.RAW_SENSOR) {
             if (forceRawToDng) { // use freedcam dngconverter
                 if (support12bitRaw)
-                    task = process_rawWithDngConverter(image.getPlanes()[0].getBuffer(), DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+                    task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
                 else
-                    task = process_rawWithDngConverter(image.getPlanes()[0].getBuffer(),
+                    task = process_rawWithDngConverter(image,
                             DngProfile.Plain,
                             file,
                             result,
@@ -67,7 +67,6 @@ public class RawImageCapture extends StillImageCapture {
                             orientation,
                             externalSD,
                             toneMapProfile);
-                image.close();
             }
             else { // use android dngCreator
                 task = process_rawSensor(image, file, result);
@@ -76,7 +75,7 @@ public class RawImageCapture extends StillImageCapture {
         image = null;
     }
 
-    protected static ImageTask process_rawWithDngConverter(byte[] bytes,
+    public static ImageTask process_rawWithDngConverter(byte[] bytes,
                                                            int rawFormat,
                                                            File file,
                                                            CaptureResult captureResult,
@@ -95,7 +94,7 @@ public class RawImageCapture extends StillImageCapture {
     }
 
 
-    protected static ImageTask process_rawWithDngConverter(ByteBuffer bytes,
+    public static ImageTask process_rawWithDngConverter(Image bytes,
                                                            int rawFormat,
                                                            File file,
                                                            CaptureResult captureResult,
@@ -110,7 +109,7 @@ public class RawImageCapture extends StillImageCapture {
         ImageSaveTask saveTask = new ImageSaveTask(moduleInterface);
         Log.d(TAG, "Create DNG VIA RAw2DNG");
         saveTask.setByteBufferTosave(bytes,ImageSaveTask.RAW_SENSOR);
-        return getImageTask(rawFormat, file, captureResult, characteristics, width, height, customMatrix, orientation, externalSD, toneMapProfile, saveTask, bytes.remaining());
+        return getImageTask(rawFormat, file, captureResult, characteristics, width, height, customMatrix, orientation, externalSD, toneMapProfile, saveTask, bytes.getPlanes()[0].getBuffer().remaining());
     }
 
     @NonNull
