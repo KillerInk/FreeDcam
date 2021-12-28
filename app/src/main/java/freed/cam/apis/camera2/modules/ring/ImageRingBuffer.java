@@ -15,6 +15,8 @@ public class ImageRingBuffer extends RingBuffer<Image>
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void addImage(Image img)
     {
+        if (img == null)
+            return;
         if (ringbuffer.size() >= buffer_size-1)
              ringbuffer.removeLast().close();
         ringbuffer.addFirst(img);
