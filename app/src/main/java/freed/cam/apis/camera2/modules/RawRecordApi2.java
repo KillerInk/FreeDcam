@@ -22,9 +22,11 @@ import androidx.annotation.RequiresApi;
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -59,11 +61,13 @@ public class RawRecordApi2 extends RawZslModuleApi2{
     private RawProcessor rawProcessor;
     private RejectedExecutionHandler defaultRejectedExecutionHandler;
     private UserMessageHandler userMessageHandler;
+    private List<BaseHolder> files;
 
     public RawRecordApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
         userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         name = FreedApplication.getStringFromRessources(R.string.module_rawcapture);
+        files = new ArrayList<>();
     }
 
     @Override
@@ -76,10 +80,11 @@ public class RawRecordApi2 extends RawZslModuleApi2{
             @Override
             public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
                 Log.d(TAG, "rejected task");
+
                 rawProcessor.droppedFramesCounter++;
-                ImageSaveTask task = (ImageSaveTask) r;
-                task.clear();
-                //executor.remove(task);
+                /*ImageSaveTask task = (ImageSaveTask) r;
+                executor.remove(task);
+                task.clear();*/
             }
         });
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
@@ -93,6 +98,7 @@ public class RawRecordApi2 extends RawZslModuleApi2{
         super.DestroyModule();
         rawProcessor.stop();
         rawProcessor = null;
+        sendAndClearFiles();
         imageManager.setRejectedExecutionHandler(defaultRejectedExecutionHandler);
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
             parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
@@ -125,16 +131,45 @@ public class RawRecordApi2 extends RawZslModuleApi2{
         else {
             changeCaptureState(CaptureStates.video_recording_stop);
             rawProcessor.stop();
+            sendAndClearFiles();
             Log.d(TAG,"stop Recording");
         }
     }
 
+    private void sendAndClearFiles()
+    {
+        /*if (files.size() > 0)
+        {
+            BaseHolder f[] = new BaseHolder[files.size()];
+            files.toArray(f);
+            fireOnWorkFinish(f);
+            files.clear();
+        }*/
+    }
+
+    @Override
+    public void internalFireOnWorkDone(BaseHolder file) {
+        files.add(file);
+    }
 
     private class RawProcessor implements Runnable {
         private boolean doWork = false;
         private long frameCounter = 1;
         private long droppedFramesCounter =1;
         String name;
+        int crop_width = 1920, crop_height = 1080;
+        int fps = 25;
+
+        public void setCropWidthHeight(int width,int height)
+        {
+            this.crop_height = height;
+            this.crop_width = width;
+        }
+
+        public void setFps(int fps)
+        {
+            this.fps = fps;
+        }
 
         public void stop()
         {
@@ -146,7 +181,7 @@ public class RawRecordApi2 extends RawZslModuleApi2{
             doWork = true;
             Date date = new Date();
             name = StorageFileManager.getStringDatePAttern().format(date);
-            long sleep = 1000/25;
+            long sleep = 1000/fps;
             long starttime = System.currentTimeMillis();
 
             while (doWork)
@@ -154,9 +189,9 @@ public class RawRecordApi2 extends RawZslModuleApi2{
                 TotalCaptureResult result = captureResultRingBuffer.pollLast();
                 Image img = imageRingBuffer.pollLast();
                 if (img != null && result != null && img.getFormat() == ImageFormat.RAW_SENSOR) {
-                    File file = new File(fileListController.getNewFilePath((name + "__" + frameCounter), ".dng"));
-                    ImageTask task = RawImageCapture.process_rawWithDngConverter(img,
-                            DngProfile.Plain,
+                    File file = new File(fileListController.getNewFilePath((name + "_" + fps +"fps" + "__" + frameCounter), ".dng"));
+                    ImageSaveTask task = (ImageSaveTask) RawImageCapture.process_rawWithDngConverter(img,
+                            DngProfile.Pure16bitTo16bit,
                             file,
                             result,
                             cameraHolder.characteristics,
@@ -167,6 +202,7 @@ public class RawRecordApi2 extends RawZslModuleApi2{
                             orientationManager.getCurrentOrientation(),
                             settingsManager.GetWriteExternal(),
                             null);
+                    task.setCrop_WidthHeight(crop_width,crop_height);
                     imageManager.putImageSaveTask(task);
                 }
                 else

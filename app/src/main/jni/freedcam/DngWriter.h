@@ -35,6 +35,7 @@ private:
     void process12tight(TIFF *tif);
     void processLoose(TIFF *tif);
     void processSXXX16(TIFF *tif);
+    void processSXXX16crop(TIFF *tif);
     void process16to10(TIFF *tif);
     void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
@@ -73,6 +74,9 @@ public:
     int fileDes;
     bool hasFileDes;
 
+    int crop_width;
+    int crop_height;
+
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
@@ -95,6 +99,8 @@ public:
         huesatmapdata2 = NULL;
         huesatmapdata2_size = 0;
         huesatmapdims = NULL;
+        crop_width = 0;
+        crop_height =0;
     }
 
     void WriteDNG();

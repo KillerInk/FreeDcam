@@ -61,10 +61,20 @@ TIFF* DngWriter::openfTIFFFD(char *fileSavePath, int fd) {
 void DngWriter::writeIfd0(TIFF *tif) {
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype");
-    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, dngProfile->rawwidht) != 0);
-    LOGD("width");
-    assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
-    LOGD("height");
+    if (crop_width == 0 && crop_height == 0)
+    {
+        assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, dngProfile->rawwidht) != 0);
+        LOGD("width");
+        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
+        LOGD("height");
+    }
+    else
+    {
+        assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, crop_width) != 0);
+        LOGD("width");
+        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, crop_height) != 0);
+        LOGD("height");
+    }
     if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT
     || dngProfile->rawType == RAW_10BIT_TO_16BIT
     || dngProfile->rawType == RAW_16BIT
@@ -186,19 +196,32 @@ void DngWriter::writeIfd0(TIFF *tif) {
     float margin = 8;
 
     float  defaultCropOrigin[] = {margin, margin};
-    float defaultCropSize[] = {dngProfile->rawwidht - defaultCropOrigin[0] - margin,
-                                  dngProfile->rawheight - defaultCropOrigin[1] - margin};
-
     LOGD("defaultCropOrigin");
-    TIFFSetField(tif,TIFFTAG_DEFAULTCROPORIGIN,defaultCropOrigin);
-    LOGD("defaultCropSize");
-    TIFFSetField(tif,TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
+    TIFFSetField(tif, TIFFTAG_DEFAULTCROPORIGIN, defaultCropOrigin);
+    if (crop_width == 0 && crop_height == 0) {
+        float defaultCropSize[] = {dngProfile->rawwidht - defaultCropOrigin[0] - margin,
+                                   dngProfile->rawheight - defaultCropOrigin[1] - margin};
+        LOGD("defaultCropSize");
+        TIFFSetField(tif, TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
+    }
+    else
+    {
+        float defaultCropSize[] = {crop_width - defaultCropOrigin[0] - margin,
+                                   crop_height - defaultCropOrigin[1] - margin};
+        LOGD("defaultCropSize");
+        TIFFSetField(tif, TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
+    }
     float scale[] = {1,1};
     TIFFSetField(tif,TIFFTAG_DEFAULTSCALE, scale);
 
-    if(dngProfile->activearea != nullptr)
+    if(dngProfile->activearea != nullptr && crop_width == 0 && crop_height == 0)
     {
         TIFFSetField(tif,TIFFTAG_ACTIVEAREA, dngProfile->activearea);
+    }
+    else
+    {
+        int active_area[] = {0,0,crop_width,crop_height};
+        TIFFSetField(tif,TIFFTAG_ACTIVEAREA, active_area);
     }
 
 
@@ -512,6 +535,37 @@ void DngWriter::processSXXX16(TIFF *tif) {
     LOGD("Free Memory processSXXX16");
 }
 
+void DngWriter::processSXXX16crop(TIFF *tif) {
+    LOGD("processSXXX16crop");
+    int j, row, col, j2;
+    unsigned short pixel[crop_width];
+    unsigned short low, high;
+    int w_diff = dngProfile->rawwidht - crop_width;
+    int h_diff = dngProfile->rawheight - crop_height;
+    int offset_x = w_diff/2;
+    int offset_y = h_diff/2;
+    LOGD("crop w: %i h: %i offset x: %i y: %i" ,crop_width,crop_height, offset_x,offset_y);
+    j=0;
+    j2 = 0;
+    for (row=offset_y; row < dngProfile->rawheight-offset_y; row++)
+    {
+        j=0;
+        for (col = offset_x; col < dngProfile->rawwidht - offset_x; col++)
+        { // iterate over pixel columns
+            int pos = (dngProfile->rawwidht * row + col)*2;
+            low = bayerBytes[pos];
+            high =   bayerBytes[pos+1];
+            pixel[j++] =  high << 8 |low;
+        }
+        if (TIFFWriteScanline (tif, pixel, j2++, 0) != 1) {
+            LOGD("Error writing TIFF scanline.");
+        }
+    }
+
+    LOGD("Finalizng DNG");
+    LOGD("Free Memory processSXXX16crop");
+}
+
 unsigned short DngWriter::getColor(int row, int col)
 {
     int pos = (dngProfile->rawwidht * row + col)*2;
@@ -765,7 +819,12 @@ void DngWriter::writeRawStuff(TIFF *tif) {
         process16to12(tif);
     }
     else if (dngProfile->rawType == RAW_16BIT)
-        processSXXX16(tif);
+    {
+        if (crop_width == 0 && crop_height == 0)
+            processSXXX16(tif);
+        else
+            processSXXX16crop(tif);
+    }
     else if (dngProfile->rawType == QUADBAYER_16BIT)
         quadBayer16bit(tif);
     else

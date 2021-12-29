@@ -192,6 +192,13 @@ extern "C"
         DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
         writer->bayergreensplit = greensplit;
     }
+
+    JNIEXPORT void JNICALL Java_freed_jni_RawToDng_setCropWidthHeight(JNIEnv *env, jobject thiz,jint width, jint height,jobject javaHandler)
+    {
+        DngWriter* writer = (DngWriter*)env->GetDirectBufferAddress(javaHandler);
+        writer->crop_width = width;
+        writer->crop_height = height;
+    }
 };
 
 
