@@ -53,22 +53,15 @@ import freed.utils.Log;
 import freed.utils.StorageFileManager;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class RawRecordApi2 extends AbstractModuleApi2{
+public class RawRecordApi2 extends RawZslModuleApi2{
 
     private final String TAG = RawRecordApi2.class.getSimpleName();
-    protected Output output;
-    private CaptureType captureType;
-    private ImageRingBuffer imageRingBuffer;
-    private CaptureResultRingBuffer captureResultRingBuffer;
-    private ImageReader privateRawImageReader;
-    private ImageManager imageManager;
     private RawProcessor rawProcessor;
     private RejectedExecutionHandler defaultRejectedExecutionHandler;
     private UserMessageHandler userMessageHandler;
 
     public RawRecordApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
-        imageManager = FreedApplication.imageManager();
         userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         name = FreedApplication.getStringFromRessources(R.string.module_rawcapture);
     }
@@ -77,9 +70,6 @@ public class RawRecordApi2 extends AbstractModuleApi2{
     public void InitModule() {
         super.InitModule();
         changeCaptureState(CaptureStates.video_recording_stop);
-        imageRingBuffer =  new ImageRingBuffer();
-        captureResultRingBuffer = new CaptureResultRingBuffer();
-        startPreview();
         rawProcessor = new RawProcessor();
         defaultRejectedExecutionHandler = imageManager.getRejectedExecutionHandler();
         imageManager.setRejectedExecutionHandler(new RejectedExecutionHandler() {
@@ -100,10 +90,7 @@ public class RawRecordApi2 extends AbstractModuleApi2{
 
     @Override
     public void DestroyModule() {
-        cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        previewController.close();
-        imageRingBuffer.clear();
-        captureResultRingBuffer.clear();
+        super.DestroyModule();
         rawProcessor.stop();
         rawProcessor = null;
         imageManager.setRejectedExecutionHandler(defaultRejectedExecutionHandler);
@@ -140,62 +127,6 @@ public class RawRecordApi2 extends AbstractModuleApi2{
             rawProcessor.stop();
             Log.d(TAG,"stop Recording");
         }
-        //TotalCaptureResult result = captureResultRingBuffer.getLatest();
-        //Image img = imageRingBuffer.getLatest();
-    }
-
-    @Override
-    public void internalFireOnWorkDone(BaseHolder file) {
-
-    }
-
-    @Override
-    public void startPreview() {
-
-        FindOutputHelper findOutputHelper = new FindOutputHelper();
-        output = findOutputHelper.getStockOutput(cameraHolder,settingsManager);
-        Size largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolderApi2.CompareSizesByArea());
-        output.raw_width = largestImageSize.getWidth();
-        output.raw_height = largestImageSize.getHeight();
-        Log.d(TAG, "ImageReader JPEG");
-        captureType = CaptureType.Dng16;
-        cameraUiWrapper.captureSessionHandler.CreateZSLRequestBuilder();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_ENABLE_ZSL,true,false);
-        }
-        createImageCaptureListners();
-
-        int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
-        Log.d(TAG, "sensorOrientation:" + sensorOrientation);
-        int orientationToSet = (360 + sensorOrientation)%360;
-        Log.d(TAG, "orientation to set :" +orientationToSet);
-
-        // Here, we create a CameraCaptureSession for camera preview
-
-        Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
-
-        PictureModuleApi2.preparePreviewTextureView(orientationToSet, previewSize,previewController,settingsManager,TAG,mainHandler,cameraUiWrapper);
-        cameraUiWrapper.captureSessionHandler.AddSurface(privateRawImageReader.getSurface(),true);
-        //cameraUiWrapper.captureSessionHandler.AddSurface(reprocessImageReader.getSurface(),false);
-
-        cameraUiWrapper.cameraBackroundValuesChangedListner.setCaptureResultRingBuffer(captureResultRingBuffer);
-
-        cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
-    }
-
-    private void createImageCaptureListners() {
-        privateRawImageReader = ImageReader.newInstance(output.raw_width,output.raw_height, ImageFormat.RAW_SENSOR, 45);
-        privateRawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
-            @Override
-            public void onImageAvailable(ImageReader reader) {
-                imageRingBuffer.addImage(reader.acquireLatestImage());
-            }
-        },mBackgroundHandler);
-    }
-
-    @Override
-    public void stopPreview() {
-        DestroyModule();
     }
 
 
