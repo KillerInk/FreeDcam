@@ -51,14 +51,7 @@ public:
         inputdata = input.data();
         offset = width*height;
         LOGD("setBaseFrame %i", imagecount);
-        for (int i = 0; i < offset; ++i) {
-            if(upshift > 0) {
-                inputdata[i] = ((images[i]) << upshift) + bl;
-            } else
-            {
-                inputdata[i] = ((images[i]) << upshift);
-            }
-        }
+        memcpy(inputdata, images, offset*sizeof(uint16_t));
     }
 
     void setNextFrame(uint16_t * image)
@@ -66,14 +59,7 @@ public:
         imagecount++;
         LOGD("setNextFrame %i", imagecount);
         long tmpoffset = offset*imagecount;
-        for (int i = 0; i < offset; ++i) {
-            if(upshift > 0) {
-                inputdata[i+tmpoffset] = ((image[i]) << upshift) + bl;
-            } else
-            {
-                inputdata[i+tmpoffset] = ((image[i]) << upshift);
-            }
-        }
+        memcpy(inputdata + tmpoffset, image, offset*sizeof(uint16_t));
 
     }
 
@@ -107,17 +93,8 @@ public:
         mergedata = input_to_merge.data();
         outdata = output.data();
         LOGD("copy data");
-        for (int i = 0; i < offset; ++i) {
-            if(upshift > 0) {
-
-                inputdata[i] = ((firstdata[i]) << upshift) + bl;
-                mergedata[i] = ((firstdata[i]) << upshift) + bl;
-            } else
-            {
-                inputdata[i] = ((firstdata[i]) << upshift);
-                mergedata[i] = ((firstdata[i]) << upshift);
-            }
-        }
+        memcpy(inputdata, firstdata, offset*sizeof(uint16_t));
+        memcpy(mergedata, firstdata, offset*sizeof(uint16_t));
         LOGD("init done");
         //delete[] firstdata;
     }
@@ -125,15 +102,8 @@ public:
     void stackFrame(uint16_t * nextdata)
     {
         LOGD("stackframe");
-        for (int i = 0; i < offset; ++i) {
-            if(upshift > 0) {
-                inputdata[i + offset] = ((nextdata[i]) << upshift) + bl;
-                mergedata[i + offset] = ((nextdata[i]) << upshift) + bl;
-            } else{
-                inputdata[i + offset] = ((nextdata[i]) << upshift);
-                mergedata[i + offset] = ((nextdata[i]) << upshift);
-            }
-        }
+        memcpy(inputdata +offset, nextdata, offset*sizeof(uint16_t));
+        memcpy(mergedata +offset, nextdata, offset*sizeof(uint16_t));
 
         stage1_alignmerge(input,input_to_merge,minoffset, maxoffset,l1mindistance,l1maxdistance,output);
         output.copy_to_host();
@@ -148,21 +118,12 @@ public:
     void stackFrameAvarage(uint16_t * nextdata)
     {
         LOGD("stackframe");
-        for (int i = 0; i < offset; ++i) {
-            if(upshift > 0) {
-                inputdata[i + offset] = ((nextdata[i]) << upshift) + bl;
-                mergedata[i + offset] = ((nextdata[i]) << upshift) + bl;
-            } else{
-                inputdata[i + offset] = ((nextdata[i]) << upshift);
-                mergedata[i + offset] = ((nextdata[i]) << upshift);
-            }
-        }
+        memcpy(inputdata +offset, nextdata, offset*sizeof(uint16_t));
+        memcpy(mergedata +offset, nextdata, offset*sizeof(uint16_t));
         input.set_host_dirty(true);
         avarage_generator(input,output);
         output.copy_to_host();
-        for (int i = 0; i < offset; ++i) {
-            inputdata[i] = outdata[i];
-        }
+        memcpy(inputdata, outdata, offset*sizeof(uint16_t));
         LOGD("stackframedone");
     }
 
