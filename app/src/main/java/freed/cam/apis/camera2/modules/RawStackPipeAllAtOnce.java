@@ -3,6 +3,7 @@ package freed.cam.apis.camera2.modules;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
@@ -134,25 +135,40 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
             rawStack.setShift(upshift);
             int count = 0;
             ByteBuffer buffer;
-            TotalCaptureResult result = captureResultRingBuffer.pollLast();
-
-            Image img = imageRingBuffer.pollLast();
-            int w = img.getWidth();
-            int h = img.getHeight();
-            if (result != null && img != null) {
-                buffer = img.getPlanes()[0].getBuffer();
-                rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),burst);
-                img.close();
-                count++;
+            boolean inFocus = false;
+            TotalCaptureResult result = null;
+            Image img = null;
+            int w = 0;
+            int h = 0;
+            while (!inFocus)
+            {
+                result = captureResultRingBuffer.pollLast();
+                img = imageRingBuffer.pollLast();
+                if (result != null && img != null
+                    && result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
+                    || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED)
+                {
+                    w = img.getWidth();
+                    h = img.getHeight();
+                    buffer = img.getPlanes()[0].getBuffer();
+                    rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),burst);
+                    img.close();
+                    count++;
+                    inFocus = true;
+                }
             }
+
             while (count <= burst)
             {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
-                buffer = img.getPlanes()[0].getBuffer();
-                rawStack.setNextFrame(buffer);
-                img.close();
-                count++;
+                if (result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
+                    || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED) {
+                    buffer = img.getPlanes()[0].getBuffer();
+                    rawStack.setNextFrame(buffer);
+                    img.close();
+                    count++;
+                }
             }
             changeCaptureState(CaptureStates.image_capture_stop);
             long starTime = SystemClock.uptimeMillis();
