@@ -57,6 +57,7 @@ public class RawToDng
     private native void SetBaselineExposure(float baselineexposure,ByteBuffer byteBuffer);
     private native void SetBaselineExposureOffset(float baselineexposureoffset,ByteBuffer byteBuffer);
     private native void setBayerGreenSplit(int greensplit,ByteBuffer byteBuffer);
+    private native void setCropWidthHeight(int width,int height,ByteBuffer byteBuffer);
 
     public static RawToDng GetInstance()
     {
@@ -242,6 +243,13 @@ public class RawToDng
         if (byteBuffer == null)
             return;
         setBayerGreenSplit(greenSplit,byteBuffer);
+    }
+
+    public void setCropWidthHeight(int width,int height)
+    {
+        if (byteBuffer == null)
+            return;
+        setCropWidthHeight(width,height,byteBuffer);
     }
 
 

@@ -66,6 +66,7 @@ public class ImageSaveTask extends ImageTask
     private SettingsManager settingsManager;
     private FileListController fileListController;
     private Image image;
+    private int crop_width, crop_height;
 
 
     public ImageSaveTask(ModuleInterface moduleInterface)
@@ -183,6 +184,12 @@ public class ImageSaveTask extends ImageTask
         this.greensplit = greenSplit;
     }
 
+    public void setCrop_WidthHeight(int width,int height)
+    {
+        this.crop_width = width;
+        this.crop_height = height;
+    }
+
     @Override
     public boolean process()
     {
@@ -228,6 +235,7 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setBaselineExposure(baselineExposure);
         rawToDng.setBaselineExposureOffset(baselineExposureOffset);
         rawToDng.setBayerGreenSplit(greensplit);
+        rawToDng.setCropWidthHeight(crop_width,crop_height);
         BaseHolder fileholder = fileListController.getNewImgFileHolder(filename);
         if (fileholder instanceof FileHolder) {
                 rawToDng.setBayerData(bytesTosave, filename.getAbsolutePath());

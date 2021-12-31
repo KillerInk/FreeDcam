@@ -19,7 +19,8 @@ public class ImageManager {
     public ImageManager()
     {
         imageSaveManager = new ThreadPoolQueue();
-        imageSaveManager.create(6,new RejectedExecutionHandler() {
+        imageSaveManager.create(6,10);
+        imageSaveManager.setRejectedExecutionHandler(new RejectedExecutionHandler() {
             @Override
             public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
                 Log.d(TAG, "imageSave Queue full");
