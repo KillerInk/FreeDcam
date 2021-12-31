@@ -82,9 +82,9 @@ public class RawRecordApi2 extends RawZslModuleApi2{
                 Log.d(TAG, "rejected task");
 
                 rawProcessor.droppedFramesCounter++;
-                /*ImageSaveTask task = (ImageSaveTask) r;
+                ImageSaveTask task = (ImageSaveTask) r;
                 executor.remove(task);
-                task.clear();*/
+                task.clear();
             }
         });
         if (parameterHandler.get(SettingKeys.PictureFormat) != null)
