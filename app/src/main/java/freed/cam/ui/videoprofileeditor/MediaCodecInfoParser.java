@@ -542,6 +542,18 @@ public class MediaCodecInfoParser
                 return "COLOR_QCOM_FormatYUV420SemiPlanar";
             case MediaCodecInfo.CodecCapabilities.COLOR_TI_FormatYUV420PackedSemiPlanar:
                 return "COLOR_TI_FormatYUV420PackedSemiPlanar";
+            case 2141391881:
+                return "COLOR_QCOM_FormatYCbCr_420_TP10_UBWC";
+            case 2141391878:
+                return "COLOR_QCOM_FormatYCbCr_420_SP_VENUS_UBWC";
+            case 2141391876:
+                return "COLOR_QCOM_FormatYCbCr_420_SP_VENUS";
+            case 2141391882:
+                return "COLOR_QCOM_FormatYCbCr_420_P010_VENUS";
+            case 2141391880:
+                return "COLOR_QCOM_Format32bitRGBA8888Compressed";
+            case 2141391879:
+                return "COLOR_QCOM_Format32bitRGBA8888";
             default:
                 return String.valueOf(colorformat);
         }
