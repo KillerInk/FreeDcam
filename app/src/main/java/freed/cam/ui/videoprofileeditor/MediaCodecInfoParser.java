@@ -122,6 +122,11 @@ public class MediaCodecInfoParser
                         if (s.equals(avc))
                             Log.d(TAG, "Type: " + s + " profile: " + getAvcProfileString(lvl.profile) + " lvl: " + getAvcLevelString(lvl.level));
                     }
+                    int colorformats[] = codecCapabilities.colorFormats;
+                    for (int ii : colorformats)
+                    {
+                        Log.d(TAG, "Color format:" + getColorFormat(ii));
+                    }
                 }
             }
         }
@@ -426,6 +431,131 @@ public class MediaCodecInfoParser
                 return "AV1Level73";
             default:
                 return String.valueOf(profile);
+        }
+    }
+
+    private static String getColorFormat(int colorformat)
+    {
+        switch (colorformat)
+        {
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format12bitRGB444:
+                return "COLOR_Format12bitRGB444";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format16bitARGB1555:
+                return "COLOR_Format16bitARGB1555";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format16bitARGB4444:
+                return "COLOR_Format16bitARGB4444";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format16bitBGR565:
+                return "COLOR_Format16bitBGR565";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format16bitRGB565:
+                return "COLOR_Format16bitRGB565";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format18BitBGR666:
+                return "COLOR_Format18BitBGR666";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format18bitARGB1665:
+                return "COLOR_Format18bitARGB1665";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format18bitRGB666:
+                return "COLOR_Format18bitRGB666";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format19bitARGB1666:
+                return "COLOR_Format19bitARGB1666";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format24BitABGR6666:
+                return "COLOR_Format24BitABGR6666";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format24BitARGB6666:
+                return "COLOR_Format24BitARGB6666";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format24bitARGB1887:
+                return "COLOR_Format24bitARGB1887";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format24bitBGR888:
+                return "COLOR_Format24bitBGR888";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format24bitRGB888:
+                return "COLOR_Format24bitRGB888";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format25bitARGB1888:
+                return "COLOR_Format25bitARGB1888";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format32bitABGR8888:
+                return "COLOR_Format32bitABGR8888";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format32bitARGB8888:
+                return "COLOR_Format32bitARGB8888";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format32bitBGRA8888:
+                return "COLOR_Format32bitBGRA8888";
+            case MediaCodecInfo.CodecCapabilities.COLOR_Format8bitRGB332:
+                return "COLOR_Format8bitRGB332";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatCbYCrY:
+                return "COLOR_FormatCbYCrY";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatCrYCbY:
+                return "COLOR_FormatCrYCbY";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatL16:
+                return "COLOR_FormatL16";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatL2:
+                return "COLOR_FormatL2";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatL24:
+                return "COLOR_FormatL24";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatL32:
+                return "COLOR_FormatL32";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatL4:
+                return "COLOR_FormatL4";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatL8:
+                return "COLOR_FormatL8";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatMonochrome:
+                return "COLOR_FormatMonochrome";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatRGBAFlexible:
+                return "COLOR_FormatRGBAFlexible";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatRGBFlexible:
+                return "COLOR_FormatRGBFlexible";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatRawBayer10bit:
+                return "COLOR_FormatRawBayer10bit";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatRawBayer8bit:
+                return "COLOR_FormatRawBayer8bit";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatRawBayer8bitcompressed:
+                return "COLOR_FormatRawBayer8bitcompressed";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface:
+                return "COLOR_FormatSurface";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYCbYCr:
+                return "COLOR_FormatYCbYCr";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYCrYCb:
+                return "COLOR_FormatYCrYCb";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV411PackedPlanar:
+                return "COLOR_FormatYUV411PackedPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV411Planar:
+                return "COLOR_FormatYUV411Planar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible:
+                return "COLOR_FormatYUV420Flexible";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar:
+                return "COLOR_FormatYUV420PackedPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar:
+                return "COLOR_FormatYUV420PackedSemiPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar:
+                return "COLOR_FormatYUV420Planar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar:
+                return "COLOR_FormatYUV420SemiPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV422Flexible:
+                return "COLOR_FormatYUV422Flexible";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV422PackedPlanar:
+                return "COLOR_FormatYUV422PackedPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV422PackedSemiPlanar:
+                return "COLOR_FormatYUV422PackedSemiPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV422Planar:
+                return "COLOR_FormatYUV422Planar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV422SemiPlanar:
+                return "COLOR_FormatYUV422SemiPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV444Flexible:
+                return "COLOR_FormatYUV444Flexible";
+            case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV444Interleaved:
+                return "COLOR_FormatYUV444Interleaved";
+            case MediaCodecInfo.CodecCapabilities.COLOR_QCOM_FormatYUV420SemiPlanar:
+                return "COLOR_QCOM_FormatYUV420SemiPlanar";
+            case MediaCodecInfo.CodecCapabilities.COLOR_TI_FormatYUV420PackedSemiPlanar:
+                return "COLOR_TI_FormatYUV420PackedSemiPlanar";
+            case 2141391881:
+                return "COLOR_QCOM_FormatYCbCr_420_TP10_UBWC";
+            case 2141391878:
+                return "COLOR_QCOM_FormatYCbCr_420_SP_VENUS_UBWC";
+            case 2141391876:
+                return "COLOR_QCOM_FormatYCbCr_420_SP_VENUS";
+            case 2141391882:
+                return "COLOR_QCOM_FormatYCbCr_420_P010_VENUS";
+            case 2141391880:
+                return "COLOR_QCOM_Format32bitRGBA8888Compressed";
+            case 2141391879:
+                return "COLOR_QCOM_Format32bitRGBA8888";
+            default:
+                return String.valueOf(colorformat);
         }
     }
 }

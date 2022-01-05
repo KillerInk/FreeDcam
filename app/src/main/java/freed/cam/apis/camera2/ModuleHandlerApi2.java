@@ -33,7 +33,6 @@ import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.RawStackPipe;
 import freed.cam.apis.camera2.modules.RawStackPipeAllAtOnce;
 import freed.cam.apis.camera2.modules.VideoModuleApi2;
-import freed.cam.apis.camera2.modules.RawRecordApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
 
@@ -72,8 +71,6 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
             AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
             moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
         }
-        RawRecordApi2 rawRecordApi2 = new RawRecordApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
-        moduleList.put(rawRecordApi2.ModuleName(), rawRecordApi2);
         RawStackPipe rawStackPipe = new RawStackPipe(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(rawStackPipe.ModuleName(), rawStackPipe);
         RawStackPipeAllAtOnce rawStackPipeAllAtOnce = new RawStackPipeAllAtOnce(cameraUiWrapper,mBackgroundHandler,mainHandler);
