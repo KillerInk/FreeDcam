@@ -144,9 +144,7 @@ public class VideoProfileEditorFragment extends Fragment {
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    videoProfileEditorModelView.getVideoMediaProfiles().remove(videoProfileEditorModelView.getProfile().ProfileName);
-                    //videoProfileEditorModelView.setProfile(null);
-                    settingsManager.saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
+                    videoProfileEditorModelView.removeMediaProfile(videoProfileEditorModelView.getProfile().ProfileName);
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -211,16 +209,15 @@ public class VideoProfileEditorFragment extends Fragment {
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoProfileEditorModelView.getVideoMediaProfiles().containsKey(videoProfileEditorFragmentBinding.editTextProfileName.getText().toString()))
             {
-                videoProfileEditorModelView.getVideoMediaProfiles().put(videoProfileEditorModelView.getProfile().ProfileName, videoProfileEditorModelView.getProfile());
+                videoProfileEditorModelView.addMediaProfile(videoProfileEditorModelView.getProfile());
             }
             else // it has a new name add it as new profile
             {
                 VideoMediaProfile p = videoProfileEditorModelView.getProfile().clone();
                 p.ProfileName = videoProfileEditorFragmentBinding.editTextProfileName.getText().toString().replace(" ","_");
-                videoProfileEditorModelView.getVideoMediaProfiles().put(p.ProfileName, p);
+                videoProfileEditorModelView.addMediaProfile(p);
             }
-            settingsManager.saveMediaProfiles(videoProfileEditorModelView.getVideoMediaProfiles());
-            settingsManager.save();
+
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };

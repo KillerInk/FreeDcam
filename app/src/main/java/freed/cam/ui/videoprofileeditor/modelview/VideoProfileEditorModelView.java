@@ -275,4 +275,23 @@ public class VideoProfileEditorModelView extends ViewModel {
         return null;
     }
 
+    public void removeMediaProfile(String name)
+    {
+        videoMediaProfiles.remove(getProfile().ProfileName);
+        settingsManager.saveMediaProfiles(videoMediaProfiles);
+        currentProfile.set(videoMediaProfiles.entrySet().iterator().next().getValue());
+        settingsManager.get(SettingKeys.VideoProfiles).set(currentProfile.get().ProfileName);
+        settingsManager.save();
+        updateModels();
+    }
+
+    public void addMediaProfile(VideoMediaProfile profile)
+    {
+        videoMediaProfiles.put(profile.ProfileName,profile);
+        settingsManager.saveMediaProfiles(videoMediaProfiles);
+        settingsManager.get(SettingKeys.VideoProfiles).set(currentProfile.get().ProfileName);
+        settingsManager.save();
+        updateModels();
+    }
+
 }
