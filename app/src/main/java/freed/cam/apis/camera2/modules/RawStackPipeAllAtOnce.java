@@ -75,6 +75,11 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
 
 
     @Override
+    protected int getImageCount() {
+        return 33;
+    }
+
+    @Override
     public void DoWork() {
         if (!stackAllRunner.doWork)
         {
@@ -145,6 +150,7 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
                 if (result != null && img != null
+                    && result.get(CaptureResult.CONTROL_AF_STATE) != null
                     && result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
                     || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED)
                 {
@@ -162,7 +168,8 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
             {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
-                if (result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
+                if (result.get(CaptureResult.CONTROL_AF_STATE) != null
+                    && result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
                     || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED) {
                     buffer = img.getPlanes()[0].getBuffer();
                     rawStack.setNextFrame(buffer);

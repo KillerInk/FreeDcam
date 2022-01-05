@@ -59,13 +59,13 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
 
     // average L1 distance in tile and distance normalized to min and factor
 
-    Expr dist = sum(abs(i32(ref_val) - i32(alt_val))) / 256;
+    Expr dist = sum(abs(i32(ref_val) - i32(alt_val))) / (l1maxdist-l1maxdist);
 
     Expr norm_dist = max(1, i32(dist) - l1mindist);
 
     // weight for each tile in temporal merge; inversely proportional to reference and alternate tile L1 distance
 
-    weight(tx, ty, n) = select(norm_dist > (l1maxdist - l1mindist), 0.f, 1.f / norm_dist);
+    weight(tx, ty, n) = select(norm_dist > (l1maxdist - l1mindist), 0.f, 1.f);
 
     // total weight for each tile in a temporal stack of images
 
@@ -83,7 +83,7 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
 
     // temporal merge function using weighted pixel values
 
-    output(ix, iy, tx, ty) = sum(weight(tx, ty, r1) * alt_val / total_weight(tx, ty)) + ref_val / total_weight(tx, ty);
+    output(ix, iy, tx, ty) = (sum(weight(tx, ty, r1) * alt_val / total_weight(tx, ty)) + ref_val / total_weight(tx, ty))+1;
 
     ///////////////////////////////////////////////////////////////////////////
     // schedule

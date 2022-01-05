@@ -40,6 +40,11 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
         imageManager = FreedApplication.imageManager();
     }
 
+    protected int getImageCount()
+    {
+        return 30;
+    }
+
     @Override
     public void InitModule() {
         super.InitModule();
@@ -95,7 +100,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
 
     protected void createImageCaptureListners()
     {
-        privateRawImageReader = ImageReader.newInstance(output.raw_width,output.raw_height, ImageFormat.RAW_SENSOR, 30);
+        privateRawImageReader = ImageReader.newInstance(output.raw_width,output.raw_height, ImageFormat.RAW_SENSOR, getImageCount());
         privateRawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
             @Override
             public void onImageAvailable(ImageReader reader) {
