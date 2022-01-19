@@ -26,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.modules.AeBracketApi2;
 import freed.cam.apis.camera2.modules.AfBracketApi2;
+import freed.cam.apis.camera2.modules.HeifRec;
 import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
@@ -66,6 +67,8 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
             AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
             moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
         }
+        HeifRec heifRec = new HeifRec(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        moduleList.put(heifRec.ModuleName(),heifRec);
 
     }
 

@@ -41,7 +41,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
     <uses-feature android:name="android.hardware.sensor.compass" android:required="false"/>
 
-    <uses-sdk tools:overrideLibrary="org.chickenhook.restrictionbypass"/>
+    <uses-sdk tools:overrideLibrary="org.chickenhook.restrictionbypass, androidx.heifwriter"/>
 
     <application
         android:name="freed.FreedApplication"
