@@ -30,6 +30,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.ImageReader;
 import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Build;
@@ -44,6 +45,7 @@ import androidx.annotation.NonNull;
 import com.troop.freedcam.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,11 +56,13 @@ import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.apis.basecamera.record.IRecorder;
 import freed.cam.apis.basecamera.record.VideoRecorder;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessorFactory;
+import freed.cam.apis.camera2.modules.record.MediaCodecEncoder;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.event.capture.CaptureStates;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -66,6 +70,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
+import freed.file.holder.UriHolder;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 import freed.utils.OrientationUtil;
@@ -87,13 +92,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     //protected ContinouseYuvCapture PicReader;
     protected ImageReader PicReader;
 
-    private VideoRecorder videoRecorder;
+    private IRecorder videoRecorder;
     //private Surface inputSurface;
 
     private OpcodeProcessor opcodeProcessor;
     private OpCodes active_op = OpCodes.off;
     private PermissionManager permissionManager;
     private UserMessageHandler userMessageHandler;
+
+    private boolean useCustomCodec = true;
 
     public VideoModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -154,11 +161,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
 
         Log.d(TAG, "Create VideoRecorder");
-        videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
+        if (!useCustomCodec)
+            videoRecorder = new VideoRecorder(cameraUiWrapper, new MediaRecorder());
 
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && useCustomCodec) {
             inputSurface = MediaCodec.createPersistentInputSurface();
-            videoRecorder.setInputSurface(inputSurface);
         }*/
 
         startPreview();
@@ -193,7 +200,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         previewController.close();
         //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
-        videoRecorder.release();
+        if (videoRecorder != null)
+            videoRecorder.release();
         videoRecorder = null;
         previewsurface = null;
     }
@@ -390,63 +398,23 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private void startPreviewVideo(boolean addsurface)
     {
-        String file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
+        String file = null;
+       /* if (useCustomCodec)
+            file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".hevc");
+        else*/
+            file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
         recordingFile = new FileHolder(new File(file),settingsManager.GetWriteExternal());
-        //TODO handel uri based holder
-        videoRecorder.setRecordingFile(((FileHolder)recordingFile).getFile());
-        videoRecorder.setErrorListener((mr, what, extra) -> {
-            Log.e(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-            changeCaptureState(CaptureStates.video_recording_stop);
-            if (what == MediaRecorder.MEDIA_ERROR_SERVER_DIED)
-                Log.e(TAG, "MEDIA_ERROR_SERVER_DIED");
-            else if (what == MediaRecorder.MEDIA_RECORDER_ERROR_UNKNOWN)
-                Log.e(TAG, "MEDIA_RECORDER_ERROR_UNKNOWN");
-            else if (what == 200)
-                Log.e(TAG, "MEDIA_RECORDER_ERROR_VIDEO_NO_SYNC_FRAME");
-            else if (what == 1000)
-                Log.e(TAG, "MEDIA_RECORDER_TRACK_ERROR_LIST_END");
-        });
 
-        videoRecorder.setInfoListener((mr, what, extra) -> {
-            Log.d(TAG, "onMediaRecorderInfo what:" + what +" extra:" + extra);
-            if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_APPROACHING)
-            {
-                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_APPROACHING");
-                setNextFile();
-            }
-            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
-            {
-                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED");
-                recordnextFile(mr);
-            }
-            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED && extra == 0)
-            {
-                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED");
-                recordnextFile(mr);
-            }
-            else if (what == MediaRecorder.MEDIA_RECORDER_INFO_NEXT_OUTPUT_FILE_STARTED)
-            {
-                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_NEXT_OUTPUT_FILE_STARTED");
-            }
-        });
-
-        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
-            Location location = locationManager.getCurrentLocation();
-            if (location != null)
-                videoRecorder.setLocation(location);
-        }
-        else
-            videoRecorder.setLocation(null);
-
-        videoRecorder.setCurrentVideoProfile(currentVideoProfile);
-        videoRecorder.setVideoSource(VideoSource.SURFACE);
-        videoRecorder.setOrientation(0);
+        if (videoRecorder instanceof VideoRecorder)
+            configureVideoRecorder();
+        if (useCustomCodec)
+            configureMediaCodecEncoder(file);
 
         if(videoRecorder.prepare()) {
             Log.d(TAG,"video recorder prepared");
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && useCustomCodec)
             {
-                recorderSurface = inputSurface;
+                recorderSurface = re;
             }
             else {*/
                 recorderSurface = videoRecorder.getSurface();
@@ -477,6 +445,76 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }
     }
 
+    private void configureMediaCodecEncoder(String file) {
+        MediaCodecEncoder.Builder builder = new MediaCodecEncoder.Builder();
+
+        builder.setWidth(currentVideoProfile.videoFrameWidth)
+        .setHeight(currentVideoProfile.videoFrameHeight)
+        .setBit_rate(currentVideoProfile.videoBitRate)
+        .setFrame_rate(currentVideoProfile.videoFrameRate)
+        .setI_frame_interval(1)
+        .setMime(builder.hvecMime)
+        .setColor_format(MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
+        .setProfile(currentVideoProfile.profile)
+        .setSurfaceMode(true)
+        .setLevel(currentVideoProfile.level);
+        MediaCodecEncoder encoder = builder.build();
+        BaseHolder f = fileListController.getNewMovieFileHolder(new File(file));
+        if (f instanceof UriHolder) {
+            UriHolder uh = (UriHolder) f;
+            try {
+                encoder.setParcelFileDesciptor(uh.getParcelFileDescriptor());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        videoRecorder = encoder;
+    }
+
+    private void configureVideoRecorder() {
+        VideoRecorder rec = (VideoRecorder) videoRecorder;
+        rec.setRecordingFile(((FileHolder) recordingFile).getFile());
+        rec.setErrorListener((mr, what, extra) -> {
+            Log.e(TAG, "error MediaRecorder:" + what + "extra:" + extra);
+            changeCaptureState(CaptureStates.video_recording_stop);
+            if (what == MediaRecorder.MEDIA_ERROR_SERVER_DIED)
+                Log.e(TAG, "MEDIA_ERROR_SERVER_DIED");
+            else if (what == MediaRecorder.MEDIA_RECORDER_ERROR_UNKNOWN)
+                Log.e(TAG, "MEDIA_RECORDER_ERROR_UNKNOWN");
+            else if (what == 200)
+                Log.e(TAG, "MEDIA_RECORDER_ERROR_VIDEO_NO_SYNC_FRAME");
+            else if (what == 1000)
+                Log.e(TAG, "MEDIA_RECORDER_TRACK_ERROR_LIST_END");
+        });
+
+        rec.setInfoListener((mr, what, extra) -> {
+            Log.d(TAG, "onMediaRecorderInfo what:" + what + " extra:" + extra);
+            if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_APPROACHING) {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_APPROACHING");
+                setNextFile();
+            } else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED");
+                recordnextFile(mr);
+            } else if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED && extra == 0) {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED");
+                recordnextFile(mr);
+            } else if (what == MediaRecorder.MEDIA_RECORDER_INFO_NEXT_OUTPUT_FILE_STARTED) {
+                Log.d(TAG, "MediaRecorder.MEDIA_RECORDER_INFO_NEXT_OUTPUT_FILE_STARTED");
+            }
+        });
+
+        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))) {
+            Location location = locationManager.getCurrentLocation();
+            if (location != null)
+                rec.setLocation(location);
+        } else
+            rec.setLocation(null);
+
+        rec.setCurrentVideoProfile(currentVideoProfile);
+        rec.setVideoSource(VideoSource.SURFACE);
+        rec.setOrientation(0);
+    }
+
     private void recordnextFile(MediaRecorder mr) {
 
         if (Build.VERSION.SDK_INT < VERSION_CODES.O) {
@@ -488,11 +526,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private void setNextFile()
     {
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.O && videoRecorder instanceof VideoRecorder) {
             Log.d(TAG, "setNextFile");
             String file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
             try {
-                videoRecorder.setNextFile(new File(file));
+                VideoRecorder rec = (VideoRecorder) videoRecorder;
+                rec.setNextFile(new File(file));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -578,12 +617,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
             videoRecorder.start();
             isRecording = true;
-           /* mBackgroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            });*/
         }
 
         @Override

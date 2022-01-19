@@ -30,7 +30,7 @@ import freed.utils.VideoMediaProfile;
  * Created by KillerInk on 22.02.2018.
  */
 
-public class VideoRecorder {
+public class VideoRecorder implements IRecorder {
     private final MediaRecorder mediaRecorder;
     private final String TAG = VideoRecorder.class.getSimpleName();
     private MediaRecorder.OnErrorListener errorListener;
@@ -96,6 +96,7 @@ public class VideoRecorder {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
     public Surface getSurface()
     {
         return mediaRecorder.getSurface();
@@ -114,11 +115,13 @@ public class VideoRecorder {
         this.orientation = orientation;
     }
 
+    @Override
     public void start()
     {
         mediaRecorder.start();
     }
 
+    @Override
     public void stop()
     {
         try {
@@ -135,6 +138,7 @@ public class VideoRecorder {
         this.inputSurface = inputSurface;
     }
 
+    @Override
     public boolean prepare()
     {
         mediaRecorder.reset();
@@ -317,6 +321,7 @@ public class VideoRecorder {
         }
     }
 
+    @Override
     public void release()
     {
         mediaRecorder.release();
