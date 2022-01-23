@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.view.Surface;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.io.FileOutputStream;
@@ -26,9 +27,10 @@ public class MediaCodecEncoder implements IRecorder {
 
     private FileOutputStream fileOutputStream;
     private MediaCodec codec;
+    private MediaFormat mediaFormat;
     ParcelFileDescriptor parcelFileDesciptor;
-    private ProcessOutputJob processOutputJob;
-    private ProcessInputJob processInputJob;
+    /*private ProcessOutputJob processOutputJob;
+    private ProcessInputJob processInputJob;*/
     private Builder builder;
     private LinkedBlockingQueue<byte[]> queue;
 
@@ -38,9 +40,9 @@ public class MediaCodecEncoder implements IRecorder {
         this.builder = builder;
         if (!builder.surfaceMode) {
             queue = new LinkedBlockingQueue<>();
-            processInputJob = new ProcessInputJob();
+            //processInputJob = new ProcessInputJob();
         }
-        processOutputJob = new ProcessOutputJob();
+        //processOutputJob = new ProcessOutputJob();
         Log.d(TAG, "create mime:" + builder.mime +" size:"+builder.width+"/"+builder.height + " colorformat:" + builder.color_format + " fps:" + builder.frame_rate + " bps:" + builder.bit_rate);
     }
 
@@ -67,6 +69,7 @@ public class MediaCodecEncoder implements IRecorder {
     public boolean prepare() {
         boolean prep = true;
         MediaCodecInfo mediaCodecInfo = getMediaCodecInfo(builder.mime);
+        Log.d(TAG, "codecInfo:" + mediaCodecInfo.toString());
         try {
             codec = MediaCodec.createByCodecName(mediaCodecInfo.getName());
         } catch (IOException e) {
@@ -74,7 +77,51 @@ public class MediaCodecEncoder implements IRecorder {
             prep = false;
         }
 
-        codec.configure(getMediaFormat(), null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+        codec.setCallback(new MediaCodec.Callback() {
+            @Override
+            public void onInputBufferAvailable(@NonNull MediaCodec codec, int index) {
+                if (!builder.surfaceMode) {
+                    try {
+                        ByteBuffer data = codec.getInputBuffer(index);
+                        byte[] newdata = queue.poll();
+                        if (data != null && newdata != null) {
+                            //data.clear();
+                            data.put(newdata);
+                            codec.queueInputBuffer(index, 0, newdata.length, 1000, 0);
+                            Log.d(TAG, "put frame to input");
+                        }
+                    }
+                    catch (IllegalStateException ex)
+                    {
+                        Log.WriteEx(ex);
+                    }
+                }
+            }
+
+            @Override
+            public void onOutputBufferAvailable(@NonNull MediaCodec codec, int index, @NonNull MediaCodec.BufferInfo info) {
+
+                ByteBuffer data = codec.getOutputBuffer(index);
+                if (data != null) {
+                    final int endOfStream = info.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM;
+                    if (endOfStream == 0)
+                        writeOutputBufferToFile(info, data);
+                    codec.releaseOutputBuffer(index, false);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull MediaCodec codec, @NonNull MediaCodec.CodecException e) {
+                Log.WriteEx(e);
+            }
+
+            @Override
+            public void onOutputFormatChanged(@NonNull MediaCodec codec, @NonNull MediaFormat format) {
+
+            }
+        });
+        mediaFormat = getMediaFormat();
+        codec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
         if (builder.surfaceMode)
             surface = codec.createInputSurface();
         return prep;
@@ -96,16 +143,12 @@ public class MediaCodecEncoder implements IRecorder {
     public void start()
     {
         codec.start();
-        new Thread(processInputJob).start();
-        new Thread(processOutputJob).start();
     }
 
     @Override
     public void stop()
     {
-        if (processInputJob != null)
-            processInputJob.mRunning = false;
-        processOutputJob.mRunning = false;
+        codec.stop();
     }
 
     @Override
@@ -124,15 +167,15 @@ public class MediaCodecEncoder implements IRecorder {
         format.setInteger(MediaFormat.KEY_COLOR_FORMAT, builder.color_format);
         format.setInteger(MediaFormat.KEY_BIT_RATE, builder.bit_rate);
         format.setInteger(MediaFormat.KEY_FRAME_RATE, builder.frame_rate);
-        format.setInteger(MediaFormat.KEY_CAPTURE_RATE,builder.frame_rate);
-        format.setInteger(MediaFormat.KEY_MAX_FPS_TO_ENCODER,builder.frame_rate);
+        //format.setInteger(MediaFormat.KEY_CAPTURE_RATE,builder.frame_rate);
+        //format.setInteger(MediaFormat.KEY_MAX_FPS_TO_ENCODER,builder.frame_rate);
         format.setString(MediaFormat.KEY_MIME,builder.mime);
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, builder.i_frame_interval);
-        format.setInteger(MediaFormat.KEY_OPERATING_RATE,builder.frame_rate);
-        if (builder.profile > -1)
+        //format.setInteger(MediaFormat.KEY_OPERATING_RATE,builder.frame_rate);
+        /*if (builder.profile > -1)
             format.setInteger(MediaFormat.KEY_PROFILE,builder.profile);
         if (builder.level > -1)
-            format.setInteger(MediaFormat.KEY_LEVEL,builder.level);
+            format.setInteger(MediaFormat.KEY_LEVEL,builder.level);*/
         return format;
     }
 
@@ -268,7 +311,8 @@ public class MediaCodecEncoder implements IRecorder {
 
             }
             mRunning = false;
-            codec.signalEndOfInputStream();
+            if (builder.surfaceMode)
+                codec.signalEndOfInputStream();
             codec.stop();
         }
     }
@@ -291,7 +335,8 @@ public class MediaCodecEncoder implements IRecorder {
                         if (data != null && newdata != null) {
                             data.clear();
                             data.put(newdata);
-                            codec.queueInputBuffer(status,0,newdata.length,0,0);
+                            codec.queueInputBuffer(status,0,newdata.length,1000,0);
+                            Log.d(TAG, "put frame to input");
                         }
                     }
                 }

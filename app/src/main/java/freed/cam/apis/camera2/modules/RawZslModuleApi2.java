@@ -100,7 +100,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
 
     protected void createImageCaptureListners()
     {
-        privateRawImageReader = ImageReader.newInstance(output.raw_width,output.raw_height, ImageFormat.RAW_SENSOR, getImageCount());
+        privateRawImageReader = ImageReader.newInstance(output.raw_width,output.raw_height, ImageFormat.YUV_420_888, getImageCount());
         privateRawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
             @Override
             public void onImageAvailable(ImageReader reader) {
