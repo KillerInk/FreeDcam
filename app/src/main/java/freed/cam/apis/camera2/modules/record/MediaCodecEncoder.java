@@ -121,7 +121,11 @@ public class MediaCodecEncoder implements IRecorder {
             }
         });
         mediaFormat = getMediaFormat();
+
         codec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+        MediaFormat outformat = codec.getOutputFormat();
+        MediaFormat informat = codec.getInputFormat();
+
         if (builder.surfaceMode)
             surface = codec.createInputSurface();
         return prep;
@@ -166,16 +170,24 @@ public class MediaCodecEncoder implements IRecorder {
         MediaFormat format = MediaFormat.createVideoFormat(builder.mime, builder.width, builder.height);
         format.setInteger(MediaFormat.KEY_COLOR_FORMAT, builder.color_format);
         format.setInteger(MediaFormat.KEY_BIT_RATE, builder.bit_rate);
-        format.setInteger(MediaFormat.KEY_FRAME_RATE, builder.frame_rate);
+        format.setFloat(MediaFormat.KEY_FRAME_RATE, builder.frame_rate);
+        format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, builder.i_frame_interval);
+        format.setString(MediaFormat.KEY_MIME,builder.mime);
         //format.setInteger(MediaFormat.KEY_CAPTURE_RATE,builder.frame_rate);
         //format.setInteger(MediaFormat.KEY_MAX_FPS_TO_ENCODER,builder.frame_rate);
-        format.setString(MediaFormat.KEY_MIME,builder.mime);
-        format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, builder.i_frame_interval);
+        /*
+format.setInteger(MediaFormat.KEY_COLOR_RANGE,MediaFormat.COLOR_RANGE_FULL);
+        format.setInteger(MediaFormat.KEY_COLOR_STANDARD,MediaFormat.COLOR_STANDARD_BT709);
+        format.setInteger(MediaFormat.KEY_COLOR_TRANSFER,MediaFormat.COLOR_TRANSFER_LINEAR);
+
+
+        */
         //format.setInteger(MediaFormat.KEY_OPERATING_RATE,builder.frame_rate);
-        /*if (builder.profile > -1)
+
+        if (builder.profile > -1)
             format.setInteger(MediaFormat.KEY_PROFILE,builder.profile);
         if (builder.level > -1)
-            format.setInteger(MediaFormat.KEY_LEVEL,builder.level);*/
+            format.setInteger(MediaFormat.KEY_LEVEL,builder.level);
         return format;
     }
 

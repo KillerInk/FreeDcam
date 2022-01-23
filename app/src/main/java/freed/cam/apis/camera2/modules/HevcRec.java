@@ -1,5 +1,8 @@
 package freed.cam.apis.camera2.modules;
 
+import static android.media.MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible;
+import static android.media.MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar;
+
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.camera2.TotalCaptureResult;
@@ -24,6 +27,7 @@ import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.modules.record.MediaCodecEncoder;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.UriHolder;
+import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class HevcRec extends RawZslModuleApi2{
@@ -64,7 +68,7 @@ public class HevcRec extends RawZslModuleApi2{
         {
             String file = fileListController.getNewFilePath(settingsManager.GetWriteExternal(), ".mp4");
             Size largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888)), new CameraHolderApi2.CompareSizesByArea());
-            configureMediaCodecEncoder(file, width, height, 15000000,30,2,2097152);
+            configureMediaCodecEncoder(file, width, height, 15000000,25,MediaCodecInfo.CodecProfileLevel.HEVCProfileMain,MediaCodecInfo.CodecProfileLevel.HEVCHighTierLevel6);
             new Thread(new FrameFeeder()).start();
         }
         else
@@ -76,19 +80,24 @@ public class HevcRec extends RawZslModuleApi2{
     private class FrameFeeder implements Runnable
     {
 
+        private final String TAG = FrameFeeder.class.getSimpleName();
+
         @Override
         public void run() {
+            Log.d(TAG, "start recording");
+            isrecording = true;
             while (isrecording) {
                 Image img = imageRingBuffer.pollLast();
                 TotalCaptureResult result = captureResultRingBuffer.pollLast();
                 if (img != null) {
-                    byte[] data = getYUVBuffer(img);
+                    byte[] data = YUV_420_888toNV21(img);
                     img.close();
                     hevcencoder.addDATA(data);
                 }
             }
             hevcencoder.stop();
             hevcencoder.release();
+            Log.d(TAG, "stopped recording");
         }
     }
 
@@ -101,7 +110,7 @@ public class HevcRec extends RawZslModuleApi2{
                 .setFrame_rate(framerate)
                 .setI_frame_interval(10)
                 .setMime(builder.hvecMime)
-                .setColor_format(MediaCodecInfo.CodecCapabilities.COLOR_Format24bitBGR888)
+                .setColor_format(COLOR_FormatYUV420Flexible)
                 .setProfile(profile)
                 .setSurfaceMode(false)
                 .setLevel(level);
