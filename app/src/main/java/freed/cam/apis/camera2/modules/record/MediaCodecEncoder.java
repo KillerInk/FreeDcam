@@ -1,5 +1,9 @@
 package freed.cam.apis.camera2.modules.record;
 
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.hardware.camera2.CaptureResult;
+import android.media.Image;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
@@ -14,9 +18,14 @@ import androidx.annotation.RequiresApi;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ReadOnlyBufferException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import freed.cam.apis.basecamera.record.IRecorder;
+import freed.cam.apis.camera2.modules.ring.ByteRingBuffer;
+import freed.cam.apis.camera2.modules.ring.CaptureResultRingBuffer;
+import freed.cam.apis.camera2.modules.ring.ImageRingBuffer;
+import freed.cam.apis.camera2.modules.ring.RingBuffer;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -32,17 +41,11 @@ public class MediaCodecEncoder implements IRecorder {
     /*private ProcessOutputJob processOutputJob;
     private ProcessInputJob processInputJob;*/
     private Builder builder;
-    private LinkedBlockingQueue<byte[]> queue;
 
 
     private MediaCodecEncoder(Builder builder)
     {
         this.builder = builder;
-        if (!builder.surfaceMode) {
-            queue = new LinkedBlockingQueue<>();
-            //processInputJob = new ProcessInputJob();
-        }
-        //processOutputJob = new ProcessOutputJob();
         Log.d(TAG, "create mime:" + builder.mime +" size:"+builder.width+"/"+builder.height + " colorformat:" + builder.color_format + " fps:" + builder.frame_rate + " bps:" + builder.bit_rate);
     }
 
@@ -57,12 +60,6 @@ public class MediaCodecEncoder implements IRecorder {
     public Surface getSurface()
     {
         return surface;
-    }
-
-
-    public void addDATA(byte[] data)
-    {
-        queue.offer(data);
     }
 
     @Override
@@ -82,13 +79,37 @@ public class MediaCodecEncoder implements IRecorder {
             public void onInputBufferAvailable(@NonNull MediaCodec codec, int index) {
                 if (!builder.surfaceMode) {
                     try {
-                        ByteBuffer data = codec.getInputBuffer(index);
-                        byte[] newdata = queue.poll();
-                        if (data != null && newdata != null) {
-                            //data.clear();
-                            data.put(newdata);
-                            codec.queueInputBuffer(index, 0, newdata.length, 1000, 0);
-                            Log.d(TAG, "put frame to input");
+
+                        if (builder.imageRingBuffer.getCurrent_buffer_size() == 0)
+                            synchronized (builder.imageRingBuffer)
+                            {
+                                try {
+                                    builder.imageRingBuffer.wait();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        byte[] newdata = builder.imageRingBuffer.pollLast();
+                        if (newdata != null) {
+                            ByteBuffer data = codec.getInputBuffer(index);
+                            if (data != null) {
+                                data.clear();
+                                data.put(newdata);
+                                codec.queueInputBuffer(index, 0, newdata.length, System.currentTimeMillis(), 0);
+                                Log.d(TAG, "put frame to input");
+                            }
+                            else
+                                Log.d(TAG, "mediacodec input buffer is null");
+                        }
+                        else
+                        {
+                            ByteBuffer data = codec.getInputBuffer(index);
+                            if (data != null) {
+                                data.clear();
+                                codec.queueInputBuffer(index, 0, 0, 0, 0);
+                                Log.d(TAG, "put frame to input");
+                            }
+                            Log.d(TAG, "inputdata is null");
                         }
                     }
                     catch (IllegalStateException ex)
@@ -101,12 +122,19 @@ public class MediaCodecEncoder implements IRecorder {
             @Override
             public void onOutputBufferAvailable(@NonNull MediaCodec codec, int index, @NonNull MediaCodec.BufferInfo info) {
 
-                ByteBuffer data = codec.getOutputBuffer(index);
-                if (data != null) {
-                    final int endOfStream = info.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM;
-                    if (endOfStream == 0)
-                        writeOutputBufferToFile(info, data);
-                    codec.releaseOutputBuffer(index, false);
+                try {
+                    ByteBuffer data = codec.getOutputBuffer(index);
+                    if (data != null) {
+                        final int endOfStream = info.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM;
+                        if (endOfStream == 0)
+                            writeOutputBufferToFile(info, data);
+                        codec.releaseOutputBuffer(index, false);
+                        Log.d(TAG, "wrote to output");
+                    }
+                }
+                catch (IllegalStateException ex)
+                {
+                    Log.WriteEx(ex);
                 }
             }
 
@@ -153,6 +181,10 @@ public class MediaCodecEncoder implements IRecorder {
     public void stop()
     {
         codec.stop();
+        synchronized (builder.imageRingBuffer)
+        {
+            builder.imageRingBuffer.notifyAll();
+        }
     }
 
     @Override
@@ -160,8 +192,6 @@ public class MediaCodecEncoder implements IRecorder {
     {
         if (surface != null)
             surface.release();
-        if (queue != null)
-            queue.clear();
     }
 
 
@@ -175,13 +205,11 @@ public class MediaCodecEncoder implements IRecorder {
         format.setString(MediaFormat.KEY_MIME,builder.mime);
         //format.setInteger(MediaFormat.KEY_CAPTURE_RATE,builder.frame_rate);
         //format.setInteger(MediaFormat.KEY_MAX_FPS_TO_ENCODER,builder.frame_rate);
-        /*
-format.setInteger(MediaFormat.KEY_COLOR_RANGE,MediaFormat.COLOR_RANGE_FULL);
-        format.setInteger(MediaFormat.KEY_COLOR_STANDARD,MediaFormat.COLOR_STANDARD_BT709);
-        format.setInteger(MediaFormat.KEY_COLOR_TRANSFER,MediaFormat.COLOR_TRANSFER_LINEAR);
 
+        format.setInteger(MediaFormat.KEY_COLOR_RANGE,MediaFormat.COLOR_RANGE_FULL);
+        format.setInteger(MediaFormat.KEY_COLOR_STANDARD,MediaFormat.COLOR_STANDARD_BT601_PAL);
+        format.setInteger(MediaFormat.KEY_COLOR_TRANSFER,MediaFormat.COLOR_TRANSFER_HLG);
 
-        */
         //format.setInteger(MediaFormat.KEY_OPERATING_RATE,builder.frame_rate);
 
         if (builder.profile > -1)
@@ -216,6 +244,7 @@ format.setInteger(MediaFormat.KEY_COLOR_RANGE,MediaFormat.COLOR_RANGE_FULL);
         private int bit_rate;
         private int profile;
         private int level;
+        private ByteRingBuffer imageRingBuffer;
 
         private boolean surfaceMode = true;
         /* <li>"video/x-vnd.on2.vp8" - VP8 video (i.e. video in .webm)
@@ -284,81 +313,147 @@ format.setInteger(MediaFormat.KEY_COLOR_RANGE,MediaFormat.COLOR_RANGE_FULL);
             return this;
         }
 
+        public Builder setRingBuffer(ByteRingBuffer imageRingBuffer)
+        {
+            this.imageRingBuffer = imageRingBuffer;
+            return  this;
+        }
+
         public MediaCodecEncoder build()
         {
             return new MediaCodecEncoder(this);
         }
     }
 
-    private class ProcessOutputJob implements Runnable
-    {
-        private boolean mRunning = false;
-        @Override
-        public void run() {
-            mRunning = true;
-            MediaCodec.BufferInfo mBufferInfo = new MediaCodec.BufferInfo();
-            while (mRunning) {
-                try {
-                    int status = codec.dequeueOutputBuffer(mBufferInfo, 10000l);
-                    if (status == MediaCodec.INFO_TRY_AGAIN_LATER) {
-                        if (!mRunning) break;
-                    }
-                    else if (status >= 0) {
-                        // encoded sample
-                        ByteBuffer data = codec.getOutputBuffer(status);
-                        if (data != null) {
-                            final int endOfStream = mBufferInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM;
-                            // pass to whoever listens to
-                            if (endOfStream == 0) writeOutputBufferToFile(mBufferInfo, data);
-                            // releasing buffer is important
-                            codec.releaseOutputBuffer(status, false);
-                            if (endOfStream == MediaCodec.BUFFER_FLAG_END_OF_STREAM) break;
-                        }
-                    }
-                }
-                catch (IllegalStateException e)
-                {
-                    Log.WriteEx(e);
-                }
 
-            }
-            mRunning = false;
-            if (builder.surfaceMode)
-                codec.signalEndOfInputStream();
-            codec.stop();
+    public static byte[] YUV_420_888toNV21(Image image) {
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int ySize = width*height;
+        int uvSize = width*height/4;
+
+        byte[] nv21 = new byte[ySize + uvSize*2];
+
+        ByteBuffer yBuffer = image.getPlanes()[0].getBuffer(); // Y
+        ByteBuffer vBuffer = image.getPlanes()[1].getBuffer(); // U
+        ByteBuffer uBuffer = image.getPlanes()[2].getBuffer(); // V
+
+        int rowStride = image.getPlanes()[0].getRowStride();
+        assert(image.getPlanes()[0].getPixelStride() == 1);
+
+        int pos = 0;
+
+        if (rowStride == width) { // likely
+            yBuffer.get(nv21, 0, ySize);
+            pos += ySize;
         }
+        else {
+            int yBufferPos = -rowStride; // not an actual position
+            for (; pos<ySize; pos+=width) {
+                yBufferPos += rowStride;
+                yBuffer.position(yBufferPos);
+                yBuffer.get(nv21, pos, width);
+            }
+        }
+
+        rowStride = image.getPlanes()[2].getRowStride();
+        int pixelStride = image.getPlanes()[2].getPixelStride();
+
+        assert(rowStride == image.getPlanes()[1].getRowStride());
+        assert(pixelStride == image.getPlanes()[1].getPixelStride());
+
+        if (pixelStride == 2 && rowStride == width && uBuffer.get(0) == vBuffer.get(1)) {
+            // maybe V an U planes overlap as per NV21, which means vBuffer[1] is alias of uBuffer[0]
+            byte savePixel = vBuffer.get(1);
+            try {
+                vBuffer.put(1, (byte)~savePixel);
+                if (uBuffer.get(0) == (byte)~savePixel) {
+                    vBuffer.put(1, savePixel);
+                    vBuffer.position(0);
+                    uBuffer.position(0);
+                    vBuffer.get(nv21, ySize, 1);
+                    uBuffer.get(nv21, ySize + 1, uBuffer.remaining());
+
+                    return nv21; // shortcut
+                }
+            }
+            catch (ReadOnlyBufferException ex) {
+                // unfortunately, we cannot check if vBuffer and uBuffer overlap
+            }
+
+            // unfortunately, the check failed. We must save U and V pixel by pixel
+            vBuffer.put(1, savePixel);
+        }
+
+        // other optimizations could check if (pixelStride == 1) or (pixelStride == 2),
+        // but performance gain would be less significant
+
+        for (int row=0; row<height/2; row++) {
+            for (int col=0; col<width/2; col++) {
+                int vuPos = col*pixelStride + row*rowStride;
+                nv21[pos++] = vBuffer.get(vuPos);
+                nv21[pos++] = uBuffer.get(vuPos);
+            }
+        }
+        return nv21;
     }
 
-    private class ProcessInputJob implements Runnable
-    {
-        private boolean mRunning = false;
-        @Override
-        public void run() {
-            mRunning = true;
-            while (mRunning) {
-                try {
-                    int status = codec.dequeueInputBuffer(10000l);
-                    if (status == MediaCodec.INFO_TRY_AGAIN_LATER) {
-                        if (!mRunning) break;
-                    }
-                    else if (status >= 0) {
-                        ByteBuffer data = codec.getInputBuffer(status);
-                        byte[] newdata = queue.poll();
-                        if (data != null && newdata != null) {
-                            data.clear();
-                            data.put(newdata);
-                            codec.queueInputBuffer(status,0,newdata.length,1000,0);
-                            Log.d(TAG, "put frame to input");
-                        }
-                    }
-                }
-                catch (IllegalStateException e)
-                {
-                    Log.WriteEx(e);
-                }
-
-            }
-            mRunning = false;
+    public static byte[] getYUVBuffer(Image image) {
+        if (image.getFormat() != ImageFormat.YUV_420_888) {
+            throw new IllegalArgumentException("Format not support!");
         }
+        Rect crop = image.getCropRect();
+        int format = image.getFormat();
+        int width = crop.width();
+        int height = crop.height();
+        Image.Plane[] planes = image.getPlanes();
+        byte[] data = new byte[width * height * ImageFormat.getBitsPerPixel(format) / 8];
+        byte[] rowData = new byte[planes[0].getRowStride()];
+        int channelOffset = 0;
+        int outputStride = 1;
+        for (int i = 0; i < planes.length; i++) {
+            switch (i) {
+                case 0:
+                    channelOffset = 0;
+                    outputStride = 1;
+                    break;
+                case 1:
+                    channelOffset = width * height + 1;
+                    outputStride = 2;
+                    break;
+                case 2:
+                    channelOffset = width * height;
+                    outputStride = 2;
+                    break;
+            }
+            ByteBuffer buffer = planes[i].getBuffer();
+            int rowStride = planes[i].getRowStride();
+            int pixelStride = planes[i].getPixelStride();
+            int shift = (i == 0) ? 0 : 1;
+            int w = width >> shift;
+            int h = height >> shift;
+            buffer.position(rowStride * (crop.top >> shift) + pixelStride * (crop.left >> shift));
+            for (int row = 0; row < h; row++) {
+                int length;
+                if (pixelStride == 1 && outputStride == 1) {
+                    length = w;
+                    buffer.get(data, channelOffset, length);
+                    channelOffset += length;
+                } else {
+                    length = (w - 1) * pixelStride + 1;
+                    buffer.get(rowData, 0, length);
+                    for (int col = 0; col < w; col++) {
+                        data[channelOffset] = rowData[col * pixelStride];
+                        channelOffset += outputStride;
+                    }
+                }
+                if (row < h - 1) {
+                    buffer.position(buffer.position() + rowStride - length);
+                }
+            }
+        }
+        return data;
     }
+
 }

@@ -189,7 +189,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             waitForFirstFrame = false;
         }
         if (captureResultRingBuffer != null)
-            captureResultRingBuffer.addCaptureResult(result);
+            captureResultRingBuffer.offerFirst(result);
 
         captureResult = result;
         ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);

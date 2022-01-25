@@ -11,24 +11,31 @@ import freed.utils.Log;
 
 public class ImageRingBuffer extends RingBuffer<Image>
 {
-    public ImageRingBuffer()
-    {
-        super();
+
+    public ImageRingBuffer(int buffer_size) {
+        super(buffer_size);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void addImage(Image img)
+    @Override
+    public void offerFirst(Image t)
     {
-        try
+        synchronized (LOCK)
         {
-            if (ringbuffer.size() >= buffer_size-1)
-                ringbuffer.removeLast().close();
+            if (current_buffer_size +1 > buffer_size) {
+                Image tt = ringbuffer.pollLast();
+                if (tt != null) {
+                    tt.close();
+                    current_buffer_size--;
+                }
+            }
+            ringbuffer.addFirst(t);
+            current_buffer_size++;
         }
-        catch (NoSuchElementException ex)
+        synchronized (this)
         {
-            Log.WriteEx(ex);
+            this.notifyAll();
         }
 
-        ringbuffer.addFirst(img);
     }
 }

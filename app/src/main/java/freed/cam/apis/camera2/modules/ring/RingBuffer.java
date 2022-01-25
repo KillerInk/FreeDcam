@@ -1,38 +1,63 @@
 package freed.cam.apis.camera2.modules.ring;
 
 import java.util.ArrayDeque;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public abstract class RingBuffer<T> {
-    public static final int buffer_size = 10;
+    public int buffer_size = 30;
+    protected volatile int current_buffer_size = 0;
     protected final ArrayDeque<T> ringbuffer;
+    protected final Object LOCK = new Object();
 
-    public RingBuffer()
+    public RingBuffer(int buffer_size)
     {
-        ringbuffer = new ArrayDeque<>(buffer_size+1);
+        this.buffer_size = buffer_size;
+        ringbuffer = new ArrayDeque<>(buffer_size);
     }
 
-    public void remove(T img)
-    {
-        ringbuffer.remove(img);
+    public int getCurrent_buffer_size() {
+        return current_buffer_size;
     }
 
     public void clear()
     {
         ringbuffer.clear();
+        current_buffer_size = 0;
     }
 
-    public T getLatest()
-    {
-        return ringbuffer.getFirst();
+    public T pollLast() {
+
+        T t = null;
+        synchronized (LOCK)
+        {
+            t = ringbuffer.pollLast();
+            if (t != null)
+                current_buffer_size--;
+        }
+        return t;
     }
 
-    public T pollFirst()
+    public void offerFirst(T t)
     {
-        return ringbuffer.pollFirst();
+        synchronized (LOCK)
+        {
+            if (current_buffer_size +1 > buffer_size) {
+                T tt = ringbuffer.pollLast();
+                if (tt != null)
+                    current_buffer_size--;
+            }
+            ringbuffer.addFirst(t);
+            current_buffer_size++;
+        }
+        synchronized (this)
+        {
+            this.notifyAll();
+        }
+
     }
 
-    public T pollLast()
+    public int size()
     {
-        return ringbuffer.pollLast();
+        return ringbuffer.size();
     }
 }

@@ -6,8 +6,9 @@ import java.util.NoSuchElementException;
 
 import freed.utils.Log;
 
-public class CaptureResultRingBuffer extends RingBuffer<TotalCaptureResult> {
-    public CaptureResultRingBuffer(int buffer_size) {
+public class ByteRingBuffer extends RingBuffer<byte[]> {
+
+    public ByteRingBuffer(int buffer_size) {
         super(buffer_size);
     }
 

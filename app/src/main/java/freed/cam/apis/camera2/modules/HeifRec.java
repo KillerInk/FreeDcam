@@ -116,7 +116,7 @@ public class HeifRec extends RawZslModuleApi2{
         privateRawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
             @Override
             public void onImageAvailable(ImageReader reader) {
-                imageRingBuffer.addImage(reader.acquireLatestImage());
+                imageRingBuffer.offerFirst(reader.acquireLatestImage());
             }
         },mBackgroundHandler);
     }
@@ -157,6 +157,7 @@ public class HeifRec extends RawZslModuleApi2{
             {
                 Image image = imageRingBuffer.pollLast();
                 CaptureResult result = captureResultRingBuffer.pollLast();
+
                 if (image == null) {
                     Log.d(TAG, "image null");
                     return;
