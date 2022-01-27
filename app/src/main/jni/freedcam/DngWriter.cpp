@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include "DngWriter.h"
+#include "lj92.h"
 
 
 //#define LOG_RAW_DATA
@@ -59,42 +60,85 @@ TIFF* DngWriter::openfTIFFFD(char *fileSavePath, int fd) {
 }
 
 void DngWriter::writeIfd0(TIFF *tif) {
-    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
-    LOGD("subfiletype");
+    int width,height,bits_per_sample, photometric;
+
     if (crop_width == 0 && crop_height == 0)
     {
-        assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, dngProfile->rawwidht) != 0);
-        LOGD("width");
-        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, dngProfile->rawheight) != 0);
-        LOGD("height");
+        width = dngProfile->rawwidht;
+        height = dngProfile->rawheight;
     }
     else
     {
-        assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, crop_width) != 0);
-        LOGD("width");
-        assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, crop_height) != 0);
-        LOGD("height");
+        width = crop_width;
+        height = crop_height;
     }
+
     if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT
-    || dngProfile->rawType == RAW_10BIT_TO_16BIT
-    || dngProfile->rawType == RAW_16BIT
-    || dngProfile->rawType == QUADBAYER_16BIT)
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+       || dngProfile->rawType == RAW_10BIT_TO_16BIT
+       || dngProfile->rawType == RAW_16BIT
+       || dngProfile->rawType == QUADBAYER_16BIT
+       || compression == COMPRESSION_JPEG)
+        bits_per_sample = 16;
     else if (dngProfile->rawType == RAW_12BIT_SHIFT || dngProfile->rawType == RAW_16BIT_TO_12BIT)
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
+        bits_per_sample = 12;
     else
-        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
-    LOGD("bitspersample");
-    assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
-    LOGD("PhotometricCFA");
-    assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
-    LOGD("Compression");
-    TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
-    LOGD("sampelsperpixel");
+        bits_per_sample = 10;
+
+    if (compression == COMPRESSION_NONE || compression == COMPRESSION_JPEG)
+        photometric = PHOTOMETRIC_CFA;
+    else if (compression == LOSY_JPEG)
+        photometric = LINEAR_RAW;
+
+    char cfa[4] = {0,0,0,0};
+    if(0 == strcmp(dngProfile->bayerformat,"bggr")){
+        cfa[0] = 2;cfa[1] = 1;cfa[2] = 1;cfa[3] = 0;}
+    //TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
+    if(0 == strcmp(dngProfile->bayerformat , "grbg")){
+        cfa[0] = 1;cfa[1] = 0;cfa[2] = 2;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
+    if(0 == strcmp(dngProfile->bayerformat , "rggb")){
+        cfa[0] = 0;cfa[1] = 1;cfa[2] = 1;cfa[3] = 2;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
+    if(0 == strcmp(dngProfile->bayerformat , "gbrg")){
+        cfa[0] = 1;cfa[1] = 2;cfa[2] = 0;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+    if(0 == strcmp(dngProfile->bayerformat , "rgbw")){
+        cfa[0] = 0;cfa[1] = 1;cfa[2] = 2;cfa[3] = 6;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
+
+    LOGD("cfa pattern %c%c&c&c", cfa[0],cfa[1],cfa[2],cfa[3]);
+
+    short CFARepeatPatternDim[] = { 2,2 };
+    float margin = 8;
+    float scale[] = {1,1};
+    float  defaultCropOrigin[] = {margin, margin};
+    float  defaultCropSize[2];
+    if (crop_width == 0 && crop_height == 0) {
+        defaultCropSize[0] = dngProfile->rawwidht - defaultCropOrigin[0] - margin;
+        defaultCropSize[1] = dngProfile->rawheight - defaultCropOrigin[1] - margin;
+    }
+    else
+    {
+        defaultCropSize[0] = crop_width - defaultCropOrigin[0] - margin;
+        defaultCropSize[1] = crop_height - defaultCropOrigin[1] - margin;
+    }
+
+    TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\004\0\0");
+    TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
+    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
+    TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, width);
+    TIFFSetField(tif, TIFFTAG_IMAGELENGTH, height);
+    LOGD("width x height:  %i x i%", width,height);
+    TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, bits_per_sample);
+    LOGD("bitspersample %i", bits_per_sample);
+    TIFFSetField(tif, TIFFTAG_COMPRESSION, compression);
+    LOGD("Compression i%", compression);
+    TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric);
+    LOGD("PhotometricCFA i%", photometric);
+
+    TIFFSetField(tif, TIFFTAG_FILLORDER, FILLORDER_MSB2LSB);
+    if(exifInfo != NULL)
+        TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, exifInfo->_imagedescription);
     TIFFSetField(tif, TIFFTAG_MAKE, _make);
-    LOGD("make");
+    LOGD("make %s", _make);
     TIFFSetField(tif, TIFFTAG_MODEL, _model);
-    LOGD("model");
+    LOGD("model %s",_model);
     if (exifInfo != NULL)
     {
         try
@@ -107,66 +151,80 @@ void DngWriter::writeIfd0(TIFF *tif) {
                 TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
             if (0 == strcmp(exifInfo->_orientation, "270"))
                 TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
-            printf("orientation");
+            LOGD("orientation %s",exifInfo->_orientation);
         }
         catch (...)
         {
-            printf("Caught NULL NOT SET Orientation");
+            LOGD("failed to set orientation");
         }
     }
     else
         TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-    assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
-    LOGD("planarconfig");
-    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam DNG Writter 2017");
+    TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
+    LOGD("sampelsperpixel %i" ,1);
+    TIFFSetField( tif, TIFFTAG_XRESOLUTION, 7200 );
+    TIFFSetField( tif, TIFFTAG_YRESOLUTION, 7200 );
+    TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    TIFFSetField(tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+    TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam DNG Writer 2022");
     if(_dateTime != NULL)
         TIFFSetField(tif,TIFFTAG_DATETIME, _dateTime);
-    LOGD("software");
+    TIFFSetField(tif, TIFFTAG_SAMPLEFORMAT, SAMPLEFORMAT_UINT);
+    //30k
+    TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
+    TIFFSetField (tif, TIFFTAG_CFAPATTERN, cfa);
     TIFFSetField(tif, TIFFTAG_EP_STANDARD_ID, "\001\000\0\0");
-    TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\004\0\0");
-    TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
-    LOGD("dngversion");
-    if(_model != NULL)
-    TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, _model);
-    LOGD("CameraModel");
-    if(exifInfo != NULL)
-        TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, exifInfo->_imagedescription);
-    LOGD("imagedescription");
+    //50k
+    if(_model != NULL){
+        TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, _model);
+        LOGD("CameraModel %s",_model);
+    }
+    TIFFSetField( tif, TIFFTAG_CFAPLANECOLOR, 3, "\00\01\02" ); // RGB
+    TIFFSetField( tif, TIFFTAG_CFALAYOUT, 1 );
+
+    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, dngProfile->blacklevel);
+    LOGD("wrote blacklevel");
+    TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &dngProfile->whitelevel);
+    TIFFSetField(tif,TIFFTAG_DEFAULTSCALE, scale);
+
+    LOGD("defaultCropOrigin");
+    TIFFSetField(tif, TIFFTAG_DEFAULTCROPORIGIN, defaultCropOrigin);
+    LOGD("defaultCropSize");
+    TIFFSetField(tif, TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
+
     TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9,customMatrix->colorMatrix1);
-    LOGD("colormatrix1");
-    LOGD("colormatrix2");
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, customMatrix->colorMatrix2);
-    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, customMatrix->neutralColorMatrix);
-    LOGD("neutralMatrix");
 
-   /* float anlogb[] = { 1.0, 1.0, 1.0 };
-    TIFFSetField(tif, TIFFTAG_ANALOGBALANCE, 3, anlogb);*/
-    //STANDARD A = FIIRST 17
-    //D65 21 Second According to DNG SPEC 1.4 this is the correct order
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
-
-    LOGD("fowardMatrix1");
-    if(customMatrix->fowardMatrix1 != NULL)
-        TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  customMatrix->fowardMatrix1);
-    LOGD("fowardMatrix2");
-    if(customMatrix->fowardMatrix2 != NULL)
-        TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  customMatrix->fowardMatrix2);
     LOGD("reductionMatrix1");
     if(customMatrix->reductionMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION1, 9,  customMatrix->reductionMatrix1);
     LOGD("reductionMatrix2");
     if(customMatrix->reductionMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_CAMERACALIBRATION2, 9,  customMatrix->reductionMatrix2);
+    TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, customMatrix->neutralColorMatrix);
 
-    LOGD("noiseMatrix");
-    if(customMatrix->noiseMatrix != NULL)
-        TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  customMatrix->noiseMatrix);
-    LOGD("tonecurve");
-    if(tonecurve != NULL)
+    LOGD("baselineExposure");
+    double baseS = baselineExposure;
+    TIFFSetField(tif,TIFFTAG_BASELINEEXPOSURE, baseS);
+
+    //TIFFSetField(tif,TIFFTAG_BAYERGREENSPLIT, bayergreensplit);
+
+    //STANDARD A = FIIRST 17
+    //D65 21 Second According to DNG SPEC 1.4 this is the correct order
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
+
+    if(dngProfile->activearea != nullptr && crop_width == 0 && crop_height == 0)
     {
-        TIFFSetField(tif,TIFFTAG_PROFILETONECURVE, tonecurvesize,tonecurve);
+        TIFFSetField(tif,TIFFTAG_ACTIVEAREA, dngProfile->activearea);
     }
+    else
+    {
+        int active_area[] = {0,0,crop_width,crop_height};
+        TIFFSetField(tif,TIFFTAG_ACTIVEAREA, active_area);
+    }
+
     LOGD("huesatmapdims");
     if(huesatmapdims != NULL)
     {
@@ -182,49 +240,42 @@ void DngWriter::writeIfd0(TIFF *tif) {
     {
         TIFFSetField(tif,TIFFTAG_PROFILEHUESATMAPDATA2, huesatmapdata2_size,huesatmapdata2);
     }
-    LOGD("baselineExposure");
-    double baseS = baselineExposure;
-    TIFFSetField(tif,TIFFTAG_BASELINEEXPOSURE, baseS);
+    LOGD("tonecurve");
+    if(tonecurve != NULL)
+    {
+        TIFFSetField(tif,TIFFTAG_PROFILETONECURVE, tonecurvesize,tonecurve);
+    }
+    LOGD("fowardMatrix1");
+    if(customMatrix->fowardMatrix1 != NULL)
+        TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  customMatrix->fowardMatrix1);
+    LOGD("fowardMatrix2");
+    if(customMatrix->fowardMatrix2 != NULL)
+        TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  customMatrix->fowardMatrix2);
+    //51k
+    /*if(opCode != NULL){
+        if(opCode->op2Size > 0){
+            LOGD("Set OP2 %i", opCode->op2Size);
+            TIFFSetField(tif, TIFFTAG_OPC2, opCode->op2Size, opCode->op2);
+        }else{
+            LOGD("opcode2 null");
+        }
+        if(opCode->op3Size > 0){
+            LOGD("Set OP3 %i", opCode->op3Size);
+            TIFFSetField(tif, TIFFTAG_OPC3, opCode->op3Size, opCode->op3);
+        }else{
+            LOGD("opcode3 null");
+        }
+    } else{
+        LOGD("opcode null");
+    }*/
+    LOGD("noiseMatrix");
+    if(customMatrix->noiseMatrix != NULL)
+        TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  customMatrix->noiseMatrix);
     LOGD("baselineExposureOffset");
     if(baselineExposureOffset != NULL)
     {
         TIFFSetField(tif,TIFFTAG_BASELINEEXPOSUREOFFSET, baselineExposureOffset);
     }
-
-    //TIFFSetField(tif,TIFFTAG_BAYERGREENSPLIT, bayergreensplit);
-
-    float margin = 8;
-
-    float  defaultCropOrigin[] = {margin, margin};
-    LOGD("defaultCropOrigin");
-    TIFFSetField(tif, TIFFTAG_DEFAULTCROPORIGIN, defaultCropOrigin);
-    if (crop_width == 0 && crop_height == 0) {
-        float defaultCropSize[] = {dngProfile->rawwidht - defaultCropOrigin[0] - margin,
-                                   dngProfile->rawheight - defaultCropOrigin[1] - margin};
-        LOGD("defaultCropSize");
-        TIFFSetField(tif, TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
-    }
-    else
-    {
-        float defaultCropSize[] = {crop_width - defaultCropOrigin[0] - margin,
-                                   crop_height - defaultCropOrigin[1] - margin};
-        LOGD("defaultCropSize");
-        TIFFSetField(tif, TIFFTAG_DEFAULTCROPSIZE, defaultCropSize);
-    }
-    float scale[] = {1,1};
-    TIFFSetField(tif,TIFFTAG_DEFAULTSCALE, scale);
-
-    if(dngProfile->activearea != nullptr && crop_width == 0 && crop_height == 0)
-    {
-        TIFFSetField(tif,TIFFTAG_ACTIVEAREA, dngProfile->activearea);
-    }
-    else
-    {
-        int active_area[] = {0,0,crop_width,crop_height};
-        TIFFSetField(tif,TIFFTAG_ACTIVEAREA, active_area);
-    }
-
-
 }
 
 void DngWriter::makeGPS_IFD(TIFF *tif) {
@@ -291,6 +342,7 @@ void DngWriter::makeGPS_IFD(TIFF *tif) {
 }
 
 void DngWriter::writeExifIfd(TIFF *tif) {
+
     /////////////////////////////////// EXIF IFD //////////////////////////////
     short iso[] = {exifInfo->_iso};
     LOGD("EXIF dir created");
@@ -535,6 +587,30 @@ void DngWriter::processSXXX16(TIFF *tif) {
     LOGD("Free Memory processSXXX16");
 }
 
+//taken from https://github.com/ifb/makeDNG
+void DngWriter::process16ToLossless(TIFF *tiff) {
+    int height = dngProfile->rawheight;
+    int width = dngProfile->rawwidht;
+    int halfwidth = width/2;
+    TIFFSetField( tiff, TIFFTAG_TILEWIDTH, halfwidth);
+    LOGD("wrote TIFFTAG_TILEWIDTH %i", halfwidth);
+    TIFFSetField( tiff, TIFFTAG_TILELENGTH, height);
+    LOGD("wrote TIFFTAG_TILELENGTH %i", height);
+    LOGD("width %i", width);
+    int ret = 0;
+    uint8_t* input = bayerBytes;
+    uint8_t* encoded = NULL;
+    int encodedLength = 0;
+    ret = lj92_encode( (uint16_t*)&input[0], halfwidth, height, 16, halfwidth, halfwidth, NULL, 0, &encoded, &encodedLength );
+    TIFFWriteRawTile(tiff, 0, encoded, encodedLength );
+    LOGD("endcoded tile 0: %i", encodedLength);
+    free( encoded );
+    ret = lj92_encode( (uint16_t*)&input[width], halfwidth, height, 16, halfwidth, halfwidth, NULL, 0, &encoded, &encodedLength );
+    TIFFWriteRawTile(tiff, 1, encoded, encodedLength );
+    LOGD("encoded tile 1: %i", encodedLength);
+    free( encoded );
+}
+
 void DngWriter::processSXXX16crop(TIFF *tif) {
     LOGD("processSXXX16crop");
     int j, row, col, j2;
@@ -762,35 +838,13 @@ void DngWriter::process16to12(TIFF *tif) {
 
 
 void DngWriter::writeRawStuff(TIFF *tif) {
-    char cfa[4] = {0,0,0,0};
-    if(0 == strcmp(dngProfile->bayerformat,"bggr")){
-        cfa[0] = 2;cfa[1] = 1;cfa[2] = 1;cfa[3] = 0;}
-        //TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-    if(0 == strcmp(dngProfile->bayerformat , "grbg")){
-        cfa[0] = 1;cfa[1] = 0;cfa[2] = 2;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-    if(0 == strcmp(dngProfile->bayerformat , "rggb")){
-        cfa[0] = 0;cfa[1] = 1;cfa[2] = 1;cfa[3] = 2;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-    if(0 == strcmp(dngProfile->bayerformat , "gbrg")){
-        cfa[0] = 1;cfa[1] = 2;cfa[2] = 0;cfa[3] = 1;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-    if(0 == strcmp(dngProfile->bayerformat , "rgbw")){
-        cfa[0] = 0;cfa[1] = 1;cfa[2] = 2;cfa[3] = 6;}//TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
-
-    LOGD("cfa pattern %c%c&c&c", cfa[0],cfa[1],cfa[2],cfa[3]);
-
-    TIFFSetField (tif, TIFFTAG_CFAPATTERN, cfa);
-
-    TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &dngProfile->whitelevel);
-
-    short CFARepeatPatternDim[] = { 2,2 };
-    TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
-
-    TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, dngProfile->blacklevel);
-    LOGD("wrote blacklevel");
-    TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     //**********************************************************************************
 
-
-    if(dngProfile->rawType == RAW_10BIT_TIGHT_SHIFT)
+    if (compression == COMPRESSION_JPEG)
+    {
+        process16ToLossless(tif);
+    }
+    else if(dngProfile->rawType == RAW_10BIT_TIGHT_SHIFT)
     {
         LOGD("Processing tight RAW data...");
         process10tight(tif);
@@ -863,7 +917,7 @@ void DngWriter::clear() {
 }
 
 void DngWriter::WriteDNG() {
-    uint64 gps_offset = 0;
+
     LOGD("init ext tags");
     LOGD("init ext tags done");
     TIFF *tif;
@@ -877,37 +931,6 @@ void DngWriter::WriteDNG() {
 
     LOGD("writeIfd0");
     writeIfd0(tif);
-    LOGD("set exif");
-    if(exifInfo != NULL)
-        writeExifIfd(tif);
-    if(gpsInfo != NULL)
-    {   //allocate empty GPSIFD tag
-        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);        
-    }
-    //save directory
-    LOGD("TIFFCheckpointDirectory");
-    TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory(tif);
-    TIFFSetDirectory(tif, 0);
-    
-
-    if(gpsInfo != NULL)
-    {
-        LOGD("makeGPSIFD");
-        makeGPS_IFD(tif);
-        LOGD("TIFFWriteCustomDirectory");
-        TIFFWriteCustomDirectory(tif, &gps_offset);
-        // set GPSIFD tag
-        LOGD("TIFFSetDirectory");
-        TIFFSetDirectory(tif, 0);
-        LOGD("setgpsoffset");
-        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
-        LOGD("TIFFCheckpointDirectory");
-        TIFFCheckpointDirectory(tif);
-        TIFFRewriteDirectory(tif);
-        LOGD("TIFFSetDirectory");
-        TIFFSetDirectory(tif, 0);
-    }
 
     if(opCode != NULL)
     {
@@ -935,9 +958,35 @@ void DngWriter::WriteDNG() {
     }
     LOGD("writeRawStuff");
     writeRawStuff(tif);
-    LOGD("TIFFWriteDirectory");
+
     TIFFWriteDirectory(tif);
-    LOGD("TIFFClose");
+    LOGD("set exif");
+    if(exifInfo != NULL)
+    {
+        uint64 exif_offset = 0;
+        TIFFCreateEXIFDirectory(tif);
+        writeExifIfd(tif);
+        TIFFWriteCustomDirectory(tif, &exif_offset);
+        TIFFSetDirectory(tif, 0);
+        TIFFSetField (tif, TIFFTAG_EXIFIFD, exif_offset);
+        TIFFRewriteDirectory(tif);
+    }
+
+    if(gpsInfo != NULL)
+    {
+        uint64 gps_offset = 0;
+        LOGD("makeGPSIFD");
+        makeGPS_IFD(tif);
+        LOGD("TIFFWriteCustomDirectory");
+        TIFFWriteCustomDirectory(tif, &gps_offset);
+        // set GPSIFD tag
+        LOGD("TIFFSetDirectory");
+        TIFFSetDirectory(tif, 0);
+        LOGD("setgpsoffset");
+        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
+
+    }
+
     TIFFClose(tif);
 
 

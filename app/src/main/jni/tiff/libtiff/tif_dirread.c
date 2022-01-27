@@ -5158,8 +5158,8 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
 		case TIFF_SETGET_C16_UINT8:
 			{
 				uint8* data;
-				assert(fip->field_readcount==TIFF_VARIABLE);
-				assert(fip->field_passcount==1);
+				/*assert(fip->field_readcount==TIFF_VARIABLE);
+				assert(fip->field_passcount==1);*/
 				if (dp->tdir_count>0xFFFF)
 					err=TIFFReadDirEntryErrCount;
 				else
