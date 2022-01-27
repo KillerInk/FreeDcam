@@ -375,23 +375,23 @@ _TIFFVSetField(TIFF* tif, uint32 tag, va_list ap)
 		break;
 	case TIFFTAG_TILEWIDTH:
 		v32 = (uint32) va_arg(ap, uint32);
-		if (v32 % 16) {
+		/*if (v32 % 16) {
 			if (tif->tif_mode != O_RDONLY)
 				goto badvalue32;
 			TIFFWarningExt(tif->tif_clientdata, tif->tif_name,
 				"Nonstandard tile width %d, convert file", v32);
-		}
+		}*/
 		td->td_tilewidth = v32;
 		tif->tif_flags |= TIFF_ISTILED;
 		break;
 	case TIFFTAG_TILELENGTH:
 		v32 = (uint32) va_arg(ap, uint32);
-		if (v32 % 16) {
+		/*if (v32 % 16) {
 			if (tif->tif_mode != O_RDONLY)
 				goto badvalue32;
 			TIFFWarningExt(tif->tif_clientdata, tif->tif_name,
 			    "Nonstandard tile length %d, convert file", v32);
-		}
+		}*/
 		td->td_tilelength = v32;
 		tif->tif_flags |= TIFF_ISTILED;
 		break;
@@ -719,7 +719,7 @@ badvalue:
         {
 		const TIFFField* fip2=TIFFFieldWithTag(tif,tag);
 		TIFFErrorExt(tif->tif_clientdata, module,
-		     "%s: Bad value %u for \"%s\" tag",
+		     "%s: Bad value %u for %s tag",
 		     tif->tif_name, v,
 		     fip2 ? fip2->field_name : "Unknown");
 		va_end(ap);
