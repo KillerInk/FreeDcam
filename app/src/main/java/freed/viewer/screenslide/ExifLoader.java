@@ -87,11 +87,17 @@ public class ExifLoader extends ImageTask {
             else {
                 if (focs.contains("/"))
                 {
-                    String split[] = focs.split("/");
-                    double numerator = Integer.parseInt(split[0]);
-                    double denumerator = Integer.parseInt(split[1]);
-                    double foc = numerator /denumerator;
-                    focs = foc+"";
+                    try {
+                        String split[] = focs.split("/");
+                        double numerator = Integer.parseInt(split[0]);
+                        double denumerator = Integer.parseInt(split[1]);
+                        double foc = numerator / denumerator;
+                        focs = foc + "";
+                    }
+                    catch (NumberFormatException ex)
+                    {
+                        Log.WriteEx(ex);
+                    }
                 }
                 exifViewModel.getFocal().setText("\uE00c" + focs);
             }
