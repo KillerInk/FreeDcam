@@ -56,7 +56,7 @@ public class RawImageCapture extends StillImageCapture {
                     task = process_rawWithDngConverter(image, DngProfile.Pure16bit_To_12bit, file, result, characteristics,image.getWidth(),image.getHeight(),moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
                 else
                     task = process_rawWithDngConverter(image,
-                            DngProfile.Plain,
+                            DngProfile.Pure16bit_To_Lossless,
                             file,
                             result,
                             characteristics,
@@ -113,7 +113,10 @@ public class RawImageCapture extends StillImageCapture {
     }
 
     @NonNull
-    private static ImageTask getImageTask(int rawFormat, File file, CaptureResult captureResult, CameraCharacteristics characteristics, int width, int height, CustomMatrix customMatrix, int orientation, boolean externalSD, ToneMapProfile toneMapProfile, ImageSaveTask saveTask, int remaining) {
+    private static ImageTask getImageTask(int rawFormat, File file, CaptureResult captureResult,
+                                          CameraCharacteristics characteristics, int width, int height,
+                                          CustomMatrix customMatrix, int orientation, boolean externalSD,
+                                          ToneMapProfile toneMapProfile, ImageSaveTask saveTask, int remaining) {
         SettingsManager settingsManager = FreedApplication.settingsManager();
         if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
             saveTask.setLocation(ActivityFreeDcamMain.locationManager().getCurrentLocation());

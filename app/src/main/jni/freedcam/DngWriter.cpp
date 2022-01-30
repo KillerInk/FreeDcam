@@ -27,6 +27,7 @@
 #define RAW_16BIT_TO_12BIT 5
 #define RAW_16BIT 6
 #define QUADBAYER_16BIT 7
+#define RAW16_TO_LOSSLESS 8
 
 #ifdef LOG_RAW_DATA
 const char *bit_rep[16] = {
@@ -76,13 +77,15 @@ void DngWriter::writeIfd0(TIFF *tif) {
     if(dngProfile->rawType == RAW_10BIT_LOOSE_SHIFT
        || dngProfile->rawType == RAW_10BIT_TO_16BIT
        || dngProfile->rawType == RAW_16BIT
-       || dngProfile->rawType == QUADBAYER_16BIT
-       || compression == COMPRESSION_JPEG)
+       || dngProfile->rawType == QUADBAYER_16BIT && dngProfile->rawType == RAW16_TO_LOSSLESS)
         bits_per_sample = 16;
     else if (dngProfile->rawType == RAW_12BIT_SHIFT || dngProfile->rawType == RAW_16BIT_TO_12BIT)
         bits_per_sample = 12;
     else
         bits_per_sample = 10;
+
+    if(dngProfile->rawType == RAW16_TO_LOSSLESS)
+        compression = COMPRESSION_JPEG;
 
     if (compression == COMPRESSION_NONE || compression == COMPRESSION_JPEG)
         photometric = PHOTOMETRIC_CFA;
@@ -601,11 +604,11 @@ void DngWriter::process16ToLossless(TIFF *tiff) {
     uint8_t* input = bayerBytes;
     uint8_t* encoded = NULL;
     int encodedLength = 0;
-    ret = lj92_encode( (uint16_t*)&input[0], halfwidth, height, 16, halfwidth, halfwidth, NULL, 0, &encoded, &encodedLength );
+    ret = lj92_encode( (uint16_t*)&input[0], halfwidth, height, 10, halfwidth, halfwidth, NULL, 0, &encoded, &encodedLength );
     TIFFWriteRawTile(tiff, 0, encoded, encodedLength );
     LOGD("endcoded tile 0: %i", encodedLength);
     free( encoded );
-    ret = lj92_encode( (uint16_t*)&input[width], halfwidth, height, 16, halfwidth, halfwidth, NULL, 0, &encoded, &encodedLength );
+    ret = lj92_encode( (uint16_t*)&input[width], halfwidth, height, 10, halfwidth, halfwidth, NULL, 0, &encoded, &encodedLength );
     TIFFWriteRawTile(tiff, 1, encoded, encodedLength );
     LOGD("encoded tile 1: %i", encodedLength);
     free( encoded );

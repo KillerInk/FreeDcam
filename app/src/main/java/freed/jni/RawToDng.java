@@ -89,73 +89,6 @@ public class RawToDng
         this.wbct =wbct;
     }
 
-    private float[] getWbCtMatrix(String wbct)
-    {
-        int wb = Integer.parseInt(wbct) / 100;
-        double r,g,b;
-        double tmpcol = 0;
-        //red
-
-        if( (double) wb <= 66 )
-        {
-            r = 255;
-            g = (double) wb -10;
-            g = 99.4708025861 * Math.log(g) - 161.1195681661;
-            if( (double) wb <= 19)
-            {
-                b = 0;
-            }
-            else
-            {
-                b = (double) wb -10;
-                b = 138.5177312231 * Math.log(b) - 305.0447927307;
-            }
-        }
-        else
-        {
-            r = (double) wb - 60;
-            r = 329.698727446 * Math.pow(r, -0.1332047592);
-            g = (double) wb -60;
-            g = 288.1221695283 * Math.pow(g, -0.0755148492);
-            b = 255;
-        }
-        Log.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" + r + " g:" + g + " b:" + b);
-        float rf,gf,bf = 0;
-
-        rf = (float) getRGBToDouble(checkminmax((int)r))/2;
-        gf = (float) getRGBToDouble(checkminmax((int)g));
-        bf = (float) getRGBToDouble(checkminmax((int)b))/2;
-        Log.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
-            rf = rf / gf;
-            bf = bf / gf;
-            gf = 1;
-        Log.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
-        return new float[]{rf, gf,bf};
-    }
-
-    private double getRGBToDouble(int color)
-    {
-        double t = color;
-        t = t * 3 *2;
-        t = t / 255;
-        t = t / 3;
-        t += 1;
-
-        return t;
-    }
-
-    private int checkminmax(int val)
-    {
-        if (val>255)
-            return 255;
-        else if(val < 0)
-            return 0;
-        else return val;
-    }
-
-
-
-
     private long GetRawSize()
     {
         return GetRawBytesSize(byteBuffer);
@@ -171,7 +104,6 @@ public class RawToDng
     {
         SetExifData(exifData.getByteBuffer(),byteBuffer);
         SetDateTime(StorageFileManager.getStringExifPattern().format(new Date()),byteBuffer);
-        //SetBaselineExposureOffset(exifData,byteBuffer);
     }
 
     public void setThumbData(byte[] mThumb, int widht, int height)
