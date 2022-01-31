@@ -54,26 +54,26 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_ExifInfo_SetFocalLength(JNIEnv *env, jobject thiz,jobject javaHandler,
-            jfloat focal)
+            jdouble focal)
     {
         ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
         exifInfo->_focallength = focal;
     }
 
-    JNIEXPORT jfloat JNICALL Java_freed_jni_ExifInfo_GetFocalLength(JNIEnv *env, jobject thiz,jobject javaHandler)
+    JNIEXPORT jdouble JNICALL Java_freed_jni_ExifInfo_GetFocalLength(JNIEnv *env, jobject thiz,jobject javaHandler)
     {
         ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
         return exifInfo->_focallength;
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_ExifInfo_SetFnumber(JNIEnv *env, jobject thiz,jobject javaHandler,
-            jfloat fnum)
+                                                              jdouble fnum)
     {
         ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);
         exifInfo->_fnumber = fnum;
     }
 
-    JNIEXPORT jfloat JNICALL Java_freed_jni_ExifInfo_GetFnumber(JNIEnv *env, jobject thiz,jobject javaHandler)
+    JNIEXPORT jdouble JNICALL Java_freed_jni_ExifInfo_GetFnumber(JNIEnv *env, jobject thiz,jobject javaHandler)
 
     {
         ExifInfo* exifInfo = (ExifInfo*)env->GetDirectBufferAddress(javaHandler);

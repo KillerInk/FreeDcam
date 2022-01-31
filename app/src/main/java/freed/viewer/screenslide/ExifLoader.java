@@ -69,38 +69,15 @@ public class ExifLoader extends ImageTask {
         }
         try
         {
-            String fnums = exifInterface.getAttribute(ExifInterface.TAG_F_NUMBER);
-            if (fnums != null)
-                exifViewModel.getFnumber().setText("\ue003" + fnums);
-            else
-                exifViewModel.getFnumber().setText("");
+            double fnums = exifInterface.getAttributeDouble(ExifInterface.TAG_APERTURE,1.9d);
+            exifViewModel.getFnumber().setText("\ue003" + String.format("%.2f", fnums));
         }catch (NullPointerException e){
             exifViewModel.getFnumber().setText("");
             Log.WriteEx(e);
         }
         try {
-            String focs = exifInterface.getAttribute(ExifInterface.TAG_APERTURE_VALUE);
-            if (focs == null)
-            {
-                exifViewModel.getFocal().setText("");
-            }
-            else {
-                if (focs.contains("/"))
-                {
-                    try {
-                        String split[] = focs.split("/");
-                        double numerator = Integer.parseInt(split[0]);
-                        double denumerator = Integer.parseInt(split[1]);
-                        double foc = numerator / denumerator;
-                        focs = foc + "";
-                    }
-                    catch (NumberFormatException ex)
-                    {
-                        Log.WriteEx(ex);
-                    }
-                }
-                exifViewModel.getFocal().setText("\uE00c" + focs);
-            }
+            double focs = exifInterface.getAttributeDouble(ExifInterface.TAG_FOCAL_LENGTH,5.4d);
+            exifViewModel.getFocal().setText("\uE00c" + String.format("%.2f", focs) +"mm");
         }catch (NullPointerException e){
             exifViewModel.getFocal().setText("");
             Log.WriteEx(e);

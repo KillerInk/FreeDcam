@@ -20,8 +20,8 @@ public class ExifInfo {
     private native void SetIso(ByteBuffer byteBuffer,int iso);
     private native void SetFlash(ByteBuffer byteBuffer,int flash);
     private native void SetExposureTime(ByteBuffer byteBuffer,double expotime);
-    private native void SetFocalLength(ByteBuffer byteBuffer,float focal);
-    private native void SetFnumber(ByteBuffer byteBuffer,float fnum);
+    private native void SetFocalLength(ByteBuffer byteBuffer,double focal);
+    private native void SetFnumber(ByteBuffer byteBuffer,double fnum);
     private native void SetExposureIndex(ByteBuffer byteBuffer,float expoindex);
     private native void SetImageDescription(ByteBuffer byteBuffer,String imgdesc);
     private native void SetOrientation(ByteBuffer byteBuffer,String orientation);
