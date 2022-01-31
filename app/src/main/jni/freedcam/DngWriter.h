@@ -18,6 +18,10 @@
 #include <assert.h>
 #include <stdlib.h>
 
+
+#define LOSY_JPEG 34892
+#define LINEAR_RAW 34892
+
 //typedef unsigned long long uint64;
 class DngWriter
 {
@@ -40,6 +44,7 @@ private:
     void process16to12(TIFF *tif);
     void writeRawStuff(TIFF *tif);
     void quadBayer16bit(TIFF *tif);
+    void process16ToLossless(TIFF *tiff);
     unsigned short getColor(int row, int col);
 
 public:
@@ -76,6 +81,7 @@ public:
 
     int crop_width;
     int crop_height;
+    int compression = COMPRESSION_NONE;
 
     int thumbheight, thumwidth;
     unsigned char* _thumbData;

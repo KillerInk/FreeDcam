@@ -41,6 +41,8 @@ public class DngProfile
     public static final int Pure16bit_To_12bit = 5;
     public static final int Pure16bitTo16bit = 6;
     public static final int QuadBayerTo16bit = 7;
+    //jpeg lossless compressed raw16 data files are some mbs smaller then with plain
+    public static final int Pure16bit_To_Lossless = 8;
 
     public static final String BGGR = "bggr";
     public static final String RGGB = "rggb";

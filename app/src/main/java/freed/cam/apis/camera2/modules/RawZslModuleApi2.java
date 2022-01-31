@@ -48,8 +48,8 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     @Override
     public void InitModule() {
         super.InitModule();
-        imageRingBuffer =  new ImageRingBuffer();
-        captureResultRingBuffer = new CaptureResultRingBuffer();
+        imageRingBuffer =  new ImageRingBuffer(15);
+        captureResultRingBuffer = new CaptureResultRingBuffer(15);
         startPreview();
     }
 
@@ -104,7 +104,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
         privateRawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
             @Override
             public void onImageAvailable(ImageReader reader) {
-                imageRingBuffer.addImage(reader.acquireLatestImage());
+                imageRingBuffer.offerFirst(reader.acquireLatestImage());
             }
         },mBackgroundHandler);
     }

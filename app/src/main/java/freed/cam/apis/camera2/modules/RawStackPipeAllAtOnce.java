@@ -149,39 +149,50 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
             {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
-                if (result != null && img != null
-                    && result.get(CaptureResult.CONTROL_AF_STATE) != null
-                    && result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
-                    || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED)
+                if (result != null && img != null)
                 {
-                    w = img.getWidth();
-                    h = img.getHeight();
-                    buffer = img.getPlanes()[0].getBuffer();
-                    rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),burst);
-                    img.close();
-                    count++;
-                    inFocus = true;
+                    int afstate = result.get(CaptureResult.CONTROL_AF_STATE);
+                    if(afstate == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
+                    || afstate == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED)
+                    {
+                        w = img.getWidth();
+                        h = img.getHeight();
+                        buffer = img.getPlanes()[0].getBuffer();
+                        rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),burst);
+                        img.close();
+                        count++;
+                        inFocus = true;
+                    }
+                    else if (img != null)
+                        img.close();
                 }
+                else if (img != null)
+                    img.close();
             }
 
             while (count <= burst)
             {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
-                if (result.get(CaptureResult.CONTROL_AF_STATE) != null
-                    && result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
-                    || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED) {
+                if (result != null
+                    && img != null
+                    && result.get(CaptureResult.CONTROL_AF_STATE) != null
+                    && (result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED
+                    || result.get(CaptureResult.CONTROL_AF_STATE) == CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED)) {
                     buffer = img.getPlanes()[0].getBuffer();
                     rawStack.setNextFrame(buffer);
                     img.close();
                     count++;
                 }
+                else if (img != null)
+                    img.close();
             }
             changeCaptureState(CaptureStates.image_capture_stop);
             long starTime = SystemClock.uptimeMillis();
             byte[] bytes = rawStack.stackAll();
+            rawStack.clear();
             long endTime = SystemClock.uptimeMillis();
-            Log.d(TAG, "Stacked " + count +"/"+burst +" stacktime: " + (endTime -starTime) +"ms");
+            Log.d(TAG, "Stacked " + count +"/"+burst +" stacktime: " + (endTime -starTime) +"ms " +bytes.length);
             Date date = new Date();
             String name = StorageFileManager.getStringDatePAttern().format(date);
             File file = new File(fileListController.getNewFilePath((name + "_HDRAoE__" + burst), ".dng"));
@@ -206,7 +217,7 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
             if (itask.getDngProfile().getRawType() != DngProfile.QuadBayerTo16bit)
-                itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
+                itask.getDngProfile().setRawType(DngProfile.Pure16bit_To_Lossless);
 
             if (task != null) {
                 imageManager.putImageSaveTask(task);

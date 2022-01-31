@@ -16,7 +16,7 @@ public:
     char* _imagedescription;
     char* _dateTime;
     char* _orientation;
-    float _fnumber, _focallength;
+    double _fnumber, _focallength;
     float _exposureIndex;
 
     void clear()

@@ -5,20 +5,44 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.NoSuchElementException;
+
+import freed.utils.Log;
+
 public class ImageRingBuffer extends RingBuffer<Image>
 {
-    public ImageRingBuffer()
-    {
-        super();
+
+    public ImageRingBuffer(int buffer_size) {
+        super(buffer_size);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void addImage(Image img)
+    @Override
+    public void offerFirst(Image t)
     {
-        if (img == null)
-            return;
-        if (ringbuffer.size() >= buffer_size-1)
-             ringbuffer.removeLast().close();
-        ringbuffer.addFirst(img);
+        synchronized (LOCK)
+        {
+            if (current_buffer_size +1 > buffer_size) {
+                Image tt = ringbuffer.pollLast();
+                if (tt != null) {
+                    tt.close();
+                    current_buffer_size--;
+                }
+            }
+            try {
+                ringbuffer.addFirst(t);
+                current_buffer_size++;
+            }
+            catch (NullPointerException ex)
+            {
+                Log.WriteEx(ex);
+            }
+
+        }
+        synchronized (this)
+        {
+            this.notifyAll();
+        }
+
     }
 }

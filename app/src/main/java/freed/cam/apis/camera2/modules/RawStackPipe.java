@@ -170,7 +170,7 @@ public class RawStackPipe extends RawZslModuleApi2 {
                 itask.getDngProfile().setWhiteLevel(wl << upshift);
             }
             if (itask.getDngProfile().getRawType() != DngProfile.QuadBayerTo16bit)
-                itask.getDngProfile().setRawType(DngProfile.Pure16bitTo16bit);
+                itask.getDngProfile().setRawType(DngProfile.Pure16bit_To_Lossless);
 
             if (task != null) {
                 imageManager.putImageSaveTask(task);
