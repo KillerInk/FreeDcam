@@ -76,7 +76,7 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
 
     @Override
     protected int getImageCount() {
-        return 33;
+        return 35;
     }
 
     @Override
@@ -93,6 +93,8 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
             new Thread(stackAllRunner).start();
             changeCaptureState(CaptureStates.image_capture_start);
         }
+        else
+            stackAllRunner.doWork = false;
     }
 
     @Override
@@ -163,14 +165,20 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
                         count++;
                         inFocus = true;
                     }
-                    else if (img != null)
+                    else if (img != null) {
                         img.close();
+                        Log.d(TAG, "Image null:" + (img==null) + "Result null:" + (result == null) +" afstate:" + afstate);
+                    }
                 }
-                else if (img != null)
+                else if (img != null) {
                     img.close();
+                    Log.d(TAG, "Image null:" + (img==null) + "Result null:" + (result == null));
+                }
+                else
+                    Log.d(TAG, "Image null:" + (img==null) + "Result null:" + (result == null));
             }
 
-            while (count <= burst)
+            while (count <= burst && doWork)
             {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
@@ -184,8 +192,12 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
                     img.close();
                     count++;
                 }
-                else if (img != null)
+                else if (img != null) {
                     img.close();
+                    Log.d(TAG, "Image null:" + (img==null) + "Result null:" + (result == null));
+                }
+                else
+                    Log.d(TAG, "Image null:" + (img==null) + "Result null:" + (result == null));
             }
             changeCaptureState(CaptureStates.image_capture_stop);
             long starTime = SystemClock.uptimeMillis();

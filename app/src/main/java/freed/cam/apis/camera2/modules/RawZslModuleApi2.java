@@ -48,8 +48,8 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     @Override
     public void InitModule() {
         super.InitModule();
-        imageRingBuffer =  new ImageRingBuffer(15);
-        captureResultRingBuffer = new CaptureResultRingBuffer(15);
+        imageRingBuffer =  new ImageRingBuffer(30);
+        captureResultRingBuffer = new CaptureResultRingBuffer(30);
         startPreview();
     }
 
