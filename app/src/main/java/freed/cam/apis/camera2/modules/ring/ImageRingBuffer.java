@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 
 import freed.utils.Log;
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class ImageRingBuffer extends RingBuffer<Image>
 {
 
@@ -44,5 +45,14 @@ public class ImageRingBuffer extends RingBuffer<Image>
             this.notifyAll();
         }
 
+    }
+
+
+    @Override
+    public void clear() {
+        Image img = null;
+        while ((img = pollLast()) != null)
+            img.close();
+        current_buffer_size = 0;
     }
 }

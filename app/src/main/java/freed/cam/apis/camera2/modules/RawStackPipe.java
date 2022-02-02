@@ -150,7 +150,9 @@ public class RawStackPipe extends RawZslModuleApi2 {
             Date date = new Date();
             String name = StorageFileManager.getStringDatePAttern().format(date);
             File file = new File(fileListController.getNewFilePath((name + "_HDRObO__" + burst), ".dng"));
-            ImageTask task = RawImageCapture.process_rawWithDngConverter(rawStack.getOutputBuffer(),
+            byte[] bytes = new byte[w*h*16/8];
+            rawStack.getOutputBuffer(bytes);
+            ImageTask task = RawImageCapture.process_rawWithDngConverter(bytes,
                     DngProfile.Plain,
                     file,
                     result,

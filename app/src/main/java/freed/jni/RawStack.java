@@ -30,10 +30,10 @@ public class RawStack {
     private native void writeDng(ByteBuffer buffer, ByteBuffer dngprofile, ByteBuffer customMatrix, String outfile, ByteBuffer exifinfo);
     private native void writeJpeg(ByteBuffer buffer, ByteBuffer dngprofile, ByteBuffer customMatrix, String outfile, ByteBuffer exifinfo);
     private native void SetOpCode(ByteBuffer opcode,ByteBuffer byteBuffer);
-    private native byte[] getOutput(ByteBuffer byteBuffer);
+    private native void getOutput(ByteBuffer byteBuffer,byte[] output);
     private native void setUpShift(ByteBuffer byteBuffer, int upshift);
     private native void clear(ByteBuffer byteBuffer);
-    private native byte[] stackImages(ByteBuffer imagebuffers);
+    private native void stackImages(ByteBuffer imagebuffers, byte[] output);
     private native void setFirstFrame(ByteBuffer buffer, ByteBuffer img, int width, int height, int imagecount);
     private native void setNextFrame(ByteBuffer buffer, ByteBuffer img);
 
@@ -55,11 +55,10 @@ public class RawStack {
             setNextFrame(byteBuffer,img);
     }
 
-    public byte[] stackAll()
+    public void stackAll(byte[] output)
     {
         if (byteBuffer != null)
-            return stackImages(byteBuffer);
-        return null;
+            stackImages(byteBuffer,output);
     }
 
     public synchronized void setShift(int shift)
@@ -114,11 +113,10 @@ public class RawStack {
             writeJpeg(byteBuffer,profile.getByteBuffer(),customMatrix.getByteBuffer(),fileout,exifInfo.getByteBuffer());
     }
 
-    public synchronized byte[] getOutputBuffer()
+    public synchronized void getOutputBuffer(byte[] output)
     {
         if (byteBuffer != null)
-            return getOutput(byteBuffer);
-        return null;
+            getOutput(byteBuffer,output);
     }
 
     public void clear()

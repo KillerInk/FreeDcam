@@ -14,13 +14,11 @@ extern "C"
         return env->NewDirectByteBuffer(rawStackPipeNative, 0);
     }
 
-    JNIEXPORT jbyteArray JNICALL Java_freed_jni_RawStack_getOutput(JNIEnv *env, jobject thiz,jobject javaHandler) {
+    JNIEXPORT void JNICALL Java_freed_jni_RawStack_getOutput(JNIEnv *env, jobject thiz,jobject javaHandler,jbyteArray bytes) {
         RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(javaHandler);
 
         jbyte * out = (jbyte *)rawStackPipeNative->outdata;
-        jbyteArray  jbyteArray1 = env->NewByteArray(rawStackPipeNative->height*rawStackPipeNative->width*2);
-        env->SetByteArrayRegion(jbyteArray1,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
-        return jbyteArray1;
+        env->SetByteArrayRegion(bytes,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
     }
 
     JNIEXPORT void JNICALL
@@ -36,14 +34,12 @@ extern "C"
         rawStackPipeNative->setNextFrame((uint16_t*)env->GetDirectBufferAddress(img));
     }
 
-    JNIEXPORT jbyteArray JNICALL Java_freed_jni_RawStack_stackImages(JNIEnv *env, jobject thiz, jobject input) {
+    JNIEXPORT void JNICALL Java_freed_jni_RawStack_stackImages(JNIEnv *env, jobject thiz, jobject input ,jbyteArray output) {
         RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(input);
 
         uint16_t * out = rawStackPipeNative->merge_align();
-        jbyteArray  jbyteArray1 = env->NewByteArray(rawStackPipeNative->height*rawStackPipeNative->width*2);
-        env->SetByteArrayRegion(jbyteArray1,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
+        env->SetByteArrayRegion(output,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
         rawStackPipeNative->clear();
-        return jbyteArray1;
     }
 
     JNIEXPORT void JNICALL Java_freed_jni_RawStack_setBaseFrame(JNIEnv *env, jobject thiz, jobject javaHandler, jbyteArray input, jint width, jint height) {

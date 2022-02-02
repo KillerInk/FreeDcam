@@ -162,8 +162,10 @@ public class ContinouseRawCapture extends RawImageCapture {
                 Log.d(TAG, "stackframes done " + stackCoutn);
             }
             String f = getFilepath() + "_hdr_frames" + burst + file_ending;
+            byte[] bytes = new byte[w*h*16/8];
+            rawStack.getOutputBuffer(bytes);
             ImageTask task;
-            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(bytes, DngProfile.Pure16bitTo16bit, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             ImageSaveTask itask = (ImageSaveTask)task;
             if (upshift > 0) {
                 int bl = itask.getDngProfile().getBlacklvl();
@@ -238,8 +240,10 @@ public class ContinouseRawCapture extends RawImageCapture {
                 Log.d(TAG, "stackframes done " + stackCoutn);
             }
             String f = getFilepath() + "_average_frames" + burst + file_ending;
+            byte[] bytes = new byte[w*h*16/8];
+            rawStack.getOutputBuffer(bytes);
             ImageTask task;
-            task = process_rawWithDngConverter(rawStack.getOutputBuffer(), 6, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
+            task = process_rawWithDngConverter(bytes, DngProfile.Pure16bitTo16bit, new File(f), result, characteristics, w,h,moduleInterface,customMatrix,orientation,externalSD,toneMapProfile);
             ImageSaveTask itask = (ImageSaveTask)task;
             if (upshift > 0) {
                 int bl = itask.getDngProfile().getBlacklvl();
@@ -315,7 +319,8 @@ public class ContinouseRawCapture extends RawImageCapture {
                 //bufferList.add(img.getPlanes()[0].getBuffer());
             }
             long starTime = SystemClock.uptimeMillis();
-            byte[] bytes = rawStack.stackAll();
+            byte[] bytes = new byte[w*h*16/8];
+            rawStack.stackAll(bytes);
             long endTime = SystemClock.uptimeMillis();
             Log.d(TAG, "Stacked " + count +"/"+burst +" stacktime: " + (endTime -starTime) +"ms");
 

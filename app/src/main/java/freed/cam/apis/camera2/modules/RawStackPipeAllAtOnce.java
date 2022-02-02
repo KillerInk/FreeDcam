@@ -201,7 +201,8 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
             }
             changeCaptureState(CaptureStates.image_capture_stop);
             long starTime = SystemClock.uptimeMillis();
-            byte[] bytes = rawStack.stackAll();
+            byte[] bytes = new byte[w*h*16/8];
+            rawStack.stackAll(bytes);
             rawStack.clear();
             long endTime = SystemClock.uptimeMillis();
             Log.d(TAG, "Stacked " + count +"/"+burst +" stacktime: " + (endTime -starTime) +"ms " +bytes.length);

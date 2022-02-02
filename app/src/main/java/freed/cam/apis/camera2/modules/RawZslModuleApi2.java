@@ -42,7 +42,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
 
     protected int getImageCount()
     {
-        return 30;
+        return 33;
     }
 
     @Override
@@ -58,8 +58,14 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     public void DestroyModule() {
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         previewController.close();
+        if (privateRawImageReader != null)
+            privateRawImageReader.close();
+        privateRawImageReader = null;
         imageRingBuffer.clear();
+        imageRingBuffer = null;
         captureResultRingBuffer.clear();
+        captureResultRingBuffer = null;
+
     }
 
     @Override
