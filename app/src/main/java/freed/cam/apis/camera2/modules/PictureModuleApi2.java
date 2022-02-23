@@ -87,7 +87,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
     private boolean isBurstCapture = false;
 
-    private final int max_images = 5;
+    private final int max_images = 20;
 
     protected CaptureType captureType;
     protected CaptureController captureController;
