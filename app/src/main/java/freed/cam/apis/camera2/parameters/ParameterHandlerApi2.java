@@ -245,8 +245,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         add(SettingKeys.TONEMAP_SET, new ToneMapChooser(settingsManager.getToneMapProfiles()));
         add(SettingKeys.M_Zoom, new ZoomApi2(cameraUiWrapper));
 
-        if (settingsManager.get(SettingKeys.secondarySensorSize).isSupported())
-            add(SettingKeys.secondarySensorSize, new SecondarySensorSizeModeApi2(cameraUiWrapper));
+        //disable due not working
+        //if (settingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+        //    add(SettingKeys.secondarySensorSize, new SecondarySensorSizeModeApi2(cameraUiWrapper));
 
         if (settingsManager.get(SettingKeys.RawSize).isSupported())
             add(SettingKeys.RawSize, new RawSizeModeApi2(cameraUiWrapper, SettingKeys.RawSize));
