@@ -132,7 +132,7 @@ public class MediaCodecInfoParser
         }
     }
 
-    private static String getHevcProfileString(int profile) {
+    public static String getHevcProfileString(int profile) {
         switch (profile) {
             case MediaCodecInfo.CodecProfileLevel.HEVCProfileMain10HDR10:
                 return "HEVCProfileMain10HDR10";
@@ -149,7 +149,7 @@ public class MediaCodecInfoParser
         }
     }
 
-    private static String getHevcLevelString(int profile)
+    public static String getHevcLevelString(int profile)
     {
         switch (profile)
         {
