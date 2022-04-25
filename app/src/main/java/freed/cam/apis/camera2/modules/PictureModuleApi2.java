@@ -41,6 +41,7 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.basecamera.parameters.modes.ToneMapChooser;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
@@ -519,13 +520,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
 
 
         cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.JPEG_ORIENTATION, orientationManager.getCurrentOrientation());
-
-        //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
 
         Log.d(TAG, "StartStillCapture");
-        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         cameraUiWrapper.captureSessionHandler.StartImageCapture(captureController);
         changeCaptureState(CaptureStates.image_capture_start);
     }
@@ -586,15 +583,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             if (BurstCounter.getBurstCount()  > BurstCounter.getImageCaptured()) {
                 captureStillPicture();
             }
-            else if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != null &&
-                    cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) == CaptureRequest.CONTROL_AE_MODE_OFF &&
-                    cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME)> AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME) {
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
-                cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
-                Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
+            /*else if (cameraUiWrapper.getParameterHandler().getAeManagerCamera2().getActiveAeState() == AeStates.manual
+                    || cameraUiWrapper.getParameterHandler().getAeManagerCamera2().getActiveAeState() == AeStates.shutter_priority) {
                 cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
+                cameraUiWrapper.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_FRAME_DURATION, AeManagerCamera2.MAX_PREVIEW_EXPOSURETIME,true);
+                Log.d(TAG, "CancelRepeatingCaptureSessoion set onSessionRdy");
+
                 onSesssionRdy();
-            }
+            }*/
             else {
                 onSesssionRdy();
             }

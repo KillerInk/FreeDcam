@@ -13,7 +13,11 @@ import camera2_hidden_keys.qcom.CaptureResultQcom;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.apis.basecamera.parameters.ae.AeManager;
+import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.camera2.modules.ring.CaptureResultRingBuffer;
+import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
+import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2Qcom;
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.settings.Frameworks;
@@ -198,10 +202,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         {
             processHuaweiAEValues(result, expotime, iso);
         }
-        /*else if (settingsManager.get(SettingKeys.USE_QCOM_AE).get())
+        else if (settingsManager.get(SettingKeys.USE_QCOM_AE).get())
         {
             processQcomAEValues(result, expotime, iso);
-        }*/
+        }
         else {
             processDefaultAEValues(result, expotime, iso);
         }
@@ -375,27 +379,20 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private void processDefaultAEValues( TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
         if (expotime != null && expotimeVisible(expotime) || expotime.getViewState() == AbstractParameter.ViewState.Disabled) {
             if (result != null && result.getKeys().size() > 0) {
-                try {
-                    long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
-                    currentExposureTime = expores;
-                    if (expores != 0) {
-                        expotime.fireStringValueChanged(getShutterStringNS(expores));
-                    } else
-                        expotime.fireStringValueChanged("1/60");
-
-                    //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
-                } catch (Exception ex) {
-                    //Log.v(TAG, "cant get expo time");
-                }
-                try {
-                    int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                    currentIso = isova;
-                    iso.fireStringValueChanged("" + isova);
-                    //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
-                } catch (NullPointerException ex) {
-                    //Log.v(TAG, "cant get iso");
-                }
+                readExpotime(result, expotime);
+                readIso(result, iso);
             }
+        }
+    }
+
+    private void readIso(TotalCaptureResult result, ParameterInterface iso) {
+        try {
+            int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
+            currentIso = isova;
+            iso.fireStringValueChanged("" + isova);
+            //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
+        } catch (NullPointerException ex) {
+            //Log.v(TAG, "cant get iso");
         }
     }
 
@@ -418,20 +415,28 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processQcomAEValues(TotalCaptureResult result, ParameterInterface expotime, ParameterInterface iso) {
-        if (expotime.getIntValue() == 0) {
-            Long expoTime = result.get(CaptureResultQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority);
-            if (expoTime != null) {
-                currentExposureTime = expoTime;
-                expotime.fireStringValueChanged(getShutterStringNS(expoTime));
+        ParameterHandlerApi2 p = camera2Fragment.getParameterHandler();
+        AeManager ae = p.getAeManagerCamera2();
+        if (result != null && result.getKeys().size() > 0) {
+            if (ae.getActiveAeState() != AeStates.shutter_priority && ae.getActiveAeState() != AeStates.manual) {
+                readExpotime(result, expotime);
             }
+            readIso(result, iso);
         }
-        if (iso.getIntValue() == 0)
-        {
-            Integer isova = result.get(CaptureResultQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_value);
-            if(isova != null) {
-                currentIso = isova;
-                iso.fireStringValueChanged(String.valueOf(isova));
-            }
+    }
+
+    private void readExpotime(TotalCaptureResult result, ParameterInterface expotime) {
+        try {
+            long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
+            currentExposureTime = expores;
+            if (expores != 0) {
+                expotime.fireStringValueChanged(getShutterStringNS(expores));
+            } else
+                expotime.fireStringValueChanged("1/60");
+
+            //Log.v(TAG, "ExposureTime: " + result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME));
+        } catch (Exception ex) {
+            //Log.v(TAG, "cant get expo time");
         }
     }
 

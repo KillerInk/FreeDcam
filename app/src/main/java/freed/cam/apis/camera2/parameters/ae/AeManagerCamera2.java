@@ -29,7 +29,7 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
     public final static long MAX_PREVIEW_EXPOSURETIME = 100000000;
 
     private AeModeApi2 aeModeApi2;
-    private SettingsManager settingsManager;
+    protected SettingsManager settingsManager;
     public AeManagerCamera2(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
         aeModeApi2 = new AeModeApi2(cameraWrapperInterface);
