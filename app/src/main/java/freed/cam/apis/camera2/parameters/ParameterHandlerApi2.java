@@ -164,10 +164,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             }
         }
 
-
-        //dont make that avail for the ui its only internal used
-        //COLOR_CORRECTION_MODE = colorCorrectionMode;
-
         //AE mode start
         if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex) {
             aeManagerCamera2 = new AeManagerHuaweiCamera2(cameraUiWrapper);
@@ -175,16 +171,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ManualIso, aeManagerCamera2.getIso());
             add(SettingKeys.M_ExposureTime, aeManagerCamera2.getExposureTime());
         }
-        else if (settingsManager.get(SettingKeys.USE_QCOM_AE).get() && !settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
-        {
-            aeManagerCamera2 = new AeManagerCamera2Qcom(cameraUiWrapper);
-            add(SettingKeys.M_ExposureCompensation, aeManagerCamera2.getExposureCompensation());
-            add(SettingKeys.M_ManualIso, aeManagerCamera2.getIso());
-            add(SettingKeys.M_ExposureTime, aeManagerCamera2.getExposureTime());
-            add(SettingKeys.ExposureMode, aeManagerCamera2.getAeMode());
-        }
         else {
-            if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+            if (settingsManager.get(SettingKeys.USE_QCOM_AE).get() && !settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+                aeManagerCamera2 = new AeManagerCamera2Qcom(cameraUiWrapper);
+            else if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
                 aeManagerCamera2 = cameraUiWrapper.getFreedAeManger();
             else
                 aeManagerCamera2 = new AeManagerCamera2(cameraUiWrapper);
@@ -193,9 +183,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ExposureTime, aeManagerCamera2.getExposureTime());
             //not used by huawei
             add(SettingKeys.ExposureMode, aeManagerCamera2.getAeMode());
-            //get(Settings.ExposureMode).addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         }
-        //pass stuff to the parameterhandler that it get used by the ui
 
         //ae mode end
         add(SettingKeys.PictureSize, new PictureSizeModeApi2(cameraUiWrapper));
@@ -261,16 +249,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.LensShade, new BaseModeApi2(cameraUiWrapper,SettingKeys.LensShade,CaptureRequest.SHADING_MODE));
 
         add(SettingKeys.orientationHack,new OrientationHackParameter(cameraUiWrapper,SettingKeys.orientationHack));
-
-
     }
 
     @Override
     public void SetFocusAREA(Rect focusAreas) {
 
     }
-
-
 
     @Override
     public void SetPictureOrientation(int orientation)
