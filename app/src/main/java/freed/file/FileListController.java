@@ -150,6 +150,7 @@ public class FileListController {
         synchronized (filesLock) {
             if (fileHolder instanceof DocumentHolder)
             {
+                files.clear();
                 new DocumentFileController().readFilesFromFolder((DocumentHolder) fileHolder,files,types,fileHolder.isExternalSD());
             }
             else {
