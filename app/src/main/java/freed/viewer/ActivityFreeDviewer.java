@@ -317,7 +317,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST)
+        if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST || requestCode == ActivityAbstract.DELETE_REQUEST_CODE)
         {
             List<BaseHolder> files = fileListController.getFiles();
             if(files.size() > 0 && files.get(0).IsFolder()) {
@@ -328,12 +328,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
             else
                 fileListController.loadDefaultFiles();
         }
-       /* else if (requestCode == ActivityAbstract.DELETE_REQUEST_CODE)
-        {
-            screenSlideFragmentModelView.getFilesHolderModel().notifyChange();
-            gridViewFragmentModelView.getFilesHolderModel().notifyChange();
-        }*/
-
     }
 
 }

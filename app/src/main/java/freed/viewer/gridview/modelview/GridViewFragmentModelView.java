@@ -450,7 +450,7 @@ public class GridViewFragmentModelView extends ViewModel
     {
         imageManager.cancelImageLoadTasks();
         urisToDelte.clear();
-        if (filesSelectedList.get(0).getHolderType() == FileHolder.class)
+        if (filesSelectedList.get(0).getHolderType() == FileHolder.class || filesSelectedList.get(0).getHolderType() == DocumentHolder.class)
         {
             fileListController.DeleteFiles(filesSelectedList);
         }
