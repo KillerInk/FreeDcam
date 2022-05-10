@@ -53,6 +53,11 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
     public abstract void setAeMode(AeStates aeState);
 
     @Override
+    public AeStates getActiveAeState() {
+        return activeAeState;
+    }
+
+    @Override
     public boolean isExposureCompensationWriteable() {
         return activeAeState == AeStates.iso_priority || activeAeState == AeStates.shutter_priority || activeAeState == AeStates.auto;
     }

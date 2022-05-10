@@ -13,4 +13,6 @@ public interface AeManagerInterface {
     boolean isExposureTimeWriteable();
     boolean isExposureCompensationWriteable();
     boolean isIsoWriteable();
+
+    AeStates getActiveAeState();
 }

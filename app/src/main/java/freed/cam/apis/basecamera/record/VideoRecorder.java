@@ -2,6 +2,9 @@ package freed.cam.apis.basecamera.record;
 
 import android.hardware.Camera;
 import android.location.Location;
+import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
+import android.media.MediaFormat;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.text.TextUtils;
@@ -11,14 +14,20 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
+import org.chickenhook.restrictionbypass.RestrictionBypass;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Locale;
 
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.file.FileListController;
 import freed.file.holder.BaseHolder;
 import freed.settings.SettingKeys;
@@ -259,6 +268,18 @@ public class VideoRecorder {
             userMessageHandler.sendMSG("VideoCodec not Supported",false);
         }
 
+        if (this.currentVideoProfile.videoCodec == MediaRecorder.VideoEncoder.HEVC)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                String prof = MediaCodecInfoParser.getHevcProfileString(currentVideoProfile.profile);
+                if (prof.toLowerCase().contains("still"))
+                {
+                    setParameterExtra(mediaRecorder,"video-param-i-frames-interval=0");
+                    //setParameterExtra(mediaRecorder,MediaFormat.KEY_BITRATE_MODE+"="+MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ);
+                }
+            }
+        }
+
         if (inputSurface != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             mediaRecorder.setInputSurface(inputSurface);
 
@@ -345,6 +366,29 @@ public class VideoRecorder {
         if (as.equals(FreedApplication.getStringFromRessources(R.string.video_audio_source_unprocessed)))
             return MediaRecorder.AudioSource.UNPROCESSED;
         return MediaRecorder.AudioSource.DEFAULT;
+    }
+
+    private void setParameterExtra(MediaRecorder mediaRecorder, String str) {
+        Method method = null;
+        try {
+            method = RestrictionBypass.getDeclaredMethod(MediaRecorder.class, "setParameter",  String.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if (method != null) {
+            try {
+                method.setAccessible(true);
+                method.invoke(mediaRecorder, str);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

@@ -76,6 +76,7 @@ public class AeManagerHuaweiCamera2 extends AeManagerCamera2 {
 
     @Override
     public void setExposureCompensation(int valueToSet, boolean setToCamera) {
+        valueToSet = valueToSet + exposureCompensation.getStringValues().length/2;
         if (valueToSet > exposureCompensation.getStringValues().length)
             valueToSet = exposureCompensation.getStringValues().length/2;
         float t = Float.parseFloat(exposureCompensation.getStringValues()[valueToSet].replace(",","."));

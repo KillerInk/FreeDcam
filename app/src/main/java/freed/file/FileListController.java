@@ -150,6 +150,7 @@ public class FileListController {
         synchronized (filesLock) {
             if (fileHolder instanceof DocumentHolder)
             {
+                files.clear();
                 new DocumentFileController().readFilesFromFolder((DocumentHolder) fileHolder,files,types,fileHolder.isExternalSD());
             }
             else {
@@ -262,7 +263,7 @@ public class FileListController {
 
     public void DeleteFiles(List<BaseHolder> files) {
         synchronized (filesLock) {
-            if (files.get(0) instanceof FileHolder) {
+            if (files.get(0) instanceof FileHolder || files.get(0) instanceof DocumentHolder) {
                 for (BaseHolder f : files)
                     deleteFile(f);
             }
