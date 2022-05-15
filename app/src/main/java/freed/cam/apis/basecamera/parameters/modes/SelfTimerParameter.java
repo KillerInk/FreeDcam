@@ -26,6 +26,7 @@ public class SelfTimerParameter extends AbstractParameter {
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
         settingMode.set(valueToSet);
+        fireStringValueChanged(valueToSet);
     }
 
     @Override
