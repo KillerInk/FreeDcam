@@ -43,7 +43,6 @@ android {
         }
         signingConfig signingConfigs.config
     }
-    lintOptions { checkReleaseBuilds false }
 
     buildTypes {
         release {
@@ -80,6 +79,10 @@ android {
         dataBinding true
 
     }
+    lint {
+        checkReleaseBuilds false
+    }
+    namespace 'com.troop.freedcam'
 
 }
 
