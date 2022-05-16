@@ -509,6 +509,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
 
             cameraUiWrapper.getParameterHandler().SetAppSettingsToParameters();
+            cameraUiWrapper.getParameterHandler().setManualSettingsToParameters();
             if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Log.d(TAG, "opcodeProcessor.prepareRecording");
                 opcodeProcessor.prepareRecording();
