@@ -53,8 +53,14 @@ public class BaseManualParameter extends AbstractParameter
         this.parameters = parameters;
         SettingMode mode = (SettingMode) settingsManager.get(key);
         key_value = mode.getCamera1ParameterKEY();
-        currentString = mode.get();
+        String m = mode.get();
+        if (m != null && !m.equals("null"))
+            currentInt = Integer.parseInt(mode.get());
+        else
+            currentInt = 0;
         stringvalues = mode.getValues();
+        if (stringvalues.length > currentInt)
+            currentString = stringvalues[currentInt];
         if (mode.isSupported())
             setViewState(ViewState.Visible);
     }
