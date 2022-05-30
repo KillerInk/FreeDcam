@@ -44,7 +44,6 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.cameraui.FocusSelector;
@@ -132,32 +131,30 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void FocusStarted(int x, int y)
     {
         waitForFocusEnd = true;
-        if (!(wrapper instanceof SonyRemoteCamera))
+
+        Log.d(TAG,"FocusStarted");
+        disWidth = previewController.getViewWidth();
+        disHeight = previewController.getViewHeight();
+
+        /*if (rect == null)
         {
-            Log.d(TAG,"FocusStarted");
-            disWidth = previewController.getViewWidth();
-            disHeight = previewController.getViewHeight();
+            int halfwidth = disWidth / 2;
+            int halfheight = disHeight / 2;
+            rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
+        }*/
+        final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
+        mParams.leftMargin = x +getLeftMargin();
+        mParams.topMargin = y+ getTopMargin();
 
-            /*if (rect == null)
-            {
-                int halfwidth = disWidth / 2;
-                int halfheight = disHeight / 2;
-                rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
-            }*/
-            final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
-            mParams.leftMargin = x +getLeftMargin();
-            mParams.topMargin = y+ getTopMargin();
+        focusImageView.post(() -> {
+            focusImageView.setLayoutParams(mParams);
+            //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
+            focusImageView.setFocusCheck(false);
+            focusImageView.setVisibility(View.VISIBLE);
+            Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
+            focusImageView.startAnimation(anim);
+        });
 
-            focusImageView.post(() -> {
-                focusImageView.setLayoutParams(mParams);
-                //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
-                focusImageView.setFocusCheck(false);
-                focusImageView.setVisibility(View.VISIBLE);
-                Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
-                focusImageView.startAnimation(anim);
-            });
-
-        }
     }
 
     @Override
@@ -165,7 +162,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         if (waitForFocusEnd) {
             waitForFocusEnd = false;
-            if (!(wrapper instanceof SonyRemoteCamera)) {
                 focusImageView.post(() -> {
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
@@ -179,7 +175,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                     focusImageView.setAnimation(null);
                 });
             }
-        }
+
     }
 
     @Override

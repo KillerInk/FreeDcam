@@ -16,7 +16,6 @@ import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
@@ -83,13 +82,6 @@ public class SettingsMenuItemFactory
                     videoHDR.SetCameraInterface(cameraUiWrapper);
                     videoHDR.SetUiItemClickListner(click);
                     videoGroup.addView(videoHDR);
-                }
-
-                if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyRemoteCamera)) {
-
-                    SettingsChildMenu VideoSize = new SettingsChildMenu(context, params.get(SettingKeys.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
-                    VideoSize.SetUiItemClickListner(click);
-                    videoGroup.addView(VideoSize);
                 }
 
                 if (params.get(SettingKeys.VideoStabilization) != null) {
@@ -256,11 +248,9 @@ public class SettingsMenuItemFactory
         }
 
         GroupChild etc = new GroupChild(context,"Etc");
-        if (!(cameraUiWrapper instanceof SonyRemoteCamera))
-        {
-            SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
-            etc.addView(fd);
-        }
+
+        SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
+        etc.addView(fd);
 
         if (ReleaseChecker.isGithubRelease) {
             SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, apS.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);

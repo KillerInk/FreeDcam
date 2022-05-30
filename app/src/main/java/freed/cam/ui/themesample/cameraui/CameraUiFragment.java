@@ -56,7 +56,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.apis.sonyremote.parameters.JoyPad;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.MyHistogram;
@@ -125,11 +124,6 @@ public class CameraUiFragment extends AbstractFragment implements
 
     private HorizontLineFragment horizontLineFragment;
 
-
-
-    //get shown in sony api,when the preview gets zoomed to navigate through the img
-    private JoyPad joyPad;
-
     private LinearLayout left_ui_items_holder;
     private LinearLayout right_ui_items_top;
 
@@ -193,7 +187,6 @@ public class CameraUiFragment extends AbstractFragment implements
             if (focusImageHandler != null) {
                 focusImageHandler.AEMeteringSupported(false);
                 focusImageHandler.TouchToFocusSupported(false);
-                joyPad.setVisibility(View.GONE);
                 shutterButton.setVisibility(View.GONE);
                 //settingsChildSelfTimer.setVisibility(View.GONE);
                 if (isAdded())
@@ -321,9 +314,6 @@ public class CameraUiFragment extends AbstractFragment implements
                 //remove the values fragment from ui when a new api gets loaded and it was open.
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
                     removeHorizontalFragment();
-
-
-                joyPad.setVisibility(View.GONE);
             }
         }
     }
@@ -391,8 +381,6 @@ public class CameraUiFragment extends AbstractFragment implements
 
         manualModes_holder.setVisibility(View.GONE);
         camerauiValuesFragmentHolder = binding.camerauiValuesFragmentHolder;
-        joyPad = view.findViewById(id.joypad);
-        joyPad.setVisibility(View.GONE);
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(id.guideHolder, guideHandler, "Guide");

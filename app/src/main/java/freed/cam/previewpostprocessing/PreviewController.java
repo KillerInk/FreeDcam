@@ -56,9 +56,6 @@ public class PreviewController implements PreviewControllerInterface
             case off:
                 preview = new NormalPreview(context);
                 break;
-            case RenderScript:
-                preview = new RenderScriptPreview(context,histogram);
-                break;
             case OpenGL:
                 preview = new OpenGLPreview(context,histogram);
                 break;

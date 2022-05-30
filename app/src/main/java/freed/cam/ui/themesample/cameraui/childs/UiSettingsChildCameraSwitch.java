@@ -28,7 +28,6 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.settings.SettingsManager;
 
 /**
@@ -57,13 +56,8 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        if (cameraUiWrapper instanceof SonyRemoteCamera)
-        {
-            setVisibility(View.GONE);
-        }
-        else {
-            setVisibility(View.VISIBLE);
-        }
+
+        setVisibility(View.VISIBLE);
         currentCamera = settingsManager.GetCurrentCamera();
         binding.textView2.setText(getCamera(currentCamera));
     }

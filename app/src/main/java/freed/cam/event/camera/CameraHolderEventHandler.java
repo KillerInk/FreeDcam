@@ -21,7 +21,7 @@ public class CameraHolderEventHandler extends BaseEventHandler<CameraHolderEvent
             event.onCameraOpenFinished();
     }
 
-    public void fireOnCameraClose() {
+    public synchronized void fireOnCameraClose() {
         Log.d(TAG, "fireOnCameraClose");
         for (CameraHolderEvent event : eventListners)
             event.onCameraClose();

@@ -40,8 +40,6 @@ public class PreviewFragment  extends Fragment {
         view = layoutInflater.inflate(R.layout.camerafragment, viewGroup, false);
         if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() == null)
             preview.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
-        else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name()))
-            preview.initPreview(PreviewPostProcessingModes.RenderScript, getContext(), histogramController);
         else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
             preview.initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
         else

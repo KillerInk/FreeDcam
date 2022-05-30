@@ -54,7 +54,6 @@ import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.themesample.AbstractFragment;
@@ -338,10 +337,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         Log.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
         try {
-            if (!(cameraApiManager.getCamera() instanceof SonyRemoteCamera)) {
-                currentButton.setValueToParameters(progress);
-
-            }
+            currentButton.setValueToParameters(progress);
         }
         catch (NullPointerException ex)
         {}
@@ -355,10 +351,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (cameraApiManager.getCamera() instanceof SonyRemoteCamera) {
-            currentButton.setValueToParameters(currentValuePos);
-
-        }
+        currentButton.setValueToParameters(currentValuePos);
     }
 
     Observable.OnPropertyChangedCallback selectedParameterObserver = new Observable.OnPropertyChangedCallback() {

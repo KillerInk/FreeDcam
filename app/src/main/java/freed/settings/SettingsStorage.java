@@ -24,7 +24,6 @@ public class SettingsStorage
         settings = new SettingLayout();
         settings.api_hashmap.put(SettingsManager.API_1,new SettingLayout.CameraId());
         settings.api_hashmap.put(SettingsManager.API_2,new SettingLayout.CameraId());
-        settings.api_hashmap.put(SettingsManager.API_SONY,new SettingLayout.CameraId());
     }
 
     public XmlSettingInterface get(SettingKeys.Key key) {

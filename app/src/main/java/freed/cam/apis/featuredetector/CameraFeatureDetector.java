@@ -12,7 +12,6 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.gl.GlVersion;
-import freed.renderscript.RenderScriptManager;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.update.ReleaseChecker;
@@ -30,7 +29,7 @@ public class CameraFeatureDetector {
     public void detectFeatures()
     {
         Log.d(TAG, "CameraFeatureRunner process");
-        settingsManager.setCamApi(SettingsManager.API_SONY);
+        settingsManager.setCamApi(SettingsManager.API_1);
         Camera2FeatureDetectorTask task  = null;
         Camera1FeatureDetectorTask task1 = null;
 
@@ -57,9 +56,6 @@ public class CameraFeatureDetector {
     {
         List<String> previewPostProcessingValues = new ArrayList();
         previewPostProcessingValues.add(PreviewPostProcessingModes.off.name());
-        if (RenderScriptManager.isSupported()) {
-            previewPostProcessingValues.add(PreviewPostProcessingModes.RenderScript.name());
-        }
         if (GlVersion.isMinGlVersion())
             previewPostProcessingValues.add(PreviewPostProcessingModes.OpenGL.name());
 

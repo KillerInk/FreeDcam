@@ -76,7 +76,6 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
     public static final int ISOMANUAL_Xiaomi =5;
 
     public static final String TIMELAPSEFRAME = "timelapseframe";
-    public static final String API_SONY = "playmemories";
     public static final String API_1 = "camera1";
     public static final String API_2 = "camera2";
 

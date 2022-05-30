@@ -38,7 +38,6 @@ import freed.viewer.gridview.models.PopupMenuModel;
 import freed.viewer.gridview.models.ViewStateModel;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
-import freed.viewer.stack.StackActivity;
 
 @HiltViewModel
 public class GridViewFragmentModelView extends ViewModel
@@ -78,7 +77,7 @@ public class GridViewFragmentModelView extends ViewModel
         this.imageManager = imageManager;
         buttonFiletype = new ButtonFileTypeModel(this);
         buttonDoAction = new ButtonDoAction();
-        buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onStackClick,onRawToDngClick,onDngStackClick,this);
+        buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onRawToDngClick,onDngStackClick,this);
         if (isRootDir) {
             buttonOptions.setVisibility(false);
             buttonFiletype.setVisibility(false);
@@ -208,7 +207,7 @@ public class GridViewFragmentModelView extends ViewModel
                             buttonDoAction.setVisibility(true);
                             break;
                         case stack:
-                            lastFormat = formatsToShow;
+                            /*lastFormat = formatsToShow;
                             formatsToShow = FileListController.FormatTypes.jpg;
                             if (filesHolderModel.getFormatType() != formatsToShow)
                                 filesHolderModel.setFormatType(formatsToShow);
@@ -216,7 +215,7 @@ public class GridViewFragmentModelView extends ViewModel
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("Stack");
                             buttonDoAction.setOnClickListener(onStackClick);
-                            buttonDoAction.setVisibility(true);
+                            buttonDoAction.setVisibility(true);*/
                             break;
                         case dngstack:
                             lastFormat = formatsToShow;
@@ -237,7 +236,7 @@ public class GridViewFragmentModelView extends ViewModel
         }
     }
 
-    public final View.OnClickListener onStackClick = new View.OnClickListener() {
+    /*public final View.OnClickListener onStackClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (requestMode == RequestModes.none)
@@ -271,7 +270,7 @@ public class GridViewFragmentModelView extends ViewModel
                 setViewMode(ViewStates.normal);
             }
         }
-    };
+    };*/
 
     public final View.OnClickListener onDngStackClick = new View.OnClickListener() {
         @Override

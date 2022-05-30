@@ -59,7 +59,7 @@ public class BaseManualParameter extends AbstractParameter
         else
             currentInt = 0;
         stringvalues = mode.getValues();
-        if (stringvalues.length > currentInt)
+        if (stringvalues != null && stringvalues.length > currentInt)
             currentString = stringvalues[currentInt];
         if (mode.isSupported())
             setViewState(ViewState.Visible);

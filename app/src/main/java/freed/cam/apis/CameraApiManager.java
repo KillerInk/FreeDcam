@@ -14,7 +14,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.featuredetector.CameraFeatureDetector;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.event.camera.CameraHolderEventHandler;
 import freed.cam.event.capture.CaptureStateChangedEvent;
@@ -123,10 +122,6 @@ public class CameraApiManager implements Preview.PreviewEvent {
             if (/*cameraFragment == null*/true) {
                 String api = settingsManager.getCamApi();
                 switch (api) {
-                    case SettingsManager.API_SONY:
-                        Log.d(TAG, "load sony remote");
-                        camera = new SonyRemoteCamera();
-                        break;
                     case SettingsManager.API_2:
                         Log.d(TAG, "load camera2");
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
