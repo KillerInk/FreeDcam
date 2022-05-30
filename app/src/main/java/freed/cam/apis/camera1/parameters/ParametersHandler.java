@@ -31,6 +31,7 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraThreadHandler;
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -97,6 +98,8 @@ import static freed.settings.SettingsManager.SHUTTER_QCOM_MICORSEC;
 import static freed.settings.SettingsManager.SHUTTER_QCOM_MILLISEC;
 import static freed.settings.SettingsManager.SHUTTER_SONY;
 import static freed.settings.SettingsManager.SHUTTER_ZTE;
+
+import androidx.databinding.Observable;
 
 /**
  * Created by troop on 17.08.2014.
@@ -453,8 +456,20 @@ public class ParametersHandler extends AbstractParameterHandler<Camera1>
         if (settingsManager.get(SettingKeys.M_Aperture).isSupported())
             add(SettingKeys.M_Fnumber, new ManualAperture(cameraUiWrapper,cameraParameters));
 
-        if (settingsManager.get(SettingKeys.M_Whitebalance).isSupported())
-            add(SettingKeys.M_Whitebalance, new BaseCCTManual(cameraParameters,cameraUiWrapper,SettingKeys.M_Whitebalance));
+        if (settingsManager.get(SettingKeys.M_Whitebalance).isSupported()) {
+            add(SettingKeys.M_Whitebalance, new BaseCCTManual(cameraParameters, cameraUiWrapper, SettingKeys.M_Whitebalance));
+            BaseModeParameter wb = (BaseModeParameter) get(SettingKeys.WhiteBalanceMode);
+            wb.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+                @Override
+                public void onPropertyChanged(Observable sender, int propertyId) {
+                    BaseModeParameter wbb = (BaseModeParameter) sender;
+                    if (((BaseModeParameter) sender).getStringValue() == "manual")
+                        get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Visible);
+                    else
+                        get(SettingKeys.M_Whitebalance).setViewState(AbstractParameter.ViewState.Hidden);
+                }
+            });
+        }
 
         add(SettingKeys.M_ExposureCompensation, new ExposureManualParameter(cameraParameters, cameraUiWrapper,SettingKeys.M_ExposureCompensation));
 
@@ -477,6 +492,7 @@ public class ParametersHandler extends AbstractParameterHandler<Camera1>
 
         //set last used settings
         SetAppSettingsToParameters();
+        setManualSettingsToParameters();
 
         cameraUiWrapper.getModuleHandler().setModule(settingsManager.GetCurrentModule());
     }
