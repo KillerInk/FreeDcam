@@ -164,7 +164,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         captureController.clear();
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        previewController.close();
     }
 
     @Override

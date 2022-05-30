@@ -178,7 +178,6 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         try {
             Log.d(TAG, "onCameraClose");
             cameraIsOpen = false;
-            preview.close();
         }
         catch (NullPointerException ex)
         {

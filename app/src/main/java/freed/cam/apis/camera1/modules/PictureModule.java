@@ -182,12 +182,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             }
 
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
-            Surface surface = new Surface(previewController.getSurfaceTexture());
-            previewController.setOutputSurface(surface);
             previewController.setSize(size.width, size.height);
             previewController.setHistogram(false);
-
-            cameraHolder.setSurface(previewController.getInputSurface());
             cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
             cameraHolder.StartPreview();
             previewController.start();

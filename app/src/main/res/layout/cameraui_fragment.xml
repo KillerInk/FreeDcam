@@ -169,19 +169,6 @@
         android:layout_alignParentTop="false"
         android:layout_centerVertical="true"></FrameLayout>
 
-    <view
-        android:layout_width="@dimen/image_thumbnail_size"
-        android:layout_height="@dimen/image_thumbnail_size"
-        class="freed.cam.apis.sonyremote.parameters.JoyPad"
-        android:id="@+id/joypad"
-        android:focusable="true"
-        android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
-        android:layout_centerInParent="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/cameraui_manualbuttonholder_height"
-        android:clickable="true"
-        android:focusableInTouchMode="true" />
-
     <FrameLayout
         android:id="@+id/helpfragment_container"
         android:layout_width="fill_parent"

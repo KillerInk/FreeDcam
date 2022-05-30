@@ -40,23 +40,10 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     }
 
     @Override
-    public void close() {
-    }
-
-    @Override
     public SurfaceTexture getSurfaceTexture() {
         return glPreview.getSurfaceTexture();
     }
 
-    @Override
-    public Surface getInputSurface() {
-        return null;
-    }
-
-    @Override
-    public void setOutputSurface(Surface surface) {
-
-    }
 
     @Override
     public void setSize(int width, int height) {
@@ -65,11 +52,6 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
         Point disp =DisplayUtil.getDisplaySize();
         Log.d(TAG, "setSize width :" + width + " height:"+height+ " switch aspectRatio:" + settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
         glPreview.scale(width,height,disp.x,disp.y, settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get());
-    }
-
-    @Override
-    public boolean isSucessfullLoaded() {
-        return true;
     }
 
     @Override

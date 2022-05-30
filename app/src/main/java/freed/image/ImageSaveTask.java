@@ -233,7 +233,7 @@ public class ImageSaveTask extends ImageTask
         rawToDng.setCropWidthHeight(crop_width,crop_height);
         BaseHolder fileholder = fileListController.getNewImgFileHolder(filename);
         if (fileholder instanceof FileHolder) {
-                rawToDng.setBayerData(bytesTosave, filename.getAbsolutePath());
+            rawToDng.setBayerData(bytesTosave, filename.getAbsolutePath());
         }
         else if(fileholder instanceof UriHolder) {
             try {
@@ -252,12 +252,6 @@ public class ImageSaveTask extends ImageTask
         {
             image.close();
         }
-        /*if (pfd != null)
-            try {
-                pfd.close();
-            } catch (IOException e) {
-                Log.WriteEx(e);
-            }*/
         moduleInterface.internalFireOnWorkDone(fileholder);
     }
 

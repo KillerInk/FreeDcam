@@ -12,7 +12,6 @@ import java.util.List;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.events.ValueChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.mode.SettingMode;
 import freed.utils.Log;
@@ -116,18 +115,6 @@ public class AutoHdrMode extends BaseModeParameter {
         }
     }
 
-    public void onPictureFormatChanged(ValueChangedEvent<String> valueChangedEvent)
-    {
-        if (valueChangedEvent.key == SettingKeys.PictureFormat) {
-            format = valueChangedEvent.newValue;
-            if (format.contains(FreedApplication.getStringFromRessources(R.string.jpeg_)) && !visible && !curmodule.equals(FreedApplication.getStringFromRessources(R.string.module_hdr)))
-                show();
-
-            else if (!format.contains(FreedApplication.getStringFromRessources(R.string.jpeg_)) && visible) {
-                hide();
-            }
-        }
-    }
 
     private void hide()
     {

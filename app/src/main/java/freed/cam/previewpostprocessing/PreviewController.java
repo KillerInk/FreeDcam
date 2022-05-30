@@ -49,8 +49,6 @@ public class PreviewController implements PreviewControllerInterface
     public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, HistogramController histogram)
     {
         Log.d(TAG, "init preview " +previewPostProcessingModes.name());
-        if (preview != null)
-            preview.close();
         switch (previewPostProcessingModes)
         {
             case off:
@@ -88,37 +86,16 @@ public class PreviewController implements PreviewControllerInterface
         return preview;
     }
 
-    @Override
-    public void close() {
-        if (preview != null)
-            preview.close();
-    }
 
     public SurfaceTexture getSurfaceTexture()
     {
         return preview.getSurfaceTexture();
     }
 
-    public Surface getInputSurface()
-    {
-        return preview.getInputSurface();
-    }
-
-    @Override
-    public void setOutputSurface(Surface surface) {
-        preview.setOutputSurface(surface);
-    }
-
     @Override
     public void setSize(int width, int height) {
         preview.setSize(width,height);
     }
-
-    @Override
-    public boolean isSucessfullLoaded() {
-        return preview.isSucessfullLoaded();
-    }
-
 
     @Override
     public void setBlue(boolean blue) {
