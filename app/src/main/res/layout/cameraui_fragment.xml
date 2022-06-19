@@ -24,10 +24,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/horHolder"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/horHolder"></LinearLayout>
+        android:orientation="horizontal"></LinearLayout>
 
 
     <freed.cam.ui.themesample.cameraui.FocusSelector

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -61,22 +62,27 @@ public class CustomBinding {
             view.SetHistogramData(checked);
     }
 
+    @BindingAdapter("setTextToTextbox")
+    public static void setTextToTextBox(TextView view, String checked)
+    {
+        view.setText(checked);
+    }
+
 
     @BindingAdapter("setGridModelToView")
     public static void setGridModelToView(ImageView gridImageView, GridImageViewModel gridImageViewModel)
     {
         if (gridImageViewModel == null || gridImageViewModel.getImagePath() == null)
             return;
-        if (gridImageViewModel.bitmapLoadRunnable != null) {
+        if (gridImageViewModel.bitmapLoadRunnable != null && gridImageView != gridImageViewModel.bitmapLoadRunnable.getImageView()) {
             gridImageViewModel.bitmapLoadRunnable.stopProgessbar();
             FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
         }
 
-        gridImageView.setImageBitmap(null);
         if (!gridImageViewModel.getImagePath().IsFolder())
         {
             gridImageView.setImageResource(R.drawable.noimage);
-            gridImageViewModel.setProgressBarVisible(true);
+            gridImageViewModel.setProgressBarVisible(false);
             try {
                 gridImageViewModel.bitmapLoadRunnable = new BitmapLoadRunnable(gridImageView,gridImageViewModel);
                 FreedApplication.imageManager().putImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
@@ -84,15 +90,13 @@ public class CustomBinding {
             catch (NullPointerException ex)
             {
                 Log.WriteEx(ex);
+                gridImageView.setImageResource(R.drawable.noimage);
+                FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
             }
-
         }
         else {
             gridImageViewModel.setProgressBarVisible(false);
             gridImageView.setImageResource(R.drawable.folder);
         }
-
-        //invalidate();
-
     }
 }

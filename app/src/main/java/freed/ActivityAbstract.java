@@ -83,7 +83,7 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
             settingsManager.init();
         }
         Log.d(TAG,"onCreatePermissionGranted");
-        File log = new File(FreedApplication.getContext().getExternalFilesDir(null)+ "/log.txt");
+        File log = new File(getApplicationContext().getExternalFilesDir(null)+ "/log.txt");
         if (!forceLogging) {
             if (!Log.isLogToFileEnable() && log.exists()) {
                 new Log();

@@ -8,13 +8,14 @@
 <FrameLayout
     android:layout_width="@dimen/image_thumbnail_size" android:layout_height="@dimen/image_thumbnail_size">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/gridimageviewholder"
-            setGridModelToView="@{gridimageviewmodel}"
-            android:layout_margin="2dp"/>
-        <TextView
+    <ImageView
+        android:id="@+id/gridimageviewholder"
+        setGridModelToView="@{gridimageviewmodel}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp" />
+
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -27,18 +28,20 @@
             android:shadowColor="#000000"
             android:shadowRadius="10"
             android:singleLine="false" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@{gridimageviewmodel.foldername}"
-            android:id="@+id/foldertextbox"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="2dp"
-            android:textColor="#ffffff"
-            android:background="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/foldertextbox"
+        setTextToTextbox="@{gridimageviewmodel.foldername}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/background_dark"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"
+        android:visibility="visible" />
 
     <ImageView
         android:layout_width="wrap_content"

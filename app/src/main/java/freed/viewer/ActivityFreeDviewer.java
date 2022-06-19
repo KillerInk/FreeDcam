@@ -146,7 +146,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
             mCurrentAnimator.cancel();
         }
 
-        View griditem = gridViewFragment.GetGridItem(position);
+        View griditem = gridViewFragment.GetGridItem(screenSlideFragment.getPosition());
+        if (griditem == null)
+            gridViewFragment.smoothScrollToPos(screenSlideFragment.getPosition());
+            //griditem = gridViewFragment.GetGridItem(0);
+        griditem = gridViewFragment.GetGridItem(screenSlideFragment.getPosition());
         if (griditem == null)
             griditem = gridViewFragment.GetGridItem(0);
         // Calculate the starting and ending bounds for the zoomed-in image.

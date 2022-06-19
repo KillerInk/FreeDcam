@@ -126,13 +126,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     initScreenSlide();
                 SetNightOverlay();
                 if (!FileListController.needStorageAccessFrameWork) {
-                    if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard) && (fileListController.getFiles() == null || fileListController.getFiles().size() == 0))
+                    if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard))
                         imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
                 }
                 else
                 {
-                    if (fileListController.getFiles() == null || fileListController.getFiles().size() == 0)
-                        imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+                    imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
                 }
             }
         });

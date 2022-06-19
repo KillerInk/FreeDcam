@@ -4,6 +4,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.troop.freedcam.BR;
+
 import java.util.List;
 
 import freed.FreedApplication;
@@ -56,14 +58,18 @@ public class ImageAdapter extends BaseAdapter
 
     @Override
     public View getView(int position, View convertView, ViewGroup container) {
-        final GridImageView imageView;
-        imageView = new GridImageView(FreedApplication.getContext());
+        GridImageView imageView = (GridImageView) convertView;
+        if (imageView == null)
+            imageView = new GridImageView(FreedApplication.getContext());
+        imageView.bindModel(null);
         Log.d(TAG, "filessize:" + gridImageViewModels.size() + " position:"+position);
         if (gridImageViewModels.size() <= position)
             position = gridImageViewModels.size() -1;
 
-        gridImageViewModels.get(position).setViewState(currentViewState);
-        imageView.bindModel(gridImageViewModels.get(position));
+        GridImageViewModel m = gridImageViewModels.get(position);
+        m.setViewState(currentViewState);
+        imageView.bindModel(m);
+
         return imageView;
     }
 

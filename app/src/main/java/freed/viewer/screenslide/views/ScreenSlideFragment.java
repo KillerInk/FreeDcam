@@ -252,6 +252,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             screenslideFragmentBinding.pager.setCurrentItem(position, false);
     }
 
+    public int getPosition()
+    {
+        if (screenslideFragmentBinding.pager != null)
+            return screenslideFragmentBinding.pager.getCurrentItem();
+        return 0;
+    }
+
 
     public ScreenSlideFragment()
     {

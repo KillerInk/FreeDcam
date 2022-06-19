@@ -132,6 +132,7 @@ public class FileListController {
 
     public void LoadFreeDcamDCIMDirsFiles() {
         synchronized (filesLock) {
+            files.clear();
             if (!needStorageAccessFrameWork) {
                 files = storageFileManager.getFreeDcamDCIMDirsFiles();
             }

@@ -94,6 +94,10 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         this.onGridItemClick = onGridItemClick;
     }
 
+    public void smoothScrollToPos(int pos)
+    {
+        gridviewfragmentBinding.gridViewBase.setSelection(pos);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
