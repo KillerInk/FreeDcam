@@ -24,7 +24,8 @@
     <dimen name="cameraui_manualbuttonholder_height">50dp</dimen>
     <dimen name="cameraui_manualbutton_textsize">8dip</dimen>
 
-    <dimen name="image_thumbnail_size">120dp</dimen>
+    <dimen name="image_thumbnail_size">130dp</dimen>
+    <dimen name="image_thumbnail_size_grid">130dp</dimen>
     <dimen name="freedviewer_gridview_topBarHeight">38dp</dimen>
     <dimen name="freedviewer_screenslide_topBarItemMargine">10dp</dimen>
     <dimen name="freedviewer_screenslide_exifInfoHeight">20dp</dimen>

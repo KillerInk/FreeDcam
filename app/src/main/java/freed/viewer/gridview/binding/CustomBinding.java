@@ -76,7 +76,15 @@ public class CustomBinding {
             return;
         if (gridImageViewModel.bitmapLoadRunnable != null && gridImageView != gridImageViewModel.bitmapLoadRunnable.getImageView()) {
             gridImageViewModel.bitmapLoadRunnable.stopProgessbar();
+            gridImageViewModel.bitmapLoadRunnable.resetImageView();
             FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
+        }
+        if(gridImageView.getTag() != null && gridImageView.getTag() != gridImageViewModel) {
+            GridImageViewModel activeMod = (GridImageViewModel) gridImageView.getTag();
+            if (activeMod.bitmapLoadRunnable != null) {
+                activeMod.bitmapLoadRunnable.resetImageView();
+                FreedApplication.imageManager().removeImageLoadTask(activeMod.bitmapLoadRunnable);
+            }
         }
 
         if (!gridImageViewModel.getImagePath().IsFolder())
@@ -84,6 +92,7 @@ public class CustomBinding {
             gridImageView.setImageResource(R.drawable.noimage);
             gridImageViewModel.setProgressBarVisible(false);
             try {
+                gridImageView.setTag(gridImageViewModel);
                 gridImageViewModel.bitmapLoadRunnable = new BitmapLoadRunnable(gridImageView,gridImageViewModel);
                 FreedApplication.imageManager().putImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
             }

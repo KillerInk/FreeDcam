@@ -27,9 +27,16 @@ public  class BitmapLoadRunnable extends ImageTask
         this.model = model;
     }
 
+    public void resetImageView()
+    {
+        imageviewRef = null;
+    }
+
     public ImageView getImageView()
     {
-        return imageviewRef.get();
+        if (imageviewRef != null)
+            return imageviewRef.get();
+        return null;
     }
 
     public void stopProgessbar()
