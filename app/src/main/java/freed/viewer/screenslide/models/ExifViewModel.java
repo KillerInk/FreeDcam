@@ -18,6 +18,7 @@ public class ExifViewModel extends VisibilityModel {
     private ExifViewItemModel focal;
     private ExifViewItemModel fnumber;
     private ExifViewItemModel filename;
+    private ExifViewItemModel image_size;
     private Typeface typeface;
 
     public ExifViewModel()
@@ -27,6 +28,7 @@ public class ExifViewModel extends VisibilityModel {
         focal = new ExifViewItemModel();
         fnumber = new ExifViewItemModel();
         filename = new ExifViewItemModel();
+        image_size = new ExifViewItemModel();
         setTypeface(ResourcesCompat.getFont(FreedApplication.getContext(), R.font.freedcam));
     }
 
@@ -49,6 +51,11 @@ public class ExifViewModel extends VisibilityModel {
     public ExifViewItemModel getShutter() {
         return shutter;
     }
+
+    public ExifViewItemModel getImage_size() {
+        return image_size;
+    }
+
 
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;

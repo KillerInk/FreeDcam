@@ -10,6 +10,7 @@ import freed.FreedApplication;
 import freed.file.holder.BaseHolder;
 import freed.file.holder.FileHolder;
 import freed.file.holder.UriHolder;
+import freed.font.FreeDcamFont;
 import freed.image.ImageTask;
 import freed.utils.Log;
 import freed.viewer.screenslide.models.ExifViewModel;
@@ -61,7 +62,7 @@ public class ExifLoader extends ImageTask {
                 exifViewModel.getShutter().setText("");
             else
             {
-                exifViewModel.getShutter().setText("\uE00B" + getShutterStringSeconds(Double.parseDouble(expostring)));
+                exifViewModel.getShutter().setText(FreeDcamFont.STRING_SHUTTER + getShutterStringSeconds(Double.parseDouble(expostring)));
             }
         }catch (NullPointerException e){
             Log.WriteEx(e);
@@ -70,14 +71,14 @@ public class ExifLoader extends ImageTask {
         try
         {
             double fnums = exifInterface.getAttributeDouble(ExifInterface.TAG_APERTURE,1.9d);
-            exifViewModel.getFnumber().setText("\ue003" + String.format("%.2f", fnums));
+            exifViewModel.getFnumber().setText(FreeDcamFont.STRING_APERTURE + String.format("%.2f", fnums));
         }catch (NullPointerException e){
             exifViewModel.getFnumber().setText("");
             Log.WriteEx(e);
         }
         try {
             double focs = exifInterface.getAttributeDouble(ExifInterface.TAG_FOCAL_LENGTH,5.4d);
-            exifViewModel.getFocal().setText("\uE00c" + String.format("%.2f", focs) +"mm");
+            exifViewModel.getFocal().setText(FreeDcamFont.STRING_FOCAL_LENGTH + String.format("%.2f", focs) +"mm");
         }catch (NullPointerException e){
             exifViewModel.getFocal().setText("");
             Log.WriteEx(e);
@@ -85,11 +86,21 @@ public class ExifLoader extends ImageTask {
         try {
             String isos = exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
             if (isos != null)
-                exifViewModel.getIso().setText("\uE002" + isos);
+                exifViewModel.getIso().setText(FreeDcamFont.STRING_ISO + isos);
             else
                 exifViewModel.getIso().setText("");
         }catch (NullPointerException e){
             exifViewModel.getIso().setText("");
+            Log.WriteEx(e);
+        }
+        try
+        {
+            int w = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_WIDTH,0);
+            int h = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH,0);
+            exifViewModel.getImage_size().setText(FreeDcamFont.STRING_IMAGE +w+"x"+h);
+        }
+        catch (NullPointerException e){
+            exifViewModel.getImage_size().setText("");
             Log.WriteEx(e);
         }
         return true;
