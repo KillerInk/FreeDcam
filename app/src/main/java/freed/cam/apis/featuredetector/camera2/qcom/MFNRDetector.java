@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.HashSet;
 
+import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.cam.apis.featuredetector.Camera2FeatureDetectorTask;
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
@@ -20,7 +21,8 @@ public class MFNRDetector extends BaseParameter2Detector implements VendorKeyDet
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-
+        int mfnr_type = cameraCharacteristics.get(CameraCharacteristicsQcom.MFNRType);
+        Log.d(TAG,"mfnr type:" + mfnr_type);
     }
 
 

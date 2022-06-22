@@ -129,8 +129,12 @@ public class SettingsMenuItemFactory
 
 
                 if (params.get(SettingKeys.MFNR) != null) {
-                    SettingsChildMenu mfnr = new SettingsChildMenu(context, params.get(SettingKeys.MFNR), R.string.setting_mfnr_header,R.string.setting_mfnr_description);
-                    mfnr.SetUiItemClickListner(click);
+                    SettingsChild_BooleanSetting mfnr = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) params.get(SettingKeys.MFNR), R.string.setting_mfnr_header,R.string.setting_mfnr_description);
+                    picGroup.addView(mfnr);
+                }
+
+                if (params.get(SettingKeys.XIAOMI_MFNR) != null) {
+                    SettingsChild_BooleanSetting mfnr = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) params.get(SettingKeys.XIAOMI_MFNR), R.string.setting_xiaomimfnr_header,R.string.setting_mfnr_description);
                     picGroup.addView(mfnr);
                 }
                 settingsChildHolder.addView(picGroup);

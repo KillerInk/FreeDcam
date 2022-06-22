@@ -150,6 +150,7 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> XIAOMI_VIDEO_RECORD_CONTROL = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_video_record_control);
     public final static Key<ApiBooleanSettingMode> XIAOMI_PRO_VIDEO_LOG = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_pro_video_log);
     public final static Key<ApiBooleanSettingMode> QCOM_VIDEO_HDR10 = new Key(ApiBooleanSettingMode.class, R.string.aps_qcom_video_hdr);
+    public final static Key<ApiBooleanSettingMode> XIAOMI_MFNR = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_mfnr);
 
     public final static Key<ApiBooleanSettingMode> ZOOM_ON_MANUALFOCUS = new Key(ApiBooleanSettingMode.class, R.string.aps_zoom_on_mf);
     public final static Key<SettingMode> ZOOM_ON_MANUALFOCUS_ZOOMFACTOR = new Key(SettingMode.class, R.string.aps_zoom_on_mf_zoomfactor);

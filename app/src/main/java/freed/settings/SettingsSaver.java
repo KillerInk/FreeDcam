@@ -17,7 +17,7 @@ public class SettingsSaver {
     {
 
         File configFile = new File(appdata.getAbsolutePath() + "/freed_config.xml");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(configFile))) {
             Log.d(TAG, "Write global settings");
 
             XmlUtil.writeTagStart(writer, XmlUtil.TAG_APIS);

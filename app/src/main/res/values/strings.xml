@@ -17,6 +17,7 @@
     <string name="setting_tonemapchooser_header">ToneMapProfile: </string>
     <string name="setting_mfnr_description">Multiframe 3D NR</string>
     <string name="setting_mfnr_header">MNFR: </string>
+    <string name="setting_xiaomimfnr_header">Xiaomi MNFR: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
     <string name="setting_jpegquality_header">JPEG Quality: </string>
     <string name="setting_picturesize_description">Picture Size : </string>

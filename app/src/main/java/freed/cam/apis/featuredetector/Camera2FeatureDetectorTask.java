@@ -66,6 +66,7 @@ import freed.cam.apis.featuredetector.camera2.xiaomi.ArcDistortionDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ProVideoLogDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.SuperLowLightRawDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.VideoRecordControl;
+import freed.cam.apis.featuredetector.camera2.xiaomi.XiaomiMfnrDetector;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -135,6 +136,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //xiaomi
         parameter2Detectors.add(VideoRecordControl.class);
         parameter2Detectors.add(ProVideoLogDetector.class);
+        parameter2Detectors.add(XiaomiMfnrDetector.class);
 
         //huawei
         parameter2Detectors.add(DualPrimaryCameraDetector.class);

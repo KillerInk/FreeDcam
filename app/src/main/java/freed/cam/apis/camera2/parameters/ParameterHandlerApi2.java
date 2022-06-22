@@ -65,6 +65,7 @@ import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.apis.camera2.parameters.modes.XiaomiMfnr;
 import freed.cam.apis.camera2.parameters.modes.YuvSizeModeApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -146,6 +147,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
         if (settingsManager.get(SettingKeys.MFNR).isSupported())
             add(SettingKeys.MFNR, new MFNR(cameraUiWrapper));
+        if (settingsManager.get(SettingKeys.XIAOMI_MFNR).isSupported())
+            add(SettingKeys.XIAOMI_MFNR, new XiaomiMfnr(cameraUiWrapper));
 
         if (settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
             try {

@@ -423,7 +423,7 @@ public class CaptureRequestDump extends AbstractCaptureRequest
     public static final CaptureRequest.Key<int[]> xiaomi_jpeg_orientation;
     public static final CaptureRequest.Key<int[]> xiaomi_memory_shrinkMode;
     public static final CaptureRequest.Key<long[]> xiaomi_mfnr_anchorTimeStamp;
-    public static final CaptureRequest.Key<byte[]> xiaomi_mfnr_enabled;
+    public static final CaptureRequest.Key<Byte> xiaomi_mfnr_enabled;
     public static final CaptureRequest.Key<int[]> xiaomi_mfnr_frameNum;
     public static final CaptureRequest.Key<byte[]> xiaomi_mimovie_enabled;
     public static final CaptureRequest.Key<int[]> xiaomi_multiframe_inputNum;
@@ -890,7 +890,7 @@ public class CaptureRequestDump extends AbstractCaptureRequest
         xiaomi_jpeg_orientation= getKeyType("xiaomi.jpeg.orientation", int[].class);
         xiaomi_memory_shrinkMode= getKeyType("xiaomi.memory.shrinkMode", int[].class);
         xiaomi_mfnr_anchorTimeStamp= getKeyType("xiaomi.mfnr.anchorTimeStamp", long[].class);
-        xiaomi_mfnr_enabled= getKeyType("xiaomi.mfnr.enabled", byte[].class);
+        xiaomi_mfnr_enabled= getKeyType("xiaomi.mfnr.enabled", byte.class);
         xiaomi_mfnr_frameNum= getKeyType("xiaomi.mfnr.frameNum", int[].class);
         xiaomi_mimovie_enabled= getKeyType("xiaomi.mimovie.enabled", byte[].class);
         xiaomi_multiframe_inputNum= getKeyType("xiaomi.multiframe.inputNum", int[].class);
