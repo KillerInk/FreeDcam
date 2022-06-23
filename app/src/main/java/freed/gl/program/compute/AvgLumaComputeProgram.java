@@ -12,7 +12,7 @@ import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.SharedStorageBufferObject;
 
 public class AvgLumaComputeProgram extends GLComputeProgram {
-    public AvgLumaComputeProgram(int glesVersion) {
+    public AvgLumaComputeProgram(float glesVersion) {
         super(glesVersion);
     }
 

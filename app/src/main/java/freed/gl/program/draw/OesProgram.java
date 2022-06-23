@@ -7,7 +7,7 @@ public class OesProgram extends GLDrawProgram
 {
 
 
-    public OesProgram(int glesVersion)
+    public OesProgram(float glesVersion)
     {
         super(glesVersion);
     }

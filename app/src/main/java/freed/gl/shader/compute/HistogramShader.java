@@ -3,7 +3,7 @@ package freed.gl.shader.compute;
 import freed.gl.shader.Shader;
 
 public class HistogramShader extends Shader {
-    public HistogramShader(int glesVersion) {
+    public HistogramShader(float glesVersion) {
         super(glesVersion);
     }
 

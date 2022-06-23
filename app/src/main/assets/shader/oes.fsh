@@ -1,4 +1,4 @@
-#version 300 es
+#version 310 es
 #line 1
 #extension GL_OES_EGL_image_external_essl3 : require
 precision mediump float;

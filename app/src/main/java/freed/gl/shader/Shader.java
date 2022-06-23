@@ -14,9 +14,9 @@ public abstract class Shader<T extends Shader> {
     }
 
     private int handel;
-    private int glesVersion;
+    private float glesVersion;
 
-    public Shader(int glesVersion)
+    public Shader(float glesVersion)
     {
         this.glesVersion = glesVersion;
         createShader();

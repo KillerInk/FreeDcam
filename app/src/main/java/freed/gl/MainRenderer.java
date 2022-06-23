@@ -97,7 +97,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
        waveform_SSBO = new SharedStorageBufferObject();
        avgLuma_SSBO = new SharedStorageBufferObject();
 
-        int glesv = GlVersion.getGlesVersion();
+        float glesv = GlVersion.getGlesVersion();
         oesProgram = new OesProgram(glesv);
         previewProgram = new PreviewProgram(glesv);
         clippingComputeProgram = new ClippingComputeProgram(glesv);
@@ -212,7 +212,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
         createBuffers();
         cameraInputTextureHolder.create(width,height);
-        int glesv = GlVersion.getGlesVersion();
+        float glesv = GlVersion.getGlesVersion();
         Log.d(TAG, "GlesVersion:" + glesv);
 
         Shader vertexShader = new OesVertexShader(glesv);
