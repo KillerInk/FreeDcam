@@ -40,10 +40,14 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
             0 = auto or shutter priority
             1= iso priority set with expotime to 8L
      */
+    public static final int ExposureTimePriority_OFF = 0;
+    public static final int ExposureTimePriority_ON = 1;
     public static final CaptureRequest.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_select_priority;
     //[0.0]
     public static final CaptureRequest.Key<Float> org_codeaurora_qcamera3_iso_exp_priority_use_gain_value;
     //[0]
+    public static final long IsoPriority_OFF = 0L;
+    public static final long IsoPriority_ON = 8L;
     public static final CaptureRequest.Key<Long> org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority;
     //[0]
     public static final CaptureRequest.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_use_iso_value;

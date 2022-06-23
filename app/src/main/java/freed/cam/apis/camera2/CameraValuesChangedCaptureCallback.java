@@ -389,7 +389,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         try {
             int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
             currentIso = isova;
-            iso.fireStringValueChanged("" + isova);
+            iso.fireStringValueChanged("A " + isova);
             //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
         } catch (NullPointerException ex) {
             //Log.v(TAG, "cant get iso");
@@ -421,7 +421,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             if (ae.getActiveAeState() != AeStates.shutter_priority && ae.getActiveAeState() != AeStates.manual) {
                 readExpotime(result, expotime);
             }
-            readIso(result, iso);
+            if (ae.getActiveAeState() != AeStates.iso_priority && ae.getActiveAeState() != AeStates.manual)
+                readIso(result, iso);
         }
     }
 
@@ -430,7 +431,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
             currentExposureTime = expores;
             if (expores != 0) {
-                expotime.fireStringValueChanged(getShutterStringNS(expores));
+                expotime.fireStringValueChanged("A "+getShutterStringNS(expores));
             } else
                 expotime.fireStringValueChanged("1/60");
 
