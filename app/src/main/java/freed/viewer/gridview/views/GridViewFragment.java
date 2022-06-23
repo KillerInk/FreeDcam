@@ -113,6 +113,8 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         if (gridviewfragmentBinding == null || gridViewFragmentModelView == null)
             return;
         gridviewfragmentBinding.setGridfragmentmodel(gridViewFragmentModelView);
+        gridviewfragmentBinding.gridViewBase.setOnTouchListener(gridViewFragmentModelView.gridItem_onTouchListener);
+        //register grid items clicks listner
         gridviewfragmentBinding.gridViewBase.setOnItemClickListener(gridViewFragmentModelView.onItemClickListener);
         gridviewfragmentBinding.gridViewBase.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         gridViewFragmentModelView.setButtonClick(onGridItemClick);

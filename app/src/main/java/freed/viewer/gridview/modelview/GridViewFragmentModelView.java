@@ -2,8 +2,10 @@ package freed.viewer.gridview.modelview;
 
 import android.app.RecoverableSecurityException;
 import android.os.Build;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 
 import androidx.lifecycle.ViewModel;
 
@@ -506,6 +508,69 @@ public class GridViewFragmentModelView extends ViewModel
         if (filesHolderModel.getFormatType() != formatsToShow)
             filesHolderModel.setFormatType(formatsToShow);
     }
+
+    public View.OnTouchListener gridItem_onTouchListener = new View.OnTouchListener() {
+
+        private GridImageViewModel last = null;
+        private float startX;
+        private float startY;
+        private float lastDistance;
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            if (viewStateModel.getCurrentViewState() == ViewStates.selection) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN || lastDistance > 30)
+                {
+                    startX = event.getX();
+                    startY = event.getY();
+                    lastDistance = 0;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    startX = 0;
+                    startY = 0;
+                    last = null;
+                }
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                    float distanceX;
+                    float distanceY;
+                    if (startX > event.getX())
+                        distanceX = startX - event.getX();
+                    else
+                        distanceX = event.getX() - startX;
+
+                    if (startY > event.getY())
+                        distanceY = startY - event.getY();
+                    else
+                        distanceY = event.getY() - startY;
+                    if (distanceX > distanceY)
+                        lastDistance += distanceX;
+                    else
+                        lastDistance+= distanceY;
+
+                    if (distanceX > distanceY) {
+                        GridView view = (GridView) v;
+                        int position = view.pointToPosition((int) event.getX(), (int) event.getY());
+                        GridImageViewModel mod = filesHolderModel.getGridImageViewModels().get(position);
+
+                        if (mod != last) {
+                            if (filesHolderModel.getGridImageViewModels().get(position).getChecked()) {
+                                filesHolderModel.getGridImageViewModels().get(position).setChecked(false);
+                                filesSelectedList.remove(filesHolderModel.getFiles().get(position));
+                            } else {
+                                filesHolderModel.getGridImageViewModels().get(position).setChecked(true);
+                                filesSelectedList.add(filesHolderModel.getGridImageViewModels().get(position).getImagePath());
+                            }
+                            last = mod;
+                            updateFilesSelected();
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+    };
 
     public AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override

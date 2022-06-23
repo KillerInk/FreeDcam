@@ -75,9 +75,16 @@ public class CustomBinding {
         if (gridImageViewModel == null || gridImageViewModel.getImagePath() == null)
             return;
         if (gridImageViewModel.bitmapLoadRunnable != null && gridImageView != gridImageViewModel.bitmapLoadRunnable.getImageView()) {
-            gridImageViewModel.bitmapLoadRunnable.stopProgessbar();
-            gridImageViewModel.bitmapLoadRunnable.resetImageView();
-            FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
+            try {
+                gridImageViewModel.bitmapLoadRunnable.stopProgessbar();
+                gridImageViewModel.bitmapLoadRunnable.resetImageView();
+                FreedApplication.imageManager().removeImageLoadTask(gridImageViewModel.bitmapLoadRunnable);
+            }
+            catch (NullPointerException ex)
+            {
+
+            }
+
         }
         if(gridImageView.getTag() != null && gridImageView.getTag() != gridImageViewModel) {
             GridImageViewModel activeMod = (GridImageViewModel) gridImageView.getTag();
