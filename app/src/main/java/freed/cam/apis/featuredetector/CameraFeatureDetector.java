@@ -77,8 +77,6 @@ public class CameraFeatureDetector {
 
         settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(true);
 
-        settingsManager.getGlobal(SettingKeys.LOCATION_MODE).setIsSupported(true);
-
         settingsManager.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND).set(false);
     }
 }

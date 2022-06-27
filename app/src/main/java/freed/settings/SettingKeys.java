@@ -172,7 +172,7 @@ public class SettingKeys{
     public final static GlobalKey<GlobalBooleanSettingMode> SHOWMANUALSETTINGS = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_showmanualsettings);
     public final static GlobalKey<SettingMode> PREVIEW_POST_PROCESSING_MODE = new GlobalKey<>(SettingMode.class, R.string.aps_preview_post_processing_mode);
     public final static GlobalKey<GlobalBooleanSettingMode> NightOverlay = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_nightoverlay);
-    public final static GlobalKey<SettingMode> LOCATION_MODE = new GlobalKey(SettingMode.class, R.string.aps_location);
+    public final static GlobalKey<GlobalBooleanSettingMode> LOCATION_MODE = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_location);
     public final static GlobalKey<GlobalBooleanSettingMode> TouchToCapture = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_touchtocapture);
     public final static GlobalKey<SettingMode> GuideList = new GlobalKey(SettingMode.class, R.string.aps_guide);
     public final static GlobalKey<SettingMode> HorizontLvl = new GlobalKey(SettingMode.class, R.string.aps_horizontlvl);

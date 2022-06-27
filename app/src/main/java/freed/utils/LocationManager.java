@@ -19,6 +19,7 @@
 
 package freed.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -44,8 +45,6 @@ public class LocationManager implements LocationListener, LifecycleObserver
 {
     private final String TAG = LocationManager.class.getSimpleName();
     private final android.location.LocationManager locationManager;
-    private ActivityInterface activityInterface;
-    private Lifecycle lifecycle;
     private Location currentLocation;
     private boolean isStarted = false;
     private SettingsManager settingsManager;
@@ -76,6 +75,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
     }*/
 
 
+    @SuppressLint("MissingPermission")
     public void stopLocationListining()
     {
         Log.d(TAG, "stop location");
@@ -86,13 +86,14 @@ public class LocationManager implements LocationListener, LifecycleObserver
 
     public void startListing()
     {
-        boolean isON = settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_));
+        boolean isON = settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
         boolean permissiongranted = ActivityAbstract.permissionManager().isPermissionGranted(PermissionManager.Permissions.Location);
         if (isON && permissiongranted)
             startLocationListing();
     }
 
 
+    @SuppressLint("MissingPermission")
     private void startLocationListing()
     {
         Log.d(TAG, "start location");
@@ -105,8 +106,8 @@ public class LocationManager implements LocationListener, LifecycleObserver
 
             Location locnet = null;
             Location locgps = null;
-            int updateDistance = 15;
-            int updateTime = 60 * 1000;
+            int updateDistance = 0;
+            int updateTime = 0;
             if (network)
             {
                 locationManager.requestLocationUpdates(android.location.LocationManager.NETWORK_PROVIDER,
@@ -123,10 +124,7 @@ public class LocationManager implements LocationListener, LifecycleObserver
                         this);
                 locgps = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
             }
-            if (locgps != null)
-                currentLocation = locgps;
-            else if(locnet != null)
-                currentLocation = locnet;
+            currentLocation = getBetterLocation(locgps,locnet);
         }
         else
         {
@@ -135,10 +133,24 @@ public class LocationManager implements LocationListener, LifecycleObserver
         }
     }
 
+    private Location getBetterLocation(Location location1, Location location2)
+    {
+        Location out = null;
+        if (location1 != null && location2 != null)
+        {
+            out = location1.getTime() > location2.getTime() && location1.getAccuracy() > location2.getAccuracy() ? location1 : location2;
+        }
+        else if (location1 != null && location1.getTime() > System.currentTimeMillis() - 300)
+            out = location1;
+        else if(location2 != null && location2.getTime() > System.currentTimeMillis() - 300)
+            out = location2;
+        return out;
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         if (isStarted)
-            currentLocation = location;
+            currentLocation = getBetterLocation(currentLocation,location);
         else
             currentLocation = null;
         Log.d(TAG, "onLocationChanged:" + (currentLocation == null) + " isListing:" + isStarted);

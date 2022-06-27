@@ -28,6 +28,7 @@ import freed.cam.ui.themesample.cameraui.service.BatteryService;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
+import freed.utils.LocationManager;
 
 @HiltViewModel
 public class InfoOverlayModelView extends ViewModel implements LifecycleObserver {
@@ -49,6 +50,7 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
     private BatteryService batteryService;
     private CameraApiManager cameraApiManager;
     private InfoOverlayModel infoOverlayModel;
+    private LocationManager locationManager;
     private BackgroundHandlerThread backgroundHandlerThread;
 
     @Inject
@@ -82,6 +84,9 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
         return settingsManager;
     }
 
+    public void setLocationManager(LocationManager locationManager) {
+        this.locationManager = locationManager;
+    }
 
     BatteryService.BatteryEvent batteryEvent = new BatteryService.BatteryEvent() {
         @Override
@@ -136,9 +141,19 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
             }
             infoOverlayModel.setStorageSpace(storageSpace);
             infoOverlayModel.setSize(size);
+            infoOverlayModel.setGps(getGps(locationManager));
             startLooperThread();
         }
     };
+
+    private String getGps(LocationManager locationManager)
+    {
+        if (locationManager.getCurrentLocation() != null)
+        {
+            return "GPS:" +locationManager.getCurrentLocation().getAccuracy();
+        }
+        else return "";
+    }
 
     private void getFormat()
     {

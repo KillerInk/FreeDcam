@@ -213,8 +213,7 @@ public class SettingsMenuItemFactory
             sdSave.SetUiItemClickListner(click);
             globalSettingGroup.addView(sdSave);
 
-            SettingsChildMenu menuItemGPS = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );
-            menuItemGPS.SetUiItemClickListner(click);
+            SettingsChild_BooleanSetting menuItemGPS = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );
             globalSettingGroup.addView(menuItemGPS);
 
             SettingsChildMenu guide = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList), R.string.setting_guide_header, R.string.setting_guide_description);

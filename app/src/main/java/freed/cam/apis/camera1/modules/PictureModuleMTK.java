@@ -59,7 +59,7 @@ public class PictureModuleMTK extends PictureModule
     public void DoWork()
     {
         mBackgroundHandler.post(() -> {
-            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get())
                 cameraHolder.SetLocation(locationManager.getCurrentLocation());
 
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(orientationManager.getCurrentOrientation());

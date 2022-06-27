@@ -161,7 +161,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     private void startRecording()
     {
         if (permissionManager.isPermissionGranted(PermissionManager.Permissions.RecordAudio)) {
-            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get())
                 cameraUiWrapper.getCameraHolder().SetLocation(locationManager.getCurrentLocation());
             prepareRecorder();
         }

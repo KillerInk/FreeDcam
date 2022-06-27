@@ -23,6 +23,20 @@ android:background="#75000000">
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceSmall"
+    android:id="@+id/textView_gps"
+    android:textSize="@dimen/cameraui_infooverlay_textsize"
+    android:textColor="#ffffff"
+    android:visibility="visible"
+    android:shadowColor="#000000"
+    android:elevation="2dp"
+    android:background="#02000000"
+    android:paddingLeft="5dp"
+    android:text="@{infoOverlayModel.gps}" />
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceSmall"
     android:id="@+id/textView_time"
     android:textSize="@dimen/cameraui_infooverlay_textsize"
     android:textColor="#ffffff"

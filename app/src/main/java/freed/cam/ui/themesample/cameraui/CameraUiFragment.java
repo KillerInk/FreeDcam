@@ -80,6 +80,7 @@ import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.update.ReleaseChecker;
 import freed.update.VersionView;
+import freed.utils.LocationManager;
 import freed.utils.Log;
 
 /**
@@ -135,6 +136,8 @@ public class CameraUiFragment extends AbstractFragment implements
     HistogramController histogramController;
     @Inject
     PreviewController preview;
+    @Inject
+    LocationManager locationManager;
 
     private Handler handler = new Handler();
 
@@ -335,6 +338,7 @@ public class CameraUiFragment extends AbstractFragment implements
         getLifecycle().addObserver(infoOverlayModelView);
         infoOverlayModelView.setCameraApiManager(cameraApiManager);
         infoOverlayModelView.setSettingsManager(settingsManager);
+        infoOverlayModelView.setLocationManager(locationManager);
         binding.infoOverlay.setInfoOverlayModel(infoOverlayModelView.getInfoOverlayModel());
         //infoOverlayHandler = new SampleInfoOverlayHandler(view);
 

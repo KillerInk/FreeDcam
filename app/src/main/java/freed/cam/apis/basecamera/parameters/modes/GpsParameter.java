@@ -29,6 +29,7 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
+import freed.settings.mode.BooleanSettingModeInterface;
 import freed.utils.LocationManager;
 import freed.utils.PermissionManager;
 
@@ -37,7 +38,7 @@ import freed.utils.PermissionManager;
  * if you get fine loaction error ignore it, permission are set in app project where everything
  * gets builded
  */
-public class GpsParameter extends AbstractParameter
+public class GpsParameter extends AbstractParameter implements BooleanSettingModeInterface
 {
     private final CameraWrapperInterface cameraUiWrapper;
 
@@ -63,11 +64,9 @@ public class GpsParameter extends AbstractParameter
     @Override
     public String getStringValue()
     {
-        if (cameraUiWrapper == null)
+        if (cameraUiWrapper == null && !settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get())
             return FreedApplication.getStringFromRessources(R.string.off_);
-        if (TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get()))
-            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
-        return settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
+        return FreedApplication.getStringFromRessources(R.string.on_);
     }
 
     @Override
@@ -81,7 +80,7 @@ public class GpsParameter extends AbstractParameter
         if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Location) &&
                 valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(valueToSet);
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(true);
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.off_))) {
                 locationManager.stopLocationListining();
                 fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
@@ -97,10 +96,41 @@ public class GpsParameter extends AbstractParameter
             if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))
                     && !permissionManager.isPermissionGranted(PermissionManager.Permissions.Location))
                 permissionManager.requestPermission(PermissionManager.Permissions.Location);
-            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(FreedApplication.getStringFromRessources(R.string.off_));
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(false);
             fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             askedForPermission = false;
         }
     }
 
+    @Override
+    public boolean get() {
+        return settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get();
+    }
+
+    @Override
+    public void set(boolean bool) {
+        if (permissionManager.isPermissionGranted(PermissionManager.Permissions.Location) &&
+                bool)
+        {
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(bool);
+            if (!bool) {
+                locationManager.stopLocationListining();
+                fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
+            }
+            if (bool) {
+                locationManager.startListing();
+                fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
+            }
+        }
+        else
+        {
+            if (!userAcceptedPermission && !askedForPermission)
+                if (bool
+                        && !permissionManager.isPermissionGranted(PermissionManager.Permissions.Location))
+                    permissionManager.requestPermission(PermissionManager.Permissions.Location);
+            settingsManager.getGlobal(SettingKeys.LOCATION_MODE).set(false);
+            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
+            askedForPermission = false;
+        }
+    }
 }
