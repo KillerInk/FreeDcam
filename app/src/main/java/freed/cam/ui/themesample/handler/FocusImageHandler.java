@@ -50,6 +50,7 @@ import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.DisplayUtil;
 import freed.utils.Log;
 
 
@@ -309,35 +310,15 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         if(fragment == null)
             return null;
-        if (VERSION.SDK_INT >= 17)
-        {
-            WindowManager wm = (WindowManager) fragment.getSystemService(Context.WINDOW_SERVICE);
-            Point size =  new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = size.x;
-                height = size.y;
-            }
-            else
-            {
-                height = size.x;
-                width = size.y;
-            }
+        Point displaySize = DisplayUtil.getDisplaySize();
+        if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            width = displaySize.x;
+            height = displaySize.y;
         }
         else
         {
-            DisplayMetrics metrics = fragment.getResources().getDisplayMetrics();
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-            }
-            else
-            {
-                width = metrics.heightPixels;
-                height = metrics.widthPixels;
-            }
-
+            height = displaySize.x;
+            width = displaySize.y;
         }
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);
