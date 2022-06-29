@@ -11,19 +11,31 @@ import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.PreviewFragment;
+import freed.cam.event.BaseEventHandler;
+import freed.cam.event.MyEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;
 
 public class PreviewController implements PreviewControllerInterface
 {
+    public interface PreviewPostProcessingChangedEvent extends MyEvent {
+        void onPreviewPostProcessingChanged();
+    }
+    public static class PreviewPostProcessingChangedEventHandler extends BaseEventHandler<PreviewPostProcessingChangedEvent>
+    {
+        public void fireOnPreviewPostProcessingChanged()
+        {
+            for (PreviewPostProcessingChangedEvent event : eventListners)
+                event.onPreviewPostProcessingChanged();
+        }
+    }
+
     private static final String TAG = PreviewController.class.getSimpleName();
     private Preview preview;
     PreviewEvent eventListner;
+    public PreviewPostProcessingChangedEventHandler previewPostProcessingChangedEventHandler;
 
-    private int fragmentHolderId;
-    private FragmentManager fragmentManager;
-    private PreviewFragment previewFragment;
     boolean blue = false;
     boolean red = false;
     boolean green = false;
@@ -35,14 +47,9 @@ public class PreviewController implements PreviewControllerInterface
     float zebralow = 0.01f;
     HistogramFeed feed;
 
-    public void init(FragmentManager fragmentManager, int fragmentHolderId) {
-        this.fragmentManager = fragmentManager;
-        this.fragmentHolderId = fragmentHolderId;
-    }
-
-    public boolean isPreviewInit()
+    public PreviewController()
     {
-        return previewFragment != null;
+        previewPostProcessingChangedEventHandler = new PreviewPostProcessingChangedEventHandler();
     }
 
     @Override
@@ -240,23 +247,7 @@ public class PreviewController implements PreviewControllerInterface
 
     public void changePreviewPostProcessing()
     {
-        if (previewFragment != null) {
-            Log.d(TAG, "unload old Preview");
-            //kill the cam befor the fragment gets removed to make sure when
-            //new cameraFragment gets created and its texture view is created the cam get started
-            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            FragmentTransaction transaction  = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.remove(previewFragment);
-            transaction.commit();
-            previewFragment = null;
-        }
-        Log.d(TAG, "load new Preview");
-        previewFragment = new PreviewFragment();
-        FragmentTransaction transaction  = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(fragmentHolderId, previewFragment, previewFragment.getClass().getSimpleName());
-        transaction.commit();
+        previewPostProcessingChangedEventHandler.fireOnPreviewPostProcessingChanged();
     }
 
     @Override

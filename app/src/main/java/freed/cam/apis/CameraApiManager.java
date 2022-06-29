@@ -81,9 +81,6 @@ public class CameraApiManager implements Preview.PreviewEvent {
         Log.d(TAG, "onResume");
         if (camera == null)
             switchCamera();
-        if (previewController.isPreviewInit()) {
-            Log.d(TAG, "Reuse CamaraFragment");
-        }
         else {
             Log.d(TAG, "create new CameraFragment");
             changePreviewPostProcessing();

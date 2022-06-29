@@ -510,13 +510,12 @@ public class CameraUiFragment extends AbstractFragment implements
         String[] tmo = item.GetValues();
         if (tmo != null && tmo.length >0)
             horizontalValuesFragment.SetStringValues(tmo, this);
-        infalteIntoHolder(id.cameraui_values_fragment_holder, horizontalValuesFragment);
+        inflateIntoHolder(id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
 
-    private void infalteIntoHolder(int id, HorizontalValuesFragment fragment)
+    private void inflateIntoHolder(int id, HorizontalValuesFragment fragment)
     {
-
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
@@ -555,7 +554,6 @@ public class CameraUiFragment extends AbstractFragment implements
     @Override
     public void doBottomToTopSwipe(){
         showManualSettings();
-
     }
 
     @Override

@@ -67,9 +67,9 @@ public abstract class ActivityAbstract extends AppCompatActivity implements Acti
     private I_OnActivityResultCallback resultCallback;
     private HideNavBarHelper hideNavBarHelper;
     @Inject
-    PermissionManager permissionManager;
+    protected PermissionManager permissionManager;
     @Inject
-    public SettingsManager settingsManager;
+    protected SettingsManager settingsManager;
     @Inject protected ImageManager imageManager;
 
     @Override

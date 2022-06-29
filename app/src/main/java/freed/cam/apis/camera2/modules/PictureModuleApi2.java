@@ -219,7 +219,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                                                  Handler mainHandler, Camera2 cameraWrapperInterface) {
         SurfaceTexture texture = previewController.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-        Surface previewsurface = new Surface(previewController.getSurfaceTexture());
+        Surface previewsurface = new Surface(texture);
         int w = previewSize.getWidth();
         int h = previewSize.getHeight();
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
