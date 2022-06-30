@@ -81,11 +81,12 @@ public class CameraApiManager implements Preview.PreviewEvent {
         Log.d(TAG, "onResume");
         if (camera == null)
             switchCamera();
-        else {
-            Log.d(TAG, "create new CameraFragment");
+
+        Log.d(TAG, "changePreviewPostProcessing");
+        if (!PreviewSurfaceRdy)
             changePreviewPostProcessing();
-        }
         if (PreviewSurfaceRdy && !cameraIsOpen) {
+            Log.d(TAG, "startCameraAsync");
             CameraThreadHandler.startCameraAsync();
         }
     }
@@ -173,6 +174,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
 
     public void changePreviewPostProcessing()
     {
+        Log.d(TAG,"changePreviewPostProcessing()");
         CameraThreadHandler.stopCameraAsync();
         previewController.setPreviewEventListner(null);
         previewController.changePreviewPostProcessing();
