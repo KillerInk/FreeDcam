@@ -20,4 +20,17 @@
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="NextGenTextItem">
+        <attr name="setHeaderToView" format="string"/>
+        <attr name="setValueToView" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="NextGenSettingItem">
+        <attr name="setDescriptionTextToView" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="NextGenSettingBoolItem">
+        <attr name="setBoolToView" format="boolean"/>
+    </declare-styleable>
 </resources>

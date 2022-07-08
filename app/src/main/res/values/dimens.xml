@@ -44,4 +44,6 @@
     <dimen name="curveViewWidth">300dp</dimen>
     <dimen name="curveViewHeight">300dp</dimen>
     <dimen name="curveViewButtonHeight">30dp</dimen>
+    <dimen name="nextgen_menu_right_bottom_text">10sp</dimen>
+    <dimen name="nextgen_manualbutton_width">70dp</dimen>
 </resources>

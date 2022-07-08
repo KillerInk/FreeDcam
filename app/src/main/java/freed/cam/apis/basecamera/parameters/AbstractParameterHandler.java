@@ -102,6 +102,13 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 
     private void applyPreviewPostprocessingVisibility()
     {
+        try {
+
+
+        if (settingsManager == null)
+            return;
+        if (settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE) == null)
+            return;
         if (!settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
             get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
             get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
@@ -121,6 +128,11 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         {
             get(SettingKeys.M_ZEBRA_HIGH).setViewState(AbstractParameter.ViewState.Visible);
             get(SettingKeys.M_ZEBRA_LOW).setViewState(AbstractParameter.ViewState.Visible);
+        }
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
         }
     }
 

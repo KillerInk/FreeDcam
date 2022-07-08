@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data></data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/setting_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:id="@+id/textView_video"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Video"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Picture"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_raw"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Raw"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Camera"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_interval"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Interval"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Preview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_etc"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Etc"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragmentholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</layout>

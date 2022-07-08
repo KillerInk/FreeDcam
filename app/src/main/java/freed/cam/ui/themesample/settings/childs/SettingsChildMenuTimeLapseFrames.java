@@ -27,6 +27,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -65,6 +68,13 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         super(context, attrs);
         init(context);
     }
+
+    public SettingsChildMenuTimeLapseFrames(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr)
+    {
+        super(context, attrs,defStyleAttr);
+        init(context);
+    }
+
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -95,16 +105,18 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
 
         });
         settingsname = SettingsManager.TIMELAPSEFRAME;
-        String fps = settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get();
-        if (fps == null || TextUtils.isEmpty(fps) || fps.equals("null"))
-            fps = "30";
+        if (settingsManager != null) {
+            String fps = settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).get();
+            if (fps == null || TextUtils.isEmpty(fps) || fps.equals("null"))
+                fps = "30";
 
-        Log.d(TAG, "set to " + fps);
-        current = Float.parseFloat(fps);
-        if (current >= 1)
-            editText.setText(current + " fps");
-        else
-            editText.setText(current * 60 + " fpm");
+            Log.d(TAG, "set to " + fps);
+            current = Float.parseFloat(fps);
+            if (current >= 1)
+                editText.setText(current + " fps");
+            else
+                editText.setText(current * 60 + " fpm");
+        }
     }
 
     private void setCurrent(float current)
@@ -118,11 +130,13 @@ public class SettingsChildMenuTimeLapseFrames extends LinearLayout
         {
             Log.WriteEx(ex);
         }
-        settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(current));
-        if (current >= 1)
-            editText.setText(current + " fps");
-        else
-            editText.setText(current * 60 + " fpm");
+        if (settingsManager !=null) {
+            settingsManager.get(SettingKeys.TIMELAPSE_FRAMES).set(String.valueOf(current));
+            if (current >= 1)
+                editText.setText(current + " fps");
+            else
+                editText.setText(current * 60 + " fpm");
+        }
     }
 
 }

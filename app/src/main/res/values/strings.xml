@@ -29,11 +29,13 @@
 
 
     <string name="setting_video_group_header">Video Mode</string>
+    <string name="setting_preview_group_header">Preview</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
 
     <string name="setting_videoaudiosource_description">Audio Source for recording</string>
     <string name="setting_videoaudiosource_header">AudioSource: </string>
+    <string name="setting_timelapse_header">Timelapse Fps: </string>
 
     <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
     <string name="setting_videoprofileeditor_header">Video Profile Editor </string>

@@ -40,6 +40,7 @@ import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.SecureCamera;
+import freed.cam.ui.themenextgen.NextGenMainFragment;
 import freed.cam.ui.themesample.ThemeSampleMainFragment;
 import freed.cam.ui.themesample.cameraui.HorizontalValuesFragment;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -133,7 +134,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
         //listen to phone orientation changes
         getLifecycle().addObserver(orientationManager);
-        inflateIntoHolder(R.id.MainLayout,new ThemeSampleMainFragment());
+        inflateIntoHolder(R.id.MainLayout,new NextGenMainFragment());
     }
 
     @Override

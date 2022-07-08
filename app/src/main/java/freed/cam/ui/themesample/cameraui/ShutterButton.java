@@ -107,8 +107,10 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         super.onAttachedToWindow();
         startBackgroundThread();
         Log.d(TAG, "EventBus register");
-        cameraApiManager.addCaptureStateChangedEventListner(this);
-        cameraApiManager.addModuleChangedEventListner(this);
+        if(cameraApiManager != null) {
+            cameraApiManager.addCaptureStateChangedEventListner(this);
+            cameraApiManager.addModuleChangedEventListner(this);
+        }
         //EventBusHelper.register(this);
         invalidate();
     }

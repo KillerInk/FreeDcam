@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/roundcorners"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/aperture"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue003"
+            app:setValueToView="1.9" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/nextgen_menu_right_background" />
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/iso"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue002"
+            app:setValueToView="6000" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/nextgen_menu_right_background" />
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/exposuretime"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue00b"
+            app:setValueToView="1/30" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/nextgen_menu_right_background" />
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/exposure"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue004"
+            app:setValueToView="0.0" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/nextgen_menu_right_background" />
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/mf"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue001"
+            app:setValueToView="30.0cm" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/nextgen_menu_right_background" />
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/wb"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue01a"
+            app:setValueToView="6500" />
+
+        <FrameLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/nextgen_menu_right_background" />
+
+        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+            android:id="@+id/burst"
+            android:layout_width="@dimen/nextgen_manualbutton_width"
+            android:layout_height="wrap_content"
+            app:setHeaderToView="\ue000"
+            app:setValueToView="1" />
+    </LinearLayout>

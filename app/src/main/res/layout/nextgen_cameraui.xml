@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<data>
+</data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#323232">
+
+        <freed.cam.ui.themesample.cameraui.ShutterButton
+            android:id="@+id/shutterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/shutter5"
+            android:shadowColor="@android:color/background_dark"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:shadowRadius="1" />
+
+        <FrameLayout
+            android:id="@+id/nextgen_camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/setting_holder"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/roundcorners">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/setting_fragment_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="false"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorColor="@color/nextgen_menu_right_text"
+                    app:tabMode="scrollable" />
+
+
+            </androidx.viewpager.widget.ViewPager>
+
+        </FrameLayout>
+
+        <freed.cam.ui.themenextgen.view.TypeFaceTextView
+            android:id="@+id/textView_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:enabled="true"
+            android:focusable="true"
+            android:shadowColor="@color/uiSettingsBackground"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:shadowRadius="1"
+            android:text="\ue013"
+            android:textAllCaps="false"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:textSize="50sp" />
+
+               <include
+                   android:id="@+id/include"
+                   layout="@layout/nextgen_manuals"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentBottom="true"
+                   android:layout_centerHorizontal="true" />
+
+
+    </RelativeLayout>
+</layout>

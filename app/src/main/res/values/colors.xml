@@ -13,4 +13,8 @@
     <color name="black_overlay">#66000000</color>
     <color name="button_notclicked">#b6b6b6</color>
     <color name="button_clicked">#707070</color>
+
+
+    <color name="nextgen_menu_right_background">#66000000</color>
+    <color name="nextgen_menu_right_text">#FFFFFFFF</color>
 </resources>

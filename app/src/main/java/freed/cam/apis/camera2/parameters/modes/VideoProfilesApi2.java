@@ -35,6 +35,7 @@ public class VideoProfilesApi2 extends VideoProfilesParameter
     public VideoProfilesApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
+        setViewState(ViewState.Visible);
     }
 
     @Override
