@@ -114,6 +114,8 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
 
     public <T> T get(Key<T> key)
     {
+        if (key instanceof GlobalKey)
+            return key.getType().cast(settingsStorage.getGlobal(key));
         return key.getType().cast(settingsStorage.get(key));
     }
 

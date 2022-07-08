@@ -169,6 +169,7 @@ public class SettingKeys{
 
 
     public final static GlobalKey<GlobalBooleanSettingMode> CHECKFORUPDATES = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_checkforupdates);
+    public final static GlobalKey<SettingMode> THEME = new GlobalKey<>(SettingMode.class, R.string.aps_theme);
     public final static GlobalKey<GlobalBooleanSettingMode> SHOWMANUALSETTINGS = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_showmanualsettings);
     public final static GlobalKey<SettingMode> PREVIEW_POST_PROCESSING_MODE = new GlobalKey<>(SettingMode.class, R.string.aps_preview_post_processing_mode);
     public final static GlobalKey<GlobalBooleanSettingMode> NightOverlay = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_nightoverlay);
@@ -239,7 +240,7 @@ public class SettingKeys{
         }
     }
 
-    public static class GlobalKey<T> extends Key
+    public static class GlobalKey<T> extends Key<T>
     {
 
         private GlobalKey(Class type, int ressourcesStringID) {

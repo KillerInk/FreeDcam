@@ -28,8 +28,7 @@
         <FrameLayout
             android:id="@+id/nextgen_camera_preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
         </FrameLayout>
 
@@ -81,7 +80,48 @@
             android:textColor="@color/nextgen_menu_right_text"
             android:textSize="50sp" />
 
-               <include
+        <TextView
+            android:id="@+id/textView_usermessagehandler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/roundcorners"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="TextView"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:visibility="gone"/>
+
+        <view
+            android:id="@+id/hisotview"
+            class="freed.cam.histogram.MyHistogram"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            android:background="@color/uiSettingsBackground"
+            tools:layout_width="120dp"
+            tools:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"/>
+
+        <ImageView
+            android:id="@+id/imageView_waveform"
+            android:layout_width="290dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="-79dp"
+            android:layout_marginTop="165dp"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:rotation="270"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <include
                    android:id="@+id/include"
                    layout="@layout/nextgen_manuals"
                    android:layout_width="wrap_content"

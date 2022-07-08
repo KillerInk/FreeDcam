@@ -1,11 +1,9 @@
-package freed.cam.ui.themenextgen.objects;
+package freed.cam.ui.themenextgen.layoutconfig;
 
 import freed.settings.SettingKeys;
 
-public class SettingItemConfig
+public class SettingItemConfig extends ManualItemConfig<Integer>
 {
-    SettingKeys.Key key;
-    int header;
     int description;
     boolean settingmanager;
     ViewType type;
@@ -20,19 +18,10 @@ public class SettingItemConfig
 
     public SettingItemConfig(SettingKeys.Key key, int header, int description, boolean settingmanager, ViewType type)
     {
-        this.key = key;
-        this.header = header;
+        super(key,header);
         this.description = description;
         this.settingmanager = settingmanager;
         this.type = type;
-    }
-
-    public SettingKeys.Key getKey() {
-        return key;
-    }
-
-    public int getHeader() {
-        return header;
     }
 
     public int getDescription() {

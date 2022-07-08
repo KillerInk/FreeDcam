@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,10 +15,13 @@ import com.google.android.material.tabs.TabLayout;
 import com.troop.freedcam.R;
 import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
+import freed.cam.apis.CameraApiManager;
 import freed.cam.histogram.HistogramController;
+import freed.cam.histogram.MyHistogram;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themenextgen.adapter.SettingTabPagerAdapter;
+import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -38,6 +42,10 @@ public class NextGenMainFragment extends Fragment implements PreviewController.P
     SettingsManager settingsManager;
     @Inject
     HistogramController histogramController;
+    @Inject
+    UserMessageHandler userMessageHandler;
+    @Inject
+    CameraApiManager cameraApiManager;
 
     @Nullable
     @Override
@@ -75,13 +83,40 @@ public class NextGenMainFragment extends Fragment implements PreviewController.P
 
         previewController.previewPostProcessingChangedEventHandler.setEventListner(this);
         settings_viewpagerHolder.setVisibility(View.GONE);
+        userMessageHandler.setMessageTextView(view.findViewById(R.id.textView_usermessagehandler));
+
+        MyHistogram histogram = view.findViewById(R.id.hisotview);
+        histogramController.setMyHistogram(histogram);
+        ImageView waveform = view.findViewById(R.id.imageView_waveform);
+        waveform.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (previewController.isColorWaveForm())
+                    previewController.setColorWaveForm(false);
+                else
+                    previewController.setColorWaveForm(true);
+            }
+        });
+        histogramController.setWaveFormView(waveform);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        cameraApiManager.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cameraApiManager.onPause();
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         previewController.previewPostProcessingChangedEventHandler.removeEventListner(this);
+        userMessageHandler.setMessageTextView(null);
     }
 
     @Override

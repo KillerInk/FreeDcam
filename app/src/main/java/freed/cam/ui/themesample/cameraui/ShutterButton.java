@@ -166,7 +166,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     }
 
     private void setCaptureState(CaptureStates mode) {
-        if(mode == null) {
+        if(mode == null || animationHandler == null) {
             Log.d(TAG, "onCaptureStateChanged: Capture State is null");
             return;
         }

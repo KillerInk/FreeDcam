@@ -23,7 +23,7 @@ import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.themenextgen.adapter.NextGenSettingItemFragmentAdapter;
-import freed.cam.ui.themenextgen.objects.SettingItemConfig;
+import freed.cam.ui.themenextgen.layoutconfig.SettingItemConfig;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingBoolItem;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingButton;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingItem;
@@ -154,7 +154,7 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
         activeItem = nextGenSettingItem;
         String values[] = nextGenSettingItem.getParameter().getStringValues();
         simpleTextAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                R.layout.settings_menuvalues_listviewlayout, R.id.listviewlayout_textview, values);
+                R.layout.nextgen_setting_adapterlayout_simpeltext, R.id.listviewlayout_textview, values);
         itemHolder.setAdapter(simpleTextAdapter);
         itemHolder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

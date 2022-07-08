@@ -3,12 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/values_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textViewHeader"
@@ -18,35 +22,29 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:shadowRadius="1"
             android:text="Textview"
             android:textColor="@color/nextgen_menu_right_text"
             android:textSize="14sp"
-            app:fontFamily="@font/freedcam"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textViewValue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:shadowDx="1.5"
-            android:shadowDy="1.5"
-            android:shadowRadius="1"/>
+            app:fontFamily="@font/freedcam" />
 
         <TextView
             android:id="@+id/textViewValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:text="Textview"
-            android:textColor="@color/nextgen_menu_right_text"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewHeader"
-            app:layout_constraintTop_toTopOf="parent"
             android:shadowDx="1.5"
             android:shadowDy="1.5"
-            android:shadowRadius="1"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:shadowRadius="1"
+            android:text="@{parameter.stringValue}"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:textSize="10sp" />
+    </LinearLayout>
 </layout>

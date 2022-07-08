@@ -292,6 +292,11 @@
         <item>@string/hw_dualcamera_Dual</item>
     </string-array>
 
+    <string-array name="themes" translatable="false">
+        <item>Default</item>
+        <item>NextGen</item>
+    </string-array>
+
     <string-array name="guidelist"  translatable="false">
         <item>None</item>
         <item>Center Type +</item>

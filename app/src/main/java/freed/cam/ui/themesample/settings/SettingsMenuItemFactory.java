@@ -247,10 +247,20 @@ public class SettingsMenuItemFactory
                 globalSettingGroup.addView(ers);
             }
 
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.THEME) != null) {
+                SettingsChildMenu theme = new SettingsChildMenu(context, R.string.setting_theme_header, R.string.setting_theme_description);
+                theme.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.THEME));
+                theme.SetUiItemClickListner(click);
+                globalSettingGroup.addView(theme);
+            }
+
 
         }
 
         GroupChild etc = new GroupChild(context,"Etc");
+
+
+
 
         SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
         etc.addView(fd);

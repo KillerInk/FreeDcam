@@ -12,11 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.databinding.CamerauiManualbuttonBinding;
+import com.troop.freedcam.databinding.NextgenTextItemBinding;
+
+import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
 public class NextGenTextItem extends ConstraintLayout {
 
-    private TextView header;
-    private TextView value;
+    NextgenTextItemBinding binding;
 
     public NextGenTextItem(@NonNull Context context) {
         super(context);
@@ -41,13 +44,21 @@ public class NextGenTextItem extends ConstraintLayout {
         setArrts(context,attrs);
     }
 
+    public static NextGenTextItem getInstance(@NonNull Context context, int headerID, AbstractParameter parameter)
+    {
+        NextGenTextItem item = new NextGenTextItem(context);
+        item.binding.textViewHeader.setText(headerID);
+        if (parameter != null) {
+            item.binding.setParameter(parameter);
+            item.binding.notifyChange();
+        }
+        return item;
+    }
+
     private void bind(Context context)
     {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.nextgen_text_item, null);
-        header = view.findViewById(R.id.textViewHeader);
-        value = view.findViewById(R.id.textViewValue);
-        addView(view);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        binding = NextgenTextItemBinding.inflate(inflater,this,true);
     }
 
     private void setArrts(Context context, AttributeSet attrs)
@@ -60,8 +71,8 @@ public class NextGenTextItem extends ConstraintLayout {
         //try to set the attributs
         try
         {
-            header.setText(a.getText(R.styleable.NextGenTextItem_setHeaderToView));
-            value.setText(a.getText(R.styleable.NextGenTextItem_setValueToView));
+            binding.textViewHeader.setText(a.getText(R.styleable.NextGenTextItem_setHeaderToView));
+            binding.textViewValue.setText(a.getText(R.styleable.NextGenTextItem_setValueToView));
         }
         finally {
             a.recycle();

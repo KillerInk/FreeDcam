@@ -38,78 +38,7 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
  */
 public class ManualButton extends LinearLayout
 {
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onViewStateChanged(ValueChangedEvent<AbstractParameter.ViewState> viewStateValueChangedEvent)
-    {
-        if (viewStateValueChangedEvent.type != AbstractParameter.ViewState.class)
-            return;
-        if (viewStateValueChangedEvent.key == parameter.getKey())
-        {
-            AbstractParameter.ViewState state = viewStateValueChangedEvent.newValue;
-            applyViewState(state);
-        }
-    }*/
 
-    /*private void applyViewState(AbstractParameter.ViewState state) {
-        Log.d(TAG, "applyViewState for " +parameter.getKey().toString() + " " + state.toString() );
-        switch (state)
-        {
-            case Enabled:
-                ManualButton.this.setVisibility(VISIBLE);
-                ManualButton.this.setEnabled(true);
-                if (imageView != null)
-                    imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-                break;
-            case Disabled:
-                ManualButton.this.setVisibility(VISIBLE);
-                ManualButton.this.setEnabled(false);
-                if (imageView != null)
-                    imageView.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                break;
-            case Visible:
-                ManualButton.this.setVisibility(View.VISIBLE);
-                ManualButton.this.setEnabled(true);
-                if (imageView != null)
-                    imageView.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
-                break;
-            case Hidden:
-                ManualButton.this.setVisibility(View.GONE);
-                break;
-        }
-    }*/
-
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onIntValueChanged(ValueChangedEvent<Integer> current)
-    {
-        if (current.type != Integer.class)
-            return;
-        if (current.key == parameter.getKey()) {
-            pos = current.newValue;
-            Log.d(TAG, "onIntValueChanged current:" + current + " pos:" + pos);
-            String txt = getStringValue(current.newValue);
-            if (txt != null && !TextUtils.isEmpty(txt) && !txt.equals("null"))
-                valueTextView.setText(txt);
-            else
-                valueTextView.setText(String.valueOf(current.newValue));
-        }
-    }*/
-
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onValuesChanged(ValueChangedEvent<String[]> values) {
-        if (values.type != String[].class)
-            return;
-        if (values.key == parameter.getKey()) {
-            parameterValues = values.newValue;
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onStringValueChanged(ValueChangedEvent<String> value) {
-        if (value.type != String.class)
-            return;
-        if (value.key == parameter.getKey())
-            valueTextView.setText(value.newValue);
-    }*/
 
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;

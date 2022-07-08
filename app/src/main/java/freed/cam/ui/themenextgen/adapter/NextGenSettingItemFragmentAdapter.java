@@ -40,7 +40,7 @@ import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
-import freed.cam.ui.themenextgen.objects.SettingItemConfig;
+import freed.cam.ui.themenextgen.layoutconfig.SettingItemConfig;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingBoolItem;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingButton;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingItem;

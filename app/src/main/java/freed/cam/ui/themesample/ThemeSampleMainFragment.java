@@ -114,13 +114,21 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     public void onDestroyView() {
         super.onDestroyView();
         previewController.previewPostProcessingChangedEventHandler.removeEventListner(this);
+        cameraApiManager.removeEventListner(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        cameraApiManager.onResume();
         if (!settingsManager.appVersionHasChanged() && uiViewPagerAdapter == null)
             initScreenSlide();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cameraApiManager.onPause();
     }
 
     private void initScreenSlide() {

@@ -12,4 +12,6 @@ public class FreeDcamFont {
     public final static String STRING_ZOOM_PLUS = "\uE008";
     public final static String STRING_ZOOM_MINUS = "\uE007";
     public final static String STRING_IMAGE = "\uE009";
+    public final static String STRING_WB = "\ue01a";
+    public final static String STRING_BURST = "\ue000";
 }

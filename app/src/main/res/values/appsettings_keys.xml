@@ -15,6 +15,7 @@
     <string name="aps_xiaomi_mfnr" translatable="false">xiaomiMfrn</string>
     <string name="aps_usecustom_matrix_oncamera2" translatable="false">useCustomMatrixOnCamera2</string>
     <string name="aps_checkforupdates" translatable="false">checkforupdates</string>
+    <string name="aps_theme" translatable="false">theme</string>
     <string name="aps_showmanualsettings" translatable="false">showmanualsettings</string>
     <string name="aps_api" translatable="false">activeapi</string>
     <string name="aps_app_version" translatable="false">app_version</string>

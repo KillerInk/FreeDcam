@@ -43,6 +43,7 @@ import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.NightOverlayParameter;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.SelfTimerParameter;
+import freed.cam.apis.basecamera.parameters.modes.ThemeMode;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
@@ -74,22 +75,23 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         this.cameraUiWrapper = cameraUiWrapper;
         settingsManager = FreedApplication.settingsManager();
         previewController = ActivityFreeDcamMain.previewController();
-        add(SettingsManager.GuideList, new GuideList());
-        add(SettingsManager.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
-        add(SettingsManager.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
-        add(SettingsManager.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
-        add(SettingsManager.HorizontLvl, new Horizont());
-        add(SettingsManager.SD_SAVE_LOCATION, new SDModeParameter());
-        PreviewPostProcessingMode previewPostProcessingMode = new PreviewPostProcessingMode(SettingsManager.PREVIEW_POST_PROCESSING_MODE);
-        add(SettingsManager.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
-        add(SettingsManager.PREVIEW_POST_PROCESSING_MODE, previewPostProcessingMode);
-        add(settingsManager.FOCUSPEAK_COLOR, new FocusPeakColorMode(previewController, SettingsManager.FOCUSPEAK_COLOR));
-        add(settingsManager.Focuspeak, new FocusPeakMode(cameraUiWrapper, SettingKeys.Focuspeak));
-        add(settingsManager.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
-        add(settingsManager.CLIPPING, new ClippingMode(cameraUiWrapper,SettingKeys.CLIPPING));
-        add(SettingsManager.selfTimer, new SelfTimerParameter(SettingsManager.selfTimer));
-        add(SettingsManager.M_ZEBRA_HIGH,new ZebraManualHighParameter(SettingsManager.M_ZEBRA_HIGH,previewController));
-        add(SettingsManager.M_ZEBRA_LOW,new ZebraManualLowParameter(SettingsManager.M_ZEBRA_LOW,previewController));
+        add(SettingKeys.THEME, new ThemeMode(SettingKeys.THEME));
+        add(SettingKeys.GuideList, new GuideList());
+        add(SettingKeys.LOCATION_MODE, new GpsParameter(cameraUiWrapper));
+        add(SettingKeys.INTERVAL_DURATION, new IntervalDurationParameter(cameraUiWrapper));
+        add(SettingKeys.INTERVAL_SHUTTER_SLEEP, new IntervalShutterSleepParameter(cameraUiWrapper));
+        add(SettingKeys.HorizontLvl, new Horizont());
+        add(SettingKeys.SD_SAVE_LOCATION, new SDModeParameter());
+        PreviewPostProcessingMode previewPostProcessingMode = new PreviewPostProcessingMode(SettingKeys.PREVIEW_POST_PROCESSING_MODE);
+        add(SettingKeys.NightOverlay, new NightOverlayParameter(cameraUiWrapper));
+        add(SettingKeys.PREVIEW_POST_PROCESSING_MODE, previewPostProcessingMode);
+        add(SettingKeys.FOCUSPEAK_COLOR, new FocusPeakColorMode(previewController, SettingKeys.FOCUSPEAK_COLOR));
+        add(SettingKeys.Focuspeak, new FocusPeakMode(cameraUiWrapper, SettingKeys.Focuspeak));
+        add(SettingKeys.HISTOGRAM, new HistogramParameter(cameraUiWrapper));
+        add(SettingKeys.CLIPPING, new ClippingMode(cameraUiWrapper,SettingKeys.CLIPPING));
+        add(SettingKeys.selfTimer, new SelfTimerParameter(SettingsManager.selfTimer));
+        add(SettingKeys.M_ZEBRA_HIGH,new ZebraManualHighParameter(SettingKeys.M_ZEBRA_HIGH,previewController));
+        add(SettingKeys.M_ZEBRA_LOW,new ZebraManualLowParameter(SettingKeys.M_ZEBRA_LOW,previewController));
         applyPreviewPostprocessingVisibility();
         previewPostProcessingMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
@@ -107,20 +109,20 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
 
         if (settingsManager == null)
             return;
-        if (settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE) == null)
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE) == null)
             return;
-        if (!settingsManager.getGlobal(SettingsManager.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
-            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Visible);
-            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Visible);
+        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+            get(SettingKeys.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Visible);
+            get(SettingKeys.Focuspeak).setViewState(AbstractParameter.ViewState.Visible);
+            get(SettingKeys.HISTOGRAM).setViewState(AbstractParameter.ViewState.Visible);
+            get(SettingKeys.CLIPPING).setViewState(AbstractParameter.ViewState.Visible);
         }
         else
         {
-            get(settingsManager.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Hidden);
-            get(settingsManager.Focuspeak).setViewState(AbstractParameter.ViewState.Hidden);
-            get(settingsManager.HISTOGRAM).setViewState(AbstractParameter.ViewState.Hidden);
-            get(settingsManager.CLIPPING).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.FOCUSPEAK_COLOR).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.Focuspeak).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.HISTOGRAM).setViewState(AbstractParameter.ViewState.Hidden);
+            get(SettingKeys.CLIPPING).setViewState(AbstractParameter.ViewState.Hidden);
             get(SettingKeys.M_ZEBRA_HIGH).setViewState(AbstractParameter.ViewState.Hidden);
             get(SettingKeys.M_ZEBRA_LOW).setViewState(AbstractParameter.ViewState.Hidden);
         }
@@ -137,7 +139,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
     }
 
     @Override
-    public void add(SettingsManager.Key parameters, ParameterInterface parameterInterface)
+    public void add(SettingKeys.Key parameters, ParameterInterface parameterInterface)
     {
         Log.d(TAG, "add "+ FreedApplication.getStringFromRessources(parameters.getRessourcesStringID()));
         parameterHashMap.put(parameters, parameterInterface);

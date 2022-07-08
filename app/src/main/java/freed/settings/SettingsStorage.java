@@ -35,7 +35,7 @@ public class SettingsStorage
         return xmlSettingInterface;
     }
 
-    public XmlSettingInterface getGlobal(SettingKeys.GlobalKey key) {
+    public XmlSettingInterface getGlobal(SettingKeys.Key key) {
         XmlSettingInterface xmlSettingInterface = settings.global_settings.get(key);
         if (xmlSettingInterface == null) {
             xmlSettingInterface = getNewSetting(key);

@@ -329,11 +329,10 @@ public class CameraUiFragment extends AbstractFragment implements
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        userMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage), view.findViewById(id.userMessageHolder));
+        userMessageHandler.setMessageTextView(view.findViewById(id.textView_usermessage));
         manualModes_holder = binding.manualModesHolder;
         addexit();
         cameraApiManager.addEventListner(this);
-
         infoOverlayModelView = new ViewModelProvider(this).get(InfoOverlayModelView.class);
         getLifecycle().addObserver(infoOverlayModelView);
         infoOverlayModelView.setCameraApiManager(cameraApiManager);
@@ -440,18 +439,24 @@ public class CameraUiFragment extends AbstractFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        userMessageHandler.setMessageTextView(null,null);
+        Log.d(TAG,"onDestroy");
+        userMessageHandler.setMessageTextView(null);
+
         cameraApiManager.removeEventListner(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"onResume");
+
     }
 
     @Override
     public void onPause()
     {
+        Log.d(TAG,"onPause");
+
         settingsManager.getGlobal(SettingKeys.SHOWMANUALSETTINGS).set(manualsettingsIsOpen);
         super.onPause();
 

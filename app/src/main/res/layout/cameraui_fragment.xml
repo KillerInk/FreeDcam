@@ -58,24 +58,19 @@
         android:id="@+id/info_overlay"/>
 
 
-    <LinearLayout
-        android:id="@+id/userMessageHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
-        android:layout_marginRight="@dimen/cameraui_shuttericon_size"
-        android:background="@color/menuBackgColor"
-        android:orientation="vertical"
-        android:visibility="gone">
-
         <TextView
             android:id="@+id/textView_usermessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            android:textColor="@android:color/black"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
+            android:layout_marginRight="@dimen/cameraui_shuttericon_size"
+            android:background="@color/menuBackgColor"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone"/>
 
     <view
         android:id="@+id/hisotview"

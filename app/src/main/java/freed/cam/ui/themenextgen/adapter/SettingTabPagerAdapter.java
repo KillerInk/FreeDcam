@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import freed.cam.ui.themenextgen.fragment.NextGenSettingDummyFragment;
 
-import freed.cam.ui.themenextgen.objects.SettingGroupConfig;
+import freed.cam.ui.themenextgen.layoutconfig.SettingGroupConfig;
 
 public class SettingTabPagerAdapter extends FragmentStatePagerAdapter {
 

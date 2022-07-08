@@ -40,12 +40,15 @@ import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.SecureCamera;
+import freed.cam.ui.ThemeManager;
 import freed.cam.ui.themenextgen.NextGenMainFragment;
 import freed.cam.ui.themesample.ThemeSampleMainFragment;
 import freed.cam.ui.themesample.cameraui.HorizontalValuesFragment;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.FileListController;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.settings.mode.SettingMode;
 import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.utils.OrientationManager;
@@ -57,6 +60,7 @@ import hilt.LocationManagerEntryPoint;
 import hilt.OrientationMangerEntryPoint;
 import hilt.PreviewControllerEntryPoint;
 import hilt.SoundPlayerEntryPoint;
+import hilt.ThemeManagerEntryPoint;
 import hilt.UserMessageHandlerEntryPoint;
 
 /**
@@ -108,21 +112,26 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return getEntryPointFromActivity(HistogramControllerEntryPoint.class).histogramcontroller();
     }
 
+    public static ThemeManager themeManager()
+    {
+        return getEntryPointFromActivity(ThemeManagerEntryPoint.class).themeManager();
+    }
+
 
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     @Inject
     OrientationManager orientationManager;
 
-    private boolean activityIsResumed= false;
     private SecureCamera mSecureCamera = new SecureCamera(this);
 
     @Inject
     public CameraApiManager cameraApiManager;
-    @Inject
-    FileListController fileListController;
+
     @Inject LocationManager locationManager;
     @Inject KeyPressedController keyPressedController;
+    @Inject
+    ThemeManager themeManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,10 +140,18 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         getLifecycle().addObserver(locationManager);
         mSecureCamera.onCreate();
         cameraApiManager.init();
+        settingsManager.init();
 
         //listen to phone orientation changes
         getLifecycle().addObserver(orientationManager);
-        inflateIntoHolder(R.id.MainLayout,new NextGenMainFragment());
+        themeManager.setLayoutholderAndFragmentManager(R.id.MainLayout,getSupportFragmentManager());
+        SettingMode mode = settingsManager.getGlobal(SettingKeys.THEME);
+        String theme = "Default";
+        if (mode != null) {
+            if (mode.get() != null && !mode.get().equals(""))
+                theme = mode.get();
+        }
+        themeManager.changeTheme(theme,false);
     }
 
     @Override
@@ -177,11 +194,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void onResumeTasks() {
         Log.d(TAG, "onResumeTasks() ");
-        activityIsResumed = true;
         if (!settingsManager.isInit())
             settingsManager.init();
-
-        cameraApiManager.onResume();
     }
 
     @Override
@@ -196,12 +210,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     @Override
     public void onPauseTasks() {
-        cameraApiManager.onPause();
         settingsManager.save();
         Log.d(TAG, "onPauseTasks() ");
         if(orientationManager != null)
             orientationManager.Stop();
-        activityIsResumed = false;
     }
 
 
@@ -247,12 +259,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
 
 
-    private void inflateIntoHolder(int id, Fragment fragment)
-    {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(id, fragment);
-        transaction.commit();
-    }
+
 
 
 
