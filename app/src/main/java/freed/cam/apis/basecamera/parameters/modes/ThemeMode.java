@@ -23,7 +23,7 @@ public class ThemeMode extends AbstractParameter {
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
         super.setValue(valueToSet, setToCamera);
-        ActivityFreeDcamMain.themeManager().changeTheme(valueToSet,true);
+        ActivityFreeDcamMain.themeManager().changeTheme(valueToSet);
     }
 
     @Override
