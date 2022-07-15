@@ -152,13 +152,13 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     public void setWaitForAe_af_lock(WaitForAe_Af_Lock callback)
     {
         if (callback != null) {
-            Log.d(TAG,"rest ae af lock");
+            log("rest ae af lock");
             aeAfLocker.setAeLocked(false);
             aeAfLocker.setAfLocked(false);
             focusState = WAITFORSCAN;
         }
         else
-            Log.d(TAG, "clear wait for ae af lock");
+            log("clear wait for ae af lock");
         this.waitForAe_af_lock = callback;
 
     }
@@ -269,7 +269,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         }
 
         if (waitForAe_af_lock != null) {
-            Log.d(TAG, "ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
+            log("ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
         }
        /* try {
@@ -304,7 +304,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private void setAfState(String afState)
     {
         if (!afStates.equals(afState)) {
-            Log.d(TAG, "af : " + afState);
+            log("af : " + afState);
             afStates = afState;
         }
     }
@@ -389,7 +389,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         try {
             int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
             currentIso = isova;
-            iso.fireStringValueChanged("A " + isova);
+            iso.fireStringValueChanged("(A) " + isova);
             //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
         } catch (NullPointerException ex) {
             //Log.v(TAG, "cant get iso");
@@ -431,7 +431,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
             currentExposureTime = expores;
             if (expores != 0) {
-                expotime.fireStringValueChanged("A "+getShutterStringNS(expores));
+                expotime.fireStringValueChanged("(A) "+getShutterStringNS(expores));
             } else
                 expotime.fireStringValueChanged("1/60");
 

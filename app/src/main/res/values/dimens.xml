@@ -46,4 +46,6 @@
     <dimen name="curveViewButtonHeight">30dp</dimen>
     <dimen name="nextgen_menu_right_bottom_text">10sp</dimen>
     <dimen name="nextgen_manualbutton_width">70dp</dimen>
+
+    <dimen name="nextgen_cameraui_textswitch">40dp</dimen>
 </resources>

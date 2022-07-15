@@ -12,6 +12,7 @@ public class InfoOverlayModel extends BaseObservable
     private String time;
     private String size;
     private String gps;
+    private String format;
 
     public void setBatteryLvl(String batteryLvl) {
         this.batteryLvl = batteryLvl;
@@ -61,5 +62,15 @@ public class InfoOverlayModel extends BaseObservable
     @Bindable
     public String getGps() {
         return gps;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;;
+        notifyPropertyChanged(BR.format);
+    }
+
+    @Bindable
+    public String getFormat() {
+        return format;
     }
 }

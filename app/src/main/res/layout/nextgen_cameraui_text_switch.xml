@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/layout_holder"
+        setViewState="@{parameter.viewState}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
+
+
+        <freed.cam.ui.themenextgen.view.button.StyledTextView
+            android:id="@+id/textView_value_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
+        <!--<TextView
+            android:id="@+id/textView_value_holder_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="2dp"
+            android:paddingRight="1dp"
+            android:paddingBottom="1dp"
+            android:text="TextView"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="@dimen/nextgen_cameraui_textswitch"
+            app:fontFamily="@font/freedcam"
+            tools:text="@string/font_exposuretime" />
+
+        <TextView
+            android:id="@+id/textView_value_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="1dp"
+            android:paddingRight="1dp"
+            android:paddingLeft="1dp"
+            android:paddingBottom="1dp"
+            android:text="TextView"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:textSize="@dimen/nextgen_cameraui_textswitch"
+            app:fontFamily="@font/freedcam"
+            tools:text="@string/font_exposuretime" />-->
+
+        <freed.cam.ui.themenextgen.view.button.StyledTextView
+            android:id="@+id/textView_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
+        <!--<TextView
+            android:id="@+id/textView_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="38dp"
+            android:background="@drawable/roundcorners"
+            android:ellipsize="marquee"
+            android:freezesText="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:maxWidth="50dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:textSize="10sp"
+            tools:text="@string/off" />-->
+
+    </LinearLayout>
+</layout>

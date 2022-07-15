@@ -168,6 +168,13 @@
         <item>@string/flash_torch</item>
         </string-array>
 
+    <string-array name="flashextModes"  translatable="false">
+        <item>@string/font_flash_auto</item>
+        <item>@string/font_flash_always</item>
+        <item>@string/font_flash_off</item>
+        <item>@string/font_flash_torch</item>
+        </string-array>
+
     <string-array name="antibandingmodes"  translatable="false">
         <item>@string/off</item>
         <item>@string/antibanding_50hz</item>

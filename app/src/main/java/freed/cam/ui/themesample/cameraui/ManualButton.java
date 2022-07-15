@@ -31,12 +31,13 @@ import com.troop.freedcam.databinding.CamerauiManualbuttonBinding;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
+import freed.cam.ui.themenextgen.view.button.ManualButtonInterface;
 
 
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualButton extends LinearLayout
+public class ManualButton extends LinearLayout implements ManualButtonInterface
 {
 
 
@@ -94,21 +95,7 @@ public class ManualButton extends LinearLayout
         }
     };
 
-    /*private String getStringValue(int pos)
-    {
-        if (parameterValues != null && parameterValues.length > 0)
-        {
-            if (pos >= parameterValues.length)
-                return parameterValues[parameterValues.length-1];
-            else if (pos < 0)
-                return parameterValues[0];
-            else
-                return parameterValues[pos];
-        }
-
-        return null;
-    }*/
-
+    @Override
     public String[] getStringValues()
     {
         if (parameterValues == null || parameterValues.length ==0)
@@ -116,23 +103,30 @@ public class ManualButton extends LinearLayout
         return parameterValues;
     }
 
+    @Override
     public int getCurrentItem()
     {
         return parameter.getIntValue();
     }
 
+    @Override
     public void setValueToParameters(final int value)
     {
         parameter.setIntValue(value, true);
-
     }
 
+    @Override
     public void SetActive(boolean active) {
         if (active) {
             setBackgroundColor(backgroundColorActive);
         } else {
             setBackgroundColor(backgroundColor);
         }
+    }
+
+    @Override
+    public AbstractParameter getParameter() {
+        return (AbstractParameter) parameter;
     }
 
 }

@@ -32,13 +32,14 @@ import androidx.fragment.app.Fragment;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import freed.cam.ui.themenextgen.view.button.StyledTextView;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
 
 /**
  * Created by troop on 16.06.2015.
  */
-public class HorizontalValuesFragment extends Fragment implements SettingsChildAbstract.CloseChildClick
+public class HorizontalValuesFragment extends Fragment
 {
     private LinearLayout valuesHolder;
     private String[] values;
@@ -78,32 +79,22 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
             return;
         for (String s : values)
         {
-            SimpleValueChild child = new SimpleValueChild(getContext());
-            child.SetString(s, this);
+            StyledTextView child = new StyledTextView(getContext());
+            child.setText(s);
+            child.setTextSize(22);
+            child.setMargine(10,10);
+            child.setOnClickListener(onChildClick);
             valuesHolder.addView(child);
         }
     }
 
-    private LinearLayout getNewLayout()
-    {
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        linearLayout.setLayoutParams(params);
-        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-        valuesHolder.addView(linearLayout);
-        return linearLayout;
-    }
 
 
-    /*
-    this gets attached to the Simplevalue childes and returns the value from the clicked SimpleValueChild
-     */
-    @Override
-    public void onCloseClicked(String value)
-    {
-        if (rdytoclose != null)
-            rdytoclose.onCloseClicked(value);
-    }
+    private View.OnClickListener onChildClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (rdytoclose != null)
+                rdytoclose.onCloseClicked(((StyledTextView)v).getText());
+        }
+    };
 }

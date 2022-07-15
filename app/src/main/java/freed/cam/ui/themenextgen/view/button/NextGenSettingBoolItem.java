@@ -19,6 +19,7 @@ public class NextGenSettingBoolItem extends RelativeLayout implements CompoundBu
 {
 
     NextgenSettingBoolitemBinding binding;
+    CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
 
     public NextGenSettingBoolItem(@NonNull Context context) {
         super(context);
@@ -41,6 +42,13 @@ public class NextGenSettingBoolItem extends RelativeLayout implements CompoundBu
     {
         NextGenSettingBoolItem item = new NextGenSettingBoolItem(context);
         item.setBinding(headerID,descriptionID,booleanSettingMode);
+        return item;
+    }
+
+    public static NextGenSettingBoolItem getInstance(@NonNull Context context, int headerID, int descriptionID, BooleanSettingModeInterface booleanSettingMode,CompoundButton.OnCheckedChangeListener onCheckedChangeListener)
+    {
+        NextGenSettingBoolItem item = getInstance(context,headerID,descriptionID,booleanSettingMode);
+        item.onCheckedChangeListener = onCheckedChangeListener;
         return item;
     }
 
@@ -101,5 +109,8 @@ public class NextGenSettingBoolItem extends RelativeLayout implements CompoundBu
             return;
         }
         binding.getParameter().set(isChecked);
+        if (onCheckedChangeListener != null)
+            onCheckedChangeListener.onCheckedChanged(buttonView,isChecked);
     }
+
 }

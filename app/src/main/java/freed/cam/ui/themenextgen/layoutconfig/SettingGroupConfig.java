@@ -25,6 +25,7 @@ public class SettingGroupConfig
     {
         ArrayList<SettingItemConfig> group = new ArrayList();
         group.add(new SettingItemConfig(SettingKeys.PictureSize, R.string.setting_picturesize_header, R.string.setting_picturesize_description,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.PictureFormat, R.string.setting_pictureformat_header, R.string.setting_pictureformat_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.YuvSize, R.string.setting_yuvsize_header, R.string.setting_yuvsize_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.secondarySensorSize, R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.JpegQuality, R.string.setting_jpegquality_header, R.string.setting_jpegquality_description,false, SettingItemConfig.ViewType.Text));
@@ -80,7 +81,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.PREVIEW_POST_PROCESSING_MODE, R.string.setting_enablerenderscript_header, R.string.setting_enablerenderscript_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.FOCUSPEAK_COLOR, R.string.setting_focuspeakcolor_header, R.string.setting_focuspeakcolor_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.orientationHack, R.string.setting_orientation_header, R.string.setting_orientation_description,false, SettingItemConfig.ViewType.Text));
-        group.add(new SettingItemConfig(SettingKeys.SWITCH_ASPECT_RATIO,R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.SWITCH_ASPECT_RATIO,R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text,true, SettingItemConfig.ViewType.Custom));
         group.add(new SettingItemConfig(SettingKeys.USE_FREEDCAM_AE,R.string.setting_usefreedae_header, R.string.setting_use_freedae_text, true, SettingItemConfig.ViewType.Custom));
         group.add(new SettingItemConfig(SettingKeys.MAX_ISO,R.string.setting_maxiso_header, R.string.setting_maxiso_text,true, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.MIN_ISO,R.string.setting_miniso_header, R.string.setting_miniso_text,true, SettingItemConfig.ViewType.Text));
@@ -93,6 +94,7 @@ public class SettingGroupConfig
     {
         ArrayList<SettingItemConfig> group = new ArrayList();
         group.add(new SettingItemConfig(SettingKeys.SceneMode, R.string.setting_scene_header,R.string.setting_scene_description ,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.WhiteBalanceMode, R.string.uisetting_wb_header,R.string.setting_distortion_description ,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.ColorMode, R.string.setting_color_header, R.string.setting_color_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.COLOR_CORRECTION_MODE, R.string.setting_colorcorrection_header, R.string.setting_colorcorrection_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.ObjectTracking, R.string.setting_objecttrack_header, R.string.setting_objecttrack_description,false, SettingItemConfig.ViewType.Text));
@@ -117,6 +119,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.DigitalImageStabilization, R.string.setting_dis_header, R.string.setting_dis_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.MemoryColorEnhancement, R.string.setting_mce_header, R.string.setting_mce_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.ZSL, R.string.setting_zsl_header, R.string.setting_zsl_description, false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.HDRMode, R.string.setting_hdrmode_header, R.string.setting_hdrmode_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.NonZslManualMode, R.string.setting_nonzsl_header, R.string.setting_nonzsl_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.CDS_Mode, R.string.setting_cds_header, R.string.setting_cds_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.EDGE_MODE, R.string.setting_edge_header, R.string.setting_edge_description, false, SettingItemConfig.ViewType.Text));
@@ -127,6 +130,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.ZoomSetting, R.string.setting_zoomsetting_header, R.string.setting_zoomsetting_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.SCALE_PREVIEW, R.string.setting_scalepreview_header, R.string.setting_scalepreview_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.dualPrimaryCameraMode, R.string.setting_dualprimarycamera_header, R.string.setting_dualprimarycamera_description, false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.ExposureMode, R.string.setting_exposuremode_header, R.string.setting_exposuremode_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.Ae_TargetFPS, R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.ZOOM_ON_MANUALFOCUS,R.string.setting_zoom_on_mf_header, R.string.setting_zoom_on_mf_description, true, SettingItemConfig.ViewType.Boolean));
         group.add(new SettingItemConfig(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR,R.string.setting_zoom_on_mf_factor_header, R.string.setting_zoom_on_mf_factor_description, true, SettingItemConfig.ViewType.Text));

@@ -27,14 +27,14 @@ import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
-public class CameraApiManager implements Preview.PreviewEvent {
+public class CameraApiManager<C extends CameraWrapperInterface> implements Preview.PreviewEvent {
     private final String TAG = CameraApiManager.class.getSimpleName();
 
 
 
     private BackgroundHandlerThread backgroundHandlerThread;
     private SettingsManager settingsManager;
-    private CameraWrapperInterface camera;
+    private C camera;
     private boolean PreviewSurfaceRdy;
     boolean cameraIsOpen;
     private PreviewController previewController;
@@ -130,12 +130,12 @@ public class CameraApiManager implements Preview.PreviewEvent {
                         case SettingsManager.API_2:
                             Log.d(TAG, "load camera2");
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                camera = new Camera2();
+                                camera = (C) new Camera2();
                             }
                             break;
                         default:
                             Log.d(TAG, "load camera1");
-                            camera = new Camera1();
+                            camera = (C) new Camera1();
                             break;
                     }
                     CameraThreadHandler.setCameraInterface(camera);
@@ -143,6 +143,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
                     camera.setCameraHolderEventHandler(cameraHolderEventHandler);
                     camera.setCaptureStateChangedEventHandler(captureStateChangedEventHandler);
                     camera.setModuleChangedEventHandler(moduleChangedEventHandler);
+                    Log.d(TAG, "Camera Open:" + cameraIsOpen + " Preview Rdy:"+ PreviewSurfaceRdy);
                     if (!cameraIsOpen && PreviewSurfaceRdy)
                         CameraThreadHandler.startCameraAsync();
                 }
@@ -151,7 +152,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
 
     }
 
-    public CameraWrapperInterface getCamera()
+    public C getCamera()
     {
         return camera;
     }

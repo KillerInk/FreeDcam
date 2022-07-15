@@ -17,4 +17,5 @@
 
     <color name="nextgen_menu_right_background">#66000000</color>
     <color name="nextgen_menu_right_text">#FFFFFFFF</color>
+    <color name="manual_button_active">#64DD17</color>
 </resources>

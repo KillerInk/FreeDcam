@@ -27,15 +27,10 @@ public class FlashDetector extends BaseParameter2Detector {
             //flash mode
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
             settingsManager.get(SettingKeys.FlashMode).setIsSupported(flashavail);
-            if (settingsManager.get(SettingKeys.FlashMode).isSupported()) {
-                String[] lookupar = FreedApplication.getContext().getResources().getStringArray(R.array.flashModes);
-                HashMap<String,Integer> map = new HashMap<>();
-                for (int i = 0; i< lookupar.length; i++)
-                {
-                    map.put(lookupar[i], i);
-                }
-                lookupar = StringUtils.IntHashmapToStringArray(map);
+            if (flashavail) {
+                String[] lookupar = FreedApplication.getContext().getResources().getStringArray(R.array.flashextModes);
                 settingsManager.get(SettingKeys.FlashMode).setValues(lookupar);
+                settingsManager.get(SettingKeys.FlashMode).set(lookupar[0]);
             }
         }
     }

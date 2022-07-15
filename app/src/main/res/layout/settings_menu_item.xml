@@ -7,71 +7,71 @@
             name="parameter"
             type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
     </data>
-<LinearLayout
-    android:id="@+id/menu_item_toplayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp"
-    android:layout_marginTop="1dp"
-    android:layout_marginLeft="1dp"
-    android:layout_marginRight="1dp"
-    android:background="@color/uiSettingsBackground"
-    setViewState="@{parameter.viewState}"
-    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/menu_item_toplayout"
+        setViewState="@{parameter.viewState}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="3dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textview_menuitem_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Header:"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="@dimen/settings_menu_item_header"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textview_menuitem_header_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="@{parameter.stringValue}"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/uiSettingsTextColor"
-            android:textSize="@dimen/settings_menu_item_header_value"
-            android:typeface="sans" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textview_menuitem_description"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="@dimen/settings_menu_item_description"
-            android:typeface="monospace" />
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textview_menuitem_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Header:"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="@dimen/settings_menu_item_header"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textview_menuitem_header_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@{parameter.stringValue}"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="@dimen/settings_menu_item_header_value"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="3dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_menuitem_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/nextgen_menu_right_text"
+                android:textSize="@dimen/settings_menu_item_description"
+                android:typeface="monospace" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
 </layout>

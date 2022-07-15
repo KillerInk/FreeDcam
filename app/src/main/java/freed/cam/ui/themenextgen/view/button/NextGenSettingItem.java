@@ -47,8 +47,10 @@ public class NextGenSettingItem extends RelativeLayout {
     public static NextGenSettingItem getInstance(@NonNull Context context, int headerID, int descriptionID, AbstractParameter parameter)
     {
         NextGenSettingItem item = new NextGenSettingItem(context);
-        item.settingItemBinding.textViewHeader.setText(headerID);
-        item.settingItemBinding.textViewDescription.setText(descriptionID);
+        if (headerID != 0)
+            item.settingItemBinding.textViewHeader.setText(headerID);
+        if (descriptionID != 0)
+            item.settingItemBinding.textViewDescription.setText(descriptionID);
         if (parameter != null) {
             item.settingItemBinding.setParameter(parameter);
             item.settingItemBinding.notifyChange();

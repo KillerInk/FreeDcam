@@ -1,5 +1,7 @@
 package freed.cam.ui.themenextgen.layoutconfig;
 
+import android.view.View;
+
 import freed.settings.SettingKeys;
 
 public class SettingItemConfig extends ManualItemConfig<Integer>
@@ -7,6 +9,7 @@ public class SettingItemConfig extends ManualItemConfig<Integer>
     int description;
     boolean settingmanager;
     ViewType type;
+    View view;
 
     public enum ViewType
     {
@@ -35,5 +38,13 @@ public class SettingItemConfig extends ManualItemConfig<Integer>
 
     public ViewType getViewType() {
         return type;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public View getView() {
+        return view;
     }
 }

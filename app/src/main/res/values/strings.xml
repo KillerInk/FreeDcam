@@ -383,6 +383,12 @@
 
     <string name="setting_dump_vendor_keys_description">Dump vendor keys</string>
     <string name="setting_dump_vendor_keys_header">Dump vendor keys</string>
+    <string name="setting_pictureformat_header">Picture Format:</string>
+    <string name="setting_pictureformat_description">Picture Format to capture</string>
+    <string name="setting_exposuremode_header">Auto Exposure Mode:</string>
+    <string name="setting_exposuremode_description">"Tells the camera wich exposure algo should get used "</string>
+    <string name="setting_hdrmode_header">HDR Mode:</string>
+    <string name="setting_hdrmode_description">" "</string>
 
 
 </resources>

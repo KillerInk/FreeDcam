@@ -32,6 +32,7 @@
     <string name="aps_isomode" translatable="false">isomode</string>
     <string name="aps_antibandingmode" translatable="false">antibandingmode</string>
     <string name="aps_ippmode" translatable="false">ippmode</string>
+    <string name="aps_cameraswitch" translatable="false">cameraswitch</string>
     <string name="aps_previewsize" translatable="false">previewsize</string>
     <string name="aps_jpegquality" translatable="false">jpegquality</string>
 

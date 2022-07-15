@@ -140,18 +140,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         getLifecycle().addObserver(locationManager);
         mSecureCamera.onCreate();
         cameraApiManager.init();
-        settingsManager.init();
 
         //listen to phone orientation changes
         getLifecycle().addObserver(orientationManager);
         themeManager.setLayoutholderAndFragmentManager(R.id.MainLayout,getSupportFragmentManager());
-        SettingMode mode = settingsManager.getGlobal(SettingKeys.THEME);
-        String theme = "Default";
-        if (mode != null) {
-            if (mode.get() != null && !mode.get().equals(""))
-                theme = mode.get();
-        }
-        themeManager.changeTheme(theme,false);
+
     }
 
     @Override
@@ -196,6 +189,13 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Log.d(TAG, "onResumeTasks() ");
         if (!settingsManager.isInit())
             settingsManager.init();
+        SettingMode mode = settingsManager.getGlobal(SettingKeys.THEME);
+        String theme = "Default";
+        if (mode != null) {
+            if (mode.get() != null && !mode.get().equals(""))
+                theme = mode.get();
+        }
+        themeManager.changeTheme(theme);
     }
 
     @Override

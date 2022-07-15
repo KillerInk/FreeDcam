@@ -54,7 +54,7 @@ public class ModuleParameters extends AbstractParameter {
     public String getStringValue() {
         if (cameraUiWrapper.getModuleHandler().getCurrentModule() != null)
             return cameraUiWrapper.getModuleHandler().getCurrentModule().ShortName();
-        else return "";
+        else return settingsManager.GetCurrentModule();
     }
 
     @Override

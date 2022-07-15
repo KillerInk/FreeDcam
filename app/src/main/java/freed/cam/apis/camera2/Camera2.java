@@ -60,8 +60,9 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         parametersHandler.Init();
         //cameraHolder.SetSurface(getPreview().getSurfaceTexture());
         Log.d(TAG, "initCamera Camera Opened and Preview Started");
-        cameraHolder.fireCameraOpenFinished();
         moduleHandler.setModule(settingsManager.GetCurrentModule());
+        cameraHolder.fireCameraOpenFinished();
+
         //parametersHandler.SetAppSettingsToParameters();
     }
 

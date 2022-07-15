@@ -63,10 +63,12 @@ public class VideoProfilesParameter extends AbstractParameter
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
             settingsManager.get(SettingKeys.VideoProfiles).set(profile);
+            setViewState(ViewState.Visible);
         }
         else if (supportedProfiles == null || supportedProfiles.size() == 0)
-            fireViewStateChanged(ViewState.Hidden);
-
+            setViewState(ViewState.Hidden);
+        else
+            setViewState(ViewState.Visible);
     }
 
     @Override

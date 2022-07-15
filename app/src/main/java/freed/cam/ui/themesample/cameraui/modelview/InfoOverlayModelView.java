@@ -142,6 +142,7 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
             infoOverlayModel.setStorageSpace(storageSpace);
             infoOverlayModel.setSize(size);
             infoOverlayModel.setGps(getGps(locationManager));
+            infoOverlayModel.setFormat(format);
             startLooperThread();
         }
     };
@@ -150,7 +151,7 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
     {
         if (locationManager.getCurrentLocation() != null)
         {
-            return "GPS:" +locationManager.getCurrentLocation().getAccuracy();
+            return FreedApplication.getStringFromRessources(R.string.font_gps)  +locationManager.getCurrentLocation().getAccuracy();
         }
         else return "";
     }

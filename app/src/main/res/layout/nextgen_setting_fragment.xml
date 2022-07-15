@@ -4,105 +4,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data></data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/setting_tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp">
-
-            <TextView
-                android:id="@+id/textView_video"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Video"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView_picture"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Picture"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView_raw"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Raw"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Camera"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView_interval"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Interval"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView_preview"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Preview"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/textView_etc"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="Etc"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textColor="@color/nextgen_menu_right_text"
-                android:textSize="20sp" />
-        </LinearLayout>
+        android:layout_height="wrap_content">
 
         <FrameLayout
-            android:id="@+id/fragmentholder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/setting_holder"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/roundcorners">
 
-    </LinearLayout>
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/setting_fragment_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorColor="@color/nextgen_menu_right_text"
+                    app:tabMode="scrollable" />
+
+
+            </androidx.viewpager.widget.ViewPager>
+        </FrameLayout>
+    </FrameLayout>
 
 </layout>

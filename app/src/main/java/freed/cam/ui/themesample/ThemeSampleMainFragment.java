@@ -54,6 +54,8 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     private LinearLayout nightoverlay;
     private View view;
 
+    private PreviewFragment previewFragment;
+
     @Override
     public void onCameraOpen() {
 
@@ -177,17 +179,11 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         }
     }
 
-    private PreviewFragment previewFragment;
-
     private void changePreviewPostProcessing()
     {
         if (previewFragment != null) {
             Log.d(TAG, "unload old Preview");
-            //kill the cam befor the fragment gets removed to make sure when
-            //new cameraFragment gets created and its texture view is created the cam get started
-            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(previewFragment);
             transaction.commit();
             previewFragment = null;
@@ -195,8 +191,7 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         Log.d(TAG, "load new Preview");
         previewFragment = new PreviewFragment();
         FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(R.id.cameraFragmentHolder, previewFragment, previewFragment.getClass().getSimpleName());
+        transaction.replace(R.id.cameraFragmentHolder, previewFragment);
         transaction.commit();
     }
 }

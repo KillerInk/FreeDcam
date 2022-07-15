@@ -27,7 +27,7 @@
         android:id="@+id/horHolder"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"/>
 
 
     <freed.cam.ui.themesample.cameraui.FocusSelector
@@ -37,16 +37,16 @@
         android:layout_height="70dp" />
 
     <ImageView
+        android:id="@+id/imageView_meteringarea"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:id="@+id/imageView_meteringarea"
         android:background="@drawable/exposure_metering"
         android:visibility="gone" />
 
     <ImageView
+        android:id="@+id/imageViewFocusClose"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/imageViewFocusClose"
         android:background="@drawable/focusclose"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
@@ -54,8 +54,12 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/cameraui_settings_margin_right" />
 
-    <include layout="@layout/cameraui_info_overlay"
-        android:id="@+id/info_overlay"/>
+    <include
+        android:id="@+id/info_overlay"
+        layout="@layout/cameraui_info_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 
 
         <TextView
@@ -98,19 +102,19 @@
 
     <LinearLayout
         android:id="@+id/left_ui_holder"
-        android:layout_width="@dimen/cameraui_settingschild_width"
+        android:layout_width="@dimen/cameraui_shuttericon_size"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginTop="12dp"
         android:layout_marginRight="90dp"
-        android:gravity="center_vertical"
+        android:gravity="bottom"
         android:orientation="vertical" />
 
     <RelativeLayout
+        android:id="@+id/right_ui_holder"
         android:orientation="vertical"
         android:layout_width="@dimen/cameraui_shuttericon_size"
         android:layout_height="match_parent"
-        android:id="@+id/right_ui_holder"
         android:layout_alignParentRight="true"
         android:gravity="center_horizontal">
 
@@ -119,17 +123,16 @@
             android:id="@+id/right_ui_holder_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom|center|center_horizontal"
-            android:orientation="vertical">
-        </LinearLayout>
+            android:gravity="center_horizontal"
+            android:orientation="vertical"/>
 
         <freed.cam.ui.themesample.cameraui.ShutterButton
+            android:id="@+id/shutter_button"
             android:layout_width="@dimen/cameraui_shuttericon_size"
             android:layout_height="@dimen/cameraui_shuttericon_size"
-            android:id="@+id/shutter_button"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerVertical="true" />
 
         <LinearLayout
             android:id="@+id/right_ui_items_bottom"
@@ -148,21 +151,23 @@
         android:id="@+id/manualModesHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
-        android:layout_marginRight="140dp"
-        android:gravity="center_horizontal"></FrameLayout>
+        android:gravity="center_horizontal"/>
 
 
     <FrameLayout
+        android:id="@+id/cameraui_values_fragment_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/cameraui_values_fragment_holder"
-        android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
-        android:layout_marginRight="147dp"
-        android:layout_alignParentTop="false"
-        android:layout_centerVertical="true"></FrameLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="false"
+        android:layout_marginRight="180dp"
+        android:layout_marginBottom="26dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="180dp" />
 
     <FrameLayout
         android:id="@+id/helpfragment_container"

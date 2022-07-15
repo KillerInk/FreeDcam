@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="font_exposuretime" translatable="false">\uE00B</string>
+    <string name="font_aperture" translatable="false">\uE003</string>
+    <string name="font_focallength" translatable="false">\uE00c</string>
+    <string name="font_iso" translatable="false">\uE002</string>
+    <string name="font_ev" translatable="false">\uE004</string>
+    <string name="font_zoom_plus" translatable="false">\uE008</string>
+    <string name="font_zoom_minus" translatable="false">\uE007</string>
+    <string name="font_image" translatable="false">\uE009</string>
+    <string name="font_wb" translatable="false">\uE01a</string>
+    <string name="font_burst" translatable="false">\uE000</string>
+    <string name="font_manual_focus" translatable="false">\uE001</string>
+    <string name="font_contrast" translatable="false">\uE010</string>
+    <string name="font_sharpness" translatable="false">\uE00c</string>
+    <string name="font_brightness" translatable="false">\uE00e</string>
+    <string name="font_saturation" translatable="false">\uE01e</string>
+    <string name="font_clipping" translatable="false">\uE00f</string>
+    <string name="font_focuspeak_on" translatable="false">\uE011</string>
+    <string name="font_focuspeak_off" translatable="false">\uE012</string>
+    <string name="font_gps" translatable="false">\uE01f</string>
+    <string name="font_camera" translatable="false">\uE020</string>
+    <string name="font_flash_off" translatable="false">\uE01b</string>
+    <string name="font_flash_auto" translatable="false">\uE018</string>
+    <string name="font_flash_always" translatable="false">\uE021</string>
+    <string name="font_flash_torch" translatable="false">\uE023</string>
+    <string name="font_flash_histogram" translatable="false">\uE024</string>
+    <string name="font_exposurelock" translatable="false">\uE025</string>
+</resources>

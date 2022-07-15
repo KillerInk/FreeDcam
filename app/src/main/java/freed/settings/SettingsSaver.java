@@ -13,12 +13,21 @@ import freed.utils.XmlUtil;
 public class SettingsSaver {
 
     private final String TAG = SettingsSaver.class.getSimpleName();
+
+    private final boolean DOLOG = false;
+
+    private void log(String s)
+    {
+        if (DOLOG)
+            Log.d(TAG, s);
+    }
+
     public void saveSettings(SettingLayout settingLayout, File appdata)
     {
 
         File configFile = new File(appdata.getAbsolutePath() + "/freed_config.xml");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(configFile))) {
-            Log.d(TAG, "Write global settings");
+            log("Write global settings");
 
             XmlUtil.writeTagStart(writer, XmlUtil.TAG_APIS);
             XmlUtil.writeTagWithValue(writer, XmlUtil.TAG_ACTIVE_API, settingLayout.active_api);
@@ -34,7 +43,7 @@ public class SettingsSaver {
             XmlUtil.writeTagStart(writer,XmlUtil.GLOBAL_SETTINGS);
             writeCameraIdSettings(writer, settingLayout.global_settings);
             XmlUtil.writeTagEnd(writer,XmlUtil.GLOBAL_SETTINGS);
-            Log.d(TAG, "Write api Settings");
+            log("Write api Settings");
             for (String api : settingLayout.api_hashmap.keySet())
             {
                 SettingLayout.CameraId camera = settingLayout.api_hashmap.get(api);
@@ -49,7 +58,7 @@ public class SettingsSaver {
     }
 
     private void writeApiNode(BufferedWriter writer, SettingLayout.CameraId camera) throws IOException {
-        Log.d(TAG, "Write api node");
+        log("Write api node");
         XmlUtil.writeTagWithValue(writer,XmlUtil.ACTIVE_CAMERA, String.valueOf(camera.active_camera));
         XmlUtil.writeTagWithValue(writer,XmlUtil.OVERRIDE_DNGPROFILE, String.valueOf(camera.overrideDngProfile));
         XmlUtil.writeTagWithValue(writer,XmlUtil.MAX_CAMERA_EXPOSURETIME, String.valueOf(camera.maxCameraExposureTime));
@@ -67,7 +76,7 @@ public class SettingsSaver {
     }
 
     private void writeCameraSettings(BufferedWriter writer, HashMap<Integer, SettingLayout.CameraId.CameraSettings> cameraid_settings) throws IOException {
-        Log.d(TAG, "Write camera settings");
+        log("Write camera settings");
         XmlUtil.writeTagStart(writer,XmlUtil.CAMERA_SETTINGS);
         for (int s : cameraid_settings.keySet()) {
             XmlUtil.writeNodeWithName(writer, XmlUtil.ID, String.valueOf(s));
@@ -79,7 +88,7 @@ public class SettingsSaver {
     }
 
     private void writeCameraIdSettings(BufferedWriter writer, HashMap<SettingKeys.Key, XmlSettingInterface> stringVideoMediaProfileHashMap) throws IOException {
-        Log.d(TAG, "write camera id settings");
+        log("write camera id settings");
         for (SettingKeys.Key s : stringVideoMediaProfileHashMap.keySet())
         {
             writer.write(stringVideoMediaProfileHashMap.get(s).getXmlString());
