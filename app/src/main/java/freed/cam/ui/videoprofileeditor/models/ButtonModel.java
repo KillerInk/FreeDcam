@@ -4,6 +4,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
+
 public abstract class ButtonModel extends BaseObservable implements PopupModel.PopUpItemClick {
 
     private PopupModel popupModel;

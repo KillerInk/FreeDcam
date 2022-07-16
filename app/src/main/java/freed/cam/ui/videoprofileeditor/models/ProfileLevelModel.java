@@ -3,8 +3,8 @@ package freed.cam.ui.videoprofileeditor.models;
 import android.media.MediaCodecInfo;
 
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
 
 import java.util.List;
 

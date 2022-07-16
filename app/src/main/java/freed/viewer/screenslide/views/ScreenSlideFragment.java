@@ -35,12 +35,13 @@ import android.view.ViewGroup;
 import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;

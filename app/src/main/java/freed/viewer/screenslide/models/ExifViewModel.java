@@ -4,8 +4,9 @@ import android.graphics.Typeface;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;

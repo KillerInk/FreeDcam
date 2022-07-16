@@ -10,7 +10,7 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // Add this line
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.1'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.42'
     }
 }
 

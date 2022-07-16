@@ -94,10 +94,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
-    implementation 'com.google.dagger:hilt-android:2.38.1'
+    implementation 'com.google.dagger:hilt-android:2.42'
     implementation project(path: ':renderscript-intrinsics-replacement-toolkit:renderscript-toolkit')
     implementation 'com.google.android.material:material:1.6.1'
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.38.1'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
 }
 
 android.applicationVariants.all { variant ->

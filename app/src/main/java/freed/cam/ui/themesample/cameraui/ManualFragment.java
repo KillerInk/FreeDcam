@@ -32,8 +32,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;

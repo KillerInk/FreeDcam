@@ -2,8 +2,8 @@ package freed.viewer.screenslide.models;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
 
 import java.util.ArrayList;
 import java.util.List;

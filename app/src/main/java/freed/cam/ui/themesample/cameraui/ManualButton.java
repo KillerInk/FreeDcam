@@ -25,8 +25,9 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.databinding.CamerauiManualbuttonBinding;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;

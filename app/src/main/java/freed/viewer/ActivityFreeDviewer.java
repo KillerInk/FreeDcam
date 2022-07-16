@@ -32,11 +32,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.R;
 
 import java.util.List;

@@ -2,8 +2,8 @@ package freed.cam.ui.themesample.cameraui.model;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
 
 public class InfoOverlayModel extends BaseObservable
 {
