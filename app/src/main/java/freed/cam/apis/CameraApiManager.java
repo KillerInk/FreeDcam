@@ -90,7 +90,7 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
             switchCamera();
         if (!PreviewSurfaceRdy)
             changePreviewPostProcessing();
-        if (PreviewSurfaceRdy && !camera.isCameraOpen()) {
+        else if (PreviewSurfaceRdy && !camera.isCameraOpen()) {
             Log.d(TAG, "startCameraAsync");
             CameraThreadHandler.startCameraAsync();
         }
@@ -196,7 +196,7 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
     public void onPreviewAvailable(SurfaceTexture surface, int width, int height) {
         Log.d(TAG,"onPreviewAvailable");
         PreviewSurfaceRdy = true;
-        if (!camera.isCameraOpen())
+        if (camera != null && !camera.isCameraOpen())
             CameraThreadHandler.startCameraAsync();
         else
             CameraThreadHandler.initCameraAsync();

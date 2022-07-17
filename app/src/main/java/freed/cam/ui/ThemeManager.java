@@ -18,6 +18,7 @@ public class ThemeManager
     int layoutholder;
     private FragmentManager manager;
     CameraApiManager cameraApiManager;
+    private String currentTheme;
 
     @Inject
     public ThemeManager(CameraApiManager cameraApiManager)
@@ -33,10 +34,13 @@ public class ThemeManager
 
     public void changeTheme(String theme)
     {
+        if (theme.equals(currentTheme))
+            return;
         if (theme.equals("Default"))
             inflateIntoHolder(layoutholder, new ThemeSampleMainFragment());
         else if (theme.equals("NextGen"))
             inflateIntoHolder(layoutholder, new NextGenMainFragment());
+        currentTheme = theme;
     }
 
     private void inflateIntoHolder(int id, Fragment fragment)

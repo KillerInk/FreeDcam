@@ -79,6 +79,7 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
+        Log.d(TAG,"setHistogramFeed");
         this.feed = feed;
         if (preview != null)
             this.preview.setHistogramFeed(feed);

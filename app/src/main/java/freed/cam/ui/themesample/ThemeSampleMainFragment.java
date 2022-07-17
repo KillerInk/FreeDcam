@@ -122,6 +122,7 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"onResume");
         cameraApiManager.onResume();
         if (!settingsManager.appVersionHasChanged() && uiViewPagerAdapter == null)
             initScreenSlide();
