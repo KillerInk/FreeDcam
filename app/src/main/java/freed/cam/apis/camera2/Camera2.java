@@ -52,6 +52,11 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         freedAeManger = new FreedAeManger(this, ActivityFreeDcamMain.userMessageHandler(),settingsManager);
     }
 
+    @Override
+    public boolean isCameraOpen() {
+        return cameraIsOpen;
+    }
+
 
     @Override
     public void initCamera() {

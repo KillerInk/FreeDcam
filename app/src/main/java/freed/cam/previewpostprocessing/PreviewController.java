@@ -183,11 +183,13 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void start() {
+        Log.d(TAG,"start");
         preview.start();
     }
 
     @Override
     public void stop() {
+        Log.d(TAG,"stop");
         preview.stop();
     }
 
@@ -247,6 +249,7 @@ public class PreviewController implements PreviewControllerInterface
 
     public void changePreviewPostProcessing()
     {
+
         previewPostProcessingChangedEventHandler.fireOnPreviewPostProcessingChanged();
     }
 

@@ -36,4 +36,5 @@ public interface CameraWrapperInterface extends CameraObjects, CameraInterface, 
 
 
     void setModuleChangedEventHandler(ModuleChangedEventHandler moduleChangedEventHandler);
+    boolean isCameraOpen();
 }

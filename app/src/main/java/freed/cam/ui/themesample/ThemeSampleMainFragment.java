@@ -181,6 +181,7 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
 
     private void changePreviewPostProcessing()
     {
+        Log.d(TAG,"changePreviewPostProcessing");
         if (previewFragment != null) {
             Log.d(TAG, "unload old Preview");
             FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();

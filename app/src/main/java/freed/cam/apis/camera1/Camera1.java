@@ -24,6 +24,11 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
         createCamera();
     }
 
+    @Override
+    public boolean isCameraOpen() {
+        return cameraIsOpen;
+    }
+
     private void createCamera() {
         Log.d(TAG,"FrameWork:" + settingsManager.getFrameWork() + " openlegacy:" + settingsManager.get(SettingKeys.openCamera1Legacy).get());
 

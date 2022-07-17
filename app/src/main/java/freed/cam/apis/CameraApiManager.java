@@ -36,7 +36,6 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
     private SettingsManager settingsManager;
     private C camera;
     private boolean PreviewSurfaceRdy;
-    boolean cameraIsOpen;
     private PreviewController previewController;
     private CaptureStateChangedEventHandler captureStateChangedEventHandler;
     private CameraHolderEventHandler cameraHolderEventHandler;
@@ -50,6 +49,7 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
         captureStateChangedEventHandler = new CaptureStateChangedEventHandler();
         cameraHolderEventHandler = new CameraHolderEventHandler();
         moduleChangedEventHandler = new ModuleChangedEventHandler();
+        previewController.setPreviewEventListner(this);
     }
 
     public void init()
@@ -85,12 +85,12 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
 
     public void onResume()
     {
-        Log.d(TAG, "onResume");
+        Log.d(TAG, "onResume camera null:" + (camera == null) + " PreviewSurfaceRdy:" + PreviewSurfaceRdy + " cameraIsOpen:" + (camera != null && camera.isCameraOpen()));
         if (camera == null)
             switchCamera();
         if (!PreviewSurfaceRdy)
             changePreviewPostProcessing();
-        if (PreviewSurfaceRdy && !cameraIsOpen) {
+        if (PreviewSurfaceRdy && !camera.isCameraOpen()) {
             Log.d(TAG, "startCameraAsync");
             CameraThreadHandler.startCameraAsync();
         }
@@ -143,8 +143,8 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
                     camera.setCameraHolderEventHandler(cameraHolderEventHandler);
                     camera.setCaptureStateChangedEventHandler(captureStateChangedEventHandler);
                     camera.setModuleChangedEventHandler(moduleChangedEventHandler);
-                    Log.d(TAG, "Camera Open:" + cameraIsOpen + " Preview Rdy:"+ PreviewSurfaceRdy);
-                    if (!cameraIsOpen && PreviewSurfaceRdy)
+                    Log.d(TAG, "Camera Open:" + camera.isCameraOpen() + " Preview Rdy:"+ PreviewSurfaceRdy);
+                    if (!camera.isCameraOpen() && PreviewSurfaceRdy)
                         CameraThreadHandler.startCameraAsync();
                 }
             }
@@ -185,17 +185,18 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
     public void changePreviewPostProcessing()
     {
         Log.d(TAG,"changePreviewPostProcessing()");
-        CameraThreadHandler.stopCameraAsync();
-        previewController.setPreviewEventListner(null);
+        PreviewSurfaceRdy = false;
+        //CameraThreadHandler.stopCameraAsync();
+        //previewController.setPreviewEventListner(null);
         previewController.changePreviewPostProcessing();
-        previewController.setPreviewEventListner(this);
+        //previewController.setPreviewEventListner(this);
     }
 
     @Override
     public void onPreviewAvailable(SurfaceTexture surface, int width, int height) {
         Log.d(TAG,"onPreviewAvailable");
         PreviewSurfaceRdy = true;
-        if (!cameraIsOpen)
+        if (!camera.isCameraOpen())
             CameraThreadHandler.startCameraAsync();
         else
             CameraThreadHandler.initCameraAsync();

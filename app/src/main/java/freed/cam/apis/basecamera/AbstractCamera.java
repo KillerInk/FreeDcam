@@ -82,4 +82,6 @@ public abstract class AbstractCamera<
     public M getModuleHandler() {
         return moduleHandler;
     }
+
+
 }
