@@ -35,7 +35,7 @@
     </declare-styleable>
     
     <declare-styleable name="StrokedTextView">
-        <attr name="setStrokeColor" format="integer"/>
+        <attr name="setStrokeColor" format="color"/>
         <attr name="setStrokeSize" format="integer"/>
     </declare-styleable>
 </resources>

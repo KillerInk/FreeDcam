@@ -16,17 +16,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.transition.Slide;
-import androidx.transition.Transition;
-import androidx.transition.TransitionManager;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.databinding.NextgenCamerauiTextSwitchBinding;
-import com.troop.freedcam.databinding.NextgenTextItemBinding;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
-import freed.cam.ui.themenextgen.view.button.StyledTextView;
-import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.settings.mode.BooleanSettingModeInterface;
 
 public class NextGenCameraUiTextSwitch extends LinearLayout {

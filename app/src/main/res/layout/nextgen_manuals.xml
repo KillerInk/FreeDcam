@@ -11,7 +11,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/aperture"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:background="@color/nextgen_menu_right_background" />
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/iso"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:background="@color/nextgen_menu_right_background" />
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/exposuretime"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:background="@color/nextgen_menu_right_background" />
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/exposure"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:background="@color/nextgen_menu_right_background" />
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/mf"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:layout_height="match_parent"
             android:background="@color/nextgen_menu_right_background" />
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/wb"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:layout_height="match_parent"
             android:background="@color/nextgen_menu_right_background" />
 
-        <freed.cam.ui.themenextgen.view.button.NextGenTextItem
+        <freed.cam.ui.themenextgen.view.button.NextGenManualButton
             android:id="@+id/burst"
             android:layout_width="@dimen/nextgen_manualbutton_width"
             android:layout_height="wrap_content"

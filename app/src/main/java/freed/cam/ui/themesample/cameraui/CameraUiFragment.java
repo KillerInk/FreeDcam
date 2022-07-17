@@ -70,13 +70,6 @@ import freed.cam.ui.themenextgen.view.NextGenCameraUiTextSwitch;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.SettingsChildAbstract;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildAeLock;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildCameraSwitch;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildExit;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildModuleSwitch;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsChildSelfTimer;
-import freed.cam.ui.themesample.cameraui.childs.UiSettingsFocusPeak;
 import freed.cam.ui.themesample.cameraui.modelview.InfoOverlayModelView;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
@@ -425,22 +418,6 @@ public class CameraUiFragment extends AbstractFragment implements
             }
             if (horizontalValuesFragment != null)
                 horizontalValuesFragment.Clear();
-
-          /*  RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            params.leftMargin = getResources().getDimensionPixelSize(dimen.cameraui_settingschild_width);
-            params.rightMargin = getResources().getDimensionPixelSize(dimen.cameraui_shuttericon_size) +getResources().getDimensionPixelSize(dimen.cameraui_settingschild_width)+2;
-            //params.addRule(RelativeLayout.CENTER_VERTICAL);
-
-            if (manualsettingsIsOpen)
-                params.bottomMargin = getResources().getDimensionPixelSize(dimen.cameraui_manualbuttonholder_height);*/
-
-        /*if (fromLeftFragment)
-            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        else  */
-            /*params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            camerauiValuesFragmentHolder.setLayoutParams(params);*/
 
             currentOpendChild = (NextGenCameraUiTextSwitch) v;
             horizontalValuesFragment = new HorizontalValuesFragment();

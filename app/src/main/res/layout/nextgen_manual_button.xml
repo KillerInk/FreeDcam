@@ -13,9 +13,10 @@
         setViewState="@{parameter.viewState}"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="2dp">
 
-        <TextView
+        <freed.views.StrokedTextView
             android:id="@+id/textViewHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
             android:textSize="24sp"
             app:fontFamily="@font/freedcam" />
 
-        <TextView
+        <freed.views.StrokedTextView
             android:id="@+id/textViewValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

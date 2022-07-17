@@ -28,7 +28,6 @@
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/halfroundcorners"
         android:overScrollMode="never"
         android:padding="2dp">
 

@@ -60,7 +60,7 @@ import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.themenextgen.view.button.ManualButtonInterface;
 import freed.cam.ui.themenextgen.view.button.NextGenMfItem;
-import freed.cam.ui.themenextgen.view.button.NextGenTextItem;
+import freed.cam.ui.themenextgen.view.button.NextGenManualButton;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
@@ -243,7 +243,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private void addNextGenButton(ParameterHandler parms,SettingKeys.Key key, String stringid)
     {
         if (parms.get(key) != null) {
-            NextGenTextItem btn = NextGenTextItem.getInstance(getContext(),stringid, (AbstractParameter) parms.get(key));
+            NextGenManualButton btn = NextGenManualButton.getInstance(getContext(),stringid, (AbstractParameter) parms.get(key));
             btn.setOnClickListener(manualButtonClickListner);
             manualItemsHolder.addView(btn);
             buttonHashMap.put(key,btn);
@@ -254,7 +254,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     private void addNextGenButton(ParameterHandler parms,SettingKeys.Key key, String stringid,int color)
     {
         if (parms.get(key) != null) {
-            NextGenTextItem btn = NextGenTextItem.getInstance(getContext(),stringid, (AbstractParameter) parms.get(key),color);
+            NextGenManualButton btn = NextGenManualButton.getInstance(getContext(),stringid, (AbstractParameter) parms.get(key),color);
             btn.setOnClickListener(manualButtonClickListner);
             manualItemsHolder.addView(btn);
             buttonHashMap.put(key,btn);

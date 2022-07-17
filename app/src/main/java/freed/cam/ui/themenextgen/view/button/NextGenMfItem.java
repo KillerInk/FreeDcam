@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 
-public class NextGenMfItem extends NextGenTextItem {
+public class NextGenMfItem extends NextGenManualButton {
     public NextGenMfItem(@NonNull Context context) {
         super(context);
     }
