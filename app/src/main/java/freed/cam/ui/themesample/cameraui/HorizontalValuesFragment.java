@@ -35,6 +35,7 @@ import com.troop.freedcam.R.layout;
 import freed.cam.ui.themenextgen.view.button.StyledTextView;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
+import freed.views.StrokedTextView;
 
 /**
  * Created by troop on 16.06.2015.
@@ -79,10 +80,9 @@ public class HorizontalValuesFragment extends Fragment
             return;
         for (String s : values)
         {
-            StyledTextView child = new StyledTextView(getContext());
+            StrokedTextView child = new StrokedTextView(getContext());
             child.setText(s);
-            child.setTextSize(22);
-            child.setMargine(10,10);
+            child.setTextSize(25);
             child.setOnClickListener(onChildClick);
             valuesHolder.addView(child);
         }
@@ -94,7 +94,7 @@ public class HorizontalValuesFragment extends Fragment
         @Override
         public void onClick(View v) {
             if (rdytoclose != null)
-                rdytoclose.onCloseClicked(((StyledTextView)v).getText());
+                rdytoclose.onCloseClicked((String) ((StrokedTextView)v).getText());
         }
     };
 }

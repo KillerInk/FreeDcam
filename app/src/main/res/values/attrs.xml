@@ -33,4 +33,9 @@
     <declare-styleable name="NextGenSettingBoolItem">
         <attr name="setBoolToView" format="boolean"/>
     </declare-styleable>
+    
+    <declare-styleable name="StrokedTextView">
+        <attr name="setStrokeColor" format="integer"/>
+        <attr name="setStrokeSize" format="integer"/>
+    </declare-styleable>
 </resources>

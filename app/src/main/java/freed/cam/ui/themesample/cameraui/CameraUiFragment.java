@@ -150,6 +150,7 @@ public class CameraUiFragment extends AbstractFragment implements
     }
 
     private void setCameraToUi(CameraWrapperInterface wrapper) {
+
             binding.leftUiHolder.removeAllViews();
             binding.rightUiHolderTop.removeAllViews();
             binding.rightUiItemsBottom.removeAllViews();
@@ -169,11 +170,11 @@ public class CameraUiFragment extends AbstractFragment implements
                 return;
 
             if (parameterHandler.get(SettingKeys.Focuspeak) != null)
-                addUiTextSwitch(binding.rightUiHolderTop, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.Focuspeak), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
+                addUiTextSwitch(binding.leftUiHolder, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.Focuspeak), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
             if (parameterHandler.get(SettingKeys.HISTOGRAM) != null)
-                addUiTextSwitch(binding.rightUiHolderTop, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
+                addUiTextSwitch(binding.leftUiHolder, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
             if (parameterHandler.get(SettingKeys.CLIPPING) != null)
-                addUiTextSwitch(binding.rightUiHolderTop, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
+                addUiTextSwitch(binding.leftUiHolder, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
 
             /*if (parameterHandler.get(SettingKeys.IsoMode) != null)
                 setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.IsoMode), R.drawable.quck_set_iso_png);*/
@@ -184,9 +185,9 @@ public class CameraUiFragment extends AbstractFragment implements
             if (parameterHandler.get(SettingKeys.ExposureLock) != null)
                 addUiTextSwitch(binding.leftUiHolder, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.ExposureLock),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
 
-            addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.selfTimer),FreedApplication.getStringFromRessources(R.string.font_exposuretime),onNextGenButtonClick);
-            addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.Module),FreedApplication.getStringFromRessources(R.string.font_image), onNextGenButtonClick);
-            addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.selfTimer),FreedApplication.getStringFromRessources(R.string.font_exposuretime),onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.Module),FreedApplication.getStringFromRessources(R.string.font_image), onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
 
             /*if (parameterHandler.get(SettingKeys.ExposureMode) != null)
                 setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.ExposureMode), R.drawable.quck_set_ae);*/
@@ -227,8 +228,8 @@ public class CameraUiFragment extends AbstractFragment implements
         }
     }
 
-    private final int iconsize = 30;
-    private final int frontsize = 10;
+    private final int iconsize = 33;
+    private final int frontsize = 12;
     private void addUiTextSwitch(LinearLayout root, AbstractParameter parameter, OnClickListener onClickListener) {
         NextGenCameraUiTextSwitch nextgenCamerauiTextSwitchBinding = new NextGenCameraUiTextSwitch(getContext());
         nextgenCamerauiTextSwitchBinding.setParameter(parameter,iconsize);

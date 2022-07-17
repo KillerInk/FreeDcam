@@ -65,7 +65,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private int disHeight;
     private int disWidth;
     private final int recthalf;
-    private final ImageView cancelFocus;
     private final ImageView meteringArea;
     private boolean touchToFocusIsSupported = false;
     private boolean meteringIsSupported = false;
@@ -82,16 +81,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         previewController = ActivityFreeDcamMain.previewController();
         focusImageView = view.findViewById(R.id.imageView_Crosshair);
 
-        cancelFocus = view.findViewById(R.id.imageViewFocusClose);
         meteringArea = view.findViewById(R.id.imageView_meteringarea);
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.cameraui_focusselector_width)/2;
-
-        cancelFocus.setVisibility(View.GONE);
-        cancelFocus.setOnClickListener(v -> {
-            wrapper.getCameraHolder().CancelFocus();
-            cancelFocus.setVisibility(View.GONE);
-        });
-
 
         meteringArea.setVisibility(View.GONE);
         if (wrapper != null)
@@ -179,17 +170,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
     }
 
-    @Override
-    public void FocusLocked(final boolean locked)
-    {
-        cancelFocus.post(() -> {
-            if (locked)
-                cancelFocus.setVisibility(View.VISIBLE);
-            else
-                cancelFocus.setVisibility(View.GONE);
-        });
-
-    }
 
     @Override
     public void TouchToFocusSupported(boolean isSupported)

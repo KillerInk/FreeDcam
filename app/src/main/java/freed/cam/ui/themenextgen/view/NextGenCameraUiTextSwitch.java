@@ -64,7 +64,7 @@ public class NextGenCameraUiTextSwitch extends LinearLayout {
     {
         binding.setParameter(parameter);
         binding.textViewValueHolder.setText(parameter.getStringValue());
-        binding.textViewValueHolder.setTextSize(size);
+        binding.textViewValueHolder.setTextSize((int) size);
         binding.textViewFront.setVisibility(GONE);
     }
 
@@ -78,8 +78,8 @@ public class NextGenCameraUiTextSwitch extends LinearLayout {
         this.showvaluetxt = showvaluetxt;
 
         binding.textViewValueHolder.setText(backgroundText);
-        binding.textViewFront.setTextSize(frontsize);
-        binding.textViewValueHolder.setTextSize(valuesize);
+        binding.textViewFront.setTextSize((int) frontsize);
+        binding.textViewValueHolder.setTextSize((int) valuesize);
         if(parameter != null) {
             binding.setParameter(parameter);
             binding.textViewFront.setText(parameter.getStringValue());
@@ -93,8 +93,10 @@ public class NextGenCameraUiTextSwitch extends LinearLayout {
     {
         this.booleanSettingModeInterface = booleanSettingModeInterface;
         binding.textViewValueHolder.setText(valueText);
-        binding.textViewValueHolder.setTextSize(valuesize);
+        binding.textViewValueHolder.setTextSize((int) valuesize);
         binding.textViewFront.setVisibility(GONE);
+        if (booleanSettingModeInterface instanceof AbstractParameter)
+            binding.setParameter((AbstractParameter)booleanSettingModeInterface);
         isSwitch = true;
     }
 
@@ -129,19 +131,19 @@ public class NextGenCameraUiTextSwitch extends LinearLayout {
     private void setChecked()
     {
         if (booleanSettingModeInterface.get())
-            binding.textViewValueHolder.setColor(ContextCompat.getColor(getContext(), R.color.manual_button_active));
+            binding.textViewValueHolder.setTextColor(ContextCompat.getColor(getContext(), R.color.manual_button_active));
         else
-            binding.textViewValueHolder.setColor(ContextCompat.getColor(getContext(), R.color.nextgen_menu_right_text));
+            binding.textViewValueHolder.setTextColor(ContextCompat.getColor(getContext(), R.color.nextgen_menu_right_text));
     }
 
     public void setValueTextSize(float size)
     {
-        binding.textViewValueHolder.setTextSize(size);
+        binding.textViewValueHolder.setTextSize((int) size);
     }
 
     public void setFrontTextSize(float size)
     {
-        binding.textViewFront.setTextSize(size);
+        binding.textViewFront.setTextSize((int) size);
     }
 
 }
