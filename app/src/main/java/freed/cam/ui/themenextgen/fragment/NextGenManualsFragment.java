@@ -236,7 +236,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
                 seekbar.setProgress(currentButton.getCurrentItem(), false);
                 currentValuePos = currentButton.getCurrentItem();
                 Log.d(TAG, "CurrentvaluePos " + currentValuePos);
-                
+
             }
 
         }

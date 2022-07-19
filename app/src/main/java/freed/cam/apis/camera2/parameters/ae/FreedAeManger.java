@@ -75,8 +75,10 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         exposureCompensation.setValue(evs.size()/2,false);
 
         evs = Arrays.asList(manualExposureTime.getStringValues());
-        evs.set(0,"auto");
-        manualExposureTime.fireStringValuesChanged(evs.toArray(new String[evs.size()]));
+        if (evs.size() >0) {
+            evs.set(0, "auto");
+            manualExposureTime.fireStringValuesChanged(evs.toArray(new String[evs.size()]));
+        }
     }
 
 

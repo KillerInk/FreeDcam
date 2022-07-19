@@ -226,7 +226,7 @@ public class CaptureSessionHandler
 
     public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
     {
-        Log.d(TAG, "AddSurface");
+        Log.d(TAG, "AddSurface is null:" + (surface == null) );
         if (surfaces.contains(surface))
             return;
         surfaces.add(surface);

@@ -314,28 +314,32 @@ public class SettingsMenuItemFactory
             SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
             previewgroup.addView(aspectRatio);
 
-            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null && params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name()))
+            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null)
             {
-                GroupChild aegroup = new GroupChild(context,  "Custom AE");
-                SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context,apS.getGlobal(SettingKeys.USE_FREEDCAM_AE),R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
-                aegroup.addView(freedae);
+                if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue() != null) {
+                    if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name())) {
+                        GroupChild aegroup = new GroupChild(context, "Custom AE");
+                        SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context, apS.getGlobal(SettingKeys.USE_FREEDCAM_AE), R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
+                        aegroup.addView(freedae);
 
-                SettingsChildMenu maxiso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_ISO),R.string.setting_maxiso_header, R.string.setting_maxiso_text);
-                maxiso.SetUiItemClickListner(click);
-                aegroup.addView(maxiso);
+                        SettingsChildMenu maxiso = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MAX_ISO), R.string.setting_maxiso_header, R.string.setting_maxiso_text);
+                        maxiso.SetUiItemClickListner(click);
+                        aegroup.addView(maxiso);
 
-                SettingsChildMenu miniso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_ISO),R.string.setting_miniso_header, R.string.setting_miniso_text);
-                miniso.SetUiItemClickListner(click);
-                aegroup.addView(miniso);
+                        SettingsChildMenu miniso = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MIN_ISO), R.string.setting_miniso_header, R.string.setting_miniso_text);
+                        miniso.SetUiItemClickListner(click);
+                        aegroup.addView(miniso);
 
-                SettingsChildMenu minexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_EXPOSURE),R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
-                minexpotime.SetUiItemClickListner(click);
-                aegroup.addView(minexpotime);
+                        SettingsChildMenu minexpotime = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MIN_EXPOSURE), R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
+                        minexpotime.SetUiItemClickListner(click);
+                        aegroup.addView(minexpotime);
 
-                SettingsChildMenu maxexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_EXPOSURE),R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
-                maxexpotime.SetUiItemClickListner(click);
-                aegroup.addView(maxexpotime);
-                previewgroup.addView(aegroup);
+                        SettingsChildMenu maxexpotime = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MAX_EXPOSURE), R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
+                        maxexpotime.SetUiItemClickListner(click);
+                        aegroup.addView(maxexpotime);
+                        previewgroup.addView(aegroup);
+                    }
+                }
             }
 
             settingchildholder.addView(previewgroup);

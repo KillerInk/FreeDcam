@@ -33,6 +33,7 @@ import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.BooleanSettingModeInterface;
+import freed.settings.mode.SettingMode;
 import freed.utils.StringUtils;
 
 /**
@@ -58,10 +59,15 @@ public class FocusPeakMode extends AbstractParameter implements BooleanSettingMo
 
     @Override
     public ViewState getViewState() {
-        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
-            return ViewState.Visible;
-        else
-            return ViewState.Hidden;
+        if (settingsManager != null) {
+            SettingMode settingMode = settingsManager.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE);
+            if (settingMode != null) {
+                String s = settingsManager.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get();
+                if (s != null && !s.equals(PreviewPostProcessingModes.off.name()))
+                    return ViewState.Visible;
+            }
+        }
+        return ViewState.Hidden;
     }
 
     @Override

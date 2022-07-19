@@ -50,8 +50,10 @@ public class NextGenSettingItemAdapterTools
         {
             ParameterInterface p = null;
             AbstractSettingMode s = null;
-            if (conf.getHeader() == R.string.setting_dump_vendor_keys_header && cameraApiManager.getCamera() instanceof Camera2)
-                validList.add(conf);
+            if (conf.getHeader() == R.string.setting_dump_vendor_keys_header) {
+                if (cameraApiManager.getCamera() instanceof Camera2)
+                    validList.add(conf);
+            }
             else if (conf.getHeader() == R.string.setting_api_header)
                 validList.add(conf);
             else if (conf.getHeader() == R.string.setting_savecamparams_header && settingsManager.getCamApi().equals(SettingsManager.API_1))
@@ -59,11 +61,14 @@ public class NextGenSettingItemAdapterTools
             else if (conf.getKey() == SettingKeys.USE_FREEDCAM_AE || conf.getKey() == SettingKeys.MAX_ISO || conf.getKey() == SettingKeys.MIN_ISO || conf.getKey() == SettingKeys.MAX_EXPOSURE || conf.getKey() == SettingKeys.MIN_EXPOSURE)
             {
                 if(settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null)
-                    if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+                    if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() != null &&
+                            settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
                         validList.add(conf);
             }
-            else if (conf.getKey() == null)
-                validList.add(conf);
+            else if (conf.getKey() == null) {
+                if (conf.getViewType() != SettingItemConfig.ViewType.Custom)
+                    validList.add(conf);
+            }
             else {
                 if (!conf.getFromSettingManager()) {
                     p = cameraApiManager.getCamera().getParameterHandler().get(conf.getKey());

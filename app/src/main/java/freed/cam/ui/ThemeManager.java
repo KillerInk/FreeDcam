@@ -9,6 +9,7 @@ import com.troop.freedcam.R;
 import javax.inject.Inject;
 
 import freed.cam.apis.CameraApiManager;
+import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.themenextgen.NextGenMainFragment;
 import freed.cam.ui.themesample.ThemeSampleMainFragment;
@@ -23,6 +24,7 @@ public class ThemeManager
     private FragmentManager manager;
     CameraApiManager cameraApiManager;
     private String currentTheme;
+    private Fragment activeFragment;
 
     @Inject
     public ThemeManager(CameraApiManager cameraApiManager)
@@ -40,10 +42,16 @@ public class ThemeManager
     {
         if (theme.equals(currentTheme))
             return;
+        if (cameraApiManager.getCamera() != null)
+            cameraApiManager.getCamera().stopCamera();
+        if (activeFragment != null)
+            removeFragment(activeFragment);
         if (theme.equals(DEFAULT))
-            inflateIntoHolder(layoutholder, new ThemeSampleMainFragment());
+            activeFragment = new ThemeSampleMainFragment();
         else if (theme.equals(NEXTGEN))
-            inflateIntoHolder(layoutholder, new NextGenMainFragment());
+            activeFragment = new NextGenMainFragment();
+
+        inflateIntoHolder(layoutholder, activeFragment);
         currentTheme = theme;
     }
 
@@ -51,6 +59,13 @@ public class ThemeManager
     {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(id,fragment);
-        transaction.commit();
+        transaction.commitNow();
+    }
+
+    private void removeFragment(Fragment fragment)
+    {
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.remove(fragment);
+        transaction.commitNow();
     }
 }

@@ -171,7 +171,10 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
-        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+        if (settingsManager != null &&
+                settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null &&
+                settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() != null &&
+                !settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
             if(size == null || previewController.getSurfaceTexture() == null)
                 return;
             cameraHolder.StopPreview();
