@@ -190,7 +190,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (!settingsManager.isInit())
             settingsManager.init();
         SettingMode mode = settingsManager.getGlobal(SettingKeys.THEME);
-        String theme = "Default";
+        String theme = ThemeManager.DEFAULT;
         if (mode != null) {
             if (mode.get() != null && !mode.get().equals(""))
                 theme = mode.get();

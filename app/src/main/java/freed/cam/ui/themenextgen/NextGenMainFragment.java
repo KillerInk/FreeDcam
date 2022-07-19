@@ -4,106 +4,125 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R;
 import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.histogram.HistogramController;
-import freed.cam.histogram.MyHistogram;
+import freed.cam.apis.PreviewFragment;
+import freed.cam.apis.basecamera.Size;
+import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.previewpostprocessing.PreviewController;
-import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
-import freed.cam.ui.themenextgen.adapter.SettingTabPagerAdapter;
-import freed.cam.ui.themesample.handler.UserMessageHandler;
+import freed.cam.ui.themenextgen.adapter.NextGenCameraUiSlidePagerAdapter;
+import freed.views.pagingview.PagingView;
+import freed.file.FileListController;
+import freed.image.ImageManager;
+import freed.image.ImageTask;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.Log;
+import freed.utils.PermissionManager;
+import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 @AndroidEntryPoint
-public class NextGenMainFragment extends Fragment implements PreviewController.PreviewPostProcessingChangedEvent
+public class NextGenMainFragment extends Fragment implements CameraHolderEvent, PreviewController.PreviewPostProcessingChangedEvent
 {
-    private boolean settingsOpen = false;
-    private TextView settingButton;
-    ViewPager settings_holder;
-    SettingTabPagerAdapter settingTabPagerAdapter;
-    TabLayout tabLayout;
-    private FrameLayout camera_preview;
-    private FrameLayout settings_viewpagerHolder;
-
+    private static final String TAG = NextGenMainFragment.class.getSimpleName();
     @Inject
-    PreviewController previewController;
+    PermissionManager permissionManager;
+    @Inject
+    ImageManager imageManager;
     @Inject
     SettingsManager settingsManager;
     @Inject
-    HistogramController histogramController;
-    @Inject
-    UserMessageHandler userMessageHandler;
+    FileListController fileListController;
     @Inject
     CameraApiManager cameraApiManager;
+    @Inject
+    PreviewController previewController;
+    private PagingView uiViewPager;
+    private NextGenCameraUiSlidePagerAdapter uiViewPagerAdapter;
+    private LinearLayout nightoverlay;
+    private View view;
+
+    private PreviewFragment previewFragment;
+
+    @Override
+    public void onCameraOpen() {
+
+    }
+
+    @Override
+    public void onCameraOpenFinished() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //in case the featuredetector runned bevor, uiViewPagerAdapter is null.
+                //thats the correct behavior because we dont want that the helpview overlay the featuredetector on first start
+                if (uiViewPagerAdapter == null)
+                    initScreenSlide();
+                SetNightOverlay();
+                if (!FileListController.needStorageAccessFrameWork) {
+                    if (permissionManager.isPermissionGranted(PermissionManager.Permissions.SdCard))
+                        imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+                }
+                else
+                {
+                    imageManager.putImageLoadTask(new LoadFreeDcamDcimDirsFilesRunner());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onCameraClose() {
+
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraChangedAspectRatioEvent(Size size) {
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.nextgen_cameraui, container, false);
+        return inflater.inflate(R.layout.nextgen_main_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        settingButton = view.findViewById(R.id.textView_settings);
-        settings_holder = view.findViewById(R.id.setting_fragment_holder);
-        settings_holder.setOffscreenPageLimit(3);
-        tabLayout = view.findViewById(R.id.tab_layout);
-        settingTabPagerAdapter = new SettingTabPagerAdapter(getParentFragmentManager());
-        settings_holder.setAdapter(settingTabPagerAdapter);
-        tabLayout.setupWithViewPager(settings_holder);
-        settingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!settingsOpen) {
-                    settings_viewpagerHolder.setVisibility(View.VISIBLE);
-                    settingsOpen = true;
-                }
-                else {
-                    settings_viewpagerHolder.setVisibility(View.GONE);
-                    settingsOpen = false;
-                }
-            }
-        });
-
-        camera_preview = view.findViewById(R.id.nextgen_camera_preview);
-        settings_viewpagerHolder = view.findViewById(R.id.setting_holder);
-
-
+        this.view = view;
+        cameraApiManager.addEventListner(this);
         previewController.previewPostProcessingChangedEventHandler.setEventListner(this);
-        settings_viewpagerHolder.setVisibility(View.GONE);
-        userMessageHandler.setMessageTextView(view.findViewById(R.id.textView_usermessagehandler));
+    }
 
-        MyHistogram histogram = view.findViewById(R.id.hisotview);
-        histogramController.setMyHistogram(histogram);
-        ImageView waveform = view.findViewById(R.id.imageView_waveform);
-        waveform.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (previewController.isColorWaveForm())
-                    previewController.setColorWaveForm(false);
-                else
-                    previewController.setColorWaveForm(true);
-            }
-        });
-        histogramController.setWaveFormView(waveform);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        previewController.previewPostProcessingChangedEventHandler.removeEventListner(this);
+        cameraApiManager.removeEventListner(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"onResume");
         cameraApiManager.onResume();
+        if (!settingsManager.appVersionHasChanged() && uiViewPagerAdapter == null)
+            initScreenSlide();
     }
 
     @Override
@@ -112,23 +131,66 @@ public class NextGenMainFragment extends Fragment implements PreviewController.P
         cameraApiManager.onPause();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        previewController.previewPostProcessingChangedEventHandler.removeEventListner(this);
-        userMessageHandler.setMessageTextView(null);
+    private void initScreenSlide() {
+
+        uiViewPagerAdapter = new NextGenCameraUiSlidePagerAdapter(getParentFragmentManager(),onThumbBackClick);
+        if (uiViewPager == null)
+            uiViewPager = view.findViewById(R.id.viewPager_fragmentHolder);
+        uiViewPager.setOffscreenPageLimit(2);
+        uiViewPager.setAdapter(uiViewPagerAdapter);
+        uiViewPager.setCurrentItem(1);
+    }
+
+    //get called when the back button from screenslidefragment gets clicked
+    private final ScreenSlideFragment.ButtonClick onThumbBackClick = new ScreenSlideFragment.ButtonClick() {
+        @Override
+        public void onButtonClick(int position, View view)
+        {
+            //show cameraui
+            if (uiViewPager != null)
+                uiViewPager.setCurrentItem(1);
+        }
+
+    };
+
+    public void SetNightOverlay() {
+        if (nightoverlay == null)
+            nightoverlay = view.findViewById(R.id.nightoverlay);
+        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NightOverlay).get());
+        if (settingsManager.getGlobal(SettingKeys.NightOverlay).get())
+            nightoverlay.setVisibility(View.VISIBLE);
+        else
+            nightoverlay.setVisibility(View.GONE);
     }
 
     @Override
     public void onPreviewPostProcessingChanged() {
-        camera_preview.removeAllViews();
-        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() == null)
-            previewController.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
-        else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
-            previewController.initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
-        else
-            previewController.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
-        camera_preview.addView(previewController.getPreviewView());
+        changePreviewPostProcessing();
+    }
 
+    private class LoadFreeDcamDcimDirsFilesRunner extends ImageTask
+    {
+        @Override
+        public boolean process() {
+            fileListController.LoadFreeDcamDCIMDirsFiles();
+            return false;
+        }
+    }
+
+    private void changePreviewPostProcessing()
+    {
+        Log.d(TAG,"changePreviewPostProcessing");
+        if (previewFragment != null) {
+            Log.d(TAG, "unload old Preview");
+            FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
+            transaction.remove(previewFragment);
+            transaction.commit();
+            previewFragment = null;
+        }
+        Log.d(TAG, "load new Preview");
+        previewFragment = new PreviewFragment();
+        FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.cameraFragmentHolder, previewFragment);
+        transaction.commit();
     }
 }

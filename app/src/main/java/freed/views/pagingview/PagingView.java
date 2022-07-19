@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.ui.themesample;
+package freed.views.pagingview;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramData;
-import freed.cam.ui.themesample.PagingViewTouchState;
+import freed.views.pagingview.PagingViewTouchState;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.VideoToneCurveProfile;

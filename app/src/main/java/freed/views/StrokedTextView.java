@@ -69,7 +69,8 @@ public class StrokedTextView extends androidx.appcompat.widget.AppCompatTextView
         internalInvalidate = true;
         Paint paint = getPaint();
 
-        paint.setDither(true);
+        float osize = paint.getTextSize();
+        //paint.setDither(true);
         paint.setAntiAlias(true);
         paint.setColor(strokeColor);
         paint.setStyle(Paint.Style.STROKE);
@@ -78,6 +79,7 @@ public class StrokedTextView extends androidx.appcompat.widget.AppCompatTextView
         super.onDraw(canvas);
 
         setTextColor(textColor);
+        paint.setTextSize(osize);
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
         paint.setStyle(Paint.Style.FILL);

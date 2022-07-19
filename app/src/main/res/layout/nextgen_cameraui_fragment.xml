@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data></data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/framelayout_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/guideHolder">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/horHolder"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"/>
+
+
+        <freed.views.FocusSelector
+            android:layout_width="70dp"
+            android:id="@+id/imageView_Crosshair"
+            android:visibility="gone"
+            android:layout_height="70dp" />
+
+        <ImageView
+            android:id="@+id/imageView_meteringarea"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/exposure_metering"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/info_overlay"
+            layout="@layout/nextgen_cameraui_info_overlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+
+        <TextView
+            android:id="@+id/textView_usermessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
+            android:layout_marginRight="@dimen/cameraui_shuttericon_size"
+            android:background="@color/menuBackgColor"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="gone"/>
+
+        <view
+            android:id="@+id/hisotview"
+            class="freed.cam.histogram.MyHistogram"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            android:background="@color/uiSettingsBackground"
+            tools:layout_width="120dp"
+            tools:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"/>
+
+        <ImageView
+            android:id="@+id/imageView_waveform"
+            android:layout_width="290dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="-79dp"
+            android:layout_marginTop="165dp"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:rotation="270"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <freed.views.shutter.ShutterButton
+            android:id="@+id/shutter_button"
+            android:layout_width="@dimen/cameraui_shuttericon_size"
+            android:layout_height="@dimen/cameraui_shuttericon_size"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:id="@+id/right_ui_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="93dp"
+            android:background="@drawable/halfroundleftcorners"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+
+            <FrameLayout
+                android:id="@+id/framelayout_rightbuttons"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="false"
+                android:minWidth="20dp"
+                android:minHeight="20dp">
+
+                <TextView
+                    android:id="@+id/textView_framelayout_rightbuttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:text=">"
+                    android:textColor="@color/nextgen_menu_right_text" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/right_ui_items_bottom"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/left_ui_holder"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/manualModesHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
+            android:gravity="center_horizontal"/>
+
+
+        <FrameLayout
+            android:id="@+id/cameraui_values_fragment_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/right_ui_holder"
+            android:layout_marginBottom="26dp" />
+
+        <FrameLayout
+            android:id="@+id/helpfragment_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true">
+
+        </FrameLayout>
+
+        <freed.views.CurveViewControl
+            android:id="@+id/curveView"
+            android:layout_width="@dimen/curveViewWidth"
+            android:layout_height="@dimen/curveViewHeight"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="false"
+            android:layout_marginEnd="110dp"
+            android:layout_marginRight="110dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/uiSettingsBackground" />
+
+    </RelativeLayout>
+</layout>

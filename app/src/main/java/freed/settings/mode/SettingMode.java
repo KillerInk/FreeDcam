@@ -61,7 +61,7 @@ public class SettingMode extends AbstractSettingMode {
 
     public void setValues(String[] ar)
     {
-        Log.d(TAG, settingKey.toString() +" " + Arrays.toString(ar));
+        //Log.d(TAG, settingKey.toString() +" " + Arrays.toString(ar));
         this.values = ar;
     }
 

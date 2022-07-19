@@ -26,4 +26,5 @@
     <string name="font_flash_torch" translatable="false">\uE023</string>
     <string name="font_flash_histogram" translatable="false">\uE024</string>
     <string name="font_exposurelock" translatable="false">\uE025</string>
+    <string name="font_tonecurve" translatable="false">\uE026</string>
 </resources>

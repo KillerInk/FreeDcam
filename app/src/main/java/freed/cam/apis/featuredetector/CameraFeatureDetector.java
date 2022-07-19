@@ -11,6 +11,7 @@ import java.util.List;
 
 import freed.FreedApplication;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
+import freed.cam.ui.ThemeManager;
 import freed.gl.GlVersion;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -71,7 +72,7 @@ public class CameraFeatureDetector {
             settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(false);
 
         settingsManager.getGlobal(SettingKeys.THEME).setValues(FreedApplication.getStringArrayFromRessource(R.array.themes));
-        settingsManager.getGlobal(SettingKeys.THEME).set("Default");
+        settingsManager.getGlobal(SettingKeys.THEME).set(ThemeManager.DEFAULT);
         settingsManager.getGlobal(SettingKeys.THEME).setIsSupported(true);
 
         settingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getStringArrayFromRessource(R.array.guidelist));

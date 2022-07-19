@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
@@ -17,13 +16,11 @@ import com.troop.freedcam.R;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.previewpostprocessing.PreviewController;
-import freed.cam.ui.CameraUiSlidePagerAdapter;
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
@@ -32,6 +29,7 @@ import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
+import freed.views.pagingview.PagingView;
 
 @AndroidEntryPoint
 public class ThemeSampleMainFragment extends Fragment implements CameraHolderEvent, PreviewController.PreviewPostProcessingChangedEvent {
@@ -54,8 +52,6 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     private LinearLayout nightoverlay;
     private View view;
 
-    private PreviewFragment previewFragment;
-
     @Override
     public void onCameraOpen() {
 
@@ -63,6 +59,7 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
 
     @Override
     public void onCameraOpenFinished() {
+        Log.d(TAG,"onCameraOpenFinished");
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -110,6 +107,7 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         this.view = view;
         cameraApiManager.addEventListner(this);
         previewController.previewPostProcessingChangedEventHandler.setEventListner(this);
+        Log.d(TAG,"onViewCreated");
     }
 
     @Override
@@ -117,15 +115,16 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         super.onDestroyView();
         previewController.previewPostProcessingChangedEventHandler.removeEventListner(this);
         cameraApiManager.removeEventListner(this);
+        Log.d(TAG,"onDestroyView");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG,"onResume");
         cameraApiManager.onResume();
         if (!settingsManager.appVersionHasChanged() && uiViewPagerAdapter == null)
             initScreenSlide();
+        Log.d(TAG,"onResume");
     }
 
     @Override
@@ -180,12 +179,18 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         }
     }
 
+    private PreviewFragment previewFragment;
+
     private void changePreviewPostProcessing()
     {
         Log.d(TAG,"changePreviewPostProcessing");
         if (previewFragment != null) {
             Log.d(TAG, "unload old Preview");
+            //kill the cam befor the fragment gets removed to make sure when
+            //new cameraFragment gets created and its texture view is created the cam get started
+            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(previewFragment);
             transaction.commit();
             previewFragment = null;
@@ -193,7 +198,8 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         Log.d(TAG, "load new Preview");
         previewFragment = new PreviewFragment();
         FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.cameraFragmentHolder, previewFragment);
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        transaction.replace(R.id.cameraFragmentHolder, previewFragment, previewFragment.getClass().getSimpleName());
         transaction.commit();
     }
 }

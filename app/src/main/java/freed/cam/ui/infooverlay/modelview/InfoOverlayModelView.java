@@ -1,4 +1,4 @@
-package freed.cam.ui.themesample.cameraui.modelview;
+package freed.cam.ui.infooverlay.modelview;
 
 import android.content.Context;
 import android.os.Build;
@@ -23,7 +23,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 import freed.FreedApplication;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
-import freed.cam.ui.themesample.cameraui.model.InfoOverlayModel;
+import freed.cam.ui.infooverlay.model.InfoOverlayModel;
 import freed.cam.ui.themesample.cameraui.service.BatteryService;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;

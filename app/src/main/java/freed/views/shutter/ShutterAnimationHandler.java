@@ -1,4 +1,4 @@
-package freed.cam.ui.themesample.cameraui;
+package freed.views.shutter;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package freed.cam.ui;
+package freed.cam.ui.themesample;
 
 import android.os.Parcelable;
 
@@ -14,7 +14,7 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 {
-    private NextGenCameraSettingFragment settingsMenuFragment = new NextGenCameraSettingFragment();
+    private SettingsMenuFragment settingsMenuFragment = new SettingsMenuFragment();
     private ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
     private CameraUiFragment cameraUiFragment = new CameraUiFragment();
 

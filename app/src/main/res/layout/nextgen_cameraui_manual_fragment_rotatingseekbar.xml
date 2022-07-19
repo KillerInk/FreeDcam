@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="180dp"
-        android:layout_marginRight="180dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
         android:layout_marginBottom="40dp">
 
         <freed.views.RotatingSeekbar
@@ -28,6 +28,7 @@
         android:layout_alignParentRight="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/halfroundtopcorners"
         android:overScrollMode="never"
         android:padding="2dp">
 
@@ -53,17 +54,6 @@
         android:layout_toStartOf="@+id/frameLayout"
         android:layout_toLeftOf="@+id/frameLayout" />
 
-    <view
-        android:id="@+id/curveView"
-        class="freed.views.CurveViewControl"
-        layout_width="match_parent"
-        android:layout_width="@dimen/curveViewWidth"
-        android:layout_height="@dimen/curveViewHeight"
-        android:layout_above="@+id/horizontalScrollView2"
-        android:layout_centerInParent="false"
-        android:layout_marginRight="5dp"
-        android:layout_toStartOf="@+id/frameLayout"
-        android:layout_toLeftOf="@+id/frameLayout"
-        android:background="@color/uiSettingsBackground" />
+
 
 </RelativeLayout>

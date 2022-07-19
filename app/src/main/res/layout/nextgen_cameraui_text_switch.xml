@@ -13,22 +13,22 @@
         android:id="@+id/layout_holder"
         setViewState="@{parameter.viewState}"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:orientation="vertical">
 
 
-        <freed.views.StrokedTextView
+        <TextView
             android:id="@+id/textView_value_holder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:text="test"
-            android:textStyle="bold" />
+            app:fontFamily="@font/freedcam" />
 
-        <freed.views.StrokedTextView
+        <TextView
             android:id="@+id/textView_front"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,8 +39,7 @@
             android:freezesText="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="test"
-            android:textStyle="bold" />
+            android:text="test" />
 
     </LinearLayout>
 </layout>

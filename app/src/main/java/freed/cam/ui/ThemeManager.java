@@ -15,6 +15,10 @@ import freed.cam.ui.themesample.ThemeSampleMainFragment;
 
 public class ThemeManager
 {
+
+    public static final String DEFAULT = "Default";
+    public static final String NEXTGEN = "NextGen";
+
     int layoutholder;
     private FragmentManager manager;
     CameraApiManager cameraApiManager;
@@ -36,9 +40,9 @@ public class ThemeManager
     {
         if (theme.equals(currentTheme))
             return;
-        if (theme.equals("Default"))
+        if (theme.equals(DEFAULT))
             inflateIntoHolder(layoutholder, new ThemeSampleMainFragment());
-        else if (theme.equals("NextGen"))
+        else if (theme.equals(NEXTGEN))
             inflateIntoHolder(layoutholder, new NextGenMainFragment());
         currentTheme = theme;
     }

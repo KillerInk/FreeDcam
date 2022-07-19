@@ -1,4 +1,4 @@
-package freed.cam.ui.themesample;
+package freed.views.pagingview;
 
 public class PagingViewTouchState {
     private boolean touchEnable;

@@ -1,4 +1,4 @@
-package freed.cam.ui.themesample.cameraui.model;
+package freed.cam.ui.infooverlay.model;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;

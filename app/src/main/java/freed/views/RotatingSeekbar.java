@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.ui.themesample.cameraui;
+package freed.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

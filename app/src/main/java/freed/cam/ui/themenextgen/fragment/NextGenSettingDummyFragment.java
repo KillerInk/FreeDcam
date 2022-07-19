@@ -162,7 +162,7 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
                 itemHolder.setOnItemClickListener(null);
                 String value = (String) itemHolder.getItemAtPosition(position);
                 if (activeItem instanceof NextGenSettingItem) {
-                    ((NextGenSettingItem) activeItem).getParameter().setStringValue(value, true);
+                    activeItem.getParameter().setStringValue(value, true);
                 }
                 itemHolder.setAdapter(adapter);
                 itemHolder.setOnItemClickListener(itemClickListener);

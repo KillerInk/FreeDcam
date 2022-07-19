@@ -20,15 +20,11 @@
 package freed.cam.ui.themesample.handler;
 
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Build.VERSION;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -45,8 +41,8 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.previewpostprocessing.PreviewController;
-import freed.cam.ui.themesample.PagingViewTouchState;
-import freed.cam.ui.themesample.cameraui.FocusSelector;
+import freed.views.pagingview.PagingViewTouchState;
+import freed.views.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
