@@ -31,6 +31,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.settings.SettingsManager;
+import freed.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by troop on 09.09.2015.
@@ -66,11 +67,16 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
     {
         if (parameter == null)
             return;
-        if (parameter.getStringValue().equals(getResources().getString(R.string.on_))) {
-            parameter.setStringValue(getResources().getString(R.string.off_), false);
+        if (parameter instanceof BooleanSettingModeInterface) {
+            ((BooleanSettingModeInterface) parameter).set(!((BooleanSettingModeInterface) parameter).get());
         }
-        else{
-            parameter.setStringValue(getResources().getString(R.string.on_),false);}
+        else {
+            if (parameter.getStringValue().equals(getResources().getString(R.string.on_))) {
+                parameter.setStringValue(getResources().getString(R.string.off_), false);
+            } else {
+                parameter.setStringValue(getResources().getString(R.string.on_), false);
+            }
+        }
 
     }
 

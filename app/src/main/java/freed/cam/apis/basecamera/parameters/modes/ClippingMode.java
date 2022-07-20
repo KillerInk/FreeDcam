@@ -37,5 +37,6 @@ public class ClippingMode extends FocusPeakMode {
     public void set(boolean bool) {
         previewController.setClipping(bool);
         settingsManager.get(settingMode).set(bool);
+        fireStringValueChanged(getStringValue());
     }
 }

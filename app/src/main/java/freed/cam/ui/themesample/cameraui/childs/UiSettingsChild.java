@@ -25,9 +25,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;
 import com.troop.freedcam.databinding.CamerauiUisettingschildBinding;
@@ -100,6 +102,7 @@ public class UiSettingsChild extends SettingsChildAbstract
         View view = inflater.inflate(layout.cameraui_uisettingschild, null);
         binding = CamerauiUisettingschildBinding.bind(view);
         binding.textView2.setSelected(true);
+        binding.textView2.setTypeface(ResourcesCompat.getFont(getContext(), R.font.freedcam));
         binding.getRoot().setOnClickListener(this);
         this.addView(binding.getRoot());
     }

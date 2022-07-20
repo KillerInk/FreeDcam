@@ -37,5 +37,6 @@ public class HistogramParameter extends FocusPeakMode {
     public void set(boolean bool) {
         previewController.setHistogram(bool);
         settingsManager.get(settingMode).set(bool);
+        fireStringValueChanged(getStringValue());
     }
 }

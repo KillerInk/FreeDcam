@@ -27,6 +27,9 @@ import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -56,6 +59,7 @@ public class SimpleValueChild extends FrameLayout implements OnClickListener
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.cameraui_simplevaluechild, this);
         textView = findViewById(id.simplevaluetext);
+        textView.setTypeface(ResourcesCompat.getFont(getContext(), R.font.freedcam));
         setOnClickListener(this);
     }
 

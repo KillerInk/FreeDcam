@@ -52,7 +52,7 @@ public class FocusPeakMode extends AbstractParameter implements BooleanSettingMo
     @Override
     public String getStringValue()
     {
-        if (cameraUiWrapper == null && !settingsManager.get(settingMode).get())
+        if (!settingsManager.get(settingMode).get())
             return FreedApplication.getStringFromRessources(R.string.off_);
         return FreedApplication.getStringFromRessources(R.string.on_);
     }
@@ -99,5 +99,6 @@ public class FocusPeakMode extends AbstractParameter implements BooleanSettingMo
     public void set(boolean bool) {
         previewController.setFocusPeak(bool);
         settingsManager.get(settingMode).set(bool);
+        fireStringValueChanged(getStringValue());
     }
 }
