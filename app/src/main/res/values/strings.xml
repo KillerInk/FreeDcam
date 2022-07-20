@@ -176,6 +176,8 @@
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
+    <string name="setting_force_wide_preview_header">Force Wide Preview</string>
+    <string name="setting_force_wider_preview_description">When enabled it use the widest available preview size</string>
     <string name="setting_zoom_on_mf_header">Auto Zoom on ManualFocus</string>
     <string name="setting_zoom_on_mf_description">Auto Zoom when using ManualFocus</string>
     <string name="setting_zoom_on_mf_factor_header">Zoom Factor</string>
