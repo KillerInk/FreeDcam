@@ -293,12 +293,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Log.d(TAG, "add preview surface normal");
         cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
 
+        //Log.d(TAG, "Create Opcode PicReader");
+        PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
+        Log.d(TAG, "add surface picture");
+        cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
 
         if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Log.d(TAG, "Create Opcode PicReader");
-            PicReader = ImageReader.newInstance(320, 240, ImageFormat.JPEG, 3);
-            Log.d(TAG, "add surface picture");
-            cameraUiWrapper.captureSessionHandler.AddSurface(PicReader.getSurface(), false);
+
 
             Log.d(TAG, "Create Preview OpCodeSession" + active_op.name() + ":" + active_op.GetInt());
             applyQcomSettingsToSession(active_op);
