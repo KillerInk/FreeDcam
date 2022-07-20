@@ -152,6 +152,7 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> FOCUSPEAK = new Key(ApiBooleanSettingMode.class, R.string.aps_focuspeak);
     public final static Key<ApiBooleanSettingMode> HISTOGRAM = new Key(ApiBooleanSettingMode.class, R.string.aps_histogram);
     public final static Key<ApiBooleanSettingMode> CLIPPING = new Key(ApiBooleanSettingMode.class, R.string.aps_clipping);
+    public final static Key<ApiBooleanSettingMode> FORCE_WIDE_PREVIEW = new Key(ApiBooleanSettingMode.class, R.string.aps_force_wide_preview);
 
 
     public final static GlobalKey<GlobalBooleanSettingMode> CHECKFORUPDATES = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_checkforupdates);

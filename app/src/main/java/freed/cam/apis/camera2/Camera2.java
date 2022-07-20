@@ -140,8 +140,16 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
-            if (s.getWidth() <= MAX_PREVIEW_WIDTH && s.getHeight() <= MAX_PREVIEW_HEIGHT && ratioMatch((double)s.getWidth()/s.getHeight(),ratio))
-                sizes.add(s);
+            if (settingsManager.get(SettingKeys.FORCE_WIDE_PREVIEW).get())
+            {
+
+                if (s.getWidth() <= displaysize.x && s.getHeight() <= displaysize.y)
+                    sizes.add(s);
+            }
+            else {
+                if (s.getWidth() <= displaysize.x && s.getHeight() <= displaysize.y && ratioMatch((double) s.getWidth() / s.getHeight(), ratio))
+                    sizes.add(s);
+            }
         }
         if (sizes.size() > 0) {
             return Collections.max(sizes, new CameraHolderApi2.CompareSizesByArea());

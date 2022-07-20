@@ -112,6 +112,7 @@
     <string name="aps_focuspeak" translatable="false">focuspeak</string>
     <string name="aps_histogram" translatable="false">histogram</string>
     <string name="aps_clipping" translatable="false">clipping</string>
+    <string name="aps_force_wide_preview" translatable="false">force_wide_preview</string>
     <string name="aps_min_iso" translatable="false">min_iso</string>
     <string name="aps_max_iso" translatable="false">max_iso</string>
     <string name="aps_min_exposure" translatable="false">min_exposure</string>

@@ -90,6 +90,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.ZOOM_ON_MANUALFOCUS,R.string.setting_zoom_on_mf_header, R.string.setting_zoom_on_mf_description, true, SettingItemConfig.ViewType.Boolean));
         group.add(new SettingItemConfig(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR,R.string.setting_zoom_on_mf_factor_header, R.string.setting_zoom_on_mf_factor_description, true, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION,R.string.setting_zoom_on_mf_duration_header, R.string.setting_zoom_on_mf_duration_description, true, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.FORCE_WIDE_PREVIEW,R.string.setting_force_wide_preview_header, R.string.setting_forcerawtodng_description, false, SettingItemConfig.ViewType.Boolean));
 
         return group;
     }

@@ -57,6 +57,7 @@ import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
 import freed.cam.apis.camera2.parameters.modes.FlashMode;
 import freed.cam.apis.camera2.parameters.modes.FocusMode;
+import freed.cam.apis.camera2.parameters.modes.ForceWidePreview;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.MFNR;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
@@ -252,6 +253,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.LENS_SHADE, new BaseModeApi2(cameraUiWrapper,SettingKeys.LENS_SHADE,CaptureRequest.SHADING_MODE));
 
         add(SettingKeys.ORIENTATION_HACK,new OrientationHackParameter(cameraUiWrapper,SettingKeys.ORIENTATION_HACK));
+        add(SettingKeys.FORCE_WIDE_PREVIEW,new ForceWidePreview(cameraUiWrapper));
     }
 
     @Override
