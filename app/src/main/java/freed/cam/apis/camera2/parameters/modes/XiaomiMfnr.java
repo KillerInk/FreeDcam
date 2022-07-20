@@ -6,7 +6,6 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.devices.pocof2.CaptureRequestDump;
-import camera2_hidden_keys.qcom.CaptureRequestQcom;
 import freed.cam.apis.camera2.Camera2;
 import freed.settings.SettingKeys;
 import freed.settings.mode.BooleanSettingModeInterface;
@@ -34,7 +33,7 @@ public class XiaomiMfnr extends BaseModeApi2 implements BooleanSettingModeInterf
         }
         else
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).setStringValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).getStringValue(),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.DENOISE).setStringValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.DENOISE).getStringValue(),true);
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestDump.xiaomi_mfnr_enabled, (byte) 0, true);
         }
     }

@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import freed.utils.Log;
 
@@ -150,7 +151,7 @@ public final class SimpleHttpClient {
             httpConn.setDoOutput(true);
 
             outputStream = httpConn.getOutputStream();
-            writer = new OutputStreamWriter(outputStream, "UTF-8");
+            writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
             writer.write(postData);
             writer.flush();
             writer.close();

@@ -5,19 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.troop.freedcam.R;
-
-import dagger.hilt.processor.internal.definecomponent.codegen._dagger_hilt_android_components_ActivityRetainedComponent;
 
 
 public class StrokedTextView extends androidx.appcompat.widget.AppCompatTextView {

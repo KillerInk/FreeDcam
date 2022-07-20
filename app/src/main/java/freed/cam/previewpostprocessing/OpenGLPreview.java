@@ -3,7 +3,6 @@ package freed.cam.previewpostprocessing;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
-import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 
@@ -24,7 +23,7 @@ public class OpenGLPreview implements Preview, TextureView.SurfaceTextureListene
     private static final String TAG = OpenGLPreview.class.getSimpleName();
     private GLPreview glPreview;
     private PreviewEvent previewEventListner;
-    private HistogramController histogramController;
+    private final HistogramController histogramController;
     private HistogramFeed feed;
     SettingsManager settingsManager;
     private int preview_width;

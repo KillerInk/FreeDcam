@@ -16,8 +16,8 @@ public  class BitmapLoadRunnable extends ImageTask
     private final String TAG = BitmapLoadRunnable.class.getSimpleName();
     WeakReference<ImageView> imageviewRef;
     BaseHolder fileHolder;
-    private BitmapHelper bitmapHelper;
-    private GridImageViewModel model;
+    private final BitmapHelper bitmapHelper;
+    private final GridImageViewModel model;
 
     public BitmapLoadRunnable(ImageView imageView, GridImageViewModel model)
     {

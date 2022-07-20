@@ -5,8 +5,8 @@ package freed.utils;
  */
 
 public class StringIntArray {
-    private String keys[];
-    private int values[][];
+    private final String[] keys;
+    private final int[][] values;
 
     public StringIntArray(String[] splitar)
     {

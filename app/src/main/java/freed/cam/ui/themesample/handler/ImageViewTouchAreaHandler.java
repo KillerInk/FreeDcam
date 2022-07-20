@@ -29,7 +29,6 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.previewpostprocessing.PreviewController;
 
@@ -45,7 +44,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
     private float x;
     private float y;
     private final Handler longClickHandler;
-    private PreviewController previewController;
+    private final PreviewController previewController;
 
     public interface I_TouchListnerEvent
     {

@@ -16,7 +16,7 @@ import freed.utils.XmlUtil;
 
 public class MediaProfilesManager {
 
-    private HashMap<String, HashMap<Integer, HashMap<String, VideoMediaProfile>>> allMediaProfiles = new HashMap<>();
+    private final HashMap<String, HashMap<Integer, HashMap<String, VideoMediaProfile>>> allMediaProfiles = new HashMap<>();
 
     public MediaProfilesManager()
     {

@@ -13,7 +13,7 @@ import freed.settings.SettingKeys;
 public class ManualSharpnessQcomApi2 extends AbstractParameter<Camera2> {
 
     public ManualSharpnessQcomApi2(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.M_Sharpness);
+        super(cameraUiWrapper,SettingKeys.M_SHARPNESS);
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

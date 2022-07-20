@@ -3,7 +3,6 @@ package freed.viewer.screenslide.models;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import freed.viewer.gridview.models.VisibilityModel;
 
 

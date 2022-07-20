@@ -23,9 +23,6 @@ package freed.cam;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
 
@@ -34,20 +31,14 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.ActivityAbstract;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.basecamera.Size;
-import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.SecureCamera;
 import freed.cam.ui.ThemeManager;
-import freed.cam.ui.themenextgen.NextGenMainFragment;
-import freed.cam.ui.themesample.ThemeSampleMainFragment;
-import freed.cam.ui.themesample.cameraui.HorizontalValuesFragment;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.file.FileListController;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 import freed.settings.mode.SettingMode;
 import freed.utils.LocationManager;
 import freed.utils.Log;
@@ -123,7 +114,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Inject
     OrientationManager orientationManager;
 
-    private SecureCamera mSecureCamera = new SecureCamera(this);
+    private final SecureCamera mSecureCamera = new SecureCamera(this);
 
     @Inject
     public CameraApiManager cameraApiManager;

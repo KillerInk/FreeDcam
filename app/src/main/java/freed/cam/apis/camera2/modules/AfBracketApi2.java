@@ -66,9 +66,9 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        manualFocus = (ManualFocus) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Focus);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setIntValue(PICSTOTAKE-1, true);
-        focusCaptureRange = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length -1;
+        manualFocus = (ManualFocus) cameraUiWrapper.getParameterHandler().get(SettingKeys.M_FOCUS);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_BURST).setIntValue(PICSTOTAKE-1, true);
+        focusCaptureRange = parameterHandler.get(SettingKeys.M_FOCUS).getStringValues().length -1;
         focusStep =  focusCaptureRange /PICSTOTAKE;
         currentFocusPos = 1;
         changeCaptureState(CaptureStates.image_capture_stop);
@@ -83,7 +83,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void onStartTakePicture() {
         super.onStartTakePicture();
-        PICSTOTAKE = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).getIntValue();
+        PICSTOTAKE = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_BURST).getIntValue();
         cameraUiWrapper.captureSessionHandler.SetCaptureParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,true);
         int max  = 0;
@@ -100,7 +100,7 @@ public class AfBracketApi2 extends PictureModuleApi2
 
         if (min == 0 && max == 0)
         {
-            focusCaptureRange = settingsManager.get(SettingKeys.M_Focus).getValues().length -1;
+            focusCaptureRange = settingsManager.get(SettingKeys.M_FOCUS).getValues().length -1;
             focusStep = focusCaptureRange /PICSTOTAKE;
             currentFocusPos = 1;
         }
@@ -125,8 +125,8 @@ public class AfBracketApi2 extends PictureModuleApi2
         cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.LENS_FOCUS_DISTANCE, manualFocus.getFloatValue(currentFocusPos),true);
         Log.d(TAG,"prepareCaptureBuilder() focusCaptureRange:" + focusCaptureRange + " focusStep:" + focusStep + " currentFocusPos:" + currentFocusPos + " :" +  manualFocus.getFloatValue(currentFocusPos) + " :" + manualFocus.getStringValue(currentFocusPos));
         currentFocusPos +=focusStep;
-        if (currentFocusPos > parameterHandler.get(SettingKeys.M_Focus).getStringValues().length)
-            currentFocusPos = parameterHandler.get(SettingKeys.M_Focus).getStringValues().length-1;
+        if (currentFocusPos > parameterHandler.get(SettingKeys.M_FOCUS).getStringValues().length)
+            currentFocusPos = parameterHandler.get(SettingKeys.M_FOCUS).getStringValues().length-1;
         cameraUiWrapper.captureSessionHandler.capture();
     }
 

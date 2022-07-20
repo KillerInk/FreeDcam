@@ -5,9 +5,9 @@ package freed.settings;
  */
 
 public class OpCodeUrl {
-    private int ID;
-    private String opcode2Url;
-    private String opcode3Url;
+    private final int ID;
+    private final String opcode2Url;
+    private final String opcode3Url;
 
     public OpCodeUrl(int id, String opcode2Url, String opcode3Url)
     {
@@ -34,7 +34,7 @@ public class OpCodeUrl {
         <camera>*/
     public String getXml()
     {
-        String t = "<camera id=" +String.valueOf("\"") +String.valueOf(ID) +String.valueOf("\"")  +">" + "\r\n";
+        String t = "<camera id=" + "\"" + ID + "\"" +">" + "\r\n";
         t += "<opcode2>"+opcode2Url+"</opcode2>"+ "\r\n";
         t += "<opcode3>"+opcode3Url+"</opcode3>"+ "\r\n";
         t += "</camera>\r\n";

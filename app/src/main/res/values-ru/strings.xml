@@ -1,8 +1,5 @@
 <resources>
     <!-- settings_leftmenufragment  -->
-    <string name="all_perms_granted">Все разрешения получены</string>
-    <string name="all_perms_denied">Что-то пошло не так! Попробуйте еще раз</string>
-    <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Настройки изображения</string>
     <string name="setting_bayerformat_description">RAW в DNG</string>
     <string name="setting_bayerformat_header">Фильтр Байера: </string>
@@ -19,23 +16,15 @@
     <string name="setting_videohdr_header">Видео HDR: </string>
     <string name="setting_vs_header">Стабилизация видео: </string>
 
-    <string name="setting_hdr_">Bracket</string>
-    <string name="setting_aebracket_header">AE-Брекетинг:</string>
-    <string name="setting_aebracket_description">Выбор лучшей экспозиции</string>
-
     <string name="setting_freedcam_">Настройки Freedcam</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Выберите API, который будет использоваться</string>
-    <string name="setting_externalshutter_description">Могут использоваться наушники</string>
-    <string name="setting_externalshutter_header">Внешняя кнопка затвора: </string>
     <string name="setting_location_description">Информация о местоположение в файле</string>
     <string name="setting_location_header">Местоположение: </string>
     <string name="setting_guide_description">Композиционные линии</string>
     <string name="setting_guide_header">Линии:</string>
     <string name="setting_horizont_description">Oтображение линии горизонта</string>
     <string name="setting_horizont_header">Линия горизонта:</string>
-    <string name="setting_focuspeak_description">Точки фокусировки</string>
-    <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Коррекция ориентации: </string>
     <string name="setting_orientation_description">Переворот камеры на 180°</string>
     <string name="setting_sdcard_header">SD карта: </string>
@@ -53,14 +42,11 @@
     <string name="setting_scene_header">Сюжет: </string>
     <string name="setting_scene_description">Выберите лучший сюжет</string>
 
-    <string name="setting_qcom_">Настройки Qualcomm</string>
     <string name="setting_cds_header">Correlated double sampling: </string>
     <string name="setting_cds_description">Sensor electrical readout measured twice</string>
     <string name="setting_dis_header">Цифр. стабилизация изображения: </string>
     <string name="setting_lensshade_header">Тени линз</string>
     <string name="setting_lensshade_description">Уменьшает виньетирование </string>
-    <string name="setting_chromaflash.header">Вспышка  Chroma:</string>
-    <string name="setting_chromaflash.description"> Технология вспышки от  Qualcomm</string>
     <string name="setting_mce_header">Memory Color Enhacement: </string>
     <string name="setting_mce_description">Усилить цвета до эквивалентных Adobe</string>
     <string name="setting_redeye_header">Удаление красных глаз: </string>
@@ -74,7 +60,6 @@
     <string name="setting_zsl_header">Zero Shutter Lag: </string>
     <string name="setting_zsl_description">Буферизация кадра для мгновенной съемки. Для RAW выключите</string>
 
-    <string name="setting_camera2_">Настройки Camera 2</string>
     <string name="setting_colorcorrection_header">Настройки температуры цвета: </string>
     <string name="setting_colorcorrection_description">Изменяйте вручную или автоматически</string>
     <string name="setting_controlmode_header">Управление камерой:</string>
@@ -86,57 +71,26 @@
     <string name="setting_tonemap_header">Соответствие цвета:</string>
     <string name="setting_tonemap_description"></string>
 
-    <string name="setting_sonycameraremote_">Настройки Sony Camera Remote</string>
-    <string name="setting_objecttrack_header">Отслеживание объекта: </string>
-    <string name="setting_objecttrack_description">Фокусировка на движущемся объекте</string>
-    <string name="setting_postview_header">Размер постпросмотра:</string>
-    <string name="setting_postview_description">Размер изображения полученного с RemoteCam</string>
-
-    <string name="setting_omap_">Настройки OMAP</string>
     <string name="setting_ipp_header">Постобработка изображения:</string>
     <string name="setting_ipp_description">Качество постобработки</string>
 
     <string name="setting_ois_header">Оптическая стабилизация изображения:</string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">Настройки HTC</string>
     <string name="setting_nonzsl_header">Ручные настройки(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Включите для ручных настроек, если ZSL выкл</string>
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">ББ</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Вспышка</string>
-    <string name="uisetting_focus_header">Фокус</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Ночь</string>
-    <string name="uisetting_continouseshot_header">Мультисъемка</string>
-    <string name="uisetting_format_header">Формат</string>
-    <string name="uisetting_settings_header">Настройки</string>
-    <string name="uisetting_camerswitch_header">Камера</string>
-    <string name="uisetting_mode_header">Режим</string>
-    <string name="uisetting_exit_header">Выход</string>
     <string name="setting_Automation">Автоматическая съемка</string>
-    <string name="setting_videohfr_description">Включите для записи видео с высокой частатой кадров</string>
-    <string name="setting_videohfr_header">Видео HFR</string>
-    <string name="setting_lg_">Настройки LG</string>
     <string name="setting_dis_description">Сдвиг электронного изображения для противодействия резким движениям</string>
     <string name="setting_interval_duration_header"></string>
     <string name="setting_interval_duration_text">Продолжительность</string>
     <string name="setting_interval_texter">Интервал</string>
-    <string name="setting_timer_text">Время</string>
 
-    <string name="delete_file">Удалить файл?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="no_files">Нет файлов</string>
-    <string name="failed_to_load">Ошибка загрузки:</string>
-    <string name="sec">с</string>
-    <string name="mm">мм</string>
     <string name="unknown_raw_add_manual_stuff">Неизвестный RAW, установите опции вручную</string>
-    <string name="converting_dng">Конвертирование в DNG</string>
-    <string name="ALL">ALL</string>
-    <string name="All">Все</string>
     <string name="delete_files">Удалить выбранные файлы?</string>
     <string name="width">Ширина:</string>
     <string name="height">Высота:</string>

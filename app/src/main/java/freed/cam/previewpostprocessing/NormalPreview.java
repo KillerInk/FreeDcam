@@ -3,7 +3,6 @@ package freed.cam.previewpostprocessing;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.view.Surface;
 
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.DisplayUtil;

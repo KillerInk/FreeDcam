@@ -17,7 +17,7 @@ public class EdgeModeDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES, settingsManager.get(SettingKeys.EDGE_MODE), FreedApplication.getStringArrayFromRessource(R.array.edgeModes),settingsManager);
-        String vals[] = settingsManager.get(SettingKeys.EDGE_MODE).getValues();
+        String[] vals = settingsManager.get(SettingKeys.EDGE_MODE).getValues();
         String zsldnoise= FreedApplication.getStringFromRessources(R.string.zeroshutterlag);
         boolean containszslstring = false;
         for (int i = 0; i< vals.length; i++)
@@ -27,7 +27,7 @@ public class EdgeModeDetector extends BaseParameter2Detector {
         }
 
         if (containszslstring) {
-            String newvals[] = new String[vals.length - 1];
+            String[] newvals = new String[vals.length - 1];
             int t = 0;
             for (int i = 0; i< vals.length; i++)
             {

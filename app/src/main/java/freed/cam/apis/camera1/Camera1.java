@@ -30,7 +30,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
     }
 
     private void createCamera() {
-        Log.d(TAG,"FrameWork:" + settingsManager.getFrameWork() + " openlegacy:" + settingsManager.get(SettingKeys.openCamera1Legacy).get());
+        Log.d(TAG,"FrameWork:" + settingsManager.getFrameWork() + " openlegacy:" + settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).get());
 
         if (settingsManager.getFrameWork() == Frameworks.LG) {
             cameraHolder = new CameraHolderLG(this, Frameworks.LG);
@@ -48,7 +48,7 @@ public class Camera1 extends AbstractCamera<ParametersHandler,CameraHolder,Modul
         {
             cameraHolder = new CameraHolderSony(this, Frameworks.SonyCameraExtension);
         }
-        else if (settingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+        else if (settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).get()) {
             cameraHolder = new CameraHolderLegacy(this, Frameworks.Default);
             Log.d(TAG, "create Legacy camera");
         }

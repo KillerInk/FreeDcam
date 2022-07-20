@@ -59,7 +59,7 @@ public class FileApiStorageDetector
                     //first lookup emulated path, for backward compatibility they are mounted too
                     //as sdcard1/2 on some devices
                     String filename = file.getName();
-                    if (filename.toLowerCase().equals("emulated")) {
+                    if (filename.equalsIgnoreCase("emulated")) {
                         internalSD = new File(file.getAbsolutePath() + "/0/");
                         if (internalSD.exists())
                             internalfound = true;
@@ -69,11 +69,11 @@ public class FileApiStorageDetector
                             externalSD = extDcim;
                         }
                     }
-                    if (filename.toLowerCase().equals("sdcard0") && !internalfound && file.exists()) {
+                    if (filename.equalsIgnoreCase("sdcard0") && !internalfound && file.exists()) {
                         internalSD = new File(file.getAbsolutePath());
                         internalfound = true;
                     }
-                    if (filename.toLowerCase().equals("sdcard1") && !externalfound && file.exists()) {
+                    if (filename.equalsIgnoreCase("sdcard1") && !externalfound && file.exists()) {
                         File extDcim = new File(file.getAbsolutePath());
                         if (extDcim.exists()) {
 
@@ -82,10 +82,10 @@ public class FileApiStorageDetector
                         }
                     }
                     //that is the true sdcard finaly /storage/XXX-XXX/
-                    if (!filename.toLowerCase().equals("emulated")
-                            && !filename.toLowerCase().equals("sdcard0")
-                            && !filename.toLowerCase().equals("sdcard1")
-                            && !filename.toLowerCase().equals("self")) {
+                    if (!filename.equalsIgnoreCase("emulated")
+                            && !filename.equalsIgnoreCase("sdcard0")
+                            && !filename.equalsIgnoreCase("sdcard1")
+                            && !filename.equalsIgnoreCase("self")) {
                         if (file.exists()) {
                             externalfound = true;
                             externalSD = file;

@@ -56,7 +56,7 @@ public class BaseModeApi2 extends AbstractParameter<Camera2>
 
         try {
             if (settingMode.isSupported()) {
-                String values[] = settingMode.getValues();
+                String[] values = settingMode.getValues();
                 if (values == null || values.length == 0) {
                     Log.d(TAG, "Values are null set to unsupported");
                     parameterValues = null;

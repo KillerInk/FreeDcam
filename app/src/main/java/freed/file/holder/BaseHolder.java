@@ -41,10 +41,10 @@ import freed.utils.StringUtils;
  */
 public abstract class BaseHolder
 {
-    private String name;
-    private long lastmodified;
-    private boolean isFolder;
-    private boolean isSDCard;
+    private final String name;
+    private final long lastmodified;
+    private final boolean isFolder;
+    private final boolean isSDCard;
     private FileListController.FormatTypes fileformat;
 
     public BaseHolder(String name, long lastmodified, boolean isFolder,boolean isSDCard)

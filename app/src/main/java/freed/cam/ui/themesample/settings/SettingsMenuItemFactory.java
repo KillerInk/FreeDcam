@@ -8,7 +8,6 @@ import com.troop.freedcam.R;
 
 import javax.inject.Inject;
 
-import freed.ActivityInterface;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
@@ -42,7 +41,7 @@ public class SettingsMenuItemFactory
 
     private static final String TAG = SettingsMenuItemFactory.class.getSimpleName();
 
-    private ApiParameter apiParameter;
+    private final ApiParameter apiParameter;
 
     @Inject
     public SettingsMenuItemFactory(ApiParameter apiParameter)
@@ -63,9 +62,9 @@ public class SettingsMenuItemFactory
          */
                 GroupChild videoGroup = new GroupChild(context, context.getResources().getString(R.string.setting_video_group_header));
 
-                if (params.get(SettingKeys.VideoProfiles) != null) {
+                if (params.get(SettingKeys.VIDEO_PROFILES) != null) {
                     SettingsChildMenuVideoProfile videoProfile = new SettingsChildMenuVideoProfile(context,
-                            params.get(SettingKeys.VideoProfiles), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
+                            params.get(SettingKeys.VIDEO_PROFILES), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
                     videoProfile.SetUiItemClickListner(click);
                     videoGroup.addView(videoProfile);
 
@@ -77,15 +76,15 @@ public class SettingsMenuItemFactory
                     SettingsChildMenu_VideoProfEditor videoProfileEditor = new SettingsChildMenu_VideoProfEditor(context, R.string.setting_videoprofileeditor_header, R.string.setting_videoprofileeditor_description);
                     videoGroup.addView(videoProfileEditor);
                 }
-                if (params.get(SettingKeys.VideoHDR) != null) {
-                    SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(context, params.get(SettingKeys.VideoHDR), R.string.setting_videohdr_header, R.string.setting_videohdr_description);
+                if (params.get(SettingKeys.VIDEO_HDR) != null) {
+                    SettingsChildMenuVideoHDR videoHDR = new SettingsChildMenuVideoHDR(context, params.get(SettingKeys.VIDEO_HDR), R.string.setting_videohdr_header, R.string.setting_videohdr_description);
                     videoHDR.SetCameraInterface(cameraUiWrapper);
                     videoHDR.SetUiItemClickListner(click);
                     videoGroup.addView(videoHDR);
                 }
 
-                if (params.get(SettingKeys.VideoStabilization) != null) {
-                    SettingsChildMenu videoStabilization = new SettingsChildMenu(context, params.get(SettingKeys.VideoStabilization), R.string.setting_vs_header, R.string.setting_vs_description);
+                if (params.get(SettingKeys.VIDEO_STABILIZATION) != null) {
+                    SettingsChildMenu videoStabilization = new SettingsChildMenu(context, params.get(SettingKeys.VIDEO_STABILIZATION), R.string.setting_vs_header, R.string.setting_vs_description);
                     videoStabilization.SetUiItemClickListner(click);
                     videoGroup.addView(videoStabilization);
                 }
@@ -103,26 +102,26 @@ public class SettingsMenuItemFactory
          */
                 GroupChild picGroup = new GroupChild(context, context.getResources().getString(R.string.setting_picture_group_header));
 
-                if (params.get(SettingKeys.PictureSize) != null) {
-                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.PictureSize), R.string.setting_picturesize_header, R.string.setting_picturesize_description);
+                if (params.get(SettingKeys.PICTURE_SIZE) != null) {
+                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.PICTURE_SIZE), R.string.setting_picturesize_header, R.string.setting_picturesize_description);
                     pictureSize.SetUiItemClickListner(click);
                     picGroup.addView(pictureSize);
                 }
 
-                if (params.get(SettingKeys.YuvSize) != null) {
-                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.YuvSize), R.string.setting_yuvsize_header, R.string.setting_yuvsize_description);
+                if (params.get(SettingKeys.YUV_SIZE) != null) {
+                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.YUV_SIZE), R.string.setting_yuvsize_header, R.string.setting_yuvsize_description);
                     pictureSize.SetUiItemClickListner(click);
                     picGroup.addView(pictureSize);
                 }
 
-                if (params.get(SettingKeys.secondarySensorSize) != null) {
-                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.secondarySensorSize), R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description);
+                if (params.get(SettingKeys.SECONDARY_SENSOR_SIZE) != null) {
+                    SettingsChildMenu pictureSize = new SettingsChildMenu(context, params.get(SettingKeys.SECONDARY_SENSOR_SIZE), R.string.setting_secondarypicturesize_header, R.string.setting_secondarypicturesize_description);
                     pictureSize.SetUiItemClickListner(click);
                     picGroup.addView(pictureSize);
                 }
 
-                if (params.get(SettingKeys.JpegQuality) != null) {
-                    SettingsChildMenu jpegQuality = new SettingsChildMenu(context, params.get(SettingKeys.JpegQuality), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
+                if (params.get(SettingKeys.JPEG_QUALITY) != null) {
+                    SettingsChildMenu jpegQuality = new SettingsChildMenu(context, params.get(SettingKeys.JPEG_QUALITY), R.string.setting_jpegquality_header, R.string.setting_jpegquality_description);
                     jpegQuality.SetUiItemClickListner(click);
                     picGroup.addView(jpegQuality);
                 }
@@ -175,13 +174,13 @@ public class SettingsMenuItemFactory
                     dngGroup.addView(matrixChooser);
                 }
                 if (cameraUiWrapper instanceof Camera2) {
-                    SettingsChild_BooleanSetting rawToDng = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.forceRawToDng),R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
+                    SettingsChild_BooleanSetting rawToDng = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.FORCE_RAW_TO_DNG),R.string.setting_forcerawtodng_header, R.string.setting_forcerawtodng_description);
                     dngGroup.addView(rawToDng);
 
-                    SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.useCustomMatrixOnCamera2), R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
+                    SettingsChild_BooleanSetting useCustomMatrix = new SettingsChild_BooleanSetting(context, apS.get(SettingKeys.USE_CUSTOM_MATRIX_ON_CAMERA_2), R.string.setting_usecustomdngprofile_header, R.string.setting_usecustomdngprofile_description);
                     dngGroup.addView(useCustomMatrix);
-                    if (params.get(SettingKeys.RawSize) != null && params.get(SettingKeys.RawSize).getViewState() == AbstractParameter.ViewState.Visible) {
-                        SettingsChildMenu rawsize = new SettingsChildMenu(context, params.get(SettingKeys.RawSize), R.string.setting_rawsize_header, R.string.setting_rawsize_description);
+                    if (params.get(SettingKeys.RAW_SIZE) != null && params.get(SettingKeys.RAW_SIZE).getViewState() == AbstractParameter.ViewState.Visible) {
+                        SettingsChildMenu rawsize = new SettingsChildMenu(context, params.get(SettingKeys.RAW_SIZE), R.string.setting_rawsize_header, R.string.setting_rawsize_description);
                         rawsize.SetUiItemClickListner(click);
                         dngGroup.addView(rawsize);
                     }
@@ -216,21 +215,21 @@ public class SettingsMenuItemFactory
             SettingsChild_BooleanSetting menuItemGPS = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );
             globalSettingGroup.addView(menuItemGPS);
 
-            SettingsChildMenu guide = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList), R.string.setting_guide_header, R.string.setting_guide_description);
+            SettingsChildMenu guide = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.GUIDE_LIST), R.string.setting_guide_header, R.string.setting_guide_description);
             guide.SetUiItemClickListner(click);
             globalSettingGroup.addView(guide);
 
             SettingsChildMenu horizont = new SettingsChildMenu(context, R.string.setting_horizont_header, R.string.setting_horizont_description);
-            horizont.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl));
+            horizont.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.HORIZONT_LVL));
             horizont.SetUiItemClickListner(click);
             globalSettingGroup.addView(horizont);
 
             SettingsChildMenu nightoverlay = new SettingsChildMenu(context, R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description);
             nightoverlay.SetUiItemClickListner(click);
-            nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NightOverlay));
+            nightoverlay.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.NIGHT_OVERLAY));
             globalSettingGroup.addView(nightoverlay);
 
-            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.TouchToCapture),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
+            SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.TOUCH_TO_CAPTURE),R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description);
             globalSettingGroup.addView(booleanSetting);
 
             SettingsChild_BooleanSetting playshutter = new SettingsChild_BooleanSetting(context,apS.getGlobal(SettingKeys.PLAY_SHUTTER_SOUND),R.string.setting_playshuttersound_header, R.string.setting_playshuttersound_description);
@@ -241,9 +240,9 @@ public class SettingsMenuItemFactory
             saveCamParams.setCameraUiWrapper(cameraUiWrapper);
             globalSettingGroup.addView(saveCamParams);
 
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.openCamera1Legacy) != null)
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.OPEN_CAMERA_1_LEGACY) != null)
             {
-                SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(context,(BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.openCamera1Legacy),R.string.setting_opencameralegacy_header, R.string.setting_opencameralegacy_description);
+                SettingsChild_BooleanSetting ers = new SettingsChild_BooleanSetting(context,(BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.OPEN_CAMERA_1_LEGACY),R.string.setting_opencameralegacy_header, R.string.setting_opencameralegacy_description);
                 globalSettingGroup.addView(ers);
             }
 
@@ -306,8 +305,8 @@ public class SettingsMenuItemFactory
                 fpc.SetUiItemClickListner(click);
                 previewgroup.addView(fpc);
             }
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack) != null) {
-                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.orientationHack), R.string.setting_orientation_header, R.string.setting_orientation_description);
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.ORIENTATION_HACK) != null) {
+                SettingsChildMenu orientationHack = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.ORIENTATION_HACK), R.string.setting_orientation_header, R.string.setting_orientation_description);
                 orientationHack.SetUiItemClickListner(click);
                 previewgroup.addView(orientationHack);
             }
@@ -346,14 +345,14 @@ public class SettingsMenuItemFactory
 
 
 
-            if (params.get(SettingKeys.SceneMode) != null) {
-                SettingsChildMenu scene = new SettingsChildMenu(context, params.get(SettingKeys.SceneMode), R.string.setting_scene_header, R.string.setting_scene_description);
+            if (params.get(SettingKeys.SCENE_MODE) != null) {
+                SettingsChildMenu scene = new SettingsChildMenu(context, params.get(SettingKeys.SCENE_MODE), R.string.setting_scene_header, R.string.setting_scene_description);
                 scene.SetUiItemClickListner(click);
                 settingsgroup.addView(scene);
             }
 
-            if (params.get(SettingKeys.ColorMode) != null) {
-                SettingsChildMenu color = new SettingsChildMenu(context, params.get(SettingKeys.ColorMode), R.string.setting_color_header, R.string.setting_color_description);
+            if (params.get(SettingKeys.COLOR_MODE) != null) {
+                SettingsChildMenu color = new SettingsChildMenu(context, params.get(SettingKeys.COLOR_MODE), R.string.setting_color_header, R.string.setting_color_description);
                 color.SetUiItemClickListner(click);
                 settingsgroup.addView(color);
             }
@@ -363,54 +362,45 @@ public class SettingsMenuItemFactory
                 cct.SetUiItemClickListner(click);
                 settingsgroup.addView(cct);
             }
-            if (params.get(SettingKeys.ObjectTracking) != null) {
-                SettingsChildMenu ot = new SettingsChildMenu(context, params.get(SettingKeys.ObjectTracking), R.string.setting_objecttrack_header, R.string.setting_objecttrack_description);
-                ot.SetUiItemClickListner(click);
-                settingsgroup.addView(ot);
-            }
             if (params.get(SettingKeys.TONE_MAP_MODE) != null) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.TONE_MAP_MODE), R.string.setting_tonemap_header, R.string.setting_tonemap_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.PostViewSize) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.PostViewSize), R.string.setting_postview_header, R.string.setting_postview_description);
-                ton.SetUiItemClickListner(click);
-                settingsgroup.addView(ton);
-            }
+
             if (params.get(SettingKeys.CONTROL_MODE) != null) {
                 SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.CONTROL_MODE), R.string.setting_controlmode_header, R.string.setting_controlmode_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.RedEye) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.RedEye), R.string.setting_redeye_header, R.string.setting_redeye_description);
+            if (params.get(SettingKeys.RED_EYE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.RED_EYE), R.string.setting_redeye_header, R.string.setting_redeye_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.AntiBandingMode) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.AntiBandingMode), R.string.setting_antiflicker_header, R.string.setting_antiflicker_description);
+            if (params.get(SettingKeys.ANTI_BANDING_MODE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.ANTI_BANDING_MODE), R.string.setting_antiflicker_header, R.string.setting_antiflicker_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.ImagePostProcessing) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.ImagePostProcessing), R.string.setting_ipp_header, R.string.setting_ipp_description);
+            if (params.get(SettingKeys.IMAGE_POST_PROCESSING) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.IMAGE_POST_PROCESSING), R.string.setting_ipp_header, R.string.setting_ipp_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
 
-            if (params.get(SettingKeys.LensShade) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.LensShade), R.string.setting_lensshade_header, R.string.setting_lensshade_description);
+            if (params.get(SettingKeys.LENS_SHADE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.LENS_SHADE), R.string.setting_lensshade_header, R.string.setting_lensshade_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.SceneDetect) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.SceneDetect), R.string.setting_scenedec_header, R.string.setting_scenedec_description);
+            if (params.get(SettingKeys.SCENE_DETECT) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.SCENE_DETECT), R.string.setting_scenedec_header, R.string.setting_scenedec_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.Denoise) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.Denoise), R.string.setting_waveletdenoise_header, R.string.setting_waveletdenoise_description);
+            if (params.get(SettingKeys.DENOISE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.DENOISE), R.string.setting_waveletdenoise_header, R.string.setting_waveletdenoise_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
@@ -430,8 +420,8 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.TruePotrait) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.TruePotrait), R.string.setting_truepotrait_header, R.string.setting_truepotrait_description);
+            if (params.get(SettingKeys.TRUE_POTRAIT) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.TRUE_POTRAIT), R.string.setting_truepotrait_header, R.string.setting_truepotrait_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
@@ -440,41 +430,41 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.ChromaFlash) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.ChromaFlash), R.string.setting_chroma_header, R.string.setting_chroma_description);
+            if (params.get(SettingKeys.CHROMA_FLASH) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.CHROMA_FLASH), R.string.setting_chroma_header, R.string.setting_chroma_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.OptiZoom) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.OptiZoom), R.string.setting_optizoom_header, R.string.setting_optizoom_description);
+            if (params.get(SettingKeys.OPTI_ZOOM) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.OPTI_ZOOM), R.string.setting_optizoom_header, R.string.setting_optizoom_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.ReFocus) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.ReFocus), R.string.setting_refocus_header, R.string.setting_refous_description);
+            if (params.get(SettingKeys.RE_FOCUS) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.RE_FOCUS), R.string.setting_refocus_header, R.string.setting_refous_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
 
-            if (params.get(SettingKeys.SeeMore) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.SeeMore), R.string.setting_seemore_header, R.string.setting_seemore_description);
+            if (params.get(SettingKeys.SEE_MORE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.SEE_MORE), R.string.setting_seemore_header, R.string.setting_seemore_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
             ///////////////////////////////////////////////
 
-            if (params.get(SettingKeys.LensFilter) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.LensFilter), R.string.setting_lensfilter_header, R.string.setting_lensfilter_description);
+            if (params.get(SettingKeys.LENS_FILTER) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.LENS_FILTER), R.string.setting_lensfilter_header, R.string.setting_lensfilter_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.DigitalImageStabilization) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.DigitalImageStabilization), R.string.setting_dis_header, R.string.setting_dis_description);
+            if (params.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION), R.string.setting_dis_header, R.string.setting_dis_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.MemoryColorEnhancement) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.MemoryColorEnhancement), R.string.setting_mce_header, R.string.setting_mce_description);
+            if (params.get(SettingKeys.MEMORY_COLOR_ENHANCEMENT) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.MEMORY_COLOR_ENHANCEMENT), R.string.setting_mce_header, R.string.setting_mce_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
@@ -483,13 +473,13 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.NonZslManualMode) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.NonZslManualMode), R.string.setting_nonzsl_header, R.string.setting_nonzsl_description);
+            if (params.get(SettingKeys.NON_ZSL_MANUAL_MODE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.NON_ZSL_MANUAL_MODE), R.string.setting_nonzsl_header, R.string.setting_nonzsl_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.CDS_Mode) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.CDS_Mode), R.string.setting_cds_header, R.string.setting_cds_description);
+            if (params.get(SettingKeys.CDS_MODE) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.CDS_MODE), R.string.setting_cds_header, R.string.setting_cds_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
@@ -521,23 +511,13 @@ public class SettingsMenuItemFactory
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.ZoomSetting) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.ZoomSetting), R.string.setting_zoomsetting_header, R.string.setting_zoomsetting_description);
+            if (params.get(SettingKeys.DUAL_PRIMARY_CAMERA_MODE) != null && !apS.getIsFrontCamera()) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.DUAL_PRIMARY_CAMERA_MODE), R.string.setting_dualprimarycamera_header, R.string.setting_dualprimarycamera_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }
-            if (params.get(SettingKeys.SCALE_PREVIEW) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.SCALE_PREVIEW), R.string.setting_scalepreview_header, R.string.setting_scalepreview_description);
-                ton.SetUiItemClickListner(click);
-                settingsgroup.addView(ton);
-            }
-            if (params.get(SettingKeys.dualPrimaryCameraMode) != null && !apS.getIsFrontCamera()) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.dualPrimaryCameraMode), R.string.setting_dualprimarycamera_header, R.string.setting_dualprimarycamera_description);
-                ton.SetUiItemClickListner(click);
-                settingsgroup.addView(ton);
-            }
-            if (params.get(SettingKeys.Ae_TargetFPS) != null) {
-                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.Ae_TargetFPS), R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description);
+            if (params.get(SettingKeys.AE_TARGET_FPS) != null) {
+                SettingsChildMenu ton = new SettingsChildMenu(context, params.get(SettingKeys.AE_TARGET_FPS), R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description);
                 ton.SetUiItemClickListner(click);
                 settingsgroup.addView(ton);
             }

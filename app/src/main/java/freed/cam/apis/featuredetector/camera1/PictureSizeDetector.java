@@ -14,6 +14,6 @@ public class PictureSizeDetector extends BaseParameter1Detector {
 
     private void detectPictureSizes(Camera.Parameters parameters)
     {
-        detectMode(parameters, R.string.picture_size,R.string.picture_size_values, settingsManager.get(SettingKeys.PictureSize));
+        detectMode(parameters, R.string.picture_size,R.string.picture_size_values, settingsManager.get(SettingKeys.PICTURE_SIZE));
     }
 }

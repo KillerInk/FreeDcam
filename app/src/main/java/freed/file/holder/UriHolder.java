@@ -20,8 +20,8 @@ import freed.utils.Log;
 
 public class UriHolder extends BaseHolder {
 
-    private Uri mediaStoreUri;
-    private long ID;
+    private final Uri mediaStoreUri;
+    private final long ID;
 
     public UriHolder(Uri uri,String name,long id, long lastmodified, boolean isFolder,boolean external) {
         super(name, lastmodified, isFolder,external);

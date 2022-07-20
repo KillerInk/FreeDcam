@@ -64,18 +64,18 @@ public class PictureFormatDetector extends BaseParameter2Detector {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
                     if (size.length > 1)
                     {
-                        settingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        settingsManager.get(SettingKeys.RAW_SIZE).setIsSupported(true);
                         String[] rawsizes = new String[size.length];
                         for (int i = 0; i<size.length;i++)
                         {
                             rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
                         }
-                        settingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
-                        settingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                        settingsManager.get(SettingKeys.RAW_SIZE).setValues(rawsizes);
+                        settingsManager.get(SettingKeys.RAW_SIZE).set(rawsizes[0]);
                     }
                     else
                     {
-                        settingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                        settingsManager.get(SettingKeys.RAW_SIZE).setIsSupported(false);
                     }
                 }
             }
@@ -93,19 +93,19 @@ public class PictureFormatDetector extends BaseParameter2Detector {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
                     if (size.length > 1)
                     {
-                        settingsManager.get(SettingKeys.RawSize).setIsSupported(true);
+                        settingsManager.get(SettingKeys.RAW_SIZE).setIsSupported(true);
                         String[] rawsizes = new String[size.length];
                         for (int i = 0; i<size.length;i++)
                         {
                             rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
                             Log.d(TAG, "Add new RawSize:" + rawsizes[i]);
                         }
-                        settingsManager.get(SettingKeys.RawSize).setValues(rawsizes);
-                        settingsManager.get(SettingKeys.RawSize).set(rawsizes[0]);
+                        settingsManager.get(SettingKeys.RAW_SIZE).setValues(rawsizes);
+                        settingsManager.get(SettingKeys.RAW_SIZE).set(rawsizes[0]);
                     }
                     else
                     {
-                        settingsManager.get(SettingKeys.RawSize).setIsSupported(false);
+                        settingsManager.get(SettingKeys.RAW_SIZE).setIsSupported(false);
                     }
                 }
             }
@@ -133,18 +133,18 @@ public class PictureFormatDetector extends BaseParameter2Detector {
                     Log.d(TAG, "RAW_SENSORSIZES:" + Arrays.toString(size));
                     if (size.length > 1)
                     {
-                        settingsManager.get(SettingKeys.YuvSize).setIsSupported(true);
+                        settingsManager.get(SettingKeys.YUV_SIZE).setIsSupported(true);
                         String[] rawsizes = new String[size.length];
                         for (int i = 0; i<size.length;i++)
                         {
                             rawsizes[i] = size[i].getWidth() + "x" + size[i].getHeight();
                         }
-                        settingsManager.get(SettingKeys.YuvSize).setValues(rawsizes);
-                        settingsManager.get(SettingKeys.YuvSize).set(rawsizes[0]);
+                        settingsManager.get(SettingKeys.YUV_SIZE).setValues(rawsizes);
+                        settingsManager.get(SettingKeys.YUV_SIZE).set(rawsizes[0]);
                     }
                     else
                     {
-                        settingsManager.get(SettingKeys.YuvSize).setIsSupported(false);
+                        settingsManager.get(SettingKeys.YUV_SIZE).setIsSupported(false);
                     }
                 }
             }
@@ -222,11 +222,11 @@ public class PictureFormatDetector extends BaseParameter2Detector {
             Log.d(TAG, "Dont support PRIVATE");
         }
 
-        settingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
+        settingsManager.get(SettingKeys.PICTURE_FORMAT).setIsSupported(true);
         if(hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg)))
-            settingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg));
+            settingsManager.get(SettingKeys.PICTURE_FORMAT).set(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg));
         else if (hmap.containsKey(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
-            settingsManager.get(SettingKeys.PictureFormat).set(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv));
-        settingsManager.get(SettingKeys.PictureFormat).setValues(StringUtils.IntHashmapToStringArray(hmap));
+            settingsManager.get(SettingKeys.PICTURE_FORMAT).set(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv));
+        settingsManager.get(SettingKeys.PICTURE_FORMAT).setValues(StringUtils.IntHashmapToStringArray(hmap));
     }
 }

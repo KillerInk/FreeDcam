@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -20,7 +19,6 @@ import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
-import freed.cam.histogram.MyHistogram;
 
 @AndroidEntryPoint
 public class PreviewFragment  extends Fragment {

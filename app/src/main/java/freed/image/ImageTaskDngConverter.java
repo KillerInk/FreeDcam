@@ -29,8 +29,8 @@ public class ImageTaskDngConverter extends ImageTask {
     private ActivityInterface activityInterface;
     private int orientation;
     private Location location;
-    private ModuleInterface moduleInterface;
-    private FileListController fileListController;
+    private final ModuleInterface moduleInterface;
+    private final FileListController fileListController;
 
     private final String TAG = ImageTaskDngConverter.class.getSimpleName();
 

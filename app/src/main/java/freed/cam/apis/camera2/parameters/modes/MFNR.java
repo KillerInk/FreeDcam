@@ -31,7 +31,7 @@ public class MFNR extends BaseModeApi2 implements BooleanSettingModeInterface {
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.MFNR, (byte) 1, true);
         }
         else {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).setStringValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.Denoise).getStringValue(),true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.DENOISE).setStringValue(cameraUiWrapper.getParameterHandler().get(SettingKeys.DENOISE).getStringValue(),true);
             cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.MFNR, (byte) 0, true);
         }
     }

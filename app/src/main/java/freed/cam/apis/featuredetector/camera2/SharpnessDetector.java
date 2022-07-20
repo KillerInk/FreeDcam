@@ -12,16 +12,16 @@ public class SharpnessDetector  extends BaseParameter2Detector {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        int sharprange[] = cameraCharacteristics.get(CameraCharacteristicsQcom.sharpness_range);
+        int[] sharprange = cameraCharacteristics.get(CameraCharacteristicsQcom.sharpness_range);
         int min = sharprange[0];
         int max = sharprange[1];
         String[] t = new String[max - min + 1];
         for (int i= 0; i < t.length; i++)
             t[i] = ""+(min+i);
         if (sharprange.length > 0) {
-            settingsManager.get(SettingKeys.M_Sharpness).setValues(t);
-            settingsManager.get(SettingKeys.M_Sharpness).set((max/2) + "");
-            settingsManager.get(SettingKeys.M_Sharpness).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_SHARPNESS).setValues(t);
+            settingsManager.get(SettingKeys.M_SHARPNESS).set((max/2) + "");
+            settingsManager.get(SettingKeys.M_SHARPNESS).setIsSupported(true);
         }
     }
 }

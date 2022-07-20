@@ -39,7 +39,7 @@ public class StorageFileManager
     public static String freedcamFolder = "/DCIM/FreeDcam/";
 
     private final String TAG = StorageFileManager.class.getSimpleName();
-    private FileApiStorageDetector fileApiStorageDetector;
+    private final FileApiStorageDetector fileApiStorageDetector;
 
     public StorageFileManager()
     {

@@ -158,8 +158,8 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = view.findViewById(R.id.nightoverlay);
-        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NightOverlay).get());
-        if (settingsManager.getGlobal(SettingKeys.NightOverlay).get())
+        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NIGHT_OVERLAY).get());
+        if (settingsManager.getGlobal(SettingKeys.NIGHT_OVERLAY).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);

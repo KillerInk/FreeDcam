@@ -1,7 +1,6 @@
 package camera2_hidden_keys;
 
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.os.Build;
@@ -11,14 +10,9 @@ import androidx.annotation.RequiresApi;
 
 import org.chickenhook.restrictionbypass.RestrictionBypass;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,23 +20,20 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.FreedApplication;
-import freed.settings.SettingKeys;
 import freed.utils.BufferedTextFileWriter;
-import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class VendorKeyTestLog {
 
     private static final String TAG = VendorKeyTestLog.class.getSimpleName();
-    private CameraCharacteristics characteristics;
-    private CaptureResult result;
-    private CaptureRequest captureRequest;
+    private final CameraCharacteristics characteristics;
+    private final CaptureResult result;
+    private final CaptureRequest captureRequest;
 
-    private HashMap<String,CaptureRequest.Key> captureRequestKeys;
-    private HashMap<String,CaptureResult.Key> captureResultKeys;
-    private HashMap<String,CameraCharacteristics.Key> characteristicsKeys;
-    private VendorKeyParser vendorKeyParser;
+    private final HashMap<String,CaptureRequest.Key> captureRequestKeys;
+    private final HashMap<String,CaptureResult.Key> captureResultKeys;
+    private final HashMap<String,CameraCharacteristics.Key> characteristicsKeys;
+    private final VendorKeyParser vendorKeyParser;
 
     public VendorKeyTestLog(VendorKeyParser vendorKeyParser, CameraCharacteristics characteristics, CaptureResult result, CaptureRequest captureRequest)
     {

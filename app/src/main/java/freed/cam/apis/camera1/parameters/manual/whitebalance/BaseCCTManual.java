@@ -49,11 +49,11 @@ public class BaseCCTManual extends BaseManualParameter
 
     public BaseCCTManual(final Parameters parameters,final CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper, settingMode);
-        manual_WbMode = settingsManager.get(SettingKeys.M_Whitebalance).getMode();
+        manual_WbMode = settingsManager.get(SettingKeys.M_WHITEBALANCE).getMode();
         setViewState(ViewState.Hidden);
 
         //wait 800ms to give awb a chance to set the ct value to the parameters
-        if (TextUtils.isEmpty(settingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY()))
+        if (TextUtils.isEmpty(settingsManager.get(SettingKeys.M_WHITEBALANCE).getCamera1ParameterKEY()))
             new Handler().postDelayed(() -> {
                 try {
                     //get fresh parameters from camera
@@ -83,7 +83,7 @@ public class BaseCCTManual extends BaseManualParameter
                 }
             }, 800);
         else
-            key_value = settingsManager.get(SettingKeys.M_Whitebalance).getCamera1ParameterKEY();
+            key_value = settingsManager.get(SettingKeys.M_WHITEBALANCE).getCamera1ParameterKEY();
     }
     
     @Override
@@ -109,7 +109,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_manual()
     {
-        ParameterInterface wbm = cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode);
+        ParameterInterface wbm = cameraUiWrapper.getParameterHandler().get(SettingKeys.WHITE_BALANCE_MODE);
         Log.d(TAG, Arrays.toString(wbm.getStringValues()));
         try {
             if (parameters.get("whitebalance-values").contains("manual") && parameters.get("manual-wb-modes").contains("color-temperature")) {
@@ -139,7 +139,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_to_auto()
     {
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).setStringValue("auto", true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.WHITE_BALANCE_MODE).setStringValue("auto", true);
         Log.d(TAG, "Set  to : auto");
     }
 

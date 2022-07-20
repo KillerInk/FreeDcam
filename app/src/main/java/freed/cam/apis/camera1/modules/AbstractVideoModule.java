@@ -59,9 +59,9 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
     private String mediaSavePath;
     private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
-    private PermissionManager permissionManager;
-    private PreviewController preview;
-    private UserMessageHandler userMessageHandler;
+    private final PermissionManager permissionManager;
+    private final PreviewController preview;
+    private final UserMessageHandler userMessageHandler;
 
     AbstractVideoModule(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper,mBackgroundHandler,mainHandler);
@@ -131,7 +131,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
         Size sizefromCam = new Size("1920x1080");
 
         List<Size> sizes = new ArrayList<>();
-        String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValues();
+        String[] stringsSizes = cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).getStringValues();
         for (String s : stringsSizes) {
             sizes.add(new Size(s));
         }
@@ -153,7 +153,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
             cameraUiWrapper.getCameraHolder().setTextureView(preview.getSurfaceTexture());
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).setStringValue(size.width + "x" + size.height, false);
         cameraUiWrapper.getCameraHolder().fireOnCameraChangedAspectRatioEvent(size);
         cameraUiWrapper.getCameraHolder().StartPreview();
     }
@@ -192,8 +192,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract<Camera1> implem
 
             recorder.setInfoListener(this);
 
-            if (!settingsManager.get(SettingKeys.orientationHack).get().equals("0"))
-                recorder.setOrientation(Integer.parseInt(settingsManager.get(SettingKeys.orientationHack).get()));
+            if (!settingsManager.get(SettingKeys.ORIENTATION_HACK).get().equals("0"))
+                recorder.setOrientation(Integer.parseInt(settingsManager.get(SettingKeys.ORIENTATION_HACK).get()));
             else
                 recorder.setOrientation(0);
 

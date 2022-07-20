@@ -87,7 +87,7 @@ public class XmlParserWriter
                                 settingsManager.setCamApi(SettingsManager.API_2);
                                 Log.d(TAG,"Found Camera2 overrides");
                                 if (!camera2element.findChild("forcerawtodng").isEmpty())
-                                    settingsManager.get(SettingKeys.forceRawToDng).set(camera2element.findChild("forcerawtodng").getBooleanValue());
+                                    settingsManager.get(SettingKeys.FORCE_RAW_TO_DNG).set(camera2element.findChild("forcerawtodng").getBooleanValue());
                                 if (!camera2element.findChild("overrideprofile").isEmpty())
                                     settingsManager.setsOverrideDngProfile(camera2element.findChild("overrideprofile").getBooleanValue());
 
@@ -126,8 +126,8 @@ public class XmlParserWriter
         int id = Integer.parseInt(camera1element.getAttribute("name",""));
         settingsManager.SetCurrentCamera(id);
         if (!camera1element.findChild("opencameralegacy").isEmpty()) {
-            settingsManager.get(SettingKeys.openCamera1Legacy).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
-            settingsManager.get(SettingKeys.openCamera1Legacy).setIsPresetted(true);
+            settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).set(Boolean.parseBoolean(camera1element.findChild("opencameralegacy").getValue()));
+            settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).setIsPresetted(true);
         }
 
         //Log.d(TAG, "OpenLegacy: " + SettingsManager.get(SettingKeys.openCamera1Legacy).get() + " isPresetted:" + SettingsManager.get(SettingKeys.openCamera1Legacy).isPresetted());
@@ -140,26 +140,26 @@ public class XmlParserWriter
         Log.d(TAG, "isZteAE:" + settingsManager.isZteAe());
 
         if (!camera1element.findChild("needrestartaftercapture").isEmpty())
-            settingsManager.get(SettingKeys.needRestartAfterCapture).set(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
+            settingsManager.get(SettingKeys.NEED_RESTART_AFTER_CAPTURE).set(Boolean.parseBoolean(camera1element.findChild("needrestartaftercapture").getValue()));
                                 /*else
                                     settingsManager.get(SettingKeys.needRestartAfterCapture).set(false);*/
 
         if (!camera1element.findChild("burst").isEmpty()) {
-            settingsManager.get(SettingKeys.M_Burst).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_BURST).setIsSupported(true);
             int max = Integer.parseInt(camera1element.findChild("burst").getValue());
-            settingsManager.get(SettingKeys.M_Burst).setValues(createStringArray(1, max, 1));
-            settingsManager.get(SettingKeys.M_Burst).set(0+ "");
+            settingsManager.get(SettingKeys.M_BURST).setValues(createStringArray(1, max, 1));
+            settingsManager.get(SettingKeys.M_BURST).set(0+ "");
         } else
-            settingsManager.get(SettingKeys.M_Burst).setIsSupported(false);
-        settingsManager.get(SettingKeys.M_Burst).setIsPresetted(true);
+            settingsManager.get(SettingKeys.M_BURST).setIsSupported(false);
+        settingsManager.get(SettingKeys.M_BURST).setIsPresetted(true);
 
         if (!camera1element.findChild("nightmode").isEmpty()) {
-            settingsManager.get(SettingKeys.NightMode).setIsSupported(true);
+            settingsManager.get(SettingKeys.NIGHT_MODE).setIsSupported(true);
             int type = Integer.parseInt(camera1element.findChild("nightmode").getValue());
-            settingsManager.get(SettingKeys.NightMode).setType(type);
+            settingsManager.get(SettingKeys.NIGHT_MODE).setType(type);
         } else
-            settingsManager.get(SettingKeys.NightMode).setIsSupported(false);
-        settingsManager.get(SettingKeys.NightMode).setIsPresetted(true);
+            settingsManager.get(SettingKeys.NIGHT_MODE).setIsSupported(false);
+        settingsManager.get(SettingKeys.NIGHT_MODE).setIsPresetted(true);
 
         if (!camera1element.findChild("whitebalance").isEmpty())
         {
@@ -168,11 +168,11 @@ public class XmlParserWriter
             int min = camera1element.findChild("whitebalance").findChild("min").getIntValue(2000);
             int max  = camera1element.findChild("whitebalance").findChild("max").getIntValue(8000);
             int step = camera1element.findChild("whitebalance").findChild("step").getIntValue(100);
-            settingsManager.get(SettingKeys.M_Whitebalance).setCamera1ParameterKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
-            settingsManager.get(SettingKeys.M_Whitebalance).setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
-            settingsManager.get(SettingKeys.M_Whitebalance).setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step));
-            settingsManager.get(SettingKeys.M_Whitebalance).setIsSupported(true);
-            settingsManager.get(SettingKeys.M_Whitebalance).setIsPresetted(true);
+            settingsManager.get(SettingKeys.M_WHITEBALANCE).setCamera1ParameterKEY(camera1element.findChild("whitebalance").findChild("key").getValue());
+            settingsManager.get(SettingKeys.M_WHITEBALANCE).setMode(camera1element.findChild("whitebalance").findChild("mode").getValue());
+            settingsManager.get(SettingKeys.M_WHITEBALANCE).setValues(Camera1FeatureDetectorTask.createWBStringArray(min,max,step));
+            settingsManager.get(SettingKeys.M_WHITEBALANCE).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_WHITEBALANCE).setIsPresetted(true);
         }
 
         if (!camera1element.findChild("manualiso").isEmpty())
@@ -181,13 +181,13 @@ public class XmlParserWriter
             if (!camera1element.findChild("manualiso").getAttribute("supported","false").isEmpty())
             {
                 if (camera1element.findChild("manualiso").getAttribute("supported","false").equals("false")) {
-                    settingsManager.get(SettingKeys.M_ManualIso).setIsSupported(false);
-                    settingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
+                    settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsSupported(false);
+                    settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsPresetted(true);
                 }
                 else
                 {
-                    settingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-                    settingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
+                    settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsPresetted(true);
                     setManualIso(camera1element.findChild("manualiso"));
                 }
             }
@@ -204,7 +204,7 @@ public class XmlParserWriter
                 }
                 else
                     setManualIso(camera1element.findChild("manualiso"));
-                settingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
+                settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsPresetted(true);
             }
         }
 
@@ -214,22 +214,22 @@ public class XmlParserWriter
             if (!camera1element.findChild("exposuretime").findChild("values").isEmpty())
             {
                 String name = camera1element.findChild("exposuretime").findChild("values").getValue();
-                settingsManager.get(SettingKeys.M_ExposureTime).setValues(resources.getStringArray(resources.getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setValues(resources.getStringArray(resources.getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
             }
             if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
             {
-                settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setCamera1ParameterKEY(camera1element.findChild("exposuretime").findChild("key").getValue());
             }
             if (!camera1element.findChild("exposuretime").findChild("key").isEmpty())
             {
-                settingsManager.get(SettingKeys.M_ExposureTime).setType(camera1element.findChild("exposuretime").findChild("type").getIntValue(0));
-                settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(true);
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setType(camera1element.findChild("exposuretime").findChild("type").getIntValue(0));
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setIsSupported(true);
             }
             else {
-                settingsManager.get(SettingKeys.M_ExposureTime).setIsSupported(false);
-                settingsManager.get(SettingKeys.M_ExposureTime).setCamera1ParameterKEY("unsupported");
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setCamera1ParameterKEY("unsupported");
             }
-            settingsManager.get(SettingKeys.M_ExposureTime).setIsPresetted(true);
+            settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setIsPresetted(true);
         }
 
         if (!camera1element.findChild("hdrmode").isEmpty())
@@ -238,26 +238,26 @@ public class XmlParserWriter
             if (camera1element.findChild("hdrmode").getAttribute("supported","false") != null)
             {
                 if (!Boolean.parseBoolean(camera1element.findChild("hdrmode").getAttribute("supported","false")))
-                    settingsManager.get(SettingKeys.HDRMode).setIsSupported(false);
+                    settingsManager.get(SettingKeys.HDR_MODE).setIsSupported(false);
                 else{
-                    settingsManager.get(SettingKeys.HDRMode).setIsSupported(true);
-                    settingsManager.get(SettingKeys.HDRMode).setType(camera1element.findChild("hdrmode").getIntValue(1));
+                    settingsManager.get(SettingKeys.HDR_MODE).setIsSupported(true);
+                    settingsManager.get(SettingKeys.HDR_MODE).setType(camera1element.findChild("hdrmode").getIntValue(1));
                 }
             }
-            settingsManager.get(SettingKeys.HDRMode).setIsPresetted(true);
+            settingsManager.get(SettingKeys.HDR_MODE).setIsPresetted(true);
         }
 
         if (!camera1element.findChild("virtuallensfilter").isEmpty())
         {
-            settingsManager.get(SettingKeys.LensFilter).setIsSupported(true);
+            settingsManager.get(SettingKeys.LENS_FILTER).setIsSupported(true);
         }
 
         if (!camera1element.findChild("denoise").isEmpty())
         {
             if (!camera1element.findChild("denoise").getBooleanValue())
             {
-                settingsManager.get(SettingKeys.Denoise).setIsSupported(false);
-                settingsManager.get(SettingKeys.Denoise).setIsPresetted(true);
+                settingsManager.get(SettingKeys.DENOISE).setIsSupported(false);
+                settingsManager.get(SettingKeys.DENOISE).setIsPresetted(true);
             }
         }
 
@@ -265,8 +265,8 @@ public class XmlParserWriter
         {
             if (!camera1element.findChild("digitalimagestab").getBooleanValue())
             {
-                settingsManager.get(SettingKeys.DigitalImageStabilization).setIsSupported(false);
-                settingsManager.get(SettingKeys.DigitalImageStabilization).setIsPresetted(true);
+                settingsManager.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION).setIsSupported(false);
+                settingsManager.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION).setIsPresetted(true);
             }
         }
 
@@ -283,7 +283,7 @@ public class XmlParserWriter
             }
             else
                 setManualFocus(mfs.get(0));
-            settingsManager.get(SettingKeys.M_Focus).setIsPresetted(true);
+            settingsManager.get(SettingKeys.M_FOCUS).setIsPresetted(true);
         }
 
         if (!camera1element.findChild("rawformat").isEmpty())
@@ -307,7 +307,7 @@ public class XmlParserWriter
     {
         if (element.findChild("min") != null)
         {
-            TypedSettingMode settingInterface = settingsManager.get(SettingKeys.M_Focus);
+            TypedSettingMode settingInterface = settingsManager.get(SettingKeys.M_FOCUS);
             settingInterface.setMode(element.findChild("mode").getValue());
             settingInterface.setType(element.findChild("type").getIntValue(-1));
             settingInterface.setIsSupported(true);
@@ -316,7 +316,7 @@ public class XmlParserWriter
             settingInterface.setValues(Camera1FeatureDetectorTask.createManualFocusValues(element.findChild("min").getIntValue(0),element.findChild("max").getIntValue(0),element.findChild("step").getIntValue(0)));
         }
         else
-            settingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
+            settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(false);
     }
 
     private void setManualIso(XmlElement element)
@@ -326,21 +326,21 @@ public class XmlParserWriter
             int max = element.findChild("max").getIntValue(1600);
             int step = element.findChild("step").getIntValue(50);
             int type = element.findChild("type").getIntValue(0);
-            settingsManager.get(SettingKeys.M_ManualIso).setType(type);
-            settingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
-            settingsManager.get(SettingKeys.M_ManualIso).setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step,settingsManager.getFrameWork() == Frameworks.Xiaomi));
-            settingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-            settingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setType(type);
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setCamera1ParameterKEY(element.findChild("key").getValue());
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setValues(Camera1FeatureDetectorTask.createIsoValues(min, max, step,settingsManager.getFrameWork() == Frameworks.Xiaomi));
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsPresetted(true);
         }
         else if (!element.findChild("values").isEmpty())
         {
             String name = element.findChild("values").getValue();
-            settingsManager.get(SettingKeys.M_ManualIso).setValues(FreedApplication.getContext().getResources().getStringArray(FreedApplication.getContext().getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
-            settingsManager.get(SettingKeys.M_ManualIso).setCamera1ParameterKEY(element.findChild("key").getValue());
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setValues(FreedApplication.getContext().getResources().getStringArray(FreedApplication.getContext().getResources().getIdentifier(name, "array", BuildConfig.APPLICATION_ID)));
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setCamera1ParameterKEY(element.findChild("key").getValue());
             int type = element.findChild("type").getIntValue(0);
-            settingsManager.get(SettingKeys.M_ManualIso).setType(type);
-            settingsManager.get(SettingKeys.M_ManualIso).setIsSupported(true);
-            settingsManager.get(SettingKeys.M_ManualIso).setIsPresetted(true);
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setType(type);
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_MANUAL_ISO).setIsPresetted(true);
         }
     }
 

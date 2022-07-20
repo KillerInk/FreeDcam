@@ -41,13 +41,13 @@ import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.previewpostprocessing.PreviewController;
-import freed.views.pagingview.PagingViewTouchState;
-import freed.views.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.DisplayUtil;
 import freed.utils.Log;
+import freed.views.FocusSelector;
+import freed.views.pagingview.PagingViewTouchState;
 
 
 /**
@@ -66,8 +66,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private boolean meteringIsSupported = false;
     private boolean waitForFocusEnd = false;
 
-    private SettingsManager settingsManager;
-    private PreviewController previewController;
+    private final SettingsManager settingsManager;
+    private final PreviewController previewController;
     private PagingViewTouchState pagingViewTouchState;
 
     public FocusImageHandler(View view, ActivityAbstract fragment, PagingViewTouchState pagingViewTouchState)
@@ -153,8 +153,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 focusImageView.post(() -> {
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
-                    Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + settingsManager.getGlobal(SettingKeys.TouchToCapture).get());
-                    if (success && settingsManager.getGlobal(SettingKeys.TouchToCapture).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
+                    Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + settingsManager.getGlobal(SettingKeys.TOUCH_TO_CAPTURE).get());
+                    if (success && settingsManager.getGlobal(SettingKeys.TOUCH_TO_CAPTURE).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                         Log.d(TAG,"start capture");
                         wrapper.getModuleHandler().startWork();
                     }
@@ -222,7 +222,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         public void IsMoving(boolean moving)
         {
             //disable exposure lock that metering can get applied
-            ParameterInterface expolock = wrapper.getParameterHandler().get(SettingKeys.ExposureLock);
+            ParameterInterface expolock = wrapper.getParameterHandler().get(SettingKeys.EXPOSURE_LOCK);
             if (moving && expolock != null && expolock.getViewState() == AbstractParameter.ViewState.Visible && expolock.getStringValue().equals("true"))
             {
                 expolock.setStringValue("false",true);

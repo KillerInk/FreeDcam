@@ -5,7 +5,6 @@ import java.util.Arrays;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.settings.SettingKeys;
-
 import freed.utils.Log;
 
 public class ThemeMode extends AbstractParameter {

@@ -4,13 +4,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.troop.freedcam.R;
-
 import javax.inject.Inject;
 
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.basecamera.CameraThreadHandler;
-import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.themenextgen.NextGenMainFragment;
 import freed.cam.ui.themesample.ThemeSampleMainFragment;
 

@@ -45,7 +45,7 @@ public class WbHandler
     public WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
     public ManualWbCtApi2 manualWbCt;
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
 
     public WbHandler(Camera2 cameraUiWrapper)
     {
@@ -53,9 +53,9 @@ public class WbHandler
         settingsManager = FreedApplication.settingsManager();
         if (settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported())
             colorCorrectionMode = new ColorCorrectionModeApi2();
-        if (settingsManager.get(SettingKeys.WhiteBalanceMode).isSupported())
+        if (settingsManager.get(SettingKeys.WHITE_BALANCE_MODE).isSupported())
             whiteBalanceApi2 = new WhiteBalanceApi2();
-        if (!settingsManager.get(SettingKeys.useHuaweiWhiteBalance).get())
+        if (!settingsManager.get(SettingKeys.USE_HUAWEI_WHITE_BALANCE).get())
             manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
     }
 
@@ -101,11 +101,11 @@ public class WbHandler
 
         public WhiteBalanceApi2()
         {
-            super(WbHandler.this.cameraUiWrapper,SettingKeys.WhiteBalanceMode);
-            isSupported = settingsManager.get(SettingKeys.WhiteBalanceMode).isSupported();
-            settingMode = settingsManager.get(SettingKeys.WhiteBalanceMode);
+            super(WbHandler.this.cameraUiWrapper,SettingKeys.WHITE_BALANCE_MODE);
+            isSupported = settingsManager.get(SettingKeys.WHITE_BALANCE_MODE).isSupported();
+            settingMode = settingsManager.get(SettingKeys.WHITE_BALANCE_MODE);
             parameterKey = CaptureRequest.CONTROL_AWB_MODE;
-            parameterValues = StringUtils.StringArrayToIntHashmap(settingsManager.get(SettingKeys.WhiteBalanceMode).getValues());
+            parameterValues = StringUtils.StringArrayToIntHashmap(settingsManager.get(SettingKeys.WHITE_BALANCE_MODE).getValues());
             if (parameterValues == null)
             {
                 isSupported = false;
@@ -134,12 +134,12 @@ public class WbHandler
         private RggbChannelVector wbChannelVector;
         private boolean isSupported;
 
-        private StringIntArray lookupvalues;
+        private final StringIntArray lookupvalues;
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
         public ManualWbCtApi2(Camera2 cameraUiWrapper) {
-            super(cameraUiWrapper,SettingKeys.M_Whitebalance);
+            super(cameraUiWrapper,SettingKeys.M_WHITEBALANCE);
             lookupvalues = new StringIntArray(FreedApplication.getContext().getResources().getStringArray(R.array.wbct_lookup));
             currentInt = 0;
         }
@@ -225,9 +225,9 @@ public class WbHandler
         @Override
         public ViewState getViewState() {
             try {
-                if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode) == null)
+                if (cameraUiWrapper == null || cameraUiWrapper.getParameterHandler() == null || cameraUiWrapper.getParameterHandler().get(SettingKeys.WHITE_BALANCE_MODE) == null)
                     return ViewState.Hidden;
-                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WhiteBalanceMode).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
+                else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.WHITE_BALANCE_MODE).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
                     return ViewState.Visible;
             }
             catch (NullPointerException ex) {

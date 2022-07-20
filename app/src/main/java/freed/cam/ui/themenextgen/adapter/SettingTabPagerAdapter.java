@@ -7,18 +7,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import freed.cam.ui.themenextgen.fragment.NextGenSettingDummyFragment;
-
 import freed.cam.ui.themenextgen.layoutconfig.SettingGroupConfig;
 
 public class SettingTabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private NextGenSettingDummyFragment videoFragment;
-    private NextGenSettingDummyFragment pictureFragment;
-    private NextGenSettingDummyFragment rawFragment;
-    private NextGenSettingDummyFragment cameraFragment;
-    private NextGenSettingDummyFragment intervalFragment;
-    private NextGenSettingDummyFragment previewFragment;
-    private NextGenSettingDummyFragment etcFragment;
+    private final NextGenSettingDummyFragment videoFragment;
+    private final NextGenSettingDummyFragment pictureFragment;
+    private final NextGenSettingDummyFragment rawFragment;
+    private final NextGenSettingDummyFragment cameraFragment;
+    private final NextGenSettingDummyFragment intervalFragment;
+    private final NextGenSettingDummyFragment previewFragment;
+    private final NextGenSettingDummyFragment etcFragment;
 
     public SettingTabPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);

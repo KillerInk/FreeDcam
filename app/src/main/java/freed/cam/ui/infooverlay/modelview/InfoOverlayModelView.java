@@ -47,11 +47,11 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     private SettingsManager settingsManager;
-    private BatteryService batteryService;
+    private final BatteryService batteryService;
     private CameraApiManager cameraApiManager;
-    private InfoOverlayModel infoOverlayModel;
+    private final InfoOverlayModel infoOverlayModel;
     private LocationManager locationManager;
-    private BackgroundHandlerThread backgroundHandlerThread;
+    private final BackgroundHandlerThread backgroundHandlerThread;
 
     @Inject
     public InfoOverlayModelView(@ApplicationContext Context context)
@@ -120,7 +120,7 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
             backgroundHandlerThread.executeDelayed(runner, 1000);
     }
 
-    private Runnable runner = new Runnable() {
+    private final Runnable runner = new Runnable() {
         @Override
         public void run()
         {
@@ -160,7 +160,7 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
     {
         if (cameraApiManager.getCamera().getModuleHandler().getCurrentModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video)))
         {
-            ParameterInterface videoprofile = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.VideoProfiles);
+            ParameterInterface videoprofile = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.VIDEO_PROFILES);
             if (videoprofile != null)
                 size = videoprofile.getStringValue();
             else
@@ -168,13 +168,13 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
         }
         else
         {
-            ParameterInterface pictureFormat = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.PictureFormat);
+            ParameterInterface pictureFormat = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.PICTURE_FORMAT);
             if (pictureFormat != null)
                 format = pictureFormat.getStringValue();
             else
                 format = "";
 
-            ParameterInterface pictureSize = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.PictureSize);
+            ParameterInterface pictureSize = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.PICTURE_SIZE);
             if (pictureSize != null)
                 size = pictureSize.getStringValue();
             else
@@ -230,9 +230,9 @@ public class InfoOverlayModelView extends ViewModel implements LifecycleObserver
     }
     private double Calc()
     {
-        String[] res = settingsManager.get(SettingKeys.PictureSize).get().split("x");
+        String[] res = settingsManager.get(SettingKeys.PICTURE_SIZE).get().split("x");
 
-        if(settingsManager.get(SettingKeys.PictureFormat).get().contains(FreedApplication.getStringFromRessources(R.string.bayer_)))
+        if(settingsManager.get(SettingKeys.PICTURE_FORMAT).get().contains(FreedApplication.getStringFromRessources(R.string.bayer_)))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

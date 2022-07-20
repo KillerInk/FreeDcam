@@ -48,7 +48,7 @@ import freed.utils.Log;
  */
 public class FileHolder extends BaseHolder
 {
-    private File file;
+    private final File file;
     private static final String TAG = FileHolder.class.getSimpleName();
 
 

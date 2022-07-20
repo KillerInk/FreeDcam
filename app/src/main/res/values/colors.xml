@@ -2,10 +2,8 @@
 <resources>
     <color name="menuBackgColor">#46ffffff</color>
     <color name="menuTextColor">#ffffff</color>
-    <color name="settingsmenuBackColor" >#32ffffff</color>
     <color name="uiSettingsTextColor">#ffffff</color>
     <color name="uiSettingsBackground">#bd000000</color>
-    <color name="menu_header_color">#ffffffff</color>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#11303f9f</color>
     <color name="colorAccent">#FF4081</color>
@@ -15,7 +13,6 @@
     <color name="button_clicked">#707070</color>
 
 
-    <color name="nextgen_menu_right_background">#66000000</color>
     <color name="nextgen_menu_right_text">#FFFFFFFF</color>
     <color name="manual_button_active">#64DD17</color>
 </resources>

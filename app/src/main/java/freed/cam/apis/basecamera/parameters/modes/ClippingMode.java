@@ -1,13 +1,10 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
-import android.text.TextUtils;
-
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
-import freed.settings.SettingsManager;
 
 /**
  * Created by KillerInk on 23.01.2018.
@@ -23,11 +20,7 @@ public class ClippingMode extends FocusPeakMode {
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
-        boolean toset = false;
-        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
-        {
-            toset = true;
-        }
+        boolean toset = valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_));
         previewController.setClipping(toset);
         settingsManager.get(settingMode).set(toset);
         fireStringValueChanged(valueToSet);

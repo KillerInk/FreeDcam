@@ -22,13 +22,13 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
 
     private boolean expotimeIsActive;
     private boolean isoIsActive;
-    private BaseModeApi2 aemode;
+    private final BaseModeApi2 aemode;
     private long exposuretime = 0L;
     private int isoVal = 0;
 
     public AeManagerCamera2Qcom(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
-        aemode = new BaseModeApi2(cameraWrapperInterface, SettingKeys.ExposureMode, CaptureRequest.CONTROL_AE_MODE);
+        aemode = new BaseModeApi2(cameraWrapperInterface, SettingKeys.EXPOSURE_MODE, CaptureRequest.CONTROL_AE_MODE);
     }
 
     @Override

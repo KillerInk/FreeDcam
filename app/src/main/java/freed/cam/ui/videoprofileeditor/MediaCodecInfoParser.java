@@ -51,7 +51,7 @@ public class MediaCodecInfoParser
                 {
                     Log.d(TAG, "MediaCodecInfo Name:" + info.getName());
                 }
-                String types[] = info.getSupportedTypes();
+                String[] types = info.getSupportedTypes();
                 if (containType(types,type))
                 {
                     MyMediaCodec codec = new MyMediaCodec(info.getName());
@@ -112,7 +112,7 @@ public class MediaCodecInfoParser
 
             if(info.isEncoder()) {
                 Log.d(TAG, "MediaCodecInfo Name:" + info.getName() + " hwaccel:" /*+ info.isHardwareAccelerated()*/);
-                String types[] = info.getSupportedTypes();
+                String[] types = info.getSupportedTypes();
                 for (String s : types) {
                     MediaCodecInfo.CodecCapabilities codecCapabilities = info.getCapabilitiesForType(s);
                     for (int t = 0; t < codecCapabilities.profileLevels.length; t++) {
@@ -122,7 +122,7 @@ public class MediaCodecInfoParser
                         if (s.equals(avc))
                             Log.d(TAG, "Type: " + s + " profile: " + getAvcProfileString(lvl.profile) + " lvl: " + getAvcLevelString(lvl.level));
                     }
-                    int colorformats[] = codecCapabilities.colorFormats;
+                    int[] colorformats = codecCapabilities.colorFormats;
                     for (int ii : colorformats)
                     {
                         Log.d(TAG, "Color format:" + getColorFormat(ii));

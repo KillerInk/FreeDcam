@@ -12,7 +12,7 @@ import freed.settings.SettingKeys;
 public class ManualSaturationQcomApi2 extends AbstractParameter<Camera2> {
 
     public ManualSaturationQcomApi2(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper, SettingKeys.M_Saturation);
+        super(cameraUiWrapper, SettingKeys.M_SATURATION);
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

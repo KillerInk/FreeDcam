@@ -100,7 +100,7 @@ public class SettingsLoader {
 
         XmlElement cameraids = element.findChild(XmlUtil.CAMERA_IDS);
         List<XmlElement> ids = cameraids.findChildren(XmlUtil.IDS);
-        int camids[] = new int[ids.size()];
+        int[] camids = new int[ids.size()];
         for (int i= 0; i<ids.size();i++)
             camids[i] = ids.get(i).getIntValue(0);
         camera.camera_ids =camids;

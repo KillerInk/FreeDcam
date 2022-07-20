@@ -11,7 +11,7 @@ public enum VideoCodecs {
     {
         this.value = value;
     }
-    private int value;
+    private final int value;
     public int GetInt()
     {
         return value;

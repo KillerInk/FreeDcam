@@ -11,7 +11,7 @@ public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
 
     private String size = "1920x1080";
     public SecondarySensorSizeModeApi2(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper, SettingKeys.secondarySensorSize);
+        super(cameraUiWrapper, SettingKeys.SECONDARY_SENSOR_SIZE);
         setViewState(ViewState.Visible);
     }
 
@@ -19,7 +19,7 @@ public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        settingsManager.get(SettingKeys.secondarySensorSize).set(valueToSet);
+        settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).set(valueToSet);
         size = valueToSet;
         if (setToCamera)
         {
@@ -37,6 +37,6 @@ public class SecondarySensorSizeModeApi2 extends BaseModeApi2 {
     @Override
     public String[] getStringValues()
     {
-        return settingsManager.get(SettingKeys.secondarySensorSize).getValues();
+        return settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).getValues();
     }
 }

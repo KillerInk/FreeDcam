@@ -9,7 +9,7 @@ import freed.cam.apis.sonyremote.sonystuff.XmlElement;
  */
 
 public class ToneMapProfile {
-    private String name;
+    private final String name;
 
     /*
     This tag contains a default tone curve that can be applied while processing the image as a
@@ -19,7 +19,7 @@ public class ToneMapProfile {
     The first sample is required to be (0.0, 0.0), and the last sample is required to be (1.0, 1.0).
      Interpolated the curve using a cubic spline.
      */
-    private float toneCurve[];
+    private float[] toneCurve;
 
     /*
     This tag contains the data for the first hue/saturation/value mapping table.
@@ -31,8 +31,8 @@ public class ToneMapProfile {
     to have a value scale factor of 1.0. The hue/saturation/value table application is described
     in detail in Chapter 6 DNG SDK.
      */
-    private float hueSatMap[];
-    private float hueSatMap2[];
+    private float[] hueSatMap;
+    private float[] hueSatMap2;
 
     /*
     This tag specifies the number of input samples in each dimension of the hue/saturation/value
@@ -43,7 +43,7 @@ public class ToneMapProfile {
     •ValueDivisions >=1
     The most common case has ValueDivisions equal to 1, so only hue and saturation are used as inputs to the mapping table.
      */
-    private int hueSatMapDims[];
+    private int[] hueSatMapDims;
     /*
     Camera models vary in the trade-off they make between highlight headroom and shadow noise.
     Some leave a significant amount of highlight headroom during a normal exposure.
@@ -80,7 +80,7 @@ public class ToneMapProfile {
     public ToneMapProfile(XmlElement element)
     {
         name = element.getAttribute("name", "");
-        String split[] = null;
+        String[] split = null;
         if (!element.findChild("tonecurve").isEmpty()) {
             String curve = element.findChild("tonecurve").getValue();
             curve = curve.replace("\n","").replace(" ","");
@@ -186,7 +186,7 @@ public class ToneMapProfile {
             huesatmapdim.append(hueSatMapDims[i]).append(" ");
         }
         String t = "";
-        t += "<tonemapprofile name= " +String.valueOf("\"") +String.valueOf(name) +String.valueOf("\"")  +">" + "\r\n";
+        t += "<tonemapprofile name= " + "\"" + name + "\"" +">" + "\r\n";
         t += "<tonecurve>" + tonecurve + "</tonecurve>" + "\r\n";
         t += "<baselineexposure>" + baselineExposure + "</baselineexposure>" + "\r\n";
         t += "<baselineexposureoffset>" + baselineExposureOffset + "</baselineexposureoffset>" + "\r\n";

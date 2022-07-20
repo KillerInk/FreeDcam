@@ -20,7 +20,7 @@ import freed.utils.Log;
 public class VendorKeyParser
 {
     private final String TAG = VendorKeyParser.class.getSimpleName();
-    private HashSet<String> availiblekeys;
+    private final HashSet<String> availiblekeys;
 
     public VendorKeyParser()
     {

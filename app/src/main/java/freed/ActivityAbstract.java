@@ -40,7 +40,6 @@ import freed.settings.SettingsManager;
 import freed.utils.HideNavBarHelper;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
-import hilt.ImageManagerEntryPoint;
 import hilt.PermissionManagerEntryPoint;
 
 /**

@@ -182,7 +182,7 @@ public class CameraExtensionValues {
         sSceneMap.put(EX_SCENE_MODE_BACKLIGHT, Integer.valueOf(17));
         sSceneMap.put(EX_SCENE_MODE_BACKLIGHT_PORTRAIT, Integer.valueOf(18));
         VALID_VARIABLE_PARAMETER_KEY_ARRAY = new String[]{"preview-size", "preview-frame-rate", "preview-fps-range", "picture-size", "jpeg-quality", "rotation", "gps-latitude", "gps-longitude", "gps-altitude", "gps-timestamp", "gps-processing-method", "whitebalance", "scene-mode", "flash-mode", "focus-mode", "focus-areas", "video-size", "recording-hint", "exposure-compensation", "zoom", KEY_EX_METERING_MODE, KEY_EX_IMAGE_STABILIZER, KEY_EX_VIDEO_STABILIZER, KEY_EX_SMILE_DETECTION, KEY_EX_FOCUS_AREA, KEY_EX_AE_MODE, KEY_EX_ISO, KEY_EX_VIDEO_NR, KEY_EX_SOFT_SKIN_LEVEL_PICTURE, KEY_EX_SOFT_SKIN_LEVEL_PREVIEW, EX_DC_MODE_FOR_PREVIEW, EX_DC_MODE_FOR_VIDEO, EX_DC_MODE_FOR_PICTURE, KEY_EX_AWB_COMPENSATION_AB, KEY_EX_SHUTTER_SOUND, KEY_EX_REC_SOUND};
-        MUST_CHANGED_PARAMETER_KEY_LIST = new ArrayList(Arrays.asList(new String[]{"rotation", "gps-latitude", "gps-longitude", "gps-altitude", "gps-timestamp", "gps-processing-method"}));
+        MUST_CHANGED_PARAMETER_KEY_LIST = new ArrayList(Arrays.asList("rotation", "gps-latitude", "gps-longitude", "gps-altitude", "gps-timestamp", "gps-processing-method"));
     }
 
     public static Parameters cloneParametersFrom(Parameters parameters) {

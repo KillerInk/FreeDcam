@@ -63,14 +63,10 @@ import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
+import freed.cam.ui.infooverlay.modelview.InfoOverlayModelView;
 import freed.cam.ui.themenextgen.view.NextGenCameraUiTextSwitch;
-import freed.views.CurveView;
-import freed.views.CurveViewControl;
-import freed.views.pagingview.PagingViewTouchState;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.HorizontLineFragment;
-import freed.cam.ui.themesample.cameraui.ManualFragment;
-import freed.cam.ui.infooverlay.modelview.InfoOverlayModelView;
 import freed.cam.ui.themesample.handler.FocusImageHandler;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
@@ -80,6 +76,9 @@ import freed.update.ReleaseChecker;
 import freed.update.VersionView;
 import freed.utils.LocationManager;
 import freed.utils.Log;
+import freed.views.CurveView;
+import freed.views.CurveViewControl;
+import freed.views.pagingview.PagingViewTouchState;
 import freed.views.shutter.ShutterButton;
 
 /**
@@ -141,7 +140,7 @@ public class NextGenCameraUiFragment extends Fragment implements
     @Inject
     LocationManager locationManager;
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     public NextGenCameraUiFragment()
     {
@@ -166,8 +165,8 @@ public class NextGenCameraUiFragment extends Fragment implements
             if (parameterHandler == null)
                 return;
 
-            if (parameterHandler.get(SettingKeys.Focuspeak) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.Focuspeak), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
+            if (parameterHandler.get(SettingKeys.FOCUSPEAK) != null)
+                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.FOCUSPEAK), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
             if (parameterHandler.get(SettingKeys.CLIPPING) != null)
                 addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
             if (parameterHandler.get(SettingKeys.HISTOGRAM) != null)
@@ -175,15 +174,15 @@ public class NextGenCameraUiFragment extends Fragment implements
             if (parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER)!= null)
                 addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER),FreedApplication.getStringFromRessources(R.string.font_tonecurve),onNextGenToneCurveButtonClick);
 
-            if (parameterHandler.get(SettingKeys.FlashMode) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.FlashMode), onNextGenButtonClick);
-            if (parameterHandler.get(SettingKeys.FocusMode) != null)
-                addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.FocusMode),FreedApplication.getStringFromRessources(R.string.font_manual_focus),onNextGenButtonClick);
-            if (parameterHandler.get(SettingKeys.ExposureLock) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.ExposureLock),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
+            if (parameterHandler.get(SettingKeys.FLASH_MODE) != null)
+                addUiTextSwitch(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.FLASH_MODE), onNextGenButtonClick);
+            if (parameterHandler.get(SettingKeys.FOCUS_MODE) != null)
+                addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.FOCUS_MODE),FreedApplication.getStringFromRessources(R.string.font_manual_focus),onNextGenButtonClick);
+            if (parameterHandler.get(SettingKeys.EXPOSURE_LOCK) != null)
+                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.EXPOSURE_LOCK),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
 
-            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.selfTimer),FreedApplication.getStringFromRessources(R.string.font_exposuretime),onNextGenButtonClick);
-            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.Module),FreedApplication.getStringFromRessources(R.string.font_image), onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.SELF_TIMER),FreedApplication.getStringFromRessources(R.string.font_exposuretime),onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.MODULE),FreedApplication.getStringFromRessources(R.string.font_image), onNextGenButtonClick);
             addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
 
 
@@ -292,10 +291,7 @@ public class NextGenCameraUiFragment extends Fragment implements
         waveform.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (preview.isColorWaveForm())
-                    preview.setColorWaveForm(false);
-                else
-                    preview.setColorWaveForm(true);
+                preview.setColorWaveForm(!preview.isColorWaveForm());
             }
         });
         histogramController.setWaveFormView(waveform);
@@ -411,7 +407,7 @@ public class NextGenCameraUiFragment extends Fragment implements
         manualModes_holder.setVisibility(View.VISIBLE);
     }
 
-    private OnClickListener onNextGenButtonClick = new OnClickListener() {
+    private final OnClickListener onNextGenButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (currentOpendChild == v)
@@ -438,7 +434,7 @@ public class NextGenCameraUiFragment extends Fragment implements
     };
 
 
-    private OnClickListener onNextGenToneCurveButtonClick = new OnClickListener() {
+    private final OnClickListener onNextGenToneCurveButtonClick = new OnClickListener() {
 
         @Override
         public void onClick(View v) {

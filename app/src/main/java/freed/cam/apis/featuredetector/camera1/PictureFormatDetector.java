@@ -25,12 +25,12 @@ public class PictureFormatDetector extends BaseParameter1Detector {
         //drop raw for front camera
         if (false)
         {
-            settingsManager.get(SettingKeys.PictureFormat).setIsSupported(false);
+            settingsManager.get(SettingKeys.PICTURE_FORMAT).setIsSupported(false);
             settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
         }
         else {
             if (settingsManager.getFrameWork() == Frameworks.MTK) {
-                settingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
+                settingsManager.get(SettingKeys.PICTURE_FORMAT).setIsSupported(true);
                 settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
             } else {
 
@@ -75,18 +75,15 @@ public class PictureFormatDetector extends BaseParameter1Detector {
                     String[] rawFormats = new String[tmp.size()];
                     tmp.toArray(rawFormats);
                     settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setValues(rawFormats);
-                    if (rawFormats.length == 0)
-                        settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(false);
-                    else
-                        settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(true);
+                    settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).setIsSupported(rawFormats.length != 0);
                 }
             }
-            settingsManager.get(SettingKeys.PictureFormat).setIsSupported(true);
+            settingsManager.get(SettingKeys.PICTURE_FORMAT).setIsSupported(true);
 
             if (settingsManager.getDngProfilesMap() != null && settingsManager.getDngProfilesMap().size() > 0)
             {
                 Log.d(TAG, "Dng, bayer, jpeg supported");
-                settingsManager.get(SettingKeys.PictureFormat).setValues(new String[]
+                settingsManager.get(SettingKeys.PICTURE_FORMAT).setValues(new String[]
                         {
                                 FreedApplication.getStringFromRessources(R.string.jpeg_),
                                 FreedApplication.getStringFromRessources(R.string.dng_),
@@ -95,7 +92,7 @@ public class PictureFormatDetector extends BaseParameter1Detector {
             }
             else if (settingsManager.get(SettingKeys.RAW_PICTURE_FORMAT_SETTING).isSupported()) {
                 Log.d(TAG, "bayer, jpeg supported");
-                settingsManager.get(SettingKeys.PictureFormat).setValues(new String[]{
+                settingsManager.get(SettingKeys.PICTURE_FORMAT).setValues(new String[]{
                         FreedApplication.getStringFromRessources(R.string.jpeg_),
                         FreedApplication.getStringFromRessources(R.string.bayer_)
                 });
@@ -103,7 +100,7 @@ public class PictureFormatDetector extends BaseParameter1Detector {
             else
             {
                 Log.d(TAG, "jpeg supported");
-                settingsManager.get(SettingKeys.PictureFormat).setValues(new String[]{
+                settingsManager.get(SettingKeys.PICTURE_FORMAT).setValues(new String[]{
                         FreedApplication.getStringFromRessources(R.string.jpeg_)
                 });
             }

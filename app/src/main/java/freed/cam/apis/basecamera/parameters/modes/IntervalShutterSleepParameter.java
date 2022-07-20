@@ -34,7 +34,7 @@ import freed.settings.SettingKeys;
 public class IntervalShutterSleepParameter extends AbstractParameter
 {
     private String current = "1 sec";
-    private CameraWrapperInterface cameraUiWrapper;
+    private final CameraWrapperInterface cameraUiWrapper;
     public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
     {
         super(SettingKeys.INTERVAL_SHUTTER_SLEEP);

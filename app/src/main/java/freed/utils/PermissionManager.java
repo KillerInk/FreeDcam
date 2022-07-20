@@ -25,7 +25,7 @@ public class PermissionManager
 
     private final String TAG = PermissionManager.class.getSimpleName();
 
-    private Context activity;
+    private final Context activity;
 
     public PermissionManager(Context activity)
     {

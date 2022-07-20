@@ -22,7 +22,7 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
 
     public SettingsChildMenuForceRawToDng(Context context, int headerid, int descriptionid) {
         super(context, headerid, descriptionid);
-        if (settingsManager.get(SettingKeys.forceRawToDng).get())
+        if (settingsManager.get(SettingKeys.FORCE_RAW_TO_DNG).get())
             SetValue(getContext().getResources().getString(R.string.on));
         else
             SetValue(getContext().getResources().getString(R.string.off));
@@ -35,10 +35,7 @@ public class SettingsChildMenuForceRawToDng extends SettingsChildMenu {
 
     @Override
     public void SetValue(String value) {
-        if (value.equals(getContext().getResources().getString(R.string.off)))
-            settingsManager.get(SettingKeys.forceRawToDng).set(false);
-        else
-            settingsManager.get(SettingKeys.forceRawToDng).set(true);
+        settingsManager.get(SettingKeys.FORCE_RAW_TO_DNG).set(!value.equals(getContext().getResources().getString(R.string.off)));
         binding.textviewMenuitemHeaderValue.setText(value);
     }
 

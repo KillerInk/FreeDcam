@@ -37,7 +37,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
     private final String[] asU;
     public VirtualLensFilter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
-        super(parameters, cameraUiWrapper, SettingKeys.LensFilter);
+        super(parameters, cameraUiWrapper, SettingKeys.LENS_FILTER);
 
         if (settingsManager.isZteAe())
             setViewState(ViewState.Visible);

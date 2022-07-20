@@ -1,6 +1,5 @@
 <resources>
     <!-- settings_leftmenufragment  -->
-    <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Paramètres de l\'image</string>
     <string name="setting_bayerformat_description">Encodage des donnée brutes du capteur en DNG</string>
     <string name="setting_bayerformat_header">Format Bayer: </string>
@@ -15,21 +14,13 @@
     <string name="setting_videohdr_description">Active l\'enregistrement vidéo HDR</string>
     <string name="setting_videohdr_header">Vidéo HDR: </string>
 
-    <string name="setting_hdr_">Bracket</string>
-    <string name="setting_aebracket_header">AE-Bracket: </string>
-    <string name="setting_aebracket_description">Si activé l\'appareil capture 3 images en une fois</string>
-
     <string name="setting_freedcam_">Paramètres Freedcam</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Selectionner l\'API</string>
-    <string name="setting_externalshutter_description">Touche d\'un casque permettant le déclanchement</string>
-    <string name="setting_externalshutter_header">Déclanchement externe: </string>
     <string name="setting_location_description">Enregistrement de la position GPS</string>
     <string name="setting_location_header">Géolocalisation: </string>
     <string name="setting_guide_description">Guides de composition</string>
     <string name="setting_guide_header">Guide: </string>
-    <string name="setting_focuspeak_description">Activer l\'intensification du focus</string>
-    <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Correction d\'orientation: </string>
     <string name="setting_orientation_description">Rotation de 180° autorisée si activé</string>
     <string name="setting_sdcard_header">Carte SD: </string>
@@ -47,7 +38,6 @@
     <string name="setting_scene_header">Scène: </string>
     <string name="setting_scene_description">Selectionner la Scène qui correspond aux conditions</string>
 
-    <string name="setting_qcom_">Paramètres Qualcomm</string>
     <string name="setting_cds_header">Double échantillonnage corrélé: </string>
     <string name="setting_cds_description">Double mesure du capteur électrique</string>
     <string name="setting_dis_header">Stabilisation Digitale: </string>
@@ -67,7 +57,6 @@
     <string name="setting_zsl_header">Pas de délais d\'obturateur (ZSL): </string>
     <string name="setting_zsl_description">Mise en tampon d\'image pour capture rapide, doit être désactivé pour le RAW</string>
 
-    <string name="setting_camera2_">Paramètres Camera 2</string>
     <string name="setting_colorcorrection_header">Température de couleur corrélée: </string>
     <string name="setting_colorcorrection_description">Changer en manuel ou automatique</string>
     <string name="setting_controlmode_header">Contrôle de l\'appareil: </string>
@@ -79,36 +68,16 @@
     <string name="setting_tonemap_header">Tonemap: </string>
     <string name="setting_tonemap_description"></string>
 
-    <string name="setting_sonycameraremote_">Paramètres de commande d\'un appareil photo Sony</string>
-    <string name="setting_objecttrack_header">Suivi d\'objet: </string>
-    <string name="setting_objecttrack_description">Activer pour une mise au point suivant un objet</string>
-    <string name="setting_postview_header">PostViewSize: </string>
-    <string name="setting_postview_description">Taille des images de l\'appareil commandé</string>
-
-    <string name="setting_omap_">Paramètres OMAP</string>
     <string name="setting_ipp_header">Post-traitement de l\'image: </string>
     <string name="setting_ipp_description">Qualité du post-traitement</string>
 
-    <string name="setting_lg_">Paramètres LG</string>
     <string name="setting_ois_header">Stabilisation optique de l\'image: </string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">Paramètres HTC</string>
     <string name="setting_nonzsl_header">Contrôle Manuel(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">On pour activer le contrôle manuel si le ZSL est désactivé</string>
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Flash</string>
-    <string name="uisetting_focus_header">Mise au point</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Nuit</string>
-    <string name="uisetting_continouseshot_header">Capture continue</string>
-    <string name="uisetting_format_header">Format</string>
-    <string name="uisetting_settings_header">Paramètres</string>
-    <string name="uisetting_camerswitch_header">Appareil</string>
-    <string name="uisetting_mode_header">Mode</string>
-    <string name="uisetting_exit_header">Quitter</string>
 
 </resources>

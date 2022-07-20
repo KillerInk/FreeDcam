@@ -132,16 +132,9 @@ public class SettingsChildMenuSDSave extends SettingsChildMenu implements I_OnAc
     public void onActivityResultCallback(Uri uri)
     {
         DocumentFile f = DocumentFile.fromTreeUri(getContext(), uri);
-        if (f.canWrite() && lastval.equals(SDModeParameter.external))
-        {
-            settingsManager.SetWriteExternal(true);
-            //onStringValueChanged(SDModeParameter.external);
-        }
-        else
-        {
-            settingsManager.SetWriteExternal(false);
-            //onStringValueChanged(SDModeParameter.internal);
-        }
+        //onStringValueChanged(SDModeParameter.external);
+        //onStringValueChanged(SDModeParameter.internal);
+        settingsManager.SetWriteExternal(f.canWrite() && lastval.equals(SDModeParameter.external));
         lastval = "";
     }
 }

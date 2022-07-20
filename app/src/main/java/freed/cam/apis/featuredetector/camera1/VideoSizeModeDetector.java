@@ -9,6 +9,6 @@ import freed.settings.SettingKeys;
 public class VideoSizeModeDetector extends BaseParameter1Detector{
     @Override
     protected void findAndFillSettings(Camera.Parameters cameraCharacteristics) {
-        detectMode(cameraCharacteristics, R.string.video_size,R.string.video_size_values, settingsManager.get(SettingKeys.VideoSize));
+        detectMode(cameraCharacteristics, R.string.video_size,R.string.video_size_values, settingsManager.get(SettingKeys.VIDEO_SIZE));
     }
 }

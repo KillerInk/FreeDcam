@@ -2,9 +2,6 @@
 <resources>
 
     <!-- settings_leftmenufragment  -->
-    <string name="all_perms_granted" translatable="true">All permissions granted</string>
-    <string name="all_perms_denied" translatable="true">All permissions denied, try yet</string>
-    <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Mode</string>
     <string name="setting_Automation" translatable="true">Interval Mode Settings</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
@@ -29,45 +26,28 @@
 
 
     <string name="setting_video_group_header">Video Mode</string>
-    <string name="setting_preview_group_header">Preview</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
 
     <string name="setting_videoaudiosource_description">Audio Source for recording</string>
     <string name="setting_videoaudiosource_header">AudioSource: </string>
-    <string name="setting_timelapse_header">Timelapse Fps: </string>
 
     <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
     <string name="setting_videoprofileeditor_header">Video Profile Editor </string>
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
-    <string name="setting_videohfr_description">Video FPS Selection</string>
-    <string name="setting_videohsr_description">Enables Highspeed Video Recording</string>
-    <string name="setting_videobitrate_description">Video Bitrate Selection</string>
     <string name="setting_vs_description">Enables video stabilization</string>
     <string name="setting_videohdr_header">Video HDR: </string>
-    <string name="setting_videohfr_header">Video Frame Rate: </string>
-    <string name="setting_videohsr_header">Video HSR: </string>
-    <string name="setting_videobitrate_header">Video Bitrate: </string>
     <string name="setting_vs_header">Video Stabilization: </string>
-    <string name="setting_hdr_">Bracket Mode </string>
-    <string name="setting_aebracket_header">AE-Bracket: </string>
-    <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
-    <string name="setting_imagestack_header">Stacking Mode Settings: </string>
-    <string name="setting_imagestack_description">Select how the Images get Stacked</string>
 
     <string name="setting_freedcam_">Freedcam Settings</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Select the Api you want to use</string>
-    <string name="setting_externalshutter_description">Alternate key which can trigger the shutter from ie headset, volume button</string>
-    <string name="setting_externalshutter_header">External Shutter Trigger: </string>
     <string name="setting_location_description">Enables Geo-tagging in images </string>
     <string name="setting_location_header">Geo-Tag Location: </string>
     <string name="setting_guide_description">Overlays selected composition grid</string>
     <string name="setting_guide_header">Grid: </string>
     <string name="setting_horizont_description">Dual Axis Image Level to show image straightness</string>
     <string name="setting_horizont_header">Image Level: </string>
-    <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
-    <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_nightoverlay_description">shows a red Overlay</string>
     <string name="setting_nightoverlay_header">NightOverlay: </string>
     <string name="setting_touchtocapture_description">When enabled, a image capture starts.</string>
@@ -108,9 +88,6 @@
     <string name="setting_maxexpotime_header">Max ExposureTime:</string>
     <string name="setting_maxexpotime_text">Max ExposureTime that can get used by ae</string>
 
-    <string name="setting_timer_header">Delay till shutter fires</string>
-    <string name="setting_timer_text">Time</string>
-
     <string name="setting_theme_header">Theme: </string>
     <string name="setting_theme_description">Choose your favorite Theme</string>
     <string name="setting_savecamparams_header">Save Camera Parameters</string>
@@ -132,7 +109,6 @@
     <string name="setting_opencameralegacy_header">Open Camera in LegacyMode: </string>
     <string name="setting_opencameralegacy_description">De/Activate when you have problems with Manuals</string>
 
-    <string name="setting_qcom_">Qualcomm Settings</string>
     <string name="setting_cds_header">Correlated double sampling: </string>
     <string name="setting_cds_description">Sensor electrical readout measured twice</string>
     <string name="setting_dis_header">Digital Image Stabilization: </string>
@@ -174,7 +150,6 @@
     <string name="setting_lensfilter_header">Virtual Lens Filter</string>
     <string name="setting_lensfilter_description">Apply Lens Filter Effect</string>
 
-    <string name="setting_camera2_">Camera 2 Settings</string>
     <string name="setting_colorcorrection_header">Correlated Color Temperature: </string>
     <string name="setting_colorcorrection_description">Change this to manual or auto</string>
     <string name="setting_controlmode_header">Camera Control: </string>
@@ -192,23 +167,12 @@
     <string name="setting_facemode_header">Face Dectection: </string>
     <string name="setting_facemode_description"></string>
 
-    <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
-    <string name="setting_objecttrack_header">Object Tracking: </string>
-    <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
-    <string name="setting_zoomsetting_header">Zoom Setting: </string>
-    <string name="setting_zoomsetting_description">Set to enable/disable digital zoom</string>
-    <string name="setting_postview_header">PostViewSize: </string>
-    <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
-
-    <string name="setting_omap_">OMAP Settings</string>
     <string name="setting_ipp_header">Image Post Processing: </string>
     <string name="setting_ipp_description">The quality of the PostProcessing</string>
 
-    <string name="setting_lg_">LG Settings</string>
     <string name="setting_ois_header">Optical Image Stabilisation: </string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">HTC Settings</string>
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
@@ -218,9 +182,6 @@
     <string name="setting_zoom_on_mf_factor_description">Zoom Factor that get applied</string>
     <string name="setting_zoom_on_mf_duration_header">Zoom Duration</string>
     <string name="setting_zoom_on_mf_duration_description">Duration after the zoom get reseted</string>
-
-    <string name="setting_scalepreview_header">Scale Preview</string>
-    <string name="setting_scalepreview_description">Turn on to Scale the preview x2</string>
 
     <string name="setting_dualprimarycamera_header">Dual Camera</string>
     <string name="setting_dualprimarycamera_description">Switch the Camera</string>
@@ -236,31 +197,11 @@
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Flash</string>
-    <string name="uisetting_focus_header">Focus</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Night</string>
-    <string name="uisetting_continouseshot_header">Continous Shoot</string>
-    <string name="uisetting_format_header">Format</string>
-    <string name="uisetting_settings_header">Settings</string>
-    <string name="uisetting_camerswitch_header">Camera</string>
-    <string name="uisetting_mode_header">Mode</string>
-    <string name="uisetting_exit_header">Exit</string>
-    <string name="timelapse_frames">Timelapse Frames</string>
 
     <!-- ImageViewer -->
-    <string name="delete_file">Delete File?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="no_files">No Files</string>
-    <string name="failed_to_load">Failed to load:</string>
-    <string name="sec">sec</string>
-    <string name="mm">mm</string>
     <string name="unknown_raw_add_manual_stuff">Unknown RawFile, pls add needed Stuff Manual</string>
-    <string name="converting_dng">Converting DNG</string>
-    <string name="ALL">ALL</string>
-    <string name="All">All</string>
     <string name="delete_files">Delete File\'s?</string>
     <string name="width">Width:</string>
     <string name="height">Height:</string>
@@ -268,8 +209,6 @@
     <string name="whitelevel">Whitelevel:</string>
     <string name="converttodng">Convert to DNG</string>
     <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
-    <string name="files_selected">Files selected:</string>
-    <string name="setting_imagestack">ImageStack</string>
 
     <string name="off">Off</string>
     <string name="on">On</string>
@@ -304,8 +243,6 @@
     <string name="scene_hdr">HDR</string>
 
     <!-- flashmodes -->
-    <string name="flash_single">Single</string>
-    <string name="flash_torch">Torch</string>
 
     <!-- antibanding -->
     <string name="antibanding_50hz">50HZ</string>
@@ -365,9 +302,6 @@
 
     <string name="video_audio_source_default">Default</string>
     <string name="video_audio_source_mic">Mic</string>
-    <string name="video_audio_source_voiceuplink">Voice Uplink</string>
-    <string name="video_audio_source_voicedownlink">Voice Downlink</string>
-    <string name="video_audio_source_voice_call">Voice Call</string>
     <string name="video_audio_source_camcorder">Camcorder</string>
     <string name="video_audio_source_voice_recognition">Voice Recognition</string>
     <string name="video_audio_source_voice_communication">Voice Communication</string>

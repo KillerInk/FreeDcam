@@ -1,6 +1,5 @@
 <resources>
     <!-- settings_leftmenufragment  -->
-    <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Settings</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
     <string name="setting_bayerformat_header">Bayer Format: </string>
@@ -15,21 +14,13 @@
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
     <string name="setting_videohdr_header">Video HDR: </string>
 
-    <string name="setting_hdr_">Bracket</string>
-    <string name="setting_aebracket_header">AE-Bracket: </string>
-    <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
-
     <string name="setting_freedcam_">Freedcam Settings</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Select the Api you want to use</string>
-    <string name="setting_externalshutter_description">The key wich can trigger the shutter from a headset</string>
-    <string name="setting_externalshutter_header">ExternalShutterKey: </string>
     <string name="setting_location_description">LocationInfo for Files</string>
     <string name="setting_location_header">Location: </string>
     <string name="setting_guide_description">Compositional Guides</string>
     <string name="setting_guide_header">Guide: </string>
-    <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
-    <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
     <string name="setting_sdcard_header">SD Card: </string>
@@ -48,7 +39,6 @@
     <string name="setting_scene_header">Scene: </string>
     <string name="setting_scene_description">Select the Scene that matches current Scenario</string>
 
-    <string name="setting_qcom_">Qualcomm Settings</string>
     <string name="setting_cds_header">Correlated double sampling: </string>
     <string name="setting_cds_description">Sensor electrical readout measured twice</string>
     <string name="setting_dis_header">Digital Image Stabilization: </string>
@@ -68,7 +58,6 @@
     <string name="setting_zsl_header">Zero Shutter Lag: </string>
     <string name="setting_zsl_description">Buffers Images for instant Capture N/A to raw must be off</string>
 
-    <string name="setting_camera2_">Camera 2 Settings</string>
     <string name="setting_colorcorrection_header">Correlated Color Temperature: </string>
     <string name="setting_colorcorrection_description">Change this to manual or auto</string>
     <string name="setting_controlmode_header">Camera Control: </string>
@@ -80,36 +69,16 @@
     <string name="setting_tonemap_header">Tonemap: </string>
     <string name="setting_tonemap_description"></string>
 
-    <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
-    <string name="setting_objecttrack_header">ObjectTracking: </string>
-    <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
-    <string name="setting_postview_header">PostViewSize: </string>
-    <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
-
-    <string name="setting_omap_">OMAP Settings</string>
     <string name="setting_ipp_header">ImagePostProcessing: </string>
     <string name="setting_ipp_description">The quality of the PostProcessing</string>
 
-    <string name="setting_lg_">LG Settings</string>
     <string name="setting_ois_header">Optical Image Stabilisation: </string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">HTC Settings</string>
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Flash</string>
-    <string name="uisetting_focus_header">Focus</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Night</string>
-    <string name="uisetting_continouseshot_header">Continous Shoot</string>
-    <string name="uisetting_format_header">Format</string>
-    <string name="uisetting_settings_header">Settings</string>
-    <string name="uisetting_camerswitch_header">Camera</string>
-    <string name="uisetting_mode_header">Mode</string>
-    <string name="uisetting_exit_header">Exit</string>
 
 </resources>

@@ -1,8 +1,6 @@
 package freed.viewer.screenslide;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.ColorSpace;
 
 import com.google.android.renderscript.Toolkit;
 import com.ortiz.touch.TouchImageView;
@@ -17,9 +15,9 @@ import freed.viewer.screenslide.models.ImageFragmentModel;
 public class BitmapLoader extends ImageTask
 {
     private final String TAG = BitmapLoader.class.getSimpleName();
-    private WeakReference<TouchImageView> imageviewRef;
-    private BaseHolder file;
-    private ImageFragmentModel imageFragmentModel;
+    private final WeakReference<TouchImageView> imageviewRef;
+    private final BaseHolder file;
+    private final ImageFragmentModel imageFragmentModel;
 
     public BitmapLoader(ImageFragmentModel file, TouchImageView imageFragment)
     {
@@ -33,7 +31,7 @@ public class BitmapLoader extends ImageTask
 
         Log.d(TAG, "ImageLoaderTask: LoadImage:" + file.getName());
         final Bitmap response = imageFragmentModel.getBitmapHelper().getBitmap(file,false);
-        int hist[] = null;
+        int[] hist = null;
         if (response == null)
             return true;
         if (response.getConfig() == Bitmap.Config.ARGB_8888)

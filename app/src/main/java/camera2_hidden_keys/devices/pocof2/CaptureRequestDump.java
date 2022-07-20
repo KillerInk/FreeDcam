@@ -1,7 +1,10 @@
 package camera2_hidden_keys.devices.pocof2;
+
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
+
 import camera2_hidden_keys.AbstractCaptureRequest;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

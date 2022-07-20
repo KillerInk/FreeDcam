@@ -29,9 +29,9 @@ import freed.utils.Log;
 public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor.MeteringEvent
 {
     private final String TAG = FreedAeManger.class.getSimpleName();
-    private BackgroundHandlerThread backgroundHandlerThread;
-    private MeteringProcessor meteringProcessor;
-    private Camera2 cameraWrapperInterface;
+    private final BackgroundHandlerThread backgroundHandlerThread;
+    private final MeteringProcessor meteringProcessor;
+    private final Camera2 cameraWrapperInterface;
 
     private int iso;
     private long exposuretime;
@@ -44,14 +44,14 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     //expecting there is only one aperture size.
     private float aperture;
     private float focal_length;
-    private UserMessageHandler userMessageHandler;
+    private final UserMessageHandler userMessageHandler;
     private float exposureCompensationValue = 0;
     private boolean expotime_enable = false;
     private boolean iso_enabled = false;
     private long forcedExposureTime;
     private int forcedIso;
-    private SettingsManager settingsManager;
-    private AeMath aeMath;
+    private final SettingsManager settingsManager;
+    private final AeMath aeMath;
 
 
 
@@ -107,11 +107,11 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
 
     public void turnDefaultAeOff()
     {
-        if(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode) != null) {
+        if(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE) != null) {
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Hidden);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE).setViewState(AbstractParameter.ViewState.Hidden);
         }
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.off),true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.EXPOSURE_MODE).setStringValue(FreedApplication.getContext().getString(R.string.off),true);
         manualExposureTime.setViewState(AbstractParameter.ViewState.Visible);
         manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
@@ -123,7 +123,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             return "" + val / 1000000000;
         }
         int i = (int)(0.5D + 1.0E9F / val);
-        return "1/" + Integer.toString(i);
+        return "1/" + i;
     }
 
     @Override
@@ -197,7 +197,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
         backgroundHandlerThread.execute(measureMeter);
     }
 
-    private MeasureMeter measureMeter = new MeasureMeter();
+    private final MeasureMeter measureMeter = new MeasureMeter();
 
     private class MeasureMeter implements Runnable {
 
@@ -349,7 +349,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             try {
                 String s = settingsManager.get(SettingKeys.MIN_ISO).get();
                 if (s.equals("auto"))
-                    return Integer.parseInt(cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).getStringValues()[1]);
+                    return Integer.parseInt(cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_MANUAL_ISO).getStringValues()[1]);
                 int index = Integer.parseInt(s);
                 return index;
             }
@@ -436,5 +436,5 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 return clamp(expotime,expotimeMin,expoTimeMax);
         }
 
-    };
+    }
 }

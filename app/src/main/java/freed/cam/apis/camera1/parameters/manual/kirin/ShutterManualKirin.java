@@ -35,7 +35,7 @@ public class ShutterManualKirin extends AbstractParameter {
     private final Parameters parameters;
 
     public ShutterManualKirin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
+        super(cameraUiWrapper,SettingKeys.M_EXPOSURE_TIME);
         this.parameters =  parameters;
         setViewState(ViewState.Visible);
     }
@@ -52,7 +52,7 @@ public class ShutterManualKirin extends AbstractParameter {
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-professional-mode", "on");
-            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), stringvalues[currentInt]);
+            parameters.set(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).getCamera1ParameterKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
     }

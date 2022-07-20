@@ -7,7 +7,7 @@ import androidx.databinding.library.baseAdapters.BR;
 
 public abstract class ButtonModel extends BaseObservable implements PopupModel.PopUpItemClick {
 
-    private PopupModel popupModel;
+    private final PopupModel popupModel;
     private String txt;
 
     public ButtonModel(PopupModel popupModel)

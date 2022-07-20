@@ -8,7 +8,7 @@ import android.os.Build;
 import com.troop.freedcam.R;
 
 public class SoundPlayer {
-    private SoundPool soundPool;
+    private final SoundPool soundPool;
     private final int streams = 1;
     private final int shutterid;
 

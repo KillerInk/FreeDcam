@@ -61,7 +61,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     private int value_menu_status = VALUE_MENU_CLOSED;
 
     private SettingsChildAbstract currentOpendItem;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
 
     private SettingsFragmentBinding binding;

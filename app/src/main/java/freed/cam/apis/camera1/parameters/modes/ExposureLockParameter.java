@@ -36,7 +36,7 @@ public class ExposureLockParameter extends BaseModeParameter implements BooleanS
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
     public ExposureLockParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, cameraUiWrapper, SettingKeys.ExposureLock);
+        super(parameters, cameraUiWrapper, SettingKeys.EXPOSURE_LOCK);
         try {
             if (parameters.isAutoExposureLockSupported())
                 setViewState(ViewState.Visible);

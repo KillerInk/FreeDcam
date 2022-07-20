@@ -33,13 +33,13 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
 
 
     private BackgroundHandlerThread backgroundHandlerThread;
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
     private C camera;
     private boolean PreviewSurfaceRdy;
-    private PreviewController previewController;
-    private CaptureStateChangedEventHandler captureStateChangedEventHandler;
-    private CameraHolderEventHandler cameraHolderEventHandler;
-    private ModuleChangedEventHandler moduleChangedEventHandler;
+    private final PreviewController previewController;
+    private final CaptureStateChangedEventHandler captureStateChangedEventHandler;
+    private final CameraHolderEventHandler cameraHolderEventHandler;
+    private final ModuleChangedEventHandler moduleChangedEventHandler;
 
     @Inject
     public CameraApiManager(SettingsManager settingsManager, PreviewController previewController)
@@ -174,10 +174,10 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
 
     public void runFeatureDetector() {
         unloadCamera();
-        boolean legacy = settingsManager.get(SettingKeys.openCamera1Legacy).get();
+        boolean legacy = settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).get();
         boolean showHelpOverlay = settingsManager.getShowHelpOverlay();
         settingsManager.RESET();
-        settingsManager.get(SettingKeys.openCamera1Legacy).set(legacy);
+        settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).set(legacy);
         settingsManager.setshowHelpOverlay(showHelpOverlay);
         switchCamera();
     }

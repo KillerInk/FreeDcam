@@ -49,8 +49,8 @@ public class IntervalHandler
     private Thread intervalBackgroundThread;
 
     private final Object waitForCaptureEnd = new Object();
-    private SettingsManager settingsManager;
-    private UserMessageHandler userMessageHandler;
+    private final SettingsManager settingsManager;
+    private final UserMessageHandler userMessageHandler;
 
     public interface SuperDoWork
     {

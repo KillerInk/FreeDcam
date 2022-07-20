@@ -5,9 +5,6 @@
 	<!-- Patryk L. (LosTigeros) -->
 
     <!-- settings_leftmenufragment  -->
-    <string name="all_perms_granted">Wszystkie uprawnienia przydzielone</string>
-    <string name="all_perms_denied">Wszystkie uprawnienia odrzucone, spróbuj ponownie</string>
-    <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Tryb Zdjęć</string>
     <string name="setting_Automation">Ustawienia trybu interwału</string>
     <string name="setting_bayerformat_description">Tryb RAW sensora do zakodowania jako DNG</string>
@@ -31,34 +28,19 @@
     <string name="setting_videoprofileeditor_description">Stwórz własny profil nagrywania</string>
     <string name="setting_videoprofileeditor_header">Edytor profili wideo</string>
     <string name="setting_videohdr_description">włącz, aby nagrywać w HDR</string>
-    <string name="setting_videohfr_description">Wybierz liczbę klatek na sekundę nagrania</string>
-    <string name="setting_videohsr_description">Włącza szybkie nagrywanie wideo</string>
-    <string name="setting_videobitrate_description">Wybierz przepustowość (bitrate) nagrania</string>
     <string name="setting_vs_description">Włącza stabilizacje nagrania</string>
     <string name="setting_videohdr_header">HDR Nagrania: </string>
-    <string name="setting_videohfr_header">Liczba FPS nagrania: </string>
-    <string name="setting_videohsr_header">HSR Nagrania: </string>
-    <string name="setting_videobitrate_header">Przepustowość nagrania: </string>
     <string name="setting_vs_header">Stabilizacja nagrania: </string>
-    <string name="setting_hdr_">Bracket Mode </string>
-    <string name="setting_aebracket_header">AE-Bracket: </string>
-    <string name="setting_aebracket_description">Jeśli włączony, aparat robi 3 zdjęcia w jednym ujęciu</string>
-    <string name="setting_imagestack_header">Stacking Mode Settings: </string>
-    <string name="setting_imagestack_description">Select how the Images get Stacked</string>
 
     <string name="setting_freedcam_">Ustawienia FreeDCam</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Wybierz którego API chcesz używać</string>
-    <string name="setting_externalshutter_description">Alternatywny przycisk który może wyzwolić migawkę np. przycisk z słuchawek, głośności</string>
-    <string name="setting_externalshutter_header">Wyzwalacz migawki: </string>
     <string name="setting_location_description">Włącza Geo-Tagowanie w zdjęciach</string>
     <string name="setting_location_header">Zapis lokalizacji: </string>
     <string name="setting_guide_description">Nakłada wybraną kompozycje siatki</string>
     <string name="setting_guide_header">Siatka: </string>
     <string name="setting_horizont_description">Włącza podwójną oś poziomu zdjęcia</string>
     <string name="setting_horizont_header">Poziomowanie zdjęcia: </string>
-    <string name="setting_focuspeak_description">Włącza wybieranie skupienia na podglądzie</string>
-    <string name="setting_focuspeak_header">Wybieranie skupienia: </string>
     <string name="setting_nightoverlay_description">włącza czerwoną nakładkę</string>
     <string name="setting_nightoverlay_header">Nocna nakładka: </string>
     <string name="setting_orientation_header">Korekcja orientacji: </string>
@@ -76,9 +58,6 @@
     <string name="setting_interval_duration_header">Czas trwania do końca</string>
     <string name="setting_interval_duration_text">Długość interwału</string>
 
-    <string name="setting_timer_header">Opóźnienie migawki</string>
-    <string name="setting_timer_text">Czas</string>
-
     <string name="setting_theme_header">Motyw: </string>
     <string name="setting_theme_description">Wybierz swój ulubiony motyw</string>
     <string name="setting_savecamparams_header">Zapisz parametry kamery</string>
@@ -93,15 +72,12 @@
     <string name="setting_scene_header">Sceneria: </string>
     <string name="setting_scene_description">Wybierz scene która pasuje najbardziej</string>
 
-    <string name="setting_qcom_">Ustawienia Qualcomm</string>
     <string name="setting_cds_header">Korelacyjne podwójne pobieranie próbek: </string>
     <string name="setting_cds_description">Elektryczny sensor odczytywany podwójnie</string>
     <string name="setting_dis_header">Cyfrowa stabilizacja obrazu: </string>
     <string name="setting_dis_description">Przesuwa obraz aby zredukować niechciany ruch</string>
     <string name="setting_lensshade_header">Cień soczewki: </string>
     <string name="setting_lensshade_description">Redukuje winietowanie na krawędziach </string>
-    <string name="setting_chromaflash.header">Chroma Flash:</string>
-    <string name="setting_chromaflash.description">Technelogia Flash od Qualcomm</string>
     <string name="setting_mce_header">Rozszerzenie kolorów pamięci: </string>
     <string name="setting_mce_description">Wzmacnia kolory odpowiadające przestrzeni adobe</string>
     <string name="setting_redeye_header">Redukcja czerwonych oczu: </string>
@@ -137,7 +113,6 @@
     <string name="setting_lensfilter_header">Virtual Lens Filter</string>
     <string name="setting_lensfilter_description">Apply Lens Filter Effect</string>
 
-    <string name="setting_camera2_">Ustawienia Camera 2</string>
     <string name="setting_colorcorrection_header">Korelowana barwa temperatur: </string>
     <string name="setting_colorcorrection_description">Zmień to na ręczne lub automatyczne</string>
     <string name="setting_controlmode_header">Kontrola kamery: </string>
@@ -149,28 +124,14 @@
     <string name="setting_tonemap_header">Tonemap: </string>
     <string name="setting_tonemap_description"></string>
 
-    <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
-    <string name="setting_objecttrack_header">Śledzenie obiektów: </string>
-    <string name="setting_objecttrack_description">Włącz aby ustawić fokus na obiekt w ruchu</string>
-    <string name="setting_zoomsetting_header">Powiększanie: </string>
-    <string name="setting_zoomsetting_description">Ustaw by włączyć/wyłączyć zoom cyfrowy</string>
-    <string name="setting_postview_header">PostViewSize: </string>
-    <string name="setting_postview_description">Rozmiar zdjęć przesłanych z RemoteCam</string>
-
-    <string name="setting_omap_">Ustawienia OMAP</string>
     <string name="setting_ipp_header">Post-proces zdjęć: </string>
     <string name="setting_ipp_description">Jakość postprocesu</string>
 
-    <string name="setting_lg_">Ustawienia LG</string>
     <string name="setting_ois_header">Optyczna stabilizacja obrazu: </string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">Ustawienia HTC</string>
     <string name="setting_nonzsl_header">Manualne sterowanie(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Włącz by włączyhć manualne sterowanie gdy ZSL jest wyłączone</string>
-
-    <string name="setting_scalepreview_header">Skala podglądu</string>
-    <string name="setting_scalepreview_description">Włącz aby skalować podgląd x2</string>
 
     <string name="setting_dualprimarycamera_header">Podwójna kamera</string>
     <string name="setting_dualprimarycamera_description">Przełącz kamerę</string>
@@ -184,39 +145,17 @@
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Lampa</string>
-    <string name="uisetting_focus_header">Fokus</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Noc</string>
-    <string name="uisetting_continouseshot_header">Continous Shoot</string>
-    <string name="uisetting_format_header">Format</string>
-    <string name="uisetting_settings_header">Ustawienia</string>
-    <string name="uisetting_camerswitch_header">Kamera</string>
-    <string name="uisetting_mode_header">Tryb</string>
-    <string name="uisetting_exit_header">Wyjdż</string>
-    <string name="timelapse_frames">Ujęcia Timelapse</string>
 
     <!-- ImageViewer -->
-    <string name="delete_file">Usunąć plik?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
-    <string name="no_files">Brak plików</string>
-    <string name="failed_to_load">Nie udało się wczytać:</string>
-    <string name="sec">sek.</string>
-    <string name="mm">mm</string>
     <string name="unknown_raw_add_manual_stuff">Unknown RawFile, pls add needed Stuff Manual</string>
-    <string name="converting_dng">Konwertowanie DNG</string>
-    <string name="ALL">WSZYSTKIE</string>
-    <string name="All">Wszystkie</string>
     <string name="delete_files">Usunąć plik(i)?</string>
     <string name="width">Długość:</string>
     <string name="height">Szerokość:</string>
     <string name="blacklevel">Poziom czerni:</string>
     <string name="converttodng">Konwertuj do DNG</string>
     <string name="no_sel_raw">Nie wybrano pliku RAW, wróć i go wybierz</string>
-    <string name="files_selected">Wybrane pliki:</string>
-    <string name="setting_imagestack">ImageStack</string>
 
     <string name="off">Wyłączone</string>
     <string name="on">Włączone</string>
@@ -251,8 +190,6 @@
     <string name="scene_hdr">HDR</string>
 
     <!-- flashmodes -->
-    <string name="flash_single">Pojedyńcze</string>
-    <string name="flash_torch">Latarka</string>
 
     <!-- antibanding -->
     <string name="antibanding_50hz">50HZ</string>

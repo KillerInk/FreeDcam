@@ -50,9 +50,9 @@ public class CameraExtension {
     private static final int SCENERECOGNITION_CALLBACK = 2097152;
     private static final int START_AUTOFOCUS_CALLBACK = 3145728;
     private static final String TAG = "CameraExtension";
-    private static Map mBurstFilePathGeneratorMap;
+    private static final Map mBurstFilePathGeneratorMap;
     private static int mBurstId;
-    private static Map mBurstMediaProviderUpdatorMap;
+    private static final Map mBurstMediaProviderUpdatorMap;
     private static BurstShotCallback mBurstShotCallback;
     private static StorageFullDetector mBurstStorageFullDetector;
     private static ExecutorService mBurstStoreAndMediaProviderUpdatorExecutor;
@@ -212,7 +212,7 @@ public class CameraExtension {
         @Deprecated
         public int faceNum;
         public int indexOfSelectedFace;
-        private StringBuffer mToStringBuffer;
+        private final StringBuffer mToStringBuffer;
 
         @Deprecated
         public static class FaceData {
@@ -347,7 +347,7 @@ public class CameraExtension {
         
         private final String mNativeValue;
 
-        private SceneMode(String nativeValue) {
+        SceneMode(String nativeValue) {
             this.mNativeValue = nativeValue;
         }
 
@@ -507,7 +507,7 @@ public class CameraExtension {
     }
 
     private static boolean checkInitErrors(int err) {
-        return err != 0 ? true : DEBUGLOG;
+        return err != 0 || DEBUGLOG;
     }
 
     protected void finalize() {

@@ -60,12 +60,12 @@ public class FileListController {
     public static boolean needStorageAccessFrameWork = Build.VERSION.SDK_INT > Build.VERSION_CODES.P;
 
     private List<BaseHolder> files =new ArrayList<>();
-    private StorageFileManager storageFileManager;
-    private MediaStoreController mediaStoreController;
-    private Context context;
-    private List<NotifyFilesChanged> notifyFilesChangedList;
+    private final StorageFileManager storageFileManager;
+    private final MediaStoreController mediaStoreController;
+    private final Context context;
+    private final List<NotifyFilesChanged> notifyFilesChangedList;
     private final Object filesLock = new Object();
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
 
     public FileListController(Context context)
     {

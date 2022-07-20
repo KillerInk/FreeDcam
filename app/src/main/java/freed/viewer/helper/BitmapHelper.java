@@ -37,9 +37,9 @@ import freed.utils.StringUtils.FileEnding;
 public class BitmapHelper
 {
     private static final String TAG = BitmapHelper.class.getSimpleName();
-    private CacheHelper CACHE;
-    private int mImageThumbSizeW;
-    private Context context;
+    private final CacheHelper CACHE;
+    private final int mImageThumbSizeW;
+    private final Context context;
 
 
     public BitmapHelper(Context context, int mImageThumbSizeW)

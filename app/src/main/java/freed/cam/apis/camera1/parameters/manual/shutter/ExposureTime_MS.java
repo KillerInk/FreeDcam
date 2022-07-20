@@ -17,7 +17,7 @@ import freed.utils.Log;
 
 public class ExposureTime_MS extends AbstractParameter {
     private final String TAG = ExposureTime_MS.class.getSimpleName();
-    private Camera.Parameters parameters;
+    private final Camera.Parameters parameters;
     public ExposureTime_MS(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters,SettingKeys.Key settingMode) {
         super(cameraUiWrapper,settingMode);
         this.parameters = parameters;
@@ -39,11 +39,11 @@ public class ExposureTime_MS extends AbstractParameter {
             }
             shutterstring = Double.parseDouble(shutterstring) * 1000 +"";
             Log.d(TAG, "set exposure time to " + shutterstring);
-            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
+            parameters.set(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).getCamera1ParameterKEY(), shutterstring);
         }
         else
         {
-            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), "0");
+            parameters.set(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).getCamera1ParameterKEY(), "0");
             Log.d(TAG, "set exposure time to auto");
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);

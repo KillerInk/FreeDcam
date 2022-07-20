@@ -27,17 +27,17 @@ public class ManualIsoSony extends AbstractParameter
         currentInt = valueToSet;
         if (currentInt == 0)
         {
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).getIntValue() == 0)
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_EXPOSURE_TIME).getIntValue() == 0)
                 parameters.set("sony-ae-mode", "auto");
-            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).getIntValue() >0)
+            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_EXPOSURE_TIME).getIntValue() >0)
                 parameters.set("sony-ae-mode", "shutter-prio");
         }
         else {
-            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).getIntValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_EXPOSURE_TIME).getIntValue() == 0 && !parameters.get("sony-ae-mode").equals("iso-prio"))
                 parameters.set("sony-ae-mode", "iso-prio");
-            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureTime).getIntValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
+            else if (cameraUiWrapper.getParameterHandler().get(SettingKeys.M_EXPOSURE_TIME).getIntValue() >0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(settingsManager.get(SettingKeys.M_ManualIso).getCamera1ParameterKEY(), stringvalues[currentInt]);
+            parameters.set(settingsManager.get(SettingKeys.M_MANUAL_ISO).getCamera1ParameterKEY(), stringvalues[currentInt]);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }

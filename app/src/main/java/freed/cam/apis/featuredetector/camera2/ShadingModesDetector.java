@@ -13,7 +13,7 @@ public class ShadingModesDetector extends BaseParameter2Detector {
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.SHADING_AVAILABLE_MODES, settingsManager.get(SettingKeys.LensShade), FreedApplication.getStringArrayFromRessource(R.array.shadingmodes),settingsManager);
+            Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.SHADING_AVAILABLE_MODES, settingsManager.get(SettingKeys.LENS_SHADE), FreedApplication.getStringArrayFromRessource(R.array.shadingmodes),settingsManager);
         }
     }
 }

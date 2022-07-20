@@ -1,7 +1,6 @@
 package freed.cam.previewpostprocessing;
 
 import android.graphics.SurfaceTexture;
-import android.view.Surface;
 import android.view.View;
 
 import freed.cam.histogram.HistogramFeed;
@@ -9,7 +8,7 @@ import freed.cam.histogram.HistogramFeed;
 public interface Preview
 {
 
-    public interface PreviewEvent
+    interface PreviewEvent
     {
         void onPreviewAvailable(SurfaceTexture surface, int width, int height);
         void onPreviewSizeChanged(SurfaceTexture surface, int width, int height);

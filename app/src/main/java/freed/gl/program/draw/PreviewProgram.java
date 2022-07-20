@@ -12,7 +12,7 @@ public class PreviewProgram extends GLDrawProgram {
     private int doMirror_id;
     private int doMirror = 1;
 
-    private float[] mTexRotateMatrix = new float[] {1, 0, 0, 0,   0, 1, 0, 0,   0, 0, 1, 0,   0, 0, 0, 1};
+    private final float[] mTexRotateMatrix = new float[] {1, 0, 0, 0,   0, 1, 0, 0,   0, 0, 1, 0,   0, 0, 0, 1};
 
     public PreviewProgram(float glesVersion) {
         super(glesVersion);

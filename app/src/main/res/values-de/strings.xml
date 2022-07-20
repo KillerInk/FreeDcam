@@ -1,6 +1,5 @@
 <resources>
     <!-- settings_leftmenufragment  -->
-    <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Bild Einstellungen</string>
     <string name="setting_bayerformat_description">Sensor Raw Format für die DNG Konvertierung</string>
     <string name="setting_bayerformat_header">Bayer Format:</string>
@@ -15,20 +14,13 @@
     <string name="setting_videohdr_description">Aktvieren für HDR Videos</string>
     <string name="setting_videohdr_header">Video HDR:</string>
 
-    <string name="setting_hdr_">Bracket</string>
-    <string name="setting_aebracket_header">AE-Bracket:</string>
-    <string name="setting_aebracket_description">Wenn aktivert, werden 3 Bilder auf einmal aufgenommen.</string>
-
     <string name="setting_freedcam_">FreeDcam Einstellungen</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Zu verwendende Kamera API</string>
-    <string name="setting_externalshutter_header">Externer Auslöser:</string>
     <string name="setting_location_description">GPS Daten für Bilder und Videos</string>
     <string name="setting_location_header">GPS Info:</string>
     <string name="setting_guide_description">Kompositorische Hilfslinien</string>
     <string name="setting_guide_header">Hilfslinien:</string>
-    <string name="setting_focuspeak_description">Aktiviert FocusPeak in der Vorschau</string>
-    <string name="setting_focuspeak_header">FocusPeak:</string>
     <string name="setting_orientation_header">Orientierungs-Korrektur:</string>
     <string name="setting_orientation_description">Rotiert die Kamera um 180° wenn aktiviert</string>
     <string name="setting_sdcard_header">SD Karte:</string>
@@ -44,7 +36,6 @@
     <string name="setting_scene_header">Szene:</string>
     <string name="setting_scene_description">Wähle die Szene die am besten zur aktuellen Beleuchtung passt</string>
 
-    <string name="setting_qcom_">Qualcomm Einstellungen</string>
     <string name="setting_cds_header">Korrelierte Doppelabtastung:</string>
     <string name="setting_cds_description">Sensor zweimal auslesen</string>
     <string name="setting_dis_header">Digitale Bildstabilisierung:</string>
@@ -63,7 +54,6 @@
     <string name="setting_zsl_header">Zero Shutter Lag:</string>
     <string name="setting_zsl_description">Nutzt direkt die Vorschau-Bilder, muss ausgeschaltet sein für RAW!</string>
 
-    <string name="setting_camera2_">Camera API 2 Einstellungen</string>
     <string name="setting_colorcorrection_header">Farbkorrektur:</string>
     <string name="setting_colorcorrection_description">Auswählen um die Farbkorrektur einzustellen</string>
     <string name="setting_controlmode_header">Camera Funktion:</string>
@@ -74,39 +64,18 @@
     <string name="setting_tonemap_header">Farbanpassung:</string>
     <string name="setting_tonemap_description"></string>
 
-    <string name="setting_sonycameraremote_">Sony Camera Remote Einstellungen</string>
-    <string name="setting_objecttrack_header">Objekt Verfolgung:</string>
-    <string name="setting_objecttrack_description">Aktivieren, um den Fokus auf ein Objekt zusetzen und scharf zuhalten</string>
-    <string name="setting_postview_header">Bildgröße der Vorschau:</string>
-    <string name="setting_postview_description">Größe der Bilder, die von der Kamera übertragen werden</string>
-
-    <string name="setting_omap_">OMAP Einstellungen</string>
     <string name="setting_ipp_header">Bildnachbearbeitung:</string>
     <string name="setting_ipp_description">Qualität der Nachbearbietung</string>
 
-    <string name="setting_lg_">LG Einstellungen</string>
     <string name="setting_ois_header">Optische Bildstabilisierung:</string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">HTC Settings</string>
     <string name="setting_nonzsl_header">Manuelle Kontrolle (ZSL = OFF):</string>
     <string name="setting_nonzsl_description">Aktivieren für Manuelle Kontrolle, wenn ZSL deaktiviert ist</string>
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Blitz</string>
-    <string name="uisetting_focus_header">Fokus</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Nacht</string>
-    <string name="uisetting_continouseshot_header">Continous Shoot</string>
-    <string name="uisetting_format_header">Format</string>
-    <string name="uisetting_settings_header">Einstellungen</string>
-    <string name="uisetting_camerswitch_header">Camera</string>
-    <string name="uisetting_mode_header">Modus</string>
-    <string name="uisetting_exit_header">Exit</string>
     <string name="setting_edge_header">Vignettierung:</string>
-    <string name="setting_externalshutter_description">Die Taste welche als externer Auslöser dient</string>
     <string name="setting_lensshade_description">Reduziert die Vignettierung an den Ecken</string>
     <string name="setting_savecamparams_description"> </string>
     <string name="setting_savecamparams_header">Kameraparameter speichern</string>

@@ -23,9 +23,6 @@ public class XiaomiMfnrDetector extends BaseParameter2Detector implements Vendor
 
     @Override
     public void checkIfVendorKeyIsSupported(HashSet<String> keys) {
-        if (Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestDump.xiaomi_mfnr_enabled))
-            settingsManager.get(SettingKeys.XIAOMI_MFNR).setIsSupported(true);
-        else
-            settingsManager.get(SettingKeys.XIAOMI_MFNR).setIsSupported(false);
+        settingsManager.get(SettingKeys.XIAOMI_MFNR).setIsSupported(Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestDump.xiaomi_mfnr_enabled));
     }
 }

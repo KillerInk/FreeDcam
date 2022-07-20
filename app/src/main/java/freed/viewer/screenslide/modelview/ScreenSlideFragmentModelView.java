@@ -22,17 +22,17 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 @HiltViewModel
 public class ScreenSlideFragmentModelView extends ViewModel {
 
-    private ScreenSlideFilesHolderModel filesHolderModel;
+    private final ScreenSlideFilesHolderModel filesHolderModel;
     private BaseHolder folder_to_show;
-    private ExifViewModel exifViewModel;
-    private InfoButtonModel infoButtonModel;
-    private VisibilityModel topBar;
-    private VisibilityModel bottomBar;
-    private VisibilityModel histogram;
-    private ButtonModel deleteButton;
-    private ButtonModel playButton;
-    private FileListController fileListController;
-    private ImageManager imageManager;
+    private final ExifViewModel exifViewModel;
+    private final InfoButtonModel infoButtonModel;
+    private final VisibilityModel topBar;
+    private final VisibilityModel bottomBar;
+    private final VisibilityModel histogram;
+    private final ButtonModel deleteButton;
+    private final ButtonModel playButton;
+    private final FileListController fileListController;
+    private final ImageManager imageManager;
 
     @Inject
     public ScreenSlideFragmentModelView(FileListController fileListController,BitmapHelper bitmapHelper, ImageManager imageManager)

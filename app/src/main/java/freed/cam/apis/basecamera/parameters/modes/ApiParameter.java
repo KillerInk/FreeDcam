@@ -34,8 +34,8 @@ import freed.settings.SettingsManager;
 public class ApiParameter extends AbstractParameter
 {
 
-    private SettingsManager settingsManager;
-    private CameraApiManager cameraApiManager;
+    private final SettingsManager settingsManager;
+    private final CameraApiManager cameraApiManager;
     @Inject
     public ApiParameter(SettingsManager settingsManager, CameraApiManager cameraApiManager) {
         super(null);

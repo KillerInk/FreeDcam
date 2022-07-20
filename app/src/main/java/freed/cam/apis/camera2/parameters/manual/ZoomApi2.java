@@ -38,16 +38,16 @@ import freed.utils.Log;
 public class ZoomApi2 extends AbstractParameter<Camera2>
 {
     private final String TAG = ZoomApi2.class.getSimpleName();
-    private float maxzoom;
-    private Rect sensorSize;
-    private int minCropWidth;
-    private int minCropHeight;
+    private final float maxzoom;
+    private final Rect sensorSize;
+    private final int minCropWidth;
+    private final int minCropHeight;
     private int zoom;
 
     private final int ZOOM_LIMITER = 100;
 
     public ZoomApi2(Camera2 cameraUiWrapper)  {
-        super(cameraUiWrapper, SettingKeys.M_Zoom);
+        super(cameraUiWrapper, SettingKeys.M_ZOOM);
         maxzoom = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
         sensorSize = ((CameraHolderApi2) cameraUiWrapper.getCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         //1000 - (1000 / 4) = 750 /100 = 7,5

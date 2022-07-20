@@ -12,7 +12,7 @@ import freed.settings.SettingKeys;
 
 public class HistogramParameter extends FocusPeakMode {
 
-    private String state = "off";
+    private final String state = "off";
 
     public HistogramParameter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.HISTOGRAM);
@@ -22,11 +22,7 @@ public class HistogramParameter extends FocusPeakMode {
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
-        boolean toset = false;
-        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
-        {
-            toset = true;
-        }
+        boolean toset = valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_));
         previewController.setHistogram(toset);
         settingsManager.get(settingMode).set(toset);
         fireStringValueChanged(valueToSet);

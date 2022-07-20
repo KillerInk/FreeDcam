@@ -14,7 +14,7 @@ import freed.utils.Log;
 
 public class FocusPeakColorMode extends AbstractParameter {
 
-    private Preview focuspeakProcessor;
+    private final Preview focuspeakProcessor;
     public FocusPeakColorMode(Preview renderScriptManager, SettingKeys.Key settingMode) {
         super(settingMode);
         this.focuspeakProcessor = renderScriptManager;

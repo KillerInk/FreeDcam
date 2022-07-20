@@ -25,7 +25,7 @@ public class AutoHdrMode extends BaseModeParameter {
     final String TAG = AutoHdrMode.class.getSimpleName();
     private boolean visible = true;
     private String state = "";
-    private String format = "";
+    private final String format = "";
     private String curmodule = "";
     public AutoHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key  settingMode) {
         super(parameters, cameraUiWrapper, settingMode);

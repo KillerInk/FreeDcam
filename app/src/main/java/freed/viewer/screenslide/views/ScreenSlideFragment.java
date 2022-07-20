@@ -41,7 +41,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerScreenslideFragmentBinding;
@@ -94,7 +93,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     private ActivityInterface activityInterface;
 
-    private boolean showExifInfo = false;
+    private final boolean showExifInfo = false;
     private int position;
 
     private FreedviewerScreenslideFragmentBinding screenslideFragmentBinding;
@@ -183,7 +182,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     };
 
-    private View.OnClickListener onplayClick = new View.OnClickListener() {
+    private final View.OnClickListener onplayClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (screenSlideFragmentModelView.getFolder_to_show() == null)
@@ -222,7 +221,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     };
 
-    private View.OnClickListener onDeleteButtonClick = new View.OnClickListener() {
+    private final View.OnClickListener onDeleteButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !FreedApplication.settingsManager().GetWriteExternal()) {

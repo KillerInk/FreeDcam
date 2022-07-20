@@ -45,7 +45,7 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     private final int WAIT_FOR_EXPO_SET = 2;
     private final int WAIT_NOTHING = 3;
-    private int WAIT_EXPOSURE_STATE = WAIT_NOTHING;
+    private final int WAIT_EXPOSURE_STATE = WAIT_NOTHING;
     long currentExposureTime = 0;
     long exposureTimeStep = 0;
     private boolean aeWasOn = false;
@@ -71,15 +71,15 @@ public class AeBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         super.InitModule();
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setIntValue(2, true);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_BURST).setViewState(AbstractParameter.ViewState.Hidden);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_BURST).setIntValue(2, true);
         changeCaptureState(CaptureStates.image_capture_stop);
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Visible);
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_BURST).setViewState(AbstractParameter.ViewState.Visible);
 
     }
 
@@ -89,7 +89,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         currentExposureTime = cameraUiWrapper.cameraBackroundValuesChangedListner.currentExposureTime;
         currentiso = cameraUiWrapper.cameraBackroundValuesChangedListner.currentIso;
         exposureTimeStep = currentExposureTime/2;
-        String aemode = cameraUiWrapper.getParameterHandler().get(SettingKeys.ExposureMode).getStringValue();
+        String aemode = cameraUiWrapper.getParameterHandler().get(SettingKeys.EXPOSURE_MODE).getStringValue();
         aeWasOn = !aemode.equals(FreedApplication.getContext().getString(R.string.off));
     }
 
@@ -122,8 +122,8 @@ public class AeBracketApi2 extends PictureModuleApi2
         super.finishCapture();
         Log.d(TAG,"imagecount:" +BurstCounter.getImageCaptured());
         if (BurstCounter.getImageCaptured() == 3) {
-            if (aeWasOn && parameterHandler.get(SettingKeys.ExposureMode) != null)
-                parameterHandler.get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.on),true);
+            if (aeWasOn && parameterHandler.get(SettingKeys.EXPOSURE_MODE) != null)
+                parameterHandler.get(SettingKeys.EXPOSURE_MODE).setStringValue(FreedApplication.getContext().getString(R.string.on),true);
 
         }
     }

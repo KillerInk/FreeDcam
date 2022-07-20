@@ -87,7 +87,7 @@ public class VideoToneCurveXmlParserWriter {
             configFile.createNewFile();
             writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<tonecurves>" + "\r\n");
-            String profiles[] = new String[hashMap.size()];
+            String[] profiles = new String[hashMap.size()];
             hashMap.keySet().toArray(profiles);
             for (int i =0; i< profiles.length;i++)
             {

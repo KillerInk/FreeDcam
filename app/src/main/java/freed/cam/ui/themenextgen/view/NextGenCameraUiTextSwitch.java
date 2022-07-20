@@ -1,18 +1,10 @@
 package freed.cam.ui.themenextgen.view;
 
-import android.animation.Animator;
 import android.content.Context;
-import android.text.Layout;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -26,7 +18,7 @@ import freed.settings.mode.BooleanSettingModeInterface;
 public class NextGenCameraUiTextSwitch extends LinearLayout {
 
     NextgenCamerauiTextSwitchBinding binding;
-    private boolean isExpanded = false;
+    private final boolean isExpanded = false;
     int vcount = 0;
     private boolean isSwitch = false;
     private boolean showvaluetxt = false;

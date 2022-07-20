@@ -13,7 +13,7 @@ import freed.utils.Log;
 public class HistogramProcessor {
 
     private static final String TAG = HistogramProcessor.class.getSimpleName();
-    private HistogramController histogramController;
+    private final HistogramController histogramController;
 
     private final int KEEP_ALIVE_TIME = 500;
     private final BlockingQueue<Runnable> histogramProcessingQueue;
@@ -50,9 +50,9 @@ public class HistogramProcessor {
 
 
     class HistogramCreatorRunner implements Runnable {
-        private byte[] bytes;
-        private int width;
-        private int height;
+        private final byte[] bytes;
+        private final int width;
+        private final int height;
         HistogramCreatorRunner(byte[] bytes, int width, int height)
         {
             this.bytes = bytes;

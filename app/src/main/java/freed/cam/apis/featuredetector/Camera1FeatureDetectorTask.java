@@ -62,6 +62,7 @@ import freed.cam.apis.featuredetector.camera1.ZeroShutterLagDetector;
 import freed.settings.FrameworkDetector;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -141,7 +142,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     @Override
     public void preDetect() {
-        settingsManager.setCamApi(settingsManager.API_1);
+        settingsManager.setCamApi(SettingsManager.API_1);
         if (settingsManager.getFrameWork() == Frameworks.Default)
             settingsManager.setFramework(FrameworkDetector.getFramework());
     }
@@ -210,7 +211,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
     private void detectQcomFocus(Camera.Parameters parameters)
     {
-        settingsManager.get(SettingKeys.useQcomFocus).set(parameters.get(camstring(R.string.touch_af_aec))!= null);
+        settingsManager.get(SettingKeys.USE_QCOM_FOCUS).set(parameters.get(camstring(R.string.touch_af_aec))!= null);
     }
 
     public static String[] createWBStringArray(int min, int max, float step)
@@ -256,10 +257,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
     private void detectFrontCamera(int i) {
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(i,info);
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK)
-            settingsManager.setIsFrontCamera(false);
-        else
-            settingsManager.setIsFrontCamera(true);
+        settingsManager.setIsFrontCamera(info.facing != Camera.CameraInfo.CAMERA_FACING_BACK);
     }
 
 
@@ -272,7 +270,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             case LG:
             {
                 Log.d(TAG,"Open LG Camera");
-                if (settingsManager.get(SettingKeys.openCamera1Legacy).get())
+                if (settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).get())
                     lgCamera = new LGCameraRef(currentcamera, 256);
                 if (lgCamera == null || lgCamera.getCamera() == null)
                     lgCamera = new LGCameraRef(currentcamera);
@@ -334,7 +332,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
         else
             supportedProfiles= videoProfilesDetector.getDefaultVideoMediaProfiles(cameraid);
 
-        if (supportedProfiles.get(_720phfr) == null && settingsManager.get(SettingKeys.VideoHighFramerate).isSupported() && settingsManager.get(SettingKeys.VideoHighFramerate).contains("120"))
+        if (supportedProfiles.get(_720phfr) == null && settingsManager.get(SettingKeys.VIDEO_HIGH_FRAMERATE).isSupported() && settingsManager.get(SettingKeys.VIDEO_HIGH_FRAMERATE).contains("120"))
         {
             try {
                 Log.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
@@ -350,8 +348,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
 
         }
-        if (settingsManager.get(SettingKeys.VideoSize).isSupported() && settingsManager.get(SettingKeys.VideoSize).contains("3840x2160")
-                && settingsManager.get(SettingKeys.VideoHighFramerate).isSupported()&& settingsManager.get(SettingKeys.VideoHighFramerate).contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
+        if (settingsManager.get(SettingKeys.VIDEO_SIZE).isSupported() && settingsManager.get(SettingKeys.VIDEO_SIZE).contains("3840x2160")
+                && settingsManager.get(SettingKeys.VIDEO_HIGH_FRAMERATE).isSupported()&& settingsManager.get(SettingKeys.VIDEO_HIGH_FRAMERATE).contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
             if (supportedProfiles.containsKey("1080p"))
             {
@@ -365,7 +363,7 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
                 Log.d(TAG, "added custom 2160pHFR");
             }
         }
-        if (supportedProfiles.get(_2160p) == null && settingsManager.get(SettingKeys.VideoSize).isSupported()&& settingsManager.get(SettingKeys.VideoSize).contains("3840x2160"))
+        if (supportedProfiles.get(_2160p) == null && settingsManager.get(SettingKeys.VIDEO_SIZE).isSupported()&& settingsManager.get(SettingKeys.VIDEO_SIZE).contains("3840x2160"))
         {
             if (supportedProfiles.containsKey("1080p"))
             {
@@ -380,8 +378,8 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
             }
         }
 
-        if (settingsManager.get(SettingKeys.VideoSize).isSupported() && settingsManager.get(SettingKeys.VideoSize).contains("1920x1080")
-                && settingsManager.get(SettingKeys.VideoHighFramerate).isSupported()&& settingsManager.get(SettingKeys.VideoHighFramerate).contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
+        if (settingsManager.get(SettingKeys.VIDEO_SIZE).isSupported() && settingsManager.get(SettingKeys.VIDEO_SIZE).contains("1920x1080")
+                && settingsManager.get(SettingKeys.VIDEO_HIGH_FRAMERATE).isSupported()&& settingsManager.get(SettingKeys.VIDEO_HIGH_FRAMERATE).contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
             if (supportedProfiles.containsKey("1080p")) {
                 VideoMediaProfile t = supportedProfiles.get("1080p").clone();
@@ -394,6 +392,6 @@ public class Camera1FeatureDetectorTask extends AbstractFeatureDetectorTask
 
         }
         settingsManager.saveMediaProfiles(supportedProfiles);
-        settingsManager.get(SettingKeys.VideoProfiles).set("720p");
+        settingsManager.get(SettingKeys.VIDEO_PROFILES).set("720p");
     }
 }

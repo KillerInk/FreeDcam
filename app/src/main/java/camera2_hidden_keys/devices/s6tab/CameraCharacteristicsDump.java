@@ -1,7 +1,10 @@
 package camera2_hidden_keys.devices.s6tab;
+
 import android.hardware.camera2.CameraCharacteristics;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
+
 import camera2_hidden_keys.AbstractCameraCharacteristics;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

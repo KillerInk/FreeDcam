@@ -17,12 +17,12 @@ public class ReFocusDetector extends BaseParameter1Detector{
     {
         if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            settingsManager.get(SettingKeys.ReFocus).setIsSupported(false);
+            settingsManager.get(SettingKeys.RE_FOCUS).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.refocus,R.string.refocus_mode, settingsManager.get(SettingKeys.ReFocus));
+            detectMode(parameters, R.string.refocus,R.string.refocus_mode, settingsManager.get(SettingKeys.RE_FOCUS));
         }
 
     }

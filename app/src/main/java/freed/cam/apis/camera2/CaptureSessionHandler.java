@@ -1,7 +1,6 @@
 package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.Point;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -9,16 +8,13 @@ import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.InputConfiguration;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.OutputConfiguration;
 import android.os.Build;
 import android.os.Handler;
-import android.view.Display;
 import android.view.Surface;
-import android.view.WindowManager;
 
 import androidx.annotation.RequiresApi;
 
@@ -28,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import camera2_hidden_keys.huawei.CaptureRequestHuawei;
-import camera2_hidden_keys.xiaomi.CaptureRequestXiaomi;
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -52,13 +47,13 @@ public class CaptureSessionHandler
     private CaptureRequest.Builder mPreviewRequestBuilder;
     private CaptureRequest.Builder mImageCaptureRequestBuilder;
     private CameraCaptureSession mCaptureSession;
-    private CameraWrapperInterface cameraUiWrapper;
-    private CameraHolderApi2 cameraHolderApi2;
-    private CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
+    private final CameraWrapperInterface cameraUiWrapper;
+    private final CameraHolderApi2 cameraHolderApi2;
+    private final CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean isHighSpeedSession = false;
-    private BackgroundHandlerThread backgroundHandlerThread;
-    private SettingsManager settingsManager;
-    private UserMessageHandler userMessageHandler;
+    private final BackgroundHandlerThread backgroundHandlerThread;
+    private final SettingsManager settingsManager;
+    private final UserMessageHandler userMessageHandler;
 
 
     private boolean captureSessionOpen = false;
@@ -241,8 +236,7 @@ public class CaptureSessionHandler
     public void RemoveSurface(Surface surface)
     {
         Log.d(TAG, "RemoveSurface");
-        if (surfaces.contains(surface))
-            surfaces.remove(surface);
+        surfaces.remove(surface);
         try {
             if (mPreviewRequestBuilder != null)
                 mPreviewRequestBuilder.removeTarget(surface);

@@ -60,9 +60,9 @@ public class PictureSizeDetector extends BaseParameter2Detector {
 
 
 
-        settingsManager.get(SettingKeys.PictureSize).setIsSupported(true);
-        settingsManager.get(SettingKeys.PictureSize).set(ar[0]);
-        settingsManager.get(SettingKeys.PictureSize).setValues(ar);
+        settingsManager.get(SettingKeys.PICTURE_SIZE).setIsSupported(true);
+        settingsManager.get(SettingKeys.PICTURE_SIZE).set(ar[0]);
+        settingsManager.get(SettingKeys.PICTURE_SIZE).setValues(ar);
     }
 
     private class SizeComparer implements Comparator<Size> {

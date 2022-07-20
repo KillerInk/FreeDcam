@@ -1,16 +1,11 @@
 package freed.gl;
 
 import android.graphics.SurfaceTexture;
-import android.opengl.GLES31;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -32,14 +27,13 @@ import freed.gl.shader.compute.FocuspeakComputeShader;
 import freed.gl.shader.compute.HistogramShader;
 import freed.gl.shader.compute.WaveformComputeShader;
 import freed.gl.shader.fragment.OesFragmentShader;
-import freed.gl.shader.vertex.OesVertexShader;
 import freed.gl.shader.fragment.PreviewFragmentShader;
+import freed.gl.shader.vertex.OesVertexShader;
 import freed.gl.shader.vertex.PreviewVertexShader;
 import freed.gl.texture.GL2DTex;
 import freed.gl.texture.GLCameraTex;
 import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.SharedStorageBufferObject;
-
 import freed.utils.Log;
 
 public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFrameAvailableListener, HistogramFeed {
@@ -68,7 +62,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
 
     GLCameraTex cameraInputTextureHolder;
     GLFrameBuffer oesFrameBuffer;
-    private GL2DTex oesFbTexture;
+    private final GL2DTex oesFbTexture;
     GLFrameBuffer processingBuffer1;
     GL2DTex processingTexture1;
     SharedStorageBufferObject histogramR_SSBO;
@@ -148,7 +142,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                     && mView.getHistogramController().getMeteringProcessor().isMeteringEnabled()) {
                 avgLuma_SSBO.clearBuffer();
                 avgLumaComputeProgram.compute(width/16,height/16,oesFrameBuffer,avgLuma_SSBO);
-                int l[] = avgLuma_SSBO.getHistogramChannel();
+                int[] l = avgLuma_SSBO.getHistogramChannel();
                 float luma = (float)l[0] / 1000000f;
                 mView.getHistogramController().getMeteringProcessor().setLuma(luma);
             }
@@ -156,9 +150,9 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
             //histogram and waveform
             if (mView.getHistogramController().isEnabled()) {
                 histogramComputeProgram.computeFB(width/16,height/16,oesFrameBuffer,histogramR_SSBO,histogramG_SSBO,histogramB_SSBO);
-                int red[] = histogramR_SSBO.getHistogramChannel();
-                int green[] = histogramG_SSBO.getHistogramChannel();
-                int blue[] = histogramB_SSBO.getHistogramChannel();
+                int[] red = histogramR_SSBO.getHistogramChannel();
+                int[] green = histogramG_SSBO.getHistogramChannel();
+                int[] blue = histogramB_SSBO.getHistogramChannel();
 
                 HistogramData data = new HistogramData(red,green,blue);
                 mView.getHistogramController().updateData(data);
@@ -167,7 +161,7 @@ public class MainRenderer implements GLSurfaceView.Renderer, SurfaceTexture.OnFr
                 histogramB_SSBO.clearBuffer();
 
                 waveformComputeProgam.compute(width/64,height/waveform_factor,oesFrameBuffer,waveform_SSBO);
-                int wave[] = waveform_SSBO.getHistogramChannel();
+                int[] wave = waveform_SSBO.getHistogramChannel();
                 mView.getHistogramController().setWaveFormData(wave, width, height/waveform_factor);
             }
         }

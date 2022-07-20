@@ -20,7 +20,7 @@ import freed.utils.Log;
 
 public class DocumentHolder extends BaseHolder
 {
-    private DocumentFile documentFile;
+    private final DocumentFile documentFile;
     public DocumentHolder(String name, long lastmodified, boolean isFolder, boolean isSDCard, DocumentFile documentFile) {
         super(name, lastmodified, isFolder, isSDCard);
         this.documentFile = documentFile;

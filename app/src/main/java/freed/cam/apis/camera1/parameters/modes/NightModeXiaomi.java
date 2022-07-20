@@ -36,11 +36,11 @@ public class NightModeXiaomi extends BaseModeParameter
     final String TAG = NightModeZTE.class.getSimpleName();
     private boolean visible = true;
     private String state = "";
-    private String format = "";
+    private final String format = "";
     private String curmodule = "";
 
     public NightModeXiaomi(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, cameraUiWrapper,SettingKeys.NightMode);
+        super(parameters, cameraUiWrapper,SettingKeys.NIGHT_MODE);
         if(parameters.get(FreedApplication.getStringFromRessources(R.string.morpho_hht)) != null
                 && parameters.get(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr)) != null) {
             setViewState(ViewState.Visible);
@@ -53,7 +53,7 @@ public class NightModeXiaomi extends BaseModeParameter
     {
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))) {
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hdr), FreedApplication.getStringFromRessources(R.string.false_));
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.HDRMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.HDR_MODE).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
             parameters.set(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr), FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket));
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hht), FreedApplication.getStringFromRessources(R.string.true_));

@@ -4,7 +4,6 @@ import android.hardware.Camera;
 
 import com.troop.freedcam.R;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class LgHdrMode extends BaseModeParameter
     private boolean supportauto;
     private boolean supporton;
     private String state = "";
-    private String format = "";
+    private final String format = "";
     private String curmodule = "";
 
     public LgHdrMode(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {

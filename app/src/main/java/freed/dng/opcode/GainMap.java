@@ -21,7 +21,7 @@ public class GainMap extends OpCodeItem {
     double mapOriginV;
     double mapOriginH;
     int mapPlanes;
-    float map[];
+    float[] map;
 
 
     public GainMap(int top,
@@ -34,12 +34,12 @@ public class GainMap extends OpCodeItem {
                    int colpitch,
                    int map_pointsV,
                    int map_pointsH,
-            double map_spacingV,
-            double map_spacingH,
-            double mapOriginV,
-            double mapOriginH,
+                   double map_spacingV,
+                   double map_spacingH,
+                   double mapOriginV,
+                   double mapOriginH,
                    int mapPlanes,
-            float map[])
+                   float[] map)
     {
         opcodeid = 9;
         dngversion = DNGVERSION;

@@ -16,7 +16,7 @@ import freed.settings.SettingKeys;
  */
 
 public class ToneMapChooser extends AbstractParameter {
-    private HashMap<String, ToneMapProfile> toneMapProfileHashMap;
+    private final HashMap<String, ToneMapProfile> toneMapProfileHashMap;
     public ToneMapChooser(HashMap<String, ToneMapProfile> toneMapProfileHashMap)
     {
         super(SettingKeys.TONEMAP_SET);

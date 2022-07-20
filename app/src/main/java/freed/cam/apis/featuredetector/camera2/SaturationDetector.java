@@ -12,16 +12,16 @@ public class SaturationDetector extends BaseParameter2Detector {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        int contrastrange[] = cameraCharacteristics.get(CameraCharacteristicsQcom.saturation_range);
+        int[] contrastrange = cameraCharacteristics.get(CameraCharacteristicsQcom.saturation_range);
         int min = contrastrange[0];
         int max = contrastrange[1];
         String[] t = new String[max - min + 1];
         for (int i= 0; i < t.length; i++)
             t[i] = ""+(min+i);
         if (contrastrange.length > 0) {
-            settingsManager.get(SettingKeys.M_Saturation).setValues(t);
-            settingsManager.get(SettingKeys.M_Saturation).set((max/2) + "");
-            settingsManager.get(SettingKeys.M_Saturation).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_SATURATION).setValues(t);
+            settingsManager.get(SettingKeys.M_SATURATION).set((max/2) + "");
+            settingsManager.get(SettingKeys.M_SATURATION).setIsSupported(true);
         }
     }
 }

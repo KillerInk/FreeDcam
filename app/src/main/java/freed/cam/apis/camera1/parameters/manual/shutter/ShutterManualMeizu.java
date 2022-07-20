@@ -37,14 +37,14 @@ import freed.utils.Log;
 public class ShutterManualMeizu extends AbstractParameter
 {
     private final String TAG = ShutterManualMeizu.class.getSimpleName();
-    private Parameters parameters;
+    private final Parameters parameters;
 
     /**
      * @param parameters
      * @param cameraUiWrapper
      */
     public ShutterManualMeizu(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
+        super(cameraUiWrapper,SettingKeys.M_EXPOSURE_TIME);
         this.parameters = parameters;
         setViewState(ViewState.Visible);
     }
@@ -80,7 +80,7 @@ public class ShutterManualMeizu extends AbstractParameter
 
     private String setExposureTimeToParameter(String shutterstring)
     {
-        parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), shutterstring);
+        parameters.set(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).getCamera1ParameterKEY(), shutterstring);
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
         CameraThreadHandler.restartPreviewAsync();
 

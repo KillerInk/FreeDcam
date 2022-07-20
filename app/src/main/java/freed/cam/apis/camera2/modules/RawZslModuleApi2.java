@@ -16,7 +16,6 @@ import java.util.Collections;
 import freed.FreedApplication;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
-import freed.cam.apis.camera2.modules.helper.CaptureType;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.ring.CaptureResultRingBuffer;

@@ -11,15 +11,15 @@ public class MeteringProcessor {
 
     public interface MeteringEvent
     {
-        void onMeteringDataChanged(int meters[]);
+        void onMeteringDataChanged(int[] meters);
         void onLumaChanged(float luma);
     }
 
     private MeteringEvent meteringEventListener;
     private int width;
     private int height;
-    private int meters[];
-    private SettingsManager settingsManager;
+    private int[] meters;
+    private final SettingsManager settingsManager;
 
   /*                                          private Point center_y_plus_plus;
     private Point center_x_minus_y_plus;    private Point center_y_plus;        private Point center_x_plus_y_plus;

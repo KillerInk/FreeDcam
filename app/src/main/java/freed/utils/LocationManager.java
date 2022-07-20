@@ -29,11 +29,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.troop.freedcam.R;
-
 import freed.ActivityAbstract;
-import freed.ActivityInterface;
-import freed.FreedApplication;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -47,8 +43,8 @@ public class LocationManager implements LocationListener, LifecycleObserver
     private final android.location.LocationManager locationManager;
     private Location currentLocation;
     private boolean isStarted = false;
-    private SettingsManager settingsManager;
-    private UserMessageHandler userMessageHandler;
+    private final SettingsManager settingsManager;
+    private final UserMessageHandler userMessageHandler;
 
     public LocationManager(Context context,SettingsManager settingsManager,UserMessageHandler userMessageHandler)
     {

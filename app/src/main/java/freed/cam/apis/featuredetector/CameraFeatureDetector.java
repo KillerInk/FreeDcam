@@ -20,7 +20,7 @@ import freed.utils.Log;
 
 public class CameraFeatureDetector {
     private final String TAG = CameraFeatureDetector.class.getSimpleName();
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
 
     public CameraFeatureDetector()
     {
@@ -75,8 +75,8 @@ public class CameraFeatureDetector {
         settingsManager.getGlobal(SettingKeys.THEME).set(ThemeManager.DEFAULT);
         settingsManager.getGlobal(SettingKeys.THEME).setIsSupported(true);
 
-        settingsManager.getGlobal(SettingKeys.GuideList).setValues(FreedApplication.getStringArrayFromRessource(R.array.guidelist));
-        settingsManager.getGlobal(SettingKeys.GuideList).set(settingsManager.getGlobal(SettingKeys.GuideList).getValues()[0]);
+        settingsManager.getGlobal(SettingKeys.GUIDE_LIST).setValues(FreedApplication.getStringArrayFromRessource(R.array.guidelist));
+        settingsManager.getGlobal(SettingKeys.GUIDE_LIST).set(settingsManager.getGlobal(SettingKeys.GUIDE_LIST).getValues()[0]);
         if (ReleaseChecker.isGithubRelease)
             settingsManager.getGlobal(SettingKeys.CHECKFORUPDATES).set(true);
 

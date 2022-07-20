@@ -79,12 +79,12 @@ public class AeManagerLgCamera1 extends AeManager
         parameters.set(FreedApplication.getStringFromRessources(R.string.lg_shutterspeed), "0");
         ((ParametersHandler)cameraWrapperInterface.getParameterHandler()).SetParametersToCamera(parameters);
 
-        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).getStringValue();
+        String t = cameraWrapperInterface.getParameterHandler().get(SettingKeys.ISO_MODE).getStringValue();
         if (!t.equals(FreedApplication.getStringFromRessources(R.string.iso100_)))
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.ISO_MODE).setStringValue(FreedApplication.getStringFromRessources(R.string.iso100_), true);
         else
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
-        cameraWrapperInterface.getParameterHandler().get(SettingKeys.IsoMode).setStringValue(t, true);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.ISO_MODE).setStringValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
+        cameraWrapperInterface.getParameterHandler().get(SettingKeys.ISO_MODE).setStringValue(t, true);
         /*exposureCompensation.fireIsSupportedChanged(true);
         exposureCompensation.fireIsReadOnlyChanged(true);*/
         manualIso.setViewState(AbstractParameter.ViewState.Enabled);
@@ -121,8 +121,8 @@ public class AeManagerLgCamera1 extends AeManager
             while (readMetaData)
             {
                 try {
-                    cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ExposureTime).fireStringValueChanged("1/"+(int) cameraWrapperInterface.getParameterHandler().getCurrentExposuretime());
-                    cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_ManualIso).fireStringValueChanged(cameraWrapperInterface.getParameterHandler().getCurrentIso()+"");
+                    cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_EXPOSURE_TIME).fireStringValueChanged("1/"+(int) cameraWrapperInterface.getParameterHandler().getCurrentExposuretime());
+                    cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_MANUAL_ISO).fireStringValueChanged(cameraWrapperInterface.getParameterHandler().getCurrentIso()+"");
                 }
                 catch (RuntimeException ex)
                 {

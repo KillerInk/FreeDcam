@@ -40,7 +40,6 @@
     <string name="shutter_1_2000" translatable="false">1/2000</string>
     <string name="shutter_1_1600" translatable="false">1/1600</string>
     <string name="shutter_1_1250" translatable="false">1/1250</string>
-    <string name="shutter_1_1200" translatable="false">1/1200</string>
     <string name="shutter_1_1100" translatable="false">1/1100</string>
     <string name="shutter_1_1000" translatable="false">1/1000</string>
     <string name="shutter_1_950" translatable="false">1/950</string>
@@ -74,11 +73,9 @@
     <string name="shutter_1_55" translatable="false">1/55</string>
     <string name="shutter_1_45" translatable="false">1/45</string>
     <string name="shutter_1_35" translatable="false">1/35</string>
-    <string name="shutter_1_32" translatable="false">1/32</string>
     <string name="shutter_1_30" translatable="false">1/30</string>
     <string name="shutter_1_25" translatable="false">1/25</string>
     <string name="shutter_1_20" translatable="false">1/20</string>
-    <string name="shutter_1_16" translatable="false">1/16</string>
     <string name="shutter_1_15" translatable="false">1/15</string>
     <string name="shutter_1_13" translatable="false">1/13</string>
     <string name="shutter_1_10" translatable="false">1/10</string>
@@ -152,7 +149,6 @@
     <string name="shutter_58" translatable="false">58</string>
     <string name="shutter_59" translatable="false">59</string>
     <string name="shutter_60" translatable="false">60</string>
-    <string name="shutter_64" translatable="false">64</string>
     <string name="shutter_90" translatable="false">90</string>
     <string name="shutter_120" translatable="false">120</string>
     <string name="shutter_180" translatable="false">180</string>
@@ -303,32 +299,6 @@
         <item>@string/shutter_3600</item>
     </string-array>
 
-    <string-array name="shutter_values_krillin" translatable="false">
-        <item>@string/shutter_auto</item>
-        <item>@string/shutter_1_30000</item>
-        <item>@string/shutter_1_15000</item>
-        <item>@string/shutter_1_8000</item>
-        <item>@string/shutter_1_6000</item>
-        <item>@string/shutter_1_4000</item>
-        <item>@string/shutter_1_2000</item>
-        <item>@string/shutter_1_500</item>
-        <item>@string/shutter_1_250</item>
-        <item>@string/shutter_1_125</item>
-        <item>@string/shutter_1_60</item>
-        <item>@string/shutter_1_30</item>
-        <item>@string/shutter_1_15</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_2</item>
-        <item>@string/shutter_4</item>
-        <item>@string/shutter_8</item>
-        <item>@string/shutter_15</item>
-        <item>@string/shutter_30</item>
-        <item>@string/shutter_32</item>
-
-    </string-array>
-
     <string-array name="shutter_values_meizu" translatable="false">
         <item>@string/shutter_auto</item>
         <item>@string/shutter_1_8000</item>
@@ -367,201 +337,6 @@
         <item>@string/shutter_1_5</item>
     </string-array>
 
-    <string-array name="shutter_values_zte_z5s" translatable="false">
-        <item>@string/shutter_auto</item>
-        <item>@string/shutter_1_90000</item>
-        <item>@string/shutter_1_75000</item>
-        <item>@string/shutter_1_50000</item>
-        <item>@string/shutter_1_45000</item>
-        <item>@string/shutter_1_30000</item>
-        <item>@string/shutter_1_20000</item>
-        <item>@string/shutter_1_12000</item>
-        <item>@string/shutter_1_10000</item>
-        <item>@string/shutter_1_8000</item>
-        <item>@string/shutter_1_6400</item>
-        <item>@string/shutter_1_5000</item>
-        <item>@string/shutter_1_4000</item>
-        <item>@string/shutter_1_3200</item>
-        <item>@string/shutter_1_2500</item>
-        <item>@string/shutter_1_2000</item>
-        <item>@string/shutter_1_1600</item>
-        <item>@string/shutter_1_1250</item>
-        <item>@string/shutter_1_1000</item>
-        <item>@string/shutter_1_800</item>
-        <item>@string/shutter_1_700</item>
-        <item>@string/shutter_1_600</item>
-        <item>@string/shutter_1_500</item>
-        <item>@string/shutter_1_400</item>
-        <item>@string/shutter_1_250</item>
-        <item>@string/shutter_1_200</item>
-        <item>@string/shutter_1_125</item>
-        <item>@string/shutter_1_100</item>
-        <item>@string/shutter_1_85</item>
-        <item>@string/shutter_1_75</item>
-        <item>@string/shutter_1_65</item>
-        <item>@string/shutter_1_55</item>
-        <item>@string/shutter_1_45</item>
-        <item>@string/shutter_1_35</item>
-        <item>@string/shutter_1_30</item>
-        <item>@string/shutter_1_25</item>
-        <item>@string/shutter_1_20</item>
-        <item>@string/shutter_1_15</item>
-        <item>@string/shutter_1_13</item>
-        <item>@string/shutter_1_10</item>
-        <item>@string/shutter_1_9</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_7</item>
-        <item>@string/shutter_1_6</item>
-        <item>@string/shutter_1_5</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_3</item>
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_1</item>
-        <item>@string/shutter_2</item>
-        <item>@string/shutter_3</item>
-        <item>@string/shutter_4</item>
-        <item>@string/shutter_5</item>
-        <item>@string/shutter_6</item>
-        <item>@string/shutter_7</item>
-        <item>@string/shutter_8</item>
-        <item>@string/shutter_9</item>
-        <item>@string/shutter_10</item>
-        <item>@string/shutter_11</item>
-        <item>@string/shutter_12</item>
-        <item>@string/shutter_13</item>
-        <item>@string/shutter_14</item>
-        <item>@string/shutter_15</item>
-        <item>@string/shutter_16</item>
-        <item>@string/shutter_17</item>
-        <item>@string/shutter_18</item>
-        <item>@string/shutter_19</item>
-        <item>@string/shutter_20</item>
-        <item>@string/shutter_21</item>
-        <item>@string/shutter_22</item>
-        <item>@string/shutter_23</item>
-        <item>@string/shutter_24</item>
-        <item>@string/shutter_25</item>
-        <item>@string/shutter_26</item>
-        <item>@string/shutter_27</item>
-        <item>@string/shutter_28</item>
-        <item>@string/shutter_29</item>
-        <item>@string/shutter_30</item>
-        <item>@string/shutter_31</item>
-    </string-array>
-
-    <string-array name="shutter_values_zte_z7" translatable="false">
-        <item>@string/shutter_auto</item>
-        <item>@string/shutter_1_90000</item>
-        <item>@string/shutter_1_75000</item>
-        <item>@string/shutter_1_50000</item>
-        <item>@string/shutter_1_45000</item>
-        <item>@string/shutter_1_30000</item>
-        <item>@string/shutter_1_20000</item>
-        <item>@string/shutter_1_12000</item>
-        <item>@string/shutter_1_10000</item>
-        <item>@string/shutter_1_8000</item>
-        <item>@string/shutter_1_6400</item>
-        <item>@string/shutter_1_5000</item>
-        <item>@string/shutter_1_4000</item>
-        <item>@string/shutter_1_3200</item>
-        <item>@string/shutter_1_2500</item>
-        <item>@string/shutter_1_2000</item>
-        <item>@string/shutter_1_1600</item>
-        <item>@string/shutter_1_1250</item>
-        <item>@string/shutter_1_1000</item>
-        <item>@string/shutter_1_800</item>
-        <item>@string/shutter_1_700</item>
-        <item>@string/shutter_1_600</item>
-        <item>@string/shutter_1_500</item>
-        <item>@string/shutter_1_400</item>
-        <item>@string/shutter_1_250</item>
-        <item>@string/shutter_1_200</item>
-        <item>@string/shutter_1_125</item>
-        <item>@string/shutter_1_100</item>
-        <item>@string/shutter_1_85</item>
-        <item>@string/shutter_1_75</item>
-        <item>@string/shutter_1_65</item>
-        <item>@string/shutter_1_55</item>
-        <item>@string/shutter_1_45</item>
-        <item>@string/shutter_1_35</item>
-        <item>@string/shutter_1_30</item>
-        <item>@string/shutter_1_25</item>
-        <item>@string/shutter_1_20</item>
-        <item>@string/shutter_1_15</item>
-        <item>@string/shutter_1_13</item>
-        <item>@string/shutter_1_10</item>
-        <item>@string/shutter_1_9</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_7</item>
-        <item>@string/shutter_1_6</item>
-        <item>@string/shutter_1_5</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_3</item>
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_1</item>
-        <item>@string/shutter_2</item>
-        <item>@string/shutter_3</item>
-        <item>@string/shutter_4</item>
-        <item>@string/shutter_5</item>
-        <item>@string/shutter_6</item>
-        <item>@string/shutter_7</item>
-        <item>@string/shutter_8</item>
-        <item>@string/shutter_9</item>
-        <item>@string/shutter_10</item>
-        <item>@string/shutter_11</item>
-        <item>@string/shutter_12</item>
-        <item>@string/shutter_13</item>
-        <item>@string/shutter_14</item>
-        <item>@string/shutter_15</item>
-        <item>@string/shutter_16</item>
-        <item>@string/shutter_17</item>
-        <item>@string/shutter_18</item>
-        <item>@string/shutter_19</item>
-        <item>@string/shutter_20</item>
-        <item>@string/shutter_21</item>
-        <item>@string/shutter_22</item>
-        <item>@string/shutter_23</item>
-        <item>@string/shutter_24</item>
-        <item>@string/shutter_25</item>
-        <item>@string/shutter_26</item>
-        <item>@string/shutter_27</item>
-        <item>@string/shutter_28</item>
-        <item>@string/shutter_29</item>
-        <item>@string/shutter_30</item>
-        <item>@string/shutter_31</item>
-        <item>@string/shutter_32</item>
-        <item>@string/shutter_33</item>
-        <item>@string/shutter_34</item>
-        <item>@string/shutter_35</item>
-        <item>@string/shutter_36</item>
-        <item>@string/shutter_37</item>
-        <item>@string/shutter_38</item>
-        <item>@string/shutter_39</item>
-        <item>@string/shutter_40</item>
-        <item>@string/shutter_41</item>
-        <item>@string/shutter_42</item>
-        <item>@string/shutter_43</item>
-        <item>@string/shutter_44</item>
-        <item>@string/shutter_45</item>
-        <item>@string/shutter_46</item>
-        <item>@string/shutter_47</item>
-        <item>@string/shutter_48</item>
-        <item>@string/shutter_49</item>
-        <item>@string/shutter_50</item>
-        <item>@string/shutter_51</item>
-        <item>@string/shutter_52</item>
-        <item>@string/shutter_53</item>
-        <item>@string/shutter_54</item>
-        <item>@string/shutter_55</item>
-        <item>@string/shutter_56</item>
-        <item>@string/shutter_57</item>
-        <item>@string/shutter_58</item>
-        <item>@string/shutter_59</item>
-        <item>@string/shutter_60</item>
-        <item>@string/shutter_120</item>
-        <item>@string/shutter_240</item>
-    </string-array>
-
     <string-array name="mtk_shutter" translatable="false">
         <item>@string/shutter_1_6000</item>
         <item>@string/shutter_1_4000</item>
@@ -578,72 +353,6 @@
         <item>@string/shutter_1_2</item>
         <item>@string/shutter_1</item>
         <item>@string/shutter_2</item>
-    </string-array>
-
-    <string-array name="aquaris_e5_shuttervalues" translatable="false">
-        <item>@string/shutter_auto</item>
-        <item>@string/shutter_1_6000</item>
-        <item>@string/shutter_1_4000</item>
-        <item>@string/shutter_1_2000</item>
-        <item>@string/shutter_1_1000</item>
-        <item>@string/shutter_1_500</item>
-        <item>@string/shutter_1_250</item>
-        <item>@string/shutter_1_125</item>
-        <item>@string/shutter_1_60</item>
-        <item>@string/shutter_1_30</item>
-        <item>@string/shutter_1_15</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_0_6</item>
-        <item>@string/shutter_0_8</item>
-    </string-array>
-    <string-array name="lenovo_vibeshot_z90" translatable="false">
-        <item>@string/shutter_1_15</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_1</item>
-    </string-array>
-
-    <string-array name="shutter_lg_g2pro" translatable="false">
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_1</item>
-        <item>@string/shutter_2</item>
-        <item>@string/shutter_4</item>
-        <item>@string/shutter_8</item>
-        <item>@string/shutter_16</item>
-        <item>@string/shutter_32</item>
-        <item>@string/shutter_64</item>
-    </string-array>
-
-    <string-array name="shutter_sony_xperiaZ3" translatable="false">
-        <item>@string/auto_</item>
-        <item>@string/shutter_1</item>
-        <item>@string/shutter_1_2</item>
-        <item>@string/shutter_1_4</item>
-        <item>@string/shutter_1_8</item>
-        <item>@string/shutter_1_16</item>
-        <item>@string/shutter_1_32</item>
-        <item>@string/shutter_1_100</item>
-        <item>@string/shutter_1_125</item>
-        <item>@string/shutter_1_250</item>
-        <item>@string/shutter_1_500</item>
-        <item>@string/shutter_1_1000</item>
-        <item>@string/shutter_1_2000</item>
-        <item>@string/shutter_1_5000</item>
-        <item>@string/shutter_1_10000</item>
-    </string-array>
-
-    <string-array name="iso_sony_xperiaZ3" translatable="false">
-        <item>@string/auto_</item>
-        <item>50</item>
-        <item>100</item>
-        <item>200</item>
-        <item>400</item>
-        <item>800</item>
-        <item>1600</item>
-        <item>3200</item>
     </string-array>
 
     <string-array name="htc" translatable="false">

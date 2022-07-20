@@ -14,6 +14,6 @@ public class WhiteBalanceModeDetector extends BaseParameter1Detector{
 
     private void detectWhiteBalanceModes(Camera.Parameters parameters)
     {
-        detectMode(parameters, R.string.whitebalance,R.string.whitebalance_values, settingsManager.get(SettingKeys.WhiteBalanceMode));
+        detectMode(parameters, R.string.whitebalance,R.string.whitebalance_values, settingsManager.get(SettingKeys.WHITE_BALANCE_MODE));
     }
 }

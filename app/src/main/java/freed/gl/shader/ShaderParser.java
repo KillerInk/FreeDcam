@@ -14,7 +14,7 @@ public class ShaderParser
     private boolean gles2BlockOpen = false;
     private boolean gles3BlockOpen = false;
 
-    private StringBuilder stringBuilder;
+    private final StringBuilder stringBuilder;
     public ShaderParser(float glesVersion)
     {
         this.glesVersion = glesVersion;

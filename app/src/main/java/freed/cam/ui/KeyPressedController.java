@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -19,12 +20,12 @@ public class KeyPressedController
     }
 
     private static final String TAG = KeyPressedController.class.getSimpleName();
-    private CameraApiManager cameraApiManager;
+    private final CameraApiManager cameraApiManager;
     private List<SettingKeys.Key> supportedManualsModes = new ArrayList();
     private SettingKeys.Key activeKey = null;
     private int activeKeyEvent;
     private ManualModeChangedEvent manualModeChangedEventListner;
-    private UserMessageHandler userMessageHandler;
+    private final UserMessageHandler userMessageHandler;
 
     public KeyPressedController(CameraApiManager cameraApiManager,UserMessageHandler userMessageHandler)
     {

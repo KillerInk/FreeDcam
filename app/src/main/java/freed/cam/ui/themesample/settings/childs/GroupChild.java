@@ -17,7 +17,7 @@ import com.troop.freedcam.databinding.SettingsmenuGroupchildBinding;
 public class GroupChild extends LinearLayout {
 
     LinearLayout childHolder;
-    private SettingsmenuGroupchildBinding binding;
+    private final SettingsmenuGroupchildBinding binding;
     public GroupChild(Context context, String headername) {
         super(context);
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

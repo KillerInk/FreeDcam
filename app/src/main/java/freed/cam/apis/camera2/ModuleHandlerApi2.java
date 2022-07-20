@@ -53,7 +53,7 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        if (settingsManager.getFrameWork() != Frameworks.HuaweiCamera2Ex && settingsManager.get(SettingKeys.M_ExposureTime).isSupported()){
+        if (settingsManager.getFrameWork() != Frameworks.HuaweiCamera2Ex && settingsManager.get(SettingKeys.M_EXPOSURE_TIME).isSupported()){
             AeBracketApi2 aeBracketApi2 = new AeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
@@ -62,7 +62,7 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
             AeBracketApi2 aeBracketApi2 = new HuaweiAeBracketApi2(cameraUiWrapper,mBackgroundHandler,mainHandler);
             moduleList.put(aeBracketApi2.ModuleName(),aeBracketApi2);
         }
-        if (settingsManager.get(SettingKeys.M_Focus).isSupported() && settingsManager.get(SettingKeys.M_Focus).getValues().length > 0) {
+        if (settingsManager.get(SettingKeys.M_FOCUS).isSupported() && settingsManager.get(SettingKeys.M_FOCUS).getValues().length > 0) {
             AfBracketApi2 afBracketApi2 = new AfBracketApi2(cameraUiWrapper, mBackgroundHandler, mainHandler);
             moduleList.put(afBracketApi2.ModuleName(), afBracketApi2);
         }

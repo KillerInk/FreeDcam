@@ -52,8 +52,8 @@ public class GuideHandler extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize) != null)
-            setAspectRation(cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).getStringValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.getParameterHandler() != null && cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE) != null)
+            setAspectRation(cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).getStringValue());
     }
 
     @Override
@@ -64,16 +64,16 @@ public class GuideHandler extends Fragment {
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.GUIDE_LIST)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                SetViewG(settingsManager.getGlobal(SettingKeys.GuideList).get());
+                SetViewG(settingsManager.getGlobal(SettingKeys.GUIDE_LIST).get());
             }
         });
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList).addEventListner(this);
         Log.d(TAG, "setCameraUiWrapper SetViewG()");
         if (img != null)
-            SetViewG(settingsManager.getGlobal(SettingKeys.GuideList).get());
+            SetViewG(settingsManager.getGlobal(SettingKeys.GUIDE_LIST).get());
     }
 
     private void SetViewG(final String str)
@@ -197,7 +197,7 @@ public class GuideHandler extends Fragment {
 
     private void setAspectRation(String val) {
         Log.d(TAG, "I_ModeParameterEvent SetViewG()");
-        String img = settingsManager.getGlobal(SettingKeys.GuideList).get();
+        String img = settingsManager.getGlobal(SettingKeys.GUIDE_LIST).get();
         if (val != null
                 && !TextUtils.isEmpty(val)
                 && img != null

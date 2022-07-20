@@ -30,7 +30,7 @@ import freed.settings.SettingKeys;
 public class GuideList extends AbstractParameter
 {
     public GuideList() {
-        super(SettingKeys.GuideList);
+        super(SettingKeys.GUIDE_LIST);
     }
 
     @Override
@@ -41,19 +41,19 @@ public class GuideList extends AbstractParameter
     @Override
     public void setStringValue(String valueToSet, boolean setToCam)
     {
-        settingsManager.getGlobal(SettingKeys.GuideList).set(valueToSet);
+        settingsManager.getGlobal(SettingKeys.GUIDE_LIST).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 
     @Override
     public String getStringValue()
     {
-        return settingsManager.getGlobal(SettingKeys.GuideList).get();
+        return settingsManager.getGlobal(SettingKeys.GUIDE_LIST).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return settingsManager.getGlobal(SettingKeys.GuideList).getValues();
+        return settingsManager.getGlobal(SettingKeys.GUIDE_LIST).getValues();
     }
 
 

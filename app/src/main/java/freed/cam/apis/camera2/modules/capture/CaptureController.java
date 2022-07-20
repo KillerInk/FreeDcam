@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.ActivityAbstract;
 import freed.FreedApplication;
 import freed.cam.apis.camera2.modules.helper.RdyToSaveImg;
 import freed.image.EmptyTask;
@@ -23,8 +22,8 @@ import freed.utils.Log;
 public class CaptureController extends CameraCaptureSession.CaptureCallback
 {
     private final String TAG = CaptureController.class.getSimpleName();
-    private List<StillImageCapture> imageCaptures;
-    private RdyToSaveImg rdyToSaveImg;
+    private final List<StillImageCapture> imageCaptures;
+    private final RdyToSaveImg rdyToSaveImg;
     protected ImageManager imageManager;
 
     public CaptureController(RdyToSaveImg rdyToSaveImg)

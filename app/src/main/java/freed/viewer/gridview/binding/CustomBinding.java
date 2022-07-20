@@ -10,14 +10,12 @@ import androidx.databinding.BindingAdapter;
 
 import com.troop.freedcam.R;
 
-import freed.ActivityAbstract;
 import freed.FreedApplication;
-import freed.image.ImageManager;
+import freed.cam.histogram.MyHistogram;
 import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.models.GridImageViewModel;
 import freed.viewer.gridview.models.PopupMenuModel;
-import freed.cam.histogram.MyHistogram;
 
 public class CustomBinding {
 

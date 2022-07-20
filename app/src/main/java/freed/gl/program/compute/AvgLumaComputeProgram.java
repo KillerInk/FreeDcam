@@ -1,6 +1,5 @@
 package freed.gl.program.compute;
 
-import android.opengl.GLES20;
 import android.opengl.GLES31;
 import android.os.Build;
 

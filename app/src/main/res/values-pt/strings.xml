@@ -1,8 +1,5 @@
 <resources>
     <!-- settings_leftmenufragment  -->
-    <string name="all_perms_granted">Todas as Permissões Concedidas</string>
-    <string name="all_perms_denied">Todas as Permissões Negadas, Tente Novamente</string>
-    <string name="app_name">Tema Simples</string>
     <string name="setting_picture_group_header">Configurações de Imagem</string>
     <string name="setting_Automation">Captura Automatizada</string>
     <string name="setting_bayerformat_description">Modo de Formato RAW do Sensor Seja Codificado Como DNG</string>
@@ -18,32 +15,19 @@
     <string name="setting_videoprofileeditor_description">Criar Perfis de Vídeo Personalizado</string>
     <string name="setting_videoprofileeditor_header">Editor do Perfil do Vídeo </string>
     <string name="setting_videohdr_description">Ativar para Habilitar Vídeo HDR</string>
-    <string name="setting_videohfr_description">Seleção de FPS do Vídeo</string>
-    <string name="setting_videohsr_description">Permite a Gravação de Vídeo em Alta Velocidade</string>
-    <string name="setting_videobitrate_description">Seleção da Taxa de Bits do Vídeo</string>
     <string name="setting_vs_description">Habilitar Estabilização do Vídeo</string>
     <string name="setting_videohdr_header">Vídeo HDR: </string>
-    <string name="setting_videohfr_header">Taxa de Frames do Vídeo: </string>
-    <string name="setting_videohsr_header">Vídeo HSR: </string>
-    <string name="setting_videobitrate_header">Taxa de Bits do Vídeo: </string>
     <string name="setting_vs_header">Estabilização do Vídeo: </string>
-    <string name="setting_hdr_">Bracket</string>
-    <string name="setting_aebracket_header">AE-Bracket: </string>
-    <string name="setting_aebracket_description">Quando ON a Câmera Tira 3 Imagens em um Tiro</string>
 
     <string name="setting_freedcam_">Configurações FreeDCam</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Selecione a API que Você Deseja Usar</string>
-    <string name="setting_externalshutter_description">A Tecla que Pode Acionar o Obturador de um Fone de Ouvido</string>
-    <string name="setting_externalshutter_header">Tecla do obturador externo: </string>
     <string name="setting_location_description">Informações do Local de arquivo</string>
     <string name="setting_location_header">Localização: </string>
     <string name="setting_guide_description">Guias de Composição</string>
     <string name="setting_guide_header">Guia: </string>
     <string name="setting_horizont_description">Mostrar Linha Horizontal</string>
     <string name="setting_horizont_header">Linha Horizontal: </string>
-    <string name="setting_focuspeak_description">Permite FocusPeak Sobre a Pré-Visualização</string>
-    <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Correção de Orientação: </string>
     <string name="setting_orientation_description">Gira a Câmera em 180 ° se ON</string>
     <string name="setting_sdcard_header">SD Card: </string>
@@ -53,9 +37,6 @@
 
     <string name="setting_interval_duration_header">Duração Até o Fins do Intervalo</string>
     <string name="setting_interval_duration_text">Duração do Intervalo</string>
-
-    <string name="setting_timer_header">Atraso Até o Disparo do Obturador</string>
-    <string name="setting_timer_text">Tempo</string>
 
     <string name="setting_theme_header">Tema: </string>
     <string name="setting_theme_description">Escolha o Seu Tema Favorito</string>
@@ -71,15 +52,12 @@
     <string name="setting_scene_header">Cena: </string>
     <string name="setting_scene_description">Selecione a Cena que Corresponde ao Cenário Atual</string>
 
-    <string name="setting_qcom_">Configurações Qualcomm</string>
     <string name="setting_cds_header">Correlacionada a Dupla Amostragem: </string>
     <string name="setting_cds_description">Sensor Leitura Elétrica Medidos Duas Vezes</string>
     <string name="setting_dis_header">Estabilização Digital de Imagem: </string>
     <string name="setting_dis_description">Desloca Imagem Eletrônica Para Evitar Movimentos</string>
     <string name="setting_lensshade_header">Sombra Lente: </string>
     <string name="setting_lensshade_description">Reduzir Vinheta nas bordas </string>
-    <string name="setting_chromaflash.header">Chroma Flash:</string>
-    <string name="setting_chromaflash.description">A Tecnologia Flash da Qualcomm</string>
     <string name="setting_mce_header">Melhoria na Memória da Cor: </string>
     <string name="setting_mce_description">Aumenta Cores Equivalentes a Adobe Vibração</string>
     <string name="setting_redeye_header">Redução de Olhos Vermelhos: </string>
@@ -93,7 +71,6 @@
     <string name="setting_zsl_header">Lag Zero Obturador: </string>
     <string name="setting_zsl_description">Buffers Imagens Para a Captura Instantânea N/A Para RAW Deve Estar Desligado</string>
 
-    <string name="setting_camera2_">Configurações Câmera 2 API</string>
     <string name="setting_colorcorrection_header">Temperatura de Cor: </string>
     <string name="setting_colorcorrection_description">Altere Isso Para Manual ou Automática</string>
     <string name="setting_controlmode_header">Controle da Câmera: </string>
@@ -105,38 +82,17 @@
     <string name="setting_tonemap_header">Mapa de Tom: </string>
     <string name="setting_tonemap_description"></string>
 
-    <string name="setting_sonycameraremote_">Configurações Sony Camera Remote</string>
-    <string name="setting_objecttrack_header">Rastreamento de Objetos: </string>
-    <string name="setting_objecttrack_description">Ativar Para Definir o Foco Em Um Objeto Para Seguir</string>
-    <string name="setting_postview_header">Pós-Exibição de Tamanho: </string>
-    <string name="setting_postview_description">Tamanho das Imagens Transferidas de RemotoCam</string>
-
-    <string name="setting_omap_">Configurações OMAP</string>
     <string name="setting_ipp_header">Imagem Pós-Processamento: </string>
     <string name="setting_ipp_description">A Qualidade do Pós-Processamento</string>
 
-    <string name="setting_lg_">Configurações LG</string>
     <string name="setting_ois_header">Estabilização Ótica de Imagem: </string>
     <string name="setting_ois_description"></string>
 
-    <string name="setting_htc_">Configurações HTC</string>
     <string name="setting_nonzsl_header">Controle Manual (ZSL=OFF): </string>
     <string name="setting_nonzsl_description">Ligue Para Permitir o Controle Manual Quando DSL Está Desligado</string>
 
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
-    <string name="uisetting_iso_header">ISO</string>
-    <string name="uisetting_flash_header">Flash</string>
-    <string name="uisetting_focus_header">Foco</string>
-    <string name="uisetting_ae_header">AE</string>
-    <string name="uisetting_night_header">Noite</string>
-    <string name="uisetting_continouseshot_header">Disparo Contínuo</string>
-    <string name="uisetting_format_header">Formato</string>
-    <string name="uisetting_settings_header">Configurações</string>
-    <string name="uisetting_camerswitch_header">Câmera</string>
-    <string name="uisetting_mode_header">Modo</string>
-    <string name="uisetting_exit_header">Saída</string>
-    <string name="timelapse_frames">Timelapse Frames</string>
 
 </resources>

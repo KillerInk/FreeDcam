@@ -44,7 +44,7 @@ public abstract class ModuleHandlerAbstract<CW extends CameraWrapperInterface> i
     protected ModuleInterface currentModule;
     protected CW cameraUiWrapper;
 
-    private BackgroundHandlerThread backgroundHandlerThread;
+    private final BackgroundHandlerThread backgroundHandlerThread;
 
     protected Handler mBackgroundHandler;
     protected Handler mainHandler;

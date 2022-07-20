@@ -38,13 +38,13 @@ import freed.utils.Log;
 public class ShutterManualZTE extends AbstractParameter
 {
     private final String TAG = ShutterManualZTE.class.getSimpleName();
-    private Parameters parameters;
+    private final Parameters parameters;
     /**
      * @param parameters
      * @param cameraUiWrapper
      */
     public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
+        super(cameraUiWrapper,SettingKeys.M_EXPOSURE_TIME);
         this.parameters = parameters;
         setViewState(ViewState.Visible);
     }

@@ -39,7 +39,7 @@ public class MediaScannerManager
     {
         if (fileHolders == null || fileHolders.length == 0 || fileHolders[0] instanceof UriHolder)
             return;
-        String paths[] =new String[fileHolders.length];
+        String[] paths =new String[fileHolders.length];
         for (int i=0; i < fileHolders.length; i++)
         {
             paths[i] = ((FileHolder)fileHolders[i]).getFile().getAbsolutePath();

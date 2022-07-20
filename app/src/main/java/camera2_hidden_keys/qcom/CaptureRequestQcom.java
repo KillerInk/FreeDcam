@@ -1,7 +1,6 @@
 package camera2_hidden_keys.qcom;
 
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;

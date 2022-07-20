@@ -20,7 +20,7 @@ public class OrientationHackParameter extends AbstractParameter {
     @Override
     protected void setValue(String valueToSet, boolean setToCamera) {
         super.setValue(valueToSet,setToCamera);
-        settingsManager.get(SettingKeys.orientationHack).set(valueToSet);
+        settingsManager.get(SettingKeys.ORIENTATION_HACK).set(valueToSet);
         if (cameraUiWrapper instanceof Camera1) {
             ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetCameraRotation();
             cameraUiWrapper.getParameterHandler().SetPictureOrientation(0);
@@ -33,6 +33,6 @@ public class OrientationHackParameter extends AbstractParameter {
 
     @Override
     public String getStringValue() {
-        return settingsManager.get(SettingKeys.orientationHack).get();
+        return settingsManager.get(SettingKeys.ORIENTATION_HACK).get();
     }
 }

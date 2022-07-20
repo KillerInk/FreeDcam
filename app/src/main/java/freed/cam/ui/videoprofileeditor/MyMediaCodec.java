@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public class MyMediaCodec {
 
-    private String codecName;
+    private final String codecName;
 
-    private String types[];
+    private String[] types;
     private HashMap<String,MediaCodecInfo.CodecProfileLevel> profileLevelList;
 
     public MyMediaCodec(String name) {

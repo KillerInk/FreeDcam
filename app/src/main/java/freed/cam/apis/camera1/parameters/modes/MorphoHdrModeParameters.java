@@ -25,7 +25,7 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     private boolean supportauto;
     private boolean supporton;
     private String state = "";
-    private String format = "";
+    private final String format = "";
     private String curmodule = "";
 
     public MorphoHdrModeParameters(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
@@ -39,12 +39,12 @@ public class MorphoHdrModeParameters extends BaseModeParameter {
     public void setValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_))) {
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hht), FreedApplication.getStringFromRessources(R.string.false_));
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.NightMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.NIGHT_MODE).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
             parameters.set("capture-burst-exposures","-10,0,10");
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).setStringValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_BRACKET).setStringValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_aebracket), true);
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hdr), FreedApplication.getStringFromRessources(R.string.true_));
         } else {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_Bracket).setStringValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_off), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.AE_BRACKET).setStringValue(FreedApplication.getStringFromRessources(R.string.ae_bracket_hdr_values_off), true);
             parameters.set(FreedApplication.getStringFromRessources(R.string.morpho_hdr), FreedApplication.getStringFromRessources(R.string.false_));
         }
         if (setToCam)

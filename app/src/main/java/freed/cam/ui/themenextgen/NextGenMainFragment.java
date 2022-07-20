@@ -4,15 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.troop.freedcam.R;
+
 import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.PreviewFragment;
@@ -20,7 +22,6 @@ import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.ui.themenextgen.adapter.NextGenCameraUiSlidePagerAdapter;
-import freed.views.pagingview.PagingView;
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
@@ -29,6 +30,7 @@ import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
+import freed.views.pagingview.PagingView;
 
 @AndroidEntryPoint
 public class NextGenMainFragment extends Fragment implements CameraHolderEvent, PreviewController.PreviewPostProcessingChangedEvent
@@ -156,8 +158,8 @@ public class NextGenMainFragment extends Fragment implements CameraHolderEvent, 
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = view.findViewById(R.id.nightoverlay);
-        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NightOverlay).get());
-        if (settingsManager.getGlobal(SettingKeys.NightOverlay).get())
+        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NIGHT_OVERLAY).get());
+        if (settingsManager.getGlobal(SettingKeys.NIGHT_OVERLAY).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);

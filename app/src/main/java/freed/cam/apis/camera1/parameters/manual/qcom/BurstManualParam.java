@@ -43,7 +43,7 @@ public class BurstManualParam extends BaseManualParameter
 
     public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper,SettingKeys.Key settingMode) {
         super(parameters,cameraUiWrapper,settingMode);
-        currentInt = Integer.parseInt(settingsManager.get(SettingKeys.M_Burst).get());
+        currentInt = Integer.parseInt(settingsManager.get(SettingKeys.M_BURST).get());
         setViewState(ViewState.Visible);
     }
 
@@ -76,7 +76,7 @@ public class BurstManualParam extends BaseManualParameter
         {
             parameters.set(FreedApplication.getStringFromRessources(R.string.num_snaps_per_shutter),  String.valueOf((currentInt +1)));
             parameters.set(FreedApplication.getStringFromRessources(R.string.snapshot_burst_num),  String.valueOf((currentInt +1)));
-            Log.d(TAG, FreedApplication.getStringFromRessources(R.string.num_snaps_per_shutter)+  String.valueOf(currentInt +1));
+            Log.d(TAG, FreedApplication.getStringFromRessources(R.string.num_snaps_per_shutter)+ (currentInt + 1));
 
         }
         else if (parameters.get(FreedApplication.getStringFromRessources(R.string.snapshot_burst_num))!=null)
