@@ -187,8 +187,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ExposureCompensation, aeManagerCamera2.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManagerCamera2.getIso());
             add(SettingKeys.M_ExposureTime, aeManagerCamera2.getExposureTime());
-            //not used by huawei and not used anywhere on camera2
-            //add(SettingKeys.ExposureMode, aeManagerCamera2.getAeMode());
+            //not used by huawei
+            add(SettingKeys.ExposureMode, aeManagerCamera2.getAeMode());
         }
 
         //ae mode end
