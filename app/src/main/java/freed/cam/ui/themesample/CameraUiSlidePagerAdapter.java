@@ -7,16 +7,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import freed.cam.ui.themenextgen.fragment.NextGenCameraSettingFragment;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 public class CameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 {
-    private SettingsMenuFragment settingsMenuFragment = new SettingsMenuFragment();
-    private ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
-    private CameraUiFragment cameraUiFragment = new CameraUiFragment();
+    private final SettingsMenuFragment settingsMenuFragment = new SettingsMenuFragment();
+    private final ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
+    private final CameraUiFragment cameraUiFragment = new CameraUiFragment();
 
     ScreenSlideFragment.ButtonClick click;
 

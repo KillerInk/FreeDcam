@@ -4,7 +4,6 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import java.util.ArrayList;
 
 public class IntentModel extends BaseObservable {

@@ -51,7 +51,7 @@ public class OpCodeCreator {
             Log.d(TAG, "opcode2 size = " + size);
         }
 
-        Point hot[] = captureResult.get(CaptureResult.STATISTICS_HOT_PIXEL_MAP);
+        Point[] hot = captureResult.get(CaptureResult.STATISTICS_HOT_PIXEL_MAP);
         if (hot != null && hot.length >0)
         {
             FixBadPixelsList fixBadPixelsList = new FixBadPixelsList(cfa,hot);
@@ -77,7 +77,7 @@ public class OpCodeCreator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            byte ret[] = buffer.array().clone();
+            byte[] ret = buffer.array().clone();
 
             try {
                 buffer.clear();
@@ -103,10 +103,10 @@ public class OpCodeCreator {
         double spacingV = 1.0 / lsmHeight;
         double spacingH = 1.0 / lsmWidth;
         int size = lsmWidth * lsmHeight;
-        float redMap[] = new float[size];
-        float greenEvenMap[] = new float[size];
-        float greenOddMap[] = new float[size];
-        float blueMap[] = new float[size];
+        float[] redMap = new float[size];
+        float[] greenEvenMap = new float[size];
+        float[] greenOddMap = new float[size];
+        float[] blueMap = new float[size];
 
         int lsmMapSize = lsmWidth * lsmHeight * 4;
         // Split lens shading map channels into separate arrays

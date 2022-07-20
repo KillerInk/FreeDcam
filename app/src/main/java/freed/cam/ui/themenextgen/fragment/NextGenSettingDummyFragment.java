@@ -126,7 +126,7 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
 
     }
 
-    private AdapterView.OnItemClickListener itemClickListener =  new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener itemClickListener =  new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -152,7 +152,7 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
     private void fillUiWithValuesFromParameter(NextGenSettingItem nextGenSettingItem)
     {
         activeItem = nextGenSettingItem;
-        String values[] = nextGenSettingItem.getParameter().getStringValues();
+        String[] values = nextGenSettingItem.getParameter().getStringValues();
         simpleTextAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 R.layout.nextgen_setting_adapterlayout_simpeltext, R.id.listviewlayout_textview, values);
         itemHolder.setAdapter(simpleTextAdapter);

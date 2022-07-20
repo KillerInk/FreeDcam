@@ -14,7 +14,7 @@ import freed.settings.SettingsManager;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class XiaomiHdr10Processor extends BaseOpcodeProcessor {
 
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
     public XiaomiHdr10Processor(CaptureSessionHandler captureSessionHandler, OpCodes opCodes) {
         super(captureSessionHandler, opCodes);
         settingsManager = FreedApplication.settingsManager();

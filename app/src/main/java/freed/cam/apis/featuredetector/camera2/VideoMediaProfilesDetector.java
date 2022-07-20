@@ -25,15 +25,15 @@ public class VideoMediaProfilesDetector extends BaseParameter2Detector {
         }
         settingsManager.saveMediaProfiles(supportedProfiles);
         if (supportedProfiles.get("1080p") != null)
-            settingsManager.get(SettingKeys.VideoProfiles).set("1080p");
+            settingsManager.get(SettingKeys.VIDEO_PROFILES).set("1080p");
         else
-            settingsManager.get(SettingKeys.VideoProfiles).set("480p");
+            settingsManager.get(SettingKeys.VIDEO_PROFILES).set("480p");
         ////publishProgress("VideoMediaProfiles:" + getStringFromArray(supportedProfiles.keySet().toArray(new String[supportedProfiles.size()])));
     }
 
     private boolean has2160pSize()
     {
-        String[] size = settingsManager.get(SettingKeys.PictureSize).getValues();
+        String[] size = settingsManager.get(SettingKeys.PICTURE_SIZE).getValues();
         for (String s: size) {
             if (s.matches("3840x2160"))
                 return true;

@@ -17,34 +17,34 @@ public class DenoiseDetector extends BaseParameter1Detector {
 
     private void detectDenoise(Camera.Parameters parameters)
     {
-        Log.d(TAG, "Denoise is Presetted: "+ settingsManager.get(SettingKeys.Denoise).isPresetted());
-        if (settingsManager.get(SettingKeys.Denoise).isPresetted())
+        Log.d(TAG, "Denoise is Presetted: "+ settingsManager.get(SettingKeys.DENOISE).isPresetted());
+        if (settingsManager.get(SettingKeys.DENOISE).isPresetted())
             return;
         if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
             try {
                 if (parameters.get(camstring(R.string.mtk_3dnr_mode)) != null) {
                     if (parameters.get(camstring(R.string.mtk_3dnr_mode_values)).equals("on,off")) {
-                        settingsManager.get(SettingKeys.Denoise).setIsSupported(true);
-                        settingsManager.get(SettingKeys.Denoise).setCamera1ParameterKEY(camstring(R.string.mtk_3dnr_mode));
-                        settingsManager.get(SettingKeys.Denoise).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
+                        settingsManager.get(SettingKeys.DENOISE).setIsSupported(true);
+                        settingsManager.get(SettingKeys.DENOISE).setCamera1ParameterKEY(camstring(R.string.mtk_3dnr_mode));
+                        settingsManager.get(SettingKeys.DENOISE).setValues(parameters.get(camstring(R.string.mtk_3dnr_mode_values)).split(","));
                     }
                 }
             }
             catch (NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                settingsManager.get(SettingKeys.Denoise).setIsSupported(false);
+                settingsManager.get(SettingKeys.DENOISE).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                settingsManager.get(SettingKeys.Denoise).setIsSupported(false);
+                settingsManager.get(SettingKeys.DENOISE).setIsSupported(false);
             }
         }
         else
         {
-            detectMode(parameters,R.string.denoise,R.string.denoise_values, settingsManager.get(SettingKeys.Denoise));
+            detectMode(parameters,R.string.denoise,R.string.denoise_values, settingsManager.get(SettingKeys.DENOISE));
         }
     }
 }

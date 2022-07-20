@@ -29,9 +29,9 @@ public class AeTargetFpsDetector extends BaseParameter2Detector {
 
                 t[i] = aetargetfps[i].getLower()+","+aetargetfps[i].getUpper();
             }
-            settingsManager.get(SettingKeys.Ae_TargetFPS).setValues(t);
-            settingsManager.get(SettingKeys.Ae_TargetFPS).setIsSupported(true);
-            settingsManager.get(SettingKeys.Ae_TargetFPS).set(min+","+max);
+            settingsManager.get(SettingKeys.AE_TARGET_FPS).setValues(t);
+            settingsManager.get(SettingKeys.AE_TARGET_FPS).setIsSupported(true);
+            settingsManager.get(SettingKeys.AE_TARGET_FPS).set(min+","+max);
         }
     }
 }

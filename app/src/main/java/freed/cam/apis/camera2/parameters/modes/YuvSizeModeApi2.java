@@ -36,7 +36,7 @@ public class YuvSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
     public YuvSizeModeApi2(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.YuvSize);
+        super(cameraUiWrapper,SettingKeys.YUV_SIZE);
         setViewState(ViewState.Visible);
     }
 
@@ -44,9 +44,9 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        settingsManager.get(SettingKeys.YuvSize).set(valueToSet);
+        settingsManager.get(SettingKeys.YUV_SIZE).set(valueToSet);
         size = valueToSet;
-        if (setToCamera && settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
+        if (setToCamera && settingsManager.get(SettingKeys.PICTURE_FORMAT).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_yuv)))
         {
             CameraThreadHandler.restartPreviewAsync();
         }
@@ -62,6 +62,6 @@ public class YuvSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return settingsManager.get(SettingKeys.YuvSize).getValues();
+        return settingsManager.get(SettingKeys.YUV_SIZE).getValues();
     }
 }

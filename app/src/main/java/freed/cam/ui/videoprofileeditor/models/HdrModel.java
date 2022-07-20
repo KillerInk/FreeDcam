@@ -3,7 +3,6 @@ package freed.cam.ui.videoprofileeditor.models;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

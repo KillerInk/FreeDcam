@@ -8,19 +8,17 @@
         android:id="@+id/MainLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/button_notclicked"
+        android:background="#1b1b1b"
         android:keepScreenOn="true"
         android:longClickable="false"
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:id="@+id/cameraFragmentHolder"
+        <FrameLayout
+            android:id="@+id/cameraPreview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            />
 
 
         <freed.views.pagingview.PagingView

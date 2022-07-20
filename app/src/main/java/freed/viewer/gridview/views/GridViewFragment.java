@@ -34,7 +34,6 @@ import androidx.databinding.Observable;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
 
-
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerGridviewfragmentBinding;

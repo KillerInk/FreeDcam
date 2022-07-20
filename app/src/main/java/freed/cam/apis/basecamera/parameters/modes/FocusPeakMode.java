@@ -20,8 +20,6 @@
 package freed.cam.apis.basecamera.parameters.modes;
 
 
-import android.text.TextUtils;
-
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
@@ -34,7 +32,6 @@ import freed.settings.SettingKeys;
 import freed.settings.mode.ApiBooleanSettingMode;
 import freed.settings.mode.BooleanSettingModeInterface;
 import freed.settings.mode.SettingMode;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 10.09.2015.
@@ -52,7 +49,7 @@ public class FocusPeakMode extends AbstractParameter implements BooleanSettingMo
     @Override
     public String getStringValue()
     {
-        if (cameraUiWrapper == null && !settingsManager.get(settingMode).get())
+        if (!settingsManager.get(settingMode).get())
             return FreedApplication.getStringFromRessources(R.string.off_);
         return FreedApplication.getStringFromRessources(R.string.on_);
     }
@@ -74,11 +71,7 @@ public class FocusPeakMode extends AbstractParameter implements BooleanSettingMo
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
-        boolean toset = false;
-        if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
-        {
-            toset = true;
-        }
+        boolean toset = valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_));
         previewController.setFocusPeak(toset);
         settingsManager.get(settingMode).set(toset);
         fireStringValueChanged(valueToSet);
@@ -99,5 +92,6 @@ public class FocusPeakMode extends AbstractParameter implements BooleanSettingMo
     public void set(boolean bool) {
         previewController.setFocusPeak(bool);
         settingsManager.get(settingMode).set(bool);
+        fireStringValueChanged(getStringValue());
     }
 }

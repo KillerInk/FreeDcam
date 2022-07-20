@@ -42,12 +42,12 @@ public class CurveView extends View {
     private CurveChangedEvent curveChangedListner;
     boolean hasMoved = false;
 
-    private RectF drawPointsRects[];
+    private RectF[] drawPointsRects;
     Path path = new Path();
     private HistogramData histogramData;
     private HistogramDrawer histogramDrawer;
 
-    private int waveformdata[];
+    private int[] waveformdata;
     private int waveform_width;
     private int waveform_height;
 

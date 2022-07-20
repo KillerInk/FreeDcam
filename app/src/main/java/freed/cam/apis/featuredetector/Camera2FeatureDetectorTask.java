@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import camera2_hidden_keys.VendorKeyParser;
-import camera2_hidden_keys.VendorKeyTestLog;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import freed.FreedApplication;
 import freed.cam.apis.featuredetector.camera2.AeTargetFpsDetector;
@@ -209,9 +208,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
             hasCamera2Features = true;
         settingsManager.setHasCamera2Features(hasCamera2Features);
 
-        if (!settingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
-            settingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);
-
         if (hasCamera2Features) {
 
             for (int i = 0; i < parametersToDetect.size(); i++) {
@@ -232,7 +228,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 }
             }
 
-            if (settingsManager.get(SettingKeys.M_Focus).isSupported()) {
+            if (settingsManager.get(SettingKeys.M_FOCUS).isSupported()) {
                 settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).setIsSupported(true);
                 settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).set(true);
                 settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).setIsSupported(true);
@@ -291,7 +287,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                     boolean logical = false;
                     allcameraids.add(String.valueOf(i));
                     StreamConfigurationMap smap = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                    int outputformats[] =  smap.getOutputFormats();
+                    int[] outputformats =  smap.getOutputFormats();
                     try {
                         if(characteristics.get(CameraCharacteristicsQcom.is_logical_camera) != null) {
                             int logical_b = (int) characteristics.get(CameraCharacteristicsQcom.is_logical_camera);

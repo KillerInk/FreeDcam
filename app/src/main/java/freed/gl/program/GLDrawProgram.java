@@ -16,8 +16,8 @@ public abstract class GLDrawProgram extends GLProgram implements GLDrawProgramIn
     private final String TAG = GLDrawProgram.class.getSimpleName();
     private Shader vertexShader;
     private Shader fragmentShader;
-    private float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
-    private float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
+    private final float[] vtmp = {1.0f, -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
+    private final float[] ttmp = {1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
     protected FloatBuffer vertexBuffer;
     protected FloatBuffer textureBuffer;
     protected int vTexCoord;

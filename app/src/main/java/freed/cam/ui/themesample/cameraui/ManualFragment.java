@@ -37,7 +37,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,11 +49,11 @@ import freed.FreedApplication;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
@@ -84,7 +83,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     private LinearLayout manualItemsHolder;
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     private final String TAG = ManualFragment.class.getSimpleName();
     @Inject
@@ -150,36 +149,31 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         if (cameraUiWrapper != null)
         {
             ParameterHandler parms = cameraUiWrapper.getParameterHandler();
-            addManualButton(parms,SettingKeys.M_Zoom,R.drawable.manual_zoom);
+            addManualButton(parms,SettingKeys.M_ZOOM,R.drawable.manual_zoom);
             //addManualButton(parms,SettingKeys.M_Focus,R.drawable.manual_focus);
             //used to simple check if its mf and then activate near/far limits in afbracket module
             //need a rework that modules can have their own specific settings
-            if (parms.get(SettingKeys.M_Focus) != null) {
-                ManualButtonMF btn = new ManualButtonMF(getContext(), parms.get(SettingKeys.M_Focus), R.drawable.manual_focus);
+            if (parms.get(SettingKeys.M_FOCUS) != null) {
+                ManualButtonMF btn = new ManualButtonMF(getContext(), parms.get(SettingKeys.M_FOCUS), R.drawable.manual_focus);
                 btn.setOnClickListener(manualButtonClickListner);
                 manualItemsHolder.addView(btn);
-                buttonHashMap.put(SettingKeys.M_Focus,btn);
-                supportedManuals.add(SettingKeys.M_Focus);
+                buttonHashMap.put(SettingKeys.M_FOCUS,btn);
+                supportedManuals.add(SettingKeys.M_FOCUS);
             }
-            addManualButton(parms,SettingKeys.M_ManualIso,R.drawable.manual_iso);
-            addManualButton(parms,SettingKeys.M_ExposureTime,R.drawable.manual_shutter);
-            addManualButton(parms,SettingKeys.M_Fnumber,R.drawable.manual_fnum);
-            addManualButton(parms,SettingKeys.M_Aperture,R.drawable.manual_fnum);
-            addManualButton(parms,SettingKeys.M_ExposureCompensation,R.drawable.manual_exposure);
-            addManualButton(parms,SettingKeys.M_Whitebalance,R.drawable.manual_wb);
-            addManualButton(parms,SettingKeys.M_Burst,R.drawable.manual_burst);
-            addManualButton(parms,SettingKeys.M_Contrast,R.drawable.manual_contrast);
+            addManualButton(parms,SettingKeys.M_MANUAL_ISO,R.drawable.manual_iso);
+            addManualButton(parms,SettingKeys.M_EXPOSURE_TIME,R.drawable.manual_shutter);
+            addManualButton(parms,SettingKeys.M_FNUMBER,R.drawable.manual_fnum);
+            addManualButton(parms,SettingKeys.M_APERTURE,R.drawable.manual_fnum);
+            addManualButton(parms,SettingKeys.M_EXPOSURE_COMPENSATION,R.drawable.manual_exposure);
+            addManualButton(parms,SettingKeys.M_WHITEBALANCE,R.drawable.manual_wb);
+            addManualButton(parms,SettingKeys.M_BURST,R.drawable.manual_burst);
+            addManualButton(parms,SettingKeys.M_CONTRAST,R.drawable.manual_contrast);
             addManualButton(parms,SettingKeys.M_Brightness,R.drawable.brightness);
-            addManualButton(parms,SettingKeys.M_Saturation,R.drawable.manual_saturation);
-            addManualButton(parms,SettingKeys.M_Sharpness,R.drawable.manual_sharpness);
+            addManualButton(parms,SettingKeys.M_SATURATION,R.drawable.manual_saturation);
+            addManualButton(parms,SettingKeys.M_SHARPNESS,R.drawable.manual_sharpness);
             addManualButton(parms,SettingKeys.M_FX,R.drawable.manual_fx);
-            addManualButton(parms,SettingKeys.M_ProgramShift,R.drawable.manual_shift);
+            addManualButton(parms,SettingKeys.M_PROGRAM_SHIFT,R.drawable.manual_shift);
 
-            if (parms.get(SettingKeys.SCALE_PREVIEW) != null) {
-                ManualButton btn = new ManualButton(getContext(), parms.get(SettingKeys.M_PreviewZoom), R.drawable.manual_zoom);
-                btn.setOnClickListener(manualButtonClickListner);
-                manualItemsHolder.addView(btn);
-            }
             /*if (parms.black != null) {
                 ManualButton btn = new ManualButton(getContext(), null, parms.black, R.drawable.manual_black);
                 btn.setOnClickListener(manualButtonClickListner);
@@ -328,7 +322,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
             if (entry.getValue() == button)
                 return (SettingKeys.Key) entry.getKey();
         }
-        return SettingKeys.M_Zoom;
+        return SettingKeys.M_ZOOM;
     }
 
 
@@ -489,7 +483,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     }
 
-    private KeyPressedController.ManualModeChangedEvent manualModeChangedEvent = new KeyPressedController.ManualModeChangedEvent() {
+    private final KeyPressedController.ManualModeChangedEvent manualModeChangedEvent = new KeyPressedController.ManualModeChangedEvent() {
         @Override
         public void onManualModeChanged(SettingKeys.Key key) {
             ManualButton button = buttonHashMap.get(key);

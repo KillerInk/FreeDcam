@@ -1,7 +1,6 @@
 package freed.cam.histogram;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,12 +21,12 @@ public class HistogramController implements HistogramChangedEvent {
     private static final String TAG = HistogramController.class.getSimpleName();
     private MyHistogram myHistogram;
     private HistogramFeed feedToRegister;
-    private HistogramProcessor histogramProcessor;
+    private final HistogramProcessor histogramProcessor;
     private boolean enabled;
-    private HistogramData histogramData;
+    private final HistogramData histogramData;
     private DataListner dataListner;
     private ImageView waveFormView;
-    private MeteringProcessor meteringProcessor;
+    private final MeteringProcessor meteringProcessor;
 
     public HistogramController(SettingsManager settingsManager)
     {
@@ -175,7 +174,7 @@ public class HistogramController implements HistogramChangedEvent {
 
     WaveFormUpdater waveFormUpdater = new WaveFormUpdater() {
 
-        ArrayBlockingQueue<int[]> waveformQueue = new ArrayBlockingQueue(3);
+        final ArrayBlockingQueue<int[]> waveformQueue = new ArrayBlockingQueue(3);
         int width; int height;
         private Bitmap bitmap;
 
@@ -217,16 +216,16 @@ public class HistogramController implements HistogramChangedEvent {
 
     interface  WaveFormUpdater extends Runnable
     {
-        public void setData(int[] waveFormData,int width, int height);
+        void setData(int[] waveFormData, int width, int height);
     }
 
     interface  HistogramUpdater extends Runnable
     {
-        public void setData(HistogramData histogramData);
+        void setData(HistogramData histogramData);
     }
 
     HistogramUpdater histogramUpdater = new HistogramUpdater() {
-        ArrayBlockingQueue<HistogramData> histogramDatas = new ArrayBlockingQueue(3);
+        final ArrayBlockingQueue<HistogramData> histogramDatas = new ArrayBlockingQueue(3);
         @Override
         public void setData(HistogramData histogramData) {
             synchronized (histogramDatas)

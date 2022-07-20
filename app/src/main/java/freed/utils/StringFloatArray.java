@@ -5,8 +5,8 @@ package freed.utils;
  */
 
 public class StringFloatArray {
-    private String[] keys;
-    private Float[] values;
+    private final String[] keys;
+    private final Float[] values;
 
     private final String SPLITCHAR = "#";
 

@@ -34,7 +34,6 @@ import com.troop.freedcam.databinding.SettingsLeftmenufragmentBinding;
 import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import freed.ActivityInterface;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
@@ -105,7 +104,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
         onCameraOpenFinished();
     }
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     @Override
     public void onCameraOpen() {
 

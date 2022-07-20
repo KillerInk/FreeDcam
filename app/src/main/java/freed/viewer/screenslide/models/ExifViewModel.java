@@ -6,7 +6,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import com.troop.freedcam.R;
 
 import freed.FreedApplication;
@@ -14,12 +13,12 @@ import freed.viewer.gridview.models.VisibilityModel;
 
 public class ExifViewModel extends VisibilityModel {
 
-    private ExifViewItemModel iso;
-    private ExifViewItemModel shutter;
-    private ExifViewItemModel focal;
-    private ExifViewItemModel fnumber;
-    private ExifViewItemModel filename;
-    private ExifViewItemModel image_size;
+    private final ExifViewItemModel iso;
+    private final ExifViewItemModel shutter;
+    private final ExifViewItemModel focal;
+    private final ExifViewItemModel fnumber;
+    private final ExifViewItemModel filename;
+    private final ExifViewItemModel image_size;
     private Typeface typeface;
 
     public ExifViewModel()

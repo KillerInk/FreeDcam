@@ -42,16 +42,16 @@ public class VideoProfileEditorModelView extends ViewModel {
     private List<MyMediaCodec> avccCodecs;
     private List<MyMediaCodec> av1Codecs;
 
-    private ProfileModel profileModel;
-    private PopupModel popupModel;
-    private RecordModel recordModel;
-    private VideoCodecModel videoCodecModel;
-    private AudioCodecModel audioCodecModel;
-    private EncoderModel encoderModel;
-    private ProfileLevelModel profileLevelModel;
-    private OpcodeModel opcodeModel;
+    private final ProfileModel profileModel;
+    private final PopupModel popupModel;
+    private final RecordModel recordModel;
+    private final VideoCodecModel videoCodecModel;
+    private final AudioCodecModel audioCodecModel;
+    private final EncoderModel encoderModel;
+    private final ProfileLevelModel profileLevelModel;
+    private final OpcodeModel opcodeModel;
     //private PreviewOpcodeModel preview_opcodeModel;
-    private HdrModel hdrModes;
+    private final HdrModel hdrModes;
     SettingsManager settingsManager;
 
     @Inject
@@ -93,9 +93,9 @@ public class VideoProfileEditorModelView extends ViewModel {
         }
         if (videoMediaProfiles != null
                 && videoMediaProfiles.size() > 0
-                && settingsManager.get(SettingKeys.VideoProfiles).get() != null
-                && videoMediaProfiles.get(settingsManager.get(SettingKeys.VideoProfiles).get())!= null) {
-            setProfile(videoMediaProfiles.get(settingsManager.get(SettingKeys.VideoProfiles).get()));
+                && settingsManager.get(SettingKeys.VIDEO_PROFILES).get() != null
+                && videoMediaProfiles.get(settingsManager.get(SettingKeys.VIDEO_PROFILES).get())!= null) {
+            setProfile(videoMediaProfiles.get(settingsManager.get(SettingKeys.VIDEO_PROFILES).get()));
         }
     }
 
@@ -226,12 +226,12 @@ public class VideoProfileEditorModelView extends ViewModel {
         if (videoCodecModel.getTxt().equals(VideoCodecs.H264.name()))
         {
             List<String> strings = getStrings(avccCodecs);
-            if (strings != null) return strings;
+            return strings;
         }
         else if (videoCodecModel.getTxt().equals(VideoCodecs.HEVC.name()))
         {
             List<String> strings = getStrings(hevcCodecs);
-            if (strings != null) return strings;
+            return strings;
         }
         return null;
     }
@@ -280,7 +280,7 @@ public class VideoProfileEditorModelView extends ViewModel {
         videoMediaProfiles.remove(getProfile().ProfileName);
         settingsManager.saveMediaProfiles(videoMediaProfiles);
         currentProfile.set(videoMediaProfiles.entrySet().iterator().next().getValue());
-        settingsManager.get(SettingKeys.VideoProfiles).set(currentProfile.get().ProfileName);
+        settingsManager.get(SettingKeys.VIDEO_PROFILES).set(currentProfile.get().ProfileName);
         settingsManager.save();
         updateModels();
     }
@@ -289,7 +289,7 @@ public class VideoProfileEditorModelView extends ViewModel {
     {
         videoMediaProfiles.put(profile.ProfileName,profile);
         settingsManager.saveMediaProfiles(videoMediaProfiles);
-        settingsManager.get(SettingKeys.VideoProfiles).set(currentProfile.get().ProfileName);
+        settingsManager.get(SettingKeys.VIDEO_PROFILES).set(currentProfile.get().ProfileName);
         settingsManager.save();
         updateModels();
     }

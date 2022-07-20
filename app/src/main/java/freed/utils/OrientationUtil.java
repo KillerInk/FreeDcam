@@ -6,6 +6,6 @@ import freed.settings.SettingKeys;
 public class OrientationUtil {
     public static int getOrientation(int rotation)
     {
-        return  (360 + rotation+Integer.parseInt(FreedApplication.settingsManager().get(SettingKeys.orientationHack).get()))%360;
+        return  (360 + rotation+Integer.parseInt(FreedApplication.settingsManager().get(SettingKeys.ORIENTATION_HACK).get()))%360;
     }
 }

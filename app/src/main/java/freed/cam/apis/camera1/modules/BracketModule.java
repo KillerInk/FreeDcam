@@ -66,7 +66,7 @@ public class BracketModule extends PictureModule {
                 cameraHolder.SetLocation(locationManager.getCurrentLocation());
             files = new BaseHolder[3];
             hdrCount = 0;
-            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
+            String picformat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PICTURE_FORMAT).getStringValue();
             if (picformat.equals(FreedApplication.getStringFromRessources(R.string.dng_)) || picformat.equals(FreedApplication.getStringFromRessources(R.string.bayer_))) {
                 ParameterInterface zsl = cameraUiWrapper.getParameterHandler().get(SettingKeys.ZSL);
                 if (zsl != null && zsl.getViewState() == AbstractParameter.ViewState.Visible
@@ -112,8 +112,8 @@ public class BracketModule extends PictureModule {
             value = 2;
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        int toset = value + cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureCompensation).getStringValues().length / 2;
-        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ExposureCompensation).setIntValue(toset, true);
+        int toset = value + cameraUiWrapper.getParameterHandler().get(SettingKeys.M_EXPOSURE_COMPENSATION).getStringValues().length / 2;
+        cameraUiWrapper.getParameterHandler().get(SettingKeys.M_EXPOSURE_COMPENSATION).setIntValue(toset, true);
         Log.d(TAG, "HDR Exposure SET");
     }
 
@@ -128,7 +128,7 @@ public class BracketModule extends PictureModule {
             return;
         }
         hdrCount++;
-        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PictureFormat).getStringValue();
+        String picFormat = cameraUiWrapper.getParameterHandler().get(SettingKeys.PICTURE_FORMAT).getStringValue();
         saveImage(data, picFormat);
         startPreview();
         if (hdrCount == 3)//handel normal capture

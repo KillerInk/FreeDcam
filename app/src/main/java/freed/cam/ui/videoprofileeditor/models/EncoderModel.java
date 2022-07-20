@@ -3,7 +3,6 @@ package freed.cam.ui.videoprofileeditor.models;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import java.util.List;
 
 import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
@@ -11,8 +10,8 @@ import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
 public class EncoderModel extends ButtonModel
 {
     private List<String> values;
-    private ProfileLevelModel profileLevelModel;
-    private VideoProfileEditorModelView modelView;
+    private final ProfileLevelModel profileLevelModel;
+    private final VideoProfileEditorModelView modelView;
     private boolean visibility = false;
     public EncoderModel(PopupModel popupModel, ProfileLevelModel profileLevelModel, VideoProfileEditorModelView modelView) {
         super(popupModel);

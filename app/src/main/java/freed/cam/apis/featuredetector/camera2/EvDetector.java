@@ -21,7 +21,7 @@ public class EvDetector extends BaseParameter2Detector {
 
     private void detectManualExposure(CameraCharacteristics characteristics)
     {
-        SettingMode exposure = settingsManager.get(SettingKeys.M_ExposureCompensation);
+        SettingMode exposure = settingsManager.get(SettingKeys.M_EXPOSURE_COMPENSATION);
         int max = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
         int min = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
         float step = characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
@@ -33,7 +33,7 @@ public class EvDetector extends BaseParameter2Detector {
         }
         if (strings.size() > 0) {
             exposure.setIsSupported(true);
-            String ar[] = strings.toArray(new String[strings.size()]);
+            String[] ar = strings.toArray(new String[strings.size()]);
             exposure.setValues(ar);
             exposure.set(ar[ar.length/2]);
         }

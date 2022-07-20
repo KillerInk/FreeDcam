@@ -4,8 +4,6 @@ import android.hardware.camera2.CaptureResult;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
@@ -21,7 +19,7 @@ public abstract class AbstractImageCapture implements ImageCaptureInterface {
     private final String TAG = AbstractImageCapture.class.getSimpleName();
     protected final int max_images;
     private final ImageReader imageReader;
-    private BackgroundHandlerThread backgroundHandlerThread;
+    private final BackgroundHandlerThread backgroundHandlerThread;
     private boolean setToPreview = false;
     protected Image image;
     protected CaptureResult result;

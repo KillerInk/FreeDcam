@@ -21,7 +21,7 @@ public class ReleaseChecker {
     private static final String TAG = ReleaseChecker.class.getSimpleName();
     private final String githubrepo = "https://api.github.com/repos/killerink/freedcam/releases/latest";
 
-    private UpdateEvent event;
+    private final UpdateEvent event;
 
     public ReleaseChecker(UpdateEvent eventListner)
     {

@@ -16,7 +16,7 @@ public class VideoStabilizationModeDetector extends BaseParameter2Detector {
 
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
-        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES, settingsManager.get(SettingKeys.VideoStabilization), FreedApplication.getStringArrayFromRessource(R.array.videostabilisationmodes),settingsManager);
+        Camera2Util.detectIntMode(cameraCharacteristics, CameraCharacteristics.CONTROL_AVAILABLE_VIDEO_STABILIZATION_MODES, settingsManager.get(SettingKeys.VIDEO_STABILIZATION), FreedApplication.getStringArrayFromRessource(R.array.videostabilisationmodes),settingsManager);
 
     }
 }

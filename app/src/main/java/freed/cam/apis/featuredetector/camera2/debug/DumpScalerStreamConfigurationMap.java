@@ -27,7 +27,7 @@ public class DumpScalerStreamConfigurationMap extends BaseParameter2Detector {
     private void dump_SCALER_STREAM_CONFIGURATION_MAP(CameraCharacteristics characteristics)
     {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        int outputformats[] =  smap.getOutputFormats();
+        int[] outputformats =  smap.getOutputFormats();
         String out;
         for(int outformat : outputformats)
         {

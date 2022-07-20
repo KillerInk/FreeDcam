@@ -63,11 +63,11 @@ public class GridViewFragmentModelView extends ViewModel
     private final FinishActivityModel alterDialogModel;
     private final FilesSelectedModel filesSelectedModel;
     private ScreenSlideFragment.ButtonClick onGridItemClick;
-    private PopupMenuModel popupMenuModel;
+    private final PopupMenuModel popupMenuModel;
 
     private final IntentSenderModel intentSenderModel;
-    private FileListController fileListController;
-    private ImageManager imageManager;
+    private final FileListController fileListController;
+    private final ImageManager imageManager;
 
 
     @Inject

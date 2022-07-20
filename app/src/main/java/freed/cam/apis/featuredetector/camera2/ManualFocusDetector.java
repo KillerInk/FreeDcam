@@ -28,7 +28,7 @@ public class ManualFocusDetector extends BaseParameter2Detector
 
     private void detectManualFocus(CameraCharacteristics cameraCharacteristics)
     {
-        SettingMode mf = settingsManager.get(SettingKeys.M_Focus);
+        SettingMode mf = settingsManager.get(SettingKeys.M_FOCUS);
         float maxfocusrange = cameraCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
         if (settingsManager.getCamera2MinFocusPosition() > 0)
             maxfocusrange = settingsManager.getCamera2MinFocusPosition();

@@ -140,7 +140,7 @@ public class CameraUiFragment extends AbstractFragment implements
     @Inject
     LocationManager locationManager;
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     public CameraUiFragment()
     {
@@ -217,36 +217,30 @@ public class CameraUiFragment extends AbstractFragment implements
                 binding.leftUiHolder.addView(focusPeak);
             }
 
-            if (parameterHandler.get(SettingKeys.WhiteBalanceMode) != null) {
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.WhiteBalanceMode), R.drawable.quck_set_wb);
+            if (parameterHandler.get(SettingKeys.WHITE_BALANCE_MODE) != null) {
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.WHITE_BALANCE_MODE), R.drawable.quck_set_wb);
             }
-            if (parameterHandler.get(SettingKeys.IsoMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.IsoMode), R.drawable.quck_set_iso_png);
-            if (parameterHandler.get(SettingKeys.FlashMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.FlashMode), R.drawable.quck_set_flash);
-            if (parameterHandler.get(SettingKeys.FocusMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.FocusMode), R.drawable.quck_set_focus);
-            /*UiSettingsChild focus = binding.leftUiHolder.findViewById(id.focusmode);
-            focus.SetParameter(parameterHandler.get(SettingKeys.FocusMode));*/
-            if (parameterHandler.get(SettingKeys.ExposureMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.ExposureMode), R.drawable.quck_set_ae);
-            if (parameterHandler.get(SettingKeys.AE_PriorityMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.AE_PriorityMode), R.drawable.ae_priority);
-            if (parameterHandler.get(SettingKeys.ContShootMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.ContShootMode), R.drawable.quck_set_contin);
-            if (parameterHandler.get(SettingKeys.HDRMode) != null)
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.HDRMode), R.drawable.quck_set_hdr);
+            if (parameterHandler.get(SettingKeys.ISO_MODE) != null)
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.ISO_MODE), R.drawable.quck_set_iso_png);
+            if (parameterHandler.get(SettingKeys.FLASH_MODE) != null)
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.FLASH_MODE), R.drawable.quck_set_flash);
+            if (parameterHandler.get(SettingKeys.FOCUS_MODE) != null)
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.FOCUS_MODE), R.drawable.quck_set_focus);
+            if (parameterHandler.get(SettingKeys.EXPOSURE_MODE) != null)
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.EXPOSURE_MODE), R.drawable.quck_set_ae);
+            if (parameterHandler.get(SettingKeys.HDR_MODE) != null)
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.HDR_MODE), R.drawable.quck_set_hdr);
 
-            if (wrapper.getParameterHandler().get(SettingKeys.NightMode) != null) {
+            if (wrapper.getParameterHandler().get(SettingKeys.NIGHT_MODE) != null) {
                 UiSettingsChild night = new UiSettingsChild(getContext());
                 night.SetMenuItemClickListner(this, true);
-                night.SetParameter(parameterHandler.get(SettingKeys.NightMode));
+                night.SetParameter(parameterHandler.get(SettingKeys.NIGHT_MODE));
                 night.setBackgroundResource(R.drawable.quck_set_night);
                 binding.leftUiHolder.addView(night);
             }
 
-            if (wrapper.getParameterHandler().get(SettingKeys.PictureFormat) != null) {
-                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.PictureFormat), R.drawable.quck_set_format2);
+            if (wrapper.getParameterHandler().get(SettingKeys.PICTURE_FORMAT) != null) {
+                setUiItem(binding.leftUiHolder, parameterHandler.get(SettingKeys.PICTURE_FORMAT), R.drawable.quck_set_format2);
             }
 
             //right camera top camerui itmes
@@ -259,9 +253,9 @@ public class CameraUiFragment extends AbstractFragment implements
                 moduleSwitch.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
                 binding.rightUiHolderTop.addView(moduleSwitch);
 
-                if (parameterHandler.get(SettingKeys.Focuspeak) != null) {
+                if (parameterHandler.get(SettingKeys.FOCUSPEAK) != null) {
                     UiSettingsFocusPeak focusPeak = new UiSettingsFocusPeak(getContext());
-                    focusPeak.SetParameter(parameterHandler.get(SettingKeys.Focuspeak));
+                    focusPeak.SetParameter(parameterHandler.get(SettingKeys.FOCUSPEAK));
                     focusPeak.SetCameraUiWrapper(wrapper);
                     focusPeak.SetUiItemClickListner(this);
                     focusPeak.setBackgroundResource(R.drawable.quck_set_zebra);
@@ -271,7 +265,7 @@ public class CameraUiFragment extends AbstractFragment implements
 
                 UiSettingsChildSelfTimer selfTimer = new UiSettingsChildSelfTimer(getContext());
                 selfTimer.setLifeCycleOwner(getViewLifecycleOwner());
-                selfTimer.SetParameter(parameterHandler.get(SettingKeys.selfTimer));
+                selfTimer.SetParameter(parameterHandler.get(SettingKeys.SELF_TIMER));
                 selfTimer.setBackgroundResource(R.drawable.selftimer);
                 selfTimer.SetMenuItemClickListner(this,true);
                 selfTimer.setVisibility(View.VISIBLE);
@@ -280,7 +274,7 @@ public class CameraUiFragment extends AbstractFragment implements
 
                 UiSettingsChildAeLock aeLock = new UiSettingsChildAeLock(getContext());
                 aeLock.setLifeCycleOwner(getViewLifecycleOwner());
-                aeLock.SetParameter(parameterHandler.get(SettingKeys.ExposureLock));
+                aeLock.SetParameter(parameterHandler.get(SettingKeys.EXPOSURE_LOCK));
                 aeLock.setBackgroundResource(R.drawable.quck_set_ae_lock);
                 aeLock.SetUiItemClickListner(this);
                 aeLock.setVisibility(View.VISIBLE);
@@ -358,10 +352,7 @@ public class CameraUiFragment extends AbstractFragment implements
         waveform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (preview.isColorWaveForm())
-                    preview.setColorWaveForm(false);
-                else
-                    preview.setColorWaveForm(true);
+                preview.setColorWaveForm(!preview.isColorWaveForm());
             }
         });
         histogramController.setWaveFormView(waveform);

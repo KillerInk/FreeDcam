@@ -11,7 +11,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
@@ -57,14 +56,14 @@ public class ImageSaveTask extends ImageTask
     private int flash = 0;
     private float expoindex;
     private String whitebalance;
-    private ModuleInterface moduleInterface;
+    private final ModuleInterface moduleInterface;
 
     private OpCode opcode;
     private float baselineExposure = 0;
-    private float baselineExposureOffset = 0;
+    private final float baselineExposureOffset = 0;
     private int greensplit = 0;
-    private SettingsManager settingsManager;
-    private FileListController fileListController;
+    private final SettingsManager settingsManager;
+    private final FileListController fileListController;
     private Image image;
     private int crop_width, crop_height;
 

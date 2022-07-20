@@ -12,7 +12,6 @@ import java.nio.channels.FileChannel;
 import java.util.Date;
 
 import freed.dng.DngProfile;
-import freed.utils.Log;
 import freed.utils.StorageFileManager;
 
 /**
@@ -50,9 +49,9 @@ public class RawToDng
 
     private native void SetDateTime(String datetime,ByteBuffer byteBuffer);
 
-    private native void SetToneCurve(float tonecurve[],ByteBuffer byteBuffer);
-    private native void SetHueSatMapData1(float tonecurve[],ByteBuffer byteBuffer);
-    private native void SetHueSatMapData2(float tonecurve[],ByteBuffer byteBuffer);
+    private native void SetToneCurve(float[] tonecurve, ByteBuffer byteBuffer);
+    private native void SetHueSatMapData1(float[] tonecurve, ByteBuffer byteBuffer);
+    private native void SetHueSatMapData2(float[] tonecurve, ByteBuffer byteBuffer);
     private native void SetHueSatMapDims(int[] dims,ByteBuffer byteBuffer);
     private native void SetBaselineExposure(float baselineexposure,ByteBuffer byteBuffer);
     private native void SetBaselineExposureOffset(float baselineexposureoffset,ByteBuffer byteBuffer);

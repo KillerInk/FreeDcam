@@ -17,7 +17,7 @@ public class VideoToneCurveProfile {
     public VideoToneCurveProfile(XmlElement element)
     {
         name = element.getAttribute("name", "");
-        String split[] = null;
+        String[] split = null;
         if (!element.findChild("rgb").isEmpty()) {
             String curve = element.findChild("rgb").getValue();
             curve = curve.replace("\n","").replace(" ","");
@@ -108,7 +108,7 @@ public class VideoToneCurveProfile {
         if (split.length > 63)
         {
             int dif = split.length / 32;
-            String tmp[] = new String[64];
+            String[] tmp = new String[64];
             int t = 0;
             for (int i = 0; i < split.length; i+= dif)
             {
@@ -148,7 +148,7 @@ public class VideoToneCurveProfile {
             bs.append(b[i].y).append(",");
         }
         String t = "";
-        t += "<tonecurve name= " +String.valueOf("\"") +String.valueOf(name) +String.valueOf("\"")  +">" + "\r\n";
+        t += "<tonecurve name= " + "\"" + name + "\"" +">" + "\r\n";
         t += "<rgb>" + rgbs + "</rgb>" + "\r\n";
         t += "<r>" + rs + "</r>" + "\r\n";
         t += "<g>" + gs + "</g>" + "\r\n";

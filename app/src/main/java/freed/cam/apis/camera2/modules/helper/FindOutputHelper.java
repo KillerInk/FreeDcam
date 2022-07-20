@@ -25,18 +25,18 @@ public class FindOutputHelper
 {
     private final   String TAG = FindOutputHelper.class.getSimpleName();
     public Output getHuaweiOutput(CameraHolderApi2 cameraHolder, SettingsManager settingsManager) {
-        String picFormat = settingsManager.get(SettingKeys.PictureFormat).get();
+        String picFormat = settingsManager.get(SettingKeys.PICTURE_FORMAT).get();
         Log.d(TAG, "PictureFormat "  + picFormat);
         Output output =  new Output();
-        if (settingsManager.get(SettingKeys.dualPrimaryCameraMode).isSupported())
+        if (settingsManager.get(SettingKeys.DUAL_PRIMARY_CAMERA_MODE).isSupported())
         {
             findRawFormat(cameraHolder, output);
 
 
             Log.d(TAG, "Use RawFormat: " + output.raw_format);
 
-            String camera = settingsManager.get(SettingKeys.dualPrimaryCameraMode).get();
-            Log.d(TAG, "secondary sensor size supported: " + settingsManager.get(SettingKeys.secondarySensorSize).isSupported());
+            String camera = settingsManager.get(SettingKeys.DUAL_PRIMARY_CAMERA_MODE).get();
+            Log.d(TAG, "secondary sensor size supported: " + settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).isSupported());
             //handel the first cam or the case that the second sensor has same size as first
             if (camera.equals(FreedApplication.getStringFromRessources(R.string.hw_dualcamera_Primary)) || camera.equals(FreedApplication.getStringFromRessources(R.string.hw_dualcamera_Dual))) {
                 if (findColorOutput(cameraHolder, picFormat, output,settingsManager))
@@ -50,17 +50,17 @@ public class FindOutputHelper
         }
         else
             return getStockOutput(cameraHolder,settingsManager);
-        Log.d(TAG, "Final huawei output" + output.toString());
+        Log.d(TAG, "Final huawei output" + output);
         return output;
     }
 
     private boolean findMonoOutput(CameraHolderApi2 cameraHolder, String picFormat, Output output,SettingsManager settingsManager) {
         Log.d(TAG, "mono sensor");
-        if (output.raw_format == ImageFormat.RAW_SENSOR && !settingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+        if (output.raw_format == ImageFormat.RAW_SENSOR && !settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).isSupported())
             return true;
         else {
             Log.d(TAG, "get Jpeg size");
-            String picSize = settingsManager.get(SettingKeys.secondarySensorSize).get();
+            String picSize = settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).get();
             if (!TextUtils.isEmpty(picSize)) {
                 Log.d(TAG, "Jpeg Secondary sensor size: " + picSize);
                 String[] split = picSize.split("x");
@@ -70,7 +70,7 @@ public class FindOutputHelper
             else
             {
                 Log.d(TAG, "Jpeg Secondary sensor size is empty");
-                picSize = settingsManager.get(SettingKeys.secondarySensorSize).getValues()[0];
+                picSize = settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).getValues()[0];
                 Log.d(TAG, "Jpeg Secondary sensor size: " + picSize);
                 String[] split = picSize.split("x");
                 output.jpeg_width = Integer.parseInt(split[0]);
@@ -110,11 +110,11 @@ public class FindOutputHelper
      * @return false if values are found
      */
     private boolean findColorOutput(CameraHolderApi2 cameraHolder, String picFormat, Output output, SettingsManager settingsManager) {
-        if (output.raw_format == ImageFormat.RAW_SENSOR && !settingsManager.get(SettingKeys.secondarySensorSize).isSupported())
+        if (output.raw_format == ImageFormat.RAW_SENSOR && !settingsManager.get(SettingKeys.SECONDARY_SENSOR_SIZE).isSupported())
             return true;
         else
         {
-            String picSize = settingsManager.get(SettingKeys.PictureSize).get();
+            String picSize = settingsManager.get(SettingKeys.PICTURE_SIZE).get();
             String[] split = picSize.split("x");
             output.jpeg_width = Integer.parseInt(split[0]);
             output.jpeg_height = Integer.parseInt(split[1]);
@@ -163,9 +163,9 @@ public class FindOutputHelper
      */
     public Output getStockOutput(CameraHolderApi2 cameraHolder,SettingsManager settingsManager) {
         Log.d(TAG, "getStockOutput");
-        String picFormat = settingsManager.get(SettingKeys.PictureFormat).get();
+        String picFormat = settingsManager.get(SettingKeys.PICTURE_FORMAT).get();
         Output output = new Output();
-        String picSize = settingsManager.get(SettingKeys.PictureSize).get();
+        String picSize = settingsManager.get(SettingKeys.PICTURE_SIZE).get();
         Size largestImageSize = Collections.max(
                 Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CameraHolderApi2.CompareSizesByArea());
@@ -184,9 +184,9 @@ public class FindOutputHelper
                 || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng))
                 || picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer))) {
             Log.d(TAG, "ImageReader RAW_SENSOR");
-            if (settingsManager.get(SettingKeys.RawSize).isSupported())
+            if (settingsManager.get(SettingKeys.RAW_SIZE).isSupported())
             {
-                String[] splitraw = settingsManager.get(SettingKeys.RawSize).get().split("x");
+                String[] splitraw = settingsManager.get(SettingKeys.RAW_SIZE).get().split("x");
                 output.raw_width = Integer.parseInt(splitraw[0]);
                 output.raw_height = Integer.parseInt(splitraw[1]);
             }
@@ -200,9 +200,9 @@ public class FindOutputHelper
         } else if (picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_dng10))
         | picFormat.equals(FreedApplication.getStringFromRessources(R.string.pictureformat_bayer10))) {
             Log.d(TAG, "ImageReader RAW10");
-            if (settingsManager.get(SettingKeys.RawSize).isSupported())
+            if (settingsManager.get(SettingKeys.RAW_SIZE).isSupported())
             {
-                String[] splitraw = settingsManager.get(SettingKeys.RawSize).get().split("x");
+                String[] splitraw = settingsManager.get(SettingKeys.RAW_SIZE).get().split("x");
                 output.raw_width = Integer.parseInt(splitraw[0]);
                 output.raw_height = Integer.parseInt(splitraw[1]);
             }
@@ -225,7 +225,7 @@ public class FindOutputHelper
             output.raw_width = 0;
             output.raw_height = 0;
         }
-        Log.d(TAG, "Final stock output" + output.toString());
+        Log.d(TAG, "Final stock output" + output);
         return output;
     }
 }

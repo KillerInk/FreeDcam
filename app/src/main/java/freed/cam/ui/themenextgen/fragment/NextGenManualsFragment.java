@@ -1,7 +1,5 @@
 package freed.cam.ui.themenextgen.fragment;
 
-import android.graphics.Color;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -30,7 +28,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
-import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.ui.KeyPressedController;
@@ -39,17 +36,14 @@ import freed.cam.ui.themenextgen.layoutconfig.ManualItemConfig;
 import freed.cam.ui.themenextgen.view.button.ManualButtonInterface;
 import freed.cam.ui.themenextgen.view.button.NextGenManualButton;
 import freed.cam.ui.themenextgen.view.button.NextGenMfItem;
-import freed.views.pagingview.PagingViewTouchState;
 import freed.cam.ui.themesample.cameraui.AfBracketSettingsView;
 import freed.cam.ui.themesample.cameraui.ManualButton;
 import freed.cam.ui.themesample.cameraui.ManualFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
-import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
-import freed.views.CurveView;
-import freed.views.CurveViewControl;
 import freed.views.RotatingSeekbar;
+import freed.views.pagingview.PagingViewTouchState;
 
 @AndroidEntryPoint
 public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBarChangeListener, ModuleChangedEvent, CameraHolderEvent
@@ -64,7 +58,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
 
     private LinearLayout manualItemsHolder;
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     private final String TAG = ManualFragment.class.getSimpleName();
     @Inject
@@ -131,13 +125,13 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
             List<ManualItemConfig> group = new ManualGroupConfig().getManualGroup();
             for (ManualItemConfig m : group)
             {
-                if (m.getKey() == SettingKeys.M_Focus)
+                if (m.getKey() == SettingKeys.M_FOCUS)
                 {
-                    NextGenMfItem btn = NextGenMfItem.getInstance(getContext(),getContext().getString(R.string.font_manual_focus), (AbstractParameter) parms.get(SettingKeys.M_Focus));
+                    NextGenMfItem btn = NextGenMfItem.getInstance(getContext(),getContext().getString(R.string.font_manual_focus), (AbstractParameter) parms.get(SettingKeys.M_FOCUS));
                     btn.setOnClickListener(manualButtonClickListner);
                     manualItemsHolder.addView(btn);
-                    buttonHashMap.put(SettingKeys.M_Focus,btn);
-                    supportedManuals.add(SettingKeys.M_Focus);
+                    buttonHashMap.put(SettingKeys.M_FOCUS,btn);
+                    supportedManuals.add(SettingKeys.M_FOCUS);
                 }
                 else
                 {
@@ -251,7 +245,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
             if (entry.getValue() == button)
                 return (SettingKeys.Key) entry.getKey();
         }
-        return SettingKeys.M_Zoom;
+        return SettingKeys.M_ZOOM;
     }
 
 
@@ -369,7 +363,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
 
     }
 
-    private KeyPressedController.ManualModeChangedEvent manualModeChangedEvent = new KeyPressedController.ManualModeChangedEvent() {
+    private final KeyPressedController.ManualModeChangedEvent manualModeChangedEvent = new KeyPressedController.ManualModeChangedEvent() {
         @Override
         public void onManualModeChanged(SettingKeys.Key key) {
             ManualButtonInterface button = buttonHashMap.get(key);

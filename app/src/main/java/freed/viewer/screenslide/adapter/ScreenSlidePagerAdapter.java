@@ -27,8 +27,8 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private final SparseArray<Fragment> registeredFragments;
     private List<ImageFragmentModel> imageFragmentModels;
-    private ViewPager mPager;
-    private ScreenSlideFragment.FragmentClickClistner onClickListener;
+    private final ViewPager mPager;
+    private final ScreenSlideFragment.FragmentClickClistner onClickListener;
 
     public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner onClickListener)
     {

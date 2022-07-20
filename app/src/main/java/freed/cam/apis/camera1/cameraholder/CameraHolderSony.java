@@ -46,7 +46,7 @@ public class CameraHolderSony extends CameraHolder {
         try
         {
             Log.d(TAG, "open SonyCameraExtension");
-            sonyCameraExtension.open(mCamera,camera);
+            CameraExtension.open(mCamera,camera);
         } catch (Exception ex) {
             isRdy = false;
             Log.WriteEx(ex);

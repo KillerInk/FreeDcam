@@ -39,6 +39,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -111,7 +112,7 @@ public final class DiskLruCache implements Closeable {
     private static final String REMOVE = "REMOVE";
     private static final String READ = "READ";
 
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
+    private static final Charset UTF_8 = StandardCharsets.UTF_8;
     private static final int IO_BUFFER_SIZE = 8 * 1024;
 
     /*

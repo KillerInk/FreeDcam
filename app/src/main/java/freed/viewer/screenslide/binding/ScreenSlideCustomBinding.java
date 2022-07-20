@@ -7,9 +7,7 @@ import androidx.databinding.BindingAdapter;
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
 
-import freed.ActivityAbstract;
 import freed.FreedApplication;
-import freed.image.ImageManager;
 import freed.utils.Log;
 import freed.viewer.screenslide.BitmapLoader;
 import freed.viewer.screenslide.models.ExifViewModel;

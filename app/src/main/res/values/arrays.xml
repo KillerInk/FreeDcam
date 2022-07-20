@@ -27,10 +27,6 @@
         <item>gbrg</item>
         <item>rgbw</item>
     </string-array>
-    <string-array name="matrixes"  translatable="false">
-        <item>Nexus6</item>
-        <item>G4</item>
-    </string-array>
     <string-array name="raw_format"  translatable="false">
         <item>Mipi10bit</item>
         <item>QCom16bit</item>
@@ -108,8 +104,6 @@
         <item>∞</item>
         </string-array>
 
-    <string name="Off" translatable="false">Off</string >
-
     <string-array name="virtual_lensfilter_colors"  translatable="false">
         <item>Off</item>
         <item>Red</item>
@@ -160,12 +154,6 @@
         <item>@string/scene_barcode</item>
         <item>@string/scene_highspeedvideo</item>
         <item>@string/scene_hdr</item>
-        </string-array>
-
-    <string-array name="flashModes"  translatable="false">
-        <item>@string/off</item>
-        <item>@string/flash_single</item>
-        <item>@string/flash_torch</item>
         </string-array>
 
     <string-array name="flashextModes"  translatable="false">
@@ -226,11 +214,6 @@
         <item>@string/off</item>
         <item>Simple</item>
         <item>Full</item>
-    </string-array>
-
-    <string-array name="digitalImageStabModes"  translatable="false">
-        <item>@string/off</item>
-        <item>@string/on</item>
     </string-array>
 
     <string-array name="focusModes"  translatable="false">

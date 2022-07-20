@@ -36,7 +36,7 @@ public class Horizont extends AbstractParameter {
     private String value;
 
     public Horizont() {
-        super(SettingKeys.HorizontLvl);
+        super(SettingKeys.HORIZONT_LVL);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Horizont extends AbstractParameter {
     public void setStringValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
-        settingsManager.getGlobal(SettingKeys.HorizontLvl).set(valueToSet);
+        settingsManager.getGlobal(SettingKeys.HORIZONT_LVL).set(valueToSet);
         fireStringValueChanged(valueToSet);
     }
 

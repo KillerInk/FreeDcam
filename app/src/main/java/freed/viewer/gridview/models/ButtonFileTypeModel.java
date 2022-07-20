@@ -8,14 +8,14 @@ import freed.viewer.gridview.modelview.GridViewFragmentModelView;
 
 public class ButtonFileTypeModel extends ButtonDoAction implements Popup , View.OnClickListener {
 
-    private GridViewFragmentModelView gridViewFragmentModelView;
+    private final GridViewFragmentModelView gridViewFragmentModelView;
 
     public ButtonFileTypeModel(GridViewFragmentModelView gridViewFragmentModelView)
     {
         this.gridViewFragmentModelView = gridViewFragmentModelView;
     }
 
-    private final String values[] = { "ALL", "RAW","BAYER","DNG","JPS","JPG", "MP4"};
+    private final String[] values = { "ALL", "RAW","BAYER","DNG","JPS","JPG", "MP4"};
 
     @Override
     public View.OnClickListener getOnPopupChildClickListner() {

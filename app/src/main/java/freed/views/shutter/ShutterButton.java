@@ -36,8 +36,8 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.event.capture.CaptureStates;
+import freed.cam.event.module.ModuleChangedEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
@@ -53,7 +53,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
     private final String TAG = ShutterButton.class.getSimpleName();
     protected HandlerThread mBackgroundThread;
     protected ShutterAnimationHandler animationHandler;
-    private Handler uiHandler = new Handler();
+    private final Handler uiHandler = new Handler();
 
     @Inject
     public SettingsManager settingsManager;
@@ -131,7 +131,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
         setBackgroundResource(R.drawable.shutter5);
 
         this.setOnClickListener(v -> {
-            String sf = settingsManager.get(SettingKeys.selfTimer).get();
+            String sf = settingsManager.get(SettingKeys.SELF_TIMER).get();
             if (TextUtils.isEmpty(sf))
                 sf = "0";
             int selftimer = Integer.parseInt(sf);
@@ -145,7 +145,7 @@ public class ShutterButton extends AppCompatButton implements ModuleChangedEvent
 
     }
 
-    private Runnable selftimerRunner =new Runnable() {
+    private final Runnable selftimerRunner =new Runnable() {
         @Override
         public void run() {
             setCaptureState(CaptureStates.selftimerstop);

@@ -4,7 +4,6 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import freed.file.holder.BaseHolder;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.BitmapLoader;
@@ -12,7 +11,7 @@ import freed.viewer.screenslide.BitmapLoader;
 public class ImageFragmentModel extends BaseObservable {
     private boolean progressBarVisible = false;
     private BaseHolder baseHolder;
-    private BitmapHelper bitmapHelper;
+    private final BitmapHelper bitmapHelper;
 
     public BitmapLoader bitmapLoader;
     private int[] histodata;

@@ -220,7 +220,7 @@ public class VideoMediaProfile
     public String getXmlString()
     {
         String t = "";
-        t += "<mediaprofile name= " +String.valueOf("\"") +String.valueOf(ProfileName) +String.valueOf("\"")  +">" + "\r\n";
+        t += "<mediaprofile name= " + "\"" + ProfileName + "\"" +">" + "\r\n";
         t += "<audioChannels>" + audioChannels + "</audioChannels>" + "\r\n";
         t += "<audioCodec>" + audioCodec + "</audioCodec>" + "\r\n";
         t += "<audioBitRate>" + audioBitRate + "</audioBitRate>" + "\r\n";

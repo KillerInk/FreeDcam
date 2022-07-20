@@ -2,15 +2,8 @@ package freed.cam.previewpostprocessing;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.view.Surface;
 import android.view.View;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.troop.freedcam.R;
-
-import freed.cam.apis.PreviewFragment;
 import freed.cam.event.BaseEventHandler;
 import freed.cam.event.MyEvent;
 import freed.cam.histogram.HistogramController;

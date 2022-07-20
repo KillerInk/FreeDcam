@@ -13,6 +13,6 @@ public class ColorModeDetector extends BaseParameter1Detector{
     }
     private void detectColorModes(Camera.Parameters parameters)
     {
-        detectMode(parameters, R.string.effect,R.string.effect_values, settingsManager.get(SettingKeys.ColorMode));
+        detectMode(parameters, R.string.effect,R.string.effect_values, settingsManager.get(SettingKeys.COLOR_MODE));
     }
 }

@@ -1,9 +1,7 @@
 package freed.cam.ui.themesample.settings.childs;
 
 import android.content.Context;
-import android.graphics.Camera;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.os.Build;
@@ -13,12 +11,11 @@ import androidx.annotation.RequiresApi;
 
 import camera2_hidden_keys.VendorKeyParser;
 import camera2_hidden_keys.VendorKeyTestLog;
-import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.camera2.Camera2;
 
 public class SettingsChildDumpCamera2VendorKeys extends SettingsChildMenu {
 
-    private Camera2 cameraManager;
+    private final Camera2 cameraManager;
 
     public SettingsChildDumpCamera2VendorKeys(Context context, int headerid, int descriptionid, Camera2 cameraManager) {
         super(context, headerid, descriptionid);

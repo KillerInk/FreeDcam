@@ -33,7 +33,6 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 
@@ -84,18 +83,18 @@ public class AfBracketSettingsView extends LinearLayout
     View.OnClickListener onSetMaxClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int max = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_Focus).getIntValue();
+            int max = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_FOCUS).getIntValue();
             settingsManager.get(SettingKeys.AF_BRACKET_MAX).set(String.valueOf(max));
-            textView_max.setText(cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_Focus).getStringValue());
+            textView_max.setText(cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_FOCUS).getStringValue());
         }
     };
 
     View.OnClickListener onSetMinClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int min = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_Focus).getIntValue();
+            int min = cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_FOCUS).getIntValue();
             settingsManager.get(SettingKeys.AF_BRACKET_MIN).set(String.valueOf(min));
-            textView_min.setText(cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_Focus).getStringValue());
+            textView_min.setText(cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.M_FOCUS).getStringValue());
         }
     };
 }

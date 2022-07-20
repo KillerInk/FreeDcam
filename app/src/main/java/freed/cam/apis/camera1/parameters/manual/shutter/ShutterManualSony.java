@@ -39,7 +39,7 @@ public class ShutterManualSony extends AbstractParameter
      * @param cameraUiWrapper
      */
     public ShutterManualSony(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.M_ExposureTime);
+        super(cameraUiWrapper,SettingKeys.M_EXPOSURE_TIME);
         this.parameters = parameters;
         setViewState(ViewState.Visible);
 
@@ -49,7 +49,7 @@ public class ShutterManualSony extends AbstractParameter
     public void setValue(int valueToSet, boolean setToCamera)
     {
         currentInt = valueToSet;
-        ParameterInterface miso =cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ManualIso);
+        ParameterInterface miso =cameraUiWrapper.getParameterHandler().get(SettingKeys.M_MANUAL_ISO);
         if (currentInt == 0)
         {
             if (miso.getIntValue() == 0)
@@ -62,7 +62,7 @@ public class ShutterManualSony extends AbstractParameter
                 parameters.set("sony-ae-mode", "shutter-prio");
             else if (miso.getIntValue() > 0 && !parameters.get("sony-ae-mode").equals("manual"))
                 parameters.set("sony-ae-mode", "manual");
-            parameters.set(settingsManager.get(SettingKeys.M_ExposureTime).getCamera1ParameterKEY(), currentInt-1);
+            parameters.set(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).getCamera1ParameterKEY(), currentInt-1);
         }
         ((ParametersHandler) cameraUiWrapper.getParameterHandler()).SetParametersToCamera(parameters);
     }

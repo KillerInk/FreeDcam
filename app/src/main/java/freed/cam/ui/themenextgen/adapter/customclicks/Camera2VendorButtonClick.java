@@ -15,7 +15,7 @@ import freed.cam.ui.themenextgen.view.button.NextGenSettingButton;
 public class Camera2VendorButtonClick implements NextGenSettingButton.NextGenSettingButtonClick {
 
 
-    private Camera2 camera2;
+    private final Camera2 camera2;
     public Camera2VendorButtonClick(Camera2 camera2)
     {
         this.camera2 = camera2;

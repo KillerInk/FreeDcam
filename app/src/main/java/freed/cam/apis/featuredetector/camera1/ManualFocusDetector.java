@@ -19,20 +19,20 @@ public class ManualFocusDetector extends BaseParameter1Detector{
     }
 
     private void detectManualFocus(Camera.Parameters parameters) {
-        Log.d(TAG, "mf is preseted:" + settingsManager.get(SettingKeys.M_Focus).isPresetted());
-        if (settingsManager.get(SettingKeys.M_Focus).isPresetted())
+        Log.d(TAG, "mf is preseted:" + settingsManager.get(SettingKeys.M_FOCUS).isPresetted());
+        if (settingsManager.get(SettingKeys.M_FOCUS).isPresetted())
             return;
 
         int min =0, max =0, step = 0;
         if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            settingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-            settingsManager.get(SettingKeys.M_Focus).setType(-1);
-            settingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_FOCUS).setMode(camstring(R.string.manual));
+            settingsManager.get(SettingKeys.M_FOCUS).setType(-1);
+            settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(true);
             min = 0;
             max = 1023;
             step = 10;
-            settingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.afeng_pos));
+            settingsManager.get(SettingKeys.M_FOCUS).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.afeng_pos));
             Log.d(TAG, "MF MTK");
         }
         else {
@@ -43,15 +43,15 @@ public class ManualFocusDetector extends BaseParameter1Detector{
 
                     if (parameters.get(camstring(R.string.max_focus_pos_index)) != null
                             && parameters.get(camstring(R.string.min_focus_pos_index))!= null
-                            && settingsManager.get(SettingKeys.FocusMode).contains(camstring(R.string.manual))) {
+                            && settingsManager.get(SettingKeys.FOCUS_MODE).contains(camstring(R.string.manual))) {
 
-                        settingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-                        settingsManager.get(SettingKeys.M_Focus).setType(1);
-                        settingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                        settingsManager.get(SettingKeys.M_FOCUS).setMode(camstring(R.string.manual));
+                        settingsManager.get(SettingKeys.M_FOCUS).setType(1);
+                        settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(true);
                         min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_index)));
                         max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_index)));
                         step = 10;
-                        settingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(camstring(R.string.manual_focus_position));
+                        settingsManager.get(SettingKeys.M_FOCUS).setCamera1ParameterKEY(camstring(R.string.manual_focus_position));
                         Log.d(TAG, "MF old qcom");
                     }
                 }
@@ -60,28 +60,28 @@ public class ManualFocusDetector extends BaseParameter1Detector{
                     //lookup new qcom
                     if (parameters.get(camstring(R.string.max_focus_pos_ratio)) != null
                             && parameters.get(camstring(R.string.min_focus_pos_ratio)) != null
-                            && settingsManager.get(SettingKeys.FocusMode).contains(camstring(R.string.manual))) {
+                            && settingsManager.get(SettingKeys.FOCUS_MODE).contains(camstring(R.string.manual))) {
 
-                        settingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-                        settingsManager.get(SettingKeys.M_Focus).setType(2);
-                        settingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                        settingsManager.get(SettingKeys.M_FOCUS).setMode(camstring(R.string.manual));
+                        settingsManager.get(SettingKeys.M_FOCUS).setType(2);
+                        settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(true);
                         min = Integer.parseInt(parameters.get(camstring(R.string.min_focus_pos_ratio)));
                         max = Integer.parseInt(parameters.get(camstring(R.string.max_focus_pos_ratio)));
                         step = 1;
-                        settingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(camstring(R.string.manual_focus_position));
+                        settingsManager.get(SettingKeys.M_FOCUS).setCamera1ParameterKEY(camstring(R.string.manual_focus_position));
                         Log.d(TAG, "MF new qcom");
                     }
                 }
                 //htc mf
                 if (parameters.get(camstring(R.string.min_focus)) != null && parameters.get(camstring(R.string.max_focus)) != null)
                 {
-                    settingsManager.get(SettingKeys.M_Focus).setMode("");
-                    settingsManager.get(SettingKeys.M_Focus).setType(-1);
-                    settingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_FOCUS).setMode("");
+                    settingsManager.get(SettingKeys.M_FOCUS).setType(-1);
+                    settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(true);
                     min = Integer.parseInt(parameters.get(camstring(R.string.min_focus)));
                     max = Integer.parseInt(parameters.get(camstring(R.string.max_focus)));
                     step = 1;
-                    settingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(camstring(R.string.focus));
+                    settingsManager.get(SettingKeys.M_FOCUS).setCamera1ParameterKEY(camstring(R.string.focus));
                     Log.d(TAG, "MF HTC");
                 }
 
@@ -89,32 +89,32 @@ public class ManualFocusDetector extends BaseParameter1Detector{
                 if(parameters.get(FreedApplication.getStringFromRessources(R.string.hw_vcm_end_value)) != null && parameters.get(FreedApplication.getStringFromRessources(R.string.hw_vcm_start_value)) != null)
                 {
                     Log.d(TAG,"Huawei MF");
-                    settingsManager.get(SettingKeys.M_Focus).setMode(camstring(R.string.manual));
-                    settingsManager.get(SettingKeys.M_Focus).setType(-1);
-                    settingsManager.get(SettingKeys.M_Focus).setIsSupported(true);
+                    settingsManager.get(SettingKeys.M_FOCUS).setMode(camstring(R.string.manual));
+                    settingsManager.get(SettingKeys.M_FOCUS).setType(-1);
+                    settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(true);
                     max = Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.hw_vcm_end_value)));
                     min = Integer.parseInt(parameters.get(FreedApplication.getStringFromRessources(R.string.hw_vcm_start_value)));
                     Log.d(TAG,"min/max mf:" + min+"/"+max);
                     step = 10;
-                    settingsManager.get(SettingKeys.M_Focus).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_step_value));
+                    settingsManager.get(SettingKeys.M_FOCUS).setCamera1ParameterKEY(FreedApplication.getStringFromRessources(R.string.hw_manual_focus_step_value));
                 }
 
 
             } catch(NumberFormatException ex)
             {
                 Log.WriteEx(ex);
-                settingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(false);
             }
             catch(ArrayIndexOutOfBoundsException ex)
             {
                 Log.WriteEx(ex);
-                settingsManager.get(SettingKeys.M_Focus).setIsSupported(false);
+                settingsManager.get(SettingKeys.M_FOCUS).setIsSupported(false);
             }
 
         }
         //create mf values
-        if (settingsManager.get(SettingKeys.M_Focus).isSupported())
-            settingsManager.get(SettingKeys.M_Focus).setValues(Camera1FeatureDetectorTask.createManualFocusValues(min, max,step));
+        if (settingsManager.get(SettingKeys.M_FOCUS).isSupported())
+            settingsManager.get(SettingKeys.M_FOCUS).setValues(Camera1FeatureDetectorTask.createManualFocusValues(min, max,step));
 
     }
 }

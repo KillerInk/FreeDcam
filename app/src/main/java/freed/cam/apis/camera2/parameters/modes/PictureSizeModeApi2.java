@@ -36,7 +36,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
     public PictureSizeModeApi2(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.PictureSize);
+        super(cameraUiWrapper,SettingKeys.PICTURE_SIZE);
         setViewState(ViewState.Visible);
     }
 
@@ -44,11 +44,11 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         fireStringValueChanged(valueToSet);
-        settingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        settingsManager.get(SettingKeys.PICTURE_SIZE).set(valueToSet);
         size = valueToSet;
         if (setToCamera &&
-                (settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
-                    || settingsManager.get(SettingKeys.PictureFormat).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
+                (settingsManager.get(SettingKeys.PICTURE_FORMAT).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpeg))
+                    || settingsManager.get(SettingKeys.PICTURE_FORMAT).get().equals(FreedApplication.getStringFromRessources(R.string.pictureformat_jpg_p_dng)))
                 )
         {
             CameraThreadHandler.restartPreviewAsync();
@@ -65,6 +65,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] getStringValues()
     {
-        return settingsManager.get(SettingKeys.PictureSize).getValues();
+        return settingsManager.get(SettingKeys.PICTURE_SIZE).getValues();
     }
 }

@@ -24,9 +24,9 @@ public class ApertureDetector extends BaseParameter2Detector {
             {
                 ar[i] = String.valueOf(apetures[i]);
             }
-            settingsManager.get(SettingKeys.M_Aperture).setValues(ar);
-            settingsManager.get(SettingKeys.M_Aperture).setIsSupported(true);
-            settingsManager.get(SettingKeys.M_Aperture).set(String.valueOf(0));
+            settingsManager.get(SettingKeys.M_APERTURE).setValues(ar);
+            settingsManager.get(SettingKeys.M_APERTURE).setIsSupported(true);
+            settingsManager.get(SettingKeys.M_APERTURE).set(String.valueOf(0));
 
         }
     }

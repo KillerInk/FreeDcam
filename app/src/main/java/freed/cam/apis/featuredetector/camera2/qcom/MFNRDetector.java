@@ -28,10 +28,7 @@ public class MFNRDetector extends BaseParameter2Detector implements VendorKeyDet
 
     @Override
     public void checkIfVendorKeyIsSupported(HashSet<String> keys) {
-        if (Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestQcom.MFNR))
-            settingsManager.get(SettingKeys.MFNR).setIsSupported(true);
-        else
-            settingsManager.get(SettingKeys.MFNR).setIsSupported(false);
+        settingsManager.get(SettingKeys.MFNR).setIsSupported(Camera2FeatureDetectorTask.isKeySupported(keys, CaptureRequestQcom.MFNR));
         Log.d(TAG, "MFNR supported:" + settingsManager.get(SettingKeys.MFNR).isSupported());
     }
 }

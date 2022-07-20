@@ -12,8 +12,8 @@ public class FocusPeakComputeProgram extends GLComputeProgram {
 
     private int peak_color_id;
     private int peak_strength_id;
-    private float[] peak_color = {1f,0f,0f,1f};
-    private float peak_strength = 0.01f;
+    private final float[] peak_color = {1f,0f,0f,1f};
+    private final float peak_strength = 0.01f;
 
     public enum Colors
     {

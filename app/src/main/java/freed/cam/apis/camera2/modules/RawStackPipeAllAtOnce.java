@@ -83,9 +83,9 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
     public void DoWork() {
         if (!stackAllRunner.doWork)
         {
-            int burst = Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).getStringValue());
+            int burst = Integer.parseInt(parameterHandler.get(SettingKeys.M_BURST).getStringValue());
             stackAllRunner.setBurst(burst);
-            if (settingsManager.get(SettingKeys.support12bitRaw).get()) {
+            if (settingsManager.get(SettingKeys.SUPPORT_12_BIT_RAW).get()) {
                 stackAllRunner.setUpshift(2);
             }
             else
@@ -100,19 +100,19 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
     @Override
     public void InitModule() {
         super.InitModule();
-        parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
-        parameterHandler.get(SettingKeys.M_Burst).setIntValue(14,true);
-        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
+        parameterHandler.get(SettingKeys.PICTURE_FORMAT).setViewState(AbstractParameter.ViewState.Hidden);
+        parameterHandler.get(SettingKeys.M_BURST).setIntValue(14,true);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_BURST);
         burstApi2.overwriteValues(2,30);
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_BURST);
         burstApi2.overwriteValues(1,60);
-        parameterHandler.get(SettingKeys.M_Burst).setIntValue(0,true);
-        parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
+        parameterHandler.get(SettingKeys.M_BURST).setIntValue(0,true);
+        parameterHandler.get(SettingKeys.PICTURE_FORMAT).setViewState(AbstractParameter.ViewState.Visible);
     }
 
     private class StackAllRunner implements Runnable

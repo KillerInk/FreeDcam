@@ -14,7 +14,7 @@ public abstract class Shader<T extends Shader> {
     }
 
     private int handel;
-    private float glesVersion;
+    private final float glesVersion;
 
     public Shader(float glesVersion)
     {

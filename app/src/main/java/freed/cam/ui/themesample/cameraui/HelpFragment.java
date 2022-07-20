@@ -87,14 +87,7 @@ public class HelpFragment extends Fragment
                     showCloseManualMenu();
                     break;
                 case 4:
-                    if (dontshowagain.isChecked())
-                    {
-                        settingsManager.setshowHelpOverlay(false);
-                    }
-                    else
-                    {
-                        settingsManager.setshowHelpOverlay(true);
-                    }
+                    settingsManager.setshowHelpOverlay(!dontshowagain.isChecked());
                     closer.Close(HelpFragment.this);
             }
         });

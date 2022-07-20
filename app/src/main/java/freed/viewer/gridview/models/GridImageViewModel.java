@@ -4,9 +4,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import freed.file.holder.BaseHolder;
-import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.helper.BitmapHelper;
@@ -14,8 +12,8 @@ import freed.viewer.helper.BitmapHelper;
 public class GridImageViewModel extends BaseObservable
 {
     private static final String TAG = GridImageViewModel.class.getSimpleName();
-    private BitmapHelper bitmapHelper;
-    private BaseHolder imagePath;
+    private final BitmapHelper bitmapHelper;
+    private final BaseHolder imagePath;
     private String filending;
     private String foldername;
     private boolean isExternalSD;
@@ -120,12 +118,7 @@ public class GridImageViewModel extends BaseObservable
                 break;
             case selection:
                 setCheckVisible(true);
-                if (getChecked())
-                {
-                    setChecked(true);
-                }
-                else
-                    setChecked(false);
+                setChecked(getChecked());
         }
     }
 

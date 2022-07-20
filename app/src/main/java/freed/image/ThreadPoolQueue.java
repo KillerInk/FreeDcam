@@ -58,7 +58,7 @@ public class ThreadPoolQueue {
 
     public void cancel()
     {
-        ImageTask tasks [] = new ImageTask[executerQueue.size()];
+        ImageTask[] tasks = new ImageTask[executerQueue.size()];
         executerQueue.toArray(tasks);
         for (ImageTask task : tasks)
         {

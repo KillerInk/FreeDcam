@@ -28,7 +28,7 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
 
     public final static long MAX_PREVIEW_EXPOSURETIME = 100000000;
 
-    private AeModeApi2 aeModeApi2;
+    private final AeModeApi2 aeModeApi2;
     protected SettingsManager settingsManager;
     public AeManagerCamera2(Camera2 cameraWrapperInterface) {
         super(cameraWrapperInterface);
@@ -61,14 +61,14 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
     public void setIso(int valueToSet, boolean setToCamera) {
         if (valueToSet == 0)
         {
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.on),setToCamera);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.EXPOSURE_MODE).setStringValue(FreedApplication.getContext().getString(R.string.on),setToCamera);
             setAeMode(AeStates.auto);
         }
         else
         {
             if (activeAeState != AeStates.manual){
                 setAeMode(AeStates.manual);
-                cameraWrapperInterface.getParameterHandler().get(SettingKeys.ExposureMode).setStringValue(FreedApplication.getContext().getString(R.string.off),setToCamera);
+                cameraWrapperInterface.getParameterHandler().get(SettingKeys.EXPOSURE_MODE).setStringValue(FreedApplication.getContext().getString(R.string.off),setToCamera);
             }
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(manualIso.getStringValues()[valueToSet]),setToCamera);
             manualIso.fireIntValueChanged(valueToSet);
@@ -98,10 +98,10 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
     {
         //back in auto mode
         //set flash back to its old state
-        if (settingsManager.get(SettingKeys.FlashMode).isSupported()) {
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setStringValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).getStringValue(), true);
+        if (settingsManager.get(SettingKeys.FLASH_MODE).isSupported()) {
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE).setStringValue(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE).getStringValue(), true);
             //show flashmode ui item
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Visible);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE).setViewState(AbstractParameter.ViewState.Visible);
         }
         //show ev ui item
         exposureCompensation.setViewState(AbstractParameter.ViewState.Visible);
@@ -119,15 +119,15 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
         //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
 
         //hide flash ui item its not supported in manual mode
-        if(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode) != null) {
+        if(cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE) != null) {
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF,true);
-            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FlashMode).setViewState(AbstractParameter.ViewState.Hidden);
+            cameraWrapperInterface.getParameterHandler().get(SettingKeys.FLASH_MODE).setViewState(AbstractParameter.ViewState.Hidden);
         }
         //enable manualiso item in ui
         manualIso.setViewState(AbstractParameter.ViewState.Visible);
         //enable manual exposuretime in ui
         manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
-        int val = Integer.parseInt(settingsManager.get(SettingKeys.M_ExposureTime).get());
+        int val = Integer.parseInt(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).get());
         manualExposureTime.setValue(val,true);
         //manualExposureTime.fireStringValueChanged(manualExposureTime.getStringValue());
     }
@@ -136,7 +136,7 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
     {
         private final String TAG = AeModeApi2.class.getSimpleName();
         public AeModeApi2(Camera2 cameraUiWrapper) {
-            super(cameraUiWrapper, SettingKeys.ExposureMode,CaptureRequest.CONTROL_AE_MODE);
+            super(cameraUiWrapper, SettingKeys.EXPOSURE_MODE,CaptureRequest.CONTROL_AE_MODE);
             Log.d(TAG, "values: " + Arrays.toString(getStringValues()) + " value:" + getStringValue());
         }
 

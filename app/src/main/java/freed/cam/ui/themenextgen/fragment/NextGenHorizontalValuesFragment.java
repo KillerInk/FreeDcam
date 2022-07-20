@@ -86,7 +86,7 @@ public class NextGenHorizontalValuesFragment extends Fragment
 
 
 
-    private View.OnClickListener onChildClick = new View.OnClickListener() {
+    private final View.OnClickListener onChildClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (rdytoclose != null)

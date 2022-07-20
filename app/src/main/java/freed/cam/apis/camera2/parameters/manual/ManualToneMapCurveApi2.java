@@ -53,7 +53,7 @@ public class ManualToneMapCurveApi2
     public  ColorParameter whitep;
 
     public ToneCurveParameter toneCurveParameter;
-    private Camera2 cameraWrapperInterface;
+    private final Camera2 cameraWrapperInterface;
 
     private float[] toneCurve;
 
@@ -135,7 +135,7 @@ public class ManualToneMapCurveApi2
     {
         boolean firststart = true;
         public Contrast(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper, SettingKeys.M_Contrast);
+            super(cameraUiWrapper, SettingKeys.M_CONTRAST);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
             setViewState(ViewState.Visible);
@@ -259,7 +259,7 @@ public class ManualToneMapCurveApi2
         float[] color;
         float currentfloat;
         float defaultvalue;
-        public ColorParameter(CameraWrapperInterface cameraUiWrapper, float color[], float defaultvalue) {
+        public ColorParameter(CameraWrapperInterface cameraUiWrapper, float[] color, float defaultvalue) {
             super(cameraUiWrapper, null);
             this.color = color;
             stringvalues = createStringArray(0,100,1);
@@ -316,7 +316,7 @@ public class ManualToneMapCurveApi2
     {
         float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
         TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-        Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
+        Log.d(TAG,"ToSet Curve:" + tonemapCurve);
         cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
     }
 
@@ -336,7 +336,7 @@ public class ManualToneMapCurveApi2
         {
             toneCurve = curve;
             TonemapCurve tonemapCurve = new TonemapCurve(curve,curve,curve);
-            Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
+            Log.d(TAG,"ToSet Curve:" + tonemapCurve);
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
             fireStringValueChanged(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }
@@ -344,7 +344,7 @@ public class ManualToneMapCurveApi2
         public void setCurveToCamera(float[] r, float[] g,float[] b)
         {
             TonemapCurve tonemapCurve = new TonemapCurve(r,g,b);
-            Log.d(TAG,"ToSet Curve:" + tonemapCurve.toString());
+            Log.d(TAG,"ToSet Curve:" + tonemapCurve);
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve,true);
             fireStringValueChanged(settingsManager.get(SettingKeys.TONE_CURVE_PARAMETER).get());
         }

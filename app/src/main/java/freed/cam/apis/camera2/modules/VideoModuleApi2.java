@@ -29,7 +29,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.media.ImageReader;
-import android.media.MediaCodec;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Build;
@@ -61,7 +60,6 @@ import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessor;
 import freed.cam.apis.camera2.modules.opcodeprocessor.OpcodeProcessorFactory;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.event.capture.CaptureStates;
-import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.cam.ui.videoprofileeditor.enums.OpCodes;
 import freed.file.holder.BaseHolder;
@@ -92,8 +90,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
 
     private OpcodeProcessor opcodeProcessor;
     private OpCodes active_op = OpCodes.off;
-    private PermissionManager permissionManager;
-    private UserMessageHandler userMessageHandler;
+    private final PermissionManager permissionManager;
+    private final UserMessageHandler userMessageHandler;
 
     public VideoModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -139,13 +137,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         Log.d(TAG, "InitModule");
         super.InitModule();
         changeCaptureState(CaptureStates.video_recording_stop);
-        VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VideoProfiles);
-        currentVideoProfile = profilesApi2.GetCameraProfile(settingsManager.get(SettingKeys.VideoProfiles).get());
+        VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.get(SettingKeys.VIDEO_PROFILES);
+        currentVideoProfile = profilesApi2.GetCameraProfile(settingsManager.get(SettingKeys.VIDEO_PROFILES).get());
         if (currentVideoProfile == null) {
             currentVideoProfile = settingsManager.getMediaProfiles().get(0);
         }
         Log.d(TAG, "VideoMediaProfile: " + currentVideoProfile.getXmlString());
-        parameterHandler.get(SettingKeys.VideoProfiles).fireStringValueChanged(currentVideoProfile.ProfileName);
+        parameterHandler.get(SettingKeys.VIDEO_PROFILES).fireStringValueChanged(currentVideoProfile.ProfileName);
 
         active_op = OpCodes.get(currentVideoProfile.opcode);
         Log.d(TAG, "Opcode " + active_op.name() + ":" +active_op.GetInt());
@@ -162,18 +160,18 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         }*/
 
         startPreview();
-        if (parameterHandler.get(SettingKeys.PictureFormat) != null)
-            parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
-        if (parameterHandler.get(SettingKeys.M_Burst) != null)
-            parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Hidden);
+        if (parameterHandler.get(SettingKeys.PICTURE_FORMAT) != null)
+            parameterHandler.get(SettingKeys.PICTURE_FORMAT).setViewState(AbstractParameter.ViewState.Hidden);
+        if (parameterHandler.get(SettingKeys.M_BURST) != null)
+            parameterHandler.get(SettingKeys.M_BURST).setViewState(AbstractParameter.ViewState.Hidden);
     }
 
     @Override
     public void DestroyModule() {
-        if (parameterHandler.get(SettingKeys.PictureFormat) != null)
-            parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
-        if (parameterHandler.get(SettingKeys.M_Burst) != null)
-            parameterHandler.get(SettingKeys.M_Burst).setViewState(AbstractParameter.ViewState.Visible);
+        if (parameterHandler.get(SettingKeys.PICTURE_FORMAT) != null)
+            parameterHandler.get(SettingKeys.PICTURE_FORMAT).setViewState(AbstractParameter.ViewState.Visible);
+        if (parameterHandler.get(SettingKeys.M_BURST) != null)
+            parameterHandler.get(SettingKeys.M_BURST).setViewState(AbstractParameter.ViewState.Visible);
         if (isRecording)
             stopRecording(true);
         Log.d(TAG, "DestroyModule");
@@ -579,7 +577,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
     {
         int index = -1;
         StreamConfigurationMap smap = cameraHolder.characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-        Size sizes[] = smap.getHighSpeedVideoSizes();
+        Size[] sizes = smap.getHighSpeedVideoSizes();
         for (int i = 0; i < sizes.length; i++)
         {
             if (sizes[i].getWidth() == currentVideoProfile.videoFrameWidth && sizes[i].getHeight() == currentVideoProfile.videoFrameHeight)

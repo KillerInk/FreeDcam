@@ -9,8 +9,8 @@ import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
 public class VideoCodecModel extends ButtonModel {
 
 
-    private EncoderModel encoderModel;
-    private VideoProfileEditorModelView modelView;
+    private final EncoderModel encoderModel;
+    private final VideoProfileEditorModelView modelView;
 
     public VideoCodecModel(PopupModel popupModel, EncoderModel encoderModel, VideoProfileEditorModelView modelView) {
         super(popupModel);

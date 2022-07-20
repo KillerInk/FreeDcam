@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi;
 import java.util.HashSet;
 
 import camera2_hidden_keys.qcom.CaptureRequestQcom;
-import camera2_hidden_keys.qcom.CaptureResultQcom;
 import freed.cam.apis.featuredetector.Camera2FeatureDetectorTask;
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
 import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;

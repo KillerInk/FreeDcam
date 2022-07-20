@@ -19,7 +19,7 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
     protected final IntervalHandler intervalHandler;
     protected   final String TAG  = IntervalApi2.class.getSimpleName();
     private boolean module_isWorking;
-    private List<BaseHolder> files =new ArrayList<BaseHolder>();
+    private final List<BaseHolder> files =new ArrayList<BaseHolder>();
 
     public IntervalModuleCamera1(Camera1 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -65,7 +65,7 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
             Log.d(TAG, "Stop Interval");
 
             intervalHandler.CancelInterval();
-            BaseHolder file[] = new BaseHolder[files.size()];
+            BaseHolder[] file = new BaseHolder[files.size()];
             files.toArray(file);
             fireOnWorkFinish(file);
             if (module_isWorking)
@@ -93,7 +93,7 @@ public class IntervalModuleCamera1 extends PictureModule implements IntervalHand
 
     @Override
     public void IntervalCaptureIsDone() {
-        BaseHolder file[] = new BaseHolder[files.size()];
+        BaseHolder[] file = new BaseHolder[files.size()];
         files.toArray(file);
         fireOnWorkFinish(file);
     }

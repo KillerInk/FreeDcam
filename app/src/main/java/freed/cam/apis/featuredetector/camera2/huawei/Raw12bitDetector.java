@@ -15,6 +15,6 @@ public class Raw12bitDetector extends BaseParameter2Detector {
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         int[] raw12 = cameraCharacteristics.get(CameraCharacteristicsHuawei.HUAWEI_PROFESSIONAL_RAW12_SUPPORTED);
         if (raw12!= null)
-            settingsManager.get(SettingKeys.support12bitRaw).set(true);
+            settingsManager.get(SettingKeys.SUPPORT_12_BIT_RAW).set(true);
     }
 }

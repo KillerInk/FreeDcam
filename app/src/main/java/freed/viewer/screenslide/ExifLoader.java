@@ -113,6 +113,6 @@ public class ExifLoader extends ImageTask {
             return "" + (int)val;
         }
         int i = (int)(1 / val);
-        return "1/" + Integer.toString(i);
+        return "1/" + i;
     }
 }

@@ -10,7 +10,7 @@ import freed.dng.DngProfile;
 
 public class LibRawJniWrapper
 {
-    private ByteBuffer byteBuffer;
+    private final ByteBuffer byteBuffer;
 
     static
     {

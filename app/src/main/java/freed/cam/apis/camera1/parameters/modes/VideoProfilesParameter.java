@@ -47,7 +47,7 @@ public class VideoProfilesParameter extends AbstractParameter
 
 
     public VideoProfilesParameter(CameraWrapperInterface cameraUiWrapper) {
-        super(cameraUiWrapper,SettingKeys.VideoProfiles);
+        super(cameraUiWrapper,SettingKeys.VIDEO_PROFILES);
         isSupported =true;
         try {
             supportedProfiles = settingsManager.getMediaProfiles();
@@ -57,12 +57,12 @@ public class VideoProfilesParameter extends AbstractParameter
             Log.e(TAG, "Failed to load MediaProfiles");
         }
 
-        profile = settingsManager.get(SettingKeys.VideoProfiles).get();
+        profile = settingsManager.get(SettingKeys.VIDEO_PROFILES).get();
         if (profile == null && supportedProfiles.size() > 0)
         {
             List<String> keys = new ArrayList<>(supportedProfiles.keySet());
             profile = keys.get(0);
-            settingsManager.get(SettingKeys.VideoProfiles).set(profile);
+            settingsManager.get(SettingKeys.VIDEO_PROFILES).set(profile);
             setViewState(ViewState.Visible);
         }
         else if (supportedProfiles == null || supportedProfiles.size() == 0)

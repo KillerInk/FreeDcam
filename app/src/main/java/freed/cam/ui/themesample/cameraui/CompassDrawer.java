@@ -42,7 +42,7 @@ public class CompassDrawer extends View
     private float allitemsWidth;
     private final float TEXTSHADOWMARGINE = 3;
 
-    private String[] directionValue = { "NW", "N", "NE", "E","SE", "S", "SW", "W"};
+    private final String[] directionValue = { "NW", "N", "NE", "E","SE", "S", "SW", "W"};
 
     /**
      * Simple constructor to use when creating a view from code.

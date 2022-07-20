@@ -10,8 +10,6 @@ import android.util.Size;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.troop.freedcam.R;
-
 import java.io.File;
 import java.nio.ByteBuffer;
 
@@ -175,13 +173,13 @@ public class RawImageCapture extends StillImageCapture {
 
 
         DngProfile prof = null;
-        if (settingsManager.get(SettingKeys.useCustomMatrixOnCamera2).get() && settingsManager.getDngProfilesMap().get(remaining) != null)
+        if (settingsManager.get(SettingKeys.USE_CUSTOM_MATRIX_ON_CAMERA_2).get() && settingsManager.getDngProfilesMap().get(remaining) != null)
             prof = settingsManager.getDngProfilesMap().get(remaining);
         else
             prof = DngProfileCreator.getDngProfile(rawFormat, width, height, characteristics, customMatrix, captureResult);
         prof.toneMapProfile = toneMapProfile;
         OpCodeCreator opCodeCreator = new OpCodeCreator();
-        byte opcode[] = opCodeCreator.createOpCode2(characteristics, captureResult);
+        byte[] opcode = opCodeCreator.createOpCode2(characteristics, captureResult);
         OpCode opCode = new OpCode(opcode, null);
         saveTask.setOpCode(opCode);
         saveTask.setDngProfile(prof);

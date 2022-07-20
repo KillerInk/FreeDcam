@@ -17,12 +17,12 @@ public class TruePortraitDetector extends BaseParameter1Detector {
     {
         if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            settingsManager.get(SettingKeys.TruePotrait).setIsSupported(false);
+            settingsManager.get(SettingKeys.TRUE_POTRAIT).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.truepotrait,R.string.truepotrait_mode, settingsManager.get(SettingKeys.TruePotrait));
+            detectMode(parameters, R.string.truepotrait,R.string.truepotrait_mode, settingsManager.get(SettingKeys.TRUE_POTRAIT));
         }
 
     }

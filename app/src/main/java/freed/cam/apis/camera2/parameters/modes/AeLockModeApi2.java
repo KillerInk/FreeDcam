@@ -54,10 +54,7 @@ public class AeLockModeApi2 extends BaseModeApi2 implements BooleanSettingModeIn
         if (cameraUiWrapper == null || cameraUiWrapper.captureSessionHandler == null)
             return false;
         try {
-            if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK))
-                return true;
-            else
-                return false;
+            return cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_LOCK);
         }
         catch (NullPointerException ex)
         {

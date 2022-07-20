@@ -17,12 +17,12 @@ public class SeeMoarDetector extends BaseParameter1Detector{
     {
         if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            settingsManager.get(SettingKeys.SeeMore).setIsSupported(false);
+            settingsManager.get(SettingKeys.SEE_MORE).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.seemore,R.string.seemore_mode, settingsManager.get(SettingKeys.SeeMore));
+            detectMode(parameters, R.string.seemore,R.string.seemore_mode, settingsManager.get(SettingKeys.SEE_MORE));
         }
 
     }

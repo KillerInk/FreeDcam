@@ -9,6 +9,6 @@ import freed.settings.SettingKeys;
 public class AeBracketDetector extends BaseParameter1Detector{
     @Override
     protected void findAndFillSettings(Camera.Parameters cameraCharacteristics) {
-        detectMode(cameraCharacteristics, R.string.ae_bracket_hdr,R.string.ae_bracket_hdr_values, settingsManager.get(SettingKeys.AE_Bracket));
+        detectMode(cameraCharacteristics, R.string.ae_bracket_hdr,R.string.ae_bracket_hdr_values, settingsManager.get(SettingKeys.AE_BRACKET));
     }
 }

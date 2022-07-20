@@ -10,7 +10,7 @@ import freed.utils.Log;
 
 public class BatteryService {
 
-    private Context context;
+    private final Context context;
     private String batteryLevel;
     private BatteryEvent batteryEventListner;
 
@@ -44,7 +44,7 @@ public class BatteryService {
         }
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             batteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)+"%";

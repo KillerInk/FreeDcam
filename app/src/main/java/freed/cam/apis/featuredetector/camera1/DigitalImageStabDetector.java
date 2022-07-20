@@ -14,12 +14,12 @@ public class DigitalImageStabDetector extends BaseParameter1Detector{
     }
 
     private void detectDisModes(Camera.Parameters parameters) {
-        if (settingsManager.get(SettingKeys.DigitalImageStabilization).isPresetted())
+        if (settingsManager.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION).isPresetted())
             return;
         if (settingsManager.getFrameWork() == Frameworks.MTK) {
-            settingsManager.get(SettingKeys.DigitalImageStabilization).setIsSupported(false);
+            settingsManager.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION).setIsSupported(false);
         } else{
-            detectMode(parameters, R.string.dis,R.string.dis_values, settingsManager.get(SettingKeys.DigitalImageStabilization));
+            detectMode(parameters, R.string.dis,R.string.dis_values, settingsManager.get(SettingKeys.DIGITAL_IMAGE_STABILIZATION));
         }
     }
 }

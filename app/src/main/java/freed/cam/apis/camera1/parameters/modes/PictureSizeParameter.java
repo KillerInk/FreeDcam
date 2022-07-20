@@ -33,7 +33,7 @@ public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
     public PictureSizeParameter(Parameters  parameters, CameraWrapperInterface parameterChanged) {
-        super(parameters, parameterChanged, SettingKeys.PictureSize);
+        super(parameters, parameterChanged, SettingKeys.PICTURE_SIZE);
         this.cameraUiWrapper = parameterChanged;
         setViewState(ViewState.Visible);
     }
@@ -42,7 +42,7 @@ public class PictureSizeParameter extends BaseModeParameter
     public void setStringValue(String valueToSet, boolean setToCam)
     {
         parameters.set("picture-size" , valueToSet);
-        settingsManager.get(SettingKeys.PictureSize).set(valueToSet);
+        settingsManager.get(SettingKeys.PICTURE_SIZE).set(valueToSet);
         currentString = valueToSet;
         Log.d(TAG, "SetValue : picture-size");
         if (setToCam)
@@ -53,11 +53,11 @@ public class PictureSizeParameter extends BaseModeParameter
 
     @Override
     public String getStringValue() {
-        return settingsManager.get(SettingKeys.PictureSize).get();
+        return settingsManager.get(SettingKeys.PICTURE_SIZE).get();
     }
 
     @Override
     public String[] getStringValues() {
-        return settingsManager.get(SettingKeys.PictureSize).getValues();
+        return settingsManager.get(SettingKeys.PICTURE_SIZE).getValues();
     }
 }

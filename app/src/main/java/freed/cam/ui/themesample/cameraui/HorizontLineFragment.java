@@ -71,7 +71,7 @@ public class HorizontLineFragment extends AbstractFragment {
     private Handler sensorHandler;
     private final MySensorListener msl =new MySensorListener();
     private CompassDrawer compassDrawer;
-    private String TAG = HorizontLineFragment.class.getSimpleName();
+    private final String TAG = HorizontLineFragment.class.getSimpleName();
     float[] orientation = new float[3];
     float yaw;
     float[] R = new float[9];
@@ -120,19 +120,19 @@ public class HorizontLineFragment extends AbstractFragment {
 
     public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
-        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        ((AbstractParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.HORIZONT_LVL)).addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
+                startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HORIZONT_LVL).getStringValue());
             }
         });
         //cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).addEventListner(this);
-        startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HorizontLvl).getStringValue());
+        startStopListen(cameraUiWrapper.getParameterHandler().get(SettingKeys.HORIZONT_LVL).getStringValue());
     }
 
     private void startSensorListing()
     {
-        if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.on))) {
+        if (settingsManager.getGlobal(SettingKeys.HORIZONT_LVL).get().equals(FreedApplication.getStringFromRessources(string.on))) {
             sensorManager.registerListener(msl, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW, sensorHandler);
         }
@@ -153,8 +153,8 @@ public class HorizontLineFragment extends AbstractFragment {
     public void onResume(){
         super.onResume();
         try {
-            if (settingsManager.getGlobal(SettingKeys.HorizontLvl).get() != null && settingsManager.getGlobal(SettingKeys.HorizontLvl).get().equals(FreedApplication.getStringFromRessources(string.off))
-                    || TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.HorizontLvl).get()))
+            if (settingsManager.getGlobal(SettingKeys.HORIZONT_LVL).get() != null && settingsManager.getGlobal(SettingKeys.HORIZONT_LVL).get().equals(FreedApplication.getStringFromRessources(string.off))
+                    || TextUtils.isEmpty(settingsManager.getGlobal(SettingKeys.HORIZONT_LVL).get()))
                 view.setVisibility(View.GONE);
             else
                 startSensorListing();

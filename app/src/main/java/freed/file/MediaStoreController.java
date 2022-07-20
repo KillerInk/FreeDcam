@@ -26,7 +26,7 @@ public class MediaStoreController {
 
     private final String TAG = MediaStoreController.class.getSimpleName();
 
-    private Context context;
+    private final Context context;
 
     public MediaStoreController(Context context)
     {
@@ -306,7 +306,7 @@ public class MediaStoreController {
 
         String sortOrder = MediaStore.Images.Media.DATE_MODIFIED + " DESC";
         String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " =?";
-        String selectionargs[] = {folder };
+        String[] selectionargs = {folder };
 
         try (Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -356,7 +356,7 @@ public class MediaStoreController {
 
         String sortOrder = MediaStore.Video.Media.DATE_MODIFIED + " DESC";
         String selection = MediaStore.Video.Media.BUCKET_DISPLAY_NAME + " =?";
-        String selectionargs[] = {folder };
+        String[] selectionargs = {folder };
 
         try (Cursor cursor = context.getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,

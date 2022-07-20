@@ -1,9 +1,6 @@
 package freed.gl.texture;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLES11Ext;
-import android.opengl.GLES31;
 import android.opengl.GLES31;
 import android.opengl.GLUtils;
 import android.os.Build;

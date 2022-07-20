@@ -65,7 +65,7 @@ public class InfoOverlayModel extends BaseObservable
     }
 
     public void setFormat(String format) {
-        this.format = format;;
+        this.format = format;
         notifyPropertyChanged(BR.format);
     }
 

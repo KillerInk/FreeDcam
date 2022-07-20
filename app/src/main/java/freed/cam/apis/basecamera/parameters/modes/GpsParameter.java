@@ -19,8 +19,6 @@
 
 package freed.cam.apis.basecamera.parameters.modes;
 
-import android.text.TextUtils;
-
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
@@ -44,8 +42,8 @@ public class GpsParameter extends AbstractParameter implements BooleanSettingMod
 
     private boolean userAcceptedPermission = false;
     private boolean askedForPermission = false;
-    private PermissionManager permissionManager;
-    private LocationManager locationManager;
+    private final PermissionManager permissionManager;
+    private final LocationManager locationManager;
 
     public GpsParameter(CameraWrapperInterface cameraUiWrapper)
     {

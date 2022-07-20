@@ -32,9 +32,9 @@ import java.lang.ref.WeakReference;
  */
 public class BitmapRessourceWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
-    private int w;
-    private int h;
-    private Resources resources;
+    private final int w;
+    private final int h;
+    private final Resources resources;
 
     public BitmapRessourceWorkerTask(ImageView imageView, Resources resources) {
         // Use a WeakReference to ensure the ImageView can be garbage collected

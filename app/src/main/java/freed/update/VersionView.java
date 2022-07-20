@@ -19,7 +19,7 @@ public class VersionView extends FrameLayout {
         void onCloseClick();
     }
 
-    private ButtonEvents eventListener;
+    private final ButtonEvents eventListener;
 
     public VersionView(@NonNull Context context, ButtonEvents eventListener) {
         super(context);

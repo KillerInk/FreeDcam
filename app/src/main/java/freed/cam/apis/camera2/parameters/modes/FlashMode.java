@@ -1,6 +1,5 @@
 package freed.cam.apis.camera2.parameters.modes;
 
-import android.graphics.Paint;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 

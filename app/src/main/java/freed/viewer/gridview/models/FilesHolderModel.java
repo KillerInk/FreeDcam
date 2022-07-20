@@ -4,7 +4,6 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,10 @@ public class FilesHolderModel extends BaseObservable implements FileListControll
 
     private final String TAG = FilesHolderModel.class.getSimpleName();
     private List<BaseHolder> files;
-    private FileListController fileListController;
-    private List<GridImageViewModel> gridImageViewModels;
-    private List<GridImageViewModel> visibleGridImageViewModels;
-    private BitmapHelper bitmapHelper;
+    private final FileListController fileListController;
+    private final List<GridImageViewModel> gridImageViewModels;
+    private final List<GridImageViewModel> visibleGridImageViewModels;
+    private final BitmapHelper bitmapHelper;
     private FileListController.FormatTypes formatType = FileListController.FormatTypes.all;
 
     public FilesHolderModel()

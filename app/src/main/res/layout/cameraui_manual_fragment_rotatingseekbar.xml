@@ -10,8 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="180dp"
-        android:layout_marginRight="180dp"
         android:layout_marginBottom="40dp">
 
         <freed.views.RotatingSeekbar

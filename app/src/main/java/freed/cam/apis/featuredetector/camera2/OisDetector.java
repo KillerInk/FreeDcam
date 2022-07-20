@@ -44,7 +44,7 @@ public class OisDetector extends BaseParameter2Detector {
         }*/
         if (ois_supported)
         {
-            String values[] = new String[2];
+            String[] values = new String[2];
             values[0] = FreedApplication.getStringFromRessources(R.string.off) + ",0";
             values[1] = FreedApplication.getStringFromRessources(R.string.on) + ",1";
             settingsManager.get(SettingKeys.OIS_MODE).setValues(values);

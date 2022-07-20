@@ -100,7 +100,7 @@ public class Log
     {
         private BufferedWriter outwriter;
         private FileWriter fileWriter;
-        private Thread.UncaughtExceptionHandler defaultUncaughtExHandler;
+        private final Thread.UncaughtExceptionHandler defaultUncaughtExHandler;
         public FileLog()
         {
             defaultUncaughtExHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -170,7 +170,7 @@ public class Log
             }
         }
 
-        private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
+        private final Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
             Log.WriteEx(e);

@@ -15,7 +15,7 @@ public abstract class ImageTask implements Runnable {
     @Override
     public void run() {
         currentThread = Thread.currentThread();
-        if (currentThread.interrupted()) {
+        if (Thread.interrupted()) {
             return;
         }
         process();

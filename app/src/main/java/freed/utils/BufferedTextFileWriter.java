@@ -11,7 +11,7 @@ public class BufferedTextFileWriter {
 
     BufferedWriter outwriter;
     FileWriter fileWriter;
-    private String filename;
+    private final String filename;
 
     public BufferedTextFileWriter(String filename)
     {

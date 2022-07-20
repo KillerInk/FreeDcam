@@ -35,7 +35,7 @@ public class IntervalDurationParameter extends AbstractParameter
 {
 
     private String current = "1 min";
-    private CameraWrapperInterface cameraUiWrapper;
+    private final CameraWrapperInterface cameraUiWrapper;
 
     public IntervalDurationParameter(CameraWrapperInterface cameraUiWrapper)
     {

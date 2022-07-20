@@ -134,7 +134,7 @@ public class DngProfileCreator {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
                 Rect activar = characteristics.get(CameraCharacteristics.SENSOR_INFO_PRE_CORRECTION_ACTIVE_ARRAY_SIZE);
-                int ar[] = {activar.left, activar.top,activar.right,activar.bottom};
+                int[] ar = {activar.left, activar.top,activar.right,activar.bottom};
                 profile.setActiveArea(ar);
             } catch (Exception ex) {
                 Log.WriteEx(ex);

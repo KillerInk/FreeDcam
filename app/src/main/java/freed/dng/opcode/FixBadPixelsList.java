@@ -13,8 +13,8 @@ public class FixBadPixelsList extends OpCodeItem
     int bayerphase;
     int badpointcount = 0;
     int badrectcount = 0;
-    Point badpoints[];
-    Rect badrect[];
+    Point[] badpoints;
+    Rect[] badrect;
 
     FixBadPixelsList(int cfa, Point[] hotpixel)
     {

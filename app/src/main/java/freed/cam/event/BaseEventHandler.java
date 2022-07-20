@@ -25,8 +25,7 @@ public abstract class BaseEventHandler<E extends MyEvent> implements BaseEventIn
     @Override
     public void removeEventListner(E listner) {
         Log.d(TAG, "remove EventListner : " + listner.getClass().getSimpleName());
-        if (eventListners.contains(listner))
-            eventListners.remove(listner);
+        eventListners.remove(listner);
     }
 
     public void clear()

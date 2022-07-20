@@ -2,8 +2,8 @@ package freed.gl.texture;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
-import android.opengl.GLES31;
 import android.opengl.GLES30;
+import android.opengl.GLES31;
 
 public class GLCameraTex extends GLTex {
     protected SurfaceTexture mSTexture;

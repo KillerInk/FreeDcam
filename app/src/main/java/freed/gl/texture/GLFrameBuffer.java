@@ -1,10 +1,7 @@
 package freed.gl.texture;
 
-import android.opengl.GLES11Ext;
 import android.opengl.GLES31;
-import android.opengl.GLES30;
 
-import freed.gl.texture.GLTex;
 import freed.utils.Log;
 
 public class GLFrameBuffer {

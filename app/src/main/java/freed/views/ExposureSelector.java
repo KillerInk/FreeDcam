@@ -14,10 +14,10 @@ import androidx.appcompat.widget.AppCompatImageView;
 public class ExposureSelector extends AppCompatImageView
 {
 	private int shutterangle=180; //i wish
-	private int shutterstart = 90;
-	private RectF shutterPos;
-	private Paint bracketPaint = new Paint();
-	private Paint shutterPaint = new Paint();
+	private final int shutterstart = 90;
+	private final RectF shutterPos;
+	private final Paint bracketPaint = new Paint();
+	private final Paint shutterPaint = new Paint();
 	private Rect mySize;
 	private boolean sel;
 	

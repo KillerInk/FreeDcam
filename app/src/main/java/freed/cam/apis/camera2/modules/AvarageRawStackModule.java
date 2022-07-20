@@ -55,7 +55,7 @@ public class AvarageRawStackModule extends RawZslModuleApi2 {
     public void DoWork() {
         if (!avarageRunner.run)
         {
-            int burst = Integer.parseInt(parameterHandler.get(SettingKeys.M_Burst).getStringValue());
+            int burst = Integer.parseInt(parameterHandler.get(SettingKeys.M_BURST).getStringValue());
             avarageRunner.setBurst(burst);
             new Thread(avarageRunner).start();
         }
@@ -66,19 +66,19 @@ public class AvarageRawStackModule extends RawZslModuleApi2 {
     @Override
     public void InitModule() {
         super.InitModule();
-        parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Hidden);
-        parameterHandler.get(SettingKeys.M_Burst).setIntValue(14,true);
-        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
+        parameterHandler.get(SettingKeys.PICTURE_FORMAT).setViewState(AbstractParameter.ViewState.Hidden);
+        parameterHandler.get(SettingKeys.M_BURST).setIntValue(14,true);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_BURST);
         burstApi2.overwriteValues(2,60);
     }
 
     @Override
     public void DestroyModule() {
         super.DestroyModule();
-        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_Burst);
+        BurstApi2 burstApi2 = (BurstApi2) parameterHandler.get(SettingKeys.M_BURST);
         burstApi2.overwriteValues(1,60);
-        parameterHandler.get(SettingKeys.M_Burst).setIntValue(0,true);
-        parameterHandler.get(SettingKeys.PictureFormat).setViewState(AbstractParameter.ViewState.Visible);
+        parameterHandler.get(SettingKeys.M_BURST).setIntValue(0,true);
+        parameterHandler.get(SettingKeys.PICTURE_FORMAT).setViewState(AbstractParameter.ViewState.Visible);
     }
 
     private class StackAvarageRunner implements Runnable {

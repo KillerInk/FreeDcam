@@ -16,8 +16,8 @@ public class ManualWbCtApi2Hw  extends AbstractParameter<Camera2>
     private final String TAG = ManualWbCtApi2Hw.class.getSimpleName();
 
     public ManualWbCtApi2Hw(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper, SettingKeys.M_Whitebalance);
-        stringvalues = settingsManager.get(SettingKeys.M_Whitebalance).getValues();
+        super(cameraUiWrapper, SettingKeys.M_WHITEBALANCE);
+        stringvalues = settingsManager.get(SettingKeys.M_WHITEBALANCE).getValues();
         currentInt = 0;
         setViewState(ViewState.Visible);
     }

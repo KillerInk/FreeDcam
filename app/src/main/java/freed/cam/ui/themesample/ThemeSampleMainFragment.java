@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
 
@@ -17,10 +17,11 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.file.FileListController;
 import freed.image.ImageManager;
 import freed.image.ImageTask;
@@ -47,10 +48,13 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     CameraApiManager cameraApiManager;
     @Inject
     PreviewController previewController;
+    @Inject
+    HistogramController histogramController;
     private PagingView uiViewPager;
     private CameraUiSlidePagerAdapter uiViewPagerAdapter;
     private LinearLayout nightoverlay;
     private View view;
+    private FrameLayout cameraPreview;
 
     @Override
     public void onCameraOpen() {
@@ -105,6 +109,7 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
+        cameraPreview = view.findViewById(R.id.cameraPreview);
         cameraApiManager.addEventListner(this);
         previewController.previewPostProcessingChangedEventHandler.setEventListner(this);
         Log.d(TAG,"onViewCreated");
@@ -158,8 +163,8 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
     public void SetNightOverlay() {
         if (nightoverlay == null)
             nightoverlay = view.findViewById(R.id.nightoverlay);
-        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NightOverlay).get());
-        if (settingsManager.getGlobal(SettingKeys.NightOverlay).get())
+        Log.d(TAG, "NightOverlay:" + settingsManager.getGlobal(SettingKeys.NIGHT_OVERLAY).get());
+        if (settingsManager.getGlobal(SettingKeys.NIGHT_OVERLAY).get())
             nightoverlay.setVisibility(View.VISIBLE);
         else
             nightoverlay.setVisibility(View.GONE);
@@ -179,27 +184,16 @@ public class ThemeSampleMainFragment extends Fragment implements CameraHolderEve
         }
     }
 
-    private PreviewFragment previewFragment;
-
     private void changePreviewPostProcessing()
     {
         Log.d(TAG,"changePreviewPostProcessing");
-        if (previewFragment != null) {
-            Log.d(TAG, "unload old Preview");
-            //kill the cam befor the fragment gets removed to make sure when
-            //new cameraFragment gets created and its texture view is created the cam get started
-            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.remove(previewFragment);
-            transaction.commit();
-            previewFragment = null;
-        }
-        Log.d(TAG, "load new Preview");
-        previewFragment = new PreviewFragment();
-        FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(R.id.cameraFragmentHolder, previewFragment, previewFragment.getClass().getSimpleName());
-        transaction.commit();
+        cameraPreview.removeAllViews();
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() == null)
+            previewController.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
+        else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+            previewController.initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
+        else
+            previewController.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
+        cameraPreview.addView(previewController.getPreviewView());
     }
 }

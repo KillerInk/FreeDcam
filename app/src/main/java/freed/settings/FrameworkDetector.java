@@ -11,7 +11,7 @@ import freed.utils.Log;
  */
 
 public class FrameworkDetector {
-    private static String TAG = FrameworkDetector.class.getSimpleName();
+    private static final String TAG = FrameworkDetector.class.getSimpleName();
     private static boolean hasLGFramework()
     {
         try {

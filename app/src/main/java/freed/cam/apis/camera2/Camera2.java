@@ -32,7 +32,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public CaptureSessionHandler captureSessionHandler;
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean cameraIsOpen = false;
-    private FreedAeManger freedAeManger;
+    private final FreedAeManger freedAeManger;
 
 
     public Camera2()
@@ -158,10 +158,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     {
         double rangelimter = 0.1;
 
-        if (preview+rangelimter >= image && preview-rangelimter <= image)
-            return true;
-        else
-            return false;
+        return preview + rangelimter >= image && preview - rangelimter <= image;
     }
 
     @Override

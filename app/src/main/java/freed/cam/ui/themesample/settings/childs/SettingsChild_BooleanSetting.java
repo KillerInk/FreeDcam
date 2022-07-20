@@ -18,7 +18,7 @@ import freed.settings.mode.BooleanSettingModeInterface;
 
 public class SettingsChild_BooleanSetting extends LinearLayout implements CompoundButton.OnCheckedChangeListener
 {
-    private BooleanSettingModeInterface booleanSettingMode;
+    private final BooleanSettingModeInterface booleanSettingMode;
     SettingsBooleansettingschildBinding binding;
 
     public SettingsChild_BooleanSetting(Context context, final BooleanSettingModeInterface booleanSettingMode, int headerid, int descriptionid) {

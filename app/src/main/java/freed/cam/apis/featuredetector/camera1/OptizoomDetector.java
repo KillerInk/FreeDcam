@@ -17,12 +17,12 @@ public class OptizoomDetector extends BaseParameter1Detector {
     {
         if (settingsManager.getFrameWork() == Frameworks.MTK)
         {
-            settingsManager.get(SettingKeys.OptiZoom).setIsSupported(false);
+            settingsManager.get(SettingKeys.OPTI_ZOOM).setIsSupported(false);
             return;
         }
         else
         {
-            detectMode(parameters, R.string.optizoom,R.string.optizoom_mode, settingsManager.get(SettingKeys.OptiZoom));
+            detectMode(parameters, R.string.optizoom,R.string.optizoom_mode, settingsManager.get(SettingKeys.OPTI_ZOOM));
         }
 
     }

@@ -17,10 +17,6 @@
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
-    </style>
-
     <style name="PopupStyle" parent="Widget.AppCompat.PopupMenu">
         <item name="android:textSize">10sp</item>
     </style>

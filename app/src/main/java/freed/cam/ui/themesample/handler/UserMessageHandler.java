@@ -21,12 +21,8 @@ package freed.cam.ui.themesample.handler;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import freed.cam.apis.basecamera.Size;
-import freed.cam.event.camera.CameraHolderEvent;
 
 
 /**
@@ -35,7 +31,7 @@ import freed.cam.event.camera.CameraHolderEvent;
 public class UserMessageHandler implements Runnable
 {
 
-    private Context context;
+    private final Context context;
     private TextView messageTextView1;
 
     public UserMessageHandler(Context contextt)

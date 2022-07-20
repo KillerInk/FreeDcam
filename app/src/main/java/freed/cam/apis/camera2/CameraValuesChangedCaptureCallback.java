@@ -9,7 +9,6 @@ import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
-import camera2_hidden_keys.qcom.CaptureResultQcom;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -17,7 +16,6 @@ import freed.cam.apis.basecamera.parameters.ae.AeManager;
 import freed.cam.apis.basecamera.parameters.ae.AeStates;
 import freed.cam.apis.camera2.modules.ring.CaptureResultRingBuffer;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
-import freed.cam.apis.camera2.parameters.ae.AeManagerCamera2Qcom;
 import freed.cam.histogram.HistogramChangedEvent;
 import freed.cam.histogram.HistogramFeed;
 import freed.settings.Frameworks;
@@ -92,7 +90,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
 
     private final String TAG = CameraValuesChangedCaptureCallback.class.getSimpleName();
-    private Camera2 camera2Fragment;
+    private final Camera2 camera2Fragment;
     public boolean flashRequired = false;
     int afState;
     int aeState;
@@ -111,9 +109,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private final int FOCUSED= 1;
     private final int WAITFORSCAN= 1;
     private int focusState;
-    private AeAfLocker aeAfLocker;
+    private final AeAfLocker aeAfLocker;
     private HistogramChangedEvent histogramChangedEventListner;
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
     private CaptureResultRingBuffer captureResultRingBuffer;
 
     public CameraValuesChangedCaptureCallback(Camera2 camera2Fragment)
@@ -170,7 +168,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     public float[] GetFocusRange()
     {
-        float ar[] = new float[3];
+        float[] ar = new float[3];
         if (focusRanges != null)
         {
             ar[0] = 1/focusRanges.first.floatValue();
@@ -196,8 +194,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             captureResultRingBuffer.offerFirst(result);
 
         captureResult = result;
-        ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_ExposureTime);
-        ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_ManualIso);
+        ParameterInterface expotime = camera2Fragment.getParameterHandler().get(SettingKeys.M_EXPOSURE_TIME);
+        ParameterInterface iso = camera2Fragment.getParameterHandler().get(SettingKeys.M_MANUAL_ISO);
         if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
         {
             processHuaweiAEValues(result, expotime, iso);
@@ -262,10 +260,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             }
         }
 
-        if (camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
+        if (camera2Fragment.getParameterHandler().get(SettingKeys.EXPOSURE_LOCK) != null && result.get(CaptureResult.CONTROL_AE_LOCK) != null) {
             String expolock = result.get(CaptureResult.CONTROL_AE_LOCK).toString();
-            if (expolock != null && !expolock.equals(camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).getStringValue()))
-                camera2Fragment.getParameterHandler().get(SettingKeys.ExposureLock).fireStringValueChanged(expolock);
+            if (expolock != null && !expolock.equals(camera2Fragment.getParameterHandler().get(SettingKeys.EXPOSURE_LOCK).getStringValue()))
+                camera2Fragment.getParameterHandler().get(SettingKeys.EXPOSURE_LOCK).fireStringValueChanged(expolock);
         }
 
         if (waitForAe_af_lock != null) {
@@ -351,7 +349,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             if (result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE) != null && result.get(TotalCaptureResult.CONTROL_AF_MODE) != TotalCaptureResult.CONTROL_AF_MODE_OFF) {
                 try {
                     focus_distance = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                    camera2Fragment.getParameterHandler().get(SettingKeys.M_Focus).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
+                    camera2Fragment.getParameterHandler().get(SettingKeys.M_FOCUS).fireStringValueChanged(StringUtils.getMeterString(1 / focus_distance));
                 } catch (NullPointerException ex) {
                     Log.v(TAG, "cant get focus distance");
                 }
@@ -447,7 +445,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             return "" + val / 1000000000;
         }
         int i = (int)(0.5D + 1.0E9F / val);
-        return "1/" + Integer.toString(i);
+        return "1/" + i;
     }
 
 }

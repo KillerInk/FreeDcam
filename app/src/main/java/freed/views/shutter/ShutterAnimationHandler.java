@@ -62,16 +62,16 @@ public class ShutterAnimationHandler extends Handler
     private volatile boolean shutteractive = false;
 
     private volatile boolean drawTimer = false;
-    private Paint shutteropentimePaint;
+    private final Paint shutteropentimePaint;
 
 // used to track how long values calc took, and reduce depending on it the sleep time for next calc/draw
     private long calcstartTime;
 
 
-    private Paint transparent;
-    private Paint red;
-    private ShutterButton shutterButton;
-    private UIHandler uiHandler;
+    private final Paint transparent;
+    private final Paint red;
+    private final ShutterButton shutterButton;
+    private final UIHandler uiHandler;
 
     private final int space = 3;
 
@@ -80,7 +80,7 @@ public class ShutterAnimationHandler extends Handler
         return running;
     }
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("mm:ss:SSS");
 
     private final int FPS = 1000/ MAXFRAMES;
     private String shutteropentime;
@@ -367,7 +367,7 @@ public class ShutterAnimationHandler extends Handler
     private static class UIHandler extends Handler
     {
         public static final int MSG_INVALIDATE = 2;
-        private WeakReference<ShutterButton> shutterButtonWeakReference;
+        private final WeakReference<ShutterButton> shutterButtonWeakReference;
         public UIHandler(ShutterButton shutterButton)
         {
             super(Looper.getMainLooper());

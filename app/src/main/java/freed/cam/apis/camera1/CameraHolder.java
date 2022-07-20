@@ -57,7 +57,7 @@ public class CameraHolder extends CameraHolderAbstract implements CameraHolderIn
     public int Orientation;
 
     private Method setPreviewSurfaceMethod;
-    private UserMessageHandler userMessageHandler;
+    private final UserMessageHandler userMessageHandler;
 
 
     public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)

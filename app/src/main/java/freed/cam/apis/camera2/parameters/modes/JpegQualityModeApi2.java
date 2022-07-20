@@ -17,7 +17,7 @@ import freed.settings.SettingKeys;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class JpegQualityModeApi2 extends BaseModeApi2 {
     public JpegQualityModeApi2(Camera2 cameraUiWrapper) {
-        super(cameraUiWrapper, SettingKeys.JpegQuality);
+        super(cameraUiWrapper, SettingKeys.JPEG_QUALITY);
         parameterValues =new HashMap<>();
         settingMode.setIsSupported(true);
         for (int i= 10; i <= 100; i+=10)
@@ -32,10 +32,10 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
     @Override
     public String getStringValue()
     {
-        if(TextUtils.isEmpty(settingsManager.get(SettingKeys.JpegQuality).get()))
+        if(TextUtils.isEmpty(settingsManager.get(SettingKeys.JPEG_QUALITY).get()))
             return "100";
         else
-            return settingsManager.get(SettingKeys.JpegQuality).get();
+            return settingsManager.get(SettingKeys.JPEG_QUALITY).get();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class JpegQualityModeApi2 extends BaseModeApi2 {
 
     @Override
     public void setValue(String valueToSet, boolean setToCamera) {
-        settingsManager.get(SettingKeys.JpegQuality).set(valueToSet);
+        settingsManager.get(SettingKeys.JPEG_QUALITY).set(valueToSet);
         cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.JPEG_QUALITY, (byte)Integer.parseInt(valueToSet),setToCamera);
         fireStringValueChanged(valueToSet);
     }

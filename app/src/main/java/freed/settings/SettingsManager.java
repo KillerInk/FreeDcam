@@ -36,7 +36,6 @@ import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.dng.ToneMapProfile;
 import freed.jni.OpCode;
-import freed.settings.mode.XmlSettingInterface;
 import freed.utils.Log;
 import freed.utils.VideoMediaProfile;
 
@@ -368,14 +367,14 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
     }
 
     public void SetCurrentModule(String modulename) {
-        get(SettingKeys.Module).set(modulename);
+        get(SettingKeys.MODULE).set(modulename);
     }
 
     public String GetCurrentModule()
     {
-        if (TextUtils.isEmpty(get(SettingKeys.Module).get()))
+        if (TextUtils.isEmpty(get(SettingKeys.MODULE).get()))
             return FreedApplication.getStringFromRessources(R.string.module_picture);
-        return get(SettingKeys.Module).get();
+        return get(SettingKeys.MODULE).get();
     }
 
 

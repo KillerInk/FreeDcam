@@ -8,7 +8,7 @@ import freed.utils.VideoMediaProfile;
 
 public class ProfileModel extends ButtonModel {
 
-    private VideoProfileEditorModelView videoProfileEditorModelView;
+    private final VideoProfileEditorModelView videoProfileEditorModelView;
 
     public ProfileModel(VideoProfileEditorModelView videoProfileEditorModelView, PopupModel popupModel)
     {

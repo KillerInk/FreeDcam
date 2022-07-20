@@ -58,6 +58,6 @@ public class PreviewSizeParameter extends BaseModeParameter
 
     @Override
     public String[] getStringValues() {
-        return settingsManager.get(SettingKeys.PreviewSize).getValues();
+        return settingsManager.get(SettingKeys.PREVIEW_SIZE).getValues();
     }
 }

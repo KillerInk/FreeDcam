@@ -16,7 +16,7 @@ public class JpegQualityMode extends BaseParameter1Detector {
     {
         if (parameters.get(camstring(R.string.jpeg_quality)) == null)
         {
-            settingsManager.get(SettingKeys.JpegQuality).setIsSupported(false);
+            settingsManager.get(SettingKeys.JPEG_QUALITY).setIsSupported(false);
             return;
         }
         String[] valuetoreturn = new String[20];
@@ -24,10 +24,10 @@ public class JpegQualityMode extends BaseParameter1Detector {
         {
             valuetoreturn[i-1] = "" + i*5;
         }
-        settingsManager.get(SettingKeys.JpegQuality).setValues(valuetoreturn);
-        settingsManager.get(SettingKeys.JpegQuality).set(parameters.get(camstring(R.string.jpeg_quality)));
-        settingsManager.get(SettingKeys.JpegQuality).setCamera1ParameterKEY(camstring(R.string.jpeg_quality));
+        settingsManager.get(SettingKeys.JPEG_QUALITY).setValues(valuetoreturn);
+        settingsManager.get(SettingKeys.JPEG_QUALITY).set(parameters.get(camstring(R.string.jpeg_quality)));
+        settingsManager.get(SettingKeys.JPEG_QUALITY).setCamera1ParameterKEY(camstring(R.string.jpeg_quality));
         if (valuetoreturn.length >0)
-            settingsManager.get(SettingKeys.JpegQuality).setIsSupported(true);
+            settingsManager.get(SettingKeys.JPEG_QUALITY).setIsSupported(true);
     }
 }

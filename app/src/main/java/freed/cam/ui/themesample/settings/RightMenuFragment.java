@@ -41,7 +41,6 @@ import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
-import freed.cam.ui.themesample.settings.childs.GroupChild;
 
 /**
  * Created by troop on 15.06.2015.
@@ -105,7 +104,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 
     }
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     @Override
     public void onCameraOpenFinished() {
         handler.post(() -> setCameraToUi(cameraApiManager.getCamera()));

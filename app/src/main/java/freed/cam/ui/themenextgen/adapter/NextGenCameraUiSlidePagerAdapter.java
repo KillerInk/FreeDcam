@@ -13,9 +13,9 @@ import freed.viewer.screenslide.views.ScreenSlideFragment;
 
 public class NextGenCameraUiSlidePagerAdapter extends FragmentStatePagerAdapter
 {
-    private NextGenCameraSettingFragment settingsMenuFragment = new NextGenCameraSettingFragment();
-    private ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
-    private NextGenCameraUiFragment cameraUiFragment = new NextGenCameraUiFragment();
+    private final NextGenCameraSettingFragment settingsMenuFragment = new NextGenCameraSettingFragment();
+    private final ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
+    private final NextGenCameraUiFragment cameraUiFragment = new NextGenCameraUiFragment();
 
     ScreenSlideFragment.ButtonClick click;
 

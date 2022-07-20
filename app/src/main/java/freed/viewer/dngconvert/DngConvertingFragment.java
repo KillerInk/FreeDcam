@@ -76,7 +76,6 @@ import freed.jni.RawToDng;
 import freed.settings.SettingsManager;
 import freed.settings.XmlParserWriter;
 import freed.utils.Log;
-import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
 /**
@@ -100,7 +99,7 @@ public class DngConvertingFragment extends Fragment
     private CheckBox fakeGPS;
     private MatrixChooserParameter matrixChooserParameter;
     private TouchImageView imageView;
-    private String tonemaps[];
+    private String[] tonemaps;
 
     private int rawType;
     private String bayerPattern;

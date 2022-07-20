@@ -5,7 +5,6 @@ import android.media.MediaCodecInfo;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
-
 import java.util.List;
 
 import freed.cam.ui.videoprofileeditor.modelview.VideoProfileEditorModelView;
@@ -16,7 +15,7 @@ public class ProfileLevelModel extends ButtonModel
     private List<String> values;
     private boolean visibility = false;
 
-    private VideoProfileEditorModelView modelView;
+    private final VideoProfileEditorModelView modelView;
 
     public ProfileLevelModel(PopupModel popupModel, VideoProfileEditorModelView modelView) {
         super(popupModel);

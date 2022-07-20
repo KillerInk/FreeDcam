@@ -56,7 +56,7 @@ public class DngProfile
 
     public ToneMapProfile toneMapProfile;
 
-    private ByteBuffer byteBuffer;
+    private final ByteBuffer byteBuffer;
 
     public DngProfile()
     {
@@ -94,7 +94,7 @@ public class DngProfile
     public String getXmlString(long filesize)
     {
         String t = "";
-        t += "<filesize size= " +String.valueOf("\"") +String.valueOf(filesize) +String.valueOf("\"")  +">" + "\r\n";
+        t += "<filesize size= " + "\"" + filesize + "\"" +">" + "\r\n";
             t += "<blacklvl>" + getBlacklvl(byteBuffer) + "</blacklvl>" + "\r\n";
             t += "<whitelvl>" + getWhitelvl(byteBuffer) + "</whitelvl>" + "\r\n";
             t += "<width>" + getWidth(byteBuffer) + "</width>" + "\r\n";

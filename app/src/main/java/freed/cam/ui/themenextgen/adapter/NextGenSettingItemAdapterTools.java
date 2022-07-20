@@ -66,7 +66,6 @@ public class NextGenSettingItemAdapterTools
                         validList.add(conf);
             }
             else if (conf.getKey() == null) {
-                if (conf.getViewType() != SettingItemConfig.ViewType.Custom)
                     validList.add(conf);
             }
             else {

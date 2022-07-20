@@ -7,11 +7,8 @@ import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
 
-import java.util.HashMap;
-
 import freed.FreedApplication;
 import freed.settings.SettingKeys;
-import freed.utils.StringUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class FlashDetector extends BaseParameter2Detector {
@@ -26,11 +23,11 @@ public class FlashDetector extends BaseParameter2Detector {
         if (settingsManager.hasCamera2Features()) {
             //flash mode
             boolean flashavail = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-            settingsManager.get(SettingKeys.FlashMode).setIsSupported(flashavail);
+            settingsManager.get(SettingKeys.FLASH_MODE).setIsSupported(flashavail);
             if (flashavail) {
                 String[] lookupar = FreedApplication.getContext().getResources().getStringArray(R.array.flashextModes);
-                settingsManager.get(SettingKeys.FlashMode).setValues(lookupar);
-                settingsManager.get(SettingKeys.FlashMode).set(lookupar[0]);
+                settingsManager.get(SettingKeys.FLASH_MODE).setValues(lookupar);
+                settingsManager.get(SettingKeys.FLASH_MODE).set(lookupar[0]);
             }
         }
     }

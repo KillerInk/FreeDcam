@@ -13,9 +13,9 @@ public class SettingsStorage
 {
     private static final String TAG = SettingsStorage.class.getSimpleName();
     public final File appdataFolder;
-    private MediaProfilesManager mediaProfilesManager;
+    private final MediaProfilesManager mediaProfilesManager;
     // api > camera id > setting
-    private SettingLayout settings;
+    private final SettingLayout settings;
 
     public SettingsStorage(File appdataFolder)
     {
@@ -71,7 +71,7 @@ public class SettingsStorage
         return settingInterface;
     }
 
-    private Object waitlock = new Object();
+    private final Object waitlock = new Object();
 
     public synchronized void save()
     {

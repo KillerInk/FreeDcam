@@ -16,7 +16,7 @@ public class FeatureDetectorHandler extends Handler
         void startFreedcam();
         void sendLog(String msg);
     }
-    private WeakReference<FdHandlerInterface> fdHandlerInterfaceWeakReference;
+    private final WeakReference<FdHandlerInterface> fdHandlerInterfaceWeakReference;
 
     public FeatureDetectorHandler(FdHandlerInterface fdHandlerInterface)
     {

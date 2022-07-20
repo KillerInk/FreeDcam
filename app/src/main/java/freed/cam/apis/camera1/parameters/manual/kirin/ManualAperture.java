@@ -12,10 +12,10 @@ import freed.settings.SettingKeys;
 
 public class ManualAperture extends AbstractParameter
 {
-    private Camera.Parameters parameters;
+    private final Camera.Parameters parameters;
     public ManualAperture(CameraWrapperInterface cameraUiWrapper, Camera.Parameters parameters)
     {
-        super(cameraUiWrapper,SettingKeys.M_Aperture);
+        super(cameraUiWrapper,SettingKeys.M_APERTURE);
         this.parameters = parameters;
         setViewState(ViewState.Visible);
     }
@@ -31,7 +31,7 @@ public class ManualAperture extends AbstractParameter
 
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-big-aperture-mode", "on");
-            parameters.set(settingsManager.get(SettingKeys.M_Aperture).getCamera1ParameterKEY(), stringvalues[currentInt]);
+            parameters.set(settingsManager.get(SettingKeys.M_APERTURE).getCamera1ParameterKEY(), stringvalues[currentInt]);
         }
         fireStringValueChanged(stringvalues[valueToSet]);
     }

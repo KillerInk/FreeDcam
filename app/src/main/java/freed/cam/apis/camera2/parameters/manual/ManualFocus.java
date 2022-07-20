@@ -42,11 +42,11 @@ public class ManualFocus extends AbstractParameter<Camera2>
 {
     private final String TAG = ManualFocus.class.getSimpleName();
     protected StringFloatArray focusvalues;
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public ManualFocus(Camera2 cameraUiWrapper)
     {
-        super(cameraUiWrapper,SettingKeys.M_Focus);
+        super(cameraUiWrapper,SettingKeys.M_FOCUS);
         if (stringvalues != null && stringvalues.length > 0) {
             focusvalues = new StringFloatArray(stringvalues);
             setViewState(ViewState.Visible);
@@ -75,16 +75,16 @@ public class ManualFocus extends AbstractParameter<Camera2>
         if(valueToSet == 0)
         {
             //apply last used focuse mode
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).setStringValue(settingsManager.get(SettingKeys.FocusMode).get(), setToCamera);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FOCUS_MODE).setStringValue(settingsManager.get(SettingKeys.FOCUS_MODE).get(), setToCamera);
             cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
         }
         else // set to manual
         {
             //if focusmode is in any other mode, turn af off
-            if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
+            if (!cameraUiWrapper.getParameterHandler().get(SettingKeys.FOCUS_MODE).getStringValue().equals(FreedApplication.getStringFromRessources(R.string.off)))
             {
                 //apply turn off direct to the capturesession, else it get stored in settings.
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off));
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.FOCUS_MODE).fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off));
                 cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
                 cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }
@@ -103,17 +103,17 @@ public class ManualFocus extends AbstractParameter<Camera2>
         if (settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
         {
             int factor = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).setIntValue(factor,true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).setIntValue(factor,true);
             handler.removeCallbacks(resetzoomRunner);
             int delay = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
             handler.postDelayed(resetzoomRunner,delay*1000);
         }
     }
 
-    private Runnable resetzoomRunner = new Runnable() {
+    private final Runnable resetzoomRunner = new Runnable() {
         @Override
         public void run() {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_Zoom).setIntValue(0,true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).setIntValue(0,true);
         }
     };
 

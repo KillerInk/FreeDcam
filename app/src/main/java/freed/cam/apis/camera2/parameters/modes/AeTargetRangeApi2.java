@@ -17,7 +17,7 @@ import freed.settings.SettingKeys;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class AeTargetRangeApi2 extends BaseModeApi2 {
 
-    private CaptureRequest.Key<Range<Integer>> key;
+    private final CaptureRequest.Key<Range<Integer>> key;
 
     public AeTargetRangeApi2(Camera2 cameraUiWrapper, SettingKeys.Key settingMode, CaptureRequest.Key<Range<Integer>> parameterKey) {
         super(cameraUiWrapper, settingMode);

@@ -35,7 +35,7 @@ import freed.utils.Log;
 public class CameraHolderLG extends CameraHolder
 {
     private LGCameraRef lgCamera;
-    private SettingsManager settingsManager;
+    private final SettingsManager settingsManager;
     public CameraHolderLG(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
         settingsManager = FreedApplication.settingsManager();
@@ -46,7 +46,7 @@ public class CameraHolderLG extends CameraHolder
     {
         boolean isRdy = false;
         try {
-            if (settingsManager.get(SettingKeys.openCamera1Legacy).get()) {
+            if (settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).get()) {
                 lgCamera = new LGCameraRef(camera, 256);
                 Log.d(CameraHolderLG.class.getSimpleName(), "open LG camera legacy");
             }

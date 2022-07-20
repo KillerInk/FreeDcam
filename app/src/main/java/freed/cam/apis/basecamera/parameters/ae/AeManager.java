@@ -76,7 +76,7 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
     {
         public final String TAG = ManualExposureTime.class.getSimpleName();
         public ManualExposureTime(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper,SettingKeys.M_ExposureTime);
+            super(cameraUiWrapper,SettingKeys.M_EXPOSURE_TIME);
         }
 
         @Override
@@ -114,7 +114,7 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
     {
         final String TAG = ManualIso.class.getSimpleName();
         public ManualIso(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper,SettingKeys.M_ManualIso);
+            super(cameraUiWrapper,SettingKeys.M_MANUAL_ISO);
             currentInt = 0;
         }
 
@@ -144,7 +144,7 @@ public abstract class AeManager<C extends CameraWrapperInterface> implements AeM
         final String TAG = ExposureCompensation.class.getSimpleName();
 
         public ExposureCompensation(CameraWrapperInterface cameraUiWrapper) {
-            super(cameraUiWrapper,SettingKeys.M_ExposureCompensation);
+            super(cameraUiWrapper,SettingKeys.M_EXPOSURE_COMPENSATION);
             currentInt = stringvalues.length / 2;
         }
 

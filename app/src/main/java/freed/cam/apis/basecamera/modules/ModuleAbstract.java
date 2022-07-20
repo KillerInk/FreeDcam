@@ -20,7 +20,6 @@
 package freed.cam.apis.basecamera.modules;
 
 
-import android.media.MediaActionSound;
 import android.os.Handler;
 import android.os.Looper;
 

@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="aps_values" translatable="false">values</string>
-    <string name="aps_key" translatable="false">key</string>
-    <string name="aps_supported" translatable="false">supported</string>
-    <string name="aps_type" translatable="false">type</string>
-    <string name="aps_mode" translatable="false">mode</string>
 
     <string name="aps_opencamera1legacy" translatable="false">opencamera1legacy</string>
     <string name="aps_usehuawei_wb" translatable="false">useHuaweiWb</string>
@@ -17,8 +12,6 @@
     <string name="aps_checkforupdates" translatable="false">checkforupdates</string>
     <string name="aps_theme" translatable="false">theme</string>
     <string name="aps_showmanualsettings" translatable="false">showmanualsettings</string>
-    <string name="aps_api" translatable="false">activeapi</string>
-    <string name="aps_app_version" translatable="false">app_version</string>
 
     <string name="aps_picturesize" translatable="false">picturesize</string>
     <string name="aps_yuvsize" translatable="false">yuvsize</string>
@@ -47,7 +40,6 @@
     <string name="aps_zslmode" translatable="false">zslmode</string>
     <string name="aps_scenedetectmode" translatable="false">scenedetectmode</string>
     <string name="aps_memorycolorenhancementmode" translatable="false">memorycolorenhancementmode</string>
-    <string name="aps_videosize" translatable="false">videosize</string>
     <string name="aps_cds" translatable="false">cds</string>
     <string name="aps_ois" translatable="false">ois</string>
     <string name="aps_videohdr" translatable="false">videohdr</string>
@@ -59,11 +51,9 @@
     <string name="aps_facemode" translatable="false">facemode</string>
     <string name="aps_digitalimagestabmode" translatable="false">digitalimagestabmode</string>
     <string name="aps_hotpixel" translatable="false">hotpixel</string>
-    <string name="aps_ae_priortiy" translatable="false">aepritority</string>
     <string name="aps_hdrmode" translatable="false">hdrmode</string>
     <string name="aps_module" translatable="false">modulemode</string>
     <string name="aps_nonzslmanualmode" translatable="false">nonzslmanualmode</string>
-    <string name="aps_virtuallensfilter" translatable="false">virtuallensfilter</string>
     <string name="aps_nightmode" translatable="false">nightmode</string>
     <string name="aps_videoProfile" translatable="false">videoProfile</string>
     <string name="aps_videoSize" translatable="false">videoSize</string>
@@ -74,17 +64,11 @@
     <string name="aps_opcode" translatable="false">opcode</string>
     <string name="aps_matrixset" translatable="false">matrixset</string>
     <string name="aps_sdcard" translatable="false">sdcard</string>
-    <string name="aps_cctmode" translatable="false">cctmode</string>
-    <string name="aps_objecttracking" translatable="false">objectracking</string>
     <string name="aps_tonemapmode" translatable="false">tonemapmode</string>
-    <string name="aps_postviewsize" translatable="false">postviewsize</string>
-    <string name="aps_zoommode" translatable="false">zoommode</string>
-    <string name="aps_scalePreview" translatable="false">scalePreview</string>
     <string name="aps_guide" translatable="false">guide</string>
     <string name="aps_previewfpsrange" translatable="false">previewfpsrange</string>
     <string name="aps_dualprimarycameramode" translatable="false">dualprimarycameramode</string>
     <string name="aps_secondarySensorSize" translatable="false">secondarySensorSize</string>
-    <string name="aps_thirdSensorSize" translatable="false">thirdSensorSize</string>
     <string name="aps_support12bitraw" translatable="false">support12bitraw</string>
 
     <string name="aps_tnr" translatable="false">tnr</string>
@@ -110,28 +94,21 @@
     <string name="aps_manualfnum" translatable="false">manualfnum</string>
     <string name="aps_manualzoom" translatable="false">zoom</string>
     <string name="aps_manualburst" translatable="false">burst</string>
-    <string name="aps_manualconvergence" translatable="false">convergence</string>
     <string name="aps_manualfx" translatable="false">manualfx</string>
     <string name="aps_manualprogramshift" translatable="false">programshift</string>
-    <string name="aps_manualpreviewzoom" translatable="false">previewzoom</string>
-    <string name="aps_unsupported" translatable="false">unsupported</string>
     <string name="aps_manualaperture" translatable="false">manualaperture</string>
     <string name="aps_zebrahigh" translatable="false">zebrahigh</string>
     <string name="aps_zebralow" translatable="false">zebralow</string>
     <string name="aps_ae_targetFPS" translatable="false">ae_TargetFPS</string>
     <string name="aps_orientationHack" translatable="false">orientationHack</string>
     <string name="aps_tonemapProfile" translatable="false">tonemapProfile</string>
-    <string name="aps_dngsupportmanualmodes" translatable="false">dngsupportmanualmodes</string>
     <string name="aps_forcerawtondng" translatable="false">forcerawtodng</string>
-    <string name="aps_arefeaturesdetected" translatable="false">arefeaturesdetected</string>
     <string name="aps_needrestartaftercapture" translatable="false">needrestartaftercapture</string>
     <string name="aps_selftimer" translatable="false">selftimer</string>
     <string name="aps_htcvideoMode" translatable="false">htcVideoMode</string>
     <string name="aps_htcvideoModehsr" translatable="false">htcVideoModeHsr</string>
     <string name="aps_lensfilter" translatable="false">lensfilter</string>
     <string name="aps_horizontlvl" translatable="false">horizontlvl</string>
-    <string name="aps_contshootmodespeed" translatable="false">contshootmodespeed</string>
-    <string name="aps_contshootmode" translatable="false">contshootmode</string>
     <string name="aps_focuspeak" translatable="false">focuspeak</string>
     <string name="aps_histogram" translatable="false">histogram</string>
     <string name="aps_clipping" translatable="false">clipping</string>
@@ -139,12 +116,9 @@
     <string name="aps_max_iso" translatable="false">max_iso</string>
     <string name="aps_min_exposure" translatable="false">min_exposure</string>
     <string name="aps_max_exposure" translatable="false">max_exposure</string>
-    <string name="aps_enable_renderscript" translatable="false">enable_renderscript</string>
-    <string name="aps_enable_video_opmode" translatable="false">enable_video_op_mode</string>
     <string name="aps_nightoverlay" translatable="false">nightoverlay</string>
     <string name="aps_colorcorrectionmode" translatable="false">colorcorrectionmode</string>
     <string name="aps_tonecurve" translatable="false">tonecurve</string>
-    <string name="aps_externalshutter" translatable="false">externalshutter</string>
     <string name="aps_location" translatable="false">location</string>
     <string name="aps_bayformat" translatable="false">bayerformat</string>
     <string name="aps_touchtocapture" translatable="false">touchtocapture</string>

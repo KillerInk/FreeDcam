@@ -6,7 +6,7 @@ public class InfoButtonModel extends ButtonModel {
 
     private boolean showExifInfo;
 
-    private ExifViewModel exifViewModel;
+    private final ExifViewModel exifViewModel;
 
     public InfoButtonModel(ExifViewModel exifViewModel)
     {
@@ -15,14 +15,7 @@ public class InfoButtonModel extends ButtonModel {
 
     @Override
     public void onClick(View v) {
-        if (showExifInfo)
-        {
-            showExifInfo = false;
-        }
-        else
-        {
-            showExifInfo = true;
-        }
+        showExifInfo = !showExifInfo;
         exifViewModel.setVisibility(showExifInfo);
     }
 

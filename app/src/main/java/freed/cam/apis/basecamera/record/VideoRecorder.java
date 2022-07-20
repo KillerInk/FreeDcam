@@ -2,9 +2,6 @@ package freed.cam.apis.basecamera.record;
 
 import android.hardware.Camera;
 import android.location.Location;
-import android.media.MediaCodec;
-import android.media.MediaCodecInfo;
-import android.media.MediaFormat;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.text.TextUtils;
@@ -21,7 +18,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Locale;
 
 import freed.FreedApplication;
 import freed.cam.ActivityFreeDcamMain;
@@ -57,9 +53,9 @@ public class VideoRecorder {
     CameraWrapperInterface cameraWrapperInterface;
     private Surface previewSurface;
     private Surface inputSurface;
-    private SettingsManager settingsManager;
-    private FileListController fileListController;
-    private UserMessageHandler userMessageHandler;
+    private final SettingsManager settingsManager;
+    private final FileListController fileListController;
+    private final UserMessageHandler userMessageHandler;
 
     public VideoRecorder(CameraWrapperInterface cameraWrapperInterface,MediaRecorder recorder)
     {

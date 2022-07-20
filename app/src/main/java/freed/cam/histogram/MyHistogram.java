@@ -22,11 +22,6 @@ package freed.cam.histogram;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -77,7 +72,7 @@ public class MyHistogram extends View {
         post(redrawHisto);
     }
 
-    private Runnable redrawHisto = () -> {
+    private final Runnable redrawHisto = () -> {
         bringToFront();
         invalidate();
     };

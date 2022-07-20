@@ -23,10 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 import freed.FreedApplication;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramData;
-import freed.views.pagingview.PagingViewTouchState;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.settings.VideoToneCurveProfile;
+import freed.views.pagingview.PagingViewTouchState;
 
 /**
  * Created by troop on 05.08.2017.
@@ -221,7 +221,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         this.curveChangedListner = event;
     }
 
-    private OnClickListener onSaveButtonClick = new OnClickListener() {
+    private final OnClickListener onSaveButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (savePanel.getVisibility() == GONE) {
@@ -238,7 +238,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onLoadButtonClick = new OnClickListener() {
+    private final OnClickListener onLoadButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (loadPanel.getVisibility() == GONE) {
@@ -268,7 +268,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onLoadPanelButtonClick = new OnClickListener()
+    private final OnClickListener onLoadPanelButtonClick = new OnClickListener()
     {
         @Override
         public void onClick(View v) {
@@ -289,7 +289,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onSavePanelSaveCurveClick = new OnClickListener() {
+    private final OnClickListener onSavePanelSaveCurveClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (!TextUtils.isEmpty(savePanel_editText_toneCurveName.getText().toString()))
@@ -309,7 +309,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onRemovePointClick = new OnClickListener() {
+    private final OnClickListener onRemovePointClick = new OnClickListener() {
         @Override
         public void onClick(View view) {
             if (pointState != PointStates.remove) {
@@ -323,7 +323,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onAddPointClick = new OnClickListener() {
+    private final OnClickListener onAddPointClick = new OnClickListener() {
         @Override
         public void onClick(View view) {
             if (pointState != PointStates.add) {
@@ -337,7 +337,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         }
     };
 
-    private OnClickListener onR_G_B_ButtonClick = new OnClickListener() {
+    private final OnClickListener onR_G_B_ButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v.getId() == activeButton.getId())
@@ -438,11 +438,11 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                     curveView.setPoints(rCurve);
                     break;
                 case R.id.button_green:
-                    gCurve = addPointToCurve(gCurve, pointF);;
+                    gCurve = addPointToCurve(gCurve, pointF);
                     curveView.setPoints(gCurve);
                     break;
                 case R.id.button_blue:
-                    bCurve = addPointToCurve(bCurve, pointF);;
+                    bCurve = addPointToCurve(bCurve, pointF);
                     curveView.setPoints(bCurve);
                     break;
             }
@@ -463,11 +463,11 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                     curveView.setPoints(rCurve);
                     break;
                 case R.id.button_green:
-                    gCurve = removePointFromCurve(gCurve, pointF);;
+                    gCurve = removePointFromCurve(gCurve, pointF);
                     curveView.setPoints(gCurve);
                     break;
                 case R.id.button_blue:
-                    bCurve = removePointFromCurve(bCurve, pointF);;
+                    bCurve = removePointFromCurve(bCurve, pointF);
                     curveView.setPoints(bCurve);
                     break;
             }
@@ -499,7 +499,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         return ret;
     }
 
-    private PointF[] removePointFromCurve(PointF arr[], PointF pointToRemove)
+    private PointF[] removePointFromCurve(PointF[] arr, PointF pointToRemove)
     {
         PointF[] ret = new PointF[arr.length-1];
         if (ret.length < 2)

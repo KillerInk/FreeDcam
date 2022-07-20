@@ -35,7 +35,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     private final String[] vs_values = {FreedApplication.getStringFromRessources(R.string.true_), FreedApplication.getStringFromRessources(R.string.false_)};
     public VideoStabilizationParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
     {
-        super(parameters, parameterChanged, SettingKeys.VideoStabilization);
+        super(parameters, parameterChanged, SettingKeys.VIDEO_STABILIZATION);
         if (parameters.get(FreedApplication.getStringFromRessources(R.string.video_stabilization_supported)) != null
                 && parameters.get(FreedApplication.getStringFromRessources(R.string.video_stabilization_supported)).equals(FreedApplication.getStringFromRessources(R.string.true_)))
         {

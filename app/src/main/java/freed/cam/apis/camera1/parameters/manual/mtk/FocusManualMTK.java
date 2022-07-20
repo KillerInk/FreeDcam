@@ -50,14 +50,14 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).setStringValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.FOCUS_MODE).setStringValue(FreedApplication.getStringFromRessources(R.string.auto_), true);
             ((SettingMode)settingsManager.get(key)).set(FreedApplication.getStringFromRessources(R.string.auto_));
         }
         else
         {
             if ((!TextUtils.isEmpty(manualFocusModeString) || manualFocusModeString == null)
-                    && !cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).getStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                cameraUiWrapper.getParameterHandler().get(SettingKeys.FocusMode).setStringValue(manualFocusModeString, false);
+                    && !cameraUiWrapper.getParameterHandler().get(SettingKeys.FOCUS_MODE).getStringValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.FOCUS_MODE).setStringValue(manualFocusModeString, false);
 
             if (currentInt > stringvalues.length -1)
                 currentInt = stringvalues.length -1;
