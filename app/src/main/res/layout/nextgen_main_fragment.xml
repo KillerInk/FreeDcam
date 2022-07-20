@@ -14,13 +14,10 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:id="@+id/cameraFragmentHolder"
+        <FrameLayout
+            android:id="@+id/nextgen_camera_preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"/>
 
 
         <freed.views.pagingview.PagingView

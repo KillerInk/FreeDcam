@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.troop.freedcam.R;
 
@@ -17,10 +17,11 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
-import freed.cam.apis.PreviewFragment;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
+import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themenextgen.adapter.NextGenCameraUiSlidePagerAdapter;
 import freed.file.FileListController;
 import freed.image.ImageManager;
@@ -48,12 +49,13 @@ public class NextGenMainFragment extends Fragment implements CameraHolderEvent, 
     CameraApiManager cameraApiManager;
     @Inject
     PreviewController previewController;
+    @Inject
+    HistogramController histogramController;
     private PagingView uiViewPager;
     private NextGenCameraUiSlidePagerAdapter uiViewPagerAdapter;
     private LinearLayout nightoverlay;
     private View view;
-
-    private PreviewFragment previewFragment;
+    private FrameLayout cameraPreview;
 
     @Override
     public void onCameraOpen() {
@@ -107,6 +109,7 @@ public class NextGenMainFragment extends Fragment implements CameraHolderEvent, 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
+        cameraPreview = view.findViewById(R.id.nextgen_camera_preview);
         cameraApiManager.addEventListner(this);
         previewController.previewPostProcessingChangedEventHandler.setEventListner(this);
     }
@@ -182,17 +185,13 @@ public class NextGenMainFragment extends Fragment implements CameraHolderEvent, 
     private void changePreviewPostProcessing()
     {
         Log.d(TAG,"changePreviewPostProcessing");
-        if (previewFragment != null) {
-            Log.d(TAG, "unload old Preview");
-            FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-            transaction.remove(previewFragment);
-            transaction.commit();
-            previewFragment = null;
-        }
-        Log.d(TAG, "load new Preview");
-        previewFragment = new PreviewFragment();
-        FragmentTransaction transaction  = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.cameraFragmentHolder, previewFragment);
-        transaction.commit();
+        cameraPreview.removeAllViews();
+        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() == null)
+            previewController.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
+        else if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()))
+            previewController.initPreview(PreviewPostProcessingModes.OpenGL, getContext(), histogramController);
+        else
+            previewController.initPreview(PreviewPostProcessingModes.off,getContext(),histogramController);
+        cameraPreview.addView(previewController.getPreviewView());
     }
 }

@@ -14,13 +14,11 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:id="@+id/cameraFragmentHolder"
+        <FrameLayout
+            android:id="@+id/cameraPreview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            />
 
 
         <freed.views.pagingview.PagingView
