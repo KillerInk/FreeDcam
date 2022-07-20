@@ -14,7 +14,7 @@ public class PreviewProgram extends GLDrawProgram {
 
     private float[] mTexRotateMatrix = new float[] {1, 0, 0, 0,   0, 1, 0, 0,   0, 0, 1, 0,   0, 0, 0, 1};
 
-    public PreviewProgram(int glesVersion) {
+    public PreviewProgram(float glesVersion) {
         super(glesVersion);
     }
 

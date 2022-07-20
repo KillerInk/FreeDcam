@@ -1,4 +1,4 @@
-#version 300 es
+#version 310 es
 #line 1
 in vec2 vPosition;
 in vec2 vTexCoord;

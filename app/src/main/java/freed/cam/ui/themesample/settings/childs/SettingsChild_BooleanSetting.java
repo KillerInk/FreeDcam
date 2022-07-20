@@ -39,4 +39,9 @@ public class SettingsChild_BooleanSetting extends LinearLayout implements Compou
         }
         booleanSettingMode.set(isChecked);
     }
+
+    public void setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener checkedChangeListener)
+    {
+        binding.switch1.setOnCheckedChangeListener(checkedChangeListener);
+    }
 }

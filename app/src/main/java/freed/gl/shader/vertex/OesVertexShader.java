@@ -3,7 +3,7 @@ package freed.gl.shader.vertex;
 import freed.gl.shader.Shader;
 
 public class OesVertexShader extends Shader {
-    public OesVertexShader(int glesVersion) {
+    public OesVertexShader(float glesVersion) {
         super(glesVersion);
     }
 

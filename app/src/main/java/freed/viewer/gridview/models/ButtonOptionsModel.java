@@ -12,11 +12,10 @@ public class ButtonOptionsModel extends VisibilityModel implements  Popup, View.
     private GridViewFragmentModelView gridViewFragmentModelView;
 
     public ButtonOptionsModel(View.OnClickListener onDeleteButtonListner,
-                              View.OnClickListener onJpgStackButtonListner,
                               View.OnClickListener onRawToDngButtonListner,
                               View.OnClickListener onRawStackButtonListner, GridViewFragmentModelView gridViewFragmentModelView)
     {
-        clickListeners = new View.OnClickListener[]{onDeleteButtonListner, onJpgStackButtonListner, onRawToDngButtonListner, onRawStackButtonListner};
+        clickListeners = new View.OnClickListener[]{onDeleteButtonListner, onRawToDngButtonListner, onRawStackButtonListner};
         this.gridViewFragmentModelView = gridViewFragmentModelView;
     }
 

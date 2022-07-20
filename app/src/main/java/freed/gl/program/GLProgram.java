@@ -1,27 +1,18 @@
 package freed.gl.program;
 
-import android.opengl.GLES11Ext;
-import android.opengl.GLES31;
 import android.opengl.GLES31;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
-import freed.gl.texture.GLFrameBuffer;
-import freed.gl.texture.GLTex;
-import freed.gl.shader.Shader;
 import freed.utils.Log;
 
 public abstract class GLProgram implements GLProgamInterface {
-    protected int glesVersion;
+    protected float glesVersion;
     protected int hProgram = -1;
 
     private final static String TAG = GLProgram.class.getSimpleName();
 
 
 
-    public GLProgram(int glesVersion)
+    public GLProgram(float glesVersion)
     {
         this.glesVersion = glesVersion;
     }

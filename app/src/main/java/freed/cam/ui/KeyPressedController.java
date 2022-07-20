@@ -78,8 +78,7 @@ public class KeyPressedController
         {
             if(keyCode == KeyEvent.KEYCODE_HEADSETHOOK && repeat == 1)
                 changeManualMode();
-            handelVolUpDown(keyCode,1);
-            ret = true;
+            ret = handelVolUpDown(keyCode,1);
         }
         activeKeyEvent = 0;
         repeat = 0;

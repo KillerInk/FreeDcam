@@ -11,19 +11,31 @@ import androidx.fragment.app.FragmentTransaction;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.PreviewFragment;
+import freed.cam.event.BaseEventHandler;
+import freed.cam.event.MyEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.histogram.HistogramFeed;
 import freed.utils.Log;
 
 public class PreviewController implements PreviewControllerInterface
 {
+    public interface PreviewPostProcessingChangedEvent extends MyEvent {
+        void onPreviewPostProcessingChanged();
+    }
+    public static class PreviewPostProcessingChangedEventHandler extends BaseEventHandler<PreviewPostProcessingChangedEvent>
+    {
+        public void fireOnPreviewPostProcessingChanged()
+        {
+            for (PreviewPostProcessingChangedEvent event : eventListners)
+                event.onPreviewPostProcessingChanged();
+        }
+    }
+
     private static final String TAG = PreviewController.class.getSimpleName();
     private Preview preview;
     PreviewEvent eventListner;
+    public PreviewPostProcessingChangedEventHandler previewPostProcessingChangedEventHandler;
 
-    private int fragmentHolderId;
-    private FragmentManager fragmentManager;
-    private PreviewFragment previewFragment;
     boolean blue = false;
     boolean red = false;
     boolean green = false;
@@ -35,29 +47,19 @@ public class PreviewController implements PreviewControllerInterface
     float zebralow = 0.01f;
     HistogramFeed feed;
 
-    public void init(FragmentManager fragmentManager, int fragmentHolderId) {
-        this.fragmentManager = fragmentManager;
-        this.fragmentHolderId = fragmentHolderId;
-    }
-
-    public boolean isPreviewInit()
+    public PreviewController()
     {
-        return previewFragment != null;
+        previewPostProcessingChangedEventHandler = new PreviewPostProcessingChangedEventHandler();
     }
 
     @Override
     public void initPreview(PreviewPostProcessingModes previewPostProcessingModes, Context context, HistogramController histogram)
     {
         Log.d(TAG, "init preview " +previewPostProcessingModes.name());
-        if (preview != null)
-            preview.close();
         switch (previewPostProcessingModes)
         {
             case off:
                 preview = new NormalPreview(context);
-                break;
-            case RenderScript:
-                preview = new RenderScriptPreview(context,histogram);
                 break;
             case OpenGL:
                 preview = new OpenGLPreview(context,histogram);
@@ -77,6 +79,7 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void setHistogramFeed(HistogramFeed feed) {
+        Log.d(TAG,"setHistogramFeed");
         this.feed = feed;
         if (preview != null)
             this.preview.setHistogramFeed(feed);
@@ -91,37 +94,16 @@ public class PreviewController implements PreviewControllerInterface
         return preview;
     }
 
-    @Override
-    public void close() {
-        if (preview != null)
-            preview.close();
-    }
 
     public SurfaceTexture getSurfaceTexture()
     {
         return preview.getSurfaceTexture();
     }
 
-    public Surface getInputSurface()
-    {
-        return preview.getInputSurface();
-    }
-
-    @Override
-    public void setOutputSurface(Surface surface) {
-        preview.setOutputSurface(surface);
-    }
-
     @Override
     public void setSize(int width, int height) {
         preview.setSize(width,height);
     }
-
-    @Override
-    public boolean isSucessfullLoaded() {
-        return preview.isSucessfullLoaded();
-    }
-
 
     @Override
     public void setBlue(boolean blue) {
@@ -202,11 +184,13 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public void start() {
+        Log.d(TAG,"start");
         preview.start();
     }
 
     @Override
     public void stop() {
+        Log.d(TAG,"stop");
         preview.stop();
     }
 
@@ -266,23 +250,8 @@ public class PreviewController implements PreviewControllerInterface
 
     public void changePreviewPostProcessing()
     {
-        if (previewFragment != null) {
-            Log.d(TAG, "unload old Preview");
-            //kill the cam befor the fragment gets removed to make sure when
-            //new cameraFragment gets created and its texture view is created the cam get started
-            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            FragmentTransaction transaction  = fragmentManager.beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.remove(previewFragment);
-            transaction.commit();
-            previewFragment = null;
-        }
-        Log.d(TAG, "load new Preview");
-        previewFragment = new PreviewFragment();
-        FragmentTransaction transaction  = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(fragmentHolderId, previewFragment, previewFragment.getClass().getSimpleName());
-        transaction.commit();
+
+        previewPostProcessingChangedEventHandler.fireOnPreviewPostProcessingChanged();
     }
 
     @Override

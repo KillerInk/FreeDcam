@@ -27,11 +27,12 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.settings.SettingKeys;
+import freed.settings.mode.BooleanSettingModeInterface;
 
 /**
  * Created by Ingo on 25.12.2014.
  */
-public class ExposureLockParameter extends BaseModeParameter
+public class ExposureLockParameter extends BaseModeParameter implements BooleanSettingModeInterface
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
     public ExposureLockParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
@@ -70,4 +71,15 @@ public class ExposureLockParameter extends BaseModeParameter
         return new String[]{FreedApplication.getStringFromRessources(R.string.true_), FreedApplication.getStringFromRessources(R.string.false_)};
     }
 
+    @Override
+    public boolean get() {
+        return parameters.getAutoExposureLock();
+    }
+
+    @Override
+    public void set(boolean bool) {
+        if (parameters.isAutoExposureLockSupported())
+            parameters.setAutoExposureLock(bool);
+        fireStringValueChanged(String.valueOf(bool));
+    }
 }

@@ -3,7 +3,7 @@ package freed.gl.shader.compute;
 import freed.gl.shader.Shader;
 
 public class WaveformComputeShader extends Shader {
-    public WaveformComputeShader(int glesVersion) {
+    public WaveformComputeShader(float glesVersion) {
         super(glesVersion);
     }
 

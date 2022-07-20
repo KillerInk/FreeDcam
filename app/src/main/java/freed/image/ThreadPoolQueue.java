@@ -71,7 +71,8 @@ public class ThreadPoolQueue {
 
     public void removeTaskFromQueue(ImageTask task)
     {
-        executerQueue.remove(task);
+        boolean removed = executerQueue.remove(task);
+        Log.d("ThreadPoolQueue", "Removed task:");
         try {
             if (task != null && task.getThread() != null && !task.getThread().isInterrupted())
                 task.getThread().interrupt();

@@ -53,8 +53,8 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
         {
             case manual:
                 exposureCompensation.setViewState(AbstractParameter.ViewState.Disabled);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority,0,true);
-                cameraWrapperInterface.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 0L, true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority,CaptureRequestQcom.ExposureTimePriority_OFF,true);
+                cameraWrapperInterface.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, CaptureRequestQcom.IsoPriority_OFF, true);
                 cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_OFF,true);
                 cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY,isoVal,true);
                 if (exposuretime > MAX_PREVIEW_EXPOSURETIME && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
@@ -66,16 +66,16 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
                 break;
             case iso_priority:
                 cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_value,isoVal ,true);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 0,true);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 8L,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, CaptureRequestQcom.ExposureTimePriority_OFF,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, CaptureRequestQcom.IsoPriority_ON,true);
                 break;
             case shutter_priority:
                 applyExpotime();
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 1,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, CaptureRequestQcom.ExposureTimePriority_ON,true);
                 break;
             default:
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, 0,true);
-                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, 0L,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_select_priority, CaptureRequestQcom.ExposureTimePriority_OFF,true);
+                cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, CaptureRequestQcom.IsoPriority_OFF,true);
                 exposureCompensation.setViewState(AbstractParameter.ViewState.Enabled);
                 cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON,true);
                 break;
@@ -119,6 +119,7 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
             isoIsActive =true;
         }
         applyAeMode();
+        manualIso.fireIntValueChanged(valueToSet);
     }
 
 

@@ -57,7 +57,6 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     @Override
     public void DestroyModule() {
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        previewController.close();
         if (privateRawImageReader != null)
             privateRawImageReader.close();
         privateRawImageReader = null;

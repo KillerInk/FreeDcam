@@ -36,6 +36,7 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
+import freed.utils.DisplayUtil;
 import freed.utils.Log;
 
 /**
@@ -132,9 +133,7 @@ public class CaptureSessionHandler
         this.userMessageHandler = ActivityFreeDcamMain.userMessageHandler();
         this.cameraBackroundValuesChangedListner = cameraBackroundValuesChangedListner;
         surfaces = new ArrayList<>();
-        Display display = ((WindowManager) FreedApplication.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        displaySize = new Point();
-        display.getRealSize(displaySize);
+        displaySize = DisplayUtil.getDisplaySize();
         backgroundHandlerThread = new BackgroundHandlerThread(TAG);
         backgroundHandlerThread.create();
     }
@@ -227,7 +226,7 @@ public class CaptureSessionHandler
 
     public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
     {
-        Log.d(TAG, "AddSurface");
+        Log.d(TAG, "AddSurface is null:" + (surface == null) );
         if (surfaces.contains(surface))
             return;
         surfaces.add(surface);

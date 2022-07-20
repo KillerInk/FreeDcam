@@ -31,14 +31,8 @@ Supported Apis:
 [android.hardware.camera2](http://developer.android.com/reference/android/hardware/camera2/package-summary.html)  
 
 
-[Sony Camera Remote Api (PlayMemoriesMobile)](https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/)  
-
-
-
 Projects used by FreeDcam
 =========================
-
-[MetadataExtractor](https://github.com/drewnoakes/metadata-extractor)  
 
 
 [Libtiff](http://www.remotesensing.org/libtiff/)

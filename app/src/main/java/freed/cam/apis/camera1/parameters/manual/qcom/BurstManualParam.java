@@ -33,7 +33,6 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.cam.events.ModuleHasChangedEvent;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 
@@ -103,18 +102,5 @@ public class BurstManualParam extends BaseManualParameter
         return stringvalues[currentInt];
     }
 
-
-    public void onModuleChanged(ModuleHasChangedEvent event)
-    {
-        String module = event.NewModuleName;
-        if ((module.equals(FreedApplication.getStringFromRessources(R.string.module_video)) || module.equals(FreedApplication.getStringFromRessources(R.string.module_hdr))) && settingMode.isSupported())
-            setViewState(ViewState.Hidden);
-        else if ((module.equals(FreedApplication.getStringFromRessources(R.string.module_picture))
-                || module.equals(FreedApplication.getStringFromRessources(R.string.module_interval))
-        )&& settingMode.isSupported())
-        {
-            setViewState(ViewState.Visible);
-        }
-    }
 
 }

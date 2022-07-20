@@ -32,11 +32,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.R;
 
 import java.util.List;
@@ -146,7 +147,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
             mCurrentAnimator.cancel();
         }
 
-        View griditem = gridViewFragment.GetGridItem(position);
+        View griditem = gridViewFragment.GetGridItem(screenSlideFragment.getPosition());
+        if (griditem == null)
+            gridViewFragment.smoothScrollToPos(screenSlideFragment.getPosition());
+            //griditem = gridViewFragment.GetGridItem(0);
+        griditem = gridViewFragment.GetGridItem(screenSlideFragment.getPosition());
         if (griditem == null)
             griditem = gridViewFragment.GetGridItem(0);
         // Calculate the starting and ending bounds for the zoomed-in image.

@@ -3,7 +3,7 @@ package freed.gl.shader.fragment;
 import freed.gl.shader.Shader;
 
 public class PreviewFragmentShader extends Shader {
-    public PreviewFragmentShader(int glesVersion) {
+    public PreviewFragmentShader(float glesVersion) {
         super(glesVersion);
     }
 

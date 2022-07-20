@@ -3,7 +3,7 @@ package freed.gl.shader.vertex;
 import freed.gl.shader.Shader;
 
 public class PreviewVertexShader extends Shader {
-    public PreviewVertexShader(int glesVersion) {
+    public PreviewVertexShader(float glesVersion) {
         super(glesVersion);
     }
 

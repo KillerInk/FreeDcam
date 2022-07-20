@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/values_container"
+        setViewState="@{parameter.viewState}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <TextView
+            android:id="@+id/textViewHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:shadowRadius="1"
+            android:text="\ue00f"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:textSize="24sp"
+            app:fontFamily="@font/freedcam" />
+
+        <TextView
+            android:id="@+id/textViewValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="2dp"
+            android:shadowDx="1.5"
+            android:shadowDy="1.5"
+            android:shadowRadius="1"
+            android:text="@{parameter.stringValue}"
+            android:textColor="@color/nextgen_menu_right_text"
+            android:textSize="12sp"
+            tools:text="16" />
+    </LinearLayout>
+</layout>

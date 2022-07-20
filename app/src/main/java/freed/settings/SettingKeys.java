@@ -32,8 +32,8 @@ public class SettingKeys{
     public final static Key<SettingMode> M_ProgramShift = new Key(SettingMode.class, R.string.aps_manualprogramshift);
     public final static Key<SettingMode> M_PreviewZoom = new Key(SettingMode.class, R.string.aps_manualpreviewzoom);
     public final static Key<SettingMode> M_Aperture = new Key(SettingMode.class, R.string.aps_manualaperture);
-    public final static Key<SettingMode> M_ZEBRA_HIGH = new Key(SettingMode.class, R.string.aps_zebrahigh);
-    public final static Key<SettingMode> M_ZEBRA_LOW = new Key(SettingMode.class, R.string.aps_zebralow);
+    public final static ApiKey<SettingMode> M_ZEBRA_HIGH = new ApiKey(SettingMode.class, R.string.aps_zebrahigh);
+    public final static ApiKey<SettingMode> M_ZEBRA_LOW = new ApiKey(SettingMode.class, R.string.aps_zebralow);
 
     public final static Key<SettingMode> ColorMode = new Key(SettingMode.class, R.string.aps_colormode);
     public final static Key<SettingMode> ExposureMode = new Key(SettingMode.class, R.string.aps_exposuremode);
@@ -50,7 +50,8 @@ public class SettingKeys{
     public final static Key<SettingMode> JpegQuality = new Key(SettingMode.class, R.string.aps_jpegquality);
     public final static Key<ApiBooleanSettingMode> MFNR = new Key(ApiBooleanSettingMode.class, R.string.aps_mfnr);
 
-    public final static Key<SettingMode> ImagePostProcessing = new Key(SettingMode.class, R.string.aps_ippmode);
+    public final static ApiKey<SettingMode> ImagePostProcessing = new ApiKey(SettingMode.class, R.string.aps_ippmode);
+    public final static ApiKey<SettingMode> CAMERA_SWITCH = new ApiKey(SettingMode.class, R.string.aps_cameraswitch);
     public final static Key<SettingMode> PreviewSize = new Key(SettingMode.class, R.string.aps_previewsize);
     public final static Key<SettingMode> PreviewFPS = new Key(SettingMode.class, R.string.aps_previewfps);
     public final static Key<SettingMode> PreviewFormat = new Key(SettingMode.class, R.string.aps_previewformat);
@@ -96,7 +97,7 @@ public class SettingKeys{
     public final static Key<SettingMode> ContShootModeSpeed = new Key(SettingMode.class, R.string.aps_contshootmodespeed);
     public final static Key<SettingMode> ObjectTracking = new Key(SettingMode.class, R.string.aps_objecttracking);
     public final static Key<SettingMode> PostViewSize = new Key(SettingMode.class, R.string.aps_postviewsize);
-    public final static Key<SettingMode> Module = new Key(SettingMode.class, R.string.aps_module);
+    public final static ApiKey<SettingMode> Module = new ApiKey(SettingMode.class, R.string.aps_module);
     public final static Key<SettingMode> ZoomSetting = new Key(SettingMode.class, R.string.aps_zoommode);
     public final static Key<SettingMode> dualPrimaryCameraMode = new Key(SettingMode.class, R.string.aps_dualprimarycameramode);
     public final static Key<SettingMode> secondarySensorSize = new Key(SettingMode.class, R.string.aps_secondarySensorSize);
@@ -150,6 +151,7 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> XIAOMI_VIDEO_RECORD_CONTROL = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_video_record_control);
     public final static Key<ApiBooleanSettingMode> XIAOMI_PRO_VIDEO_LOG = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_pro_video_log);
     public final static Key<ApiBooleanSettingMode> QCOM_VIDEO_HDR10 = new Key(ApiBooleanSettingMode.class, R.string.aps_qcom_video_hdr);
+    public final static Key<ApiBooleanSettingMode> XIAOMI_MFNR = new Key(ApiBooleanSettingMode.class, R.string.aps_xiaomi_mfnr);
 
     public final static Key<ApiBooleanSettingMode> ZOOM_ON_MANUALFOCUS = new Key(ApiBooleanSettingMode.class, R.string.aps_zoom_on_mf);
     public final static Key<SettingMode> ZOOM_ON_MANUALFOCUS_ZOOMFACTOR = new Key(SettingMode.class, R.string.aps_zoom_on_mf_zoomfactor);
@@ -162,16 +164,17 @@ public class SettingKeys{
 
 
     public final static Key<ApiBooleanSettingMode> ENABLE_VIDEO_OPMODE = new Key(ApiBooleanSettingMode.class, R.string.aps_enable_video_opmode);
-    public final static Key<SettingMode> Focuspeak = new Key(SettingMode.class, R.string.aps_focuspeak);
-    public final static Key<SettingMode> HISTOGRAM = new Key(SettingMode.class, R.string.aps_histogram);
-    public final static Key<SettingMode> CLIPPING = new Key(SettingMode.class, R.string.aps_clipping);
+    public final static Key<ApiBooleanSettingMode> Focuspeak = new Key(ApiBooleanSettingMode.class, R.string.aps_focuspeak);
+    public final static Key<ApiBooleanSettingMode> HISTOGRAM = new Key(ApiBooleanSettingMode.class, R.string.aps_histogram);
+    public final static Key<ApiBooleanSettingMode> CLIPPING = new Key(ApiBooleanSettingMode.class, R.string.aps_clipping);
 
 
     public final static GlobalKey<GlobalBooleanSettingMode> CHECKFORUPDATES = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_checkforupdates);
+    public final static GlobalKey<SettingMode> THEME = new GlobalKey<>(SettingMode.class, R.string.aps_theme);
     public final static GlobalKey<GlobalBooleanSettingMode> SHOWMANUALSETTINGS = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_showmanualsettings);
     public final static GlobalKey<SettingMode> PREVIEW_POST_PROCESSING_MODE = new GlobalKey<>(SettingMode.class, R.string.aps_preview_post_processing_mode);
     public final static GlobalKey<GlobalBooleanSettingMode> NightOverlay = new GlobalKey<>(GlobalBooleanSettingMode.class, R.string.aps_nightoverlay);
-    public final static GlobalKey<SettingMode> LOCATION_MODE = new GlobalKey(SettingMode.class, R.string.aps_location);
+    public final static GlobalKey<GlobalBooleanSettingMode> LOCATION_MODE = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_location);
     public final static GlobalKey<GlobalBooleanSettingMode> TouchToCapture = new GlobalKey(GlobalBooleanSettingMode.class, R.string.aps_touchtocapture);
     public final static GlobalKey<SettingMode> GuideList = new GlobalKey(SettingMode.class, R.string.aps_guide);
     public final static GlobalKey<SettingMode> HorizontLvl = new GlobalKey(SettingMode.class, R.string.aps_horizontlvl);
@@ -197,7 +200,7 @@ public class SettingKeys{
             if (Modifier.isPublic(mod)
                     && Modifier.isStatic(mod)
                     && Modifier.isFinal(mod)
-                    && (f.getType() == Key.class || f.getType() == GlobalKey.class))
+                    && (f.getType() == Key.class || f.getType() == GlobalKey.class || f.getType() == ApiKey.class))
                 try {
                     keys.add((Key)f.get(null));
                 } catch (IllegalAccessException e) {
@@ -238,26 +241,17 @@ public class SettingKeys{
         }
     }
 
-    public static class GlobalKey<T> extends Key
+    public static class GlobalKey<T> extends Key<T>
     {
-
         private GlobalKey(Class type, int ressourcesStringID) {
             super(type, ressourcesStringID);
         }
+    }
 
-        @Override
-        public Class<T> getType() {
-            return super.getType();
-        }
-
-        @Override
-        public int getRessourcesStringID() {
-            return super.getRessourcesStringID();
-        }
-
-        @Override
-        public String toString() {
-            return super.toString();
+    public static class ApiKey<T> extends Key<T>
+    {
+        private ApiKey(Class type, int ressourcesStringID) {
+            super(type, ressourcesStringID);
         }
     }
 }

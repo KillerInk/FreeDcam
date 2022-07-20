@@ -132,7 +132,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             }
             else
                 burstcount = 1;
-            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_)))
+            if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get())
                 cameraHolder.SetLocation(locationManager.getCurrentLocation());
             startcapturetime =new Date().getTime();
             cameraHolder.TakePicture(PictureModule.this);
@@ -171,7 +171,10 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
         size = Camera1Utils.getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
 
         Log.d(TAG, "set size to " + size.width + "x" + size.height);
-        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
+        if (settingsManager != null &&
+                settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null &&
+                settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() != null &&
+                !settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name())) {
             if(size == null || previewController.getSurfaceTexture() == null)
                 return;
             cameraHolder.StopPreview();
@@ -182,12 +185,8 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             }
 
             cameraUiWrapper.getParameterHandler().get(SettingKeys.PreviewSize).setStringValue(size.width + "x" + size.height, false);
-            Surface surface = new Surface(previewController.getSurfaceTexture());
-            previewController.setOutputSurface(surface);
             previewController.setSize(size.width, size.height);
             previewController.setHistogram(false);
-
-            cameraHolder.setSurface(previewController.getInputSurface());
             cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
             cameraHolder.StartPreview();
             previewController.start();
@@ -387,7 +386,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
             task.setOrientation(orientationManager.getCurrentOrientation());
         task.setFilePath(file, settingsManager.GetWriteExternal());
         task.setBytesTosave(data,ImageSaveTask.RAW10);
-        if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get())
             task.setLocation(locationManager.getCurrentLocation());
         imageManager.putImageSaveTask(task);
     }

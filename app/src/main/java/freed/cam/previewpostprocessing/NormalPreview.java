@@ -18,28 +18,6 @@ public class NormalPreview extends AutoFitTexturviewPreview {
         displaySize = DisplayUtil.getDisplaySize();
     }
 
-
-    @Override
-    public void close() {
-
-    }
-
-    @Override
-    public Surface getInputSurface() {
-        return null;
-    }
-
-    @Override
-    public void setOutputSurface(Surface surface) {
-
-    }
-
-
-    @Override
-    public boolean isSucessfullLoaded() {
-        return false;
-    }
-
     @Override
     public void setBlue(boolean blue) {
 

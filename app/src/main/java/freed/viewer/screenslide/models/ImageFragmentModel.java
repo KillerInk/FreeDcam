@@ -4,6 +4,7 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
+
 import freed.file.holder.BaseHolder;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.screenslide.BitmapLoader;

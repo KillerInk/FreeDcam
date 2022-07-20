@@ -16,25 +16,26 @@ public class HistogramParameter extends FocusPeakMode {
 
     public HistogramParameter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper, SettingKeys.HISTOGRAM);
+        settingMode = SettingKeys.HISTOGRAM;
     }
     @Override
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
-        state = valueToSet;
+        currentString = valueToSet;
+        boolean toset = false;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            previewController.setHistogram(true);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
+            toset = true;
         }
-        else {
-            previewController.setHistogram(false);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
-        }
+        previewController.setHistogram(toset);
+        settingsManager.get(settingMode).set(toset);
+        fireStringValueChanged(valueToSet);
 
     }
 
     @Override
-    public String getStringValue() {
-        return state;
+    public void set(boolean bool) {
+        previewController.setHistogram(bool);
+        settingsManager.get(settingMode).set(bool);
     }
 }

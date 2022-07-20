@@ -191,8 +191,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader = null;
         }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        previewController.close();
-        //((RenderScriptProcessor)cameraUiWrapper.getFocusPeakProcessor()).setRenderScriptErrorListner(null);
         videoRecorder.release();
         videoRecorder = null;
         previewsurface = null;
@@ -255,97 +253,48 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
         int sensorOrientation = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
         int orientation = 0;
         int orientationToSet = (360 + sensorOrientation) % 360;
-        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
-            Log.d(TAG, "RenderScriptPreview");
-            int rotation = 0;
-            switch (orientationToSet)
-            {
-                case 90:
-                    rotation = 0;
-                    break;
-                case 180:
-                    rotation =90;
-                    break;
-                case 270: rotation = 180;
-                    break;
-                case 0: rotation = 270;
-                    break;
-            }
-            final int or = OrientationUtil.getOrientation(rotation);
 
-            Log.d(TAG, "rotation to set : " + or);
-            int w = previewSize.getWidth();
-            int h = previewSize.getHeight();
-            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
-                if (or == 90 || or == 270) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            else
-            {
-                if (or == 0 || or == 180) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            int finalW = w;
-            int finalH = h;
-            mainHandler.post(() -> previewController.setRotation(finalW, finalH,or));
-            SurfaceTexture texture = previewController.getSurfaceTexture();
-            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-            previewsurface = new Surface(texture);
-
-            previewController.setOutputSurface(previewsurface);
-            previewController.setSize(previewSize.getWidth(),previewSize.getHeight());
-
-            Surface camerasurface = previewController.getInputSurface();
-            Log.d(TAG, "Add preview surface RS");
-            cameraUiWrapper.captureSessionHandler.AddSurface(camerasurface, true);
-            previewController.start();
+        switch (orientationToSet) {
+            case 90:
+                orientation = 270;
+                break;
+            case 180:
+                orientation = 180;
+                break;
+            case 270:
+                orientation = 270;
+                break;
+            case 0:
+                orientation = 180;
+                break;
         }
-        else {
-            switch (orientationToSet) {
-                case 90:
-                    orientation = 270;
-                    break;
-                case 180:
-                    orientation = 180;
-                    break;
-                case 270:
-                    orientation = 270;
-                    break;
-                case 0:
-                    orientation = 180;
-                    break;
+        int w, h, or;
+        w = previewSize.getWidth();
+        h = previewSize.getHeight();
+        or = OrientationUtil.getOrientation(orientation);
+        if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+            if (or == 0 || or == 180) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
             }
-            int w, h, or;
-            w = previewSize.getWidth();
-            h = previewSize.getHeight();
-            or = OrientationUtil.getOrientation(orientation);
-            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
-                if (or == 0 || or == 180) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            else
-            {
-                if (or == 90 || or == 270) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            int finalW = w;
-            int finalH = h;
-            mainHandler.post(() -> previewController.setRotation(finalW, finalH, or));
-            previewController.setSize(finalW, finalH);
-            SurfaceTexture texture = previewController.getSurfaceTexture();
-            texture.setDefaultBufferSize(w, h);
-            previewsurface = new Surface(texture);
-            Log.d(TAG, "add preview surface normal");
-            cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
         }
+        else
+        {
+            if (or == 90 || or == 270) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
+            }
+        }
+        int finalW = w;
+        int finalH = h;
+        mainHandler.post(() -> previewController.setRotation(finalW, finalH, or));
+        previewController.setSize(finalW, finalH);
+        SurfaceTexture texture = previewController.getSurfaceTexture();
+        texture.setDefaultBufferSize(w, h);
+        previewsurface = new Surface(texture);
+        Log.d(TAG, "add preview surface normal");
+        cameraUiWrapper.captureSessionHandler.AddSurface(previewsurface, true);
+
 
         if (active_op != OpCodes.off && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.d(TAG, "Create Opcode PicReader");
@@ -430,7 +379,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             }
         });
 
-        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.on_))){
+        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get()){
             Location location = locationManager.getCurrentLocation();
             if (location != null)
                 videoRecorder.setLocation(location);
@@ -509,6 +458,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             cameraUiWrapper.captureSessionHandler.SetCaptureSession(session);
 
             cameraUiWrapper.getParameterHandler().SetAppSettingsToParameters();
+            cameraUiWrapper.getParameterHandler().setManualSettingsToParameters();
             if (opcodeProcessor != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Log.d(TAG, "opcodeProcessor.prepareRecording");
                 opcodeProcessor.prepareRecording();

@@ -20,15 +20,11 @@
 package freed.cam.ui.themesample.handler;
 
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Build.VERSION;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -44,13 +40,13 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.previewpostprocessing.PreviewController;
-import freed.cam.ui.themesample.PagingViewTouchState;
-import freed.cam.ui.themesample.cameraui.FocusSelector;
+import freed.views.pagingview.PagingViewTouchState;
+import freed.views.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
+import freed.utils.DisplayUtil;
 import freed.utils.Log;
 
 
@@ -65,7 +61,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private int disHeight;
     private int disWidth;
     private final int recthalf;
-    private final ImageView cancelFocus;
     private final ImageView meteringArea;
     private boolean touchToFocusIsSupported = false;
     private boolean meteringIsSupported = false;
@@ -82,16 +77,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         previewController = ActivityFreeDcamMain.previewController();
         focusImageView = view.findViewById(R.id.imageView_Crosshair);
 
-        cancelFocus = view.findViewById(R.id.imageViewFocusClose);
         meteringArea = view.findViewById(R.id.imageView_meteringarea);
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.cameraui_focusselector_width)/2;
-
-        cancelFocus.setVisibility(View.GONE);
-        cancelFocus.setOnClickListener(v -> {
-            wrapper.getCameraHolder().CancelFocus();
-            cancelFocus.setVisibility(View.GONE);
-        });
-
 
         meteringArea.setVisibility(View.GONE);
         if (wrapper != null)
@@ -132,32 +119,30 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void FocusStarted(int x, int y)
     {
         waitForFocusEnd = true;
-        if (!(wrapper instanceof SonyRemoteCamera))
+
+        Log.d(TAG,"FocusStarted");
+        disWidth = previewController.getViewWidth();
+        disHeight = previewController.getViewHeight();
+
+        /*if (rect == null)
         {
-            Log.d(TAG,"FocusStarted");
-            disWidth = previewController.getViewWidth();
-            disHeight = previewController.getViewHeight();
+            int halfwidth = disWidth / 2;
+            int halfheight = disHeight / 2;
+            rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
+        }*/
+        final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
+        mParams.leftMargin = x +getLeftMargin();
+        mParams.topMargin = y+ getTopMargin();
 
-            /*if (rect == null)
-            {
-                int halfwidth = disWidth / 2;
-                int halfheight = disHeight / 2;
-                rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
-            }*/
-            final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
-            mParams.leftMargin = x +getLeftMargin();
-            mParams.topMargin = y+ getTopMargin();
+        focusImageView.post(() -> {
+            focusImageView.setLayoutParams(mParams);
+            //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
+            focusImageView.setFocusCheck(false);
+            focusImageView.setVisibility(View.VISIBLE);
+            Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
+            focusImageView.startAnimation(anim);
+        });
 
-            focusImageView.post(() -> {
-                focusImageView.setLayoutParams(mParams);
-                //focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
-                focusImageView.setFocusCheck(false);
-                focusImageView.setVisibility(View.VISIBLE);
-                Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
-                focusImageView.startAnimation(anim);
-            });
-
-        }
     }
 
     @Override
@@ -165,7 +150,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         if (waitForFocusEnd) {
             waitForFocusEnd = false;
-            if (!(wrapper instanceof SonyRemoteCamera)) {
                 focusImageView.post(() -> {
                     focusImageView.setFocusCheck(success);
                     focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
@@ -179,20 +163,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                     focusImageView.setAnimation(null);
                 });
             }
-        }
-    }
-
-    @Override
-    public void FocusLocked(final boolean locked)
-    {
-        cancelFocus.post(() -> {
-            if (locked)
-                cancelFocus.setVisibility(View.VISIBLE);
-            else
-                cancelFocus.setVisibility(View.GONE);
-        });
 
     }
+
 
     @Override
     public void TouchToFocusSupported(boolean isSupported)
@@ -313,35 +286,15 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         if(fragment == null)
             return null;
-        if (VERSION.SDK_INT >= 17)
-        {
-            WindowManager wm = (WindowManager) fragment.getSystemService(Context.WINDOW_SERVICE);
-            Point size =  new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = size.x;
-                height = size.y;
-            }
-            else
-            {
-                height = size.x;
-                width = size.y;
-            }
+        Point displaySize = DisplayUtil.getDisplaySize();
+        if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            width = displaySize.x;
+            height = displaySize.y;
         }
         else
         {
-            DisplayMetrics metrics = fragment.getResources().getDisplayMetrics();
-            if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-            }
-            else
-            {
-                width = metrics.heightPixels;
-                height = metrics.widthPixels;
-            }
-
+            height = displaySize.x;
+            width = displaySize.y;
         }
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);

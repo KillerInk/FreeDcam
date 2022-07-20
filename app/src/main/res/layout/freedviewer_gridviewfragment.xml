@@ -21,7 +21,7 @@
         android:animationCache="false"
         android:background="@android:color/background_dark"
         android:clipToPadding="false"
-        android:columnWidth="@dimen/image_thumbnail_size"
+        android:columnWidth="@dimen/image_thumbnail_size_grid"
         android:numColumns="auto_fit"
         android:scrollingCache="false"
         android:smoothScrollbar="true">

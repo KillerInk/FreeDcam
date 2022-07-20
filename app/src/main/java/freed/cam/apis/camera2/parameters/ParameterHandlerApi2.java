@@ -57,6 +57,7 @@ import freed.cam.apis.camera2.parameters.modes.AeLockModeApi2;
 import freed.cam.apis.camera2.parameters.modes.AeTargetRangeApi2;
 import freed.cam.apis.camera2.parameters.modes.BaseModeApi2;
 import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
+import freed.cam.apis.camera2.parameters.modes.FlashMode;
 import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.MFNR;
@@ -65,6 +66,7 @@ import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.SecondarySensorSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
+import freed.cam.apis.camera2.parameters.modes.XiaomiMfnr;
 import freed.cam.apis.camera2.parameters.modes.YuvSizeModeApi2;
 import freed.settings.Frameworks;
 import freed.settings.SettingKeys;
@@ -79,6 +81,7 @@ import freed.settings.VideoToneCurveProfile;
 public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
 {
     private final String TAG = ParameterHandlerApi2.class.getSimpleName();
+    private final boolean dumpAvailRequestKeys = false;
 
 
     private CameraHolderApi2 cameraHolder;
@@ -98,13 +101,14 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
     {
         this.cameraHolder = cameraUiWrapper.getCameraHolder();
         List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
-        for (int i = 0; i< keys.size(); i++)
-        {
-            Log.d(TAG, keys.get(i).getName());
-        }
+        if (dumpAvailRequestKeys)
+            for (int i = 0; i< keys.size(); i++)
+            {
+                Log.d(TAG, keys.get(i).getName());
+            }
         add(SettingKeys.Module, new ModuleParameters(cameraUiWrapper));
         if (settingsManager.get(SettingKeys.FlashMode).isSupported())
-            add(SettingKeys.FlashMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.FlashMode,CaptureRequest.FLASH_MODE));
+            add(SettingKeys.FlashMode, new FlashMode(cameraUiWrapper, SettingKeys.FlashMode));
         if (settingsManager.get(SettingKeys.SceneMode).isSupported())
             add(SettingKeys.SceneMode, new BaseModeApi2(cameraUiWrapper, SettingKeys.SceneMode,CaptureRequest.CONTROL_SCENE_MODE));
         if (settingsManager.get(SettingKeys.AntiBandingMode).isSupported())
@@ -146,6 +150,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         add(SettingKeys.JpegQuality, new JpegQualityModeApi2(cameraUiWrapper));
         if (settingsManager.get(SettingKeys.MFNR).isSupported())
             add(SettingKeys.MFNR, new MFNR(cameraUiWrapper));
+        if (settingsManager.get(SettingKeys.XIAOMI_MFNR).isSupported())
+            add(SettingKeys.XIAOMI_MFNR, new XiaomiMfnr(cameraUiWrapper));
 
         if (settingsManager.get(SettingKeys.COLOR_CORRECTION_MODE).isSupported() ) {
             try {
@@ -181,8 +187,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
             add(SettingKeys.M_ExposureCompensation, aeManagerCamera2.getExposureCompensation());
             add(SettingKeys.M_ManualIso, aeManagerCamera2.getIso());
             add(SettingKeys.M_ExposureTime, aeManagerCamera2.getExposureTime());
-            //not used by huawei
-            add(SettingKeys.ExposureMode, aeManagerCamera2.getAeMode());
+            //not used by huawei and not used anywhere on camera2
+            //add(SettingKeys.ExposureMode, aeManagerCamera2.getAeMode());
         }
 
         //ae mode end

@@ -31,41 +31,73 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.previewpostprocessing.PreviewController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
+import freed.settings.mode.ApiBooleanSettingMode;
+import freed.settings.mode.BooleanSettingModeInterface;
+import freed.settings.mode.SettingMode;
 import freed.utils.StringUtils;
 
 /**
  * Created by troop on 10.09.2015.
  */
-public class FocusPeakMode extends AbstractParameter {
+public class FocusPeakMode extends AbstractParameter implements BooleanSettingModeInterface {
     protected PreviewController previewController;
 
-    public FocusPeakMode(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key settingMode) {
+    protected SettingKeys.Key<ApiBooleanSettingMode> settingMode;
+    public FocusPeakMode(CameraWrapperInterface cameraUiWrapper, SettingKeys.Key<ApiBooleanSettingMode> settingMode) {
         super(cameraUiWrapper, settingMode);
         previewController = ActivityFreeDcamMain.previewController();
+        this.settingMode = settingMode;
+    }
+
+    @Override
+    public String getStringValue()
+    {
+        if (cameraUiWrapper == null && !settingsManager.get(settingMode).get())
+            return FreedApplication.getStringFromRessources(R.string.off_);
+        return FreedApplication.getStringFromRessources(R.string.on_);
     }
 
     @Override
     public ViewState getViewState() {
-        if (!settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.off.name()))
-            return ViewState.Visible;
-        else
-            return ViewState.Hidden;
+        if (settingsManager != null) {
+            SettingMode settingMode = settingsManager.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE);
+            if (settingMode != null) {
+                String s = settingsManager.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get();
+                if (s != null && !s.equals(PreviewPostProcessingModes.off.name()))
+                    return ViewState.Visible;
+            }
+        }
+        return ViewState.Hidden;
     }
 
     @Override
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
+        boolean toset = false;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            previewController.setFocusPeak(true);
+            toset = true;
         }
-        else {
-            previewController.setFocusPeak(false);
-        }
-        settingMode.set(valueToSet);
+        previewController.setFocusPeak(toset);
+        settingsManager.get(settingMode).set(toset);
         fireStringValueChanged(valueToSet);
 
     }
 
+    @Override
+    public String[] getStringValues() {
+        return new String[] { FreedApplication.getStringFromRessources(R.string.off_), FreedApplication.getStringFromRessources(R.string.on_) };
+    }
+
+    @Override
+    public boolean get() {
+        return settingsManager.get(settingMode).get();
+    }
+
+    @Override
+    public void set(boolean bool) {
+        previewController.setFocusPeak(bool);
+        settingsManager.get(settingMode).set(bool);
+    }
 }

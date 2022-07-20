@@ -24,7 +24,6 @@ public class SettingsStorage
         settings = new SettingLayout();
         settings.api_hashmap.put(SettingsManager.API_1,new SettingLayout.CameraId());
         settings.api_hashmap.put(SettingsManager.API_2,new SettingLayout.CameraId());
-        settings.api_hashmap.put(SettingsManager.API_SONY,new SettingLayout.CameraId());
     }
 
     public XmlSettingInterface get(SettingKeys.Key key) {
@@ -36,7 +35,7 @@ public class SettingsStorage
         return xmlSettingInterface;
     }
 
-    public XmlSettingInterface getGlobal(SettingKeys.GlobalKey key) {
+    public XmlSettingInterface getGlobal(SettingKeys.Key key) {
         XmlSettingInterface xmlSettingInterface = settings.global_settings.get(key);
         if (xmlSettingInterface == null) {
             xmlSettingInterface = getNewSetting(key);

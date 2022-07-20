@@ -14,7 +14,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.featuredetector.CameraFeatureDetector;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.event.camera.CameraHolderEventHandler;
 import freed.cam.event.capture.CaptureStateChangedEvent;
@@ -28,16 +27,15 @@ import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.Log;
 
-public class CameraApiManager implements Preview.PreviewEvent {
+public class CameraApiManager<C extends CameraWrapperInterface> implements Preview.PreviewEvent {
     private final String TAG = CameraApiManager.class.getSimpleName();
 
 
 
     private BackgroundHandlerThread backgroundHandlerThread;
     private SettingsManager settingsManager;
-    private CameraWrapperInterface camera;
+    private C camera;
     private boolean PreviewSurfaceRdy;
-    boolean cameraIsOpen;
     private PreviewController previewController;
     private CaptureStateChangedEventHandler captureStateChangedEventHandler;
     private CameraHolderEventHandler cameraHolderEventHandler;
@@ -51,6 +49,7 @@ public class CameraApiManager implements Preview.PreviewEvent {
         captureStateChangedEventHandler = new CaptureStateChangedEventHandler();
         cameraHolderEventHandler = new CameraHolderEventHandler();
         moduleChangedEventHandler = new ModuleChangedEventHandler();
+        previewController.setPreviewEventListner(this);
     }
 
     public void init()
@@ -60,6 +59,13 @@ public class CameraApiManager implements Preview.PreviewEvent {
         backgroundHandlerThread.create();
         new CameraThreadHandler(backgroundHandlerThread.getThread().getLooper());
 
+    }
+
+    public void clearEventListners()
+    {
+        cameraHolderEventHandler.clear();
+        moduleChangedEventHandler.clear();
+        captureStateChangedEventHandler.clear();
     }
 
     public void destroy()
@@ -79,17 +85,13 @@ public class CameraApiManager implements Preview.PreviewEvent {
 
     public void onResume()
     {
-        Log.d(TAG, "onResume");
+        Log.d(TAG, "onResume camera null:" + (camera == null) + " PreviewSurfaceRdy:" + PreviewSurfaceRdy + " cameraIsOpen:" + (camera != null && camera.isCameraOpen()));
         if (camera == null)
             switchCamera();
-        if (previewController.isPreviewInit()) {
-            Log.d(TAG, "Reuse CamaraFragment");
-        }
-        else {
-            Log.d(TAG, "create new CameraFragment");
+        if (!PreviewSurfaceRdy)
             changePreviewPostProcessing();
-        }
-        if (PreviewSurfaceRdy && !cameraIsOpen) {
+        else if (PreviewSurfaceRdy && !camera.isCameraOpen()) {
+            Log.d(TAG, "startCameraAsync");
             CameraThreadHandler.startCameraAsync();
         }
     }
@@ -109,47 +111,48 @@ public class CameraApiManager implements Preview.PreviewEvent {
 
     public void switchCamera()
     {
-        Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null) +
-                " features detected: " + settingsManager.getAreFeaturesDetected() + " app version changed: " + settingsManager.appVersionHasChanged());
-        if ((!settingsManager.getAreFeaturesDetected() || settingsManager.appVersionHasChanged()))
-        {
-            Log.d(TAG, "load featuredetector");
-            if (camera != null)
-                unloadCamera();
-            loadFeatureDetector();
-        }
-        else
-        {
-            if (/*cameraFragment == null*/true) {
-                String api = settingsManager.getCamApi();
-                switch (api) {
-                    case SettingsManager.API_SONY:
-                        Log.d(TAG, "load sony remote");
-                        camera = new SonyRemoteCamera();
-                        break;
-                    case SettingsManager.API_2:
-                        Log.d(TAG, "load camera2");
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            camera = new Camera2();
-                        }
-                        break;
-                    default:
-                        Log.d(TAG, "load camera1");
-                        camera = new Camera1();
-                        break;
+        backgroundHandlerThread.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "BackgroundHandler is null: " + (backgroundHandlerThread.getThread() == null) +
+                        " features detected: " + settingsManager.getAreFeaturesDetected() + " app version changed: " + settingsManager.appVersionHasChanged());
+                if ((!settingsManager.getAreFeaturesDetected() || settingsManager.appVersionHasChanged()))
+                {
+                    Log.d(TAG, "load featuredetector");
+                    if (camera != null)
+                        unloadCamera();
+                    loadFeatureDetector();
                 }
-                CameraThreadHandler.setCameraInterface(camera);
-                cameraHolderEventHandler.setEventListner(camera);
-                camera.setCameraHolderEventHandler(cameraHolderEventHandler);
-                camera.setCaptureStateChangedEventHandler(captureStateChangedEventHandler);
-                camera.setModuleChangedEventHandler(moduleChangedEventHandler);
-                if (!cameraIsOpen && PreviewSurfaceRdy)
-                    CameraThreadHandler.startCameraAsync();
+                else
+                {
+                    String api = settingsManager.getCamApi();
+                    switch (api) {
+                        case SettingsManager.API_2:
+                            Log.d(TAG, "load camera2");
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                camera = (C) new Camera2();
+                            }
+                            break;
+                        default:
+                            Log.d(TAG, "load camera1");
+                            camera = (C) new Camera1();
+                            break;
+                    }
+                    CameraThreadHandler.setCameraInterface(camera);
+                    cameraHolderEventHandler.setEventListner(camera);
+                    camera.setCameraHolderEventHandler(cameraHolderEventHandler);
+                    camera.setCaptureStateChangedEventHandler(captureStateChangedEventHandler);
+                    camera.setModuleChangedEventHandler(moduleChangedEventHandler);
+                    Log.d(TAG, "Camera Open:" + camera.isCameraOpen() + " Preview Rdy:"+ PreviewSurfaceRdy);
+                    if (!camera.isCameraOpen() && PreviewSurfaceRdy)
+                        CameraThreadHandler.startCameraAsync();
+                }
             }
-        }
+        });
+
     }
 
-    public CameraWrapperInterface getCamera()
+    public C getCamera()
     {
         return camera;
     }
@@ -181,17 +184,19 @@ public class CameraApiManager implements Preview.PreviewEvent {
 
     public void changePreviewPostProcessing()
     {
-        CameraThreadHandler.stopCameraAsync();
-        previewController.setPreviewEventListner(null);
+        Log.d(TAG,"changePreviewPostProcessing()");
+        PreviewSurfaceRdy = false;
+        //CameraThreadHandler.stopCameraAsync();
+        //previewController.setPreviewEventListner(null);
         previewController.changePreviewPostProcessing();
-        previewController.setPreviewEventListner(this);
+        //previewController.setPreviewEventListner(this);
     }
 
     @Override
     public void onPreviewAvailable(SurfaceTexture surface, int width, int height) {
         Log.d(TAG,"onPreviewAvailable");
         PreviewSurfaceRdy = true;
-        if (!cameraIsOpen)
+        if (camera != null && !camera.isCameraOpen())
             CameraThreadHandler.startCameraAsync();
         else
             CameraThreadHandler.initCameraAsync();

@@ -27,6 +27,18 @@ public  class BitmapLoadRunnable extends ImageTask
         this.model = model;
     }
 
+    public void resetImageView()
+    {
+        imageviewRef = null;
+    }
+
+    public ImageView getImageView()
+    {
+        if (imageviewRef != null)
+            return imageviewRef.get();
+        return null;
+    }
+
     public void stopProgessbar()
     {
         model.setProgressBarVisible(false);
@@ -42,7 +54,6 @@ public  class BitmapLoadRunnable extends ImageTask
             {
                 imageView.post(() -> imageView.setImageBitmap(bitmap));
                 Log.d(TAG, "set bitmap to imageview");
-                model.bitmapLoadRunnable = null;
             }
             else {
                 Log.d(TAG, "Imageview has new file already, skipping it");
@@ -53,6 +64,7 @@ public  class BitmapLoadRunnable extends ImageTask
             bitmap.recycle();
         }
         model.setProgressBarVisible(false);
+        model.bitmapLoadRunnable = null;
         return false;
     }
 }

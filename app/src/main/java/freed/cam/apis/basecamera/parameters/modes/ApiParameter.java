@@ -50,11 +50,11 @@ public class ApiParameter extends AbstractParameter
         if (VERSION.SDK_INT >= 21)
         {
             if (settingsManager.hasCamera2Features())
-                return new String[]{SettingsManager.API_SONY, SettingsManager.API_2, SettingsManager.API_1};
+                return new String[]{ SettingsManager.API_2, SettingsManager.API_1};
             else
-                return new String[]{SettingsManager.API_SONY, SettingsManager.API_1};
+                return new String[]{ SettingsManager.API_1};
         } else
-            return new String[]{SettingsManager.API_SONY, SettingsManager.API_1};
+            return new String[]{SettingsManager.API_1};
     }
 
     @Override

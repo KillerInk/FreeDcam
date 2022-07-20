@@ -10,12 +10,12 @@ public class ShaderParser
     private final static String GLES3 = "#GLES3";
     private final static String END = "#END_GLES";
     private final static String IMPORT = "#IMPORT ";
-    private final int glesVersion;
+    private final float glesVersion;
     private boolean gles2BlockOpen = false;
     private boolean gles3BlockOpen = false;
 
     private StringBuilder stringBuilder;
-    public ShaderParser(int glesVersion)
+    public ShaderParser(float glesVersion)
     {
         this.glesVersion = glesVersion;
         stringBuilder = new StringBuilder();

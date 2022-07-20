@@ -24,13 +24,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/horHolder"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/horHolder"></LinearLayout>
+        android:orientation="horizontal"></LinearLayout>
 
 
-    <freed.cam.ui.themesample.cameraui.FocusSelector
+    <freed.views.FocusSelector
         android:layout_width="70dp"
         android:id="@+id/imageView_Crosshair"
         android:visibility="gone"
@@ -43,40 +43,21 @@
         android:background="@drawable/exposure_metering"
         android:visibility="gone" />
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/imageViewFocusClose"
-        android:background="@drawable/focusclose"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/cameraui_settings_margin_right"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/cameraui_settings_margin_right" />
-
     <include layout="@layout/cameraui_info_overlay"
         android:id="@+id/info_overlay"/>
 
-
-    <LinearLayout
-        android:id="@+id/userMessageHolder"
+    <TextView
+        android:id="@+id/textView_usermessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
         android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
         android:layout_marginRight="@dimen/cameraui_shuttericon_size"
-        android:background="@color/menuBackgColor"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView_usermessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
-
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="gone"
+        android:background="@color/menuBackgColor"/>
     <view
         android:id="@+id/hisotview"
         class="freed.cam.histogram.MyHistogram"
@@ -128,7 +109,7 @@
             android:orientation="vertical">
         </LinearLayout>
 
-        <freed.cam.ui.themesample.cameraui.ShutterButton
+        <freed.views.shutter.ShutterButton
             android:layout_width="@dimen/cameraui_shuttericon_size"
             android:layout_height="@dimen/cameraui_shuttericon_size"
             android:id="@+id/shutter_button"
@@ -157,7 +138,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
         android:layout_marginRight="140dp"
-        android:gravity="center_horizontal"></FrameLayout>
+        android:gravity="center_horizontal" />
 
 
     <FrameLayout
@@ -167,20 +148,7 @@
         android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
         android:layout_marginRight="147dp"
         android:layout_alignParentTop="false"
-        android:layout_centerVertical="true"></FrameLayout>
-
-    <view
-        android:layout_width="@dimen/image_thumbnail_size"
-        android:layout_height="@dimen/image_thumbnail_size"
-        class="freed.cam.apis.sonyremote.parameters.JoyPad"
-        android:id="@+id/joypad"
-        android:focusable="true"
-        android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
-        android:layout_centerInParent="false"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/cameraui_manualbuttonholder_height"
-        android:clickable="true"
-        android:focusableInTouchMode="true" />
+        android:layout_centerVertical="true" />
 
     <FrameLayout
         android:id="@+id/helpfragment_container"

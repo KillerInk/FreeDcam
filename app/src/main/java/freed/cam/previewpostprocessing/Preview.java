@@ -16,12 +16,8 @@ public interface Preview
         boolean onPreviewDestroyed(SurfaceTexture surface);
         void onPreviewUpdated(SurfaceTexture surface);
     }
-    void close();
     SurfaceTexture getSurfaceTexture();
-    Surface getInputSurface();
-    void setOutputSurface(Surface surface);
     void setSize(int width, int height);
-    boolean isSucessfullLoaded();
     void setBlue(boolean blue);
     void setRed(boolean red);
     void setGreen(boolean green);

@@ -17,4 +17,6 @@ public class SettingsChild_SwitchAspectRatio extends SettingsChild_BooleanSettin
         super.onCheckedChanged(buttonView, isChecked);
         CameraThreadHandler.restartPreviewAsync();
     }
+
+
 }

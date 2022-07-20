@@ -3,7 +3,7 @@ package freed.gl.shader.fragment;
 import freed.gl.shader.Shader;
 
 public class OesFragmentShader extends Shader {
-    public OesFragmentShader(int glesVersion) {
+    public OesFragmentShader(float glesVersion) {
         super(glesVersion);
     }
 

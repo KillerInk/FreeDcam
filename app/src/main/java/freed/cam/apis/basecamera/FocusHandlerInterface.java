@@ -28,7 +28,6 @@ public interface FocusHandlerInterface
 {
     void FocusStarted(int x, int y);
     void FocusFinished(boolean success);
-    void FocusLocked(boolean locked);
     void TouchToFocusSupported(boolean isSupported);
     void AEMeteringSupported(boolean isSupported);
     boolean onTouchEvent(MotionEvent event);

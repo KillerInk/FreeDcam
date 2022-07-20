@@ -2,23 +2,25 @@ package freed.viewer.gridview.models;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
 
 import freed.file.holder.BaseHolder;
+import freed.utils.Log;
 import freed.viewer.gridview.BitmapLoadRunnable;
 import freed.viewer.gridview.enums.ViewStates;
 import freed.viewer.helper.BitmapHelper;
 
 public class GridImageViewModel extends BaseObservable
 {
+    private static final String TAG = GridImageViewModel.class.getSimpleName();
     private BitmapHelper bitmapHelper;
     private BaseHolder imagePath;
     private String filending;
     private String foldername;
     private boolean isExternalSD;
-    private boolean isChecked;
-    private boolean isCheckVisible;
+    private boolean isChecked = false;
+    private boolean isCheckVisible = false;
     private boolean isProgressBarVisible = false;
     public BitmapLoadRunnable bitmapLoadRunnable;
 
@@ -51,6 +53,7 @@ public class GridImageViewModel extends BaseObservable
 
     @Bindable
     public String getFoldername() {
+        //Log.d(TAG,"getFoldername:" + foldername);
         return foldername;
     }
 

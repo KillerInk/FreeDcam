@@ -76,7 +76,6 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
     public static final int ISOMANUAL_Xiaomi =5;
 
     public static final String TIMELAPSEFRAME = "timelapseframe";
-    public static final String API_SONY = "playmemories";
     public static final String API_1 = "camera1";
     public static final String API_2 = "camera2";
 
@@ -115,14 +114,16 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
 
     public <T> T get(Key<T> key)
     {
+        if (key instanceof GlobalKey)
+            return getGlobal(key);
+        else if (key instanceof ApiKey)
+            return getApi(key);
         return key.getType().cast(settingsStorage.get(key));
     }
 
-    public <T> T getGlobal(GlobalKey<T> key)
+    public <T> T getGlobal(Key<T> key)
     {
-        XmlSettingInterface xmlSettingInterface =  settingsStorage.getGlobal(key);
-        T ret = key.getType().cast(xmlSettingInterface);
-        return ret;
+        return key.getType().cast(settingsStorage.getGlobal(key));
     }
 
     public <T> T getApi(Key<T> key)
@@ -367,14 +368,14 @@ public class SettingsManager extends SettingKeys implements SettingsManagerInter
     }
 
     public void SetCurrentModule(String modulename) {
-        getApi(SettingKeys.Module).set(modulename);
+        get(SettingKeys.Module).set(modulename);
     }
 
     public String GetCurrentModule()
     {
-        if (TextUtils.isEmpty(getApi(SettingKeys.Module).get()))
+        if (TextUtils.isEmpty(get(SettingKeys.Module).get()))
             return FreedApplication.getStringFromRessources(R.string.module_picture);
-        return getApi(SettingKeys.Module).get();
+        return get(SettingKeys.Module).get();
     }
 
 

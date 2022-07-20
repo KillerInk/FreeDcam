@@ -3,8 +3,8 @@ package freed.viewer.gridview.models;
 import android.view.View;
 
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
 
 public class PopupMenuModel extends VisibilityModel
 {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="parameter"
+            type="freed.cam.apis.basecamera.parameters.AbstractParameter" />
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/layout_holder"
+        setViewState="@{parameter.viewState}"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView_value_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:text="test"
+            app:fontFamily="@font/freedcam" />
+
+        <TextView
+            android:id="@+id/textView_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:ellipsize="marquee"
+            android:freezesText="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="test" />
+
+    </LinearLayout>
+</layout>

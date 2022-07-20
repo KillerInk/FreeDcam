@@ -24,7 +24,7 @@ public abstract class GLDrawProgram extends GLProgram implements GLDrawProgramIn
     protected int vPosition;
     protected int sTexture;
 
-    public GLDrawProgram(int glesVersion) {
+    public GLDrawProgram(float glesVersion) {
         super(glesVersion);
     }
 

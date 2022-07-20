@@ -26,7 +26,7 @@ public class FocusPeakComputeProgram extends GLComputeProgram {
         cyan,
     }
 
-    public FocusPeakComputeProgram(int glesVersion) {
+    public FocusPeakComputeProgram(float glesVersion) {
         super(glesVersion);
     }
 

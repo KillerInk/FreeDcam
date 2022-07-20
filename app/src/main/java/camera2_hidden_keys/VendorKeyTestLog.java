@@ -205,7 +205,7 @@ public class VendorKeyTestLog {
             mKey.setAccessible(true);
             mKeyInstance = (M) mKey.get(key);
             mgetType = RestrictionBypass.getDeclaredMethod(mKeyInstance.getClass(),"getType");
-            mTypeInstance = (Type) mgetType.invoke(mKeyInstance,null);
+            mTypeInstance = (Type) mgetType.invoke(mKeyInstance);
 
         } catch (IllegalAccessException e) {
             e.printStackTrace();

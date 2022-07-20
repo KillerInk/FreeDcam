@@ -23,15 +23,15 @@ android {
             keyPassword 'freedcam'
         }
     }
+    compileSdk 31
 
 
-    compileSdkVersion 30
     buildToolsVersion '30.0.3'
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 30
         versionCode 265
         versionName '4.3.65'
+        targetSdk 31
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -91,14 +91,15 @@ android {
 
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
-    implementation 'com.google.dagger:hilt-android:2.38.1'
+    implementation 'com.google.dagger:hilt-android:2.42'
     implementation project(path: ':renderscript-intrinsics-replacement-toolkit:renderscript-toolkit')
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.38.1'
+    implementation 'com.google.android.material:material:1.6.1'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
 }
 
 android.applicationVariants.all { variant ->

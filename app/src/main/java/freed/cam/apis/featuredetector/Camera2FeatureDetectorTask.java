@@ -59,12 +59,14 @@ import freed.cam.apis.featuredetector.camera2.huawei.Raw12bitDetector;
 import freed.cam.apis.featuredetector.camera2.huawei.SecondarySensorSizeDetector;
 import freed.cam.apis.featuredetector.camera2.huawei.WhitebalanceRangeDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.HistogramSupportedDetector;
+import freed.cam.apis.featuredetector.camera2.qcom.MFNRDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.QcomAeDetector;
 import freed.cam.apis.featuredetector.camera2.qcom.VideoHdr10Detector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ArcDistortionDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.ProVideoLogDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.SuperLowLightRawDetector;
 import freed.cam.apis.featuredetector.camera2.xiaomi.VideoRecordControl;
+import freed.cam.apis.featuredetector.camera2.xiaomi.XiaomiMfnrDetector;
 import freed.cam.ui.videoprofileeditor.MediaCodecInfoParser;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
@@ -120,6 +122,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //qcom
         parameter2Detectors.add(VideoHdr10Detector.class);
         parameter2Detectors.add(HistogramSupportedDetector.class);
+        parameter2Detectors.add(MFNRDetector.class);
         //run this bevor exposuretime get detected
         parameter2Detectors.add(QcomAeDetector.class);
         //manuals
@@ -133,6 +136,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //xiaomi
         parameter2Detectors.add(VideoRecordControl.class);
         parameter2Detectors.add(ProVideoLogDetector.class);
+        parameter2Detectors.add(XiaomiMfnrDetector.class);
 
         //huawei
         parameter2Detectors.add(DualPrimaryCameraDetector.class);
@@ -207,9 +211,6 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
         if (!settingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).isPresetted())
             settingsManager.get(SettingKeys.ENABLE_VIDEO_OPMODE).setIsSupported(false);
-        if (!settingsManager.get(SettingKeys.MFNR).isPresetted())
-            settingsManager.get(SettingKeys.MFNR).setIsSupported(false);
-
 
         if (hasCamera2Features) {
 

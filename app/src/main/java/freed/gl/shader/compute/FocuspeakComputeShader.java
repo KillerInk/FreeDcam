@@ -3,7 +3,7 @@ package freed.gl.shader.compute;
 import freed.gl.shader.Shader;
 
 public class FocuspeakComputeShader extends Shader {
-    public FocuspeakComputeShader(int glesVersion) {
+    public FocuspeakComputeShader(float glesVersion) {
         super(glesVersion);
     }
 

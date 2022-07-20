@@ -18,7 +18,7 @@ public class ShaderUtil {
     private static final String TAG = ShaderUtil.class.getSimpleName();
 
 
-    public static String getShader(String name, int glesVersion)
+    public static String getShader(String name, float glesVersion)
     {
         Context context = FreedApplication.getContext();
         final ShaderParser parser = new ShaderParser(glesVersion);
@@ -61,7 +61,7 @@ public class ShaderUtil {
         }
     }
 
-    public static String getShader(int glesVersion, String name, Shader.ShaderType type) throws IOException {
+    public static String getShader(float glesVersion, String name, Shader.ShaderType type) throws IOException {
         String end = ".vsh";
         if (type == Shader.ShaderType.fragment)
             end = ".fsh";

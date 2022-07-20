@@ -18,7 +18,7 @@ public class ClippingComputeProgram extends GLComputeProgram {
     private float zebra_high = 0.001f;
     private float zebra_low = 0.01f;
 
-    public ClippingComputeProgram(int glesVersion) {
+    public ClippingComputeProgram(float glesVersion) {
         super(glesVersion);
     }
 

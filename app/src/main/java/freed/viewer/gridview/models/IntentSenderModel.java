@@ -4,8 +4,8 @@ import android.content.IntentSender;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
+import androidx.databinding.library.baseAdapters.BR;
 
-import com.troop.freedcam.BR;
 
 public class IntentSenderModel extends BaseObservable {
     private IntentSender intentSender;

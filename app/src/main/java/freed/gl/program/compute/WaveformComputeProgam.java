@@ -17,7 +17,7 @@ public class WaveformComputeProgam extends GLComputeProgram {
     private int show_color = 0;
     int show_color_id;
 
-    public WaveformComputeProgam(int glesVersion) {
+    public WaveformComputeProgam(float glesVersion) {
         super(glesVersion);
     }
 

@@ -3,7 +3,7 @@ package freed.gl.shader.compute;
 import freed.gl.shader.Shader;
 
 public class AvgLumaComputeShader extends Shader {
-    public AvgLumaComputeShader(int glesVersion) {
+    public AvgLumaComputeShader(float glesVersion) {
         super(glesVersion);
     }
 

@@ -17,6 +17,7 @@
     <string name="setting_tonemapchooser_header">ToneMapProfile: </string>
     <string name="setting_mfnr_description">Multiframe 3D NR</string>
     <string name="setting_mfnr_header">MNFR: </string>
+    <string name="setting_xiaomimfnr_header">Xiaomi MNFR: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
     <string name="setting_jpegquality_header">JPEG Quality: </string>
     <string name="setting_picturesize_description">Picture Size : </string>
@@ -28,11 +29,13 @@
 
 
     <string name="setting_video_group_header">Video Mode</string>
+    <string name="setting_preview_group_header">Preview</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
 
     <string name="setting_videoaudiosource_description">Audio Source for recording</string>
     <string name="setting_videoaudiosource_header">AudioSource: </string>
+    <string name="setting_timelapse_header">Timelapse Fps: </string>
 
     <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
     <string name="setting_videoprofileeditor_header">Video Profile Editor </string>
@@ -380,6 +383,12 @@
 
     <string name="setting_dump_vendor_keys_description">Dump vendor keys</string>
     <string name="setting_dump_vendor_keys_header">Dump vendor keys</string>
+    <string name="setting_pictureformat_header">Picture Format:</string>
+    <string name="setting_pictureformat_description">Picture Format to capture</string>
+    <string name="setting_exposuremode_header">Auto Exposure Mode:</string>
+    <string name="setting_exposuremode_description">"Tells the camera wich exposure algo should get used "</string>
+    <string name="setting_hdrmode_header">HDR Mode:</string>
+    <string name="setting_hdrmode_description">" "</string>
 
 
 </resources>

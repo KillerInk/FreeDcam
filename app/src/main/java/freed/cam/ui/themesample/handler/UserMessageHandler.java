@@ -32,12 +32,11 @@ import freed.cam.event.camera.CameraHolderEvent;
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements Runnable, CameraHolderEvent
+public class UserMessageHandler implements Runnable
 {
 
     private Context context;
     private TextView messageTextView1;
-    private LinearLayout messageHolder1;
 
     public UserMessageHandler(Context contextt)
     {
@@ -45,15 +44,14 @@ public class UserMessageHandler implements Runnable, CameraHolderEvent
     }
 
 
-    public void setMessageTextView(TextView messageTextView1, LinearLayout messageHolder1)
+    public void setMessageTextView(TextView messageTextView1)
     {
         this.messageTextView1 = messageTextView1;
-        this.messageHolder1 = messageHolder1;
     }
 
     public void sendMSG(String msg,boolean asToast)
     {
-        messageHolder1.post(()->setUserMessage(msg,asToast));
+        messageTextView1.post(()->setUserMessage(msg,asToast));
     }
 
     private void setUserMessage(String msg,boolean asToast)
@@ -63,12 +61,12 @@ public class UserMessageHandler implements Runnable, CameraHolderEvent
                 Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         else {
-            if (messageHolder1 != null) {
-                messageHolder1.removeCallbacks(this);
-                messageHolder1.setVisibility(View.VISIBLE);
+            if (messageTextView1 != null) {
+                messageTextView1.removeCallbacks(this);
+                messageTextView1.setVisibility(View.VISIBLE);
                 if (messageTextView1 != null)
                     messageTextView1.setText(msg);
-                messageHolder1.postDelayed(this, 3000);
+                messageTextView1.postDelayed(this, 3000);
             }
         }
     }
@@ -76,34 +74,9 @@ public class UserMessageHandler implements Runnable, CameraHolderEvent
     @Override
     public void run()
     {
-        if (messageHolder1 != null && messageTextView1 !=null) {
+        if (messageTextView1 !=null) {
             messageTextView1.setText("");
-            messageHolder1.setVisibility(View.GONE);
+            messageTextView1.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onCameraOpen() {
-
-    }
-
-    @Override
-    public void onCameraOpenFinished() {
-
-    }
-
-    @Override
-    public void onCameraClose() {
-
-    }
-
-    @Override
-    public void onCameraError(String error) {
-        setUserMessage(error,true);
-    }
-
-    @Override
-    public void onCameraChangedAspectRatioEvent(Size size) {
-
     }
 }

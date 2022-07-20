@@ -31,9 +31,10 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.Fragment;
 
-import com.troop.freedcam.BR;
+
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.databinding.FreedviewerGridviewfragmentBinding;
@@ -94,6 +95,10 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         this.onGridItemClick = onGridItemClick;
     }
 
+    public void smoothScrollToPos(int pos)
+    {
+        gridviewfragmentBinding.gridViewBase.setSelection(pos);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -109,6 +114,8 @@ public class GridViewFragment extends Fragment implements I_OnActivityResultCall
         if (gridviewfragmentBinding == null || gridViewFragmentModelView == null)
             return;
         gridviewfragmentBinding.setGridfragmentmodel(gridViewFragmentModelView);
+        gridviewfragmentBinding.gridViewBase.setOnTouchListener(gridViewFragmentModelView.gridItem_onTouchListener);
+        //register grid items clicks listner
         gridviewfragmentBinding.gridViewBase.setOnItemClickListener(gridViewFragmentModelView.onItemClickListener);
         gridviewfragmentBinding.gridViewBase.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         gridViewFragmentModelView.setButtonClick(onGridItemClick);

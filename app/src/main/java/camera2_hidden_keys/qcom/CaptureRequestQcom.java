@@ -40,15 +40,22 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
             0 = auto or shutter priority
             1= iso priority set with expotime to 8L
      */
+    public static final int ExposureTimePriority_OFF = 0;
+    public static final int ExposureTimePriority_ON = 1;
     public static final CaptureRequest.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_select_priority;
     //[0.0]
     public static final CaptureRequest.Key<Float> org_codeaurora_qcamera3_iso_exp_priority_use_gain_value;
     //[0]
+    public static final long IsoPriority_OFF = 0L;
+    public static final long IsoPriority_ON = 8L;
     public static final CaptureRequest.Key<Long> org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority;
     //[0]
     public static final CaptureRequest.Key<Integer> org_codeaurora_qcamera3_iso_exp_priority_use_iso_value;
 
-
+    public static final CaptureRequest.Key<byte[]> rawinfo_idealraw_request;
+    public static final byte[] mipi =       new byte[]{(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,(byte) 0x00, (byte) 0x00,(byte) 0x00};
+    public static final byte[] ife_ideal =    new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,(byte) 0x00, (byte) 0x00,(byte) 0x00};
+    public static final byte[] bsp_ideal =   new byte[]{(byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x02,(byte) 0x00, (byte) 0x00,(byte) 0x00};
 
 
 
@@ -73,6 +80,7 @@ public class CaptureRequestQcom extends AbstractCaptureRequest {
         org_codeaurora_qcamera3_iso_exp_priority_use_gain_value= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_gain_value", float.class);
         org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_iso_exp_priority", long.class);
         org_codeaurora_qcamera3_iso_exp_priority_use_iso_value= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.use_iso_value", int.class);
+        rawinfo_idealraw_request = getKeyType("com.qti.chi.rawcbinfo.IdealRaw", byte[].class);
     }
 
 

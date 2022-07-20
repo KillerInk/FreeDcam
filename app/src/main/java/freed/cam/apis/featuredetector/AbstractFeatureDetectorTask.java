@@ -52,7 +52,7 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
         settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).setIsSupported(true);
 
 
-        settingsManager.getApi(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
+        settingsManager.get(SettingKeys.Module).set(FreedApplication.getStringFromRessources(R.string.module_picture));
 
 
         settingsManager.get(SettingKeys.selfTimer).setValues(FreedApplication.getContext().getResources().getStringArray(R.array.selftimervalues));
@@ -64,11 +64,7 @@ abstract class AbstractFeatureDetectorTask implements FeatureDetectorTask {
 
         String[] v = new String[] {FreedApplication.getStringFromRessources(R.string.on_), FreedApplication.getStringFromRessources(R.string.off_)};
         settingsManager.get(SettingKeys.CLIPPING).setIsSupported(true);
-        settingsManager.get(SettingKeys.CLIPPING).setValues(v);
-        settingsManager.get(SettingKeys.CLIPPING).set(v[1]);
         settingsManager.get(SettingKeys.Focuspeak).setIsSupported(true);
-        settingsManager.get(SettingKeys.Focuspeak).setValues(v);
-        settingsManager.get(SettingKeys.Focuspeak).set(v[1]);
         List<String> zebra_values = new ArrayList<>();
         for (int i = 1; i <=50; i++)
         {

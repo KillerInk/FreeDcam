@@ -8,7 +8,7 @@ public abstract class GLComputeProgram extends GLProgram implements GLComputePro
 
     private Shader computeShader;
 
-    public GLComputeProgram(int glesVersion) {
+    public GLComputeProgram(float glesVersion) {
         super(glesVersion);
     }
 

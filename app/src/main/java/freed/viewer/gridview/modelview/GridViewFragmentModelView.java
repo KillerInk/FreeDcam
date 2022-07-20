@@ -2,8 +2,10 @@ package freed.viewer.gridview.modelview;
 
 import android.app.RecoverableSecurityException;
 import android.os.Build;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 
 import androidx.lifecycle.ViewModel;
 
@@ -38,7 +40,6 @@ import freed.viewer.gridview.models.PopupMenuModel;
 import freed.viewer.gridview.models.ViewStateModel;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
 import freed.viewer.stack.DngStackActivity;
-import freed.viewer.stack.StackActivity;
 
 @HiltViewModel
 public class GridViewFragmentModelView extends ViewModel
@@ -78,7 +79,7 @@ public class GridViewFragmentModelView extends ViewModel
         this.imageManager = imageManager;
         buttonFiletype = new ButtonFileTypeModel(this);
         buttonDoAction = new ButtonDoAction();
-        buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onStackClick,onRawToDngClick,onDngStackClick,this);
+        buttonOptions = new ButtonOptionsModel(onDeltedButtonClick,onRawToDngClick,onDngStackClick,this);
         if (isRootDir) {
             buttonOptions.setVisibility(false);
             buttonFiletype.setVisibility(false);
@@ -208,7 +209,7 @@ public class GridViewFragmentModelView extends ViewModel
                             buttonDoAction.setVisibility(true);
                             break;
                         case stack:
-                            lastFormat = formatsToShow;
+                            /*lastFormat = formatsToShow;
                             formatsToShow = FileListController.FormatTypes.jpg;
                             if (filesHolderModel.getFormatType() != formatsToShow)
                                 filesHolderModel.setFormatType(formatsToShow);
@@ -216,7 +217,7 @@ public class GridViewFragmentModelView extends ViewModel
                             buttonFiletype.setVisibility(false);
                             buttonDoAction.setText("Stack");
                             buttonDoAction.setOnClickListener(onStackClick);
-                            buttonDoAction.setVisibility(true);
+                            buttonDoAction.setVisibility(true);*/
                             break;
                         case dngstack:
                             lastFormat = formatsToShow;
@@ -237,7 +238,7 @@ public class GridViewFragmentModelView extends ViewModel
         }
     }
 
-    public final View.OnClickListener onStackClick = new View.OnClickListener() {
+    /*public final View.OnClickListener onStackClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (requestMode == RequestModes.none)
@@ -271,7 +272,7 @@ public class GridViewFragmentModelView extends ViewModel
                 setViewMode(ViewStates.normal);
             }
         }
-    };
+    };*/
 
     public final View.OnClickListener onDngStackClick = new View.OnClickListener() {
         @Override
@@ -507,6 +508,69 @@ public class GridViewFragmentModelView extends ViewModel
         if (filesHolderModel.getFormatType() != formatsToShow)
             filesHolderModel.setFormatType(formatsToShow);
     }
+
+    public View.OnTouchListener gridItem_onTouchListener = new View.OnTouchListener() {
+
+        private GridImageViewModel last = null;
+        private float startX;
+        private float startY;
+        private float lastDistance;
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            if (viewStateModel.getCurrentViewState() == ViewStates.selection) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN || lastDistance > 30)
+                {
+                    startX = event.getX();
+                    startY = event.getY();
+                    lastDistance = 0;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    startX = 0;
+                    startY = 0;
+                    last = null;
+                }
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                    float distanceX;
+                    float distanceY;
+                    if (startX > event.getX())
+                        distanceX = startX - event.getX();
+                    else
+                        distanceX = event.getX() - startX;
+
+                    if (startY > event.getY())
+                        distanceY = startY - event.getY();
+                    else
+                        distanceY = event.getY() - startY;
+                    if (distanceX > distanceY)
+                        lastDistance += distanceX;
+                    else
+                        lastDistance+= distanceY;
+
+                    if (distanceX > distanceY) {
+                        GridView view = (GridView) v;
+                        int position = view.pointToPosition((int) event.getX(), (int) event.getY());
+                        GridImageViewModel mod = filesHolderModel.getGridImageViewModels().get(position);
+
+                        if (mod != last) {
+                            if (filesHolderModel.getGridImageViewModels().get(position).getChecked()) {
+                                filesHolderModel.getGridImageViewModels().get(position).setChecked(false);
+                                filesSelectedList.remove(filesHolderModel.getFiles().get(position));
+                            } else {
+                                filesHolderModel.getGridImageViewModels().get(position).setChecked(true);
+                                filesSelectedList.add(filesHolderModel.getGridImageViewModels().get(position).getImagePath());
+                            }
+                            last = mod;
+                            updateFilesSelected();
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+    };
 
     public AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override

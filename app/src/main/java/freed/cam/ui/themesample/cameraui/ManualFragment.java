@@ -54,17 +54,17 @@ import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.themesample.AbstractFragment;
-import freed.cam.ui.themesample.PagingViewTouchState;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonToneCurve;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 import freed.views.CurveView;
 import freed.views.CurveViewControl;
+import freed.views.RotatingSeekbar;
+import freed.views.pagingview.PagingViewTouchState;
 
 /**
  * Created by troop on 08.12.2015.
@@ -338,10 +338,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         Log.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
         try {
-            if (!(cameraApiManager.getCamera() instanceof SonyRemoteCamera)) {
-                currentButton.setValueToParameters(progress);
-
-            }
+            currentButton.setValueToParameters(progress);
         }
         catch (NullPointerException ex)
         {}
@@ -355,10 +352,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (cameraApiManager.getCamera() instanceof SonyRemoteCamera) {
-            currentButton.setValueToParameters(currentValuePos);
-
-        }
+        currentButton.setValueToParameters(currentValuePos);
     }
 
     Observable.OnPropertyChangedCallback selectedParameterObserver = new Observable.OnPropertyChangedCallback() {

@@ -28,4 +28,9 @@ public abstract class BaseEventHandler<E extends MyEvent> implements BaseEventIn
         if (eventListners.contains(listner))
             eventListners.remove(listner);
     }
+
+    public void clear()
+    {
+        eventListners.clear();
+    }
 }

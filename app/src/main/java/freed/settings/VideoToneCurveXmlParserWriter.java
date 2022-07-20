@@ -17,6 +17,15 @@ import freed.utils.StringUtils;
 
 public class VideoToneCurveXmlParserWriter {
     private final String TAG = VideoToneCurveXmlParserWriter.class.getSimpleName();
+
+    private final boolean DOLOG = false;
+
+    private void log(String s)
+    {
+        if (DOLOG)
+            Log.d(TAG, s);
+    }
+
     /**
      * Read the tonemap profiles from toneMapProfiles.xml
      * @param
@@ -70,11 +79,11 @@ public class VideoToneCurveXmlParserWriter {
         try {
 
             File configFile = new File(appData.getAbsolutePath()+"/tonecurveprofiles.xml");
-            Log.d(TAG, configFile.getAbsolutePath() + " exists:" + configFile.exists());
-            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
+            log(configFile.getAbsolutePath() + " exists:" + configFile.exists());
+            log(configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             if (!configFile.getParentFile().exists())
                 configFile.getParentFile().mkdirs();
-            Log.d(TAG, configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
+            log(configFile.getParentFile().getAbsolutePath() + " exists:" + configFile.getParentFile().exists());
             configFile.createNewFile();
             writer = new BufferedWriter(new FileWriter(configFile));
             writer.write("<tonecurves>" + "\r\n");
@@ -82,7 +91,7 @@ public class VideoToneCurveXmlParserWriter {
             hashMap.keySet().toArray(profiles);
             for (int i =0; i< profiles.length;i++)
             {
-                Log.d(TAG, "Write Profile: " + profiles[i]);
+                log("Write Profile: " + profiles[i]);
                 writer.write(hashMap.get(profiles[i]).getXmlString());
             }
 

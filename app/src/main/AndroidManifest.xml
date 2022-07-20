@@ -59,7 +59,8 @@
             android:label="FreeDCam"
             android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
@@ -74,7 +75,8 @@
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="true"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:excludeFromRecents="true">
+            android:excludeFromRecents="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -106,6 +108,7 @@
             android:label="FreeDCam Viewer"
             android:taskAffinity="com.freedviewer.GridViewActivity"
             android:icon="@drawable/launcher_imageviewer"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -117,16 +120,8 @@
         <activity
             android:name="freed.viewer.dngconvert.DngConvertingActivity"
             android:label="GridView"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="freed.viewer.stack.StackActivity"
-            android:label="GridView"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -135,6 +130,7 @@
         <activity
             android:name="freed.viewer.stack.DngStackActivity"
             android:label="GridView"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -144,6 +140,7 @@
         <activity
             android:name="freed.cam.ui.videoprofileeditor.views.VideoProfileEditorActivity"
             android:label="GridView"
+            android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

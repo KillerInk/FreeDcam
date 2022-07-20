@@ -118,7 +118,7 @@ public class RawImageCapture extends StillImageCapture {
                                           CustomMatrix customMatrix, int orientation, boolean externalSD,
                                           ToneMapProfile toneMapProfile, ImageSaveTask saveTask, int remaining) {
         SettingsManager settingsManager = FreedApplication.settingsManager();
-        if (!settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get().equals(FreedApplication.getStringFromRessources(R.string.off_)))
+        if (settingsManager.getGlobal(SettingKeys.LOCATION_MODE).get())
             saveTask.setLocation(ActivityFreeDcamMain.locationManager().getCurrentLocation());
         saveTask.setForceRawToDng(true);
         try {

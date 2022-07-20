@@ -11,7 +11,7 @@ import freed.gl.texture.GLFrameBuffer;
 import freed.gl.texture.SharedStorageBufferObject;
 
 public class HistogramComputeProgram extends GLComputeProgram {
-    public HistogramComputeProgram(int glesVersion) {
+    public HistogramComputeProgram(float glesVersion) {
         super(glesVersion);
     }
 

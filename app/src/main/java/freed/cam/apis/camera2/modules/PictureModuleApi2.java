@@ -164,7 +164,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         captureController.clear();
         Log.d(TAG, "DestroyModule");
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        previewController.close();
     }
 
     @Override
@@ -220,90 +219,47 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
                                                  Handler mainHandler, Camera2 cameraWrapperInterface) {
         SurfaceTexture texture = previewController.getSurfaceTexture();
         texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-        Surface previewsurface = new Surface(previewController.getSurfaceTexture());
+        Surface previewsurface = new Surface(texture);
         int w = previewSize.getWidth();
         int h = previewSize.getHeight();
         Log.d(TAG, "Preview size to set : " + w + "x" +h);
-        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.RenderScript.name())) {
-            Log.d(TAG, "RenderScriptPreview");
-            int rotation = 0;
-            switch (orientationToSet)
-            {
-                case 90:
-                    rotation = 0;
-                    break;
-                case 180:
-                    rotation =90;
-                    break;
-                case 270: rotation = 180;
-                    break;
-                case 0: rotation = 270;
-                    break;
-            }
-            final int or = OrientationUtil.getOrientation(rotation);
-            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
-                if (or == 90 || or == 270) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            } else
-            {
-                if (or == 0 || or == 180) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            Log.d(TAG, "rotation to set : " + or);
-            int finalW = w;
-            int finalH = h;
-            mainHandler.post(() -> previewController.setRotation(finalW,finalH,or));
 
-            previewController.setOutputSurface(previewsurface);
-            previewController.setSize(previewSize.getWidth(),previewSize.getHeight());
+        Log.d(TAG, "Normal Preview");
+        int rotation = 0;
+        switch (orientationToSet)
+        {
+            case 90:
+                rotation = 270;
+                break;
+            case 180:
+                rotation =0;
+                break;
+            case 270: rotation = 270;
+                break;
+            case 0: rotation = 180;
+                break;
+        }
 
-            Surface camerasurface = previewController.getInputSurface();
-            cameraWrapperInterface.captureSessionHandler.AddSurface(camerasurface, true);
-            previewController.start();
+        final int or = OrientationUtil.getOrientation(rotation);;
+        Log.d(TAG, "rotation to set : " + or);
+        if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
+            if (or == 0 || or == 180) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
+            }
         }
         else
         {
-            Log.d(TAG, "Normal Preview");
-            int rotation = 0;
-            switch (orientationToSet)
-            {
-                case 90:
-                    rotation = 270;
-                    break;
-                case 180:
-                    rotation =0;
-                    break;
-                case 270: rotation = 270;
-                    break;
-                case 0: rotation = 180;
-                    break;
+            if (or == 90 || or == 270) {
+                w = previewSize.getHeight();
+                h = previewSize.getWidth();
             }
-
-            final int or = OrientationUtil.getOrientation(rotation);;
-            Log.d(TAG, "rotation to set : " + or);
-            if (!settingsManager.get(SettingKeys.SWITCH_ASPECT_RATIO).get()) {
-                if (or == 0 || or == 180) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            else
-            {
-                if (or == 90 || or == 270) {
-                    w = previewSize.getHeight();
-                    h = previewSize.getWidth();
-                }
-            }
-            int finalW1 = w;
-            int finalH1 = h;
-            previewController.setSize(finalW1, finalH1);
-            mainHandler.post(() -> previewController.setRotation(finalW1, finalH1, or));
-            cameraWrapperInterface.captureSessionHandler.AddSurface(previewsurface, true);
         }
+        int finalW1 = w;
+        int finalH1 = h;
+        previewController.setSize(finalW1, finalH1);
+        mainHandler.post(() -> previewController.setRotation(finalW1, finalH1, or));
+        cameraWrapperInterface.captureSessionHandler.AddSurface(previewsurface, true);
     }
 
     private void setOutputSizesAndCreateImageReader() {

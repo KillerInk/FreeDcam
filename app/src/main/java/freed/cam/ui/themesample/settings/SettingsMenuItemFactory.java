@@ -16,7 +16,6 @@ import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
-import freed.cam.apis.sonyremote.SonyRemoteCamera;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.settings.childs.GroupChild;
@@ -85,13 +84,6 @@ public class SettingsMenuItemFactory
                     videoGroup.addView(videoHDR);
                 }
 
-                if (params.get(SettingKeys.VideoSize) != null && (cameraUiWrapper instanceof SonyRemoteCamera)) {
-
-                    SettingsChildMenu VideoSize = new SettingsChildMenu(context, params.get(SettingKeys.VideoSize), R.string.setting_videoprofile_header, R.string.setting_videoprofile_description);
-                    VideoSize.SetUiItemClickListner(click);
-                    videoGroup.addView(VideoSize);
-                }
-
                 if (params.get(SettingKeys.VideoStabilization) != null) {
                     SettingsChildMenu videoStabilization = new SettingsChildMenu(context, params.get(SettingKeys.VideoStabilization), R.string.setting_vs_header, R.string.setting_vs_description);
                     videoStabilization.SetUiItemClickListner(click);
@@ -137,8 +129,12 @@ public class SettingsMenuItemFactory
 
 
                 if (params.get(SettingKeys.MFNR) != null) {
-                    SettingsChildMenu mfnr = new SettingsChildMenu(context, params.get(SettingKeys.MFNR), R.string.setting_mfnr_header,R.string.setting_mfnr_description);
-                    mfnr.SetUiItemClickListner(click);
+                    SettingsChild_BooleanSetting mfnr = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) params.get(SettingKeys.MFNR), R.string.setting_mfnr_header,R.string.setting_mfnr_description);
+                    picGroup.addView(mfnr);
+                }
+
+                if (params.get(SettingKeys.XIAOMI_MFNR) != null) {
+                    SettingsChild_BooleanSetting mfnr = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) params.get(SettingKeys.XIAOMI_MFNR), R.string.setting_xiaomimfnr_header,R.string.setting_mfnr_description);
                     picGroup.addView(mfnr);
                 }
                 settingsChildHolder.addView(picGroup);
@@ -217,8 +213,7 @@ public class SettingsMenuItemFactory
             sdSave.SetUiItemClickListner(click);
             globalSettingGroup.addView(sdSave);
 
-            SettingsChildMenu menuItemGPS = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );
-            menuItemGPS.SetUiItemClickListner(click);
+            SettingsChild_BooleanSetting menuItemGPS = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );
             globalSettingGroup.addView(menuItemGPS);
 
             SettingsChildMenu guide = new SettingsChildMenu(context,cameraUiWrapper.getParameterHandler().get(SettingKeys.GuideList), R.string.setting_guide_header, R.string.setting_guide_description);
@@ -252,15 +247,23 @@ public class SettingsMenuItemFactory
                 globalSettingGroup.addView(ers);
             }
 
+            if (cameraUiWrapper.getParameterHandler().get(SettingKeys.THEME) != null) {
+                SettingsChildMenu theme = new SettingsChildMenu(context, R.string.setting_theme_header, R.string.setting_theme_description);
+                theme.SetParameter(cameraUiWrapper.getParameterHandler().get(SettingKeys.THEME));
+                theme.SetUiItemClickListner(click);
+                globalSettingGroup.addView(theme);
+            }
+
 
         }
 
         GroupChild etc = new GroupChild(context,"Etc");
-        if (!(cameraUiWrapper instanceof SonyRemoteCamera))
-        {
-            SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
-            etc.addView(fd);
-        }
+
+
+
+
+        SettingsChildFeatureDetect fd = new SettingsChildFeatureDetect(context,R.string.setting_featuredetector_header,R.string.setting_featuredetector_description);
+        etc.addView(fd);
 
         if (ReleaseChecker.isGithubRelease) {
             SettingsChild_BooleanSetting booleanSetting = new SettingsChild_BooleanSetting(context, apS.getGlobal(SettingKeys.CHECKFORUPDATES), R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description);
@@ -311,28 +314,32 @@ public class SettingsMenuItemFactory
             SettingsChild_SwitchAspectRatio aspectRatio = new SettingsChild_SwitchAspectRatio(context,apS.get(SettingKeys.SWITCH_ASPECT_RATIO),R.string.setting_switch_aspect_header, R.string.setting_switch_aspect_text);
             previewgroup.addView(aspectRatio);
 
-            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null && params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name()))
+            if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE) != null)
             {
-                GroupChild aegroup = new GroupChild(context,  "Custom AE");
-                SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context,apS.getGlobal(SettingKeys.USE_FREEDCAM_AE),R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
-                aegroup.addView(freedae);
+                if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue() != null) {
+                    if (params.get(SettingKeys.PREVIEW_POST_PROCESSING_MODE).getStringValue().equals(PreviewPostProcessingModes.OpenGL.name())) {
+                        GroupChild aegroup = new GroupChild(context, "Custom AE");
+                        SettingsChild_FreedAe freedae = new SettingsChild_FreedAe(context, apS.getGlobal(SettingKeys.USE_FREEDCAM_AE), R.string.setting_usefreedae_header, R.string.setting_use_freedae_text);
+                        aegroup.addView(freedae);
 
-                SettingsChildMenu maxiso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_ISO),R.string.setting_maxiso_header, R.string.setting_maxiso_text);
-                maxiso.SetUiItemClickListner(click);
-                aegroup.addView(maxiso);
+                        SettingsChildMenu maxiso = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MAX_ISO), R.string.setting_maxiso_header, R.string.setting_maxiso_text);
+                        maxiso.SetUiItemClickListner(click);
+                        aegroup.addView(maxiso);
 
-                SettingsChildMenu miniso = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_ISO),R.string.setting_miniso_header, R.string.setting_miniso_text);
-                miniso.SetUiItemClickListner(click);
-                aegroup.addView(miniso);
+                        SettingsChildMenu miniso = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MIN_ISO), R.string.setting_miniso_header, R.string.setting_miniso_text);
+                        miniso.SetUiItemClickListner(click);
+                        aegroup.addView(miniso);
 
-                SettingsChildMenu minexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MIN_EXPOSURE),R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
-                minexpotime.SetUiItemClickListner(click);
-                aegroup.addView(minexpotime);
+                        SettingsChildMenu minexpotime = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MIN_EXPOSURE), R.string.setting_minexpotime_header, R.string.setting_minexpotime_text);
+                        minexpotime.SetUiItemClickListner(click);
+                        aegroup.addView(minexpotime);
 
-                SettingsChildMenu maxexpotime = new SettingsChildMenu(context,new SettingModeParamter(SettingKeys.MAX_EXPOSURE),R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
-                maxexpotime.SetUiItemClickListner(click);
-                aegroup.addView(maxexpotime);
-                previewgroup.addView(aegroup);
+                        SettingsChildMenu maxexpotime = new SettingsChildMenu(context, new SettingModeParamter(SettingKeys.MAX_EXPOSURE), R.string.setting_maxexpotime_header, R.string.setting_maxexpotime_text);
+                        maxexpotime.SetUiItemClickListner(click);
+                        aegroup.addView(maxexpotime);
+                        previewgroup.addView(aegroup);
+                    }
+                }
             }
 
             settingchildholder.addView(previewgroup);

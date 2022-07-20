@@ -48,8 +48,6 @@ public class BaseModeApi2 extends AbstractParameter<Camera2>
     {
         super(cameraUiWrapper,settingMode);
         this.captureSessionHandler = cameraUiWrapper.captureSessionHandler;
-
-
     }
 
     public BaseModeApi2(Camera2 cameraUiWrapper, SettingKeys.Key key, Key<Integer> parameterKey) {
@@ -106,29 +104,4 @@ public class BaseModeApi2 extends AbstractParameter<Camera2>
             Log.WriteEx(ex);
         }
     }
-
-    /*@Override
-    public String getStringValue()
-    {
-        if (parameterValues == null && captureSessionHandler == null)
-            return null;
-        try {
-            int i = captureSessionHandler.getPreviewParameter(parameterKey);
-            if (parameterValues == null)
-                return null;
-            Set<Map.Entry<String,Integer>> maps = parameterValues.entrySet();
-            if (maps == null || maps.size() == 0)
-                return null;
-            for (Map.Entry s : maps)
-                if (s.getValue().equals(i))
-                    return s.getKey().toString();
-        }
-        catch (NullPointerException ex)
-        {
-            Log.WriteEx(ex);
-        }
-
-        return null;
-    }*/
-
 }

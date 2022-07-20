@@ -3,7 +3,7 @@ package freed.gl.shader.compute;
 import freed.gl.shader.Shader;
 
 public class ClippingComputeShader extends Shader {
-    public ClippingComputeShader(int glesVersion) {
+    public ClippingComputeShader(float glesVersion) {
         super(glesVersion);
     }
 

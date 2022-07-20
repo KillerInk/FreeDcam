@@ -132,6 +132,7 @@ public class FileListController {
 
     public void LoadFreeDcamDCIMDirsFiles() {
         synchronized (filesLock) {
+            files.clear();
             if (!needStorageAccessFrameWork) {
                 files = storageFileManager.getFreeDcamDCIMDirsFiles();
             }
@@ -230,15 +231,6 @@ public class FileListController {
 
     public DocumentFile getFreeDcamDocumentFolder()
     {
-       /* DocumentFile dcimfolder;
-        DocumentFile freedcamfolder = null;
-        if((dcimfolder = getDCIMDocumentFolder(true)) !=null)
-        {
-            freedcamfolder = dcimfolder.findFile("FreeDcam");
-            if (freedcamfolder == null)
-                freedcamfolder = dcimfolder.createDirectory("FreeDcam");
-        }
-        return freedcamfolder;*/
         return getChoosenDocumentFolder();
     }
 

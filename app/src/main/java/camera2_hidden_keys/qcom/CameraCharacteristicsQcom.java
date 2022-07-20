@@ -22,6 +22,8 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
     public static final CameraCharacteristics.Key<Integer> customhw;
     public static final CameraCharacteristics.Key<int[]> sensorModeTable;
     public static final CameraCharacteristics.Key<int[]> support_video_hdr_modes;
+    public static final CameraCharacteristics.Key<Integer> MFNRType;
+
 
     //[9470, 32110118400]
     public static final CameraCharacteristics.Key<long[]> org_codeaurora_qcamera3_iso_exp_priority_exposure_time_range;
@@ -44,6 +46,8 @@ public class CameraCharacteristicsQcom extends AbstractCameraCharacteristics
 
         org_codeaurora_qcamera3_iso_exp_priority_exposure_time_range= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.exposure_time_range", long[].class);
         org_codeaurora_qcamera3_iso_exp_priority_iso_available_modes= getKeyType("org.codeaurora.qcamera3.iso_exp_priority.iso_available_modes", int[].class);
+
+        MFNRType = getKeyType("org.quic.camera.swcapabilities.MFNRType", Integer.class);
     }
 
 

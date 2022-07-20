@@ -23,16 +23,19 @@ public class ClippingMode extends FocusPeakMode {
     public void setStringValue(String valueToSet, boolean setToCamera)
     {
         currentString = valueToSet;
-        settingMode.set(valueToSet);
+        boolean toset = false;
         if (valueToSet.equals(FreedApplication.getStringFromRessources(R.string.on_)))
         {
-            previewController.setClipping(true);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.on_));
+            toset = true;
         }
-        else {
-            previewController.setClipping(false);
-            fireStringValueChanged(FreedApplication.getStringFromRessources(R.string.off_));
-        }
+        previewController.setClipping(toset);
+        settingsManager.get(settingMode).set(toset);
+        fireStringValueChanged(valueToSet);
+    }
 
+    @Override
+    public void set(boolean bool) {
+        previewController.setClipping(bool);
+        settingsManager.get(settingMode).set(bool);
     }
 }

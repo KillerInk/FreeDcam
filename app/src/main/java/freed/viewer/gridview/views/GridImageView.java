@@ -68,6 +68,12 @@ public class GridImageView extends FrameLayout
     public void bindModel(GridImageViewModel gridImageViewModel)
     {
         gridviewImageviewBinding.setGridimageviewmodel(gridImageViewModel);
+        gridviewImageviewBinding.executePendingBindings();
+    }
+
+    public GridImageViewModel gridImageViewModel()
+    {
+        return gridviewImageviewBinding.getGridimageviewmodel();
     }
 
     public Drawable getDrawable()
