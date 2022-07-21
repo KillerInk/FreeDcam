@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.Size;
+import freed.cam.apis.camera2.Camera2;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewController;
@@ -31,6 +32,7 @@ import freed.settings.SettingsManager;
 import freed.utils.Log;
 import freed.utils.PermissionManager;
 import freed.viewer.screenslide.views.ScreenSlideFragment;
+import freed.views.FaceRectDrawer;
 import freed.views.pagingview.PagingView;
 
 @AndroidEntryPoint
@@ -56,6 +58,7 @@ public class NextGenMainFragment extends Fragment implements CameraHolderEvent, 
     private LinearLayout nightoverlay;
     private View view;
     private FrameLayout cameraPreview;
+
 
     @Override
     public void onCameraOpen() {

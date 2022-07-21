@@ -4,6 +4,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.Face;
 import android.os.Build;
 import android.util.Pair;
 
@@ -52,6 +53,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         void on_Ae_Af_Lock(AeAfLocker aeAfLocker);
     }
 
+    public interface FaceEvent
+    {
+        void onFacesDetected(Face[] faces);
+    }
+
 
     private CaptureResult captureResult;
 
@@ -59,7 +65,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         return captureResult;
     }
 
-    public class AeAfLocker
+    public static class AeAfLocker
     {
         private boolean aeLocked;
         private boolean afLocked;
@@ -113,6 +119,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private HistogramChangedEvent histogramChangedEventListner;
     private final SettingsManager settingsManager;
     private CaptureResultRingBuffer captureResultRingBuffer;
+    private FaceEvent faceEventListner;
 
     public CameraValuesChangedCaptureCallback(Camera2 camera2Fragment)
     {
@@ -129,6 +136,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     @Override
     public void setHistogramFeed(HistogramChangedEvent feed) {
         this.histogramChangedEventListner = feed;
+    }
+
+    public void setFaceEventListner(FaceEvent event)
+    {
+        this.faceEventListner = event;
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -225,6 +237,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         //else it could happen that it refocus
         processDefaultFocus(result);
 
+        processFaces(result);
+
         if(result.get(CaptureResult.CONTROL_AE_STATE) != null /*&& aeState != result.get(CaptureResult.CONTROL_AE_STATE)*/)
         {
             aeState = result.get(CaptureResult.CONTROL_AE_STATE);
@@ -295,6 +309,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     }
 
+    private void processFaces(TotalCaptureResult result) {
+        if (faceEventListner == null)
+            return;
+        if (result.get(CaptureResult.STATISTICS_FACE_DETECT_MODE) != null && captureResult.get(CaptureResult.STATISTICS_FACE_DETECT_MODE) != CaptureResult.STATISTICS_FACE_DETECT_MODE_OFF)
+        {
+            Face[] faces = result.get(CaptureResult.STATISTICS_FACES);
+            if (faceEventListner != null)
+                faceEventListner.onFacesDetected(faces);
+        }
+    }
 
 
     private String afStates ="";

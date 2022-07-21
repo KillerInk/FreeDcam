@@ -9,6 +9,13 @@
         android:layout_height="match_parent">
 
         <FrameLayout
+            android:id="@+id/framelyout_facedrawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/framelayout_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

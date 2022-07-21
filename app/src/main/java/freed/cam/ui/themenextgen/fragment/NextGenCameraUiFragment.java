@@ -22,7 +22,9 @@ package freed.cam.ui.themenextgen.fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.PointF;
+import android.hardware.camera2.params.Face;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -55,6 +57,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
+import freed.cam.apis.camera2.Camera2;
+import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.histogram.HistogramController;
@@ -78,6 +82,7 @@ import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.views.CurveView;
 import freed.views.CurveViewControl;
+import freed.views.FaceRectDrawer;
 import freed.views.pagingview.PagingViewTouchState;
 import freed.views.shutter.ShutterButton;
 
@@ -90,7 +95,8 @@ public class NextGenCameraUiFragment extends Fragment implements
         I_swipe,
         OnClickListener,
         CameraHolderEvent,
-        CurveView.CurveChangedEvent
+        CurveView.CurveChangedEvent,
+        CameraValuesChangedCaptureCallback.FaceEvent
 {
     final String TAG = NextGenCameraUiFragment.class.getSimpleName();
 
@@ -125,6 +131,9 @@ public class NextGenCameraUiFragment extends Fragment implements
     private boolean rightbuttonvisible = true;
     private CurveViewControl curveView;
 
+    private FaceRectDrawer faceRectDrawer;
+    private FrameLayout faceDrawerHolder;
+
     @Inject
     public SettingsManager settingsManager;
     @Inject
@@ -155,6 +164,8 @@ public class NextGenCameraUiFragment extends Fragment implements
                 focusImageHandler.AEMeteringSupported(false);
                 focusImageHandler.TouchToFocusSupported(false);
                 shutterButton.setVisibility(View.GONE);
+                if (faceDrawerHolder != null)
+                    faceDrawerHolder.removeAllViews();
                 if (isAdded())
                     hide_ManualSettings();
             }
@@ -202,6 +213,18 @@ public class NextGenCameraUiFragment extends Fragment implements
                 //remove the values fragment from ui when a new api gets loaded and it was open.
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
                     removeHorizontalFragment();
+
+                if (wrapper instanceof Camera2)
+                {
+                    faceDrawerHolder = binding.framelyoutFacedrawer;
+                    if (faceRectDrawer == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        faceRectDrawer = new FaceRectDrawer(getContext());
+                    faceDrawerHolder.removeAllViews();
+                    faceDrawerHolder.addView(faceRectDrawer);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ((Camera2) wrapper).cameraBackroundValuesChangedListner.setFaceEventListner(this);
+                    }
+                }
             }
         }
     }
@@ -331,7 +354,7 @@ public class NextGenCameraUiFragment extends Fragment implements
         }*/
         setCameraToUi(cameraApiManager.getCamera());
         checkForUpdate();
-
+        faceDrawerHolder = view.findViewById(R.id.framelyout_facedrawer);
     }
 
     private void checkForUpdate() {
@@ -587,6 +610,17 @@ public class NextGenCameraUiFragment extends Fragment implements
     @Override
     public void onClick(PointF pointF) {
 
+    }
+
+    @Override
+    public void onFacesDetected(Face[] faces) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (faceRectDrawer != null)
+                    faceRectDrawer.setFaces(faces);
+            }
+        });
     }
 
     interface i_HelpFragment

@@ -226,19 +226,17 @@ public class PreviewController implements PreviewControllerInterface
 
     @Override
     public int getMargineLeft() {
-        if (preview.getPreviewView() == null)
-            return 0;
-        return preview.getPreviewView().getLeft();
+        return getViewWidth()/2 - getPreviewWidth()/2;
     }
 
     @Override
     public int getMargineRight() {
-        return preview.getPreviewView().getRight();
+        return getViewWidth()/2 - getPreviewWidth()/2;
     }
 
     @Override
     public int getMargineTop() {
-        return preview.getPreviewView().getTop();
+        return getViewHeight()/2 - getPreviewHeight()/2;
     }
 
     public void changePreviewPostProcessing()
