@@ -30,8 +30,11 @@
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:tabIndicator="@color/nextgen_menu_right_text"
                     app:tabIndicatorColor="@color/nextgen_menu_right_text"
-                    app:tabMode="scrollable" />
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/nextgen_menu_right_text"
+                    app:tabTextColor="@color/nextgen_menu_right_text" />
 
 
             </androidx.viewpager.widget.ViewPager>
