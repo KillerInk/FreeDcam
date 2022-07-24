@@ -749,7 +749,7 @@ public class CaptureSessionHandler
         }
         else {
             cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
-            SetPreviewParameter(CaptureRequest.CONTROL_AF_REGIONS,value,true);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_REGIONS,value,false);
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START,true);
             SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
         }
