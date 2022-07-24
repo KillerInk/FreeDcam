@@ -34,11 +34,12 @@ public class ExposureTimeDetector extends BaseParameter2Detector {
         if (tmp.size() > 0) {
             String[] ext = tmp.toArray(new String[tmp.size()]);
             settingsManager.get(SettingKeys.M_EXPOSURE_TIME).setValues(ext);
-            for (int i = 0; i < tmp.size(); i++)
-            {
-                if (tmp.get(i).equals("1/30"))
-                    settingsManager.get(SettingKeys.M_EXPOSURE_TIME).set(i +"");
-            }
+            
+            if (settingsManager.get(SettingKeys.USE_QCOM_AE).get())
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).set("Auto");
+            else
+                settingsManager.get(SettingKeys.M_EXPOSURE_TIME).set("1/30");
+
             tmp = getShutterStrings(max, min,true);
             String[] ext2 = tmp.toArray(new String[tmp.size()]);
             settingsManager.get(SettingKeys.MIN_EXPOSURE).setValues(ext2);
