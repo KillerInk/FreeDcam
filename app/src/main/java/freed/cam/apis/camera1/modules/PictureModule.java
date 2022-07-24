@@ -182,7 +182,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
                 previewController.getSurfaceTexture().setDefaultBufferSize(size.width, size.height);
             }
 
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).setStringValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).setStringValue(size.width + "x" + size.height, true);
             previewController.setSize(size.width, size.height);
             previewController.setHistogram(false);
             cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
@@ -201,7 +201,7 @@ public class PictureModule extends ModuleAbstract<Camera1> implements Camera.Pic
                 ((CameraHolder)cameraHolder).setTextureView(previewController.getSurfaceTexture());
 
             Log.d(TAG, "set size to " + size.width + "x" + size.height);
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).setStringValue(size.width + "x" + size.height, false);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.PREVIEW_SIZE).setStringValue(size.width + "x" + size.height, true);
             previewController.setSize(size.width, size.height);
             mainHandler.post(()-> previewController.setRotation(size.width, size.height, 0));
             cameraHolder.fireOnCameraChangedAspectRatioEvent(size);
