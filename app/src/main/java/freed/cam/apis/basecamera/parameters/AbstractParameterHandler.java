@@ -169,7 +169,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setGlobalAppSettingsToCamera(SettingsManager.GUIDE_LIST,false);
         setGlobalAppSettingsToCamera(SettingsManager.HORIZONT_LVL,false);
         setAppSettingsToCamera(SettingsManager.COLOR_MODE,false);
-        setAppSettingsToCamera(SettingsManager.FLASH_MODE,false);
+
         setAppSettingsToCamera(SettingsManager.ISO_MODE,false);
         setAppSettingsToCamera(SettingsManager.ANTI_BANDING_MODE,false);
         setAppSettingsToCamera(SettingsManager.WHITE_BALANCE_MODE,false);
@@ -235,6 +235,7 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setManualMode(SettingsManager.M_MANUAL_ISO,false);
         setManualMode(SettingsManager.M_SATURATION,false);
         setManualMode(SettingsManager.M_WHITEBALANCE,false);
+        setAppSettingsToCamera(SettingsManager.FLASH_MODE,false);
         setManualMode(SettingsManager.M_EXPOSURE_COMPENSATION,true);
     }
 
