@@ -279,12 +279,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
     }
 
     @Override
-    public float[] getFocusDistances()
-    {
-        return cameraUiWrapper.cameraBackroundValuesChangedListner.GetFocusRange();
-    }
-
-    @Override
     public float getCurrentExposuretime() {
         return 0;
     }

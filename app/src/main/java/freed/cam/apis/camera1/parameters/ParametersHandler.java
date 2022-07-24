@@ -547,13 +547,6 @@ public class ParametersHandler extends AbstractParameterHandler<Camera1>
     }
 
     @Override
-    public float[] getFocusDistances() {
-        float[] focusdistance = new float[3];
-        ((CameraHolder)cameraUiWrapper.getCameraHolder()).GetCameraParameters().getFocusDistances(focusdistance);
-        return focusdistance;
-    }
-
-    @Override
     public float getCurrentExposuretime()
     {
         Camera.Parameters parameters = ((CameraHolder) cameraUiWrapper.getCameraHolder()).GetCameraParameters();

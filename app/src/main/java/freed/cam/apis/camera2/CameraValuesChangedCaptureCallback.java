@@ -183,9 +183,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         float[] ar = new float[3];
         if (focusRanges != null)
         {
-            ar[0] = 1/focusRanges.first.floatValue();
-            ar[2] = 1/focusRanges.second.floatValue();
-            ar[1] = 1/focus_distance;
+            ar[2] = 1f/ focusRanges.first;
+            ar[0] = 1f/ focusRanges.second;
+            ar[1] = 1f/focus_distance;
         }
         return ar;
     }
@@ -383,9 +383,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processFocus(boolean focus_is_locked) {
-            if (camera2Fragment.getFocusHandler().focusEvent != null && waitForFocusLock) {
+            if (camera2Fragment.getFocusHandler().focusEvent != null) {
 
-                camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked);
+                float near =0,far =0,opti = 0;
+                if (focusRanges != null)
+                {
+                    far = 1f/ focusRanges.first;
+                    near = 1f/ focusRanges.second;
+                    opti = 1f/focus_distance;
+                }
+                camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked,near,far,opti);
                /* if (focus_is_locked)
                     camera2Fragment.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);*/
             }

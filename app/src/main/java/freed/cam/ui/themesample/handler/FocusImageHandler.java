@@ -146,13 +146,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     }
 
     @Override
-    public void FocusFinished(final boolean success)
+    public void FocusFinished(final boolean success,float near,float far,float opti)
     {
         if (waitForFocusEnd) {
             waitForFocusEnd = false;
                 focusImageView.post(() -> {
                     focusImageView.setFocusCheck(success);
-                    focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
+                    focusImageView.setFocusDistances(near,far,opti);
                     Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + settingsManager.getGlobal(SettingKeys.TOUCH_TO_CAPTURE).get());
                     if (success && settingsManager.getGlobal(SettingKeys.TOUCH_TO_CAPTURE).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                         Log.d(TAG,"start capture");

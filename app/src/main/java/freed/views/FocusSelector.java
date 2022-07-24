@@ -56,19 +56,12 @@ public class FocusSelector extends AppCompatImageView
 		requestLayout();
 	}
 
-
-	public void getFocus(float[] f)
+	public void setFocusDistances(float near,float far,float opti)
 	{
-		float n, far, h, opt;
-		n = f[Camera.Parameters.FOCUS_DISTANCE_NEAR_INDEX];
-		far =  f[Camera.Parameters.FOCUS_DISTANCE_FAR_INDEX];
-		//h = far-n;
-		opt = f[Camera.Parameters.FOCUS_DISTANCE_OPTIMAL_INDEX];
-		nearF = StringUtils.getMeterString(n);
+		nearF = StringUtils.getMeterString(near);
 		farF = StringUtils.getMeterString(far);
-		hypF = StringUtils.getMeterString(opt);
+		hypF = StringUtils.getMeterString(opti);
 		invalidate();
-		
 	}
 
 

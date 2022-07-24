@@ -85,8 +85,10 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     @Override
     public void onFocusEvent(boolean event)
     {
+        float[] focusdistance = new float[3];
+        ((CameraHolder)cameraUiWrapper.getCameraHolder()).GetCameraParameters().getFocusDistances(focusdistance);
         if (focusEvent != null)
-            focusEvent.FocusFinished(event);
+            focusEvent.FocusFinished(event,focusdistance[0],focusdistance[2],focusdistance[1]);
     }
 
     @Override
