@@ -108,7 +108,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="false"
             android:layout_marginTop="93dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/halfroundleftcorners"
             android:gravity="left"
             android:orientation="horizontal">
@@ -158,10 +161,9 @@
             android:id="@+id/manualModesHolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/cameraui_manualbuttonholder_margin_left"
-            android:gravity="center_horizontal"/>
+            android:layout_toLeftOf="@id/right_ui_holder"
+            android:gravity="center_horizontal" />
 
 
         <FrameLayout
@@ -185,12 +187,10 @@
             android:id="@+id/curveView"
             android:layout_width="@dimen/curveViewWidth"
             android:layout_height="@dimen/curveViewHeight"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="false"
-            android:layout_marginEnd="110dp"
-            android:layout_marginRight="110dp"
             android:layout_marginBottom="20dp"
+            android:layout_toLeftOf="@id/right_ui_holder"
             android:background="@color/uiSettingsBackground" />
 
     </RelativeLayout>
