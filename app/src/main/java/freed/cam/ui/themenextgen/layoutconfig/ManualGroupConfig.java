@@ -27,8 +27,8 @@ public class ManualGroupConfig {
         group.add(new ManualItemConfig<String>(SettingKeys.M_Brightness, FreedApplication.getStringFromRessources(R.string.font_brightness) ));
         group.add(new ManualItemConfig<String>(SettingKeys.M_SATURATION, FreedApplication.getStringFromRessources(R.string.font_saturation) ));
         group.add(new ManualItemConfig<String>(SettingKeys.M_SHARPNESS, FreedApplication.getStringFromRessources(R.string.font_sharpness) ));
-        group.add(new ManualItemConfig<String>(SettingKeys.M_ZEBRA_HIGH, FreedApplication.getStringFromRessources(R.string.font_clipping), Color.BLUE));
-        group.add(new ManualItemConfig<String>(SettingKeys.M_ZEBRA_LOW, FreedApplication.getStringFromRessources(R.string.font_clipping),Color.RED));
+        group.add(new ManualItemConfig<String>(SettingKeys.M_ZEBRA_HIGH, FreedApplication.getStringFromRessources(R.string.font_clipping), Color.RED));
+        group.add(new ManualItemConfig<String>(SettingKeys.M_ZEBRA_LOW, FreedApplication.getStringFromRessources(R.string.font_clipping),Color.BLUE));
 
         return group;
     }

@@ -159,6 +159,8 @@ public class NextGenCameraUiFragment extends Fragment implements
 
             binding.leftUiHolder.removeAllViews();
             binding.rightUiItemsBottom.removeAllViews();
+            binding.linearlayoutPreviewpostprocessingmodes.removeAllViews();
+            binding.rightTopHolder.removeAllViews();
         if (wrapper == null) {
             if (focusImageHandler != null) {
                 focusImageHandler.AEMeteringSupported(false);
@@ -175,26 +177,26 @@ public class NextGenCameraUiFragment extends Fragment implements
             ParameterHandler parameterHandler = wrapper.getParameterHandler();
             if (parameterHandler == null)
                 return;
-
-            if (parameterHandler.get(SettingKeys.FOCUSPEAK) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.FOCUSPEAK), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
-            if (parameterHandler.get(SettingKeys.CLIPPING) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
             if (parameterHandler.get(SettingKeys.HISTOGRAM) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
+            if (parameterHandler.get(SettingKeys.FOCUSPEAK) != null)
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.FOCUSPEAK), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
+            if (parameterHandler.get(SettingKeys.CLIPPING) != null)
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
+
             if (parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER)!= null)
                 addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER),FreedApplication.getStringFromRessources(R.string.font_tonecurve),onNextGenToneCurveButtonClick);
 
             if (parameterHandler.get(SettingKeys.FLASH_MODE) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.FLASH_MODE), onNextGenButtonClick);
+                addUiTextSwitch(binding.rightTopHolder, (AbstractParameter) parameterHandler.get(SettingKeys.FLASH_MODE), onNextGenButtonClick);
             if (parameterHandler.get(SettingKeys.FOCUS_MODE) != null)
                 addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.FOCUS_MODE),FreedApplication.getStringFromRessources(R.string.font_manual_focus),onNextGenButtonClick);
             if (parameterHandler.get(SettingKeys.EXPOSURE_LOCK) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.EXPOSURE_LOCK),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
+                addUiTextSwitch(binding.rightTopHolder, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.EXPOSURE_LOCK),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
 
             addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.SELF_TIMER),FreedApplication.getStringFromRessources(R.string.font_exposuretime),onNextGenButtonClick);
             addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.MODULE),FreedApplication.getStringFromRessources(R.string.font_image), onNextGenButtonClick);
-            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
 
 
             if (isAdded()) {
@@ -229,8 +231,8 @@ public class NextGenCameraUiFragment extends Fragment implements
         }
     }
 
-    private final int iconsize = 33;
-    private final int frontsize = 12;
+    private final int iconsize = 31;
+    private final int frontsize = 10;
     private void addUiTextSwitch(LinearLayout root, AbstractParameter parameter, OnClickListener onClickListener) {
         NextGenCameraUiTextSwitch nextgenCamerauiTextSwitchBinding = new NextGenCameraUiTextSwitch(getContext());
         nextgenCamerauiTextSwitchBinding.setParameter(parameter,iconsize);
@@ -283,26 +285,6 @@ public class NextGenCameraUiFragment extends Fragment implements
         curveView.setVisibility(View.GONE);
 
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity(), pagingViewTouchState);
-
-        binding.framelayoutRightbuttons.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rightbuttonvisible)
-                {
-                    binding.leftUiHolder.setVisibility(View.GONE);
-                    binding.rightUiItemsBottom.setVisibility(View.GONE);
-                    rightbuttonvisible = false;
-                    binding.textViewFramelayoutRightbuttons.setText("<");
-                }
-                else
-                {
-                    binding.leftUiHolder.setVisibility(View.VISIBLE);
-                    binding.rightUiItemsBottom.setVisibility(View.VISIBLE);
-                    rightbuttonvisible = true;
-                    binding.textViewFramelayoutRightbuttons.setText(">");
-                }
-            }
-        });
 
         shutterButton = binding.shutterButton;
 
@@ -618,7 +600,9 @@ public class NextGenCameraUiFragment extends Fragment implements
             @Override
             public void run() {
                 if (faceRectDrawer != null)
-                    faceRectDrawer.setFaces(faces);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        faceRectDrawer.setFaces(faces);
+                    }
             }
         });
     }

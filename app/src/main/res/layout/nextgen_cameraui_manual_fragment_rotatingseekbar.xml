@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="93dp"
+        android:layout_marginEnd="93dp"
+        android:layout_marginRight="93dp"
         android:layout_marginBottom="40dp"
         android:background="@drawable/roundcorners">
 

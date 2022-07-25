@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
+
     <data></data>
 
     <RelativeLayout
@@ -24,24 +27,23 @@
         </FrameLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/guideHolder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/guideHolder">
-        </LinearLayout>
+            android:orientation="horizontal"></LinearLayout>
 
         <LinearLayout
             android:id="@+id/horHolder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal" />
 
 
         <freed.views.FocusSelector
-            android:layout_width="70dp"
             android:id="@+id/imageView_Crosshair"
-            android:visibility="gone"
-            android:layout_height="70dp" />
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/imageView_meteringarea"
@@ -62,27 +64,35 @@
             android:id="@+id/textView_usermessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black"
             android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/cameraui_settings_margin_left"
             android:layout_marginRight="@dimen/cameraui_shuttericon_size"
             android:background="@color/menuBackgColor"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:visibility="gone"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
 
-        <view
-            android:id="@+id/hisotview"
-            class="freed.cam.histogram.MyHistogram"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:visibility="gone"
-            android:background="@color/uiSettingsBackground"
-            tools:layout_width="120dp"
+        <FrameLayout
+            android:id="@+id/histoviewholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             tools:layout_height="60dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="15dp"/>
+            tools:layout_width="120dp">
+            <freed.cam.histogram.MyHistogram
+                android:id="@+id/hisotview"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/uiSettingsBackground"
+                android:visibility="gone"
+                tools:layout_height="60dp"
+                tools:layout_width="120dp" />
+        </FrameLayout>
+
+
 
         <ImageView
             android:id="@+id/imageView_waveform"
@@ -96,74 +106,72 @@
             android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <LinearLayout
+            android:id="@+id/right_top_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/left_ui_holder"
+            android:background="@drawable/halfroundbottomcorners"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            tools:layout_height="25dp"
+            tools:layout_width="120dp" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_previewpostprocessingmodes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="false"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/histoviewholder"
+            android:background="@drawable/halfroundbottomcorners"
+            android:orientation="horizontal"
+            android:paddingLeft="7dp"
+            android:paddingRight="5dp"
+            tools:layout_height="25dp"
+            tools:layout_width="120dp" />
+
         <freed.views.shutter.ShutterButton
             android:id="@+id/shutter_button"
             android:layout_width="@dimen/cameraui_shuttericon_size"
             android:layout_height="@dimen/cameraui_shuttericon_size"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
 
         <LinearLayout
-            android:id="@+id/right_ui_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/right_ui_items_bottom"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_below="@id/shutter_button"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerVertical="false"
-            android:layout_marginTop="93dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/halfroundleftcorners"
-            android:gravity="left"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
 
-            <FrameLayout
-                android:id="@+id/framelayout_rightbuttons"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="false"
-                android:minWidth="20dp"
-                android:minHeight="20dp">
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView_framelayout_rightbuttons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="5dp"
-                    android:text=">"
-                    android:textColor="@color/nextgen_menu_right_text" />
-            </FrameLayout>
-
-            <LinearLayout
-                android:id="@+id/right_ui_items_bottom"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="vertical">
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/left_ui_holder"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:orientation="vertical">
-
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/left_ui_holder"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_above="@id/shutter_button"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/halfroundleftcorners"
+            android:orientation="vertical">
 
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/manualModesHolder"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/right_ui_holder"
-            android:gravity="center_horizontal" />
+            android:layout_alignParentBottom="true" />
 
 
         <FrameLayout
@@ -171,8 +179,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/right_ui_holder"
-            android:layout_marginBottom="26dp" />
+            android:layout_marginBottom="26dp"
+            android:layout_toLeftOf="@id/shutter_button" />
 
         <FrameLayout
             android:id="@+id/helpfragment_container"
@@ -190,7 +198,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="false"
             android:layout_marginBottom="20dp"
-            android:layout_toLeftOf="@id/right_ui_holder"
+            android:layout_toLeftOf="@id/shutter_button"
             android:background="@color/uiSettingsBackground" />
 
     </RelativeLayout>
