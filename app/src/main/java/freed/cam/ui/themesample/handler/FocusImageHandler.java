@@ -242,6 +242,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.setVisibility(View.GONE);
             return;
         }
+        if (x > previewController.getPreviewWidth() + previewController.getMargineRight())
+            return;
         Log.d(TAG, "view width/height:" + previewController.getViewWidth() + "/" + previewController.getViewHeight());
         Log.d(TAG, "preview view width/height:" + previewController.getPreviewWidth() + "/" + previewController.getPreviewHeight());
         Log.d(TAG, "Margin left top" + previewController.getMargineLeft() + "/" + previewController.getMargineTop());
