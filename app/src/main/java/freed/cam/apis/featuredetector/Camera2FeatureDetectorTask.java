@@ -240,6 +240,15 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
                 settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).setValues(duration);
                 settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).set("1");
             }
+
+            String[] templates = new String[]{"Preview","StillCapture","Record","VideoSnapshot","ZeroShutterLag","Manual"};
+            settingsManager.get(SettingKeys.PREVIEW_TEMPLATE).setIsSupported(true);
+            settingsManager.get(SettingKeys.PREVIEW_TEMPLATE).setValues(templates);
+            settingsManager.get(SettingKeys.PREVIEW_TEMPLATE).set(templates[0]);
+
+            settingsManager.get(SettingKeys.CAPTURE_TEMPLATE).setIsSupported(true);
+            settingsManager.get(SettingKeys.CAPTURE_TEMPLATE).setValues(templates);
+            settingsManager.get(SettingKeys.CAPTURE_TEMPLATE).set(templates[1]);
         }
     }
 

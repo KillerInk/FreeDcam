@@ -70,6 +70,8 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.CHECKFORUPDATES, R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description,true, SettingItemConfig.ViewType.Boolean));
         group.add(new SettingItemConfig(null, R.string.setting_dump_vendor_keys_header,R.string.setting_dump_vendor_keys_description,true, SettingItemConfig.ViewType.Custom));
         group.add(new SettingItemConfig(SettingKeys.THEME, R.string.setting_theme_header,R.string.setting_theme_description,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.PREVIEW_TEMPLATE, R.string.setting_previewtemplate_header,R.string.setting_previewtemplate_description,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.CAPTURE_TEMPLATE, R.string.setting_capturetemplate_header,R.string.setting_capturetemplate_description,false, SettingItemConfig.ViewType.Text));
         return group;
     }
 
