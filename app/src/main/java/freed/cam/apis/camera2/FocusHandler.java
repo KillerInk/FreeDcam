@@ -102,7 +102,7 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
         }
         if (in +focusSize > max)
         {
-            in = max - (in +focusSize);
+            in = in - (max - (in +focusSize));
         }
         return in;
     }
