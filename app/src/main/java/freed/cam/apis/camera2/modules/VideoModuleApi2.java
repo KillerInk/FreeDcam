@@ -189,7 +189,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
             PicReader = null;
         }
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
-        videoRecorder.release();
+        if (videoRecorder != null)
+            videoRecorder.release();
         videoRecorder = null;
         previewsurface = null;
     }
