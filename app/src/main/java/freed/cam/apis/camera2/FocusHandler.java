@@ -33,6 +33,7 @@ import com.troop.freedcam.R;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
+import freed.cam.previewpostprocessing.PreviewController;
 import freed.utils.Log;
 
 /**
@@ -41,10 +42,11 @@ import freed.utils.Log;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusHandler extends AbstractFocusHandler<Camera2>
 {
-    private int mState;
     private boolean focusenabled;
 
     private final String TAG = FocusHandler.class.getSimpleName();
+
+    private final int focusSize = 100;
 
 
 
@@ -75,40 +77,34 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
         if (!focusenabled)
             return;
 
-        Rect sensorSize =  cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        int x_pos = (int)(x * sensorSize.width())-1;
-        int y_pos = (int)(y *sensorSize.height())-1;
-        Log.d(TAG, "relative x/y : " + x+"/"+y  +" norm : " + x_pos + "/" +y_pos);
-        int areasize = 50;
-        int left = x_pos - areasize;
-        int right =x_pos +areasize;
-        int top = y_pos -areasize;
-        int bottom = y_pos +areasize;
-        Rect targetFocusRect = new Rect(left, top,right,bottom);
-
-        if (targetFocusRect.left < 0) {
-            targetFocusRect.left = 0;
-            targetFocusRect.right = areasize*2;
-        }
-        if (targetFocusRect.right > sensorSize.right) {
-            targetFocusRect.right = sensorSize.width()-1;
-            targetFocusRect.left = sensorSize.width()-1 -areasize*2;
-        }
-        if (targetFocusRect.top < sensorSize.top) {
-            targetFocusRect.top = 0;
-            targetFocusRect.bottom = areasize*2;
-
-        }
-        if (targetFocusRect.bottom > sensorSize.bottom)
-        {
-            targetFocusRect.bottom = sensorSize.height()-1;
-            targetFocusRect.top = sensorSize.height()-1 - areasize*2;
-        }
-
-        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, MeteringRectangle.METERING_WEIGHT_MAX-1);
-        Log.d(TAG,rectangle.toString());
-        MeteringRectangle[] mre = { rectangle};
+        MeteringRectangle[] mre = {translateScreenToCameraPos(x,y)};
         cameraUiWrapper.captureSessionHandler.SetFocusArea(mre);
+    }
+
+    private MeteringRectangle translateScreenToCameraPos(float x, float y)
+    {
+        Rect sensorSize =  cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        int x_pos = (int) (x *(float)sensorSize.width());
+        int y_pos = (int) (y * (float)sensorSize.height());
+
+        Log.d(TAG,"x pos:" + x_pos + " y pos:" + y_pos);
+        x_pos = clamp(x_pos,sensorSize.width());
+        y_pos = clamp(y_pos,sensorSize.height());
+        Log.d(TAG,"clamp x pos:" + x_pos + " y pos:" + y_pos);
+        return new MeteringRectangle(x_pos-focusSize, y_pos-focusSize,x_pos+focusSize,y_pos+focusSize,MeteringRectangle.METERING_WEIGHT_MAX-1);
+    }
+
+    private int clamp(int in, int max)
+    {
+        if (in -focusSize < 0)
+        {
+            in = in + (in -focusSize)*-1;
+        }
+        if (in +focusSize > max)
+        {
+            in = in - (max - (in +focusSize));
+        }
+        return in;
     }
 
 

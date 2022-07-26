@@ -90,6 +90,10 @@
 
     <string name="setting_theme_header">Theme: </string>
     <string name="setting_theme_description">Choose your favorite Theme</string>
+    <string name="setting_previewtemplate_header">Preview Template: </string>
+    <string name="setting_previewtemplate_description">Template that get used for Preview</string>
+    <string name="setting_capturetemplate_header">Capture Template: </string>
+    <string name="setting_capturetemplate_description">Template that get used for ImageCapture</string>
     <string name="setting_savecamparams_header">Save Camera Parameters</string>
     <string name="setting_savecamparams_description"> </string>
 

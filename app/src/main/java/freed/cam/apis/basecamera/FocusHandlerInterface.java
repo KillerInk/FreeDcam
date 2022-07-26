@@ -27,7 +27,7 @@ import android.view.MotionEvent;
 public interface FocusHandlerInterface
 {
     void FocusStarted(int x, int y);
-    void FocusFinished(boolean success);
+    void FocusFinished(boolean success,float near,float far,float opti);
     void TouchToFocusSupported(boolean isSupported);
     void AEMeteringSupported(boolean isSupported);
     boolean onTouchEvent(MotionEvent event);

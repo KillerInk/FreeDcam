@@ -33,6 +33,7 @@ import freed.cam.event.module.ModuleChangedEvent;
 import freed.cam.ui.KeyPressedController;
 import freed.cam.ui.themenextgen.layoutconfig.ManualGroupConfig;
 import freed.cam.ui.themenextgen.layoutconfig.ManualItemConfig;
+import freed.cam.ui.themenextgen.view.NextGenRotatingSeekbar;
 import freed.cam.ui.themenextgen.view.button.ManualButtonInterface;
 import freed.cam.ui.themenextgen.view.button.NextGenManualButton;
 import freed.cam.ui.themenextgen.view.button.NextGenMfItem;
@@ -42,7 +43,6 @@ import freed.cam.ui.themesample.cameraui.ManualFragment;
 import freed.cam.ui.themesample.cameraui.childs.ManualButtonMF;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
-import freed.views.RotatingSeekbar;
 import freed.views.pagingview.PagingViewTouchState;
 
 @AndroidEntryPoint
@@ -50,7 +50,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
 {
     private int currentValuePos;
 
-    private RotatingSeekbar seekbar;
+    private NextGenRotatingSeekbar seekbar;
 
     private ManualButtonInterface currentButton;
 

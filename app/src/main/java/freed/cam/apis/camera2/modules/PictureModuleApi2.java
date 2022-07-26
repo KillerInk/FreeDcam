@@ -290,7 +290,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
             Size smallestImageSize = Collections.min(
                     Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                     new CameraHolderApi2.CompareSizesByArea());
-            byteImageCapture = new ContinouseYuvCapture(smallestImageSize,ImageFormat.YUV_420_888,false,this,".jpg",max_images);
+            byteImageCapture = new JpegCapture(smallestImageSize,false,this,".jpg",max_images);
         }
         captureController.add(byteImageCapture);
         if (captureType == CaptureType.Yuv) {

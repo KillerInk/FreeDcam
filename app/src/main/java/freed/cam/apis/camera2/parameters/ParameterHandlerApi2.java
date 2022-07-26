@@ -63,6 +63,7 @@ import freed.cam.apis.camera2.parameters.modes.MFNR;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
+import freed.cam.apis.camera2.parameters.modes.TemplateModeApi2;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.cam.apis.camera2.parameters.modes.XiaomiMfnr;
 import freed.cam.apis.camera2.parameters.modes.YuvSizeModeApi2;
@@ -254,6 +255,8 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
 
         add(SettingKeys.ORIENTATION_HACK,new OrientationHackParameter(cameraUiWrapper,SettingKeys.ORIENTATION_HACK));
         add(SettingKeys.FORCE_WIDE_PREVIEW,new ForceWidePreview(cameraUiWrapper));
+        add(SettingKeys.CAPTURE_TEMPLATE,new TemplateModeApi2(cameraUiWrapper,SettingKeys.CAPTURE_TEMPLATE));
+        add(SettingKeys.PREVIEW_TEMPLATE,new TemplateModeApi2(cameraUiWrapper,SettingKeys.PREVIEW_TEMPLATE));
     }
 
     @Override
@@ -276,12 +279,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         {
             Log.WriteEx(ex);
         }
-    }
-
-    @Override
-    public float[] getFocusDistances()
-    {
-        return cameraUiWrapper.cameraBackroundValuesChangedListner.GetFocusRange();
     }
 
     @Override

@@ -8,7 +8,7 @@
         android:id="@+id/MainLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/button_notclicked"
+        android:background="@color/design_default_color_on_secondary"
         android:keepScreenOn="true"
         android:longClickable="false"
         android:orientation="vertical">
@@ -17,7 +17,7 @@
         <FrameLayout
             android:id="@+id/nextgen_camera_preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
 
         <freed.views.pagingview.PagingView

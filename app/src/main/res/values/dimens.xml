@@ -36,4 +36,5 @@
     <dimen name="curveViewButtonHeight">30dp</dimen>
 
     <dimen name="nextgen_cameraui_textswitch">40dp</dimen>
+    <dimen name="nextgen_shutterbutton_size">80dp</dimen>
 </resources>

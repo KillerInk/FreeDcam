@@ -131,8 +131,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
         }*/
         final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
-        mParams.leftMargin = x +getLeftMargin();
-        mParams.topMargin = y+ getTopMargin();
+        mParams.leftMargin = x + previewController.getMargineLeft();
+        mParams.topMargin = y+ previewController.getMargineTop();
 
         focusImageView.post(() -> {
             focusImageView.setLayoutParams(mParams);
@@ -146,13 +146,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     }
 
     @Override
-    public void FocusFinished(final boolean success)
+    public void FocusFinished(final boolean success,float near,float far,float opti)
     {
         if (waitForFocusEnd) {
             waitForFocusEnd = false;
                 focusImageView.post(() -> {
                     focusImageView.setFocusCheck(success);
-                    focusImageView.getFocus(wrapper.getParameterHandler().getFocusDistances());
+                    focusImageView.setFocusDistances(near,far,opti);
                     Log.d(TAG,"Focus success:" + success + " TouchtoCapture:" + settingsManager.getGlobal(SettingKeys.TOUCH_TO_CAPTURE).get());
                     if (success && settingsManager.getGlobal(SettingKeys.TOUCH_TO_CAPTURE).get() && !wrapper.getModuleHandler().getCurrentModule().ModuleName().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                         Log.d(TAG,"start capture");
@@ -242,37 +242,26 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             focusImageView.setVisibility(View.GONE);
             return;
         }
+        if (x > previewController.getPreviewWidth() + previewController.getMargineRight())
+            return;
         Log.d(TAG, "view width/height:" + previewController.getViewWidth() + "/" + previewController.getViewHeight());
         Log.d(TAG, "preview view width/height:" + previewController.getPreviewWidth() + "/" + previewController.getPreviewHeight());
-        Log.d(TAG, "Margin left top" + getLeftMargin() + "/" + getTopMargin());
+        Log.d(TAG, "Margin left top" + previewController.getMargineLeft() + "/" + previewController.getMargineTop());
         Log.d(TAG, "touch x y " + x + "/" + y);
         float vw = previewController.getViewWidth();
         float vh = previewController.getViewHeight();
-        float x_nonMargin = x -getLeftMargin();
-        float y_nonMargin = y - getTopMargin();
+        float x_nonMargin = x - previewController.getMargineLeft();
+        float y_nonMargin = y - previewController.getMargineTop();
         float x_pos = 1/ vw * x_nonMargin;
         float y_pos = 1/ vh * y_nonMargin;
         Log.d(TAG, "normalized pos  x/y " + x_pos + "/" + y_pos);
-        x -= (recthalf +getLeftMargin());
-        y -= (recthalf +getTopMargin());
+        x -= (recthalf +previewController.getMargineLeft());
+        y -= (recthalf +previewController.getMargineTop());
         if(x_pos >=0 && x_pos <= 1 && y_pos >=0 && y_pos <= 1)
         {
             if (wrapper.getFocusHandler() != null)
                 wrapper.getFocusHandler().StartTouchToFocus(x,y,previewController.getViewWidth(),previewController.getViewHeight(), x_pos, y_pos);
         }
-    }
-
-    private int getLeftMargin()
-    {
-        return previewController.getViewWidth()/2 - previewController.getPreviewWidth()/2;
-    }
-
-    private int getTopMargin()
-    {
-        int mtop = previewController.getViewHeight()/2 - previewController.getPreviewHeight()/2;
-        if (mtop > 0)
-            return mtop;
-        else return 0;
     }
 
 

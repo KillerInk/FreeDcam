@@ -59,7 +59,7 @@ public class SettingGroupConfig
     {
         ArrayList<SettingItemConfig> group = new ArrayList();
         group.add(new SettingItemConfig(null, R.string.setting_api_header, R.string.setting_api_description,false, SettingItemConfig.ViewType.Text));
-        group.add(new SettingItemConfig(null, R.string.setting_sdcard_header, R.string.setting_sdcard_description,false, SettingItemConfig.ViewType.Custom));
+        group.add(new SettingItemConfig(SettingKeys.SD_SAVE_LOCATION, R.string.setting_sdcard_header, R.string.setting_sdcard_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.LOCATION_MODE,R.string.setting_location_header, R.string.setting_location_description,false, SettingItemConfig.ViewType.Custom));
         group.add(new SettingItemConfig(SettingKeys.NIGHT_OVERLAY,R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.TOUCH_TO_CAPTURE,R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description,true, SettingItemConfig.ViewType.Boolean));
@@ -70,6 +70,8 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.CHECKFORUPDATES, R.string.setting_checkforupdate_header, R.string.setting_checkforupdate_description,true, SettingItemConfig.ViewType.Boolean));
         group.add(new SettingItemConfig(null, R.string.setting_dump_vendor_keys_header,R.string.setting_dump_vendor_keys_description,true, SettingItemConfig.ViewType.Custom));
         group.add(new SettingItemConfig(SettingKeys.THEME, R.string.setting_theme_header,R.string.setting_theme_description,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.PREVIEW_TEMPLATE, R.string.setting_previewtemplate_header,R.string.setting_previewtemplate_description,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.CAPTURE_TEMPLATE, R.string.setting_capturetemplate_header,R.string.setting_capturetemplate_description,false, SettingItemConfig.ViewType.Text));
         return group;
     }
 

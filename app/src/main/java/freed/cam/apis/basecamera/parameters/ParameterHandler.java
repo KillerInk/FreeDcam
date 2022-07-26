@@ -10,7 +10,6 @@ public interface ParameterHandler
     ParameterInterface get(SettingKeys.Key parameters);
     void SetFocusAREA(Rect focusAreas);
     void SetPictureOrientation(int or);
-    float[] getFocusDistances();
     float getCurrentExposuretime();
     int getCurrentIso();
     void SetAppSettingsToParameters();

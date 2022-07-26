@@ -13,6 +13,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
+import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -21,7 +22,6 @@ import freed.cam.ui.themesample.settings.childs.GroupChild;
 import freed.cam.ui.themesample.settings.childs.SettingsChildDumpCamera2VendorKeys;
 import freed.cam.ui.themesample.settings.childs.SettingsChildFeatureDetect;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenu;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSDSave;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSaveCamParams;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuVideoHDR;
@@ -207,9 +207,9 @@ public class SettingsMenuItemFactory
 
         if (cameraUiWrapper != null && cameraUiWrapper.getParameterHandler() != null) {
 
-            SettingsChildMenuSDSave sdSave = new SettingsChildMenuSDSave(context, R.string.setting_sdcard_header, R.string.setting_sdcard_description);
-            sdSave.SetCameraUiWrapper(cameraUiWrapper);
+            SettingsChildMenu sdSave = new SettingsChildMenu(context, cameraUiWrapper.getParameterHandler().get(SettingKeys.SD_SAVE_LOCATION), R.string.setting_sdcard_header, R.string.setting_sdcard_description);
             sdSave.SetUiItemClickListner(click);
+            ((SDModeParameter)cameraUiWrapper.getParameterHandler().get(SettingKeys.SD_SAVE_LOCATION)).setContext(context);
             globalSettingGroup.addView(sdSave);
 
             SettingsChild_BooleanSetting menuItemGPS = new SettingsChild_BooleanSetting(context, (BooleanSettingModeInterface) cameraUiWrapper.getParameterHandler().get(SettingKeys.LOCATION_MODE),R.string.setting_location_header, R.string.setting_location_description );

@@ -81,6 +81,7 @@ public class MyHistogram extends View {
     {
         try {
             canvas.drawARGB ( 0 , 0 , 0 , 0 );
+            histogramDrawer.drawGrid(canvas,getWidth(),getHeight());
             histogramDrawer.drawHistogram(canvas , histogramData.getRedHistogram(), Color.RED,getWidth(),getHeight());
             histogramDrawer.drawHistogram(canvas , histogramData.getGreenHistogram(), Color.GREEN,getWidth(),getHeight());
             histogramDrawer.drawHistogram(canvas , histogramData.getBlueHistogram(), Color.BLUE,getWidth(),getHeight());

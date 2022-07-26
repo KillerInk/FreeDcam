@@ -139,6 +139,9 @@
     <string name="aps_use_qcom_ae" translatable="false">use_qcom_ae</string>
     <string name="aps_preview_post_processing_mode" translatable="false">preview_post_processing_mode</string>
 
+    <string name="aps_preview_template_mode" translatable="false">preview_template_mode</string>
+    <string name="aps_capture_template_mode" translatable="false">capture_template_mode</string>
+
 
 
 </resources>

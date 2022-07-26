@@ -9,16 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginRight="105dp"
-        android:layout_marginBottom="40dp">
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="93dp"
+        android:layout_marginRight="93dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/roundcorners">
 
-        <freed.views.RotatingSeekbar
+        <freed.cam.ui.themenextgen.view.NextGenRotatingSeekbar
             android:id="@+id/seekbar"
-            android:layout_width="@dimen/cameraui_manual_fragment_rotatingseekbar_width"
+            android:layout_width="50dp"
             android:layout_height="fill_parent"
-            android:layout_marginRight="5dp" />
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
     </FrameLayout>
 
     <HorizontalScrollView

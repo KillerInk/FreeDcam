@@ -2,6 +2,7 @@ package freed.cam.apis.camera2;
 
 import android.annotation.TargetApi;
 import android.graphics.Point;
+import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
@@ -29,6 +30,7 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.settings.Frameworks;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.BackgroundHandlerThread;
 import freed.utils.DisplayUtil;
@@ -158,7 +160,8 @@ public class CaptureSessionHandler
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
             return;
         try {
-            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            String template = settingsManager.get(SettingKeys.PREVIEW_TEMPLATE).get();
+            mPreviewRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(getCameraTemplate(template));
             try {
                 if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
                     mPreviewRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG, (byte) 1);
@@ -200,7 +203,8 @@ public class CaptureSessionHandler
         if (cameraHolderApi2 == null || cameraHolderApi2.mCameraDevice == null)
             return;
         try {
-            mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            String template = settingsManager.get(SettingKeys.CAPTURE_TEMPLATE).get();
+            mImageCaptureRequestBuilder = cameraHolderApi2.mCameraDevice.createCaptureRequest(getCameraTemplate(template));
             if (settingsManager.getFrameWork() == Frameworks.HuaweiCamera2Ex)
                 mImageCaptureRequestBuilder.set(CaptureRequestHuawei.HUAWEI_CAMERA_FLAG,(byte)1);
         } catch (CameraAccessException ex) {
@@ -749,7 +753,7 @@ public class CaptureSessionHandler
         }
         else {
             cameraBackroundValuesChangedListner.setWaitForFocusLock(true);
-            SetPreviewParameter(CaptureRequest.CONTROL_AF_REGIONS,value,true);
+            SetPreviewParameter(CaptureRequest.CONTROL_AF_REGIONS,value,false);
             SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START,true);
             SetPreviewParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);
         }
@@ -758,6 +762,24 @@ public class CaptureSessionHandler
     public CaptureRequest getCaptureRequest()
     {
         return mPreviewRequestBuilder.build();
+    }
+
+    //"StillCapture","Record","VideoSnapshot","ZeroShutterLag","Manual"
+    private int getCameraTemplate(String s)
+    {
+        if (s.equals("StillCapture"))
+            return CameraDevice.TEMPLATE_STILL_CAPTURE;
+        if (s.equals("Record"))
+            return CameraDevice.TEMPLATE_RECORD;
+        if (s.equals("VideoSnapshot"))
+            return CameraDevice.TEMPLATE_VIDEO_SNAPSHOT;
+        if (s.equals("ZeroShutterLag"))
+            return CameraDevice.TEMPLATE_ZERO_SHUTTER_LAG;
+        if (s.equals("Manual"))
+            return CameraDevice.TEMPLATE_MANUAL;
+        else
+            return CameraDevice.TEMPLATE_PREVIEW;
+
     }
 
 }

@@ -27,7 +27,7 @@ public class FlashDetector extends BaseParameter2Detector {
             if (flashavail) {
                 String[] lookupar = FreedApplication.getContext().getResources().getStringArray(R.array.flashextModes);
                 settingsManager.get(SettingKeys.FLASH_MODE).setValues(lookupar);
-                settingsManager.get(SettingKeys.FLASH_MODE).set(lookupar[0]);
+                settingsManager.get(SettingKeys.FLASH_MODE).set(FreedApplication.getStringFromRessources(R.string.font_flash_off));
             }
         }
     }

@@ -22,7 +22,9 @@ package freed.cam.ui.themenextgen.fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.PointF;
+import android.hardware.camera2.params.Face;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -55,6 +57,8 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
+import freed.cam.apis.camera2.Camera2;
+import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.histogram.HistogramController;
@@ -78,6 +82,7 @@ import freed.utils.LocationManager;
 import freed.utils.Log;
 import freed.views.CurveView;
 import freed.views.CurveViewControl;
+import freed.views.FaceRectDrawer;
 import freed.views.pagingview.PagingViewTouchState;
 import freed.views.shutter.ShutterButton;
 
@@ -90,7 +95,8 @@ public class NextGenCameraUiFragment extends Fragment implements
         I_swipe,
         OnClickListener,
         CameraHolderEvent,
-        CurveView.CurveChangedEvent
+        CurveView.CurveChangedEvent,
+        CameraValuesChangedCaptureCallback.FaceEvent
 {
     final String TAG = NextGenCameraUiFragment.class.getSimpleName();
 
@@ -125,6 +131,9 @@ public class NextGenCameraUiFragment extends Fragment implements
     private boolean rightbuttonvisible = true;
     private CurveViewControl curveView;
 
+    private FaceRectDrawer faceRectDrawer;
+    private FrameLayout faceDrawerHolder;
+
     @Inject
     public SettingsManager settingsManager;
     @Inject
@@ -150,11 +159,15 @@ public class NextGenCameraUiFragment extends Fragment implements
 
             binding.leftUiHolder.removeAllViews();
             binding.rightUiItemsBottom.removeAllViews();
+            binding.linearlayoutPreviewpostprocessingmodes.removeAllViews();
+            binding.rightTopHolder.removeAllViews();
         if (wrapper == null) {
             if (focusImageHandler != null) {
                 focusImageHandler.AEMeteringSupported(false);
                 focusImageHandler.TouchToFocusSupported(false);
                 shutterButton.setVisibility(View.GONE);
+                if (faceDrawerHolder != null)
+                    faceDrawerHolder.removeAllViews();
                 if (isAdded())
                     hide_ManualSettings();
             }
@@ -164,26 +177,26 @@ public class NextGenCameraUiFragment extends Fragment implements
             ParameterHandler parameterHandler = wrapper.getParameterHandler();
             if (parameterHandler == null)
                 return;
-
-            if (parameterHandler.get(SettingKeys.FOCUSPEAK) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.FOCUSPEAK), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
-            if (parameterHandler.get(SettingKeys.CLIPPING) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
             if (parameterHandler.get(SettingKeys.HISTOGRAM) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
+            if (parameterHandler.get(SettingKeys.FOCUSPEAK) != null)
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.FOCUSPEAK), FreedApplication.getStringFromRessources(R.string.font_focuspeak_on));
+            if (parameterHandler.get(SettingKeys.CLIPPING) != null)
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
+
             if (parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER)!= null)
                 addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER),FreedApplication.getStringFromRessources(R.string.font_tonecurve),onNextGenToneCurveButtonClick);
 
             if (parameterHandler.get(SettingKeys.FLASH_MODE) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.FLASH_MODE), onNextGenButtonClick);
+                addUiTextSwitch(binding.rightTopHolder, (AbstractParameter) parameterHandler.get(SettingKeys.FLASH_MODE), onNextGenButtonClick);
             if (parameterHandler.get(SettingKeys.FOCUS_MODE) != null)
                 addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.FOCUS_MODE),FreedApplication.getStringFromRessources(R.string.font_manual_focus),onNextGenButtonClick);
             if (parameterHandler.get(SettingKeys.EXPOSURE_LOCK) != null)
-                addUiTextSwitch(binding.rightUiItemsBottom, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.EXPOSURE_LOCK),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
+                addUiTextSwitch(binding.rightTopHolder, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.EXPOSURE_LOCK),FreedApplication.getStringFromRessources(R.string.font_exposurelock));
 
             addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.SELF_TIMER),FreedApplication.getStringFromRessources(R.string.font_exposuretime),onNextGenButtonClick);
             addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.MODULE),FreedApplication.getStringFromRessources(R.string.font_image), onNextGenButtonClick);
-            addUiTextSwitchWithValue(binding.leftUiHolder, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
+            addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.CAMERA_SWITCH),FreedApplication.getStringFromRessources(R.string.font_camera), onNextGenButtonClick);
 
 
             if (isAdded()) {
@@ -202,12 +215,24 @@ public class NextGenCameraUiFragment extends Fragment implements
                 //remove the values fragment from ui when a new api gets loaded and it was open.
                 if (horizontalValuesFragment != null && horizontalValuesFragment.isAdded())
                     removeHorizontalFragment();
+
+                if (wrapper instanceof Camera2)
+                {
+                    faceDrawerHolder = binding.framelyoutFacedrawer;
+                    if (faceRectDrawer == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        faceRectDrawer = new FaceRectDrawer(getContext());
+                    faceDrawerHolder.removeAllViews();
+                    faceDrawerHolder.addView(faceRectDrawer);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ((Camera2) wrapper).cameraBackroundValuesChangedListner.setFaceEventListner(this);
+                    }
+                }
             }
         }
     }
 
-    private final int iconsize = 33;
-    private final int frontsize = 12;
+    private final int iconsize = 31;
+    private final int frontsize = 10;
     private void addUiTextSwitch(LinearLayout root, AbstractParameter parameter, OnClickListener onClickListener) {
         NextGenCameraUiTextSwitch nextgenCamerauiTextSwitchBinding = new NextGenCameraUiTextSwitch(getContext());
         nextgenCamerauiTextSwitchBinding.setParameter(parameter,iconsize);
@@ -261,26 +286,6 @@ public class NextGenCameraUiFragment extends Fragment implements
 
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity(), pagingViewTouchState);
 
-        binding.framelayoutRightbuttons.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rightbuttonvisible)
-                {
-                    binding.leftUiHolder.setVisibility(View.GONE);
-                    binding.rightUiItemsBottom.setVisibility(View.GONE);
-                    rightbuttonvisible = false;
-                    binding.textViewFramelayoutRightbuttons.setText("<");
-                }
-                else
-                {
-                    binding.leftUiHolder.setVisibility(View.VISIBLE);
-                    binding.rightUiItemsBottom.setVisibility(View.VISIBLE);
-                    rightbuttonvisible = true;
-                    binding.textViewFramelayoutRightbuttons.setText(">");
-                }
-            }
-        });
-
         shutterButton = binding.shutterButton;
 
         view.setOnTouchListener(onTouchListener);
@@ -331,7 +336,7 @@ public class NextGenCameraUiFragment extends Fragment implements
         }*/
         setCameraToUi(cameraApiManager.getCamera());
         checkForUpdate();
-
+        faceDrawerHolder = view.findViewById(R.id.framelyout_facedrawer);
     }
 
     private void checkForUpdate() {
@@ -587,6 +592,19 @@ public class NextGenCameraUiFragment extends Fragment implements
     @Override
     public void onClick(PointF pointF) {
 
+    }
+
+    @Override
+    public void onFacesDetected(Face[] faces) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (faceRectDrawer != null)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        faceRectDrawer.setFaces(faces);
+                    }
+            }
+        });
     }
 
     interface i_HelpFragment

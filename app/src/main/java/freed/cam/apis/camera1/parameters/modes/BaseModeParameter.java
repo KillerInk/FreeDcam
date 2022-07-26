@@ -54,11 +54,13 @@ public class BaseModeParameter extends AbstractParameter implements ModuleChange
         this.parameters = parameters;
         if (settingMode == null ||settingsManager.get(settingMode) == null)
             return;
-        SettingMode mode = (SettingMode) settingsManager.get(settingMode);
-        this.key_value = mode.getCamera1ParameterKEY();
-        this.stringvalues = mode.getValues();
-        if (mode.isSupported())
-            setViewState(ViewState.Visible);
+        if(settingsManager.get(settingMode) instanceof SettingMode) {
+            SettingMode mode = (SettingMode) settingsManager.get(settingMode);
+            this.key_value = mode.getCamera1ParameterKEY();
+            this.stringvalues = mode.getValues();
+            if (mode.isSupported())
+                setViewState(ViewState.Visible);
+        }
     }
 
     @Override

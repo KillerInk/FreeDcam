@@ -4,6 +4,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.Face;
 import android.os.Build;
 import android.util.Pair;
 
@@ -52,6 +53,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         void on_Ae_Af_Lock(AeAfLocker aeAfLocker);
     }
 
+    public interface FaceEvent
+    {
+        void onFacesDetected(Face[] faces);
+    }
+
 
     private CaptureResult captureResult;
 
@@ -59,7 +65,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         return captureResult;
     }
 
-    public class AeAfLocker
+    public static class AeAfLocker
     {
         private boolean aeLocked;
         private boolean afLocked;
@@ -113,6 +119,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     private HistogramChangedEvent histogramChangedEventListner;
     private final SettingsManager settingsManager;
     private CaptureResultRingBuffer captureResultRingBuffer;
+    private FaceEvent faceEventListner;
 
     public CameraValuesChangedCaptureCallback(Camera2 camera2Fragment)
     {
@@ -129,6 +136,11 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     @Override
     public void setHistogramFeed(HistogramChangedEvent feed) {
         this.histogramChangedEventListner = feed;
+    }
+
+    public void setFaceEventListner(FaceEvent event)
+    {
+        this.faceEventListner = event;
     }
 
     public void setWaitForFocusLock(boolean idel)
@@ -171,9 +183,9 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         float[] ar = new float[3];
         if (focusRanges != null)
         {
-            ar[0] = 1/focusRanges.first.floatValue();
-            ar[2] = 1/focusRanges.second.floatValue();
-            ar[1] = 1/focus_distance;
+            ar[2] = 1f/ focusRanges.first;
+            ar[0] = 1f/ focusRanges.second;
+            ar[1] = 1f/focus_distance;
         }
         return ar;
     }
@@ -224,6 +236,8 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         //handel focus callback to ui if it was sucessfull. dont reset focusareas or trigger again afstate.
         //else it could happen that it refocus
         processDefaultFocus(result);
+
+        processFaces(result);
 
         if(result.get(CaptureResult.CONTROL_AE_STATE) != null /*&& aeState != result.get(CaptureResult.CONTROL_AE_STATE)*/)
         {
@@ -295,6 +309,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
 
     }
 
+    private void processFaces(TotalCaptureResult result) {
+        if (faceEventListner == null)
+            return;
+        if (result.get(CaptureResult.STATISTICS_FACE_DETECT_MODE) != null && captureResult.get(CaptureResult.STATISTICS_FACE_DETECT_MODE) != CaptureResult.STATISTICS_FACE_DETECT_MODE_OFF)
+        {
+            Face[] faces = result.get(CaptureResult.STATISTICS_FACES);
+            if (faceEventListner != null)
+                faceEventListner.onFacesDetected(faces);
+        }
+    }
 
 
     private String afStates ="";
@@ -359,9 +383,16 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
     }
 
     private void processFocus(boolean focus_is_locked) {
-            if (camera2Fragment.getFocusHandler().focusEvent != null && waitForFocusLock) {
+            if (camera2Fragment.getFocusHandler().focusEvent != null) {
 
-                camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked);
+                float near =0,far =0,opti = 0;
+                if (focusRanges != null)
+                {
+                    far = 1f/ focusRanges.first;
+                    near = 1f/ focusRanges.second;
+                    opti = 1f/focus_distance;
+                }
+                camera2Fragment.getFocusHandler().focusEvent.FocusFinished(focus_is_locked,near,far,opti);
                /* if (focus_is_locked)
                     camera2Fragment.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE,true);*/
             }
