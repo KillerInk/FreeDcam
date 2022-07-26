@@ -59,7 +59,7 @@ public class SettingGroupConfig
     {
         ArrayList<SettingItemConfig> group = new ArrayList();
         group.add(new SettingItemConfig(null, R.string.setting_api_header, R.string.setting_api_description,false, SettingItemConfig.ViewType.Text));
-        group.add(new SettingItemConfig(null, R.string.setting_sdcard_header, R.string.setting_sdcard_description,false, SettingItemConfig.ViewType.Custom));
+        group.add(new SettingItemConfig(SettingKeys.SD_SAVE_LOCATION, R.string.setting_sdcard_header, R.string.setting_sdcard_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.LOCATION_MODE,R.string.setting_location_header, R.string.setting_location_description,false, SettingItemConfig.ViewType.Custom));
         group.add(new SettingItemConfig(SettingKeys.NIGHT_OVERLAY,R.string.setting_nightoverlay_header, R.string.setting_nightoverlay_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.TOUCH_TO_CAPTURE,R.string.setting_touchtocapture_header, R.string.setting_touchtocapture_description,true, SettingItemConfig.ViewType.Boolean));

@@ -17,6 +17,7 @@ import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterHandler;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.ApiParameter;
+import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.SettingModeParamter;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
@@ -29,7 +30,6 @@ import freed.cam.ui.themenextgen.layoutconfig.SettingItemConfig;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingBoolItem;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingButton;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingItem;
-import freed.cam.ui.themesample.settings.childs.SettingsChildMenuSDSave;
 import freed.cam.ui.themesample.settings.childs.SettingsChildMenuTimeLapseFrames;
 import freed.cam.ui.themesample.settings.childs.SettingsChild_FreedAe;
 import freed.settings.SettingKeys;
@@ -104,8 +104,9 @@ public class NextGenSettingItemAdapterTools
     {
         if (key.getHeader() == R.string.setting_videoprofileeditor_header)
             return NextGenSettingButton.getInstance(context, key.getHeader(),key.getDescription(), new VideoEditorClick(context));
-        if (key.getHeader() == R.string.setting_sdcard_header)
-            return new SettingsChildMenuSDSave(context, key.getHeader(), key.getDescription());
+        if (key.getHeader() == R.string.setting_sdcard_header) {
+            ((SDModeParameter)cameraApiManager.getCamera().getParameterHandler().get(SettingKeys.SD_SAVE_LOCATION)).setContext(context);
+        }
         if (key.getHeader() == R.string.setting_savecamparams_header)
             return NextGenSettingButton.getInstance(context,key.getHeader(),key.getDescription(), new SaveCameraParametersClick(cameraApiManager,settingsManager,context));
         if (key.getHeader() == R.string.setting_featuredetector_header)
