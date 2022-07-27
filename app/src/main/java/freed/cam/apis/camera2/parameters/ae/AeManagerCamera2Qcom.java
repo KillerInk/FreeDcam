@@ -60,6 +60,7 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
                 if (exposuretime > MAX_PREVIEW_EXPOSURETIME && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                     cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME,MAX_PREVIEW_EXPOSURETIME,true);
                     cameraWrapperInterface.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,exposuretime);
+                    applyPostRawSensitivityBoost(exposuretime);
                 }
                 else
                     cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME,exposuretime,true);
@@ -90,6 +91,8 @@ public class AeManagerCamera2Qcom extends AeManagerCamera2 {
         } else
             cameraWrapperInterface.captureSessionHandler.SetParameterRepeating(CaptureRequestQcom.org_codeaurora_qcamera3_iso_exp_priority_use_iso_exp_priority, exposuretime, true);
     }
+
+
 
     @Override
     public void setExposureTime(int valueToSet, boolean setToCamera) {
