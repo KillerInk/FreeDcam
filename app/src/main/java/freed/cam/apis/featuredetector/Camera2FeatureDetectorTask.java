@@ -42,6 +42,7 @@ import freed.cam.apis.featuredetector.camera2.ManualFocusDetector;
 import freed.cam.apis.featuredetector.camera2.OisDetector;
 import freed.cam.apis.featuredetector.camera2.PictureFormatDetector;
 import freed.cam.apis.featuredetector.camera2.PictureSizeDetector;
+import freed.cam.apis.featuredetector.camera2.PostRawSensitivityBoostDetector;
 import freed.cam.apis.featuredetector.camera2.SaturationDetector;
 import freed.cam.apis.featuredetector.camera2.SceneModeDetector;
 import freed.cam.apis.featuredetector.camera2.ShadingModesDetector;
@@ -117,6 +118,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(AwbModesDetector.class);
         parameter2Detectors.add(CameraControlModeDetector.class);
         parameter2Detectors.add(AeTargetFpsDetector.class);
+        //N
+        parameter2Detectors.add(PostRawSensitivityBoostDetector.class);
 
         //qcom
         parameter2Detectors.add(VideoHdr10Detector.class);
@@ -147,6 +150,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         //debug
         parameter2Detectors.add(DumpQCFA.class);
         parameter2Detectors.add(DumpScalerStreamConfigurationMap.class);
+
+
 
         return parameter2Detectors;
     }

@@ -41,6 +41,19 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
         return aeModeApi2;
     }
 
+    //works only in full manual mode
+    protected void applyPostRawSensitivityBoost(long exposuretime)
+    {
+        if (settingsManager.get(SettingKeys.SUPPORT_POST_RAW_SENSITIVITY_BOOST).get())
+        {
+            float boostfactor = (float)exposuretime / (float)MAX_PREVIEW_EXPOSURETIME;
+            //make lint happy...
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                cameraWrapperInterface.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.CONTROL_POST_RAW_SENSITIVITY_BOOST,(int)(boostfactor*100),true);
+            }
+        }
+    }
+
     @Override
     public void setExposureTime(int valueToSet, boolean setToCamera) {
         if (valueToSet > 0) {
@@ -49,7 +62,9 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
             cameraWrapperInterface.captureSessionHandler.SetCaptureParameter(CaptureRequest.SENSOR_EXPOSURE_TIME,val);
             if (val > MAX_PREVIEW_EXPOSURETIME && !settingsManager.GetCurrentModule().equals(FreedApplication.getStringFromRessources(R.string.module_video))) {
                 Log.d(manualExposureTime.TAG, "ExposureTime Exceed 100000000 for preview, set it to 100000000");
+                applyPostRawSensitivityBoost(val);
                 val = MAX_PREVIEW_EXPOSURETIME;
+
             }
 
             cameraWrapperInterface.captureSessionHandler.SetPreviewParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val,setToCamera);
