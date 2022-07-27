@@ -9,18 +9,34 @@ import android.util.Size;
 import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import freed.cam.apis.featuredetector.camera2.BaseParameter2Detector;
+import freed.cam.apis.featuredetector.camera2.VendorKeyDetector;
 import freed.utils.Log;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class DumpScalerStreamConfigurationMap extends BaseParameter2Detector {
 
     private final String TAG = DumpScalerStreamConfigurationMap.class.getSimpleName();
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     protected void findAndFillSettings(CameraCharacteristics cameraCharacteristics) {
         dump_SCALER_STREAM_CONFIGURATION_MAP(cameraCharacteristics);
+
+        dump_ultrahigh(cameraCharacteristics);
+    }
+
+    private void dump_ultrahigh(CameraCharacteristics cameraCharacteristics) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            StreamConfigurationMap smap = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP_MAXIMUM_RESOLUTION);
+            if (smap == null)
+                return;
+            int[] outputformats =  smap.getOutputFormats();
+            if (outputformats != null)
+                dumpFormats(smap, outputformats);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -28,7 +44,10 @@ public class DumpScalerStreamConfigurationMap extends BaseParameter2Detector {
     {
         StreamConfigurationMap smap =  characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         int[] outputformats =  smap.getOutputFormats();
-        String out;
+        dumpFormats(smap, outputformats);
+    }
+
+    private void dumpFormats(StreamConfigurationMap smap, int[] outputformats) {
         for(int outformat : outputformats)
         {
             switch (outformat)
