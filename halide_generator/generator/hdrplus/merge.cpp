@@ -59,7 +59,7 @@ Func merge_temporal(Func imgs, Func alignment, Expr minoffset, Expr maxoffset, E
 
     // average L1 distance in tile and distance normalized to min and factor
 
-    Expr dist = sum(abs(i32(ref_val) - i32(alt_val))) / (l1maxdist-l1maxdist);
+    Expr dist = sum(abs(i32(ref_val) - i32(alt_val))) / (l1maxdist-l1mindist);
 
     Expr norm_dist = max(1, i32(dist) - l1mindist);
 
