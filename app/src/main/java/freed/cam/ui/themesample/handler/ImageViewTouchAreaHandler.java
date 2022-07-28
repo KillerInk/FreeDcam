@@ -151,11 +151,9 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                 recthalf = imageView.getWidth() /2;
                 x = imageView.getX() + recthalf;
                 y = imageView.getY() + recthalf;
-                if (x < previewController.getMargineLeft() || x > previewController.getMargineRight()
+                if (x < previewController.getMargineLeft() || x > previewController.getViewWidth() -  previewController.getMargineRight()
                         || y < previewController.getMargineTop())
                     return true;
-                x -= previewController.getMargineLeft();
-                y -= previewController.getMargineTop();
                 if (moving)
                 {
                     longClickHandler.removeCallbacks(longClickRunnable);

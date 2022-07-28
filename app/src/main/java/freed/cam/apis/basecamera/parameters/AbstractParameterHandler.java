@@ -213,14 +213,17 @@ public abstract class AbstractParameterHandler<C extends CameraWrapperInterface>
         setAppSettingsToCamera(SettingsManager.AE_TARGET_FPS,false);
         setAppSettingsToCamera(SettingsManager.SECONDARY_SENSOR_SIZE, false);
         setAppSettingsToCamera(SettingsManager.EXPOSURE_MODE,false);
+        setAppSettingsToCamera(SettingsManager.MFNR, false);
+        setAppSettingsToCamera(SettingsManager.XIAOMI_MFNR, false);
+        setAppSettingsToCamera(SettingKeys.AE_METERING,false);
+
         setAppSettingsToCamera(SettingsManager.FOCUSPEAK_COLOR, true);
         setAppSettingsToCamera(SettingsManager.HISTOGRAM, true);
         setAppSettingsToCamera(SettingsManager.CLIPPING, true);
         setAppSettingsToCamera(SettingsManager.FOCUSPEAK, true);
-        setAppSettingsToCamera(SettingsManager.MFNR, true);
-        setAppSettingsToCamera(SettingsManager.XIAOMI_MFNR, true);
         setManualMode(SettingsManager.M_ZEBRA_HIGH, true);
         setManualMode(SettingsManager.M_ZEBRA_LOW, true);
+
 
     }
 

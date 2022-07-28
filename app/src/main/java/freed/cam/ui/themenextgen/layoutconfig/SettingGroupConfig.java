@@ -135,6 +135,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.DUAL_PRIMARY_CAMERA_MODE, R.string.setting_dualprimarycamera_header, R.string.setting_dualprimarycamera_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.EXPOSURE_MODE, R.string.setting_exposuremode_header, R.string.setting_exposuremode_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.AE_TARGET_FPS, R.string.setting_aetargetfps_header, R.string.setting_aetargetfps_description, false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.AE_METERING, R.string.setting_aemetering_header, R.string.setting_aemetering_description, false, SettingItemConfig.ViewType.Text));
 
         return group;
     }

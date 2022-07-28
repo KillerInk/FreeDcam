@@ -19,6 +19,7 @@ import java.util.List;
 import camera2_hidden_keys.VendorKeyParser;
 import camera2_hidden_keys.qcom.CameraCharacteristicsQcom;
 import freed.FreedApplication;
+import freed.cam.apis.featuredetector.camera2.AeMeteringModeDetector;
 import freed.cam.apis.featuredetector.camera2.AeTargetFpsDetector;
 import freed.cam.apis.featuredetector.camera2.AntiBadindingModeDetector;
 import freed.cam.apis.featuredetector.camera2.ApertureDetector;
@@ -118,6 +119,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(AwbModesDetector.class);
         parameter2Detectors.add(CameraControlModeDetector.class);
         parameter2Detectors.add(AeTargetFpsDetector.class);
+        parameter2Detectors.add(AeMeteringModeDetector.class);
         //N
         parameter2Detectors.add(PostRawSensitivityBoostDetector.class);
 
