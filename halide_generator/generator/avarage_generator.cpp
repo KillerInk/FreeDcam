@@ -1,6 +1,7 @@
 #include "include/Halide.h"
 
 using namespace Halide;
+using namespace Halide::ConciseCasts;
 namespace {
 
     class Avarage_generator : public Generator<Avarage_generator> {
@@ -17,7 +18,9 @@ namespace {
 
             /*Expr merged{"merged"};
             merged =  (inputs(x,y,0) + inputs(x,y,1))/2;*/
-            output(x,y) = (inputs(x,y,0) + inputs(x,y,1))/2;;
+            RDom r1(1, inputs.dim(2).max());
+            output(x,y) = u16(sum(inputs(x,y,r1))/inputs.dim(2).max());
+            //output(x,y) = (inputs(x,y,0) + inputs(x,y,1))/2;;
 
 
 
@@ -159,7 +162,7 @@ namespace {
             //output.tile(x,y,xi,xo,16,16);
             //output.gpu_tile(x, y, xi, yi, 32, 32);
 
-            output.compute_root().parallel(x).vectorize(y, 32);;
+            output.compute_root().parallel(x).vectorize(y, 32);
 
             /**
              produce output:
