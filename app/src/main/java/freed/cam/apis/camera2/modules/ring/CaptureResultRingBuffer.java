@@ -11,4 +11,9 @@ public class CaptureResultRingBuffer extends RingBuffer<TotalCaptureResult> {
         super(buffer_size);
     }
 
+    @Override
+    public void drop(TotalCaptureResult tt) {
+
+    }
+
 }

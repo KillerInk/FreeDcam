@@ -43,8 +43,10 @@ public abstract class RingBuffer<T> {
         {
             if (current_buffer_size +1 > buffer_size) {
                 T tt = ringbuffer.pollLast();
-                if (tt != null)
+                if (tt != null) {
+                    drop(tt);
                     current_buffer_size--;
+                }
             }
             ringbuffer.addFirst(t);
             current_buffer_size++;
@@ -60,4 +62,6 @@ public abstract class RingBuffer<T> {
     {
         return ringbuffer.size();
     }
+
+    public abstract void drop(T tt);
 }

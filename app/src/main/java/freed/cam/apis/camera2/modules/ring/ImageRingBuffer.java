@@ -17,34 +17,9 @@ public class ImageRingBuffer extends RingBuffer<Image>
         super(buffer_size);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void offerFirst(Image t)
-    {
-        synchronized (LOCK)
-        {
-            if (current_buffer_size +1 > buffer_size) {
-                Image tt = ringbuffer.pollLast();
-                if (tt != null) {
-                    tt.close();
-                    current_buffer_size--;
-                }
-            }
-            try {
-                ringbuffer.addFirst(t);
-                current_buffer_size++;
-            }
-            catch (NullPointerException ex)
-            {
-                Log.WriteEx(ex);
-            }
-
-        }
-        synchronized (this)
-        {
-            this.notifyAll();
-        }
-
+    public void drop(Image tt) {
+        tt.close();
     }
 
 

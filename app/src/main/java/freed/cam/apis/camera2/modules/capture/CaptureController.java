@@ -69,7 +69,6 @@ public class CaptureController extends CameraCaptureSession.CaptureCallback
             if (task != null && !(task instanceof EmptyTask)) {
                 imageManager.putImageSaveTask(task);
                 Log.d(TAG, "Put task to Queue");
-                Log.d(TAG, "wait for capture end done");
             }
         }
         rdyToSaveImg.onRdyToSaveImg();
