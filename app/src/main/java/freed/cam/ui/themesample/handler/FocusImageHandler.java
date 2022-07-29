@@ -76,7 +76,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         settingsManager = FreedApplication.settingsManager();
         previewController = ActivityFreeDcamMain.previewController();
         focusImageView = view.findViewById(R.id.imageView_Crosshair);
-
+        this.pagingViewTouchState = pagingViewTouchState;
         meteringArea = view.findViewById(R.id.imageView_meteringarea);
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.cameraui_focusselector_width)/2;
 

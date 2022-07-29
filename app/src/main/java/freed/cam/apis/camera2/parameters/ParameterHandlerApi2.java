@@ -60,6 +60,7 @@ import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.ForceWidePreview;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.MFNR;
+import freed.cam.apis.camera2.parameters.modes.MeteringMode;
 import freed.cam.apis.camera2.parameters.modes.PictureFormatParameterApi2;
 import freed.cam.apis.camera2.parameters.modes.PictureSizeModeApi2;
 import freed.cam.apis.camera2.parameters.modes.RawSizeModeApi2;
@@ -257,6 +258,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         add(SettingKeys.FORCE_WIDE_PREVIEW,new ForceWidePreview(cameraUiWrapper));
         add(SettingKeys.CAPTURE_TEMPLATE,new TemplateModeApi2(cameraUiWrapper,SettingKeys.CAPTURE_TEMPLATE));
         add(SettingKeys.PREVIEW_TEMPLATE,new TemplateModeApi2(cameraUiWrapper,SettingKeys.PREVIEW_TEMPLATE));
+        MeteringMode m = new MeteringMode(cameraUiWrapper,SettingKeys.AE_METERING);
+        add(SettingKeys.AE_METERING,m);
+        m.addOnPropertyChangedCallback(cameraUiWrapper.focusHandler.aemeteringObserver);
     }
 
     @Override

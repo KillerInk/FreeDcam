@@ -34,6 +34,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.previewpostprocessing.PreviewController;
+import freed.settings.SettingsManager;
 import freed.utils.Log;
 
 /**
@@ -47,12 +48,13 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
     private final String TAG = FocusHandler.class.getSimpleName();
 
     private final int focusSize = 100;
-
+    private SettingsManager settingsManager;
 
 
     public FocusHandler(Camera2 cameraUiWrapper)
     {
         super(cameraUiWrapper);
+        settingsManager = FreedApplication.settingsManager();
     }
 
     public Observable.OnPropertyChangedCallback focusmodeObserver =  new Observable.OnPropertyChangedCallback() {
@@ -71,6 +73,17 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
         }
     };
 
+    public Observable.OnPropertyChangedCallback aemeteringObserver = new Observable.OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable sender, int propertyId) {
+            String val = ((AbstractParameter)sender).getStringValue();
+            if (val.equals("Spot") && focusEvent != null)
+                focusEvent.AEMeteringSupported(true);
+            else if (focusEvent != null)
+                focusEvent.AEMeteringSupported(false);
+        }
+    };
+
 
     @Override
     protected void startTouchFocus(float x ,float y) {
@@ -79,6 +92,8 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
 
         MeteringRectangle[] mre = {translateScreenToCameraPos(x,y)};
         cameraUiWrapper.captureSessionHandler.SetFocusArea(mre);
+        if (settingsManager.get(SettingsManager.AE_METERING).get().equals("Spot Focus"))
+            cameraUiWrapper.captureSessionHandler.setMeteringArea(mre);
     }
 
     private MeteringRectangle translateScreenToCameraPos(float x, float y)
@@ -111,35 +126,13 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
     @Override
     public void SetMeteringAreas(int x, int y, int width, int height)
     {
-        int areasize = (width/8)/2;
-        Rect sensor_size = cameraUiWrapper.getCameraHolder().characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-
-        int left = (x - areasize) * sensor_size.right /width;
-
-        Rect targetFocusRect = new Rect(
-                left,
-                (x + areasize) * sensor_size.right /width, //right
-                (y - areasize) * sensor_size.bottom /height, //top
-                (y + areasize) * sensor_size.bottom / height); //bottom
-        if (targetFocusRect.left < 0)
-            targetFocusRect.left = sensor_size.left;
-        if (targetFocusRect.right > sensor_size.right)
-            targetFocusRect.right = sensor_size.right;
-        if (targetFocusRect.top < 0)
-            targetFocusRect.top = sensor_size.top;
-        if (targetFocusRect.bottom > sensor_size.bottom)
-            targetFocusRect.bottom = sensor_size.bottom;
-
-
-        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
-        MeteringRectangle[] mre = { rectangle};
-        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        MeteringRectangle[] mre = {translateScreenToCameraPos(x,y)};
+        cameraUiWrapper.captureSessionHandler.setMeteringArea(mre);
     }
 
     @Override
     public boolean isAeMeteringSupported() {
-        return false;
+        return settingsManager.get(SettingsManager.AE_METERING).equals("Spot");
     }
 
     @Override

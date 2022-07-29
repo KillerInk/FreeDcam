@@ -759,6 +759,13 @@ public class CaptureSessionHandler
         }
     }
 
+    public void setMeteringArea(MeteringRectangle[] value)
+    {
+        SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS,value,false);
+        SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START,true);
+        //SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_IDLE,true);
+    }
+
     public CaptureRequest getCaptureRequest()
     {
         return mPreviewRequestBuilder.build();

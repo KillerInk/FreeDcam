@@ -193,6 +193,10 @@
     <string name="setting_dualprimarycamera_description">Switch the Camera</string>
     <string name="setting_aetargetfps_header">AE Frame Range</string>
     <string name="setting_aetargetfps_description">The Frame Range that could get used by AE</string>
+
+    <string name="setting_aemetering_header">AE Meter Area</string>
+    <string name="setting_aemetering_description">The area that get used to determine exposure </string>
+
     <string name="setting_forcerawtodng_header">Use FreeDcam DngConverter:</string>
     <string name="setting_forcerawtodng_description">Only for 16bit Dng(RAW_SENSOR)\n
         When turned On the FreeDcam Dng Converter get used\n
