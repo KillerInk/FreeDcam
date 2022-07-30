@@ -136,4 +136,9 @@ public class NextGenManualButton extends LinearLayout implements ManualButtonInt
     {
         parameter.setIntValue(value, true);
     }
+
+    public void setValueTextWidth(int widht)
+    {
+        binding.textViewValue.setWidth(widht);
+    }
 }

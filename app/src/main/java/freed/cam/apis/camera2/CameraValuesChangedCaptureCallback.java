@@ -418,7 +418,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         try {
             int isova = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
             currentIso = isova;
-            iso.fireStringValueChanged("(A) " + isova);
+            iso.fireStringValueChanged("(A)" + isova);
             //Log.v(TAG, "Iso: " + result.get(TotalCaptureResult.SENSOR_SENSITIVITY));
         } catch (NullPointerException ex) {
             //Log.v(TAG, "cant get iso");
@@ -460,7 +460,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
             long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
             currentExposureTime = expores;
             if (expores != 0) {
-                expotime.fireStringValueChanged("(A) "+getShutterStringNS(expores));
+                expotime.fireStringValueChanged("(A)"+getShutterStringNS(expores));
             } else
                 expotime.fireStringValueChanged("1/60");
 

@@ -30,10 +30,11 @@ public class CustomBinding {
                 break;
             case Visible:
                 view.setVisibility(View.VISIBLE);
-                view.animate().setListener(null).scaleY(1f).setDuration(300);
+                //view.animate().setListener(null).scaleY(1f).setDuration(300);
                 break;
             case Hidden:
-                view.animate().setListener(new HideAnimator(view)).scaleY(0f).setDuration(300);
+                //view.animate().setListener(new HideAnimator(view)).scaleY(0f).setDuration(300);
+                view.setVisibility(View.GONE);
                 break;
         }
     }

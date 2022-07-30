@@ -47,9 +47,10 @@
             android:shadowDx="1.5"
             android:shadowDy="1.5"
             android:shadowRadius="1"
+            android:singleLine="true"
             android:text="@{parameter.stringValue}"
             android:textColor="@color/nextgen_menu_right_text"
-            android:textSize="12sp"
-            tools:text="16" />
+            android:textSize="9sp"
+            tools:text="(A)1/100000" />
     </LinearLayout>
 </layout>
