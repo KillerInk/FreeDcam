@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="2dp">
+        android:padding="1dp">
 
         <TextView
             android:id="@+id/textViewHeader"
@@ -30,7 +30,7 @@
             android:shadowRadius="1"
             android:text="\ue00f"
             android:textColor="@color/nextgen_menu_right_text"
-            android:textSize="24sp"
+            android:textSize="22sp"
             app:fontFamily="@font/freedcam" />
 
         <TextView
