@@ -1,5 +1,6 @@
 package freed.cam.ui.themenextgen.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,7 @@ import freed.cam.apis.CameraApiManager;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.event.camera.CameraHolderEvent;
 import freed.cam.ui.themenextgen.adapter.NextGenSettingItemFragmentAdapter;
+import freed.cam.ui.themenextgen.adapter.NextGenSettingSubItemAdapter;
 import freed.cam.ui.themenextgen.layoutconfig.SettingItemConfig;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingBoolItem;
 import freed.cam.ui.themenextgen.view.button.NextGenSettingButton;
@@ -41,7 +44,7 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
     private List<SettingItemConfig> keyList;
     private ListView itemHolder;
     NextGenSettingItemFragmentAdapter adapter;
-    ArrayAdapter<String> simpleTextAdapter;
+    NextGenSettingSubItemAdapter simpleTextAdapter;
 
     public static NextGenSettingDummyFragment getInstance(List<SettingItemConfig> list)
     {
@@ -153,15 +156,22 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
     {
         activeItem = nextGenSettingItem;
         String[] values = nextGenSettingItem.getParameter().getStringValues();
+        String value  = nextGenSettingItem.getParameter().getStringValue();
         String[] valuesWithBack = new String[values.length+1];
         valuesWithBack[0] = "Back";
         int i =1;
-        for (String s : values)
-            valuesWithBack[i++]=s;
+        int selected =0;
+        for (String s : values) {
+            if (s.equals(value))
+                selected = i;
+            valuesWithBack[i++] = s;
+        }
 
-        simpleTextAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+        simpleTextAdapter = new NextGenSettingSubItemAdapter(getActivity().getApplicationContext(),
                 R.layout.nextgen_setting_adapterlayout_simpeltext, R.id.listviewlayout_textview, valuesWithBack);
         itemHolder.setAdapter(simpleTextAdapter);
+        itemHolder.setSelection(selected);
+        simpleTextAdapter.setSelected(selected);
         itemHolder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
