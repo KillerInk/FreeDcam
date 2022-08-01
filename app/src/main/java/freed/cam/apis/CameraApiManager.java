@@ -121,6 +121,8 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
                     Log.d(TAG, "load featuredetector");
                     if (camera != null)
                         unloadCamera();
+                    else
+                        settingsManager.setshowHelpOverlay(true);
                     loadFeatureDetector();
                 }
                 else
@@ -176,9 +178,11 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
         unloadCamera();
         boolean legacy = settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).get();
         boolean showHelpOverlay = settingsManager.getShowHelpOverlay();
+        String theme = settingsManager.get(SettingKeys.THEME).get();
         settingsManager.RESET();
         settingsManager.get(SettingKeys.OPEN_CAMERA_1_LEGACY).set(legacy);
         settingsManager.setshowHelpOverlay(showHelpOverlay);
+        settingsManager.get(SettingKeys.THEME).set(theme);
         switchCamera();
     }
 
