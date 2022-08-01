@@ -2,6 +2,7 @@ package freed.cam.ui.themenextgen.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,6 +133,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
                     manualItemsHolder.addView(btn);
                     buttonHashMap.put(SettingKeys.M_FOCUS,btn);
                     supportedManuals.add(SettingKeys.M_FOCUS);
+                    setViewWidth(btn,25);
                 }
                 else
                 {
@@ -169,7 +171,23 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
             manualItemsHolder.addView(btn);
             buttonHashMap.put(key,btn);
             supportedManuals.add(key);
+            if (key == SettingKeys.M_EXPOSURE_TIME)
+                setViewWidth(btn,43);
+            else if (key == SettingKeys.M_MANUAL_ISO)
+                setViewWidth(btn,38);
+            else if (key == SettingKeys.M_EXPOSURE_COMPENSATION)
+                setViewWidth(btn,17);
+            else
+                setViewWidth(btn, 16);
         }
+    }
+
+    private void setViewWidth(NextGenManualButton button, int size)
+    {
+       /* LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) button.getLayoutParams();
+        p.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics());
+        button.setLayoutParams(p);*/
+        button.setValueTextWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics()));
     }
 
     private void addNextGenButton(ParameterHandler parms,SettingKeys.Key key, String stringid,int color)
@@ -180,6 +198,7 @@ public class NextGenManualsFragment extends Fragment implements SeekBar.OnSeekBa
             manualItemsHolder.addView(btn);
             buttonHashMap.put(key,btn);
             supportedManuals.add(key);
+            setViewWidth(btn, 15);
         }
     }
 

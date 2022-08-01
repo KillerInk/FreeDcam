@@ -110,6 +110,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.ANTI_BANDING_MODE, R.string.setting_antiflicker_header, R.string.setting_antiflicker_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.IMAGE_POST_PROCESSING, R.string.setting_ipp_header, R.string.setting_ipp_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.LENS_SHADE, R.string.setting_lensshade_header, R.string.setting_lensshade_description, false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.DENOISE, R.string.setting_waveletdenoise_header, R.string.setting_waveletdenoise_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.SCENE_DETECT, R.string.setting_scenedec_header, R.string.setting_scenedec_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.TNR, R.string.setting_temporaldenoise_header, R.string.setting_temporaldenoise_description, false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.TNR_V, R.string.setting_temporaldenoiseV_header, R.string.setting_temporaldenoiseV_description, false, SettingItemConfig.ViewType.Text));
