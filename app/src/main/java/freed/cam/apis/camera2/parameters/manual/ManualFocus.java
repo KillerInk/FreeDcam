@@ -43,10 +43,12 @@ public class ManualFocus extends AbstractParameter<Camera2>
     private final String TAG = ManualFocus.class.getSimpleName();
     protected StringFloatArray focusvalues;
     private final Handler handler = new Handler(Looper.getMainLooper());
+    private ResetZoomRunner resetzoomRunner;
 
     public ManualFocus(Camera2 cameraUiWrapper)
     {
         super(cameraUiWrapper,SettingKeys.M_FOCUS);
+        resetzoomRunner = new ResetZoomRunner();
         if (stringvalues != null && stringvalues.length > 0) {
             focusvalues = new StringFloatArray(stringvalues);
             setViewState(ViewState.Visible);
@@ -103,19 +105,32 @@ public class ManualFocus extends AbstractParameter<Camera2>
         if (settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
         {
             int factor = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).setIntValue(factor,true);
-            handler.removeCallbacks(resetzoomRunner);
-            int delay = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
-            handler.postDelayed(resetzoomRunner,delay*1000);
+            int current_zoom = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).getIntValue();
+            int finalzoom = factor - current_zoom;
+            if (finalzoom > 0) {
+                resetzoomRunner.setResetZoom(current_zoom);
+                cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).setIntValue(factor, true);
+                handler.removeCallbacks(resetzoomRunner);
+                int delay = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMDURATION).get());
+                handler.postDelayed(resetzoomRunner, delay * 1000);
+            }
         }
     }
 
-    private final Runnable resetzoomRunner = new Runnable() {
+    private class ResetZoomRunner implements Runnable
+    {
+        private int resetZoom;
+
+
+        public void  setResetZoom(int zoom)
+        {
+            resetZoom = zoom;
+        }
         @Override
         public void run() {
-            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).setIntValue(0,true);
+            cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).setIntValue(resetZoom,true);
         }
-    };
+    }
 
     @Override
     public String[] getStringValues() {
