@@ -153,17 +153,24 @@ public class NextGenSettingDummyFragment extends Fragment implements CameraHolde
     {
         activeItem = nextGenSettingItem;
         String[] values = nextGenSettingItem.getParameter().getStringValues();
+        String[] valuesWithBack = new String[values.length+1];
+        valuesWithBack[0] = "Back";
+        int i =1;
+        for (String s : values)
+            valuesWithBack[i++]=s;
+
         simpleTextAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                R.layout.nextgen_setting_adapterlayout_simpeltext, R.id.listviewlayout_textview, values);
+                R.layout.nextgen_setting_adapterlayout_simpeltext, R.id.listviewlayout_textview, valuesWithBack);
         itemHolder.setAdapter(simpleTextAdapter);
         itemHolder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemHolder.setOnItemClickListener(null);
                 String value = (String) itemHolder.getItemAtPosition(position);
-                if (activeItem instanceof NextGenSettingItem) {
-                    activeItem.getParameter().setStringValue(value, true);
-                }
+                if (!value.equals("Back"))
+                    if (activeItem instanceof NextGenSettingItem) {
+                        activeItem.getParameter().setStringValue(value, true);
+                    }
                 itemHolder.setAdapter(adapter);
                 itemHolder.setOnItemClickListener(itemClickListener);
                 activeItem = null;
