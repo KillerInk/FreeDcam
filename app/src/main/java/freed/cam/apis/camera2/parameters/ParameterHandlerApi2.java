@@ -58,6 +58,7 @@ import freed.cam.apis.camera2.parameters.modes.DualCameraModeHuaweiApi2;
 import freed.cam.apis.camera2.parameters.modes.FlashMode;
 import freed.cam.apis.camera2.parameters.modes.FocusMode;
 import freed.cam.apis.camera2.parameters.modes.ForceWidePreview;
+import freed.cam.apis.camera2.parameters.modes.HistogramQcom;
 import freed.cam.apis.camera2.parameters.modes.JpegQualityModeApi2;
 import freed.cam.apis.camera2.parameters.modes.MFNR;
 import freed.cam.apis.camera2.parameters.modes.MeteringMode;
@@ -261,6 +262,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler<Camera2>
         MeteringMode m = new MeteringMode(cameraUiWrapper,SettingKeys.AE_METERING);
         add(SettingKeys.AE_METERING,m);
         m.addOnPropertyChangedCallback(cameraUiWrapper.focusHandler.aemeteringObserver);
+
+        if (settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).isSupported())
+            add(SettingKeys.HISTOGRAM_STATS_QCOM, new HistogramQcom(cameraUiWrapper,SettingKeys.HISTOGRAM_STATS_QCOM));
     }
 
     @Override

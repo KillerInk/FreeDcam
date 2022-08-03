@@ -84,6 +84,8 @@ public class MyHistogram extends View {
             histogramDrawer.drawGrid(canvas,getWidth(),getHeight());
             histogramDrawer.drawHistogram(canvas , histogramData.getRedHistogram(), Color.RED,getWidth(),getHeight());
             histogramDrawer.drawHistogram(canvas , histogramData.getGreenHistogram(), Color.GREEN,getWidth(),getHeight());
+            if (histogramData.getGreenHistogram2() != null)
+                histogramDrawer.drawHistogram(canvas , histogramData.getGreenHistogram2(), Color.GREEN,getWidth(),getHeight());
             histogramDrawer.drawHistogram(canvas , histogramData.getBlueHistogram(), Color.BLUE,getWidth(),getHeight());
         }
         catch (RuntimeException ex)

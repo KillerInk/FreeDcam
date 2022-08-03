@@ -16,6 +16,7 @@ import freed.cam.apis.basecamera.CameraThreadHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.parameters.ae.FreedAeManger;
+import freed.cam.histogram.HistogramController;
 import freed.cam.previewpostprocessing.PreviewPostProcessingModes;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
@@ -33,6 +34,7 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public CameraValuesChangedCaptureCallback cameraBackroundValuesChangedListner;
     private boolean cameraIsOpen = false;
     private final FreedAeManger freedAeManger;
+    private HistogramController histogramController;
 
 
     public Camera2()
@@ -44,12 +46,14 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
         focusHandler = new FocusHandler(this);
 
         cameraHolder = new CameraHolderApi2(this);
+        histogramController = ActivityFreeDcamMain.histogramController();
         cameraBackroundValuesChangedListner = new CameraValuesChangedCaptureCallback(this);
         cameraBackroundValuesChangedListner.setWaitForFirstFrameCallback(this);
-        if (settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get() != null && settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).get().equals(PreviewPostProcessingModes.OpenGL.name()) && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get())
-            preview.setHistogramFeed(cameraBackroundValuesChangedListner);
+        if (settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).isSupported())
+            histogramController.setFeedToRegister(cameraBackroundValuesChangedListner);
         captureSessionHandler = new CaptureSessionHandler(this, cameraBackroundValuesChangedListner);
         freedAeManger = new FreedAeManger(this, ActivityFreeDcamMain.userMessageHandler(),settingsManager);
+
     }
 
     @Override
@@ -173,13 +177,14 @@ public class Camera2 extends AbstractCamera<ParameterHandlerApi2,CameraHolderApi
     public void onCameraOpen() {
         Log.d(TAG, "onCameraOpen, initCamera");
         CameraThreadHandler.initCameraAsync();
-        if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
-            freedAeManger.start();
+
     }
 
     @Override
     public void onCameraOpenFinished() {
         Log.d(TAG, "onCameraOpenFinished");
+        if (settingsManager.getGlobal(SettingKeys.USE_FREEDCAM_AE).get())
+            freedAeManger.start();
     }
 
     @Override

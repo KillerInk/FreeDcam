@@ -10,6 +10,8 @@ import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
+import camera2_hidden_keys.devices.pocof2.CaptureResultDump;
+import camera2_hidden_keys.qcom.CaptureResultQcom;
 import freed.FreedApplication;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.basecamera.parameters.ParameterInterface;
@@ -283,11 +285,10 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         if (waitForAe_af_lock != null) {
             log("ae locked: " + aeAfLocker.getAeLock() +" af locked: " + aeAfLocker.getAfLock() + " " +Thread.currentThread().getId());
             waitForAe_af_lock.on_Ae_Af_Lock(aeAfLocker);
-        }
-       /* try {
+        }try {
             if (settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM) != null && settingsManager.get(SettingKeys.HISTOGRAM_STATS_QCOM).get() && result.get(CaptureResultQcom.HISTOGRAM_STATS) != null)
             {
-                int[] histo = result.get(CaptureResultQcom.HISTOGRAM_STATS);
+                int[] histo = result.get(CaptureResultDump.org_codeaurora_qcamera3_histogram_stats);
                 if (histogramChangedEventListner != null)
                 {
                     histogramChangedEventListner.onHistogramChanged(histo);
@@ -297,7 +298,7 @@ public class CameraValuesChangedCaptureCallback extends CameraCaptureSession.Cap
         catch (NullPointerException e)
         {
             e.printStackTrace();
-        }*/
+        }
 
         /*if (result.get(CaptureResult.CONTROL_AF_REGIONS) != null)
         {
