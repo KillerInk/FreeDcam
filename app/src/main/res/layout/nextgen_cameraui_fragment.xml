@@ -92,6 +92,26 @@
                 tools:layout_width="120dp" />
         </FrameLayout>
 
+        <FrameLayout
+            android:id="@+id/histoviewholdercamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/histoviewholder"
+            tools:layout_height="60dp"
+            tools:layout_width="120dp">
+
+            <freed.cam.histogram.MyHistogram
+                android:id="@+id/hisotviewcamera"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/uiSettingsBackground"
+                android:visibility="gone"
+                tools:layout_height="60dp"
+                tools:layout_width="120dp" />
+        </FrameLayout>
+
 
 
         <ImageView

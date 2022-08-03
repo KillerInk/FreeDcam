@@ -20,9 +20,11 @@ public class HistogramController implements HistogramChangedEvent {
 
     private static final String TAG = HistogramController.class.getSimpleName();
     private MyHistogram myHistogram;
+    private MyHistogram cameraHistogram;
     private HistogramFeed feedToRegister;
     private final HistogramProcessor histogramProcessor;
     private boolean enabled;
+    private boolean cameraHistogramEnabled;
     private final HistogramData histogramData;
     private DataListner dataListner;
     private ImageView waveFormView;
@@ -44,6 +46,13 @@ public class HistogramController implements HistogramChangedEvent {
         this.myHistogram = myHistogram;
         if (enabled && myHistogram != null)
             myHistogram.setVisibility(View.VISIBLE);
+    }
+
+    public void setCameraHistogram(MyHistogram histogram)
+    {
+        this.cameraHistogram = histogram;
+        if (cameraHistogramEnabled && cameraHistogram != null)
+            cameraHistogram.setVisibility(View.VISIBLE);
     }
 
     public void setWaveFormView(ImageView imageView)
@@ -77,10 +86,7 @@ public class HistogramController implements HistogramChangedEvent {
                             waveFormView.setVisibility(View.VISIBLE);
                             waveFormView.bringToFront();
                         }
-                        if (feedToRegister != null)
-                            feedToRegister.setHistogramFeed(HistogramController.this);
-                        else
-                            Log.d(TAG, "histogram on feed to Register is null!");
+
                     } else {
                         if (myHistogram != null)
                             myHistogram.setVisibility(View.GONE);
@@ -90,6 +96,36 @@ public class HistogramController implements HistogramChangedEvent {
                             dataListner.setData(null);
                             dataListner.setWaveFormData(null, 0, 0);
                         }
+
+                    }
+                }
+            });
+
+        }
+    }
+
+    public void enableCameraHistogram(boolean en)
+    {
+        if (cameraHistogram != null)
+        {
+            cameraHistogramEnabled = en;
+            cameraHistogram.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (cameraHistogramEnabled)
+                    {
+                        if (cameraHistogram != null) {
+                            cameraHistogram.setVisibility(View.VISIBLE);
+                            cameraHistogram.bringToFront();
+                        }
+                        if (feedToRegister != null)
+                            feedToRegister.setHistogramFeed(HistogramController.this);
+                        else
+                            Log.d(TAG, "histogram on feed to Register is null!");
+                    }
+                    else {
+                        if (cameraHistogram != null)
+                            cameraHistogram.setVisibility(View.GONE);
                         if (feedToRegister != null)
                             feedToRegister.setHistogramFeed(null);
                         else
@@ -97,7 +133,6 @@ public class HistogramController implements HistogramChangedEvent {
                     }
                 }
             });
-
         }
     }
 
@@ -138,9 +173,9 @@ public class HistogramController implements HistogramChangedEvent {
     @Override
     public void onHistogramChanged(final int[] histogram_data) {
         histogramData.setHistogramData(histogram_data, HistogramData.HistoDataAlignment.RGBA);
-        myHistogram.post(() -> {
+        cameraHistogram.post(() -> {
             //src pos 0,256,512
-            myHistogram.setHistogramData(histogramData);
+            cameraHistogram.setHistogramData(histogramData);
         });
         if (dataListner != null)
             dataListner.setData(histogramData);
@@ -158,6 +193,11 @@ public class HistogramController implements HistogramChangedEvent {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isCameraHistogramEnabled()
+    {
+        return cameraHistogramEnabled;
     }
 
     public void setWaveFormData(int[] waveFormData,int width, int height)

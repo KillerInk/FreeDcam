@@ -184,6 +184,9 @@ public class NextGenCameraUiFragment extends Fragment implements
             if (parameterHandler.get(SettingKeys.CLIPPING) != null)
                 addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.CLIPPING),FreedApplication.getStringFromRessources(R.string.font_clipping));
 
+            if (parameterHandler.get(SettingKeys.HISTOGRAM_STATS_QCOM) != null)
+                addUiTextSwitch(binding.linearlayoutPreviewpostprocessingmodes, (BooleanSettingModeInterface) parameterHandler.get(SettingKeys.HISTOGRAM_STATS_QCOM), FreedApplication.getStringFromRessources(R.string.font_flash_histogram));
+
             if (parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER)!= null)
                 addUiTextSwitchWithValue(binding.rightUiItemsBottom, (AbstractParameter) parameterHandler.get(SettingKeys.TONE_CURVE_PARAMETER),FreedApplication.getStringFromRessources(R.string.font_tonecurve),onNextGenToneCurveButtonClick);
 
@@ -292,6 +295,7 @@ public class NextGenCameraUiFragment extends Fragment implements
 
         MyHistogram histogram = binding.hisotview;
         histogramController.setMyHistogram(histogram);
+        histogramController.setCameraHistogram(binding.hisotviewcamera);
         ImageView waveform = binding.imageViewWaveform;
         waveform.setOnClickListener(new OnClickListener() {
             @Override
