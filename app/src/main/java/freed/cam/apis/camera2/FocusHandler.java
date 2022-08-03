@@ -34,6 +34,7 @@ import freed.FreedApplication;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.previewpostprocessing.PreviewController;
+import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;
 
@@ -92,7 +93,7 @@ public class FocusHandler extends AbstractFocusHandler<Camera2>
 
         MeteringRectangle[] mre = {translateScreenToCameraPos(x,y)};
         cameraUiWrapper.captureSessionHandler.SetFocusArea(mre);
-        if (settingsManager.get(SettingsManager.AE_METERING).get().equals("Spot Focus"))
+        if (settingsManager.get(SettingKeys.AE_METERING).get().equals("Spot Focus"))
             cameraUiWrapper.captureSessionHandler.setMeteringArea(mre);
     }
 

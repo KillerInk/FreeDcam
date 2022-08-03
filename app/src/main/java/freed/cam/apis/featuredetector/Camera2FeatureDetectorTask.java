@@ -120,6 +120,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
         parameter2Detectors.add(CameraControlModeDetector.class);
         parameter2Detectors.add(AeTargetFpsDetector.class);
         parameter2Detectors.add(PostRawSensitivityBoostDetector.class);
+        parameter2Detectors.add(AeMeteringModeDetector.class);
 
         //qcom
         parameter2Detectors.add(VideoHdr10Detector.class);
