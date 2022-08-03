@@ -11,6 +11,7 @@
 #include "../include/stage1_alignmerge.h"
 #include "../include/stage1_align_merge.h"
 #include "../include/avarage_generator.h"
+#include "../include/avg14_generator.h"
 #include <jni.h>
 #include <stdlib.h>
 #include <android/log.h>
@@ -63,12 +64,20 @@ public:
 
     }
 
-    uint16_t * merge_align()
-    {
+    uint16_t * merge_align() {
         LOGD("merge align");
         Halide::Runtime::Buffer<uint16_t> out(width, height);
-        stage1_align_merge(input,minoffset, maxoffset,l1mindistance,l1maxdistance,out);
+        stage1_align_merge(input, minoffset, maxoffset, l1mindistance, l1maxdistance, out);
         imagecount = 0;
+        out.copy_to_host();
+        outdata = out.data();
+        return (uint16_t*) outdata;
+    }
+
+    uint16_t * merge_to_14bit()
+    {
+        Halide::Runtime::Buffer<uint16_t> out(width, height);
+        avg14_generator(input,out);
         out.copy_to_host();
         outdata = out.data();
         return (uint16_t*) outdata;

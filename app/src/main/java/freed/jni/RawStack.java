@@ -34,6 +34,7 @@ public class RawStack {
     private native void setUpShift(ByteBuffer byteBuffer, int upshift);
     private native void clear(ByteBuffer byteBuffer);
     private native void stackImages(ByteBuffer imagebuffers, byte[] output);
+    private native void stackTo14(ByteBuffer imagebuffers, byte[] output);
     private native void setFirstFrame(ByteBuffer buffer, ByteBuffer img, int width, int height, int imagecount);
     private native void setNextFrame(ByteBuffer buffer, ByteBuffer img);
 
@@ -59,6 +60,12 @@ public class RawStack {
     {
         if (byteBuffer != null)
             stackImages(byteBuffer,output);
+    }
+
+    public void mergeTo14bit(byte[] out)
+    {
+        if (byteBuffer != null)
+            stackTo14(byteBuffer,out);
     }
 
     public synchronized void setShift(int shift)

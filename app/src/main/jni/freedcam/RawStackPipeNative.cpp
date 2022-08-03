@@ -42,6 +42,15 @@ extern "C"
         rawStackPipeNative->clear();
     }
 
+
+    JNIEXPORT void JNICALL Java_freed_jni_RawStack_stackTo14(JNIEnv *env, jobject thiz, jobject input ,jbyteArray output) {
+        RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(input);
+
+        uint16_t * out = rawStackPipeNative->merge_to_14bit();
+        env->SetByteArrayRegion(output,0, (rawStackPipeNative->height*rawStackPipeNative->width*2),reinterpret_cast<jbyte*>(out));
+        rawStackPipeNative->clear();
+    }
+
     JNIEXPORT void JNICALL Java_freed_jni_RawStack_setBaseFrame(JNIEnv *env, jobject thiz, jobject javaHandler, jbyteArray input, jint width, jint height) {
         RawStackPipeNative * rawStackPipeNative =  (RawStackPipeNative*)env->GetDirectBufferAddress(javaHandler);
         rawStackPipeNative->init(width,height, (uint16_t*)copyByteArray(env, input));

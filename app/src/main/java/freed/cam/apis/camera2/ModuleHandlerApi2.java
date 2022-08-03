@@ -29,6 +29,7 @@ import freed.cam.apis.camera2.modules.AfBracketApi2;
 import freed.cam.apis.camera2.modules.AvarageRawStackModule;
 import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
+import freed.cam.apis.camera2.modules.MultiFrame14bitDngModule;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
 import freed.cam.apis.camera2.modules.RawStackPipe;
 import freed.cam.apis.camera2.modules.RawStackPipeAllAtOnce;
@@ -77,6 +78,8 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract<Camera2>
         moduleList.put(rawStackPipeAllAtOnce.ModuleName(), rawStackPipeAllAtOnce);
         AvarageRawStackModule avarageRawStackModule = new AvarageRawStackModule(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(avarageRawStackModule.ModuleName(),avarageRawStackModule);
+        MultiFrame14bitDngModule multiFrame14bitDngModule = new MultiFrame14bitDngModule(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        moduleList.put(multiFrame14bitDngModule.ModuleName(),multiFrame14bitDngModule);
 
     }
 

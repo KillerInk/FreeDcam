@@ -200,6 +200,8 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
                     Log.d(TAG, "Image null:" + (img==null) + " Result null:" + (result == null));
             }
             changeCaptureState(CaptureStates.image_capture_stop);
+            if (!doWork)
+                return;
             long starTime = SystemClock.uptimeMillis();
             byte[] bytes = new byte[w*h*16/8];
             rawStack.stackAll(bytes);
