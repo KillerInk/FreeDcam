@@ -72,7 +72,10 @@ public class CameraFeatureDetector {
             settingsManager.getGlobal(SettingKeys.PREVIEW_POST_PROCESSING_MODE).setIsSupported(false);
 
         settingsManager.getGlobal(SettingKeys.THEME).setValues(FreedApplication.getStringArrayFromRessource(R.array.themes));
-        settingsManager.getGlobal(SettingKeys.THEME).set(ThemeManager.DEFAULT);
+        if (settingsManager.getCamApi().equals(SettingsManager.API_1))
+            settingsManager.getGlobal(SettingKeys.THEME).set(ThemeManager.DEFAULT);
+        else
+            settingsManager.getGlobal(SettingKeys.THEME).set(ThemeManager.NEXTGEN);
         settingsManager.getGlobal(SettingKeys.THEME).setIsSupported(true);
 
         settingsManager.getGlobal(SettingKeys.GUIDE_LIST).setValues(FreedApplication.getStringArrayFromRessource(R.array.guidelist));
