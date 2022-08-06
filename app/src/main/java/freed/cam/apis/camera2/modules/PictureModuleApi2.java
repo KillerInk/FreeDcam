@@ -417,7 +417,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements RdyToSaveIm
         Log.d(TAG,"Start AE Precapture");
         startTimerLocked();
 
-        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) != CaptureRequest.CONTROL_AF_MODE_OFF)
+        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF)
             cameraUiWrapper.captureSessionHandler.StartAePrecapture();
         if (isContAutoFocus())
             cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START,false);
