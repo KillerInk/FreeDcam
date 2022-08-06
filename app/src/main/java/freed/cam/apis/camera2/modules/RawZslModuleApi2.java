@@ -3,6 +3,7 @@ package freed.cam.apis.camera2.modules;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
@@ -33,6 +34,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     protected ImageManager imageManager;
     protected Output output;
     private final String TAG = RawZslModuleApi2.class.getSimpleName();
+    private boolean closed = true;
 
     RawZslModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -47,6 +49,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     @Override
     public void InitModule() {
         super.InitModule();
+        closed = false;
         imageRingBuffer =  new ImageRingBuffer(30);
         captureResultRingBuffer = new CaptureResultRingBuffer(30);
         startPreview();
@@ -55,6 +58,8 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
 
     @Override
     public void DestroyModule() {
+        closed = true;
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         if (privateRawImageReader != null)
             privateRawImageReader.close();
@@ -108,7 +113,17 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
         privateRawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
             @Override
             public void onImageAvailable(ImageReader reader) {
-                imageRingBuffer.offerFirst(reader.acquireLatestImage());
+                try {
+                    Image img = reader.acquireLatestImage();
+                    if (!closed)
+                        imageRingBuffer.offerFirst(img);
+                    else img.close();
+                }
+                catch (NullPointerException ex)
+                {
+                    Log.e(TAG,"Ringbuffer already closed");
+                }
+
             }
         },mBackgroundHandler);
     }

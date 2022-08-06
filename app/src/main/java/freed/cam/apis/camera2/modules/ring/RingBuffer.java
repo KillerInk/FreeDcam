@@ -39,6 +39,8 @@ public abstract class RingBuffer<T> {
 
     public void offerFirst(T t)
     {
+        if (ringbuffer == null)
+            return;
         synchronized (LOCK)
         {
             if (current_buffer_size +1 > buffer_size) {
