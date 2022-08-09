@@ -10,7 +10,7 @@ namespace {
         Input <Halide::Buffer<uint16_t>> inputs{"inputs", 3};
         // Merged buffer
         Output <Halide::Buffer<uint16_t>> output{"output", 2};
-        Var x{"x"},y{"y"},n("n");
+        Var x{"x"},y{"y"};
         void generate() {
             RDom r1(1, inputs.dim(2).max());
             output(x,y) = u16(sum(inputs(x,y,r1)));

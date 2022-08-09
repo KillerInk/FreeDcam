@@ -83,18 +83,23 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
     public void DoWork() {
         if (!stackAllRunner.doWork)
         {
-            int burst = Integer.parseInt(parameterHandler.get(SettingKeys.M_BURST).getStringValue());
-            stackAllRunner.setBurst(burst);
-            if (settingsManager.get(SettingKeys.SUPPORT_12_BIT_RAW).get()) {
-                stackAllRunner.setUpshift(2);
-            }
-            else
-                stackAllRunner.setUpshift(0);
-            new Thread(stackAllRunner).start();
-            changeCaptureState(CaptureStates.image_capture_start);
+            startPreCapture();
         }
         else
             stackAllRunner.doWork = false;
+    }
+
+    @Override
+    protected void captureStillPicture() {
+        int burst = Integer.parseInt(parameterHandler.get(SettingKeys.M_BURST).getStringValue());
+        stackAllRunner.setBurst(burst);
+        if (settingsManager.get(SettingKeys.SUPPORT_12_BIT_RAW).get()) {
+            stackAllRunner.setUpshift(2);
+        }
+        else
+            stackAllRunner.setUpshift(0);
+        new Thread(stackAllRunner).start();
+        super.captureStillPicture();
     }
 
     @Override
@@ -239,6 +244,7 @@ public class RawStackPipeAllAtOnce extends RawZslModuleApi2 {
                 Log.d(TAG, "Put task to Queue");
             }
             doWork = false;
+            cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
         }
     }
 }

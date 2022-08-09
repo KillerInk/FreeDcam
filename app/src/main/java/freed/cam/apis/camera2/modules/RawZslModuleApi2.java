@@ -17,10 +17,12 @@ import java.util.Collections;
 import freed.FreedApplication;
 import freed.cam.apis.camera2.Camera2;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.helper.FindOutputHelper;
 import freed.cam.apis.camera2.modules.helper.Output;
 import freed.cam.apis.camera2.modules.ring.CaptureResultRingBuffer;
 import freed.cam.apis.camera2.modules.ring.ImageRingBuffer;
+import freed.cam.event.capture.CaptureStates;
 import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.utils.Log;
@@ -35,6 +37,11 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     protected Output output;
     private final String TAG = RawZslModuleApi2.class.getSimpleName();
     private boolean closed = true;
+
+    private final int STATE_WAIT_FOR_PRECAPTURE = 0;
+    private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
+    private final int STATE_PICTURE_TAKEN = 2;
+    private int mState = STATE_PICTURE_TAKEN;
 
     RawZslModuleApi2(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
         super(cameraUiWrapper, mBackgroundHandler, mainHandler);
@@ -131,5 +138,46 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     @Override
     public void stopPreview() {
         DestroyModule();
+    }
+
+
+    private boolean isContAutoFocus()
+    {
+        return cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE ||
+                cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AF_MODE) == CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO;
+    }
+
+    protected void captureStillPicture()
+    {
+        changeCaptureState(CaptureStates.image_capture_start);
+        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
+    }
+
+    protected void startPreCapture() {
+        mState = (STATE_WAIT_FOR_PRECAPTURE);
+        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(new CameraValuesChangedCaptureCallback.WaitForAe_Af_Lock() {
+            @Override
+            public void on_Ae_Af_Lock(CameraValuesChangedCaptureCallback.AeAfLocker aeAfLocker) {
+                if (mState == STATE_WAIT_FOR_PRECAPTURE) {
+                    if (isContAutoFocus()) {
+                        if ((aeAfLocker.getAfLock() && aeAfLocker.getAeLock())) {
+                            cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
+                            mState = (STATE_PICTURE_TAKEN);
+                            captureStillPicture();
+                        }
+                    } else if (aeAfLocker.getAeLock()) {
+                        cameraUiWrapper.cameraBackroundValuesChangedListner.setWaitForAe_af_lock(null);
+                        mState =(STATE_PICTURE_TAKEN);
+                        captureStillPicture();
+                    }
+                }
+            }
+        });
+
+        if (cameraUiWrapper.captureSessionHandler.getPreviewParameter(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF)
+            cameraUiWrapper.captureSessionHandler.StartAePrecapture();
+        if (isContAutoFocus())
+            cameraUiWrapper.captureSessionHandler.SetPreviewParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START,false);
+        cameraUiWrapper.captureSessionHandler.capture();
     }
 }

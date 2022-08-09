@@ -1,5 +1,6 @@
 package freed.cam.apis.camera2.modules;
 
+import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
 import android.media.Image;
 import android.os.Build;
@@ -13,6 +14,7 @@ import java.util.Date;
 
 import freed.cam.apis.basecamera.parameters.AbstractParameter;
 import freed.cam.apis.camera2.Camera2;
+import freed.cam.apis.camera2.CameraValuesChangedCaptureCallback;
 import freed.cam.apis.camera2.modules.capture.RawImageCapture;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.event.capture.CaptureStates;
@@ -26,6 +28,9 @@ import freed.utils.StorageFileManager;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MultiFrame14bitDngModule extends RawZslModuleApi2 {
+
+
+
 
     private Merge14bit merge14bit;
     public MultiFrame14bitDngModule(Camera2 cameraUiWrapper, Handler mBackgroundHandler, Handler mainHandler) {
@@ -62,16 +67,23 @@ public class MultiFrame14bitDngModule extends RawZslModuleApi2 {
     public void DoWork() {
         if (!merge14bit.doWork)
         {
-            new Thread(merge14bit).start();
-            changeCaptureState(CaptureStates.image_capture_start);
+            startPreCapture();
         }
         else
             merge14bit.doWork = false;
     }
 
+    @Override
+    protected void captureStillPicture()
+    {
+        new Thread(merge14bit).start();
+        super.captureStillPicture();
+    }
+
     private class Merge14bit implements Runnable {
 
 
+        private final int imagecount = 17;
         private boolean doWork = false;
 
         @Override
@@ -83,38 +95,35 @@ public class MultiFrame14bitDngModule extends RawZslModuleApi2 {
             Image img = null;
             int count = 0;
             int w =0,h=0;
-            while (doWork && count <= 15)
+            byte[] bytes;
+            result = captureResultRingBuffer.pollLast();
+            img = imageRingBuffer.pollLast();
+            if (result != null && img != null)
             {
+                w = img.getWidth();
+                h = img.getHeight();
+                buffer = img.getPlanes()[0].getBuffer();
+                rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),imagecount);
+                img.close();
+                count++;
+            }
+            while (doWork && count <= imagecount) {
                 result = captureResultRingBuffer.pollLast();
                 img = imageRingBuffer.pollLast();
-                if (result != null && img != null)
-                {
-                    if (count == 0)
-                    {
-                        w = img.getWidth();
-                        h = img.getHeight();
-                        buffer = img.getPlanes()[0].getBuffer();
-                        rawStack.setFirstFrame(buffer,img.getWidth(),img.getHeight(),15);
-                        img.close();
-                        count++;
-                    }
-                    else
-                    {
-                        buffer = img.getPlanes()[0].getBuffer();
-                        rawStack.setNextFrame(buffer);
-                        img.close();
-                        count++;
-                    }
-                }
-                else if (img != null) {
+                if (result != null && img != null) {
+                    buffer = img.getPlanes()[0].getBuffer();
+                    rawStack.setNextFrame(buffer);
+                    img.close();
+                    count++;
+                } else if (img != null) {
                     img.close();
                 }
             }
-
-            changeCaptureState(CaptureStates.image_capture_stop);
-            byte[] bytes = new byte[w*h*16/8];
+            bytes = new byte[w * h * 16 / 8];
             rawStack.mergeTo14bit(bytes);
             rawStack.clear();
+            changeCaptureState(CaptureStates.image_capture_stop);
+
 
             Date date = new Date();
             String name = StorageFileManager.getStringDatePAttern().format(date);
@@ -134,14 +143,15 @@ public class MultiFrame14bitDngModule extends RawZslModuleApi2 {
 
             ImageSaveTask itask = (ImageSaveTask)task;
             int bl = itask.getDngProfile().getBlacklvl();
-            itask.getDngProfile().setBlackLevel((bl-8) << 4);
+            itask.getDngProfile().setBlackLevel((bl) << 4);
             int wl = itask.getDngProfile().getWhitelvl();
-            itask.getDngProfile().setWhiteLevel(wl << 4);
+            itask.getDngProfile().setWhiteLevel(wl<<4);
 
             if (task != null) {
                 imageManager.putImageSaveTask(task);
             }
             doWork = false;
+            cameraUiWrapper.captureSessionHandler.StartRepeatingCaptureSession();
         }
     }
 }
