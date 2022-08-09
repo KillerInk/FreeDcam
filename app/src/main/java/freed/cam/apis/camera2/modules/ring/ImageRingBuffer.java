@@ -26,8 +26,16 @@ public class ImageRingBuffer extends RingBuffer<Image>
     @Override
     public void clear() {
         Image img = null;
-        while ((img = pollLast()) != null)
-            img.close();
+        while ((img = pollLast()) != null) {
+            try {
+                img.close();
+            }
+            catch (NullPointerException e)
+            {
+                Log.e("ImageRingBuffer","Image null");
+            }
+
+        }
         current_buffer_size = 0;
     }
 }

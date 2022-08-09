@@ -28,7 +28,8 @@ import freed.image.ImageManager;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
+public abstract class RawZslModuleApi2 extends AbstractModuleApi2
+{
 
     protected ImageRingBuffer imageRingBuffer;
     protected CaptureResultRingBuffer captureResultRingBuffer;
@@ -56,26 +57,32 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
     @Override
     public void InitModule() {
         super.InitModule();
+        Log.d(TAG,"InitModule");
         closed = false;
         imageRingBuffer =  new ImageRingBuffer(30);
         captureResultRingBuffer = new CaptureResultRingBuffer(30);
         startPreview();
+        Log.d(TAG,"InitModule done");
     }
 
 
     @Override
     public void DestroyModule() {
+        if (closed)
+            return;
+        Log.d(TAG,"DestroyModule");
         closed = true;
-        cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         cameraUiWrapper.captureSessionHandler.CloseCaptureSession();
         if (privateRawImageReader != null)
             privateRawImageReader.close();
         privateRawImageReader = null;
-        imageRingBuffer.clear();
+        if (imageRingBuffer != null)
+            imageRingBuffer.clear();
         imageRingBuffer = null;
-        captureResultRingBuffer.clear();
+        if (captureResultRingBuffer != null)
+            captureResultRingBuffer.clear();
         captureResultRingBuffer = null;
-
+        Log.d(TAG,"DestroyModule done");
     }
 
     @Override
@@ -106,6 +113,7 @@ public abstract class RawZslModuleApi2 extends AbstractModuleApi2{
         Size previewSize = cameraUiWrapper.getSizeForPreviewDependingOnImageSize(ImageFormat.YUV_420_888, output.jpeg_width, output.jpeg_height);
 
         PictureModuleApi2.preparePreviewTextureView(orientationToSet, previewSize,previewController,settingsManager,TAG,mainHandler,cameraUiWrapper);
+
         cameraUiWrapper.captureSessionHandler.AddSurface(privateRawImageReader.getSurface(),true);
         //cameraUiWrapper.captureSessionHandler.AddSurface(reprocessImageReader.getSurface(),false);
 
