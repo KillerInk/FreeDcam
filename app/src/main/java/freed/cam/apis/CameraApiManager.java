@@ -127,6 +127,7 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
                 }
                 else
                 {
+                    unloadCamera();
                     String api = settingsManager.getCamApi();
                     switch (api) {
                         case SettingsManager.API_2:
@@ -166,7 +167,8 @@ public class CameraApiManager<C extends CameraWrapperInterface> implements Previ
             //kill the cam befor the fragment gets removed to make sure when
             //new cameraFragment gets created and its texture view is created the cam get started
             //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
-            CameraThreadHandler.stopCameraAsync();
+            camera.stopCamera();
+            //CameraThreadHandler.stopCameraAsync();
 
             cameraHolderEventHandler.removeEventListner(camera);
             camera.setCameraHolderEventHandler(null);

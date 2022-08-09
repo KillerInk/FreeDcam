@@ -68,7 +68,6 @@ public class ApiParameter extends AbstractParameter
     @Override
     public void setStringValue(String valueToSet, boolean setToCamera) {
         settingsManager.setCamApi(valueToSet);
-        cameraApiManager.unloadCamera();
         cameraApiManager.switchCamera();
         fireStringValueChanged(valueToSet);
     }
