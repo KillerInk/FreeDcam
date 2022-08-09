@@ -90,7 +90,7 @@ public class ManualFocus extends AbstractParameter<Camera2>
                 cameraUiWrapper.captureSessionHandler.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_CANCEL);
                 cameraUiWrapper.captureSessionHandler.SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF,setToCamera);
             }
-            applyAutoZoom();
+            applyAutoZoom(setToCamera);
             if (currentInt > focusvalues.getSize())
                 currentInt = focusvalues.getSize() -1;
             float valtoset= focusvalues.getValue(currentInt);
@@ -100,9 +100,9 @@ public class ManualFocus extends AbstractParameter<Camera2>
         }
     }
 
-    private void applyAutoZoom()
+    private void applyAutoZoom(boolean setToCamera)
     {
-        if (settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
+        if (setToCamera && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).isSupported() && settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS).get())
         {
             int factor = Integer.parseInt(settingsManager.get(SettingKeys.ZOOM_ON_MANUALFOCUS_ZOOMFACTOR).get());
             int current_zoom = cameraUiWrapper.getParameterHandler().get(SettingKeys.M_ZOOM).getIntValue();
