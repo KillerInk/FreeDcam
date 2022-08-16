@@ -36,7 +36,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private int iso;
     private long exposuretime;
     private final long default_exposuretime_max = (long)((1f/15f) * 1000000 * 1000);
-    private final long default_exposuretime = (long)((1f/100f) * 1000000 * 1000);
+    private final long default_exposuretime = (long)((1f/120f) * 1000000 * 1000);
     private long min_exposuretime;
     private long max_exposuretime;
     private int max_iso;
@@ -52,8 +52,6 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private int forcedIso;
     private final SettingsManager settingsManager;
     private final AeMath aeMath;
-
-
 
     public FreedAeManger(Camera2 cameraWrapperInterface,UserMessageHandler userMessageHandler,SettingsManager settingsManager) {
         super(cameraWrapperInterface);
@@ -80,6 +78,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             manualExposureTime.fireStringValuesChanged(evs.toArray(new String[evs.size()]));
         }
     }
+
 
 
     public void start()
@@ -202,24 +201,18 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
     private class MeasureMeter implements Runnable {
 
         private int[] meter;
-        List<Float> lumas = new ArrayList<>();
         private int logcounter = 0;
         private final Object lock = new Object();
+        private double luminance = 0;
 
         private void addLuma(float luma)
         {
-            if (lumas.size() > 10)
-                lumas.remove(lumas.size()-1);
-            lumas.add(0,luma);
+            luminance = 0.95 * luminance + 0.05 * luma;
         }
 
-        private float getAvarageLuma()
+        private double getAverageLuma()
         {
-            float out = 0;
-            for (int i = 0; i< lumas.size();i++)
-                out += lumas.get(i);
-            out /= lumas.size();
-            return out;
+            return luminance;
         }
 
         private boolean isWorking = false;
@@ -237,10 +230,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
 
         public void setLuma(float luma)
         {
-            //synchronized (lock) {
             addLuma(luma);
-            //    lock.notify();
-            //}
         }
 
         double evboost = 0;
@@ -249,7 +239,8 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             if (isWorking)
                 return;
             isWorking = true;
-            float luminance = getAvarageLuma();
+            // represent the average scene luminance input comes from opengl measured as 0 black 255 white
+            double luminance = getAverageLuma()/255.;
 
             double currentValuesEV = aeMath.getCurrentEV(aperture, exposuretime, iso);
             int user_max_iso = getUserMaxIso();
@@ -257,15 +248,12 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             long user_max_expotime = getUserMaxExpoTime();
             long user_min_expotime = getUserMinExpoTime();
 
-            if (luminance >= 110)
-                evboost +=0.1;
-            else if (luminance < 30 && evboost > 0)
-                evboost = 0;
-            else if (luminance < 100 && evboost > 0)
-                evboost -=0.1;
+            if (luminance < 0.46 && evboost >= 0.5)
+                evboost -= 0.5 -luminance;
+            else if(luminance > 0.54)
+                evboost += luminance -0.5;
 
-            double ev = aeMath.getTargetEv(luminance, 100) + (exposureCompensationValue*2) +evboost;
-
+            double ev = aeMath.getTargetEv(luminance, 100) + (exposureCompensationValue) + (evboost);
 
             if (!iso_enabled && !expotime_enable) {
                 exposuretime = default_exposuretime;
@@ -278,10 +266,14 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                 double finalEV = aeMath.getCurrentEV(aperture, newexpotime, newiso);
 
                 if (logcounter++ == 11) {
-                    String msg = "L:" + luminance +
+                    String msg = "L:" + luminance + "\nevb:" +evboost+
                             "\nI:" + iso + "/" + (int) ciso + "/" + (int) newiso +
                             "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                            "\nEV:\n" +  ev + "\n" +  currentValuesEV + "\n" +  finalEV + "\n" +  ev_diff;
+                            "\nEV:\n"
+                            +  ev + "\n"
+                            +  currentValuesEV + "\n"
+                            +  finalEV + "\n"
+                            +  ev_diff;
                     userMessageHandler.sendMSG(msg, false);
                     logcounter = 0;
                 }
@@ -302,7 +294,9 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
                     String msg = "L:" + luminance +
                             "\nI:" + iso +
                             "\nS:" + getShutterStringNS(exposuretime) + "/" + getShutterStringNS((long) newexpotime) +
-                            "\nEV:\n" + (float) ev + "\n" + (float) currentValuesEV;
+                            "\nEV:\n"
+                            + (float) ev + "\n"
+                            + (float) currentValuesEV;
                     userMessageHandler.sendMSG(msg, false);
                     logcounter = 0;
                 }
@@ -334,7 +328,7 @@ public class FreedAeManger extends AeManagerCamera2 implements MeteringProcessor
             try {
                 String s = settingsManager.get(SettingKeys.MAX_ISO).get();
                 if (s.equals("auto"))
-                    return 0;
+                    return Integer.parseInt(cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_MANUAL_ISO).getStringValues()[cameraWrapperInterface.getParameterHandler().get(SettingKeys.M_MANUAL_ISO).getStringValues().length-1]);
                 int index = Integer.parseInt(s);
                 return index;
             }

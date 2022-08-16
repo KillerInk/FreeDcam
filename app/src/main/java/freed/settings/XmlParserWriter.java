@@ -549,10 +549,65 @@ public class XmlParserWriter
         if (tonemapchilds.size() > 0){
             for (XmlElement element : tonemapchilds)
             {
-                ToneMapProfile profile = new ToneMapProfile(element);
+                ToneMapProfile profile = getToneMapProfile(element);
                 hashMap.put(profile.getName(), profile);
             }
         }
+    }
+
+    public ToneMapProfile getToneMapProfile(XmlElement element)
+    {
+        ToneMapProfile toneMapProfile = new ToneMapProfile();
+        toneMapProfile.name = element.getAttribute("name", "");
+        String[] split = null;
+        if (!element.findChild("tonecurve").isEmpty()) {
+            String curve = element.findChild("tonecurve").getValue();
+            curve = curve.replace("\n","").replace(" ","");
+            split = curve.split(",");
+            toneMapProfile.toneCurve = new float[split.length];
+            for (int i = 0; i < split.length; i++) {
+                if (!TextUtils.isEmpty(split[i])) {
+                    toneMapProfile.toneCurve[i] = Float.parseFloat(split[i]);
+                    //check if its in range 0-1 if not apply that range
+                    //this happens when we extract it with exiftools. it shows it as 0-255 range
+                    if (toneMapProfile.toneCurve[i] > 1)
+                        toneMapProfile.toneCurve[i] = toneMapProfile.toneCurve[i] / 255;
+                }
+            }
+        }
+
+        if (!element.findChild("huesatmapdims").isEmpty())
+        {
+            split = element.findChild("huesatmapdims").getValue().split(" ");
+            toneMapProfile.hueSatMapDims = new int[split.length];
+            for (int i = 0; i < split.length; i++)
+                toneMapProfile.hueSatMapDims[i] = Integer.parseInt(split[i]);
+        }
+
+        if (!element.findChild("huesatmapdata1").isEmpty()) {
+            split = element.findChild("huesatmapdata1").getValue().split(" ");
+            toneMapProfile.hueSatMap = new float[split.length];
+            for (int i = 0; i < split.length; i++)
+                toneMapProfile.hueSatMap[i] = Float.parseFloat(split[i]);
+        }
+
+        if (!element.findChild("huesatmapdata2").isEmpty()) {
+            split = element.findChild("huesatmapdata2").getValue().split(" ");
+            toneMapProfile.hueSatMap2 = new float[split.length];
+            for (int i = 0; i < split.length; i++)
+                toneMapProfile.hueSatMap2[i] = Float.parseFloat(split[i]);
+        }
+
+        if (!element.findChild("baselineexposure").isEmpty())
+        {
+            toneMapProfile.baselineExposure = element.findChild("baselineexposure").getFloatValue();
+        }
+
+        if (!element.findChild("baselineexposureoffset").isEmpty())
+        {
+            toneMapProfile.baselineExposureOffset = element.findChild("baselineexposureoffset").getFloatValue();
+        }
+        return toneMapProfile;
     }
 
 }

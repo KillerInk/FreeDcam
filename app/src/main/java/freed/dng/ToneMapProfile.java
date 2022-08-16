@@ -9,7 +9,7 @@ import freed.cam.apis.sonyremote.sonystuff.XmlElement;
  */
 
 public class ToneMapProfile {
-    private final String name;
+    public String name;
 
     /*
     This tag contains a default tone curve that can be applied while processing the image as a
@@ -19,7 +19,7 @@ public class ToneMapProfile {
     The first sample is required to be (0.0, 0.0), and the last sample is required to be (1.0, 1.0).
      Interpolated the curve using a cubic spline.
      */
-    private float[] toneCurve;
+    public float[] toneCurve;
 
     /*
     This tag contains the data for the first hue/saturation/value mapping table.
@@ -31,8 +31,8 @@ public class ToneMapProfile {
     to have a value scale factor of 1.0. The hue/saturation/value table application is described
     in detail in Chapter 6 DNG SDK.
      */
-    private float[] hueSatMap;
-    private float[] hueSatMap2;
+    public float[] hueSatMap;
+    public float[] hueSatMap2;
 
     /*
     This tag specifies the number of input samples in each dimension of the hue/saturation/value
@@ -43,7 +43,7 @@ public class ToneMapProfile {
     •ValueDivisions >=1
     The most common case has ValueDivisions equal to 1, so only hue and saturation are used as inputs to the mapping table.
      */
-    private int[] hueSatMapDims;
+    public int[] hueSatMapDims;
     /*
     Camera models vary in the trade-off they make between highlight headroom and shadow noise.
     Some leave a significant amount of highlight headroom during a normal exposure.
@@ -58,7 +58,7 @@ public class ToneMapProfile {
 
     It is important to note is that Baseline Exposure (BLE) may depend on the ISO setting, not only on the camera make/model.
      */
-    private Float baselineExposure;
+    public Float baselineExposure;
     /*
     Provides a way for color profiles to increase or decrease exposure during raw conversion.
     BaselineExposureOffset specifies the amount (in EV units) to add to the BaselineExposure tag
@@ -67,68 +67,10 @@ public class ToneMapProfile {
     image for that camera model is -0.7, then the actual default exposure value used during
     rendering will be +0.3 - 0.7 = -0.4.
      */
-    private Float baselineExposureOffset;
+    public Float baselineExposureOffset;
 
 
-    /**
-     * <tonemapprofile name="linear">
-     *     <tonecurve>0 0 0.25 0.25 0.5 0.5 0.75 0.75 1 1</tonecurve>
-     *     <huesatmap>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</huesatmap> could be empty
-     *     </tonemapprofile>
-     * @param element
-     */
-    public ToneMapProfile(XmlElement element)
-    {
-        name = element.getAttribute("name", "");
-        String[] split = null;
-        if (!element.findChild("tonecurve").isEmpty()) {
-            String curve = element.findChild("tonecurve").getValue();
-            curve = curve.replace("\n","").replace(" ","");
-            split = curve.split(",");
-            toneCurve = new float[split.length];
-            for (int i = 0; i < split.length; i++) {
-                if (!TextUtils.isEmpty(split[i])) {
-                    toneCurve[i] = Float.parseFloat(split[i]);
-                    //check if its in range 0-1 if not apply that range
-                    //this happens when we extract it with exiftools. it shows it as 0-255 range
-                    if (toneCurve[i] > 1)
-                        toneCurve[i] = toneCurve[i] / 255;
-                }
-            }
-        }
-
-        if (!element.findChild("huesatmapdims").isEmpty())
-        {
-            split = element.findChild("huesatmapdims").getValue().split(" ");
-            hueSatMapDims = new int[split.length];
-            for (int i = 0; i < split.length; i++)
-                hueSatMapDims[i] = Integer.parseInt(split[i]);
-        }
-
-        if (!element.findChild("huesatmapdata1").isEmpty()) {
-            split = element.findChild("huesatmapdata1").getValue().split(" ");
-            hueSatMap = new float[split.length];
-            for (int i = 0; i < split.length; i++)
-                hueSatMap[i] = Float.parseFloat(split[i]);
-        }
-
-        if (!element.findChild("huesatmapdata2").isEmpty()) {
-            split = element.findChild("huesatmapdata2").getValue().split(" ");
-            hueSatMap2 = new float[split.length];
-            for (int i = 0; i < split.length; i++)
-                hueSatMap2[i] = Float.parseFloat(split[i]);
-        }
-
-        if (!element.findChild("baselineexposure").isEmpty())
-        {
-            baselineExposure = element.findChild("baselineexposure").getFloatValue();
-        }
-
-        if (!element.findChild("baselineexposureoffset").isEmpty())
-        {
-            baselineExposureOffset = element.findChild("baselineexposureoffset").getFloatValue();
-        }
-    }
+    public ToneMapProfile(){}
 
     public String getName()
     {

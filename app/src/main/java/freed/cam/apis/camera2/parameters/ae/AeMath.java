@@ -4,13 +4,13 @@ public class AeMath {
 
     public double getTargetEv(double luma ,double iso)
     {
-        return log2(luma * iso / 256);
+        return log2((luma) * iso / (12.5));
     }
 
     public double getIso(double aperture, double exposuretime, double ev)
     {
         double expotime_sec = getExpotimeInSec(exposuretime);
-        return ((aperture*aperture) * 100.0) / (expotime_sec * Math.pow(2.0, ev));
+        return (sqr(aperture) * 100.0) / (expotime_sec * Math.pow(2.0, ev));
     }
 
     public double getExposureTime(double exposuretime,double evdif)
@@ -27,13 +27,18 @@ public class AeMath {
     public double getCurrentEV(double aperture, double exposuretime, double iso)
     {
         double expotime_sec = getExpotimeInSec(exposuretime);
-        double tmp =  (((aperture*aperture)*100)/(expotime_sec*iso));
+        double tmp =  (sqr(aperture)*100)/(expotime_sec*iso);
         return log2(tmp);
     }
 
     private double log2(double l)
     {
         return (Math.log(l) / Math.log(2) + 1e-10);
+    }
+
+    private double sqr(double l)
+    {
+        return l*l;
     }
 
     private double getExpotimeInSec(double exposuretime)
