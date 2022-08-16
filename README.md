@@ -22,6 +22,11 @@ Build
 =====
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
 
+To build the halide project set the path to your gradle.properties
+```
+halide_dir=M\:\\halide\\Halide-12.0.1-x86-64-windows
+```
+and you need also visualstudio with c++ compiler
 
 Supported Apis:
 ===========
