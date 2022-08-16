@@ -99,6 +99,7 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.42'
     implementation project(path: ':renderscript-intrinsics-replacement-toolkit:renderscript-toolkit')
     implementation 'com.google.android.material:material:1.6.1'
+    implementation project(path: ':halidelib')
     annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
 }
 

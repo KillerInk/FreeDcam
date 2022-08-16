@@ -103,7 +103,7 @@ model{
             task copyFiles(type: Copy){
                 logger.quiet("copyFiles")
                 from "$projectDir/libs"
-                into "$projectDir/../app/libs"
+                into "$projectDir/../halidelib/libs"
             }
 
             //hook into build
@@ -152,16 +152,16 @@ model{
                     copy{
                         from "$projectDir/libs"
                         include "**/*.a"
-                        into "$projectDir/../app/libs"
+                        into "$projectDir/../halidelib/libs"
                     }
                     copy{
                         from "${halide_dir}/include/HalideRuntime.h", "${halide_dir}/include/HalideBuffer.h"
-                        into "${projectDir}/../app/src/main/jni/include"
+                        into "${projectDir}/../halidelib/src/main/jni/include"
                     }
                     copy{
                         from "$projectDir/libs/arm64-v8a/"
                         include "*.h"
-                        into "${projectDir}/../app/src/main/jni/include"
+                        into "${projectDir}/../halidelib/src/main/jni/include"
                     }
 
                 }

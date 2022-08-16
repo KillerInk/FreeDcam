@@ -7,6 +7,8 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
+import com.troop.halidelib.RawStack;
+
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.Date;
@@ -23,7 +25,6 @@ import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.dng.DngProfile;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
-import freed.jni.RawStack;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;

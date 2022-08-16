@@ -6,6 +6,9 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.Size;
 import androidx.annotation.RequiresApi;
+
+import com.troop.halidelib.RawStack;
+
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,7 +21,6 @@ import freed.image.EmptyTask;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
-import freed.jni.RawStack;
 import freed.utils.Log;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

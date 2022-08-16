@@ -2,16 +2,11 @@
 // Created by troop on 21.06.2018.
 //
 
-
-#include "DngProfile.h"
-#include "CustomMatrix.h"
-#include "DngWriter.h"
-#include "OpCode.h"
-#include "../include/HalideBuffer.h"
-#include "../include/stage1_alignmerge.h"
-#include "../include/stage1_align_merge.h"
-#include "../include/avarage_generator.h"
-#include "../include/avg14_generator.h"
+#include "include/HalideBuffer.h"
+#include "include/stage1_alignmerge.h"
+#include "include/stage1_align_merge.h"
+#include "include/avarage_generator.h"
+#include "include/avg14_generator.h"
 #include <jni.h>
 #include <stdlib.h>
 #include <android/log.h>
@@ -36,7 +31,6 @@ public:
     int width;
     int height;
     int offset;
-    OpCode * opCode =NULL;
     int upshift = 0,minoffset = -128, maxoffset = 128,l1mindistance=4,l1maxdistance = 128, imagecount = 0;
 
     int bl = 0;
@@ -143,71 +137,5 @@ public:
         output.deallocate();
     }
 
-   /* void writeJpeg(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
-    {
-        Halide::Runtime::Buffer<uint8_t> jpeg_output(width, height, 4);
-        stage2_RawToRgb(output,
-                        profile->blacklevel[0],
-                        profile->whitelevel,
-                        customMatrix->neutralColorMatrix[0],
-                        customMatrix->neutralColorMatrix[1],
-                        customMatrix->neutralColorMatrix[1],
-                        customMatrix->neutralColorMatrix[2],
-                        1.1,
-                        1.8,
-                        jpeg_output);
-
-        FILE *fp = fopen(outfile, "wb");
-        *//* write header to the file *//*
-        *//* write image data bytes to the file *//*
-        unsigned char * tmp = jpeg_output.data();
-        LOGD("write tmp %i", sizeof(tmp));
-        fwrite(tmp, sizeof(tmp), 1, fp);
-        fclose(fp);
-    }*/
-
-    void writeDng(DngProfile * profile, CustomMatrix * customMatrix, char* outfile, ExifInfo * exifInfo)
-    {
-        LOGD("write dng");
-        DngWriter * writer = new DngWriter();
-        writer->customMatrix = customMatrix;
-        writer->exifInfo = exifInfo;
-        profile->rawType = 6;
-        writer->dngProfile = profile;
-        if(upshift > 0)
-        {
-            writer->dngProfile->blacklevel[0] += bl;
-            writer->dngProfile->blacklevel[1] += bl;
-            writer->dngProfile->blacklevel[2] += bl;
-            writer->dngProfile->blacklevel[3] += bl;
-        }
-        writer->bayerBytes = (unsigned char*) output.data();
-        writer->rawSize = width*height*2;
-        writer->_make = "hdr+";
-        writer->_model = "model";
-        writer->fileSavePath = (char*)outfile;
-        if(opCode != NULL)
-            writer->opCode = opCode;
-        writer->WriteDNG();
-
-        delete writer;
-        input_to_merge.deallocate();
-        input.deallocate();
-        output.deallocate();
-        /*
-        input_to_merge.deallocate();
-        delete[] input_to_merge.data();
-        delete input_to_merge;
-        input.deallocate();
-        delete[] input.data();
-        delete input;
-        output.deallocate();
-        delete[] output.data();
-        delete output;
-        delete outfile;
-        delete customMatrix;
-        delete profile;*/
-        LOGD("write dng done");
-    }
 };
 #endif //FREEDCAM_RAWSTACKPIPENATIVE_H

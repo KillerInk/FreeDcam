@@ -15,6 +15,7 @@ import android.util.Size;
 import androidx.annotation.RequiresApi;
 
 import com.troop.freedcam.R;
+import com.troop.halidelib.RawStack;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -46,7 +47,6 @@ import freed.file.holder.BaseHolder;
 import freed.image.ImageManager;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
-import freed.jni.RawStack;
 import freed.settings.SettingKeys;
 import freed.settings.SettingsManager;
 import freed.utils.Log;

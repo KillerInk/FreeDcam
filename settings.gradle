@@ -1,3 +1,4 @@
 include ':halide_generator','halide_aot',':app'
 
 include ':renderscript-intrinsics-replacement-toolkit:renderscript-toolkit'
+include ':halidelib'

@@ -8,6 +8,8 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
+import com.troop.halidelib.RawStack;
+
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.Date;
@@ -21,7 +23,6 @@ import freed.cam.event.capture.CaptureStates;
 import freed.dng.DngProfile;
 import freed.image.ImageSaveTask;
 import freed.image.ImageTask;
-import freed.jni.RawStack;
 import freed.settings.SettingKeys;
 import freed.utils.Log;
 import freed.utils.StorageFileManager;
