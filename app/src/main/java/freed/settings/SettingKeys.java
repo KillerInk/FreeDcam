@@ -177,6 +177,7 @@ public class SettingKeys{
     public final static ApiKey<SettingMode> CAPTURE_TEMPLATE = new ApiKey(SettingMode.class, R.string.aps_capture_template_mode);
     public final static ApiKey<GlobalBooleanSettingMode> SUPPORT_POST_RAW_SENSITIVITY_BOOST = new ApiKey(GlobalBooleanSettingMode.class, R.string.aps_support_postrawsensitivityboost);
     public final static ApiKey<SettingMode> AE_METERING = new ApiKey(SettingMode.class, R.string.aps_support_aemetering);
+    public final static ApiKey<GlobalBooleanSettingMode> HIDE_CAMERA_UI = new ApiKey(GlobalBooleanSettingMode.class, R.string.aps_support_hidecameraui);
 
     /**
      *

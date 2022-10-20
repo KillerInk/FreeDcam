@@ -269,6 +269,9 @@ public class SettingsMenuItemFactory
             etc.addView(booleanSetting);
         }
 
+        SettingsChild_BooleanSetting disablecameraui = new SettingsChild_BooleanSetting(context, apS.getGlobal(SettingKeys.HIDE_CAMERA_UI), R.string.setting_disablecameraui_header, R.string.setting_disablecameraui_description);
+        etc.addView(disablecameraui);
+
         if (cameraUiWrapper instanceof Camera2)
         {
             SettingsChildDumpCamera2VendorKeys dumpCamera2VendorKeys = new SettingsChildDumpCamera2VendorKeys(context,R.string.setting_dump_vendor_keys_header,R.string.setting_dump_vendor_keys_description,(Camera2) cameraUiWrapper);

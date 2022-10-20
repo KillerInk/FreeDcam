@@ -142,6 +142,7 @@
     <string name="aps_preview_template_mode" translatable="false">preview_template_mode</string>
     <string name="aps_capture_template_mode" translatable="false">capture_template_mode</string>
     <string name="aps_support_postrawsensitivityboost" translatable="false">support_postrawsensitivityboost</string>
+    <string name="aps_support_hidecameraui" translatable="false">hidecameraui</string>
     <string name="aps_support_aemetering" translatable="false">aemetering</string>
 
 

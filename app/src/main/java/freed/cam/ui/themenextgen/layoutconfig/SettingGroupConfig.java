@@ -72,6 +72,7 @@ public class SettingGroupConfig
         group.add(new SettingItemConfig(SettingKeys.THEME, R.string.setting_theme_header,R.string.setting_theme_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.PREVIEW_TEMPLATE, R.string.setting_previewtemplate_header,R.string.setting_previewtemplate_description,false, SettingItemConfig.ViewType.Text));
         group.add(new SettingItemConfig(SettingKeys.CAPTURE_TEMPLATE, R.string.setting_capturetemplate_header,R.string.setting_capturetemplate_description,false, SettingItemConfig.ViewType.Text));
+        group.add(new SettingItemConfig(SettingKeys.HIDE_CAMERA_UI, R.string.setting_disablecameraui_header, R.string.setting_disablecameraui_description,true, SettingItemConfig.ViewType.Boolean));
         return group;
     }
 
