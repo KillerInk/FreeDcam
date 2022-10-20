@@ -29,8 +29,8 @@ android {
     buildToolsVersion '30.0.3'
     defaultConfig {
         minSdkVersion 14
-        versionCode 265
-        versionName '4.3.65'
+        versionCode 282
+        versionName '4.3.82'
         targetSdk 31
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
