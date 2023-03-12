@@ -4,21 +4,5 @@ FreeDCam is an OpenSource Camera App
                                              Supported API's:
 Camera 1
 Camera 2
-PlayMemories (Sony ILC WIFI Remote API)
-
-
-
-
-                                        #######   SONY/SAMSUNG USERS       ######
-EVERY SAMSUNG AND SONY DEVICE WITH CAMERA1 IS EXCLUDED FROM RAW CAPTURE!
-Sorry, but those Manufacturers don't enable or break the rawstream, only for the Xperia L they forgot it!
-CM/AOSP BASED ROMS ALSO UNSUPPORTED (no guaranties)
-__________________________________________________________________________________________
-
-                                        #######   WIFI Camera API / playmemory     ######
-
-                                                        Supported Devices
-                                    https://developer.sony.com/develop/cameras/device-support/
-__________________________________________________________________________________________
 
 Source: https://github.com/KillerInk/FreeDcam
