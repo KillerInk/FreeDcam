@@ -57,7 +57,9 @@ static jobject copyToJavaBitmap(JNIEnv * env,unsigned char data[],unsigned int d
     if(data_size > 0) {
         LOGD("orginal size: %i", data_size);
 
-        if ((ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels)) < 0) {
+        // Acquire pixels
+        int ret = AndroidBitmap_lockPixels(env, newBitmap, &bitmapPixels);
+        if (ret != ANDROID_BITMAP_RESULT_SUCCESS) {
             LOGD("AndroidBitmap_lockPixels() failed ! error=%d", ret);
 
             return NULL;

@@ -62,8 +62,7 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
     private float startPosX;
     private float startPosY;
 
-    private enum PointStates
-    {
+    private enum PointStates {
         none,
         add,
         remove,
@@ -116,7 +115,6 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
                 curveView.setHistogramData(data);
             }
         });
-
     }
 
     @Override
@@ -342,67 +340,55 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
         public void onClick(View v) {
             if (v.getId() == activeButton.getId())
                 return;
-            switch (v.getId())
-            {
-                case R.id.button_rgb:
-                    curveView.setLineColor(Color.WHITE);
-                    curveView.setGridColor(Color.RED);
-                    curveView.setPoints(rgbCurve);
-                    if (curveChangedListner != null)
-                        curveChangedListner.onCurveChanged(rgbCurve);
-                    break;
-                case R.id.button_red:
-                    curveView.setLineColor(Color.RED);
-                    curveView.setGridColor(Color.WHITE);
-                    curveView.setPoints(rCurve);
-                    if (curveChangedListner != null)
-                        curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
-                    break;
-                case R.id.button_green:
-                    curveView.setLineColor(Color.GREEN);
-                    curveView.setGridColor(Color.WHITE);
-                    curveView.setPoints(gCurve);
-                    if (curveChangedListner != null)
-                        curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
-                    break;
-                case R.id.button_blue:
-                    curveView.setLineColor(Color.BLUE);
-                    curveView.setGridColor(Color.WHITE);
-                    curveView.setPoints(bCurve);
-                    if (curveChangedListner != null)
-                        curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
-                    break;
+            int id = v.getId();
+            if(id == R.id.button_rgb){
+                curveView.setLineColor(Color.WHITE);
+                curveView.setGridColor(Color.RED);
+                curveView.setPoints(rgbCurve);
+                if (curveChangedListner != null)
+                    curveChangedListner.onCurveChanged(rgbCurve);
+            } else if(id == R.id.button_red){
+                curveView.setLineColor(Color.RED);
+                curveView.setGridColor(Color.WHITE);
+                curveView.setPoints(rCurve);
+                if (curveChangedListner != null)
+                    curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
+            } else if(id == R.id.button_green){
+                curveView.setLineColor(Color.GREEN);
+                curveView.setGridColor(Color.WHITE);
+                curveView.setPoints(gCurve);
+                if (curveChangedListner != null)
+                    curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
+            } else if(id == R.id.button_blue){
+                curveView.setLineColor(Color.BLUE);
+                curveView.setGridColor(Color.WHITE);
+                curveView.setPoints(bCurve);
+                if (curveChangedListner != null)
+                    curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
             }
             activeButton =(Button) v;
-
         }
     };
 
     @Override
     public void onCurveChanged(PointF[] pointFs) {
-
-        switch (activeButton.getId())
-        {
-            case R.id.button_rgb:
-                rgbCurve = pointFs;
-                if (curveChangedListner != null)
-                    curveChangedListner.onCurveChanged(rgbCurve);
-                break;
-            case R.id.button_red:
-                rCurve = pointFs;
-                if (curveChangedListner != null)
-                    curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
-                break;
-            case R.id.button_green:
-                gCurve = pointFs;
-                if (curveChangedListner != null)
-                    curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
-                break;
-            case R.id.button_blue:
-                bCurve = pointFs;
-                if (curveChangedListner != null)
-                    curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
-                break;
+        int id = activeButton.getId();
+        if(id == R.id.button_rgb){
+            rgbCurve = pointFs;
+            if (curveChangedListner != null)
+                curveChangedListner.onCurveChanged(rgbCurve);
+        } else if(id == R.id.button_red){
+            rCurve = pointFs;
+            if (curveChangedListner != null)
+                curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
+        } else if(id == R.id.button_green){
+            gCurve = pointFs;
+            if (curveChangedListner != null)
+                curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
+        } else if(id == R.id.button_blue){
+            bCurve = pointFs;
+            if (curveChangedListner != null)
+                curveChangedListner.onCurveChanged(rCurve,gCurve,bCurve);
         }
     }
 
@@ -425,51 +411,38 @@ public class CurveViewControl extends LinearLayout implements CurveView.CurveCha
 
     @Override
     public synchronized void onClick(PointF pointF) {
-        if (pointState == PointStates.add)
-        {
-            switch (activeButton.getId())
-            {
-                case R.id.button_rgb:
-                    rgbCurve = addPointToCurve(rgbCurve, pointF);
-                    curveView.setPoints(rgbCurve);
-                    break;
-                case R.id.button_red:
-                    rCurve = addPointToCurve(rCurve, pointF);
-                    curveView.setPoints(rCurve);
-                    break;
-                case R.id.button_green:
-                    gCurve = addPointToCurve(gCurve, pointF);
-                    curveView.setPoints(gCurve);
-                    break;
-                case R.id.button_blue:
-                    bCurve = addPointToCurve(bCurve, pointF);
-                    curveView.setPoints(bCurve);
-                    break;
+        if (pointState == PointStates.add){
+            int id = activeButton.getId();
+            if(id == R.id.button_rgb){
+                rgbCurve = addPointToCurve(rgbCurve, pointF);
+                curveView.setPoints(rgbCurve);
+            } else if(id == R.id.button_red){
+                rCurve = addPointToCurve(rCurve, pointF);
+                curveView.setPoints(rCurve);
+            } else if(id == R.id.button_green){
+                gCurve = addPointToCurve(gCurve, pointF);
+                curveView.setPoints(gCurve);
+            } else if(id == R.id.button_blue){
+                bCurve = addPointToCurve(bCurve, pointF);
+                curveView.setPoints(bCurve);
             }
             button_addPoint.setBackgroundColor(getResources().getColor(R.color.button_notclicked));
             pointState = PointStates.none;
             return;
-        }
-        else if (pointState == PointStates.remove)
-        {
-            switch (activeButton.getId())
-            {
-                case R.id.button_rgb:
-                    rgbCurve = removePointFromCurve(rgbCurve, pointF);
-                    curveView.setPoints(rgbCurve);
-                    break;
-                case R.id.button_red:
-                    rCurve = removePointFromCurve(rCurve, pointF);
-                    curveView.setPoints(rCurve);
-                    break;
-                case R.id.button_green:
-                    gCurve = removePointFromCurve(gCurve, pointF);
-                    curveView.setPoints(gCurve);
-                    break;
-                case R.id.button_blue:
-                    bCurve = removePointFromCurve(bCurve, pointF);
-                    curveView.setPoints(bCurve);
-                    break;
+        } else if(pointState == PointStates.remove){
+            int id = activeButton.getId();
+            if(id == R.id.button_rgb){
+                rgbCurve = removePointFromCurve(rgbCurve, pointF);
+                curveView.setPoints(rgbCurve);
+            } else if(id == R.id.button_red){
+                rCurve = removePointFromCurve(rCurve, pointF);
+                curveView.setPoints(rCurve);
+            } else if(id == R.id.button_green){
+                gCurve = removePointFromCurve(gCurve, pointF);
+                curveView.setPoints(gCurve);
+            } else if(id == R.id.button_blue){
+                bCurve = removePointFromCurve(bCurve, pointF);
+                curveView.setPoints(bCurve);
             }
             button_removePoint.setBackgroundColor(getResources().getColor(R.color.button_notclicked));
             pointState = PointStates.none;

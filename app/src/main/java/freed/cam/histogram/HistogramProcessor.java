@@ -1,8 +1,5 @@
 package freed.cam.histogram;
 
-
-import com.google.android.renderscript.Toolkit;
-
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -42,12 +39,10 @@ public class HistogramProcessor {
         });
     }
 
-
     public void add(final byte[] bytes,int width, int height)
     {
         histogramProcessingExecutor.execute(new HistogramCreatorRunner(bytes,width,height));
     }
-
 
     class HistogramCreatorRunner implements Runnable {
         private final byte[] bytes;
@@ -62,10 +57,18 @@ public class HistogramProcessor {
 
         @Override
         public void run() {
-            int[] histo = Toolkit.INSTANCE.histogram(bytes,4, width,height);
+            int[] histo = computeHistogram(bytes,width,height);
             histogramController.onHistogramChanged(histo);
         }
     }
 
+    private int[] computeHistogram(byte[] bytes, int width, int height) {
+        // Simple histogram: count occurrences of each byte value (0-255)
+        int[] histo = new int[256];
+        for(byte b : bytes){
+            histo[b & 0xFF]++;
+        }
+        return histo;
+    }
 
 }

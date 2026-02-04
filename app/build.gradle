@@ -1,12 +1,8 @@
-tasks.whenTaskAdded { task ->
-    if (task.name.equals("lint")) {
-        task.enabled = false
-    }
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
 }
-
-apply plugin: 'com.android.application'
-apply plugin: 'dagger.hilt.android.plugin'
-
 
 android {
     signingConfigs {
@@ -17,28 +13,24 @@ android {
             storePassword 'freedcam'
         }
         debug {
-            storeFile file('..\\key\\freedcamkey.jks')
+            storeFile file('../key/freedcamkey.jks')
             storePassword 'freedcam'
             keyAlias = 'freedcamkey'
             keyPassword 'freedcam'
         }
     }
-    compileSdk 31
-
-
-    buildToolsVersion '30.0.3'
+    compileSdk 36
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 21
         versionCode 282
         versionName '4.3.82'
-        targetSdk 31
+        targetSdk 36
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 24
-        setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
+        //setProperty("archivesBaseName", "FreeDcam_" + name + "_" + versionName)
         externalNativeBuild {
-            ndkBuild {
-                arguments "-j4"
-                abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            cmake {
+                cppFlags '-std=c++11 -Wno-c++11-narrowing -frtti -fexceptions -fpic'
             }
         }
         signingConfig signingConfigs.config
@@ -47,7 +39,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
             ndk.debugSymbolLevel 'full'
            /* sourceSets {
@@ -66,44 +58,43 @@ android {
             }*/
         }
     }
-    externalNativeBuild {
-        ndkBuild {
+   externalNativeBuild {
+        /*ndkBuild {
             path 'src/main/jni/Android.mk'
-        }
+        }*/
+       cmake {
+           path "src/main/jni/CMakeLists.txt"
+       }
     }
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-		sourceCompatibility JavaVersion.VERSION_1_8
-    }
+    /*compileOptions {
+       targetCompatibility JavaVersion.VERSION_1_8
+       sourceCompatibility JavaVersion.VERSION_1_8
+   }*/
     buildFeatures {
         dataBinding true
-
+        buildConfig  = true
+        compose true
     }
     lint {
         checkReleaseBuilds false
     }
     namespace 'com.troop.freedcam'
-
+    ndkVersion '21.1.6352462'
 }
-
-
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.documentfile:documentfile:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'com.github.ChickenHook:RestrictionBypass:2.2'
-    implementation 'com.google.dagger:hilt-android:2.42'
-    implementation project(path: ':renderscript-intrinsics-replacement-toolkit:renderscript-toolkit')
-    implementation 'com.google.android.material:material:1.6.1'
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.42'
+    implementation libs.restrictionbypass
+    implementation 'com.google.dagger:hilt-android:2.59.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.59.1'
 }
 
-android.applicationVariants.all { variant ->
+/*android.applicationVariants.all { variant ->
     variant.outputs.all {
         outputFileName = "FreeDcam_${variant.buildType.name}_${variant.versionName}.apk"
     }
-}
-
-
+}*/
