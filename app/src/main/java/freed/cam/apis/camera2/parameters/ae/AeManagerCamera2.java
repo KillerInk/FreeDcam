@@ -142,7 +142,7 @@ public class AeManagerCamera2 extends AeManager<Camera2> {
         manualIso.setViewState(AbstractParameter.ViewState.Visible);
         //enable manual exposuretime in ui
         manualExposureTime.setViewState(AbstractParameter.ViewState.Enabled);
-        int val = Integer.parseInt(settingsManager.get(SettingKeys.M_EXPOSURE_TIME).get());
+        int val =  manualExposureTime.getIntValue();
         manualExposureTime.setValue(val,true);
         //manualExposureTime.fireStringValueChanged(manualExposureTime.getStringValue());
     }
