@@ -415,7 +415,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2 {
                 if (currentVideoProfile.Mode != VideoMediaProfile.VideoMode.Highspeed)
                     cameraUiWrapper.captureSessionHandler.CreateCaptureSession(recordingSessionCallback);
                 else
+                {
+                    // HFR mode: constrained high-speed sessions max 2 surfaces. Remove PicReader to stay within limit.
+                    cameraUiWrapper.captureSessionHandler.RemoveSurface(PicReader.getSurface());
                     cameraUiWrapper.captureSessionHandler.CreateHighSpeedCaptureSession(recordingSessionCallback);
+                }
             }
 
         }
