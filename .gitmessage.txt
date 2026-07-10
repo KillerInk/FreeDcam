@@ -1,0 +1,1 @@
+fix default exposure mode values for unsupported devices 217
