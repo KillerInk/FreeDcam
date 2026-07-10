@@ -112,6 +112,11 @@ public class SettingMode extends AbstractSettingMode {
         {
             tosetar[i] = strinarr.get(i).getValue();
         }
+        // Default values for aps_exposuremode if not found in supported_devices.xml
+        if (settingKey.toString().contains("aps_exposuremode") && strinarr.isEmpty())
+        {
+            tosetar = new String[]{"0", "1", "2", "3", "4"};
+        }
         setValues(tosetar);
         setIsPresetted(node.findChild("preseted").getBooleanValue());
         setIsSupported(node.findChild("supported").getBooleanValue());
